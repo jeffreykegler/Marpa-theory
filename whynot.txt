@@ -1,0 +1,47 @@
+Let me outline a less carefully formalized argument than the one in Leo
+1991, one which leads to the same result, but which I think also indicates
+why left congruence is a necessary property, and why the result cannot
+be extended to LR(finite pi).
+
+Conceptually, let's model the parse (not necessarily implementing it)
+in terms of reduction decisions, moving from right to left (backwards).
+We consider a non-deterministic machine, doing this for all possible
+inputs at once, for some finite input length, |w|.  The machine is
+multi-threaded, and the number of threads increases, exponentially and
+without limit, as we move backward over the input.
+
+The LR property forces us, as we encounter each symbol, for each cell
+of the partition, to choose a specific reduction.  But just knowing the
+reduction itself is not sufficient to fully determine the Earley item.
+To be sure we know the origin index, we also need to know the connection
+to other reduction decisions made during the history of our thread.
+Conceptually, I have us proceeding backwards so we cannot determine
+origin indexes as we move, but I think it can seen that once all the
+"histories" have been laid out by the threads, we can change direction,
+retrace the "histories" we have created, and determine the origins of
+each Earley item.
+
+Consider first, a left congruence.  Our threads, as we proceed to the
+left, may "fine" into more and more separate histories, but the left
+congruence property will force our "fining" to stop at or before the
+number of cells in the partition, |pi|.  Once there, each thread, and all
+its child threads, will make exactly the same reduction decisions as its
+"cellmates" for the rest of the input scan.
+
+Now consider, a finite partition which is not a left congruence.
+The number of reduction decisions, for all threads, at each input symbol
+remains fixed at |pi|, so that the threads, at every input symbol,
+must group themselves into the at most |pi| cells, and make the same
+reduction decisions as their "cellmates".  But lack of the left congruence
+property leaves the threads free to change "cellmates" with each change
+of input symobl, so that the possible histories for each thread grows
+exponentially.  Taking into account the origin indexes, the number of
+possible Earley items does *not* max out at |pi| times some constant.
+There is in fact no limit on the "fining" of the histories, and the
+number of "histories" can grow as fast as the number of threads.
+
+I think this argument could be made rigorous, though that may well
+take more work than I am able to invest in it.  I do hope it at least
+intuitively explains why I think see that left congruence is intimately
+connected to the O(n) result for Leo 1991, and why I think there may
+well be LR(finite pi) grammars which are not O(n).
