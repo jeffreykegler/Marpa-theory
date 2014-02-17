@@ -68,6 +68,8 @@
 \newcommand{\Vruleset}[1]{\ensuremath{\var{#1}_{\set{RULE}}}}
 \newcommand{\Vsize}[1]{\ensuremath{\size{\var{#1}}}}
 \newcommand{\Vstr}[1]{\ensuremath{\var{#1}_{STR}}}
+\newcommand{\str}[1]{#1_{STR}}
+\newcommand{\Vsf}[1]{\ensuremath{\var{#1}_{SF}}}
 \newcommand{\sym}[1]{#1_{SYM}}
 \newcommand{\Vsym}[1]{\ensuremath{\var{#1}_{SYM}}}
 \newcommand{\Vorig}[1]{\ensuremath{\var{#1}_{ORIG}}}
@@ -85,6 +87,7 @@
 \newcommand{\Cg}{\var{g}}
 \newcommand{\Cw}{\var{w}}
 \newcommand{\CVw}[1]{\ensuremath{\sym{\Cw[\var{#1}]}}}
+\newcommand{\CVwstr}[1]{\ensuremath{\str{\Cw[\var{#1}]}}}
 \newcommand{\Crules}{\var{rules}}
 \newcommand{\GOTO}{\mymathop{GOTO}}
 \newcommand{\Next}[1]{\mymathop{Next}(#1)}
@@ -411,6 +414,8 @@ if and only if
 $\RightRecursive{\Vrule{x}}$,
 if and only if is either directly or indirectly right-recursive.
 
+[ Distinguish terminals from other symbols more clearly, but
+still allow LHS terminals. ]
 The definition of \Cg{} does not sharply distinguish terminals
 from non-terminals.
 \Marpa{}'s implementations allow terminals to be the LHS
@@ -434,6 +439,14 @@ where $\var{n} = \Vsize{w}$.
 Let \CVw{i} be character \var{i}
 of the input,
 $0 \le \Vloc{i} < \Vsize{w}$.
+Let \CVwstr{i,j} be string of characters from
+\Vloc{i} to \Vloc{j}, inclusive,
+where
+$0 \le \Vloc{i}, \Vloc{j} < \Vsize{w}$.
+As a special case, 
+\CVwstr{i,j} where
+$\Vloc{j} \le \Vloc{i}$ is a string in the input of
+zero length, starting at \Vloc{i}.
 
 The alert reader may have noticed that the previous definition
 of \Cw{} did not allow zero-length inputs.
@@ -592,6 +605,9 @@ Predicted, confirmed and completed dotted rules
 are also called, respectively,
 \dfn{predictions}, \dfn{confirmations} and \dfn{completions}.
 
+\section{An approach to the Earley algorithm}
+\label{s:earley-approach}
+
 An Earley item (type \type{EIM}) is a duple
 \[
     [\Vdr{dotted-rule}, \Vorig{x}]
@@ -616,6 +632,31 @@ so that \Ves{i} means the Earley set at \Vloc{i}.
 The type designator \type{ES} is often omitted to avoid clutter,
 especially in cases where the Earley set is not
 named by location.
+
+[ Note: I require the rewrite to eliminate unproductive rules and
+symbols. ]
+We say that the Earley item
+\begin{equation*}
+     \bigl[[\Vsym{lhs} \de \Vsf{pre-dot} \mydot \Vsf{post-dot}], \Vorig{x} \bigr]
+\end{equation*}
+in Earley set $\Ves{i}$ is {\bf accurate}
+%
+if and only if 
+%
+\begin{multline*}
+ \Vsym{start} \deplus \\
+   \Vstr{pre-rule} \cat \Vstr{pre-dot} 
+   \cat \Vstr{post-dot} \cat \Vstr{post-rule} 
+\end{multline*}
+%
+where
+%
+\begin{gather*}
+ \Vstr{pre-rule} = \CVwstr{0,{i \subtract 1}} \quad \text{and} \\
+ \Vsf{pre-dot} \deplus \Vstr{pre-dot} \quad \text{and} \\
+ \Vstr{pre-dot} = \CVwstr{i,j} \quad \text{and} \\
+ \Vsf{post-dot} \deplus \Vstr{post-dot}.
+\end{gather*}
 
 At points,
 we will need to compare the Earley sets
