@@ -658,6 +658,124 @@ where
  \Vsf{post-dot} \deplus \Vstr{post-dot}.
 \end{gather*}
 
+\section{Leo memoization}
+\label{s:leo-memoization}
+
+To
+deal with right recursion in linear time,
+Marpa memoizes certain Earley item completions,
+using the technique of
+\cite{Leo1991}.
+A Leo item (LIM) is the triple
+\begin{equation*}
+[ \Vdr{top}, \Vsym{transition}, \Vorig{top} ]
+\end{equation*}
+where \Vsym{transition} is the transition symbol.
+Like EIM's,
+each LIM is associated with a specific Earley set.
+When a LIM is associated with an Earley set \Ves{i},
+that LIM is said to be ``in'' \Ves{i}.
+\Ves{i} is also said to ``contain'' the LIM.
+
+Let
+\begin{gather*}
+  \Vrule{memo} = [ \Vsym{lhs} \de \Vsf{pre-final} \cat \Vsym{transition} ] \\
+  \Vrule{cause} = [ \Vsym{transition} \de \Vsf{cause-lhs} ]
+\end{gather*}
+be a rule in the grammar.
+Let \Vdr{summit} be a dotted rule.
+and \Vorig{summit} and \Vorig{memo} be two locations,
+where
+$\Vorig{summit} \le \Vorig{memo}$.
+\Vrule{memo}, \Vrule{cause} and
+the rule of \Vdr{summit} may or may not be distinct.
+We say that an Earley item \Ves{i} is {\bf Leo-memoized} if it is
+\begin{equation*}
+\bigl[ [ \Vsym{lhs} \de \Vsf{pre-final} \Vsym{transition} \mydot ],
+  \Vorig{memo} \bigr].
+\end{equation*}
+where Earley set \Ves{l} physically
+contains the Leo item
+\begin{equation*}
+[ \Vdr{summit}, \Vsym{transition}, \Vorig{summit} ].
+\end{equation*}
+and physically contains the Earley item
+\begin{equation*}
+\Veim{predecessor} =
+\bigl[ [ \Vsym{lhs} \de \Vsf{pre-final} \mydot \Vsym{transition} ],
+  \Vorig{memo} \bigr].
+\end{equation*}
+%
+and
+%
+\begin{equation*}
+\Veim{cause} =
+\bigl[ [ \Vsym{transition} \de \Vsf{cause-rhs} \mydot ],
+  \Vorig{l} \bigr]
+\end{equation*}
+is either physically contained or memoized at \Ves{i}.
+Quite often we will simply say that a Leo-memoized
+is {bf memoized}.
+
+\Veim{predecessor} must be physically present in the Earley sets,
+but \Veim{cause} may also be Leo-memoized, so that memoized Earley items
+form ``trails'', starting with a physical Earley item which is the
+``trailhead'', and leading to a {bf summit}.
+All the Earley items on a Leo
+trail are completions.
+
+Detailed description of Leo memoization can be found in
+\cite{Leo1991}, and details of Marpa's implementation
+and proofs of correctness and the complexity claims
+will follow.
+Here we will make some comments as aids to the intuition.
+
+The Leo memoization is only intended to memoize deterministic
+Leo trails, something which the implementation guarantees.
+This means that, in the above,
+the choice of \Veim{predecessor} can be expected to be unique.
+no other Earley item in \Ves{memo} will have \Vsym{transition}
+as its postdot symbol.
+When this is not the cause, the Leo item is not created.
+
+Not creating a Leo item is always safe.
+The omission of Leo items has no effect
+on correctness -- they are purely memoizations for efficiency.
+
+Leo's memoization was created in response to the problems
+presented to Earley's algorithm by right recursion.
+Right recursion presented time and space complexity problems
+for Earley's original algorithm.
+Whenever Earley's did not
+know whether an Earley set was going to be the last in a right recursion,
+it needed to physically track the potential completions in that set.
+The length of these chains of completion grew linearly with the length of the
+right recursion and, as a result, time and space for right recursion in
+Earley's original algorithm was quadratic.
+
+Leo's memoization lets the top and bottom of the Leo trail (which we call its
+``summit'' and ``trailhead'', respectively)
+stand in for the entire trail.
+The full Leo trail can be reconstructed afterwards using the Leo items,
+once location where the right recursion ends is known.
+Marpa performs this reconstruction during its evaluation phase.
+The Leo memoization guarantees that, for any deterministic right recursion,
+a small, constant number of Earley items and Leo items is sufficient, the
+rest being memoized.
+
+Leo's original algorithm did not restrict the use of Leo memoization to
+right recursions -- it would also memoize any trails
+involving rightmost non-nulling symbols, even those whose maximum length
+was a fixed constant.
+Leo memoization is not expensive, but it does have some cost, and experience
+with the Marpa implementation led us to restruct use of Leo memoization
+to those situations in which right recursions,
+and therefore Leo trails of arbitrary length, were possible.
+
+The set of Leo-memoized Earley items is {\bf not} disjoint from
+the set of Earley items actually in the Earley sets --
+an Earley item may be memoized even if it actually exists.
+
 At points,
 we will need to compare the Earley sets
 produced by the different recognizers.
