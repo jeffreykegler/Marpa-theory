@@ -158,13 +158,17 @@ of Marpa's parse engine
 is that it finishes processing one Earley
 completely before it begins the creation of another.
 This allows the parser to pause between input tokens.
-Because, unless most parsers,
-Earley-based parser store the complete state of the parse
-so far, this allows applications to alter
+Unlike most parsers,
+Earley-based parsers store the complete state of the parse,
+and applications that have access to this
+information can alter
 the parse based on what has been recognized so far.
-This allows applications to correct problems on the fly.
-For example, the parser can use a over-simplified grammar
-and alter its input to match the grammar's expectations --
+This allows parser to correct problems on the fly,
+but the applications extend far beyond that.
+For example, the parser can use a over-simplified,
+but convenient, grammar
+and make the parse work by altering
+its input to match the simplfied grammar's expectations --
 a technique called ``Ruby Slippers'' parsing,
 \end{abstract}
 
@@ -1109,13 +1113,13 @@ the complexity results of
 Leo\cite{Leo1991} intact.
 
 Implementing the Leo logic requires
-adding Leo reduction as a new basic operation,
+adding Leo fusion as a new basic operation,
 adding a new premise to the Earley fusion
 operation,
 and extending the Earley sets to memoize Earley
 items as LIM's.
 
-\subsection{Leo reduction}
+\subsection{Leo fusion}
 
 \begin{equation*}
 \inference{
@@ -1131,14 +1135,14 @@ items as LIM's.
     \bigset{ [ \Vdr{top}, \Vorig{top} ] }
 }
 \end{equation*}
-The new Leo reduction operation resembles the Earley fusion
+The new Leo fusion operation resembles the Earley fusion
 operation, except that it looks for an LIM,
 instead of a predecessor EIM.
 \Vlim{predecessor} and
-\Veim{component} are the operands of the Leo reduction
+\Veim{component} are the operands of the Leo fusion
 operation.
 \Vsym{lhs} is the transition symbol
-of the Leo reduction.
+of the Leo fusion.
 As with Earley fusion,
 it may be convenient to treat the transition
 symbol as an operand,
@@ -1156,7 +1160,7 @@ The additional premise
 prevents Earley fusion from being applied
 where there is an LIM with \Vsym{lhs} as its transition symbol.
 This reflects the fact that
-Leo reduction replaces Earley fusion if and only if
+Leo fusion replaces Earley fusion if and only if
 there is a Leo memoization.
 
 \subsection{Leo memoization}
@@ -1427,18 +1431,18 @@ Inclusive time and space can be charged to the
 Overhead is charged to the Earley set at \Vloc{i}.
 
 \begin{algorithm}[h]
-\caption{Reduction pass}
+\caption{Fusion pass}
 \begin{algorithmic}[1]
-\Procedure{Reduction pass}{\Vloc{i}}
+\Procedure{Fusion pass}{\Vloc{i}}
 \State Note: \Vtable{i} may include EIM's added by
-\State \hspace{2.5em} by \Call{Reduce one LHS}{} and
+\State \hspace{2.5em} by \Call{Fuse one LHS}{} and
 \State \hspace{2.5em} the loop must traverse these
 \For{each Earley item $\Veim{work} \in \Vtable{i}$}
 \State $[\Vdr{work}, \Vloc{origin}] \gets \Veim{work}$
 \State $\Vsymset{lh-sides} \gets$ a set containing the LHS
 \State \hspace\algorithmicindent of every completed rule in \Veim{work}
 \For{each $\Vsym{lhs} \in \Vsymset{lh-sides}$}
-\State \Call{Reduce one LHS}{\Vloc{i}, \Vloc{origin}, \Vsym{lhs}}
+\State \Call{Fuse one LHS}{\Vloc{i}, \Vloc{origin}, \Vsym{lhs}}
 \EndFor
 \EndFor
 \State \Call{Memoize transitions}{\Vloc{i}}
@@ -1446,10 +1450,10 @@ Overhead is charged to the Earley set at \Vloc{i}.
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Reduction pass}
+\subsection{Fusion pass}
 
 The loop over \Vtable{i} must also include
-any items added by \call{Reduce one LHS}{}.
+any items added by \call{Fuse one LHS}{}.
 This can be done by implementing \Vtable{i} as an ordered
 set and adding new items at the end.
 
@@ -1458,14 +1462,14 @@ Exclusive time is clearly \Oc{} per
 and is charged to the \Veim{work}.
 Additionally,
 some of the time required by
-\call{Reduce one LHS}{} is caller-included,
+\call{Fuse one LHS}{} is caller-included,
 and therefore charged to this procedure.
-Inclusive time from \call{Reduce one LHS}{}
+Inclusive time from \call{Fuse one LHS}{}
 is \Oc{} per call,
-as will be seen in section \ref{p:reduce-one-lhs},
+as will be seen in section \ref{p:fuse-one-lhs},
 and is charged to the \Veim{work}
 that is current
-during that call to \call{Reduce one LHS}{}.
+during that call to \call{Fuse one LHS}{}.
 Overhead may be charged to the Earley set at \Vloc{i}.
 
 \begin{algorithm}[h]
@@ -1530,17 +1534,17 @@ will be \Oc{} time per EIM examined,
 and can be charged to EIM being examined.
 
 \begin{algorithm}[h]
-\caption{Reduce one LHS symbol}
+\caption{Fuse one LHS symbol}
 \begin{algorithmic}[1]
-\Procedure{Reduce one LHS}{\Vloc{i}, \Vloc{origin}, \Vsym{lhs}}
+\Procedure{Fuse one LHS}{\Vloc{i}, \Vloc{origin}, \Vsym{lhs}}
 \State Note: Each pass through this loop is an EIM attempt
 \For{each $\var{pim} \in \var{transitions}(\Vloc{origin},\Vsym{lhs})$}
 \State \Comment \var{pim} is a ``postdot item'', either a LIM or an EIM
 \If{\var{pim} is a LIM, \Vlim{pim}}
-\State Perform a \Call{Leo reduction operation}{}
+\State Perform a \Call{Leo fusion operation}{}
 \State \hspace\algorithmicindent for operands \Vloc{i}, \Vlim{pim}
 \Else
-\State Perform a \Call{Earley reduction operation}{}
+\State Perform a \Call{Earley fusion operation}{}
 \State \hspace\algorithmicindent for operands \Vloc{i}, \Veim{pim}, \Vsym{lhs}
 \EndIf
 \EndFor
@@ -1548,8 +1552,8 @@ and can be charged to EIM being examined.
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Reduce one LHS}
-\label{p:reduce-one-lhs}
+\subsection{Fuse one LHS}
+\label{p:fuse-one-lhs}
 
 To show that
 \begin{equation*}
@@ -1562,7 +1566,7 @@ and assume that \Vloc{origin} is implemented
 as a link back to the Earley set,
 rather than as an integer index.
 This requires that \Veim{work}
-in \call{Reduction pass}{}
+in \call{Fusion pass}{}
 carry a link
 back to its origin.
 As implemented, Marpa's
@@ -1574,9 +1578,9 @@ is charged to each EIM attempt.
 Overhead is \Oc{} and caller-included.
 
 \begin{algorithm}[h]
-\caption{Earley reduction operation}
+\caption{Earley fusion operation}
 \begin{algorithmic}[1]
-\Procedure{Earley reduction operation}{\Vloc{i}, \Veim{from}, \Vsym{trans}}
+\Procedure{Earley fusion operation}{\Vloc{i}, \Veim{from}, \Vsym{trans}}
 \State $[\Vdr{from}, \Vloc{origin}] \gets \Veim{from}$
 \State $\Vdr{to} \gets \GOTO(\Vdr{from}, \Vsym{trans})$
 \State \Call{Add EIM}{\Ves{i}, \Vdr{to}, \Vloc{origin}}
@@ -1584,21 +1588,21 @@ Overhead is \Oc{} and caller-included.
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Earley Reduction operation}
-\label{p:reduction-op}
+\subsection{Earley Fusion operation}
+\label{p:fusion-op}
 
 \begin{sloppypar}
 Exclusive time and space is clearly \Oc.
-\call{Earley reduction operation}{} is always
+\call{Earley fusion operation}{} is always
 called as part of an EIM attempt,
 and inclusive time and space is charged to the EIM
 attempt.
 \end{sloppypar}
 
 \begin{algorithm}[h]
-\caption{Leo reduction operation}
+\caption{Leo fusion operation}
 \begin{algorithmic}[1]
-\Procedure{Leo reduction operation}{\Vloc{i}, \Vlim{from}}
+\Procedure{Leo fusion operation}{\Vloc{i}, \Vlim{from}}
 \State $[\Vdr{from}, \Vsym{trans}, \Vloc{origin}] \gets \Vlim{from}$
 \State $\Vdr{to} \gets \GOTO(\Vdr{from}, \Vsym{trans})$
 \State \Call{Add EIM}{\Ves{i}, \Vdr{to}, \Vloc{origin}}
@@ -1606,11 +1610,11 @@ attempt.
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Leo reduction operation}
+\subsection{Leo fusion operation}
 \label{p:leo-op}
 
 Exclusive time and space is clearly \Oc.
-\call{Leo reduction operation}{} is always
+\call{Leo fusion operation}{} is always
 called as part of an EIM attempt,
 and inclusive time and space is charged to the EIM
 attempt.
@@ -2031,14 +2035,14 @@ that there will be no attempts to add duplicate EIM's:
 \var{initial-tries} = \bigsize{\Vtable{0}}
 \end{equation*}
 
-Let \var{leo-tries} be the number of attempted Leo reductions in
+Let \var{leo-tries} be the number of attempted Leo fusions in
 Earley set \Vloc{j}.
-For Leo reduction,
+For Leo fusion,
 we note that by its definition,
-duplicate attempts at Leo reduction cannot occur.
-From the pseudo-code of Sections \ref{p:reduce-one-lhs}
+duplicate attempts at Leo fusion cannot occur.
+From the pseudo-code of Sections \ref{p:fuse-one-lhs}
 and \ref{p:leo-op},
-we know there will be at most one Leo reduction for
+we know there will be at most one Leo fusion for
 each EIM in the current Earley set,
 \Vloc{j}.
 \begin{equation*}
@@ -2064,20 +2068,20 @@ $\Vloc{j} \subtract 1$.
 Let \var{predict-tries} be the number of attempted predictions in
 Earley set \Vloc{j}.
 \Marpa{} includes prediction
-in its scan and reduction operations,
+in its scan and fusion operations,
 and the number of attempts to add duplicate predicted EIM's
 must be less than or equal
 to the number of attempts
 to add duplicate confirmed EIM's
-in the scan and reduction operations.
+in the scan and fusion operations.
 \begin{equation*}
-\var{predict-tries} \le \var{reduction-tries} + \var{scan-tries}
+\var{predict-tries} \le \var{fusion-tries} + \var{scan-tries}
 \end{equation*}
 
-The final and most complicated case is Earley reduction.
+The final and most complicated case is Earley fusion.
 Recall that \Ves{j} is the current Earley set.
-Consider the number of reductions attempted.
-\Marpa{} attempts to add an Earley reduction result
+Consider the number of fusions attempted.
+\Marpa{} attempts to add an Earley fusion result
 once for every triple
 \begin{equation*}
 [\Veim{predecessor}, \Vsym{transition}, \Veim{component}].
@@ -2108,7 +2112,7 @@ there were more than \Vsize{dr} possible choices of \Veim{predecessor}.
 Then there are two possible choices of \Veim{predecessor} with
 the same dotted rule.
 Call these \Veim{choice1} and \Veim{choice2}.
-We know, by the definition of Earley reduction, that
+We know, by the definition of Earley fusion, that
 $\Veim{predecessor} \in \Ves{j}$,
 and therefore we have
 $\Veim{choice1} \in \Ves{j}$ and
@@ -2119,7 +2123,7 @@ and
 dotted rule,
 they must differ in their origin.
 But two different origins would produce two different derivations for the
-reduction, which would mean that the parse was ambiguous.
+fusion, which would mean that the parse was ambiguous.
 This is contrary to the assumption for the theorem
 that the grammar is unambiguous.
 This shows the reductio
@@ -2142,9 +2146,9 @@ each \Veim{component} are
 \end{equation*}
 \end{sloppypar}
 
-The number of reduction attempts will therefore be at most
+The number of fusion attempts will therefore be at most
 \begin{equation*}
-\var{reduction-tries} \leq \Vsize{dr} \times \Vsize{symbols} \times \bigsize{\Ves{j}}.
+\var{fusion-tries} \leq \Vsize{dr} \times \Vsize{symbols} \times \bigsize{\Ves{j}}.
 \end{equation*}
 
 Summing
@@ -2153,7 +2157,7 @@ Summing
 \var{scan-tries} +
 \var{leo-tries} + \\
 \var{predict-tries} +
-\var{reduction-tries} +
+\var{fusion-tries} +
 \var{initial-tries},
 \end{multline*}
 we have,
@@ -2172,7 +2176,7 @@ the size of the input,
 } &&
 \qquad \text{scanned EIM's} \\
 + \; & 2 \times \sum\limits_{i=0}^{n}{\Vsize{dr} \times \Vsize{symbols} \times \bigsize{\Ves{j}}} &&
-\qquad \text{reduction EIM's}.
+\qquad \text{fusion EIM's}.
 \end{alignedat}
 \end{equation*}
 In this summation,
@@ -2232,12 +2236,12 @@ Earley items is $\order{\var{n}^3}$.
 Reexamining the proof of Theorem \ref{t:tries-O-eims},
 we see that the only bound that required
 the assumption that \Cg{} was unambiguous
-was \var{reduction-tries},
+was \var{fusion-tries},
 the count of the number of attempts to
-add Earley reductions.
+add Earley fusions.
 Let \var{other-tries}
 be attempts to add EIM's other than
-as the result of Earley reductions.
+as the result of Earley fusions.
 By Theorem \ref{t:eim-count},
 \begin{equation*}
 \Rtablesize{\Marpa} = \order{\var{n}^2},
@@ -2250,7 +2254,7 @@ so that
 $\var{other-tries} = \order{\var{n}^2}$.
 
 \begin{sloppypar}
-Looking again at \var{reduction-tries}
+Looking again at \var{fusion-tries}
 for the case of ambiguous grammars,
 we need to look again at the triple
 \begin{equation*}
@@ -2271,7 +2275,7 @@ match, so that
 the number of possibilities for \Veim{predecessor} now grows to
 \size{\Ves{component-origin}}, and
 \begin{equation*}
-\var{reduction-tries} =
+\var{fusion-tries} =
 \bigsize{\Ves{component-origin}} \times \Vsize{symbols} \times \bigsize{\Ves{j}}.
 \end{equation*}
 \end{sloppypar}
