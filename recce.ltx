@@ -309,16 +309,16 @@ Type names are often used in the text
 as a convenient way to refer to
 their type.
 
-Where \Vsymset{vocab} is non-empty set of symbols,
-let $\var{vocab}^\ast$ be the set of all strings
+Where \Vsymset{sym-set} is non-empty set of symbols,
+let $\var{sym-set}^\ast$ be the set of all strings
 (type \type{STR}) formed
 from those symbols.
 Where \Vstr{s} is a string,
 let \size{\Vstr{s}} be its length, counted in symbols.
-Let $\var{vocab}^+$ be
+Let $\var{sym-set}^+$ be
 \begin{equation*}
 \bigl\{ \Vstr{x}
-\bigm| \Vstr{x} \in \var{vocab}* \land \Vsize{\Vstr{x}} > 0
+\bigm| \Vstr{x} \in \var{sym-set}* \land \Vsize{\Vstr{x}} > 0
 \bigr\}.
 \end{equation*}
 
@@ -326,19 +326,21 @@ In this \doc{} we use,
 without loss of generality,
 the grammar \Cg{},
 where \Cg{} is the 3-tuple
-\begin{equation*}
-    (\Vsymset{vocab}, \var{rules}, \Vsym{accept}).
-\end{equation*}
-Here $\Vsym{accept} \in \var{vocab}$.
+\begin{gather*}
+    (\Vsymset{vocab}, \Vsymset{terminals}, \var{rules}, \Vsym{accept}), \\
+\text{where} \quad \Vsym{accept} \in \var{vocab}, \\
+\Vsym{accept} \notin \var{non-terminals}, \\
+\text{and} \quad \var{terminals} \subseteq \var{vocab}.
+\end{gather*}
 Call the language of \var{g}, $\myL{\Cg}$,
-where $\myL{\Cg} \subseteq \var{vocab}^\ast$.
+where $\myL{\Cg} \subseteq \var{terminals}^\ast$.
 
 \Vruleset{rules} is a set of rules (type \type{RULE}),
 where a rule is a duple
 of the form $[\Vsym{lhs} \de \Vstr{rhs}]$,
 such that
 \begin{equation*}
-\Vsym{lhs} \in \var{vocab} \quad \text{and}
+\Vsym{lhs} \in \var{non-terminal} \quad \text{and}
 \quad \Vstr{rhs} \in \var{vocab}^+.
 \end{equation*}
 \Vsym{lhs} is referred to as the left hand side (LHS)
@@ -350,6 +352,11 @@ referred to as
 $\LHS{\Vrule{r}}$ and $\RHS{\Vrule{r}}$, respectively.
 This definition follows \cite{AH2002},
 which departs from tradition by disallowing an empty RHS.
+
+Note that this paper, departing from tradition, does not define
+\Cg{} using a set of non-terminals that is disjoint from
+\Vsymset{terminals}.
+As implemented, Marpa allows terminals to serve as LHS symbols.
 
 The rules imply the traditional rewriting system,
 in which $\Vstr{x} \derives \Vstr{y}$
@@ -470,6 +477,24 @@ when parsing \Cg{}.
 
 \section{Rewriting the grammar}
 \label{s:rewrite}
+
+Marpa runs on fully general BNF.
+To do this, it rewrites the grammar at before recognition,
+then undoes the rewrite at evaluation time.
+Marpa claims to be a practical parser,
+and semantics are essential in practical parsing.
+It is therefore important that this rewrite be of a kind
+that can be done and undone efficiently,
+while preserving the semantics.
+
+Conceptually,
+the rewrite takes place as if the following steps were executed.
+
+The actual implementation of the rewrite differs somewhat from
+the above, for reasons of efficiency.
+
+\section{Properties of the rewritten grammar}
+\label{s:rewrite-props}
 
 We have already noted
 that no rules of \Cg{}
