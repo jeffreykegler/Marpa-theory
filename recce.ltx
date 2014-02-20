@@ -1616,6 +1616,12 @@ and inclusive time and space is charged to the EIM
 attempt.
 \end{sloppypar}
 
+\subsection{Correctness of Earley fusion}
+\label{p:earley-fusion-correct}
+
+\subsection{Completeness of Earley fusion}
+\label{p:earley-fusion-complete}
+
 \begin{algorithm}[h]
 \caption{Leo fusion operation}
 \begin{algorithmic}[1]
@@ -1648,12 +1654,22 @@ attempt.
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Adding a pair of Earley items}
-\label{p:add-eim-pair}
+\subsection{Correctness of Leo fusion}
+\label{p:leo-fusion-correct}
 
-This operation adds a confirmed EIM
-item and, if it exists, the EIM for
-its null-transition.
+\subsection{Completeness of Leo fusion}
+\label{p:leo-fusion-complete}
+
+\subsection{Correctness of fusion}
+\label{p:fusion-correct}
+
+\subsection{Completeness of fusion}
+\label{p:fusion-complete}
+
+\subsection{Adding an Earley item}
+\label{p:add-eim}
+
+This operation adds a confirmed EIM.
 Inclusive time and space is charged to the
 calling procedure.
 Trivially, the space is \Oc{} per call.
@@ -1670,15 +1686,17 @@ An Earley item can be added to the current
 set in \Oc{} time
 if Earley set is seen as a linked
 list, to the head of which the new Earley item is added.
-
-The resource used by \call{Add EIM Pair}{}
+The resource used by \call{Add EIM}{}
 is always caller-included.
-No time or space is ever charged
-to a predicted Earley item.
-At most one attempt to add a \Veim{predicted} will
-be made per attempt to add a \Veim{confirmed},
-so that the total resource charged
-remains \Oc{}.
+
+\subsection{Prediction pass}
+\label{p:prediction-op}
+
+\subsection{Correctness of prediction pass}
+\label{p:prediction-correct}
+
+\subsection{Completeness of prediction pass}
+\label{p:prediction-complete}
 
 \subsection{Per-set lists}
 \label{s:per-set-lists}
@@ -1803,7 +1821,7 @@ is \Oc{} if links are included,
 zero otherwise.
 \end{observation}
 
-As noted in Section \ref{p:add-eim-pair},
+As noted in Section \ref{p:add-eim},
 the time and space used by predicted Earley items
 and attempts to add them is charged elsewhere.
 
