@@ -153,18 +153,14 @@ The Marpa recognizer is based on Earley's algorithm
 as modified in Joop Leo's 1991 paper
 to have \On{} time complexity for all
 LR-regular grammars.
-An significant original feature
-of Marpa's parse engine
-is that it finishes processing one Earley
+An feature new with Marpa is that its parse engine
+finishes processing one Earley set
 completely before it begins the creation of another.
-This allows the parser to pause between input tokens.
 Unlike most parsers,
 Earley-based parsers store the complete state of the parse,
-and applications that have access to this
-information can alter
-the parse based on what has been recognized so far.
-This allows parser to correct problems on the fly,
-but the applications extend far beyond that.
+and Marpa allows the parser efficient access to this
+information, so that
+the parser can alter its operation based on what has been recognized so far.
 For example, the parser can use a over-simplified,
 but convenient, grammar
 and make the parse work by altering
@@ -1268,7 +1264,7 @@ we speak of charging time and space
 \end{itemize}
 
 We can charge time and space to the parse itself,
-as long as the total time and space charged is \Oc.
+as long as the total time and space charged is \Oc{}.
 Afterwards, this resource can be re-charged to
 the initial Earley item, which is present in all parses.
 Soft and hard failures of the recognizer use
@@ -1276,7 +1272,7 @@ worst-case \Oc{} resource,
 and are charged to the parse.
 
 We can charge resources to the Earley set,
-as long as the time or space is \Oc.
+as long as the time or space is \Oc{}.
 Afterwards,
 the resource charged to the Earley set can be
 re-charged to an arbitrary member of the Earley set,
@@ -1310,8 +1306,9 @@ The two notations should be regarded as interchangeable.
 The actual implementation of either
 should be the equivalent of a pointer to 
 a data structure containing,
-at a minium,
+at a minimum,
 the Earley items,
+the Leo items,
 a memoization of the Earley set's location as an integer,
 and a per-set-list.
 Per-set-lists will be described in Section \ref{s:per-set-lists}.
@@ -1330,27 +1327,29 @@ Per-set-lists will be described in Section \ref{s:per-set-lists}.
 \State \Call{Fusion pass}{\var{i}}
 \State \Call{Prediction pass}{\var{i}}
 \EndFor
-\State \Call{Accept or Reject}{}
+\State \Call{Accept or Reject Logic}{}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Top-level code}
+\subsection{Complexity of Marpa Top-level}
 
-Exclusive time and space for the loop over the Earley sets
+Exclusive time and space
+for the loop over the Earley sets,
+including any time passed up from the 
+\call{Scan pass}{},
+\call{Fusion pass}{},
+and \call{Prediction pass}{},
 is charged to the Earley sets.
-Inclusive time and space for the final loop to
-check for \Vdr{accept} is charged to
-the Earley items at location \size{\Cw}.
 Overhead is charged to the parse.
-All these resource charges are obviously \Oc.
+All these resource charges are \Oc{}.
 
 \subsection{Ruby Slippers parsing}
 The Marpa parse engine is different from previous Earley
 parse engines in separating
 the \call{Scan pass}{}, on one hand, from
-\call{Fusion pass}{}
-\call{Prediction pass}{}, on the other.
+\call{Fusion pass}{},
+and \call{Prediction pass}{}, on the other.
 Because of this separation,
 when the scanning of tokens that start at location \Vloc{i} begins,
 the Earley sets for all locations prior to \Vloc{i} are complete.
@@ -1365,18 +1364,22 @@ and may alter the input in response to what it finds.
 \begin{algorithm}[h]
 \caption{Marpa Top-level}
 \begin{algorithmic}[1]
-\Procedure{Accept or Reject}{}
-\For{every $[\Vdr{x}, 0] \in \Etable{\Vsize{w}}$}
-\If{$\Vdr{accept} \in \Vdr{x}$}
-\State accept \Cw{} and return
-\EndIf
-\EndFor
+\Procedure{Accept or Reject Logic}{}
+\If{$[\Vdr{accept}, 0] \in \Etable{\Vsize{w}}$}
+\State accept \Cw{}
+\Else
 \State reject \Cw{}
+\EndIf
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Accept or reject}
+\subsection{Complexity of Accept or Reject Logic}
+
+The time and space complexity is clearly \Oc{},
+which is caller-included.
+The caller will include charge this time and space
+to the parse.
 
 \begin{algorithm}[h]
 \caption{Initialization}
@@ -1408,12 +1411,12 @@ and is charged to the parse.
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Scan pass}
+\subsection{The scan pass}
 \label{p:scan-op}
 
 \var{transitions} is a set of tables, one per Earley set.
 The tables in the set are indexed by symbol.
-Symbol indexing is \Oc, since the number of symbols
+Symbol indexing is \Oc{}, since the number of symbols
 is a constant, but
 since the number of Earley sets grows with
 the length of the parse,
@@ -1430,13 +1433,20 @@ Inclusive time and space can be charged to the
 \Veim{predecessor}.
 Overhead is charged to the Earley set at \Vloc{i}.
 
+\subsection{Correctness of the scan pass}
+\label{p:scan-correct}
+
+\subsection{Completeness of the scan pass}
+\label{p:scan-complete}
+
 \begin{algorithm}[h]
 \caption{Fusion pass}
 \begin{algorithmic}[1]
 \Procedure{Fusion pass}{\Vloc{i}}
-\State Note: \Vtable{i} may include EIM's added by
-\State \hspace{2.5em} by \Call{Fuse one LHS}{} and
-\State \hspace{2.5em} the loop must traverse these
+\State Note: \Vtable{i} may include EIM's added
+\State \hspace{2.5em} during passes of the loop
+\State \hspace{2.5em} by \Call{Fuse one LHS}{}.
+\State \hspace{2.5em} The loop must traverse these.
 \For{each Earley item $\Veim{work} \in \Vtable{i}$}
 \State $[\Vdr{work}, \Vloc{origin}] \gets \Veim{work}$
 \State $\Vsymset{lh-sides} \gets$ a set containing the LHS
@@ -1492,6 +1502,12 @@ Overhead may be charged to the Earley set at \Vloc{i}.
 \end{algorithmic}
 \end{algorithm}
 
+\subsection{Correctness of the fusion pass}
+\label{p:fusion-correct}
+
+\subsection{Completeness of the fusion pass}
+\label{p:fusion-complete}
+
 \subsection{Memoize transitions}
 
 The \var{transitions} table for \Ves{i}
@@ -1537,16 +1553,17 @@ and can be charged to EIM being examined.
 \caption{Fuse one LHS symbol}
 \begin{algorithmic}[1]
 \Procedure{Fuse one LHS}{\Vloc{i}, \Vloc{origin}, \Vsym{lhs}}
-\State Note: Each pass through this loop is an EIM attempt
-\For{each $\var{pim} \in \var{transitions}(\Vloc{origin},\Vsym{lhs})$}
-\State \Comment \var{pim} is a ``postdot item'', either a LIM or an EIM
-\If{\var{pim} is a LIM, \Vlim{pim}}
+\State Note: If the transitions contain a LIM, that LIM is unique,
+\State \hspace{2.5em} we do not look at any of the EIM's.
+\If{$\exists \Vlim{lim}, \var{lim} \in \var{transitions}(\Vloc{origin},\Vsym{lhs})$}
 \State Perform a \Call{Leo fusion operation}{}
 \State \hspace\algorithmicindent for operands \Vloc{i}, \Vlim{pim}
-\Else
+\State return
+\EndIf
+\State Note: Each pass through this loop is an EIM attempt
+\For{each $\var{eim} \in \var{transitions}(\Vloc{origin},\Vsym{lhs})$}
 \State Perform a \Call{Earley fusion operation}{}
 \State \hspace\algorithmicindent for operands \Vloc{i}, \Veim{pim}, \Vsym{lhs}
-\EndIf
 \EndFor
 \EndProcedure
 \end{algorithmic}
@@ -1592,7 +1609,7 @@ Overhead is \Oc{} and caller-included.
 \label{p:fusion-op}
 
 \begin{sloppypar}
-Exclusive time and space is clearly \Oc.
+Exclusive time and space is clearly \Oc{}.
 \call{Earley fusion operation}{} is always
 called as part of an EIM attempt,
 and inclusive time and space is charged to the EIM
@@ -1613,7 +1630,7 @@ attempt.
 \subsection{Leo fusion operation}
 \label{p:leo-op}
 
-Exclusive time and space is clearly \Oc.
+Exclusive time and space is clearly \Oc{}.
 \call{Leo fusion operation}{} is always
 called as part of an EIM attempt,
 and inclusive time and space is charged to the EIM
@@ -1661,7 +1678,7 @@ to a predicted Earley item.
 At most one attempt to add a \Veim{predicted} will
 be made per attempt to add a \Veim{confirmed},
 so that the total resource charged
-remains \Oc.
+remains \Oc{}.
 
 \subsection{Per-set lists}
 \label{s:per-set-lists}
@@ -1761,13 +1778,13 @@ some of the observations of this section.
 \begin{observation}
 The time and space charged to an Earley item
 which is actually added to the Earley sets
-is \Oc.
+is \Oc{}.
 \end{observation}
 
 \begin{observation}
 The time charged to an attempt
 to add a duplicate Earley item to the Earley sets
-is \Oc.
+is \Oc{}.
 \end{observation}
 
 For evaluation purposes, \Marpa{} adds a link to
