@@ -186,7 +186,7 @@ Marpa::XS\cite{Marpa-XS},
 the first stable version of a tool from the Marpa project,
 was uploaded to the CPAN Perl archive
 on Solstice Day in 2011.
-This paper describes the algorithm of Marpa::R2\cite{Marpa-R2},
+This \doc{} describes the algorithm of Marpa::R2\cite{Marpa-R2},
 the current version.
 
 As implemented,
@@ -353,7 +353,7 @@ $\LHS{\Vrule{r}}$ and $\RHS{\Vrule{r}}$, respectively.
 This definition follows \cite{AH2002},
 which departs from tradition by disallowing an empty RHS.
 
-Note that this paper, departing from tradition, does not define
+Note that this \doc{}, departing from tradition, does not define
 \Cg{} using a set of non-terminals that is disjoint from
 \Vsymset{terminals}.
 As implemented, Marpa allows terminals to serve as LHS symbols.
@@ -487,61 +487,119 @@ It is therefore important that this rewrite be of a kind
 that can be done and undone efficiently,
 while preserving the semantics.
 
+The original grammar is called the {\bf external grammar},
+because in the Marpa implementation, that is the one which
+the user sees.
+The grammar at the completion of the rewrite is called
+the {\bf internal grammar}.
+The Marpa parse engine actually runs on the internal grammar.
+
 Conceptually,
-the rewrite takes place as if the following steps were executed.
+the rewrite takes place as if the following steps were executed:
+
+\begin{enumerate}
+\item Where \Vsym{old-start} is the current start symbol,
+create a new non-terminal, \Vsym{new-start}, and a new rule
+\begin{equation*}
+\Vdr{initial} = [\Vsym{new-start} \de \mydot \Vsym{old-start} ].
+\end{equation*}
+This rewrite step is very common, and is called ``augmemting''
+the grammar.
+
+\item Eliminate inaccessbile and unproductive rules and symbols
+from the grammar.  If no rules are left, report an error.
+
+\item If the grammar derives only the null string, it is called
+a trivial grammar.  The trivial grammar is treated as a special-case.
+
+\item Find those rules whose RHS contains more than two properly
+nullable symbols.
+Rewrite them by dividing them into multiple rules
+until none of the rules contains more than two propertly nullable
+symbols.
+In a worst case, this would be a rewrite into Chomsky
+Normal Form.
+
+\item Determine which symbols are properly nullable.
+A symbol is properly nullable if and only if it is nullable,
+but not nulling.
+For each properly nullable symbol, create two aliases --
+a nulling alias, and a non-nulling alias.
+
+\item ``Factor'' any rules which contain properly nullable
+into rules which contain only nulling and nonnulling symbols.
+This divides each rule into at most four ``factors''.
+
+\item Discard all nulling rules.
+
+\item Remove all nulling symbols from the rules, recording
+their location.
+Their location should be recording in two maps.
+Create a map should from location in the rewrtten to the sequence
+of nulling symbols.  This map can be used, for example, to restore
+the nulling symbols when this rewrite is reversed during
+evaluation.
+
+\end{enumerate}
 
 The actual implementation of the rewrite differs somewhat from
 the above, for reasons of efficiency.
+At all points in the rewrite process, a map from location in
+the pre-rewrite rules to locations in the rewritten rules is
+kept.
+This map is a total function from external dotted rules to
+internal dotted rules.
+In reverse, this map is a partial function,
+from internal dotted rules to internal dotted rules.
 
-\section{Properties of the rewritten grammar}
-\label{s:rewrite-props}
+This rewrite is based on that in Aycock and Horspool\cite{AH2002},
+and we call it Chomsky-Horspool-Aycock Form (CHAF).
+A major difference from \cite{AH2002}
+is the division of rules into rules with at
+most two properly nullable symbols before ``factoring''.
+Without this step, factoring is exponential in the length of the rule
+and rules with many optional symbols on their RHS could very large numbers
+of factors.
+SQL's select statement is one example of a rule
+whose rewrite would be pathological if not divided up first.
 
-We have already noted
-that no rules of \Cg{}
+From this point on, in this \doc{}
+the grammar \Cg{} will refer to the internal grammar,
+unless otherwise noted.
+After the rewrite
+no rules of \Cg{}
 have a zero-length RHS,
-and that all symbols must be either nulling or non-nullable.
-These restrictions follow Aycock and Horspool\cite{AH2002}.
-The elimination of empty rules and proper nullables
-is done by rewriting the grammar.
-\cite{AH2002} shows how to do this
-without loss of generality.
+and no symbols are nulling.
 
 Because Marpa claims to be a practical parser,
-it is important to emphasize
-that all grammar rewrites in this \doc{}
-are done in such a way that the semantics
-of the original grammar can be reconstructed
-simply and efficiently at evaluation time.
-As one example,
-when a rewrite involves the introduction of new rule,
-semantics for the new rule can be defined to pass its operands
-up to a parent rule as a list.
-Where needed, the original semantics
-of a pre-existing parent rule can
-be ``wrapped'' to reassemble these lists
-into operands that are properly formed
-for that original semantics.
+it is important to that this rewrite can be performed efficiently,
+and, for evaluation purposes reversed efficiently,
+while preserving the semantics attached to the external grammar.
+Further, the ability to pause, examine and even alter a grammar
+during recognition is an important one in Marpa.
+Pauses are defined in terms of the external grammar,
+the application will want to examine the grammar in terms of
+external grammar,
+and changes to the grammar will be expressed in terms the
+rules, symbols and dotted rules of the external grammar.
 
-As implemented,
-the Marpa parser allows users to associate
-semantics with an original grammar
-that has none of the restrictions imposed
-on grammars in this \doc{}.
-The user of a Marpa parser
-may specify any context-free grammar,
-including one with properly nullable symbols,
-empty rules, etc.
-The user specifies his semantics in terms
-of this original, ``free-form'', grammar.
-Marpa implements the rewrites,
-and performs evaluation,
-in such a way as to keep them invisible to
-the user.
-From the user's point of view,
-the ``free-form'' of his grammar is the
-one being used for the parse,
-and the one to which
-his semantics are applied.
+When a parse tree (or forest) is produced from the Earley sets,
+each instance of an external rule corresponds to
+a subtree of the parse tree.
+The LHS of the external rule will correspond to the root of this subtree,
+and its RHS symbols to the leaves of the subtree.
+When is it nececessary to scan the RHS of an external rule,
+this can be implemented simply and efficiently as
+a traversal of the subtree.
+
+The location mapping, referred to above, allows the application
+to request that recognition
+be paused in terms of external locations.
+The rewrite of this section
+can be performed in both directly simply and quickly.
+The only problematic case arises, not from Marpa's grammar rewriting,
+but from its use of Leo memoization during recognition.
+Leo memoization is discussed below.
 
 \section{Earley's algorithm}
 \label{s:earley}
