@@ -712,34 +712,87 @@ An Earley parser builds a table of Earley sets,
 Earley sets are of type \type{ES}.
 Earley sets are often named by their location,
 so that \Ves{i} means the Earley set at \Vloc{i}.
-The type designator \type{ES} is often omitted to avoid clutter,
-especially in cases where the Earley set is not
-named by location.
+The type designator \type{ES} is sometimes omitted.
 
-[ Note: I require the rewrite to eliminate unproductive rules and
-symbols. ]
 We say that the Earley item
 \begin{equation*}
-     \bigl[[\Vsym{lhs} \de \Vsf{pre-dot} \mydot \Vsf{post-dot}], \Vorig{x} \bigr]
+     \bigl[[\Vsym{lhs} \de \Vsf{pre-dot} \mydot \Vsf{post-dot}], \Vorig{i} \bigr]
 \end{equation*}
-in Earley set $\Ves{i}$ is {\bf accurate}
+in Earley set $\Ves{j}$ is {\bf correct}
 %
-if and only if 
-%
-\begin{multline*}
- \Vsym{start} \deplus \\
-   \Vstr{pre-rule} \cat \Vstr{pre-dot} 
-   \cat \Vstr{post-dot} \cat \Vstr{post-rule} 
-\end{multline*}
-%
-where
+if and only if we have both
 %
 \begin{gather*}
- \Vstr{pre-rule} = \CVwstr{0,{i \subtract 1}} \quad \text{and} \\
- \Vsf{pre-dot} \deplus \Vstr{pre-dot} \quad \text{and} \\
- \Vstr{pre-dot} = \CVwstr{i,j} \quad \text{and} \\
- \Vsf{post-dot} \deplus \Vstr{post-dot}.
+ \Vsym{start} \destar
+   \CVwstr{0,{i \subtract 1}} \cat \Vsym{lhs} \cat \Vsf{post-rule}  \\
+  \text{and} \quad \Vsf{pre-dot} \destar \CVwstr{i,j}.
 \end{gather*}
+
+\begin{subequations}
+
+\begin{lemma}
+\label{l:eim-correctness-is-transitive}
+Let \Vdr{predecessor} be the dotted rule
+\begin{equation}
+\textup{ $[\Vsym{lhs} \de \Vsf{before} \mydot \Vsym{transition} \cat \Vsf{after}]$ }
+\end{equation}
+and \Vdr{successor} be its successor
+\begin{equation}
+\textup{ $[\Vsym{lhs} \de \Vsf{before} \cat \Vsym{transition} \mydot \Vsf{after}]$ }
+\end{equation}
+If the EIM
+\begin{equation}
+\label{e:eim-reduction-1}
+\textup{
+     $\bigl[\Vdr{predecessor}, \Vorig{i} \bigr]$ is correct at \Ves{j},
+}
+\end{equation}
+and
+\begin{equation}
+\label{e:eim-reduction-2}
+\textup{
+  $\Vsym{transition} \destar \CVwstr{\var{j}+1,\var{k}}$
+}
+\end{equation}
+where $\var{j} < \var{k}$,
+then the EIM 
+\begin{equation}
+\label{e:eim-reduction-3}
+\textup{
+     $\bigl[\Vdr{successor}, \Vorig{i} \bigr]$ is correct at \Ves{k}.
+}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+From assumption \eqref{e:eim-reduction-1}, we know that
+\begin{equation}
+\label{e:eim-reduction-4}
+ \Vsym{start} \destar
+   \CVwstr{0,{i \subtract 1}} \cat \Vsym{transition} \cat \Vsf{post-rule}.
+\end{equation}
+Also from \eqref{e:eim-reduction-1},
+we have
+\begin{equation}
+\label{e:eim-reduction-5}
+  \Vsf{before} \destar \CVwstr{i,j}.
+\end{equation}
+Combining
+\eqref{e:eim-reduction-5}
+with the assumption \eqref{e:eim-reduction-2},
+we have
+\begin{equation}
+\label{e:eim-reduction-6}
+  \Vsf{before} \cat \Vsym{transition} \destar \CVwstr{i,k}.
+\end{equation}
+By the definition of EIM correctness,
+\eqref{e:eim-reduction-4}
+and
+\eqref{e:eim-reduction-6} show
+\eqref{e:eim-reduction-3}.
+\end{proof}
+
+\end{subequations}
 
 \section{Leo memoization}
 \label{s:leo-memoization}
