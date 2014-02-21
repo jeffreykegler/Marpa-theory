@@ -732,14 +732,11 @@ if and only if we have both
 
 \begin{lemma}
 \label{l:eim-correctness-is-transitive}
-Let \Vdr{predecessor} be the dotted rule
-\begin{equation}
-\textup{ $[\Vsym{lhs} \de \Vsf{before} \mydot \Vsym{transition} \cat \Vsf{after}]$ }
-\end{equation}
-and \Vdr{successor} be its successor
-\begin{equation}
-\textup{ $[\Vsym{lhs} \de \Vsf{before} \cat \Vsym{transition} \mydot \Vsf{after}]$ }
-\end{equation}
+Let \textup{\Vdr{predecessor}} be a dotted rule,
+let \textup{\Vdr{successor}} be its successor,
+and let \textup{\Vsym{transition}} be the postdot symbol in
+\textup{\Vdr{predecessor}} and the predot symbol in
+\textup{\Vdr{successor}}.
 If the EIM
 \begin{equation}
 \label{e:eim-reduction-1}
@@ -765,6 +762,14 @@ then the EIM
 \end{lemma}
 
 \begin{proof}
+Let \Vdr{predecessor} be the dotted rule
+\begin{equation}
+\textup{ $[\Vsym{lhs} \de \Vsf{before} \mydot \Vsym{transition} \cat \Vsf{after}].$ }
+\end{equation}
+\Vdr{successor} is therefore
+\begin{equation}
+\textup{ $[\Vsym{lhs} \de \Vsf{before} \cat \Vsym{transition} \mydot \Vsf{after}].$ }
+\end{equation}
 From assumption \eqref{e:eim-reduction-1}, we know that
 \begin{equation}
 \label{e:eim-reduction-4}
