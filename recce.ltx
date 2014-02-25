@@ -8,7 +8,7 @@
 
 % This is now a "paper", but may be a chapter
 % or something else someday
-% This command will make any such change easier.
+% This command might make any such change easier.
 \newcommand{\doc}{paper}
 
 \newcommand{\todo}[1]{\par{\large\bf Todo: #1}\par}
@@ -1598,6 +1598,12 @@ that is current
 during that call to \call{Fuse one LHS}{}.
 Overhead may be charged to the Earley set at \Vloc{i}.
 
+\subsection{Correctness of the fusion pass}
+\label{p:fusion-correct}
+
+\subsection{Completeness of the fusion pass}
+\label{p:fusion-complete}
+
 \begin{algorithm}[h]
 \caption{Memoize transitions}
 \begin{algorithmic}[1]
@@ -1617,12 +1623,6 @@ Overhead may be charged to the Earley set at \Vloc{i}.
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
-
-\subsection{Correctness of the fusion pass}
-\label{p:fusion-correct}
-
-\subsection{Completeness of the fusion pass}
-\label{p:fusion-complete}
 
 \subsection{Memoize transitions}
 
@@ -2050,6 +2050,12 @@ the previous two equalities.
 
 \section{Marpa recognizer complexity}
 \label{s:complexity}
+
+\subsection{Preliminaries}
+
+\begin{definition}
+Channelled LR($\pi$).
+\end{definition}
 
 \subsection{Complexity of each Earley item}
 
