@@ -149,8 +149,8 @@ Marpa is
 a practical and fully implemented
 algorithm for the recognition,
 parsing and evaluation of context-free grammars.
-The Marpa recognizer is based on Earley's algorithm
-as modified in Joop Leo's 1991 paper
+The Marpa recognizer is based on Jay Earley's algorithm,
+as modified by Joop Leo
 to have \On{} time complexity for all
 LR-regular grammars.
 An feature new with Marpa is that its parse engine
@@ -2053,9 +2053,56 @@ the previous two equalities.
 
 \subsection{Preliminaries}
 
+Intuitively,
+a \dfn{finite derivation grammar} is an unambiguous grammar
+which can be parsed by considering, at any location
+in the input, at most some finite number
+of rightmost derivations.
+
 \begin{definition}
-Channelled LR($\pi$).
+\Var{g} is
+a \dfn{finite derivation grammar} if \var{g}
+is an unambiguous grammar,
+and if,
+for any input string \CVwstr{0,\var{i}},
+there is a finite set of rightmost derivations, \var{rm-deriv},
+one of which must be the prefix of the rightmost derivation
+of any successful parse.
 \end{definition}
+
+\begin{theorem}
+Let \var{g} be a finite derivation grammar.
+The number of YIM's for it in the Earley set \var{cut},
+excluding right recursions,
+is at most some constant \var{c},
+where \var{c} is a finite constant,
+which may be a function of the grammar.
+\end{theorem}
+
+\begin{theorem}
+Let \var{g} be a finite derivation grammar.
+The number of prediction YIM's for it in the Earley set \var{cut},
+is at most some constant \var{c},
+where \var{c} is a finite constant,
+which may be a function of the grammar.
+\end{theorem}
+
+\begin{theorem}
+Let \var{g} be a finite derivation grammar.
+The number of medial YIM's for it in the Earley set \var{cut},
+is at most some constant \var{c},
+where \var{c} is a finite constant,
+which may be a function of the grammar.
+\end{theorem}
+
+\begin{theorem}
+Let \var{g} be a finite derivation grammar.
+The number of completed YIM's for it in the Earley set \var{cut},
+excluding right recursions,
+is at most some constant \var{c},
+where \var{c} is a finite constant,
+which may be a function of the grammar.
+\end{theorem}
 
 \subsection{Complexity of each Earley item}
 
