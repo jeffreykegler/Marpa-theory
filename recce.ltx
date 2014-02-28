@@ -2053,6 +2053,24 @@ the previous two equalities.
 
 \subsection{Preliminaries}
 
+In the following we extend the notation for sentential forms to
+allow location to be indicate.
+Specifically, to indicate in the sentential form
+\begin{equation*}
+    \Vsf{a} \cat \Vsf{b} \mydot \Vsf{c}
+\end{equation*}
+that \Vloc{x} is between \Vsf{a} and \Vsf{b},
+and that the dot is at location \var{y},
+we will write
+\begin{equation*}
+    \Vsf{a} \; [\var{x}] \; \Vsf{b} \; [\var{y}] \; \Vsf{c}.
+\end{equation*}
+We will also sometimes indicate the dot location
+more explicitly
+\begin{equation*}
+    \Vsf{a} \; [\var{x}] \; \Vsf{b} \; [\var{dot}] \; \Vsf{c}.
+\end{equation*}
+
 Intuitively,
 a \dfn{finite derivation grammar} is an unambiguous grammar
 which can be parsed by considering, at any location
@@ -2119,13 +2137,64 @@ This means that at least two of the medial Earley items,
 call them \Veim{eim1} and \Veim{eim2} must share the
 same dotted rule, call it \Vdr{shared}.
 We can write these two Earley items
-\begin{gather*}
- \Veim{eim1} = [ \Vdr{shared}, \Vloc{origin1} ] \\
- \text{and} \quad \Veim{eim2} = [ \Vdr{shared}, \Vloc{origin2} ]
-\end{gather*}
+\begin{gather}
+ \label{e:medial-eim1} \Veim{eim1} = [ \Vdr{shared}, \Vloc{origin1} ] \\
+ \label{e:medial-eim2} \text{and} \quad \Veim{eim2} = [ \Vdr{shared}, \Vloc{origin2} ] \\
+ \text{where} \quad \Vdr{shared} = [ \Vsym{A} \de \Vsf{pre-dot} \mydot \Vsf{post-dot} ]
+\end{gather}
 Since by the assumption for the reduction,
 \Veim{eim1} and \Veim{eim2} differ, we have
 $\Vloc{origin1} \neq \Vloc{origin2}$.
+
+If $\Vloc{origin1} \neq \Vloc{origin2}$
+within a single right derivation,
+the rule must recurse:
+\begin{equation}
+    \label{e:finite-medial-claim2} \Vsym{A} \destar
+    \Vsf{pre-A} \cat \Vsym{A} \cat \Vsf{post-A} \mydot \Vsf{post-dot}.
+\end{equation}
+But this is not possible at the same dot location, as we will show
+next.
+
+To show that \eqref{e:finite-medial-claim2}
+is not possible,
+assume that the one of the two Earley items \eqref{e:medial-eim1}
+and \eqref{e:medial-eim2} derives the other.
+Without loss of generality, we describe
+the recursion as $\Vsf{pre-dot} \destar \Vsf{pre-A} \cat \Vsym{A} \cat \Vsf{post-dot}$,
+where \Vsf{pre-A} and \Vsf{post-A} can derive the null string.
+As a reminder, internal Marpa rules
+never derive the null string and,
+by the definition of medial rule, neither can the pre- and post-dot
+portions of that medial rule.
+
+If we follow the recursion through a double derivation
+\begin{align}
+\notag \Vsym{A} \de &  \Vsf{pre-dot} \mydot \Vsf{post-dot} \\
+\notag
+  \destar & \Vsf{pre-A} \cat \Vsym{A} \cat \Vsf{post-A} \mydot \var{post-dot} \\
+\label{e:finite-medial-step}
+\destar &
+  \var{pre-A} \cat \var{pre-dot} \mydot \var{post-dot} \cat \var{post-A} \mydot \var{post-dot},
+\end{align}
+We see that in derivation step
+\eqref{e:finite-medial-step}
+the dot is required to be both before and after the
+sentential form $\Vsf{post-dot} \cat \Vsf{post-A}$.
+This is not possible, because \Vsf{post-dot} cannot derive the null string.
+This completes the reductio, and allows us to conclude that
+\eqref{e:finite-medial-claim2} is not possible.
+
+Since medial Earley items cannot recurse at the same Earley set,
+it is not possible for
+two Earley items, corresponding to a single rightmost derivation,
+and with the same medial dotted rule,
+to appear in the same Earley set.
+This means that there can be,
+in each Earley set,
+at most one medial Earley item for
+each dotted rule and rightmost derivation.
+
 \end{proof}
 
 \begin{theorem}
