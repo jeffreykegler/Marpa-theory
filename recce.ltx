@@ -2060,7 +2060,7 @@ in the input, at most some finite number
 of rightmost derivations.
 
 \begin{definition}
-\Var{g} is
+\var{g} is
 a \dfn{finite derivation grammar} if \var{g}
 is an unambiguous grammar,
 and if,
@@ -2094,6 +2094,39 @@ is at most some constant \var{c},
 where \var{c} is a finite constant,
 which may be a function of the grammar.
 \end{theorem}
+
+\begin{proof}
+A medial YIM must take the form
+\begin{equation*}
+ \Veim{medial} = [ \Vdr{medial}, \Vloc{medial-origin} ]
+\end{equation*}
+where
+\begin{equation*}
+ \Vdr{medial} = [\Vsym{A} \de \Vsf{pre-dot} \mydot \Vsym{post-dot} ].
+\end{equation*}
+
+We claim that that number of medial dotted rules
+\begin{equation}
+    \label{e:finite-medial-claim} \var{c} \le \size{\var{dotted-rules}}
+\end{equation}
+where \size{\var{dotted-rules}} is the cardinality
+of the set of dotted rules in \var{g}.
+To show \eqref{e:finite-medial-claim},
+we assume, for a reductio, that there are
+more medial Earley items at \var{cut} then there are
+medial dotted rules.
+This means that at least two of the medial Earley items,
+call them \Veim{eim1} and \Veim{eim2} must share the
+same dotted rule, call it \Vdr{shared}.
+We can write these two Earley items
+\begin{gather*}
+ \Veim{eim1} = [ \Vdr{shared}, \Vloc{origin1} ] \\
+ \text{and} \quad \Veim{eim2} = [ \Vdr{shared}, \Vloc{origin2} ]
+\end{gather*}
+Since by the assumption for the reduction,
+\Veim{eim1} and \Veim{eim2} differ, we have
+$\Vloc{origin1} \neq \Vloc{origin2}$.
+\end{proof}
 
 \begin{theorem}
 Let \var{g} be a finite derivation grammar.
