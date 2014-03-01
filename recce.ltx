@@ -2206,6 +2206,35 @@ where \var{c} is a finite constant,
 which may be a function of the grammar.
 \end{theorem}
 
+\begin{proof}
+Let 
+\begin{equation*}
+\var{c} = \size{\var{rules}} \times \size{\var{rm-derivations}},
+\end{equation*}
+where $\size{\var{rules}}$ is the number of rules in grammar \var{g}.
+We claim that, excluding right recursions,
+the number of completed items at Earley set \var{cut}
+cannot exceed \var{c}.
+
+We proceed by reductio.
+Assume that in fact there are $\var{c} + 1$ non-right-recursive completion YIM's
+in Earley set \var{cut}.
+Since there are only \var{c} pairings of rule and rightmost derivation,
+at least two of these must share the same rule and be part of the same rightmost
+derivation.
+Since all completion dotted rules have the dot after the last symbol of the rule,
+completions which share a rule also share a dotted rule.
+
+But, by the definition of right recursion for Earley items,
+if two distinct completed Earley items have the same rule
+are in the same Earley set,
+and are part of the same rightmost derivation,
+they are right recursive.
+But we assumed for the reductio that none of Earley items was
+a right recursion, so this is a contradiction.
+This contradiction shows the reductio and the theorem.
+\end{proof}
+
 \subsection{Complexity of each Earley item}
 
 For the complexity proofs,
