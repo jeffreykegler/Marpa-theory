@@ -2098,6 +2098,7 @@ which may be a function of the grammar.
 \end{theorem}
 
 \begin{theorem}
+\label{t:prediction-On}
 Let \var{g} be a finite derivation grammar.
 The number of prediction YIM's for it in the Earley set \var{cut},
 is at most some constant \var{c},
@@ -2105,7 +2106,15 @@ where \var{c} is a finite constant,
 which may be a function of the grammar.
 \end{theorem}
 
+\begin{proof}
+Let \var{c} be the number of rules in \var{g}.
+All predictions YIM's are dotted rules with the dot before the first symbol,
+and have their origin in the current set.
+Therefore the number of predictions in an Earley set is at most \var{c}.
+\end{proof}
+
 \begin{theorem}
+\label{t:medial-On}
 Let \var{g} be a finite derivation grammar.
 The number of medial YIM's for it in the Earley set \var{cut},
 is at most some constant \var{c},
@@ -2198,6 +2207,7 @@ each dotted rule and rightmost derivation.
 \end{proof}
 
 \begin{theorem}
+\label{t:completed-On}
 Let \var{g} be a finite derivation grammar.
 The number of completed YIM's for it in the Earley set \var{cut},
 excluding right recursions,
@@ -2233,6 +2243,40 @@ they are right recursive.
 But we assumed for the reductio that none of Earley items was
 a right recursion, so this is a contradiction.
 This contradiction shows the reductio and the theorem.
+\end{proof}
+
+\begin{theorem}
+Let \var{g} be a finite derivation grammar.
+The number of YIM's for it in the Earley set \var{cut},
+excluding right recursions,
+is at most some constant \var{c},
+where \var{c} is a finite constant,
+which may be a function of the grammar.
+\end{theorem}
+
+\begin{proof}
+Every YIM is either a prediction, medial
+or a completion.
+Theorem \ref{t:prediction-On} shows that the
+number of predictions in Earley set \var{cut}
+is less than or equal to a constant,
+call it \var{max-prediction}.
+Theorem \ref{t:medial-On} shows that the
+number of medial YIM's in Earley set \var{cut}
+is less than or equal to a constant,
+call it \var{max-medial}.
+Theorem \ref{t:-On} shows that the
+number of completed YIM's in Earley set \var{cut},
+excluding right recursions,
+is less than or equal to a constant,
+call it \var{max-completed}.
+Predictions and medials YIMs cannot be right recursions.
+If we let
+\begin{equation}
+  \var{c} = \var{max-prediction} + \var{max-medial} + \var{max-completed},
+\end{equation}
+then \var{c} is greater than or equal to the number of YIM's
+in Earley set \var{cut}.
 \end{proof}
 
 \subsection{Complexity of each Earley item}
