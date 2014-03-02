@@ -44,6 +44,12 @@
     {\mathrel{\mbox{$\:\stackrel{\!{\ast}}{\Rightarrow\!}\:$}}}
 \newcommand{\deplus}
     {\mathrel{\mbox{$\:\stackrel{\!{+}}{\Rightarrow\!}\:$}}}
+\newcommand{\deR}
+    {\mathrel{\mbox{$\:\stackrel{\!{R}}{\Rightarrow\!}\:$}}}
+\newcommand{\deRstar}
+    {\mathrel{\mbox{$\:\stackrel{\!{R\ast}}{\Rightarrow\!}\:$}}}
+\newcommand{\deRplus}
+    {\mathrel{\mbox{$\:\stackrel{\!{R+}}{\Rightarrow\!}\:$}}}
 \newcommand{\derivg}[1]{\mathrel{\mbox{$\:\Rightarrow\:$}}}
 \newcommand{\derivrg}[2]{\mathrel{\mbox{$\:\stackrel{\!{#1}}%
         {\Rightarrow\!}\:$}}}
@@ -114,6 +120,19 @@
 % I want to use 'call' outside of pseudocode
 \newcommand\call[2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}}%
 
+% I don't like to put whole paragraphs in italics,
+% so I make this simple variation on the "plain" theoremstyle
+\newtheoremstyle{myplain}
+  {\topsep}   % ABOVESPACE
+  {\topsep}   % BELOWSPACE
+  {\normalfont}  % BODYFONT
+  {0pt}       % INDENT (empty value is the same as 0pt)
+  {\bfseries} % HEADFONT
+  {.}         % HEADPUNCT
+  {5pt plus 1pt minus 1pt} % HEADSPACE
+  {}          % CUSTOM-HEAD-SPEC
+
+\theoremstyle{myplain}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
 
@@ -2268,6 +2287,95 @@ If we let
 \end{equation}
 then \var{c} is greater than or equal to the number of YIM's
 in Earley set \var{cut}.
+\end{proof}
+
+\begin{theorem}
+Let \var{g} be an $LR(\pi)$
+grammar, where $\pi$ is a left congruence.
+Let, for all
+\Vsf{prefix1}, \Vsf{prefix2},
+\Vstr{seen}, \Vstr{unseen1}, \Vstr{unseen2}
+\begin{gather}
+\label{e:leo-lemma-assumption-1}
+\begin{split}
+   \Vsym{S} & \deRstar \Vsf{prefix1} \cat \Vstr{unseen1} \\
+        & \deRstar \Vstr{seen} \cat \Vstr{unseen1},
+\end{split} \\
+\label{e:leo-lemma-assumption-2}
+\begin{split}
+   \Vsym{S} & \deRstar \Vsf{prefix2} \cat \Vstr{unseen2} \\
+   & \deRstar \Vstr{seen} \cat \Vstr{unseen2} \quad \text{and}
+\end{split} \\
+\label{e:leo-lemma-assumption-3}
+   \var{unseen1} \equiv
+   \var{unseen2} \pmod \pi.
+\end{gather}
+Then, either
+\begin{gather}
+\label{e:leo-lemma-conclusion-1}
+\var{prefix1} \deRstar \var{prefix2} \quad \text{or} \\
+\label{e:leo-lemma-conclusion-2}
+\var{prefix2} \deRstar \var{prefix1}.
+\end{gather}
+\end{theorem}
+
+Joop Leo proved this using a reduction in an unpublished addendum to \cite{Leo1991}.
+The following is a proof by induction.
+\begin{proof}
+We number the direct steps of each right derivation,
+from last to first, so
+that
+\begin{equation}
+\label{leo-lemma-step-1-0}
+  \Vstr{seen} \mydot \Vstr{unseen1}
+\end{equation}
+is step 0 of the derivation for \Vsf{prefix1}.
+
+In the following, we will be comparing steps, but we will only be interested in the
+part of the sentential forms before \Vstr{unseen1} and \Vstr{unseen2}.
+We call this point in the input the ``cut''.
+For convenient will will mark it with an enlarged dot.
+
+Without loss of generality, we assume that
+the derivation for \Vsf{prefix2} is longer than that of \Vsf{prefix1},
+so that what we want to show is
+\begin{align}
+\label{leo-lemma-step-2-S}   \Vsym{S} & \deRstar \Vsf{prefix2} \mydot \Vstr{unseen2} \\
+\label{leo-lemma-step-2-n}     & \deRstar \Vsf{prefix1} \mydot \Vstr{unseen2} \\
+\label{leo-lemma-step-2-0}   & \deRstar \Vstr{seen} \mydot \Vstr{unseen2},
+\end{align}
+which we do by induction.
+
+As the basis of the induction, we compare
+the pre-cut portion of 
+Step \eqref{leo-lemma-step0} with 
+\eqref{leo-lemma-step0},
+and note they are identical.
+To show the step of the induction, assume
+that the pre-cut portions of step \var{n}
+in derivation \label{e:leo-lemma-assumption-1}
+is identical
+to the pre-cut portions of step \var{n}
+in derivation \label{e:leo-lemma-assumption-2}.
+Without loss of generality, we show the direct derivation
+from step $\var{n}+1$ to step \var{n}
+for the two derivations as
+as
+\begin{multline}
+\Vsf{before1} \cat \Vsym{lhs1} \cat \Vstr{after1} \mydot \Vstr{unseen1} \\
+\deR \Vsf{before1} \cat \Vsf{rhs1} \cat \Vstr{after1} \mydot \Vstr{unseen1}
+\end{multline}
+and
+\begin{multline}
+\Vsf{before2} \cat \Vsym{lhs2} \cat \Vstr{after2} \mydot \Vstr{unseen2} \\
+\deR \Vsf{before2} \cat \Vsf{rhs2} \cat \Vstr{after2} \mydot \Vstr{unseen2}
+\end{multline}
+where from the assumption for the step we know that
+\begin{multline}
+\Vsf{before1} \cat \Vsf{rhs1} \cat \Vstr{after1} \\
+= \Vsf{before2} \cat \Vsf{rhs2} \cat \Vstr{after2}.
+\end{multline}
+
 \end{proof}
 
 \subsection{Complexity of each Earley item}
