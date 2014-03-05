@@ -94,6 +94,9 @@
 \newcommand{\Cw}{\var{w}}
 \newcommand{\CVw}[1]{\ensuremath{\sym{\Cw[\var{#1}]}}}
 \newcommand{\CVwstr}[1]{\ensuremath{\str{\Cw[\var{#1}]}}}
+\newcommand{\CVrange}[3]{\ensuremath{\str{#1[#2,#3]}}}
+\newcommand{\Cwrange}[2]{\CVrange{\Cw}{#1}{#2}}
+
 \newcommand{\Crules}{\var{rules}}
 \newcommand{\GOTO}{\mymathop{GOTO}}
 \newcommand{\Next}[1]{\mymathop{Next}(#1)}
@@ -2290,6 +2293,7 @@ in Earley set \var{cut}.
 \end{proof}
 
 \begin{theorem}
+\label{t:leo-lemma}
 Let \var{g} be an $LR(\pi)$
 grammar, where $\pi$ is a left congruence.
 Let, for all
@@ -2348,8 +2352,8 @@ which we do by induction.
 
 As the basis of the induction, we compare
 the pre-cut portion of 
-Step \eqref{leo-lemma-step0} with 
-\eqref{leo-lemma-step0},
+Step \eqref{leo-lemma-step-1-0} with 
+\eqref{leo-lemma-step-2-0},
 and note they are identical.
 To show the step of the induction, assume
 that the pre-cut portions of step \var{n}
@@ -2372,10 +2376,148 @@ and
 \end{multline}
 where from the assumption for the step we know that
 \begin{multline}
-\Vsf{before1} \cat \Vsf{rhs1} \cat \Vstr{after1} \\
-= \Vsf{before2} \cat \Vsf{rhs2} \cat \Vstr{after2}.
+\label{e:leo-lemma-induction_step-assumption}
+\Vsf{before1} \cat \Vsf{rhs1} \; [\var{end1}] \; \Vstr{after1} \\
+= \Vsf{before2} \cat \Vsf{rhs2} \; [\var{end2}] \; \Vstr{after2}.
 \end{multline}
+In \label{e:leo-lemma-induction_step-assumption}
+\Vloc{end1} and \Vloc{end2} indicate where the ends of the next handle
+must be found in their respective derivation.
 
+This is a LR grammar, so we can find their handle by scanning terminals from the
+right.
+The two pre-cut sentential forms are identical, so the scanned terminals will be
+identical.  Call the string Vstr{after}.
+By left congruence, we have
+\begin{equation}
+   \Vstr{after} .\var{unseen1} \equiv
+   \Vstr{after} .\var{unseen2} \pmod \pi,
+\end{equation}
+so that both strings are in the same cell of the partition, $\pi$.
+By the LR-property, this means that both handles will be
+found at the same location,
+that is, that $\Vloc{end1} = \Vloc{end2}$,
+which in turn means that
+\begin{equation}
+\label{e:leo-lemma-after-eq} \Vstr{after1} = \Vstr{after2}.
+\end{equation}
+By the LR-property, we also know that the production
+of the two handles will be identical, so that
+that is, that
+\begin{gather}
+\label{e:leo-lemma-lhs-eq} \Vsym{lhs1} = \Vsym{lhs2} \quad \text{and} \\
+\label{e:leo-lemma-rhs-eq} \Vsf{rhs1} = \Vsf{rhs2}.
+\end{gather}
+and 
+This in turn means that
+\begin{equation}
+\label{e:leo-lemma-before-eq} 
+\Vsf{before1} = \Vsf{before2}.
+\end{equation}
+From 
+\ref{e:leo-lemma-before-eq},
+\ref{e:leo-lemma-lhs-eq}
+and \ref{e:leo-lemma-after-eq},
+we can show that
+\begin{equation}
+\Vsf{before1} \cat \Vsym{lhs1} \cat \Vstr{after1} =
+\Vsf{before1} \cat \Vsym{lhs1} \cat \Vstr{after1},
+\end{equation}
+which show the step of the induction,
+and the induction.
+
+Let the number of steps in 
+derivation \label{e:leo-lemma-assumption-1}
+be \var{l1}.
+From the induction, 
+and in particular
+that
+\begin{equation}
+\label{e:leo-induction-result}
+\text{step \var{l1}
+of derivation \ref{e:leo-lemma-assumption-2} is }
+\Vsf{prefix1} \cat \Vstr{unseen2}.
+\end{equation}
+Recall that we assumed without loss of generality that
+derivation \ref{e:leo-lemma-assumption-2} was the longer of the two
+so that step
+\ref{leo-lemma-step-2-S}
+is an earlier (higher-numbered) step.
+From this and \ref{e:leo-induction-result},
+we have that
+\begin{equation*}
+\Vsf{prefix2} \mydot \Vstr{unseen2} \deRstar
+\Vsf{prefix1} \mydot \Vstr{unseen2}
+\end{equation*}
+and therefore
+\begin{equation*}
+\Vsf{prefix2} \deRstar \Vsf{prefix1}.
+\end{equation*}
+
+\end{proof}
+
+\begin{theorem}
+Let \var{g} be $LR(\pi)$, with $\pi$
+a partition of cardinality $\size{\pi}$.
+If $\size{\pi}$ is finite, there are,
+for all \var{i}
+and all \Cwrange{0}{\var{i}-1},
+at most
+$\size{\pi}$
+derivations up to \var{i}.
+\end{theorem}
+
+\begin{proof}
+Consider two inputs, \CVrange{w1}{0}{\var{n1}-1}
+and \CVrange{w2}{0}{\var{n2}-1}.
+of length \var{n1} and \var{n2}.
+Let
+\begin{gather*}
+  \Vstr{after1} = \CVrange{w1}{\var{i}}{\var{n1}-1} \quad \text{and} \\
+  \Vstr{after2} = \CVrange{w2}{\var{i}}{\var{n2}-1}.
+\end{gather*}
+
+Assume, for the purpose of a reduction,
+that there are $\size{\pi}+1$ derivations.
+In that case there must be at least two distinct derivations
+of where
+\begin{equation}
+   \Vstr{after1} \equiv \Vstr{after2} \pmod \pi.
+\end{equation}
+Let their first rightmost derivation steps up to \var{i} be
+\begin{gather}
+\label{leo-lemma-eq1}  \Vsf{before1} \diamond \Vstr{after2} \quad \text{and} \\
+\label{leo-lemma-eq2}  \Vsf{before2} \diamond \Vstr{after2}.
+\end{gather}
+Since, the two derivations are distinct,
+\begin{gather}
+\label{leo-lemma-eq3} \Vsf{before1} \neq \Vsf{before2}.
+\end{gather}
+
+From Theorem \ref{t:leo-lemma}, we know that either
+$\Vsf{before1} \derives \Vsf{before2}$ or
+$\Vsf{before2} \derives \Vsf{before1}$.
+Without loss of generality, we assume that
+\begin{equation}
+\label{leo-lemma-eq4}
+\Vsf{before1} \derives \Vsf{before2}.
+\end{equation}
+\eqref{leo-lemma-eq4} can only be the case
+if there is some value of \Vstr{after1}, such
+that $\Vstr{after1} = \Vstr{after2}$.
+Further, 
+\ref{leo-lemma-eq1} and
+\ref{leo-lemma-eq2} are, by assumption,
+both first rightmost derivation steps up to \var{i}.
+This is only possible if
+$\Vsf{before1} = \Vsf{before2}$.
+
+But we that contradicts
+\eqref{leo-lemma-eq3}.
+The contradiction shows the reductio,
+which in turn
+show that the number of derivations is at
+most $\size{\pi}+1$.
 \end{proof}
 
 \subsection{Complexity of each Earley item}
@@ -3066,6 +3208,10 @@ J.~M. I.~M. Leo.
   every {LR($k$)} grammar without using lookahead.
 \newblock {\em Theoretical Computer Science}, 82:165--176, 1991.
 
+\bibitem{Wich2005}
+Klaus Wich.
+\newblock Ambiguity functions of context-free grammars and languages.
+\newblock Diss. University of Stuttgart, 2005.
 \end{thebibliography}
 
 \clearpage
