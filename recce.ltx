@@ -713,18 +713,45 @@ are also called, respectively,
 \section{An approach to the Earley algorithm}
 \label{s:earley-approach}
 
+An tree predicate is is a triple
+\[
+    [\Vdr{dotted-rule}, \Vloc{origin}, \Vloc{dot}].
+\]
+The tree predicate
+\begin{equation}
+    \bigl[
+[\Vsym{A} \de \Vsf{predot} \mydot \Vsf{postdot}]
+    , \Vloc{i}, \Vloc{j} \bigr]
+\end{equation}
+is valid for grammar \var{g}
+if and only if
+\begin{gather*}
+\Vsym{A} \de \Vsf{predot} \mydot \Vsf{postdot}, \\
+\Vsym{S} \destar \Cwrange{0}{\var{i}-1} \cat \Vsym{A} \cat \Vsf{after} \quad \text{and} \\
+\Vsf{predot} \destar \Cwrange{\var{i}}{\Vloc{j}-1}.
+\end{gather*}
+
+Tree predicates are often treated as Earley items.
 An Earley item (type \type{EIM}) is a duple
 \[
     [\Vdr{dotted-rule}, \Vorig{x}]
 \]
 of dotted rule and origin.
-(The origin is the location where recognition of the rule
+The origin is the location where recognition of the rule
 started.
-It is sometimes called the ``parent''.)
+It is sometimes called the ``parent''.
 For convenience, the type \type{ORIG} will be a synonym
 for \type{LOC}, indicating that the variable designates
 the origin element of an Earley item.
 
+An Earley set (type \type{ES}) is a set of Earley items at a single dot location,
+call it \Vloc{j},
+so that every Earley item $[\Vdr{dotted-rule}, \Vorig{i}]$
+in an Earley set corresponds one-to-one with
+the tree predicate
+$[\Vdr{dotted-rule}, \Vorig{i}, \Vloc{i}]$.
+
+An Earley table is a set of Earley sets.
 An Earley parser builds a table of Earley sets,
 \begin{equation*}
 \EVtable{\Earley}{i},
