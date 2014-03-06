@@ -1535,19 +1535,52 @@ to the parse.
 Inclusive time and space is \Oc{}
 and is charged to the parse.
 
+\subsection{Prediction pass}
+\label{p:prediction-op}
+
 \begin{algorithm}[h]
-\caption{Marpa Scan pass}
+\caption{Prediction pass}
 \begin{algorithmic}[1]
-\Procedure{Scan pass}{$\Vloc{i},\Vsym{a}$}
-\State Note: Each pass through this loop is an EIM attempt
-\For{each $\Veim{predecessor} \in \var{transitions}((\var{i} \subtract 1),\var{a})$}
-\State $[\Vdr{from}, \Vloc{origin}] \gets \Veim{predecessor}$
-\State $\Vdr{to} \gets \GOTO(\Vdr{from}, \Vsym{a})$
-\State \Call{Add EIM}{$\Ves{i}, \Vdr{to}, \Vloc{origin}$}
+\Procedure{Prediction pass}{\Vloc{i}}
+\State Note: Let \var{stack} be a stack of rules.
+\State Let \var{seen} be the set of rules which have already
+\State \hspace{2.5em} been put on the stack.
+\State Initially, \var{stack} and \var{seen} are empty,
+\For{each Earley item $\Veim{work} \in \Vtable{i}$}
+\State $[\Vdr{work}, \Vloc{origin}] \gets \Veim{work}$
+\State \Call{Predict from dotted rule}{\Vdr{work}, \var{stack}, \var{seen}}
+\EndFor
+\For{each \Vrule{work} on working stack}
+\State Note: Where $\Vrule{predict} = \Vsym{lhs} \de \Vsf{rhs}$
+\State $\Vdr{predict} \gets [ \Vsym{lhs} \de \mydot \Vsf{rhs} ]$
+\State \Call{Add EIM}{\Ves{i}, \Vdr{predict}, \Vorig{i}}
+\State \Call{Predict from dotted rule}{\Vdr{predict}, \var{stack}, \var{seen}}
 \EndFor
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+
+\begin{algorithm}[h]
+\caption{Push predictions onto stack}
+\begin{algorithmic}[1]
+\Procedure{Predict from dotted rule}{\Vdr{x}, \var{stack}, \var{seen}}
+\State Let $\var{predictions}$ be all \Vrule{x} such that
+\State \hspace{2.5em} the LHS of \Vrule{x} is $\Postdot{\Vdr{x}}$
+\For{each $\Vrule{prediction} \in \var{predictions}$}
+\If{$\var{prediction} \notin \var{seen}$}
+\State Push \Vrule{prediction} onto the working stack
+\State Add \Vrule{prediction} to \var{seen}
+\EndIf
+\EndFor
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Correctness of prediction pass}
+\label{p:prediction-correct}
+
+\subsection{Completeness of prediction pass}
+\label{p:prediction-complete}
 
 \subsection{The scan pass}
 \label{p:scan-op}
@@ -1570,6 +1603,20 @@ and retrieved in \Oc{} time.
 Inclusive time and space can be charged to the
 \Veim{predecessor}.
 Overhead is charged to the Earley set at \Vloc{i}.
+
+\begin{algorithm}[h]
+\caption{Marpa Scan pass}
+\begin{algorithmic}[1]
+\Procedure{Scan pass}{$\Vloc{i},\Vsym{a}$}
+\State Note: Each pass through this loop is an EIM attempt
+\For{each $\Veim{predecessor} \in \var{transitions}((\var{i} \subtract 1),\var{a})$}
+\State $[\Vdr{from}, \Vloc{origin}] \gets \Veim{predecessor}$
+\State $\Vdr{to} \gets \GOTO(\Vdr{from}, \Vsym{a})$
+\State \Call{Add EIM}{$\Ves{i}, \Vdr{to}, \Vloc{origin}$}
+\EndFor
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 \subsection{Correctness of the scan pass}
 \label{p:scan-correct}
@@ -1826,15 +1873,6 @@ if Earley set is seen as a linked
 list, to the head of which the new Earley item is added.
 The resource used by \call{Add EIM}{}
 is always caller-included.
-
-\subsection{Prediction pass}
-\label{p:prediction-op}
-
-\subsection{Correctness of prediction pass}
-\label{p:prediction-correct}
-
-\subsection{Completeness of prediction pass}
-\label{p:prediction-complete}
 
 \subsection{Per-set lists}
 \label{s:per-set-lists}
