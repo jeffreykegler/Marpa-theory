@@ -763,19 +763,53 @@ Earley sets are often named by their location,
 so that \Ves{i} means the Earley set at \Vloc{i}.
 The type designator \type{ES} is sometimes omitted.
 
-We say that the Earley item
-\begin{equation*}
-     \bigl[[\Vsym{lhs} \de \Vsf{pre-dot} \mydot \Vsf{post-dot}], \Vorig{i} \bigr]
-\end{equation*}
-in Earley set $\Ves{j}$ is {\bf correct}
-%
-if and only if we have both
-%
-\begin{gather*}
- \Vsym{start} \destar
-   \CVwstr{0,{i \subtract 1}} \cat \Vsym{lhs} \cat \Vsf{post-rule}  \\
-  \text{and} \quad \Vsf{pre-dot} \destar \CVwstr{i,j}.
-\end{gather*}
+Tree predicates and Earley items (YIM's) can be separated into
+disjoint classes based on their predot symbol.
+If a tree predicate or YIM has no predot symbol, it is a prediction.
+If the predot symbol is a terminal, it is scanned tree predicate (YIM),
+or a scansion.
+If the predot symbol is a non-terminal,
+it is fused tree predicate (YIM), or a fusion.
+If a tree predicate (YIM) is not a prediction,
+it can be called a reduction.
+
+Note that, in Marpa, terminals
+and non-terminals are not disjoint,
+so that whether a YIM is a scansion or
+a fusion will depend on the parse and its input.
+Further, it is possible for a YIM (tree predicate) to be
+both a scansion and a fusion in the same Earley set of the same
+parse.
+
+We say that the Earley item is valid in Earley set
+if and only if
+the corresponding tree predicate is valid.
+Let \var{X} be one of the YIM classifications: prediction,
+scansion, fusion or reduction.
+We say that an Earley set is correct up to \var{X}
+if and only if all of Earley items of type \var{X} are correct.
+We say that an Earley set is complete up to \var{X},
+if and only if it contains every correct Earley item of type \var{X}.
+We say that an Earley set is valid up to \var{X},
+if and only if it is correct and complete up to \var{X}.
+For example, we say that Earley set \Vloc{i} is correct up to scansion
+if and only if all of its scanned Earley items are correct.
+
+We say that an Earley set is correct
+if and only if all of its Earley items are correct.
+We say that an Earley set is complete
+if and only if all of its Earley items are complete.
+We say that an Earley set is valid
+if and only if it is correct and complete.
+
+We say that an Earley table is correct, complete or valid
+as far as \Vloc{i}
+if and only if every Earley set is, respectively,
+correct, complete or valid
+as far as \Vloc{i}.
+We say that an Earley table is correct, complete or valid
+if and only if
+all of its Earley sets are correct, complete or valid.
 
 \begin{subequations}
 
@@ -1008,6 +1042,8 @@ for some \Vstr{rhs},
 \section{Operations of the Earley algorithm}
 \label{s:earley-ops}
 
+Readers familiar with traditional terminology will note that
+what I call a fusion is more usually called a completion.
 \Veim{component} is called
 the component of the fusion operation.\footnote{
 The term ``component'' comes from Irons \cite{Irons}.
