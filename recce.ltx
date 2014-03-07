@@ -57,32 +57,38 @@
 \newcommand{\set}[1]{{\left\lbrace #1 \right\rbrace} }
 \newcommand{\bigset}[1]{{\bigl\lbrace #1 \bigr\rbrace} }
 \newcommand{\Bigset}[1]{{\Bigl\lbrace #1 \Bigr\rbrace} }
-\newcommand{\bool}[1]{\var{#1}_{BOOL}}
-\newcommand{\Vbool}[1]{\ensuremath{\bool{#1}}}
-\newcommand{\dr}[1]{#1_{DR}}
-\newcommand{\Vdr}[1]{\ensuremath{\var{#1}_{DR}}}
-\newcommand{\Vdrset}[1]{\ensuremath{\var{#1}_{\set{DR}}}}
-\newcommand{\eim}[1]{#1_{EIM}}
-\newcommand{\Veim}[1]{\ensuremath{\var{#1}_{EIM}}}
+
+\newcommand{\typed}[2]{\var{#1}_{\normalfont\textsc{#2}}}
+
+\newcommand{\dr}[1]{\typed{#1}{dr}}
+\newcommand{\Vdr}[1]{\ensuremath{\dr{#1}}}
+\newcommand{\eim}[1]{\typed{#1}{eim}}
+\newcommand{\Veim}[1]{\ensuremath{\eim{#1}}}
+\newcommand{\es}[1]{\typed{#1}{es}}
+\newcommand{\Ves}[1]{\ensuremath{\es{#1}}}
+\newcommand{\mylim}[1]{\typed{#1}{lim}}
+\newcommand{\Vlim}[1]{\ensuremath{\mylim{#1}}}
+\newcommand{\loc}[1]{\typed{#1}{loc}}
+\newcommand{\Vloc}[1]{\ensuremath{\loc{#1}}}
+\newcommand{\myrule}[1]{\typed{#1}{rule}}
+\newcommand{\Vrule}[1]{\ensuremath{\myrule{#1}}}
+\newcommand{\mysf}[1]{\typed{#1}{sf}}
+\newcommand{\Vsf}[1]{\ensuremath{\mysf{#1}}}
+\newcommand{\str}[1]{\typed{#1}{str}}
+\newcommand{\Vstr}[1]{\ensuremath{\str{#1}}}
+\newcommand{\sym}[1]{\typed{#1}{sym}}
+\newcommand{\Vsym}[1]{\ensuremath{\sym{#1}}}
+\newcommand{\orig}[1]{\typed{#1}{orig}}
+\newcommand{\Vorig}[1]{\ensuremath{\orig{#1}}}
+\newcommand{\token}[1]{\typed{#1}{token}}
+\newcommand{\Vtoken}[1]{\ensuremath{\token{#1}}}
+
 \newcommand{\Veimset}[1]{\ensuremath{\var{#1}_{\set{EIM}}}}
-\newcommand{\Ees}[1]{\ensuremath{#1_{ES}}}
-\newcommand{\Vlim}[1]{\ensuremath{\var{#1}_{LIM}}}
-\newcommand{\Eloc}[1]{\ensuremath{{#1}_{LOC}}}
-\newcommand{\Vloc}[1]{\Eloc{\var{#1}}}
-\newcommand{\Ves}[1]{\Ees{\var{#1}}}
-\newcommand{\Vrule}[1]{\ensuremath{\var{#1}_{RULE}}}
 \newcommand{\Vruleset}[1]{\ensuremath{\var{#1}_{\set{RULE}}}}
-\newcommand{\Vsize}[1]{\ensuremath{\size{\var{#1}}}}
-\newcommand{\Vstr}[1]{\ensuremath{\var{#1}_{STR}}}
-\newcommand{\str}[1]{#1_{STR}}
-\newcommand{\Vsf}[1]{\ensuremath{\var{#1}_{SF}}}
-\newcommand{\sym}[1]{#1_{SYM}}
-\newcommand{\Vsym}[1]{\ensuremath{\var{#1}_{SYM}}}
-\newcommand{\Vorig}[1]{\ensuremath{\var{#1}_{ORIG}}}
 \newcommand{\symset}[1]{#1_{\lbrace SYM \rbrace} }
 \newcommand{\Vsymset}[1]{\ensuremath{\var{#1}_{\set{SYM}}}}
-\newcommand{\term}[1]{#1_{TERM}}
-\newcommand{\token}[1]{#1_{TOK}}
+
+\newcommand{\Vsize}[1]{\ensuremath{\size{\var{#1}}}}
 
 \newcommand{\alg}[1]{\ensuremath{\textsc{#1}}}
 \newcommand{\Earley}{\ensuremath{\alg{Earley}}}
@@ -91,13 +97,13 @@
 
 \newcommand{\Cdr}{\var{dr}}
 \newcommand{\Cg}{\var{g}}
+\newcommand{\Crules}{\var{rules}}
 \newcommand{\Cw}{\var{w}}
+\newcommand{\Cwrange}[2]{\CVrange{\Cw}{#1}{#2}}
 \newcommand{\CVw}[1]{\ensuremath{\sym{\Cw[\var{#1}]}}}
 \newcommand{\CVwstr}[1]{\ensuremath{\str{\Cw[\var{#1}]}}}
 \newcommand{\CVrange}[3]{\ensuremath{\str{#1[#2,#3]}}}
-\newcommand{\Cwrange}[2]{\CVrange{\Cw}{#1}{#2}}
 
-\newcommand{\Crules}{\var{rules}}
 \newcommand{\GOTO}{\mymathop{GOTO}}
 \newcommand{\Next}[1]{\mymathop{Next}(#1)}
 \newcommand{\Predict}[1]{\mymathop{Predict}(#1)}
@@ -713,23 +719,35 @@ are also called, respectively,
 \section{An approach to the Earley algorithm}
 \label{s:earley-approach}
 
+\begin{subequations}
+
 An tree predicate is is a triple
-\[
+\begin{equation*}
     [\Vdr{dotted-rule}, \Vloc{origin}, \Vloc{dot}].
-\]
+\end{equation*}
+Let
+\begin{equation*}
+    \Vdr{dotted-rule} = [\Vsym{LHS} \de \Vsf{predot} \mydot \Vsf{postdot}].
+\end{equation*}
 The tree predicate
 \begin{equation}
     \bigl[
-[\Vsym{A} \de \Vsf{predot} \mydot \Vsf{postdot}]
-    , \Vloc{i}, \Vloc{j} \bigr]
+\label{e:tree-predicate-1} [\Vsym{LHS} \de \Vsf{predot} \mydot \Vsf{postdot}]
+    , \Vloc{origin}, \Vloc{dot} \bigr]
 \end{equation}
 is valid for grammar \var{g}
-if and only if
-\begin{gather*}
-\Vsym{A} \de \Vsf{predot} \mydot \Vsf{postdot}, \\
-\Vsym{S} \destar \Cwrange{0}{\var{i}-1} \cat \Vsym{A} \cat \Vsf{after} \quad \text{and} \\
-\Vsf{predot} \destar \Cwrange{\var{i}}{\Vloc{j}-1}.
-\end{gather*}
+if and only if,
+for some \Vsf{after},
+\begin{gather}
+\label{e:tree-predicate-2}
+  \Vsym{LHS} \de \Vsf{predot} \mydot \Vsf{postdot} \in \Crules, \\
+\label{e:tree-predicate-3}
+  \Vsym{S} \destar \Cwrange{0}{\var{origin}-1} \cat \Vsym{LHS} \cat \Vsf{after} \quad \text{and} \\
+\label{e:tree-predicate-4}
+  \Vsf{predot} \destar \Cwrange{\var{origin}}{\Vloc{dot}-1}.
+\end{gather}
+
+\end{subequations}
 
 Tree predicates are often treated as Earley items.
 An Earley item (type \type{EIM}) is a duple
@@ -749,7 +767,9 @@ call it \Vloc{j},
 so that every Earley item $[\Vdr{dotted-rule}, \Vorig{i}]$
 in an Earley set corresponds one-to-one with
 the tree predicate
-$[\Vdr{dotted-rule}, \Vorig{i}, \Vloc{i}]$.
+\begin{equation*}
+[\Vdr{dotted-rule}, \Vorig{i}, \Vloc{i}].
+\end{equation*}
 
 An Earley table is a set of Earley sets.
 An Earley parser builds a table of Earley sets,
@@ -764,20 +784,22 @@ so that \Ves{i} means the Earley set at \Vloc{i}.
 The type designator \type{ES} is sometimes omitted.
 
 Tree predicates and Earley items (YIM's) can be separated into
-disjoint classes based on their predot symbol.
+classes based on their predot symbol.
 If a tree predicate or YIM has no predot symbol, it is a prediction.
 If the predot symbol is a terminal, it is scanned tree predicate (YIM),
 or a scansion.
 If the predot symbol is a non-terminal,
 it is fused tree predicate (YIM), or a fusion.
-If a tree predicate (YIM) is not a prediction,
-it can be called a reduction.
 
+If a tree predicate (YIM) is not a prediction,
+that is, if it is either a fusion or a scansion,
+it can be called a reduction.
+Reductions and predictions are disjoint sets.
 Note that, in Marpa, terminals
 and non-terminals are not disjoint,
-so that whether a YIM is a scansion or
-a fusion will depend on the parse and its input.
-Further, it is possible for a YIM (tree predicate) to be
+so that scansions and fusions are not disjoint sets.
+It is possible for a YIM (and therefore its corresponding tree predicate,
+to be
 both a scansion and a fusion in the same Earley set of the same
 parse.
 
@@ -839,8 +861,9 @@ then the EIM
 \begin{equation}
 \label{e:eim-reduction-3}
 \textup{
-     $\bigl[\Vdr{successor}, \Vorig{i} \bigr]$ is correct at \Ves{k}.
+     $\bigl[\Vdr{successor}, \Vorig{i} \bigr]$ at \Ves{k}
 }
+is correct.
 \end{equation}
 \end{lemma}
 
@@ -851,13 +874,14 @@ Let \Vdr{predecessor} be the dotted rule
 \end{equation}
 \Vdr{successor} is therefore
 \begin{equation}
-\textup{ $[\Vsym{lhs} \de \Vsf{before} \cat \Vsym{transition} \mydot \Vsf{after}].$ }
+\label{e:eim-reduction-3-1}
+[\Vsym{lhs} \de \Vsf{before} \cat \Vsym{transition} \mydot \Vsf{after}].
 \end{equation}
 From assumption \eqref{e:eim-reduction-1}, we know that
 \begin{equation}
 \label{e:eim-reduction-4}
  \Vsym{start} \destar
-   \CVwstr{0,{i \subtract 1}} \cat \Vsym{transition} \cat \Vsf{post-rule}.
+   \CVwstr{0,\mbox{\var{i} \subtract 1}} \cat \Vsym{transition} \cat \Vsf{post-rule}.
 \end{equation}
 Also from \eqref{e:eim-reduction-1},
 we have
@@ -873,10 +897,20 @@ we have
 \label{e:eim-reduction-6}
   \Vsf{before} \cat \Vsym{transition} \destar \CVwstr{i,k}.
 \end{equation}
-By the definition of EIM correctness,
-\eqref{e:eim-reduction-4}
+
+If, for substitution in the definition of tree prediction validity,
+we match \eqref{e:eim-reduction-3-1} with \eqref{e:tree-predicate-2},
+\eqref{e:eim-reduction-4} with \eqref{e:tree-predicate-3}
 and
-\eqref{e:eim-reduction-6} show
+\eqref{e:eim-reduction-6} with \eqref{e:tree-predicate-4},
+we see that the tree predicate
+\begin{equation}
+[ \Vdr{successor}, \var{i}, \var{k} ]
+\end{equation}
+is valid.
+And, by the definition of an Earley item,
+this tree predicate is 
+equivalent to
 \eqref{e:eim-reduction-3}.
 \end{proof}
 
@@ -920,31 +954,31 @@ Let \Vdr{predecessor} be the dotted rule
 \begin{equation}
 \textup{ $[\Vsym{lhs} \de \Vsf{before} \cat \Vsym{transition} \mydot \Vsf{after}].$ }
 \end{equation}
-From assumption \eqref{e:eim-reduction-1}, we know that
+From assumption \eqref{e:prediction-1}, we know that
 \begin{equation}
-\label{e:eim-reduction-4}
+\label{e:prediction-4}
  \Vsym{start} \destar
    \CVwstr{0,{i \subtract 1}} \cat \Vsym{transition} \cat \Vsf{post-rule}.
 \end{equation}
-Also from \eqref{e:eim-reduction-1},
+Also from \eqref{e:prediction-1},
 we have
 \begin{equation}
-\label{e:eim-reduction-5}
+\label{e:prediction-5}
   \Vsf{before} \destar \CVwstr{i,j}.
 \end{equation}
 Combining
-\eqref{e:eim-reduction-5}
-with the assumption \eqref{e:eim-reduction-2},
+\eqref{e:prediction-5}
+with the assumption \eqref{e:prediction-2},
 we have
 \begin{equation}
-\label{e:eim-reduction-6}
+\label{e:prediction-6}
   \Vsf{before} \cat \Vsym{transition} \destar \CVwstr{i,k}.
 \end{equation}
 By the definition of EIM correctness,
-\eqref{e:eim-reduction-4}
+\eqref{e:prediction-4}
 and
-\eqref{e:eim-reduction-6} show
-\eqref{e:eim-reduction-3}.
+\eqref{e:prediction-6} show
+\eqref{e:prediction-3}.
 \end{proof}
 
 \end{subequations}
@@ -1081,9 +1115,9 @@ In contexts where it is clear which recognizer is
 intended,
 \Vtable{k}, or \Ves{k}, will symbolize Earley set \Vloc{k}
 in that recognizer's table of Earley sets.
-If \Ees{\var{working}} is an Earley set,
-$\size{\Ees{\var{working}}}$ is the number of Earley items
-in \Ees{\var{working}}.
+If \Ves{working} is an Earley set,
+$\size{\Ves{working}}$ is the number of Earley items
+in \Ves{working}.
 
 \Rtablesize{\alg{Recce}} is the total number
 of Earley items in all Earley sets for \alg{Recce},
