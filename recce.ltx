@@ -882,6 +882,73 @@ and
 
 \end{subequations}
 
+\begin{subequations}
+
+\begin{lemma}
+\label{l:eim-prediction-correctness}
+Let \textup{\Vdr{cause}} be a dotted rule,
+and let \Vsym{transition} be the postdot symbol in
+\Vdr{cause}.
+If the EIM
+\begin{equation}
+\label{e:eim-prediction-1}
+     \bigl[\Vdr{cause}, \Vorig{i} \bigr]
+     \text{ is correct at \Ves{j},}
+\end{equation}
+and
+\begin{gather}
+\label{e:eim-prediction-2}
+  \Vsym{transition} \de \Vsym{initial} \cat \Vsf{remainder} \quad \text{and} \\
+  \Vsym{initial} \de \Vsf{rhs}
+\end{gather}
+are rules
+then the EIM 
+\begin{equation}
+\label{e:eim-prediction-3}
+     \bigl[ [ \Vsym{initial} \de \mydot \Vsf{rhs} ], \Vorig{j} \bigr]
+     \text{ is correct at \Ves{j}.}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+[ Needs to be revised for prediction proof. ]
+Let \Vdr{predecessor} be the dotted rule
+\begin{equation}
+\textup{ $[\Vsym{lhs} \de \Vsf{before} \mydot \Vsym{transition} \cat \Vsf{after}].$ }
+\end{equation}
+\Vdr{successor} is therefore
+\begin{equation}
+\textup{ $[\Vsym{lhs} \de \Vsf{before} \cat \Vsym{transition} \mydot \Vsf{after}].$ }
+\end{equation}
+From assumption \eqref{e:eim-reduction-1}, we know that
+\begin{equation}
+\label{e:eim-reduction-4}
+ \Vsym{start} \destar
+   \CVwstr{0,{i \subtract 1}} \cat \Vsym{transition} \cat \Vsf{post-rule}.
+\end{equation}
+Also from \eqref{e:eim-reduction-1},
+we have
+\begin{equation}
+\label{e:eim-reduction-5}
+  \Vsf{before} \destar \CVwstr{i,j}.
+\end{equation}
+Combining
+\eqref{e:eim-reduction-5}
+with the assumption \eqref{e:eim-reduction-2},
+we have
+\begin{equation}
+\label{e:eim-reduction-6}
+  \Vsf{before} \cat \Vsym{transition} \destar \CVwstr{i,k}.
+\end{equation}
+By the definition of EIM correctness,
+\eqref{e:eim-reduction-4}
+and
+\eqref{e:eim-reduction-6} show
+\eqref{e:eim-reduction-3}.
+\end{proof}
+
+\end{subequations}
+
 \section{Leo memoization}
 \label{s:leo-memoization}
 
