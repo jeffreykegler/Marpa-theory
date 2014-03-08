@@ -1114,6 +1114,40 @@ is abandoned in favor of the term ``fusion''.
 
 \subsection{Predicter}
 
+For abitrary \Vsym{lhs}, \Vsf{before}, \Vsf{after}, \Vsym{postdot}, \Vsf{rhs},
+\Vloc{i}, \Vloc{j},
+where
+\begin{equation*}
+    \Vdr{before} = [ \Vsym{lhs} \de \Vsf{before} \mydot \Vsym{postdot} \cat \Vsf{after} ] 
+\end{equation*}
+from any tree predicate of the form
+\begin{equation*}
+ \Vtp{cause} = [ \Vdr{before}, \var{i}, \var{j} ] \\
+\end{equation*}
+and any rule of the form
+\begin{equation*}
+ \Vrule{predicted} = [ \Vsym{postdot} \de \Vsf{rhs} ],
+\end{equation*}
+infer the tree predicate
+\begin{equation*}
+ \Vtp{prediction} = \bigl[ [ \Vsym{postdot} \de \mydot \Vsf{rhs} ], \var{j}, \var{j} \bigr].
+\end{equation*}
+
+In this case,
+\Vtp{cause} is the \dfn{cause} and \Vtp{prediction} is the \dfn{effect}.
+\Vtp{prediction} is called a \dfn{predicted} tree predicate
+or a \dfn{prediction}.
+The \dfn{antecedents} of the prediction are a duple:
+its cause (\Vtp{cause})
+and the prediction's rule (\Vrule{rule}).
+
+\subsection{Earley items}
+
+The inferences described above in terms of tree predicates can also
+be described in terms of Earley items.
+All terms defined for tree predicates are applied to the
+corresponding Earley items as well.
+
 \section{Leo memoization}
 \label{s:leo-memoization}
 
