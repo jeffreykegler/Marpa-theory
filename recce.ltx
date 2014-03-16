@@ -149,9 +149,7 @@
 \newtheorem{construction}{Construction}[section]
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
-
-\theoremstyle{definition}
-\newtheorem*{definition}{Definition}
+\newtheorem{definition}{Definition}
 
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
@@ -205,22 +203,52 @@ a technique called ``Ruby Slippers'' parsing,
 
 \section{Introduction}
 
-Despite the promise of general context-free parsing,
-and the strong academic literature behind it,
-it has never been incorporated into a highly available tool
+The first parsers to be described,
+with practical use in mind, were left parsers.\cite{Irons},
+which were flexible, but efficient only when parsing a small
+subset of the context free grammars.
+As the 1960's progressed, Knuth's LR-parsing contended
+with Earley's parsing algorithm to replace LALR.
+LR seemed to win this battle with the discovery of LALR
+parsing, which adopted LR-parsing to the severe hardware constraints
+of the 1970's.
+
+Error detection, recovery and reporting;
+language evolution,
+and life-cycle maintenance costs
+were at that time given little consideration.
+LALR turned out to be astonishly poor
+at all three.
+The experience of several decades with LALR have
+led practitioners to conclude that its modest advantage
+in power over left parsing does not compensate for these
+problems.
+In recent decades, LALR has been abandoned
+in favor of the left parsing of the 1960's.
+At this writing,
+this reversion to the technology of over half
+a century ago is the major trend in parsing.
+
+Computer technology has not stood still over the past
+five decades.
+The hardware constraints which led to the verdict
+against Earley's are gone.
+In addition, a major improvement to Earley's was discovered by
+Joop Leo in 1991,
+one which allows it to run
+in linear time for all LR-regular grammars,
+without using lookahead.
+Despite this, neither Earley's original algorithm,
+or Leo's improvement to it,
+have been incorporated into a highly available tool
 like those that exist for LALR\cite{Johnson} or
 regular expressions.
-The Marpa project was intended
-to take the best results from the literature
-on Earley parsing off the pages
-of the journals and bring them
-to a wider audience.
-Marpa::XS\cite{Marpa-XS},
-the first stable version of a tool from the Marpa project,
-was uploaded to the CPAN Perl archive
+
+The Marpa project is intended remedy this situation.
+The first stable version\cite{Marpa-XS} was uploaded to the CPAN Perl archive
 on Solstice Day in 2011.
-This \doc{} describes the algorithm of Marpa::R2\cite{Marpa-R2},
-the current version.
+This \doc{} describes Marpa::R2\cite{Marpa-R2},
+the current stable version.
 
 As implemented,
 Marpa parses,
@@ -2790,6 +2818,85 @@ The contradiction shows the reductio,
 which in turn
 show that the number of derivations is at
 most $\size{\pi}+1$.
+\end{proof}
+
+\begin{definition}
+\label{d:grammar-union}
+Let \var{g1} and \var{g2} be two grammars.
+Rewrite each so that they do not share LHS symbols,
+calling the rewritten grammars,
+\begin{gather*}
+\var{g1'} = [ \var{V1'}, \var{N1'}, \var{rule1'}, \var{S1'}] \quad \text{and} \\
+\var{g2'} = [ \var{V2'}, \var{N2'}, \var{rule2'}, \var{S2'}].
+\end{gather*}
+Let \Vsym{S} be a non-terminal which is new,
+that is, $\var{S} \notin \var{V1'} \cup \var{V2'}$.
+Let \var{rules} be 
+\begin{equation*}
+\bigset{
+[\Vsym{S} \de \var{S1'}],
+[\Vsym{S} \de \var{S2'}]}
+\cup \var{rule1'} \cup \var{rule2'}
+\end{equation*}
+Let \var{V} be $\var{V1'} \cup \var{V2'}$ and
+let \var{N} be $\var{N1'} \cup \var{N2'}$.
+Then \var{g}, the \dfn{union} of \var{g1} and \var{g2} is
+\begin{equation}
+\var{g} = [\var{V}, \var{N}, \var{rules}, \var{S}].
+\end{equation}
+The \dfn{union} of a set of grammars is the closure of 
+the union of pairs from the set.
+$\Diamond$
+\end{definition}
+
+\begin{theorem}
+A union of a \var{n} finite tree prefix grammars is a
+finite tree prefix grammar,
+if \var{n} is  finite.
+$\Diamond$
+\end{theorem}
+
+\begin{proof}
+Let \var{g1} and \var{g2} be two finite prefix grammars,
+with their respective sets of finite tree prefixes being
+\var{prefixes1} and
+\var{prefixes2}.
+We consider their union \var{g} as defined at \ref{d:grammar-union}.
+
+Let \var{g1'} be \var{g1} with its non-terminals rewritten as was done
+in creating \var{g}.
+We apply the same rewrite of non-terminals to
+\var{prefixes1}, calling the \var{result1'}.
+We do the same for \var{g2} and \var{prefixes2},
+to create 
+\var{g2'} and \var{prefixes2'}, respectively.
+
+Let \Vsym{S1'} be the root symbol of \var{g1'},
+\Vsym{S2'} be the root symbol of \var{g2'},
+and \Vsym{S} be the root symbol of their union in \var{g}.
+Define the set of tree prefixes \var{prefixes1''} to be
+\begin{equation}
+\left\lbrace
+\tsRule{\var{S},\var{S1'}} \cat \var{tp}
+\middle|
+\var{tp} \in \var{prefixes1'}
+\right\rbrace
+\end{equation}
+Create \var{prefixes2''} in the same way,
+using \var{g2'} and \var{prefixes1'}.
+
+It can then be seen that
+\begin{equation}
+\var{prefixes''} = \var{prefixes1''} \cup \var{prefixes2''}
+\end{equation}
+is a full set of tree prefixes for \var{g} up to \var{i}.
+Since it is the union of two finite sets,
+\var{prefixes''} is finite.
+
+We have shown how to create a finite set of tree prefixes
+for the union of FTP grammars for the case $\var{n} = 2$.
+The result for finite \var{n} follows by taking the closure
+of this procedure.
 \end{proof}
 
 \subsection{Complexity of each Earley item}
