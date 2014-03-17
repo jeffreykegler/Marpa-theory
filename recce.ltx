@@ -61,6 +61,7 @@
 \newcommand{\Bigset}[1]{{\Bigl\lbrace #1 \Bigr\rbrace} }
 
 \newcommand{\typed}[2]{\var{#1}_{\normalfont\textsc{#2}}}
+\newcommand{\setTyped}[2]{\var{#1}_{\set{\normalfont\textsc{#2}}}}
 
 \newcommand{\dr}[1]{\typed{#1}{dr}}
 \newcommand{\Vdr}[1]{\ensuremath{\dr{#1}}}
@@ -87,10 +88,12 @@
 \newcommand{\tp}[1]{\typed{#1}{tp}}
 \newcommand{\Vtp}[1]{\ensuremath{\tp{#1}}}
 
-\newcommand{\Veimset}[1]{\ensuremath{\var{#1}_{\set{EIM}}}}
-\newcommand{\Vruleset}[1]{\ensuremath{\var{#1}_{\set{RULE}}}}
-\newcommand{\symset}[1]{#1_{\lbrace SYM \rbrace} }
-\newcommand{\Vsymset}[1]{\ensuremath{\var{#1}_{\set{SYM}}}}
+\newcommand{\eimset}[1]{\setTyped{#1}{eim}}
+\newcommand{\Veimset}[1]{\ensuremath{\eimset{#1}}}
+\newcommand{\ruleset}[1]{\setTyped{#1}{rule}}
+\newcommand{\Vruleset}[1]{\ensuremath{\ruleset{#1}}}
+\newcommand{\symset}[1]{\setTyped{#1}{sym}}
+\newcommand{\Vsymset}[1]{\ensuremath{\symset{#1}}}
 
 \newcommand{\Vsize}[1]{\ensuremath{\size{\var{#1}}}}
 
@@ -115,13 +118,11 @@
 \newcommand{\Penult}[1]{\mymathop{Penult}(#1)}
 \newcommand{\LHS}[1]{\mymathop{LHS}(#1)}
 \newcommand{\RHS}[1]{\mymathop{RHS}(#1)}
-\newcommand{\RightRecursive}[1]{\mymathop{Right-Recursive}(#1)}
-\newcommand{\RightNN}[1]{\mymathop{Right-NN}(#1)}
 \newcommand{\LeoEligible}[1]{\mymathop{Leo-Eligible}(#1)}
 \newcommand{\LeoUnique}[1]{\mymathop{Leo-Unique}(#1)}
 \newcommand{\ID}[1]{\mymathop{ID}(#1)}
 \newcommand{\PSL}[2]{\mymathop{PSL}[#1][#2]}
-\newcommand{\myL}[1]{\mymathop{L}(#1)}
+\newcommand{\myL}[1]{\mymathop{Lang}(#1)}
 \newcommand\Etable[1]{\ensuremath{\mymathop{table}[#1]}}
 \newcommand\bigEtable[1]{\ensuremath{\mymathop{table}\bigl[#1\bigr]}}
 \newcommand\Rtable[1]{\ensuremath{\mymathop{table}[#1]}}
@@ -272,15 +273,41 @@ on Solstice Day in 2011.
 This \doc{} describes Marpa::R2\cite{Marpa-R2},
 the current stable version.
 
-\section{An summary of Marpa's capabilities}
+The next section of this paper,
+Section \ref{s:capabilities},
+summarizes the advantages
+of Marpa, prior to immersion into the details of
+implementation and its supporting proofs.
+Section
+\ref{s:notation} describes
+the basic notation and conventions
+of this \doc.
+Section \ref{s:rewrite} deals with the rewrites Marpa
+uses to put its grammars into Marpa internal form.
+This puts us in a position to describe,
+in Section \ref{s:tree-notation},
+our tree notation.
+Sections \ref{s:earley},
+\ref{s:earley-approach},
+and \ref{s:earley-ops}
+describe Earley's algorithm.
+Sections
+\ref{s:leo-memoization}
+and \ref{s:leo} describe Leo's modification
+to Earley's algorithm.
+Section \ref{s:pseudocode} presents the pseudocode
+for Marpa's recognizer.
+Section
+\ref{s:correct}
+contain a proof of Marpa's correctness,
+while Section \ref{s:complexity} contains
+its complexity results.
+Finally,
+Section \ref{s:input}
+generalizes Marpa's input model.
 
-The following sections will describe
-as well as provide
-proofs of its complexity and correctness claims,
-Prior to immersion into this detail,
-it may be helpful to
-summarize the advantages
-expected from this approach.
+\section{A summary of Marpa's capabilities}
+\label{s:capabilities}
 
 \subsection{Time and space complexity}
 
@@ -305,7 +332,7 @@ If a grammar is $LR(\pi)$, where $\pi$ is a partition
 which is both finite and a left congruence,
 then Marpa runs in \On{} time.
 We call this class of grammars LRLG.
-Since a regular partitition is a left congruence,
+Since a regular partition is a left congruence,
 every LR-regular grammar is an LRLG grammar.
 
 We will also show that Marpa runs in \On{} space
@@ -332,34 +359,57 @@ Because rejection of tokens is easily and
 efficiently recoverable,
 the lexer is also free to take an event-driven
 approach.
-Rejection and recovery is quite efficient,
-so that they no longer
-be seen as acts of desperation,
-to be used for error detection.
-They can be used as
+Rejection and recovery are quite efficient,
+and no longer
+need to be seen as acts of desperation,
+to be used for error detection only.
+Token rejection can be used as
 the basis for parsing techniques.
 
 \subsection{Pausing and resuming parsing}
 
 Recursive descent
-is the predominant practical parsing technique
+is the dominant practical parsing technique
 as of this writing.
-This technique forces the programmer to specify the parsing
+Recursive descent
+forces the programmer to specify the parsing
 logic step by step,
-but this is a necessity which practitioners have come to see
+but this is a necessity that practitioners have come to see
 as an advantage.
-Programmers are allowed to insert
+The programmer of a recursive descent
+parser can easily insert
 application-specific logic at
-any point in the parse.
-Marpa brings this same capability to Earley's algorithm,
-allowing the programmer the best of both worlds --
-general BNF syntax-driven parsing,
-which allows as much flexibility as recursive descent,
-with the addtional advantage that full knowledge
-of the state of the parse is available to the custom logic.
+any point in the parse,
+although maintaining
+all the application-specific coding that
+recursive descent requires
+over the life-cycle of the
+parser may prove anything but easy.
 
-To allow the application to switch from syntax-driven parsing
-to application-specific logic at programmer-selected points,
+Marpa allows the programmer the best of both worlds.
+Marpa's approach to parsing is primarily syntax-driven.
+But the syntax-driven parsing can be interrupted at any point
+in favor of application-specific logic.
+In the Marpa context, application-specific logic has
+advantages that it does not have in a recursive descent
+framework.
+
+Code called in a Marpa framework can query Marpa about the
+state of the parse.
+From Marpa, an application can find out
+which rules have been predicted, completed or partially recognized,
+and at which locations in the input.
+Marpa can also determine which tokens are currently acceptable.
+Marpa's idea of ``acceptability'' is very precise.
+Marpa will report a token as acceptable if and only if
+for some possible continuation of the input,
+the parse could succeed.
+The application is free to use this information to
+guide the creation and reading of tokens.
+
+To help the application to decide efficiently when
+to switch from syntax-driven parsing
+to application-specific logic,
 Marpa offers an ``event'' mechanism.
 Events can be scheduled to trigger
 when a non-nulled symbol is predicted;
@@ -367,18 +417,10 @@ when a non-nulled symbol is recognized;
 or when a nulled symbol occurs.
 Nulled symbols,
 whose occurrence is simultaneously a prediction and a recognition,
-are an extremely useful special case.
+are especially useful for events.
 A nulling symbol can be placed anywhere, which means
 that events can be set up to trigger
 at any position inside a Marpa rule.
-
-During pauses, the application can query the state of the parse,
-to determine which tokens are acceptable;
-which rules have been predicted, completed or partially recognized,
-and at which locations in the input;
-and which tokens are currently acceptable.
-The application is free to use this information to
-guide the reading of tokens.
 
 \subsection{Ruby Slipper parsing}
 
@@ -409,36 +451,8 @@ and accepts all input files,
 in the worst case
 treating them as highly defective HTML.
 
-Section
-\ref{s:preliminaries} describes the notation and conventions
-of this \doc.
-Section \ref{s:rewrite} deals with Marpa's
-grammar rewrites.
-Sections \ref{s:earley} and \ref{s:earley-ops}
-introduce Earley's algorithm.
-Section \ref{s:leo} describes Leo's modification
-to Earley's algorithm.
-Section \ref{s:AHFA} describes the modifications
-proposed by Aycock and Horspool.
-Section \ref{s:pseudocode} presents the pseudocode
-for Marpa's recognizer.
-Section
-\ref{s:proof-preliminaries}
-describes notation and deals with other
-preliminaries
-to the theoretical results.
-Section
-\ref{s:correct}
-contain a proof of Marpa's correctness,
-while Section \ref{s:complexity} contains
-its complexity results.
-Finally,
-section \ref{s:input}
-generalizes Marpa's input model.
-
-\section{Preliminaries}
-\label{s:preliminaries}
-\label{s:start-prelim}
+\section{Notation}
+\label{s:notation}
 
 We assume familiarity with the theory of parsing,
 as well as Earley's algorithm.
@@ -447,14 +461,14 @@ use subscripts to indicate commonly occurring types.
 \begin{center}
 \begin{tabular}{ll}
 $\var{X}_T$ & The variable \var{X} of type $T$ \\
-$\var{set-one}_\set{T}$ & The variable \var{set-one} of type set of $T$ \\
+$\setTyped{set-one}{t}$ & The variable \var{set-one} of type set of $T$ \\
 $SYM$ & The type for a symbol \\
 \Vsym{a} & The variable \var{a} of type $SYM$ \\
 \Vsymset{set-two} & The variable \var{set-two}, a set of symbols \\
 \end{tabular}
 \end{center}
-Subscripts may be omitted when the type
-is obvious from the context.
+Type is often clear from the context,
+and subscripts to indicate type are often omitted.
 The notation for
 constants is the same as that for variables.
 Multi-character variable names will be common,
@@ -483,26 +497,16 @@ Let $\var{sym-set}^+$ be
 \bigr\}.
 \end{equation*}
 
-In this \doc{} we use,
-without loss of generality,
-the grammar \Cg{},
-where \Cg{} is the 3-tuple
-\begin{gather*}
-    (\Vsymset{vocab}, \Vsymset{terminals}, \var{rules}, \Vsym{accept}), \\
-\text{where} \quad \Vsym{accept} \in \var{vocab}, \\
-\Vsym{accept} \notin \var{non-terminals}, \\
-\text{and} \quad \var{terminals} \subseteq \var{vocab}.
-\end{gather*}
-Call the language of \var{g}, $\myL{\Cg}$,
-where $\myL{\Cg} \subseteq \var{terminals}^\ast$.
-
-\Vruleset{rules} is a set of rules (type \type{RULE}),
+Let \Vsymset{V} be a vocabulary, or alphabet,
+and 
+\Vsymset{L} be a subset of \var{V}.
+Let \Vruleset{rules} be a set of rules (type \type{RULE}),
 where a rule is a duple
 of the form $[\Vsym{lhs} \de \Vstr{rhs}]$,
 such that
 \begin{equation*}
-\Vsym{lhs} \in \var{non-terminal} \quad \text{and}
-\quad \Vstr{rhs} \in \var{vocab}^+.
+\Vsym{lhs} \in \var{L} \quad \text{and}
+\quad \Vstr{rhs} \in \var{V}^+.
 \end{equation*}
 \Vsym{lhs} is referred to as the left hand side (LHS)
 of \Vrule{r}.
@@ -510,14 +514,28 @@ of \Vrule{r}.
 of \Vrule{r}.
 The LHS and RHS of \Vrule{r} may also be
 referred to as 
-$\LHS{\Vrule{r}}$ and $\RHS{\Vrule{r}}$, respectively.
-This definition follows \cite{AH2002},
-which departs from tradition by disallowing an empty RHS.
+$\LHS{\var{r}}$ and $\RHS{\var{r}}$, respectively.
 
-Note that this \doc{}, departing from tradition, does not define
-\Cg{} using a set of non-terminals that is disjoint from
-\Vsymset{terminals}.
-As implemented, Marpa allows terminals to serve as LHS symbols.
+Except where indicated otherwise,
+in this \doc{} we will be discussing,
+the grammar \Cg{},
+where \Cg{} is the 4-tuple
+\begin{gather*}
+    (\Vsymset{V}, \Vsymset{L}, \var{rules}, \Vsym{S}), \\
+    \text{where} \quad \var{L} \subseteq \var{V} \quad \text{and} \quad
+      \Vsym{S} \in \var{L}.
+\end{gather*}
+Here \var{S} is a distinguished start symbol.
+
+Let \Vsymset{T}, $\var{T} \subset \var{V}$ be the set of terminals.
+The language of \Cg{} is $\myL{\Cg}$,
+where $\myL{\Cg} \subseteq \var{T}^\ast$.
+Traditionally,
+\begin{equation}
+\var{T} = \set{ \Vsym{x} \mid \Vsym{x} \in \var{V} \land \Vsym{x} \notin \var{L}},
+\end{equation}
+but Marpa allows terminals on the LHS of rules, so that \var{T} and \var{L}
+are not necessarily disjoint.
 
 The rules imply the traditional rewriting system,
 in which $\Vstr{x} \derives \Vstr{y}$
@@ -530,75 +548,9 @@ states that \Vstr{x} derives \Vstr{y} in zero or more steps.
 We say that symbol \Vsym{x} is \dfn{nullable} if and only if
 $\Vsym{x} \destar \epsilon$.
 \Vsym{x} is \dfn{nonnull} if and only if it is not nullable.
-Following Aycock and Horspool\cite{AH2002},
-all nullable symbols in grammar \Cg{} are nulling -- every symbol
-which can derive the null string always derives the null string.
-It is shown in \cite{AH2002} how to do this without losing generality
-or the ability to efficiently evaluate a semantics that is
-defined in terms of an original grammar that includes symbols which
-are both nullable and non-nulling,
-empty rules, etc.
-
-Also without loss of generality,
-it is assumed
-that there is a dedicated acceptance rule, \Vrule{accept}
-and a dedicated acceptance symbol, $\Vsym{accept} = \LHS{\Vrule{accept}}$,
-such that
-for all \Vrule{x},
-\begin{equation*}
-\begin{split}
-& \Vsym{accept} \notin \RHS{\Vrule{x}} \\
-\land \quad & (\Vsym{accept} = \LHS{\Vrule{x}} \implies \Vrule{accept} = \Vrule{x}).
-\end{split}
-\end{equation*}
-
-
-We define rightmost non-null symbol of a string
-as
-\begin{equation*}
-\begin{split}
-& \RightNN{\Vstr{x}} \defined \Vsym{rnn} \quad \text{such that} \quad
- \exists \, \Vstr{pre}, \Vstr{post} \mid \\
-& \qquad \qquad \Vstr{x} = \Vstr{pre} \cat \Vsym{rnn} \cat \Vstr{post} \\
-& \qquad \qquad \land \Vstr{post} \destar \epsilon \\
-& \qquad \qquad \land \neg (\Vsym{rnn} \destar \epsilon).
-\end{split}
-\end{equation*}
-We define the rightmost non-null symbol of a rule as
-\begin{equation*}
-\RightNN{[\Vsym{lhs} \de \Vstr{rhs}]} \defined \RightNN{\Vstr{rhs}}.
-\end{equation*}
-A rule \Vrule{x} is \dfn{directly right-recursive}
-if and only if
-\begin{equation*}
-\LHS{\Vrule{x}} = \RightNN{\Vrule{x}}.
-\end{equation*}
-\Vrule{x} is \dfn{indirectly right-recursive}
-if and only if 
-\begin{equation*}
-\exists \, \Vstr{y} \mid \RightNN{\Vrule{x}} \deplus \Vstr{y} \land \RightNN{\Vstr{y}} = \LHS{\Vrule{x}}.
-\end{equation*}
-\Vrule{x} is \dfn{right recursive},
-$\RightRecursive{\Vrule{x}}$,
-if and only if is either directly or indirectly right-recursive.
-
-[ Distinguish terminals from other symbols more clearly, but
-still allow LHS terminals. ]
-The definition of \Cg{} does not sharply distinguish terminals
-from non-terminals.
-\Marpa{}'s implementations allow terminals to be the LHS
-of rules,
-and every symbol except \Vsym{accept} can be a terminal.
-The implementations have options that allow
-the user to reinstate
-the traditional restrictions,
-in part or in whole.
-Note that,
-as a result of these definitions,
-sentential forms will be of type \type{STR}.
 
 Let the input to
-the parse be \Cw{} such that $\Cw \in \var{vocab}^+$.
+the parse be \Cw{} such that $\Cw \in \var{T}^+$.
 Locations in the input will be of type \type{LOC}.
 Let \Vsize{w} be the length of the input, counted in symbols.
 When we state our complexity results later,
@@ -991,22 +943,22 @@ Earley sets are often named by their location,
 so that \Ves{i} means the Earley set at \Vloc{i}.
 The type designator \type{ES} is sometimes omitted.
 
-Tree predicates and Earley items (YIM's) can be separated into
+Tree predicates and Earley items (EIM's) can be separated into
 classes based on their predot symbol.
-If a tree predicate or YIM has no predot symbol, it is a prediction.
-If the predot symbol is a terminal, it is scanned tree predicate (YIM),
+If a tree predicate or EIM has no predot symbol, it is a prediction.
+If the predot symbol is a terminal, it is scanned tree predicate (EIM),
 or a scansion.
 If the predot symbol is a non-terminal,
-it is fused tree predicate (YIM), or a fusion.
+it is fused tree predicate (EIM), or a fusion.
 
-If a tree predicate (YIM) is not a prediction,
+If a tree predicate (EIM) is not a prediction,
 that is, if it is either a fusion or a scansion,
 it can be called a reduction.
 Reductions and predictions are disjoint sets.
 Note that, in Marpa, terminals
 and non-terminals are not disjoint,
 so that scansions and fusions are not disjoint sets.
-It is possible for a YIM (and therefore its corresponding tree predicate,
+It is possible for a EIM (and therefore its corresponding tree predicate,
 to be
 both a scansion and a fusion in the same Earley set of the same
 parse.
@@ -1014,7 +966,7 @@ parse.
 We say that the Earley item is valid in Earley set
 if and only if
 the corresponding tree predicate is valid.
-Let \var{X} be one of the YIM classifications: prediction,
+Let \var{X} be one of the EIM classifications: prediction,
 scansion, fusion or reduction.
 We say that an Earley set is correct up to \var{X}
 if and only if all of Earley items of type \var{X} are correct.
@@ -1645,7 +1597,6 @@ the complexity results of
 Leo\cite{Leo1991} intact.
 
 \section{The Marpa Recognizer}
-\label{s:recce}
 \label{s:pseudocode}
 
 \subsection{Complexity}
@@ -2363,8 +2314,8 @@ No space or time is charged to predicted Earley items,
 or to attempts to add predicted Earley items.
 \end{observation}
 
-\section{Preliminaries to the theoretical results}
-\label{s:proof-preliminaries}
+\section{Marpa is correct}
+\label{s:correct}
 
 \subsection{Nulling symbols}
 \label{s:nulling}
@@ -2389,9 +2340,6 @@ after the parse.
 Clearly, whether a grammar \Cg{} accepts
 an input \Cw{}
 will not depend on the nulling symbols in its rules.
-
-\section{Marpa is correct}
-\label{s:correct}
 
 \subsection{Marpa's Earley sets grow at worst linearly}
 
@@ -2508,7 +2456,7 @@ of any successful parse.
 \begin{theorem}
 \label{t:prediction-On}
 Let \var{g} be a finite derivation grammar.
-The number of prediction YIM's for it in the Earley set \var{cut},
+The number of prediction EIM's for it in the Earley set \var{cut},
 is at most some constant \var{c},
 where \var{c} is a finite constant,
 which may be a function of the grammar.
@@ -2516,7 +2464,7 @@ which may be a function of the grammar.
 
 \begin{proof}
 Let \var{c} be the number of rules in \var{g}.
-All predictions YIM's are dotted rules with the dot before the first symbol,
+All predictions EIM's are dotted rules with the dot before the first symbol,
 and have their origin in the current set.
 Therefore the number of predictions in an Earley set is at most \var{c}.
 \end{proof}
@@ -2524,14 +2472,14 @@ Therefore the number of predictions in an Earley set is at most \var{c}.
 \begin{theorem}
 \label{t:medial-On}
 Let \var{g} be a finite derivation grammar.
-The number of medial YIM's for it in the Earley set \var{cut},
+The number of medial EIM's for it in the Earley set \var{cut},
 is at most some constant \var{c},
 where \var{c} is a finite constant,
 which may be a function of the grammar.
 \end{theorem}
 
 \begin{proof}
-A medial YIM must take the form
+A medial EIM must take the form
 \begin{equation*}
  \Veim{medial} = [ \Vdr{medial}, \Vloc{medial-origin} ]
 \end{equation*}
@@ -2617,7 +2565,7 @@ each dotted rule and rightmost derivation.
 \begin{theorem}
 \label{t:completed-On}
 Let \var{g} be a finite derivation grammar.
-The number of completed YIM's for it in the Earley set \var{cut},
+The number of completed EIM's for it in the Earley set \var{cut},
 excluding right recursions,
 is at most some constant \var{c},
 where \var{c} is a finite constant,
@@ -2635,7 +2583,7 @@ the number of completed items at Earley set \var{cut}
 cannot exceed \var{c}.
 
 We proceed by reductio.
-Assume that in fact there are $\var{c} + 1$ non-right-recursive completion YIM's
+Assume that in fact there are $\var{c} + 1$ non-right-recursive completion EIM's
 in Earley set \var{cut}.
 Since there are only \var{c} pairings of rule and rightmost derivation,
 at least two of these must share the same rule and be part of the same rightmost
@@ -2655,7 +2603,7 @@ This contradiction shows the reductio and the theorem.
 
 \begin{theorem}
 Let \var{g} be a finite derivation grammar.
-The number of YIM's for it in the Earley set \var{cut},
+The number of EIM's for it in the Earley set \var{cut},
 excluding right recursions,
 is at most some constant \var{c},
 where \var{c} is a finite constant,
@@ -2663,27 +2611,27 @@ which may be a function of the grammar.
 \end{theorem}
 
 \begin{proof}
-Every YIM is either a prediction, medial
+Every EIM is either a prediction, medial
 or a completion.
 Theorem \ref{t:prediction-On} shows that the
 number of predictions in Earley set \var{cut}
 is less than or equal to a constant,
 call it \var{max-prediction}.
 Theorem \ref{t:medial-On} shows that the
-number of medial YIM's in Earley set \var{cut}
+number of medial EIM's in Earley set \var{cut}
 is less than or equal to a constant,
 call it \var{max-medial}.
 Theorem \ref{t:-On} shows that the
-number of completed YIM's in Earley set \var{cut},
+number of completed EIM's in Earley set \var{cut},
 excluding right recursions,
 is less than or equal to a constant,
 call it \var{max-completed}.
-Predictions and medials YIMs cannot be right recursions.
+Predictions and medials EIMs cannot be right recursions.
 If we let
 \begin{equation}
   \var{c} = \var{max-prediction} + \var{max-medial} + \var{max-completed},
 \end{equation}
-then \var{c} is greater than or equal to the number of YIM's
+then \var{c} is greater than or equal to the number of EIM's
 in Earley set \var{cut}.
 \end{proof}
 
