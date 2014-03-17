@@ -175,6 +175,7 @@ a Creative Commons Attribution-NoDerivs 3.0 United States License.
 }
 
 \begin{abstract}
+\begin{sloppypar}
 The recognizer of the
 Marpa parser is described.
 Marpa is a practical and fully implemented
@@ -182,29 +183,31 @@ system for the recognition, parsing
 and evaluation of context-free grammars.
 The Marpa recognizer is based on Jay Earley's algorithm,
 as modified by Joop Leo.
-To show the complexity,
-LR left-channelled grammars are introduced,
-a new class which properly includes the
-LR-regular grammars.
 Leo's algorithm, and therefore Marpa,
-is show be have \On{} time complexity
-for all LRLC grammars.
-Marpa also is \On{} for any
-any finite union of LRLC grammars, a class
-which includes many ambiguous grammars.
-Marpa's parse engine includes a feature new
-in the Earley parsing lineage -- the ability
-to pause the parse at an event, examine its state,
-and restart the parse.
-Pauses can be scheduled for events that include
-prediction of a rule, completion of a rule,
-recognition of lexeme or a null symbol.
+is shown to have \On{} time complexity
+for any finite union of LR left-congruent grammars (LRLG).
+(The LRLG grammars properly include the LR-regular grammars.
+Individual LRLG grammars are unambiguous, but their finite union
+includes many ambiguous grammars.)
+The Marpa parsing strategy is primarily syntax-driven,
+but it also allows the parse to be interrupted
+for application-specific logic.
+Events can be scheduled
+to trigger when symbols
+are recognized or predicted,
+pausing the parse at those points.
+Using nulled symbols, the application can in effect
+schedule events that trigger at any point in a rule.
+While a parse is paused,
+an application has available to it full information
+on the state of the parse.
 Marpa can also
-pause on rejection of a token as unacceptable,
-which is very useful since rejection is based on
+pause the parse on rejection of a token as unacceptable.
+This can be very useful,
+since rejection is based on
 exact knowledge of those tokens which allow the parse to continue,
-and parsing can be retried with another token.
-This technique is called ``Ruby Slippers'' parsing.
+and Marpa allows parsing to be retried with another token.
+\end{sloppypar}
 \end{abstract}
 
 \maketitle
@@ -296,15 +299,15 @@ this \doc{} we will show some results that
 improve on Leo's claims for his algorithm,
 results which also apply to Marpa.
 If a grammar is $LR(\pi)$, where $\pi$ is a finite partition
-which is a left congruence with respect to a class of strings
-which depends on the grammar, then Marpa runs in \On{} time.
-We call this class of grammars LR-left-channelled, or LRLC.
-Since a regular partitition is a left congruence with respect to
-all strings, every LR-regular grammar is an LRLC grammar.
+which is a left congruence,
+then Marpa runs in \On{} time.
+We call this class of grammars LRLG.
+Since a regular partitition is a left congruence,
+every LR-regular grammar is an LRLG grammar.
 
 Marpa also runs in \On{} space and time for many ambiguous grammars.
 Specifically, we show that Marpa is linear for any grammar that is
-the union of a finite number of LRLC grammars.
+the union of a finite number of LRLG grammars.
 
 \subsection{Error detection and recovery}
 
@@ -2705,6 +2708,7 @@ Then, either
 \label{e:leo-lemma-conclusion-2}
 \var{prefix2} \deRstar \var{prefix1}.
 \end{gather}
+$\Diamond$
 \end{theorem}
 
 Joop Leo proved this using a reduction in an unpublished addendum to \cite{Leo1991}.
@@ -2715,48 +2719,48 @@ from last to first, so
 that
 \begin{equation}
 \label{leo-lemma-step-1-0}
-  \Vstr{seen} \mydot \Vstr{unseen1}
+  \Vstr{seen} \diamond \Vstr{unseen1}
 \end{equation}
 is step 0 of the derivation for \Vsf{prefix1}.
 
 In the following, we will be comparing steps, but we will only be interested in the
 part of the sentential forms before \Vstr{unseen1} and \Vstr{unseen2}.
-We call this point in the input the ``cut''.
-For convenient will will mark it with an enlarged dot.
+We call this point in the input the ``threshold''.
+For convenience will will mark it with a diamond.
 
 Without loss of generality, we assume that
 the derivation for \Vsf{prefix2} is longer than that of \Vsf{prefix1},
 so that what we want to show is
 \begin{align}
-\label{leo-lemma-step-2-S}   \Vsym{S} & \deRstar \Vsf{prefix2} \mydot \Vstr{unseen2} \\
-\label{leo-lemma-step-2-n}     & \deRstar \Vsf{prefix1} \mydot \Vstr{unseen2} \\
-\label{leo-lemma-step-2-0}   & \deRstar \Vstr{seen} \mydot \Vstr{unseen2},
+\label{leo-lemma-step-2-S}   \Vsym{S} & \deRstar \Vsf{prefix2} \diamond \Vstr{unseen2} \\
+\label{leo-lemma-step-2-n}     & \deRstar \Vsf{prefix1} \diamond \Vstr{unseen2} \\
+\label{leo-lemma-step-2-0}   & \deRstar \Vstr{seen} \diamond \Vstr{unseen2},
 \end{align}
 which we do by induction.
 
 As the basis of the induction, we compare
-the pre-cut portion of 
+the pre-threshold portion of 
 Step \eqref{leo-lemma-step-1-0} with 
 \eqref{leo-lemma-step-2-0},
 and note they are identical.
 To show the step of the induction, assume
-that the pre-cut portions of step \var{n}
+that the pre-threshold portions of step \var{n}
 in derivation \label{e:leo-lemma-assumption-1}
 is identical
-to the pre-cut portions of step \var{n}
+to the pre-threshold portions of step \var{n}
 in derivation \label{e:leo-lemma-assumption-2}.
 Without loss of generality, we show the direct derivation
 from step $\var{n}+1$ to step \var{n}
 for the two derivations as
 as
 \begin{multline}
-\Vsf{before1} \cat \Vsym{lhs1} \cat \Vstr{after1} \mydot \Vstr{unseen1} \\
-\deR \Vsf{before1} \cat \Vsf{rhs1} \cat \Vstr{after1} \mydot \Vstr{unseen1}
+\Vsf{before1} \cat \Vsym{lhs1} \cat \Vstr{after1} \diamond \Vstr{unseen1} \\
+\deR \Vsf{before1} \cat \Vsf{rhs1} \cat \Vstr{after1} \diamond \Vstr{unseen1}
 \end{multline}
 and
 \begin{multline}
-\Vsf{before2} \cat \Vsym{lhs2} \cat \Vstr{after2} \mydot \Vstr{unseen2} \\
-\deR \Vsf{before2} \cat \Vsf{rhs2} \cat \Vstr{after2} \mydot \Vstr{unseen2}
+\Vsf{before2} \cat \Vsym{lhs2} \cat \Vstr{after2} \diamond \Vstr{unseen2} \\
+\deR \Vsf{before2} \cat \Vsf{rhs2} \cat \Vstr{after2} \diamond \Vstr{unseen2}
 \end{multline}
 where from the assumption for the step we know that
 \begin{multline}
@@ -2770,7 +2774,7 @@ must be found in their respective derivation.
 
 This is a LR grammar, so we can find their handle by scanning terminals from the
 right.
-The two pre-cut sentential forms are identical, so the scanned terminals will be
+The two pre-threshold sentential forms are identical, so the scanned terminals will be
 identical.  Call the string Vstr{after}.
 By left congruence, we have
 \begin{equation}
@@ -2830,8 +2834,8 @@ is an earlier (higher-numbered) step.
 From this and \ref{e:leo-induction-result},
 we have that
 \begin{equation*}
-\Vsf{prefix2} \mydot \Vstr{unseen2} \deRstar
-\Vsf{prefix1} \mydot \Vstr{unseen2}
+\Vsf{prefix2} \diamond \Vstr{unseen2} \deRstar
+\Vsf{prefix1} \diamond \Vstr{unseen2}
 \end{equation*}
 and therefore
 \begin{equation*}
