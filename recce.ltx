@@ -590,20 +590,31 @@ when parsing \Cg{}.
 \label{s:rewrite}
 
 Marpa runs on fully general BNF.
-To do this, it rewrites the grammar at before recognition,
-then undoes the rewrite at evaluation time.
-Marpa claims to be a practical parser,
-and semantics are essential in practical parsing.
-It is therefore important that this rewrite be of a kind
-that can be done and undone efficiently,
-while preserving the semantics.
-
+To do this, it rewrites the grammar before calling
+the recognizer,
+then undoes the rewrite after the recognizer has run.
 The original grammar is called the {\bf external grammar},
 because in the Marpa implementation, that is the one which
 the user sees.
 The grammar at the completion of the rewrite is called
 the {\bf internal grammar}.
+
 The Marpa parse engine actually runs on the internal grammar.
+Marpa claims to be a practical parser,
+and semantics are essential in practical parsing.
+It is therefore important that this rewrite be simple enough
+so that it can be done and undone efficiently,
+while preserving the semantics.
+
+In fact, as implemented, Marpa often ``sees through''
+its rewrite while the recognizer is still running.
+This is done, for example, in implementing events.
+Applications can specify events to trigger when certain symbols
+are either predicted or recognized, and the application
+needs to be able to specify these events
+in terms of the symbols of the external grammar.
+Marpa is implemented so that it can translate from external symbol to
+internal and back again very quickly.
 
 Conceptually,
 the rewrite takes place as if the following steps were executed:
