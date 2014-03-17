@@ -211,15 +211,19 @@ This technique is called ``Ruby Slippers'' parsing.
 
 \section{Introduction}
 
-The first parsers to be described
-with practical use in mind, were left parsers\cite{Irons}.
-There were flexible, but efficient only for a small
+The first parsers to be described were left parsers\cite{Irons}.
+They were flexible, but efficient only for a confining
 subset of the context free grammars.
 During the 1960's the effort to replace left parsing
 pitted Knuth's LR-parsing against
 Earley's parsing algorithm.
 The discovery of LALR parsing, which adopted LR-parsing to the severe hardware constraints
-of the 1970's, seemed to crown LR parser with the laurels of victory.
+of the 1970's, made LR parsing the victor.
+For the next three decades,
+LALR parsing was respected
+by practitioners as the state-of-the-art,
+and the theory of LR parsing dominated
+the textbooks.
 
 But over the past decade,
 practitioners have concluded that the modest gains
@@ -228,17 +232,26 @@ over left parsing were not adequate
 compensation for its problems with
 error detection, recovery and reporting
 and its life-cycle maintenance costs.
-LALR is rapidly being abandoned
+In practice,
+the abandonment of LALR is rapidly being abandoned
 in favor of the left parsing of the 1960's.
 At this writing,
 this reversion to the technology of over half
 a century ago is the major trend in parsing.
 
-In those five decades,
-computer technology has not stood still.
-The hardware constraints which led to the verdict
-against Earley's are gone.
-In addition, a major improvement to Earley's was discovered by
+The round trip made in the practice of parsing,
+from left parsing to LR, then back again,
+spanned five decades.
+These were not decades during which
+the underlying
+computer technology remained unchanged.
+For most of today's computer programmers,
+the hardware constraints that led to the verdict
+against Earley's are not even a memory.
+
+In the meantime,
+the theory of Earley parsing has not stood still.
+A major improvement to Earley's was discovered by
 Joop Leo in 1991,
 one which allows it to run,
 without using lookahead,
@@ -251,7 +264,7 @@ have previously been incorporated into a highly available tool,
 like those that exist for LALR\cite{Johnson} or
 regular expressions.
 
-The Marpa project was intended remedy this situation.
+The Marpa project was intended to remedy this situation.
 The first stable version\cite{Marpa-XS} was uploaded to the CPAN Perl archive
 on Solstice Day in 2011.
 This \doc{} describes Marpa::R2\cite{Marpa-R2},
@@ -342,7 +355,7 @@ when a non-nulled symbol is predicted;
 when a non-nulled symbol is recognized;
 or when a nulled symbol occurs.
 Nulled symbols,
-whose occurrence is simulataneously a prediction and a recognition,
+whose occurrence is simultaneously a prediction and a recognition,
 are an extremely useful special case.
 A nulling symbol can be placed anywhere, which means
 that events can be set up to trigger
