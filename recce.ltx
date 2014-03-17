@@ -175,9 +175,8 @@ a Creative Commons Attribution-NoDerivs 3.0 United States License.
 }
 
 \begin{abstract}
-\begin{sloppypar}
 The recognizer of the
-Marpa parser is described.
+Marpa parser is described.\linebreak
 Marpa is a practical and fully implemented
 system for the recognition, parsing
 and evaluation of context-free grammars.
@@ -209,7 +208,6 @@ This can be very useful,
 since rejection is based on
 exact knowledge of those tokens which allow the parse to continue,
 and Marpa allows parsing to be retried with another token.
-\end{sloppypar}
 \end{abstract}
 
 \maketitle
@@ -234,7 +232,7 @@ But over the past decade,
 practitioners concluded that the modest gains
 in power that LALR offers
 over left parsing were not adequate
-compensation for its problems with
+compensation for LALR's problems with
 error detection, recovery and reporting
 and its life-cycle maintenance costs.
 LALR is being abandoned
@@ -243,9 +241,10 @@ At this writing,
 this reversion to the technology of over half
 a century ago is the major trend in parsing.
 
-The round trip made in the practice of parsing,
-from left parsing to LR, then back again,
-spanned five decades.
+It took five decades for
+the practice of parsing to make
+the round trip
+from left parsing to LR, then back again.
 These were not decades during which
 the underlying
 computer technology remained unchanged.
@@ -257,16 +256,15 @@ In the meantime,
 the theory of Earley parsing has not stood still.
 A major improvement to Earley's was discovered by
 Joop Leo in 1991,
-one which allows it to run,
-without using lookahead,
-in \On{} time for a vast class of grammars,
-one which includes all the LR-regular grammars.
+Leo's algorithm, without resorting to lookahead,
+runs in \On{} time for a vast class of grammars,
+including the LR-regular grammars and their finite unions.
 Despite this,
 neither Earley's original algorithm,
 or Leo's improvement to it,
 have previously been incorporated into a highly available tool,
-like those that exist for LALR\cite{Johnson} or
-regular expressions.
+while several such tools exist for LALR\cite{Johnson} and
+tools for regular expressions are numerous and widespread.
 
 The Marpa project was intended to remedy this situation.
 The first stable version\cite{Marpa-XS} was uploaded to the CPAN Perl archive
@@ -276,12 +274,16 @@ the current stable version.
 
 \section{An summary of Marpa's capabilities}
 
+The following sections will describe
+as well as provide
+proofs of its complexity and correctness claims,
+Prior to immersion into this detail,
+it may be helpful to
+summarize the advantages
+expected from this approach.
+
 \subsection{Time and space complexity}
 
-Before describing the recognizer in detail,
-and providing the evidence for its complexity claims,
-it may be useful to summarize the advantages of the
-approach in this \doc{}.
 As implemented,
 Marpa parses,
 without exception,
@@ -299,16 +301,21 @@ Later in
 this \doc{} we will show some results that
 improve on Leo's claims for his algorithm,
 results which also apply to Marpa.
-If a grammar is $LR(\pi)$, where $\pi$ is a finite partition
-which is a left congruence,
+If a grammar is $LR(\pi)$, where $\pi$ is a partition
+which is both finite and a left congruence,
 then Marpa runs in \On{} time.
 We call this class of grammars LRLG.
 Since a regular partitition is a left congruence,
 every LR-regular grammar is an LRLG grammar.
 
-Marpa also runs in \On{} space and time for many ambiguous grammars.
-Specifically, we show that Marpa is linear for any grammar that is
+We will also show that Marpa runs in \On{} space
+and time for any grammar that is
 the union of a finite number of LRLG grammars.
+While all LRLG grammars are unambiguous,
+the class of their finite unions includes
+ambiguous grammars.
+Ambiguous grammars of practical interest
+are especially likely to be a finite union of LRLG grammars.
 
 \subsection{Error detection and recovery}
 
