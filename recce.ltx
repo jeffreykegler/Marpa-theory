@@ -175,98 +175,127 @@ a Creative Commons Attribution-NoDerivs 3.0 United States License.
 }
 
 \begin{abstract}
-The Marpa recognizer is described.
-Marpa is
-a practical and fully implemented
-algorithm for the recognition,
-parsing and evaluation of context-free grammars.
+The recognizer of the
+Marpa parser is described.
+Marpa is a practical and fully implemented
+system for the recognition, parsing
+and evaluation of context-free grammars.
 The Marpa recognizer is based on Jay Earley's algorithm,
-as modified by Joop Leo
-to have \On{} time complexity for all
+as modified by Joop Leo.
+To show the complexity,
+LR left-channelled grammars are introduced,
+a new class which properly includes the
 LR-regular grammars.
-An feature new with Marpa is that its parse engine
-finishes processing one Earley set
-completely before it begins the creation of another.
-Unlike most parsers,
-Earley-based parsers store the complete state of the parse,
-and Marpa allows the parser efficient access to this
-information, so that
-the parser can alter its operation based on what has been recognized so far.
-For example, the parser can use a over-simplified,
-but convenient, grammar
-and make the parse work by altering
-its input to match the simplfied grammar's expectations --
-a technique called ``Ruby Slippers'' parsing,
+Leo's algorithm, and therefore Marpa,
+is show be have \On{} time complexity
+for all LRLC grammars.
+Marpa also is \On{} for any
+any finite union of LRLC grammars, a class
+which includes many ambiguous grammars.
+Marpa's parse engine includes a feature new
+in the Earley parsing lineage -- the ability
+to pause the parse at an event, examine its state,
+and restart the parse.
+Pauses can be scheduled for events that include
+prediction of a rule, completion of a rule,
+recognition of lexeme or a null symbol.
+Marpa can also
+pause on rejection of a token as unacceptable,
+which is very useful since rejection is based on
+exact knowledge of those tokens which allow the parse to continue,
+and parsing can be retried with another token.
+This technique is called ``Ruby Slippers'' parsing.
 \end{abstract}
 
 \maketitle
 
 \section{Introduction}
 
-The first parsers to be described,
-with practical use in mind, were left parsers.\cite{Irons},
-which were flexible, but efficient only when parsing a small
+The first parsers to be described
+with practical use in mind, were left parsers\cite{Irons}.
+There were flexible, but efficient only for a small
 subset of the context free grammars.
-As the 1960's progressed, Knuth's LR-parsing contended
-with Earley's parsing algorithm to replace LALR.
-LR seemed to win this battle with the discovery of LALR
-parsing, which adopted LR-parsing to the severe hardware constraints
-of the 1970's.
+During the 1960's the effort to replace left parsing
+pitted Knuth's LR-parsing against
+Earley's parsing algorithm.
+The discovery of LALR parsing, which adopted LR-parsing to the severe hardware constraints
+of the 1970's, seemed to crown LR parser with the laurels of victory.
 
-Error detection, recovery and reporting;
-language evolution,
-and life-cycle maintenance costs
-were at that time given little consideration.
-LALR turned out to be astonishly poor
-at all three.
-The experience of several decades with LALR have
-led practitioners to conclude that its modest advantage
-in power over left parsing does not compensate for these
-problems.
-In recent decades, LALR has been abandoned
+But over the past decade,
+practitioners have concluded that the modest gains
+in power that LALR offers
+over left parsing were not adequate
+compensation for its problems with
+error detection, recovery and reporting
+and its life-cycle maintenance costs.
+LALR is rapidly being abandoned
 in favor of the left parsing of the 1960's.
 At this writing,
 this reversion to the technology of over half
 a century ago is the major trend in parsing.
 
-Computer technology has not stood still over the past
-five decades.
+In those five decades,
+computer technology has not stood still.
 The hardware constraints which led to the verdict
 against Earley's are gone.
 In addition, a major improvement to Earley's was discovered by
 Joop Leo in 1991,
-one which allows it to run
-in linear time for all LR-regular grammars,
-without using lookahead.
-Despite this, neither Earley's original algorithm,
+one which allows it to run,
+without using lookahead,
+in \On{} time for a vast class of grammars,
+one which includes all the LR-regular grammars.
+Despite this,
+neither Earley's original algorithm,
 or Leo's improvement to it,
-have been incorporated into a highly available tool
+have previously been incorporated into a highly available tool,
 like those that exist for LALR\cite{Johnson} or
 regular expressions.
 
-The Marpa project is intended remedy this situation.
+The Marpa project was intended remedy this situation.
 The first stable version\cite{Marpa-XS} was uploaded to the CPAN Perl archive
 on Solstice Day in 2011.
 This \doc{} describes Marpa::R2\cite{Marpa-R2},
 the current stable version.
 
+\section{An summary of Marpa's capabilities}
+
+\subsection{Time and space complexity}
+
+Before describing the recognizer in detail,
+and providing the evidence for its complexity claims,
+it may be useful to summarize the advantages of the
+approach in this \doc{}.
 As implemented,
 Marpa parses,
 without exception,
 all context-free grammars.
 Time bounds are the best of Leo\cite{Leo1991}
 and Earley\cite{Earley1970}.
-The Leo bound,
+The bound which Leo claimed,
 \On{} for LR-regular grammars,
 is especially relevant to
 Marpa's goal of being a practical parser:
 If a grammar is in a class of grammar currently in practical use,
 Marpa parses it in linear time.
 
-Error-detection properties,
-extremely important,
-have been overlooked in the past.
-Marpa breaks new ground in this respect.
+Later in
+this \doc{} we will show some results that
+improve on Leo's claims for his algorithm,
+results which also apply to Marpa.
+If a grammar is $LR(\pi)$, where $\pi$ is a finite partition
+which is a left congruence with respect to a class of strings
+which depends on the grammar, then Marpa runs in \On{} time.
+We call this class of grammars LR-left-channelled, or LRLC.
+Since a regular partitition is a left congruence with respect to
+all strings, every LR-regular grammar is an LRLC grammar.
+
+Marpa also runs in \On{} space and time for many ambiguous grammars.
+Specifically, we show that Marpa is linear for any grammar that is
+the union of a finite number of LRLC grammars.
+
+\subsection{Error detection and recovery}
+
+Marpa breaks new ground with respect to error-detection.
 Marpa has the immediate error detection property,
 but goes well beyond that:
 it is fully aware of the state of the parse,
@@ -279,9 +308,56 @@ Because rejection of tokens is easily and
 efficiently recoverable,
 the lexer is also free to take an event-driven
 approach.
-Error detection is no longer
-an act of desperation,
-but a parsing technique in its own right.
+Rejection and recovery is quite efficient,
+so that they no longer
+be seen as acts of desperation,
+to be used for error detection.
+They can be used as
+the basis for parsing techniques.
+
+\subsection{Pausing and resuming parsing}
+
+Recursive descent
+is the predominant practical parsing technique
+as of this writing.
+This technique forces the programmer to specify the parsing
+logic step by step,
+but this is a necessity which practitioners have come to see
+as an advantage.
+Programmers are allowed to insert
+application-specific logic at
+any point in the parse.
+Marpa brings this same capability to Earley's algorithm,
+allowing the programmer the best of both worlds --
+general BNF syntax-driven parsing,
+which allows as much flexibility as recursive descent,
+with the addtional advantage that full knowledge
+of the state of the parse is available to the custom logic.
+
+To allow the application to switch from syntax-driven parsing
+to application-specific logic at programmer-selected points,
+Marpa offers an ``event'' mechanism.
+Events can be scheduled to trigger
+when a non-nulled symbol is predicted;
+when a non-nulled symbol is recognized;
+or when a nulled symbol occurs.
+Nulled symbols,
+whose occurrence is simulataneously a prediction and a recognition,
+are an extremely useful special case.
+A nulling symbol can be placed anywhere, which means
+that events can be set up to trigger
+at any position inside a Marpa rule.
+
+During pauses, the application can query the state of the parse,
+to determine which tokens are acceptable;
+which rules have been predicted, completed or partially recognized,
+and at which locations in the input;
+and which tokens are currently acceptable.
+The application is free to use this information to
+guide the reading of tokens.
+
+\subsection{Ruby Slipper parsing}
+
 If a token is rejected,
 the lexer is free to create a new token
 in the light of the parser's expectations.
