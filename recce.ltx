@@ -109,7 +109,7 @@
 \newcommand{\Cwrange}[2]{\CVrange{\Cw}{#1}{#2}}
 \newcommand{\CVw}[1]{\ensuremath{\sym{\Cw[\var{#1}]}}}
 \newcommand{\CVwstr}[1]{\ensuremath{\str{\Cw[\var{#1}]}}}
-\newcommand{\CVrange}[3]{\ensuremath{{#1[#2] \dots #1[#3]}}}
+\newcommand{\CVrange}[3]{\ensuremath{{#1[#2 \dots #3]}}}
 
 \newcommand{\GOTO}{\mymathop{GOTO}}
 \newcommand{\Next}[1]{\mymathop{Next}(#1)}
@@ -482,29 +482,33 @@ Type names are often used in the text
 as a convenient way to refer to
 their type.
 
-Where \Vsymset{sym-set} is non-empty set of symbols,
-let $\var{sym-set}^\ast$ be the set of all strings
-(type \type{STR}) formed
-from those symbols.
-Where \Vstr{s} is a string,
-let \size{\Vstr{s}} be its length, counted in symbols.
-Let $\var{sym-set}^+$ be
-\begin{equation*}
-\bigl\{ \Vstr{x}
-\bigm| \Vstr{x} \in \var{sym-set}* \land \Vsize{\Vstr{x}} > 0
-\bigr\}.
-\end{equation*}
+In this paper, unless indicated otherwise,
+\Vsymset{T} will be a non-empty finite set of terminal symbols,
+called the alphabet.
+\Vsymset{L} be another non-empty set of symbols, called LHS symbols.
+\var{L} and \var{T} will not necessarily be disjoint.
+\Vsymset{V}, where $\var{V} = \var{T} \cup \var{L}$,
+will be the vocabulary.
 
-Let \Vsymset{V} be a vocabulary, or alphabet,
-and 
-\Vsymset{L} be a subset of \var{V}.
+Where \Vsymset{sym-set} is a non-empty set of symbols,
+$\var{sym-set}^\ast$ is the set of all sequences
+formed from those symbols.
+Call the empty string, $\epsilon$.
+Then $\Vsymset{sym-set}^+ = \var{sym-set}^\ast \backslash \epsilon$.
+If $\var{string} \in \var{T}^\ast$, \Vstr{string}
+is of type \type{STR}.
+If $\var{form} \in \var{V}^\ast$, \Vsf{form}
+is of type \type{SF}.
+Where \Vstr{s} is a string,
+\size{\Vstr{s}} is its length, counted in symbols.
+
 Let \Vruleset{rules} be a set of rules (type \type{RULE}),
 where a rule is a duple
-of the form $[\Vsym{lhs} \de \Vstr{rhs}]$,
+of the form $[\Vsym{lhs} \de \Vsf{rhs}]$,
 such that
 \begin{equation*}
 \Vsym{lhs} \in \var{L} \quad \text{and}
-\quad \Vstr{rhs} \in \var{V}^+.
+\quad \Vsf{rhs} \in \var{V}^+.
 \end{equation*}
 \Vsym{lhs} is referred to as the left hand side (LHS)
 of \Vrule{r}.
@@ -514,26 +518,21 @@ The LHS and RHS of \Vrule{r} may also be
 referred to as 
 $\LHS{\var{r}}$ and $\RHS{\var{r}}$, respectively.
 
-Except where indicated otherwise,
-in this \doc{} we will be discussing,
-the grammar \Cg{},
-where \Cg{} is the 4-tuple
-\begin{gather*}
-    (\Vsymset{V}, \Vsymset{L}, \var{rules}, \Vsym{S}), \\
-    \text{where} \quad \var{L} \subseteq \var{V} \quad \text{and} \quad
-      \Vsym{S} \in \var{L}.
-\end{gather*}
-Here \var{S} is a distinguished start symbol.
-
-Let \Vsymset{T}, $\var{T} \subset \var{V}$ be the set of terminals.
-The language of \Cg{} is $\myL{\Cg}$,
-where $\myL{\Cg} \subseteq \var{T}^\ast$.
-Traditionally,
-\begin{equation}
-\var{T} = \set{ \Vsym{x} \mid \Vsym{x} \in \var{V} \land \Vsym{x} \notin \var{L}},
-\end{equation}
-but Marpa allows terminals on the LHS of rules, so that \var{T} and \var{L}
-are not necessarily disjoint.
+We will represent grammars as 4-tuples
+of
+\begin{equation*}
+[\Vsymset{vocab}, \Vsymset{lhs-syms}, \var{productions}, \Vsym{start}].
+\end{equation*}
+Here \Vsym{start}, $\var{start} \in \var{lhs-syms}$,
+is a distinguished start symbol.
+The grammar's set of terminals will be
+be $\Vsymset{vocab} \backslash \Vsymset{lhs-syms}$,
+unless indicated otherwise.
+In most contexts of this \doc{},
+only one grammar will be under discussion:
+\begin{equation*}
+    \Cg = [\Vsymset{V}, \Vsymset{L}, \var{rules}, \Vsym{S}].
+\end{equation*}
 
 The rules imply the traditional rewriting system,
 in which $\Vstr{x} \derives \Vstr{y}$
@@ -557,13 +556,14 @@ where $\var{n} = \Vsize{w}$.
 Let \CVw{i} be character \var{i}
 of the input,
 $0 \le \Vloc{i} < \Vsize{w}$.
-Let \CVwstr{i,j} be string of characters from
+Let $\Cwrange{\var{i}}{\var{j}}$ be string of characters from
 \Vloc{i} to \Vloc{j}, inclusive,
 where
 $0 \le \Vloc{i}, \Vloc{j} < \Vsize{w}$.
 As a special case, 
-\CVwstr{i,j} where
-$\Vloc{j} \le \Vloc{i}$ is a string in the input of
+$\Cwrange{\var{i}}{\var{j}}$,
+where $\Vloc{j} \le \Vloc{i}$,
+is the input of
 zero length, starting at \Vloc{i}.
 
 The alert reader may have noticed that the previous definition
@@ -583,6 +583,7 @@ as described in~\cite{Leo1991}.
 \Marpa{} will refer to the parser described in
 this \doc{}.
 Where $\alg{Recce}$ is a recognizer,
+The language of \Cg{} is $\myL{\Cg}$,
 $\myL{\alg{Recce},\Cg}$ will be the language accepted by $\alg{Recce}$
 when parsing \Cg{}.
 
