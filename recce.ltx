@@ -189,8 +189,10 @@ for any finite union of LR left-congruent grammars (LRLG).
 (The LRLG grammars properly include the LR-regular grammars.
 Individual LRLG grammars are unambiguous, but their finite union
 includes many ambiguous grammars.)
-The Marpa parsing strategy is primarily syntax-driven,
-but it also allows the parse to be interrupted
+The Marpa parsing strategy is primarily syntax-driven
+but, unlike previous Earley-based parse engines,
+the Marpa parse engine
+will allow the parse to be interrupted
 for application-specific logic.
 Events can be scheduled
 to trigger when symbols
@@ -229,14 +231,13 @@ and the theory of LR parsing dominated
 the textbooks.
 
 But over the past decade,
-practitioners have concluded that the modest gains
+practitioners concluded that the modest gains
 in power that LALR offers
 over left parsing were not adequate
 compensation for its problems with
 error detection, recovery and reporting
 and its life-cycle maintenance costs.
-In practice,
-the abandonment of LALR is rapidly being abandoned
+LALR is being abandoned
 in favor of the left parsing of the 1960's.
 At this writing,
 this reversion to the technology of over half
