@@ -82,6 +82,8 @@
 \newcommand{\Vstr}[1]{\ensuremath{\str{#1}}}
 \newcommand{\sym}[1]{\typed{#1}{sym}}
 \newcommand{\Vsym}[1]{\ensuremath{\sym{#1}}}
+\newcommand{\ts}[1]{\typed{#1}{ts}}
+\newcommand{\Vts}[1]{\ensuremath{\ts{#1}}}
 \newcommand{\orig}[1]{\typed{#1}{orig}}
 \newcommand{\Vorig}[1]{\ensuremath{\orig{#1}}}
 \newcommand{\token}[1]{\typed{#1}{token}}
@@ -745,22 +747,82 @@ a notation from \cite{Wich2005},
 for describing trees.
 Wich's tree strings are formed from an alphabet
 which includes the symbols of the grammar
-plus rule markers, which we will shown in the form
+plus rule markers.
+We will show rule markers in the form
 \begin{equation*}
-\tsRule{\Vsym{lsh},\Vsf{rhs}}.
+\tsRule{\Vsym{lhs},\Vsf{rhs}}.
 \end{equation*}
-It is important to note that in tree strings, the rule
-markers are treated as atomic symbols in the tree string's
-alphabet.
+It is important to note the rule
+markers must be treated as atomic.
 
-While Wich describes them in terms of leftmost derivations,
-we will describe tree strings
-in terms of rightmost derivations,
-which are the form in which
-they will be needed for our purposes.
-
+Wich describes tree strings in terms of leftmost derivations.
+Rightmost derivations are needed for our purposes,
+we in this \doc{} will describe them using a construction
+from a rightmost derivation.
 \begin{construction}
 
+Let $\var{a}[\var{i}]$ be the \var{i}'th step of a right
+derivation.
+For each step of this derivation, we construct a tree string.
+If $\var{a0} = \Vsym{S}$,
+the initial tree string is
+\begin{equation}
+\label{e:initial-tree-string}
+  S
+\end{equation}
+We call the tree tree constructed at a derivation step,
+the corresponding tree string.
+The tree string corresponding to \var{a0} is
+\eqref{e:initial-tree-string}.
+
+Within corresponding tree strings and derivation steps,
+we also identify pairs of symbols, one from the derivation 
+step and the other from the tree string, as ``corresponding''.
+In the tree string, every symbol which is not a rule marker
+will have a corresponding symbol in the derivation step.
+Every symbol in the derivation step will have a corresponding
+symbol in the tree string.
+Initially, Vsym{S} in derivation step \var{a0} corresponds to
+the \var{S} in the tree string.
+Corresponding symbols will have the same name, but name is not
+enough to establish correspondence -- position also matter.
+
+For steps after the initial step,
+we determine the rule that was applied
+in the right derivation.
+Let
+\begin{equation}
+  \Vts{before} \cat \Vsym{lhs} \cat \Vts{after}
+\end{equation}
+be the current tree string,
+and
+\begin{equation}
+  \Vsf{before} \cat \Vsym{lhs} \cat \Vsf{after} \deR
+  \Vsf{before} \cat \Vsym{rhs} \cat \Vsf{after}
+\end{equation}
+be the current derivation step and its successor,
+Also let \Vsym{lhs} in the derivation step
+correspond to \Vsym{lhs} in the current tree string.
+We can see that $\Vsym{lhs} \de \Vsf{rhs}$ was the rule that
+was applied in the right derivation.
+The new tree string will be
+\begin{equation}
+  \Vts{before} \cat \tsRule{\var{lhs},\var{rhs}} \cat \Vts{rhs} \cat \Vts{after}.
+\end{equation}
+and the symbols in \Vts{rhs} and \Vsf{rhs} will correspond.
+
+Let two subsequent steps of our right derivation be
+$\var{step-n}$ and $\var{step-n}'$ such that
+\begin{gather}
+    \var{step-n} = \var{A} \cat \var{D} \cat \var{x} \deR \var{A} \cat \var{B} \cat \var{C} \cat \var{D}
+\end{gather}
+Clearly the rule which
+
+For each step of the rightmost derivation, we will
+construct a new tree string from that
+left,
+Where $[\Vsym{S} \de \Vsf[start-rhs]]$ is the start rule
+We begin the construction
 For the purposes of illustration,
 we relax our restriction of grammars to the Marpa internal
 to assume a start rule of the more general form:
