@@ -577,6 +577,7 @@ the Marpa parser
 deals with null parses and trivial grammars as special cases.
 (Trivial grammars are those that recognize only the null string.)
 
+% TODO -- Move these to where used?  Or eliminate them?
 In this \doc{},
 \Earley{} will refer to the Earley's original
 recognizer\cite{Earley1970}.
@@ -631,7 +632,7 @@ The rewrite takes place as if the following steps were executed:
 \begin{step}
 Determine if the grammar is trivial.
 A grammar \Cg{} is trivial if and only if
-$\myL{\cG} = \set{ \epsilon }$.
+$\myL{\Cg} = \set{ \epsilon }$.
 Trivial grammars are easily dealt with, without using the methods
 described in this paper.
 Trivial grammars are special cased,
@@ -652,7 +653,8 @@ Add a new dedicated start rule $[\var{S} \de \Vsym{old-start}]$.
 \end{step}
 
 \begin{step}
-\label{step:split-rules}
+\label{step:divide-rules}
+\label{step:first-CHAF}
 Rewrite the grammar so that no RHS contains more than two properly
 nullable symbols.
 A properly nullable symbol is a nullable symbol which is not a
@@ -667,7 +669,7 @@ one a nulling symbol and one a non-nullable symbol.
 \end{step}
 
 \begin{step}
-\label{step:factor-rules}.
+\label{step:factor-rules}
 Using the aliases created in the previous step,
 eliminate all properly nullable symbols.
 This is done by
@@ -680,6 +682,7 @@ in a rule, the maximum number of ``factors'' is $2^2 = 4$.
 \end{step}
 
 \begin{step}
+\label{step:last-CHAF}
 Every rule and symbol
 will now be nulling or non-nullable.
 Determine which symbols are nulling,
@@ -691,16 +694,17 @@ as a nulling symbol.
 \begin{step}
 Remove all nulling symbols from the rules, marking their
 location for future reference.
-\begin{step}
+\end{step}
 
-This rewrite is based on that in Aycock and Horspool\cite{AH2002},
+This rewrite of Steps
+\ref{step:first-CHAF} through \ref{step:last-CHAF}
+is based on that of Aycock and Horspool\cite{AH2002},
 and we call it Chomsky-Horspool-Aycock Form (CHAF).
-A major difference from \cite{AH2002}
+The major difference from \cite{AH2002}
 is Step \ref{step:divide-rules}.
 Without this step,
 rules with many optional symbols on their RHS could come into
 Step \ref{step:factor-rules}.
-with many properly nullable symbols on their RHS.
 Where \var{x} is the number of proper nullables, the number of
 factors would be $2^\var{x}$, so that
 factoring would be exponential in the length of the rule.
@@ -722,7 +726,9 @@ Summarizing the result of this rewrite:
 \item \Cg{} will have a dedicated start symbol, \Vsym{S}, which
 occurs only as the LHS of the start rule.
 \item \Cg{} will have a dedicated start rule, of the form
-[$\Vsym{S} \de \Vsym{old-start}]$.
+\begin{equation*}
+[\Vsym{S} \de \Vsym{old-start}].
+\end{equation*}
 \end{itemize}
 Note that if a grammar in Marpa external form
 contain cycles, it will still contain cycles
@@ -2578,7 +2584,7 @@ each dotted rule and rightmost derivation.
 \end{proof}
 
 \begin{theorem}
-\label{t:completed-On}
+\label{t:fusion-On}
 Let \var{g} be a finite derivation grammar.
 The number of completed EIM's for it in the Earley set \var{cut},
 excluding right recursions,
@@ -2636,7 +2642,7 @@ Theorem \ref{t:medial-On} shows that the
 number of medial EIM's in Earley set \var{cut}
 is less than or equal to a constant,
 call it \var{max-medial}.
-Theorem \ref{t:-On} shows that the
+Theorem \ref{t:fusion-On} shows that the
 number of completed EIM's in Earley set \var{cut},
 excluding right recursions,
 is less than or equal to a constant,
