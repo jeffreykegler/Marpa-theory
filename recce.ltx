@@ -2,6 +2,7 @@
 % This document is licensed under
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
 \documentclass[12pt]{amsart}
+\usepackage{amssymb}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{url}
@@ -145,14 +146,15 @@
   {}          % CUSTOM-HEAD-SPEC
 
 \theoremstyle{myplain}
-\newtheorem{construction}{Construction}[section]
 \newtheorem{theorem}{Theorem}[section]
+\newtheorem{construction}[theorem]{Construction}
 \newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{definition}{Definition}
-
-\theoremstyle{remark}
-\newtheorem*{remark}{Remark}
+\newtheorem{definition}[theorem]{Definition}
 \newtheorem{observation}[theorem]{Observation}
+\newtheorem{step}[theorem]{Step}
+
+% \theoremstyle{remark}
+% \newtheorem*{remark}{Remark}
 
 \hyphenation{oper-and oper-ands}
 \hyphenation{look-ahead}
@@ -601,14 +603,18 @@ The grammar at the completion of the rewrite is called
 the {\bf internal grammar}.
 
 The Marpa parse engine actually runs on the internal grammar.
+It is important that the two rewrites,
+from external to internal,
+and from internal to external,
+be such that they can be done efficiently,
+while preserving the semantics.
 Marpa claims to be a practical parser,
 and semantics are essential in practical parsing.
-It is therefore important that this rewrite be simple enough
-so that it can be done and undone efficiently,
-while preserving the semantics.
 
-In fact, as implemented, Marpa often ``sees through''
-its rewrite while the recognizer is still running.
+In fact, as implemented, Marpa often translates
+symbols, rules and positions in rules back and forth
+between internal and external
+while the recognizer is still running.
 This is done, for example, in implementing events.
 Applications can specify events to trigger when certain symbols
 are either predicted or recognized, and the application
@@ -617,112 +623,111 @@ in terms of the symbols of the external grammar.
 Marpa is implemented so that it can translate from external symbol to
 internal and back again very quickly.
 
-Conceptually,
-the rewrite takes place as if the following steps were executed:
+We now describe the rewrite.
+This description is conceptual --
+the actual implementation is optimized.
+The rewrite takes place as if the following steps were executed:
 
-\begin{enumerate}
-\item Where \Vsym{old-start} is the current start symbol,
-create a new non-terminal, \Vsym{new-start}, and a new rule
-\begin{equation*}
-\Vdr{initial} = [\Vsym{new-start} \de \mydot \Vsym{old-start} ].
-\end{equation*}
-This rewrite step is very common, and is called ``augmemting''
-the grammar.
+\begin{step}
+Determine if the grammar is trivial.
+A grammar \Cg{} is trivial if and only if
+$\myL{\cG} = \set{ \epsilon }$.
+Trivial grammars are easily dealt with, without using the methods
+described in this paper.
+Trivial grammars are special cased,
+and the remaining steps of this rewrite are ignored.
+\end{step}
 
-\item Eliminate inaccessbile and unproductive rules and symbols
-from the grammar.  If no rules are left, report an error.
+\begin{step}
+Reduce the grammar, eliminating inaccessible and unproductive symbols.
+Inaccessible symbols are those which cannot be reached from the start symbol.
+Unproductive symbols are those which can never derive a sentence in the language.
+\end{step}
 
-\item If the grammar derives only the null string, it is called
-a trivial grammar.  The trivial grammar is treated as a special-case.
+\begin{step}
+Augment the grammar.
+Rename symbols so that the current start symbol is named \Vsym{old-start}.
+Add a new dedicated start symbol, \Vsym{S}.
+Add a new dedicated start rule $[\var{S} \de \Vsym{old-start}]$.
+\end{step}
 
-\item Find those rules whose RHS contains more than two properly
+\begin{step}
+\label{step:split-rules}
+Rewrite the grammar so that no RHS contains more than two properly
 nullable symbols.
-Rewrite them by dividing them into multiple rules
-until none of the rules contains more than two propertly nullable
-symbols.
-In a worst case, this would be a rewrite into Chomsky
-Normal Form.
+A properly nullable symbol is a nullable symbol which is not a
+nulling symbol.
+This rewrite can be done by splitting the offending rules into
+several rules.
+\end{step}
 
-\item Determine which symbols are properly nullable.
-A symbol is properly nullable if and only if it is nullable,
-but not nulling.
-For each properly nullable symbol, create two aliases --
-a nulling alias, and a non-nulling alias.
+\begin{step}
+For each properly nullable symbol, create two aliases,
+one a nulling symbol and one a non-nullable symbol.
+\end{step}
 
-\item ``Factor'' any rules which contain properly nullable
-into rules which contain only nulling and nonnulling symbols.
-This divides each rule into at most four ``factors''.
+\begin{step}
+\label{step:factor-rules}.
+Using the aliases created in the previous step,
+eliminate all properly nullable symbols.
+This is done by
+``factoring'' every rule with one or more proper nullable
+into several rules,
+so that the new set of rules represents every possible combination
+of nulling and non-nullable symbols.
+Since there are two aliases and at most two properly nullable symbols
+in a rule, the maximum number of ``factors'' is $2^2 = 4$.
+\end{step}
 
-\item Discard all nulling rules.
+\begin{step}
+Every rule and symbol
+will now be nulling or non-nullable.
+Determine which symbols are nulling,
+and which rules are nulling.
+Discard all the nulling rules, treating their LHS symbol
+as a nulling symbol.
+\end{step}
 
-\item Remove all nulling symbols from the rules, recording
-their location.
-Their location should be recording in two maps.
-Create a map should from location in the rewrtten to the sequence
-of nulling symbols.  This map can be used, for example, to restore
-the nulling symbols when this rewrite is reversed during
-evaluation.
-
-\end{enumerate}
-
-The actual implementation of the rewrite differs somewhat from
-the above, for reasons of efficiency.
-At all points in the rewrite process, a map from location in
-the pre-rewrite rules to locations in the rewritten rules is
-kept.
-This map is a total function from external dotted rules to
-internal dotted rules.
-In reverse, this map is a partial function,
-from internal dotted rules to internal dotted rules.
+\begin{step}
+Remove all nulling symbols from the rules, marking their
+location for future reference.
+\begin{step}
 
 This rewrite is based on that in Aycock and Horspool\cite{AH2002},
 and we call it Chomsky-Horspool-Aycock Form (CHAF).
 A major difference from \cite{AH2002}
-is the division of rules into rules with at
-most two properly nullable symbols before ``factoring''.
-Without this step, factoring is exponential in the length of the rule
-and rules with many optional symbols on their RHS could very large numbers
-of factors.
+is Step \ref{step:divide-rules}.
+Without this step,
+rules with many optional symbols on their RHS could come into
+Step \ref{step:factor-rules}.
+with many properly nullable symbols on their RHS.
+Where \var{x} is the number of proper nullables, the number of
+factors would be $2^\var{x}$, so that
+factoring would be exponential in the length of the rule.
+Here \var{x} is a constant that depends on the grammar,
+but we see the exponential explosion
+as a potential problem in practice.
 SQL's select statement is one example of a rule
-whose rewrite would be pathological if not divided up first.
+whose rewrite would be exponential
+without
+Step \ref{step:divide-rules}.
 
-From this point on, in this \doc{}
-the grammar \Cg{} will refer to the internal grammar,
-unless otherwise noted.
-After the rewrite
-no rules of \Cg{}
-have a zero-length RHS,
-and no symbols are nulling.
-
-Because Marpa claims to be a practical parser,
-it is important to that this rewrite can be performed efficiently,
-and, for evaluation purposes reversed efficiently,
-while preserving the semantics attached to the external grammar.
-Further, the ability to pause, examine and even alter a grammar
-during recognition is an important one in Marpa.
-Pauses are defined in terms of the external grammar,
-the application will want to examine the grammar in terms of
-external grammar,
-and changes to the grammar will be expressed in terms the
-rules, symbols and dotted rules of the external grammar.
-
-When a parse tree (or forest) is produced from the Earley sets,
-each instance of an external rule corresponds to
-a subtree of the parse tree.
-The LHS of the external rule will correspond to the root of this subtree,
-and its RHS symbols to the leaves of the subtree.
-When is it nececessary to scan the RHS of an external rule,
-this can be implemented simply and efficiently as
-a traversal of the subtree.
-
-The location mapping, referred to above, allows the application
-to request that recognition
-be paused in terms of external locations.
-The rewrite of this section
-can be performed in both directly simply and quickly.
-The only problematic case arises, not from Marpa's grammar rewriting,
-but from its use of Leo memoization during recognition.
-Leo memoization is discussed below.
+From this point in this \doc{} on,
+unless otherwise noted,
+the grammar \Cg{} will refer to a Marpa internal grammar.
+Summarizing the result of this rewrite:
+\begin{itemize}
+\item \Cg{} will contain no nullable rules.
+\item \Cg{} will contain no nullable symbols.
+\item \Cg{} will have a dedicated start symbol, \Vsym{S}, which
+occurs only as the LHS of the start rule.
+\item \Cg{} will have a dedicated start rule, of the form
+[$\Vsym{S} \de \Vsym{old-start}]$.
+\end{itemize}
+Note that if a grammar in Marpa external form
+contain cycles, it will still contain cycles
+in Marpa internal form.
+Nothing in the rewrite eliminates cycles.
 
 \section{Tree notation}
 \label{s:tree-notation}
@@ -2674,7 +2679,7 @@ Then, either
 \label{e:leo-lemma-conclusion-2}
 \var{prefix2} \deRstar \var{prefix1}.
 \end{gather}
-$\Diamond$
+$\blacklozenge$
 \end{theorem}
 
 Joop Leo proved this using a reduction in an unpublished addendum to \cite{Leo1991}.
@@ -2905,14 +2910,14 @@ Then \var{g}, the \dfn{union} of \var{g1} and \var{g2} is
 \end{equation}
 The \dfn{union} of a set of grammars is the closure of 
 the union of pairs from the set.
-$\Diamond$
+$\blacklozenge$
 \end{definition}
 
 \begin{theorem}
 A union of a \var{n} finite tree prefix grammars is a
 finite tree prefix grammar,
 if \var{n} is  finite.
-$\Diamond$
+$\blacklozenge$
 \end{theorem}
 
 \begin{proof}
