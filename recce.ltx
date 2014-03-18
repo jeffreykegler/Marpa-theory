@@ -700,16 +700,16 @@ This rewrite of Steps
 \ref{step:first-CHAF} through \ref{step:last-CHAF}
 is based on that of Aycock and Horspool\cite{AH2002},
 and we call it Chomsky-Horspool-Aycock Form (CHAF).
-The major difference from \cite{AH2002}
+The major difference between this rewrite and \cite{AH2002}
 is Step \ref{step:divide-rules}.
-Without this step,
+Without Step \ref{step:divide-rules},
 rules with many optional symbols on their RHS could come into
 Step \ref{step:factor-rules}.
 Where \var{x} is the number of proper nullables, the number of
 factors would be $2^\var{x}$, so that
 factoring would be exponential in the length of the rule.
-Here \var{x} is a constant that depends on the grammar,
-but we see the exponential explosion
+Although \var{x} is a constant that depends on the grammar,
+we see the exponential explosion
 as a potential problem in practice.
 SQL's select statement is one example of a rule
 whose rewrite would be exponential
@@ -721,8 +721,10 @@ unless otherwise noted,
 the grammar \Cg{} will refer to a Marpa internal grammar.
 Summarizing the result of this rewrite:
 \begin{itemize}
-\item \Cg{} will contain no nullable rules.
+\item \Cg{} will contain no inaccessible symbols.
+\item \Cg{} will contain no unproductive symbols.
 \item \Cg{} will contain no nullable symbols.
+\item \Cg{} will contain no nullable rules.
 \item \Cg{} will have a dedicated start symbol, \Vsym{S}, which
 occurs only as the LHS of the start rule.
 \item \Cg{} will have a dedicated start rule, of the form
