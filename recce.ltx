@@ -30,7 +30,8 @@
 \newcommand{\Oc}{\order{1}}
 \newcommand{\On}{\order{\var{n}}}
 \newcommand{\inference}[2]{\genfrac{}{}{1pt}{}{#1}{#2}}
-\newcommand{\tsRule}[1]{\overbrace{[#1]}}
+\newcommand{\ruleMarker}[1]{\xrightarrow{#1}}
+\newcommand{\Tsize}[1]{\size{#1}_T}
 
 % I use hyphens in variable names,
 % so I need to ensure that subtraction is
@@ -90,6 +91,9 @@
 \newcommand{\Vtoken}[1]{\ensuremath{\token{#1}}}
 \newcommand{\tp}[1]{\typed{#1}{tp}}
 \newcommand{\Vtp}[1]{\ensuremath{\tp{#1}}}
+\newcommand{\ws}[1]{\typed{#1}{ws}}
+\newcommand{\Vws}[1]{\ensuremath{\ws{#1}}}
+
 
 \newcommand{\eimset}[1]{\setTyped{#1}{eim}}
 \newcommand{\Veimset}[1]{\ensuremath{\eimset{#1}}}
@@ -750,7 +754,7 @@ which includes the symbols of the grammar
 plus rule markers.
 We will show rule markers in the form
 \begin{equation*}
-\tsRule{\Vsym{lhs},\Vsf{rhs}}.
+\ruleMarker{[\Vsym{lhs} \de Vsf{rhs}]}.
 \end{equation*}
 It is important to note the rule
 markers must be treated as atomic.
@@ -807,7 +811,7 @@ We can see that $\Vsym{lhs} \de \Vsf{rhs}$ was the rule that
 was applied in the right derivation.
 The new tree string will be
 \begin{equation}
-  \Vts{before} \cat \tsRule{\var{lhs},\var{rhs}} \cat \Vts{rhs} \cat \Vts{after}.
+  \Vts{before} \cat \ruleMarker{[\var{lhs} \de var{rhs}]} \cat \Vts{rhs} \cat \Vts{after}.
 \end{equation}
 and the symbols in \Vts{rhs} and \Vsf{rhs} will correspond.
 
@@ -839,7 +843,7 @@ take the form:
 \end{gather*}
 From this, we construct the initial tree string:
 \begin{gather*}
-\tsRule{\Vsym{S},\Vsf{step-1}} \cat \Vsym{rhs1} \cat \Vsym{rhs2} \dots \Vsym{rhs-n}.
+\ruleMarker{[\Vsym{S} \de Vsf{step-1}]} \cat \Vsym{rhs1} \cat \Vsym{rhs2} \dots \Vsym{rhs-n}.
 \end{gather*}
 This tree string consists of a rule marker, followed by \var{n} other symbols,
 so that its length, all told, is $\var{n}+1$.
@@ -856,7 +860,7 @@ For the next step, we pick the rightmost non-terminal in the derivation string,
 call it \Vsym{x},
 and replace it with its expansion
 \begin{gather*}
-\tsRule{\var{x},\var{y1}\cat\var{y2} \dots \var{y-n}} \cat \var{y1} \cat \var{y2} \dots \var{y-n}, \\
+\ruleMarker{[\var{x} \de \var{y1}\cat\var{y2} \dots \var{y-n}]} \cat \var{y1} \cat \var{y2} \dots \var{y-n}, \\
 \text{where} \quad \Vsym{x} \de  \Vsym{y1}\cat\Vsym{y2} \dots \Vsym{y-n} \in \Crules.
 \end{gather*}
 After this step,
@@ -961,8 +965,8 @@ Predicted, confirmed and completed dotted rules
 are also called, respectively,
 \dfn{predictions}, \dfn{confirmations} and \dfn{completions}.
 
-\section{An approach to the Earley algorithm}
-\label{s:earley-approach}
+\section{Tree predicates}
+\label{s:tree-predicates}
 
 \begin{subequations}
 
@@ -992,7 +996,67 @@ for some \Vsf{after},
   \Vsf{predot} \destar \Cwrange{\var{origin}}{\Vloc{dot}-1}.
 \end{gather}
 
+We define the \dfn{input length} of any substring of a Wich tree, $\Tsize{\Vws{ws}}$,
+as its length, counting only terminals.
+Wich trees contain only rule markers and terminals,
+but Wich derivations may also contain non-terminals.
+If a Wich derivation is a cut of a substring of a Wich tree,
+its terminals length is the same as that of the original substring.
+By definition Wich trees do not contain ambiguities,
+so that for a given Wich tree, cut and substring,
+the terminals length is always well defined.
+The \dfn{input position} of
+the \var{i}'th symbol
+of a Wich derivation
+is the input length of the substring from symbols 0 to $\var{i} \subtract 1$.
+Intuitively, the input position of a Wich symbol is the input length
+of its prefix.
+
+\begin{theorem}
+Let
+\begin{gather}
+[[\var{A} \de \var{before} \mydot \var{after} ], i, j] \\
+\quad \text{where} \quad \Vrule{R} = [\Vsym{A} \de \Vsf{before} \Vsf{after} ]
+\end{gather}
+be a tree predicate in a tree.
+Then a cut of the Wich tree will be of form
+\begin{equation}
+\label{e:tp-to-wich-1} \Vws{forest1} \cat \ruleMarker{\var{R}} \cat \var{rhs1} \cat \var{rhs2} \cat \Vws{forest2}
+\end{equation}
+where the input position of \var{rhs1} is \var{i}
+and the input position of \var{rhs1} is \var{j}.
+$\blacklozenge$
+\end{theorem}
+
+\begin{proof}
+By the definition of tree predicate,
+we know that the derivation tree will have the derivation step
+\begin{equation}
+\Vsf{before} \cat \Vsym{A} \Vsf{after} \derives \Vsf{before} \cat \Vsf{rhs1} \cat \Vsf{rhs2} \cat \Vsf{after}
+\end{equation}
+and \eqref{e:tp-to-wich-1} 
+follows from the procedure for constructing Wich derivations
+from the traditional ones.
+Since this is a tree, for each substring of a cut the terminal count is
+well-defined.
+By the definition of a tree predicate,
+we know that
+\begin{equation}
+\label{e:tp-to-wich-2} 
+  \Vsf{rhs1} \destar \Cwrange{\var{i}}{\Vloc{j}-1},
+\end{equation}
+which means the the input position of \var{rhs1} must be \var{i},
+and that the input position of the symbol following it must be
+\var{j}.
+From \eqref{e:tp-to-wich-2},
+we know that the symbol following \var{rhs1} is \var{rhs2},
+so that the input position of \var{rhs2} is \var{j}.
+\end{proof}
+
 \end{subequations}
+
+\section{An approach to the Earley algorithm}
+\label{s:earley-approach}
 
 Tree predicates are often treated as Earley items.
 An Earley item (type \type{EIM}) is a duple
@@ -3011,7 +3075,7 @@ and \Vsym{S} be the root symbol of their union in \var{g}.
 Define the set of tree prefixes \var{prefixes1''} to be
 \begin{equation}
 \left\lbrace
-\tsRule{\var{S},\var{S1'}} \cat \var{tp}
+\ruleMarker{[\var{S} \de var{S1'}]} \cat \var{tp}
 \middle|
 \var{tp} \in \var{prefixes1'}
 \right\rbrace
