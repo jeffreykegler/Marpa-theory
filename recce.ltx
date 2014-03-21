@@ -30,7 +30,7 @@
 \newcommand{\Oc}{\order{1}}
 \newcommand{\On}{\order{\var{n}}}
 \newcommand{\inference}[2]{\genfrac{}{}{1pt}{}{#1}{#2}}
-\newcommand{\ruleMarker}[1]{\xrightarrow{#1}}
+\newcommand{\ruleMarker}[1]{\boxed{#1}}
 \newcommand{\Tsize}[1]{\size{#1}_T}
 
 % I use hyphens in variable names,
@@ -62,8 +62,12 @@
 \newcommand{\bigset}[1]{{\bigl\lbrace #1 \bigr\rbrace} }
 \newcommand{\Bigset}[1]{{\Bigl\lbrace #1 \Bigr\rbrace} }
 
-\newcommand{\typed}[2]{\var{#1}_{\normalfont\textsc{#2}}}
-\newcommand{\setTyped}[2]{\var{#1}_{\set{\normalfont\textsc{#2}}}}
+\newcommand{\typeSubscript}[1]{
+  \mbox{\scriptsize\normalfont\textsc{#1}}
+}
+\newcommand{\typed}[2]{\var{#1}_{\typeSubscript{#2}}}
+\newcommand{\setTyped}[2]{\var{#1}_{\set{\typeSubscript{#2}}}}
+\newcommand{\typedPrime}[3]{\ensuremath{\var{#1}^{#2}_{\typeSubscript{#3}}}}
 
 \newcommand{\dr}[1]{\typed{#1}{dr}}
 \newcommand{\Vdr}[1]{\ensuremath{\dr{#1}}}
@@ -754,7 +758,7 @@ which includes the symbols of the grammar
 plus rule markers.
 We will show rule markers in the form
 \begin{equation*}
-\ruleMarker{[\Vsym{lhs} \de Vsf{rhs}]}.
+\ruleMarker{[\Vsym{lhs} \de \Vsf{rhs}]}.
 \end{equation*}
 It is important to note the rule
 markers must be treated as atomic.
@@ -786,7 +790,7 @@ In the tree string, every symbol which is not a rule marker
 will have a corresponding symbol in the derivation step.
 Every symbol in the derivation step will have a corresponding
 symbol in the tree string.
-Initially, Vsym{S} in derivation step \var{a0} corresponds to
+Initially, \Vsym{S} in derivation step \var{a0} corresponds to
 the \var{S} in the tree string.
 Corresponding symbols will have the same name, but name is not
 enough to establish correspondence -- position also matter.
@@ -843,7 +847,7 @@ take the form:
 \end{gather*}
 From this, we construct the initial tree string:
 \begin{gather*}
-\ruleMarker{[\Vsym{S} \de Vsf{step-1}]} \cat \Vsym{rhs1} \cat \Vsym{rhs2} \dots \Vsym{rhs-n}.
+\ruleMarker{[\Vsym{S} \de \Vsf{step-1}]} \cat \Vsym{rhs1} \cat \Vsym{rhs2} \dots \Vsym{rhs-n}.
 \end{gather*}
 This tree string consists of a rule marker, followed by \var{n} other symbols,
 so that its length, all told, is $\var{n}+1$.
@@ -1015,13 +1019,13 @@ of its prefix.
 \begin{theorem}
 Let
 \begin{gather}
-[[\var{A} \de \var{before} \mydot \var{after} ], i, j] \\
-\quad \text{where} \quad \Vrule{R} = [\Vsym{A} \de \Vsf{before} \Vsf{after} ]
+[[\var{A} \de \var{rhs1} \mydot \var{rhs2} ], i, j] \\
+\quad \text{where} \quad \Vrule{R} = [\Vsym{A} \de \Vsf{rhs1} \cat \Vsf{rhs2} ]
 \end{gather}
 be a tree predicate in a tree.
 Then a cut of the Wich tree will be of form
 \begin{equation}
-\label{e:tp-to-wich-1} \Vws{forest1} \cat \ruleMarker{\var{R}} \cat \var{rhs1} \cat \var{rhs2} \cat \Vws{forest2}
+\label{e:tp-to-wich-1} \Vws{forest1} \cat \ruleMarker{\var{R}} \cat \Vws{rhs1} \cat \Vws{rhs2} \cat \Vws{forest2}
 \end{equation}
 where the input position of \var{rhs1} is \var{i}
 and the input position of \var{rhs1} is \var{j}.
@@ -1032,6 +1036,7 @@ $\blacklozenge$
 By the definition of tree predicate,
 we know that the derivation tree will have the derivation step
 \begin{equation}
+\label{e:tp-to-wich-2} 
 \Vsf{before} \cat \Vsym{A} \Vsf{after} \derives \Vsf{before} \cat \Vsf{rhs1} \cat \Vsf{rhs2} \cat \Vsf{after}
 \end{equation}
 and \eqref{e:tp-to-wich-1} 
@@ -1041,10 +1046,9 @@ Since this is a tree, for each substring of a cut the terminal count is
 well-defined.
 By the definition of a tree predicate,
 we know that
-\begin{equation}
-\label{e:tp-to-wich-2} 
+\begin{equation*}
   \Vsf{rhs1} \destar \Cwrange{\var{i}}{\Vloc{j}-1},
-\end{equation}
+\end{equation*}
 which means the the input position of \var{rhs1} must be \var{i},
 and that the input position of the symbol following it must be
 \var{j}.
@@ -2880,7 +2884,7 @@ must be found in their respective derivation.
 This is a LR grammar, so we can find their handle by scanning terminals from the
 right.
 The two pre-threshold sentential forms are identical, so the scanned terminals will be
-identical.  Call the string Vstr{after}.
+identical.  Call the string \Vstr{after}.
 By left congruence, we have
 \begin{equation}
    \Vstr{after} .\var{unseen1} \equiv
@@ -3069,18 +3073,20 @@ We do the same for \var{g2} and \var{prefixes2},
 to create 
 \var{g2'} and \var{prefixes2'}, respectively.
 
-Let \Vsym{S1'} be the root symbol of \var{g1'},
-\Vsym{S2'} be the root symbol of \var{g2'},
+Let \typedPrime{S1}{'}{sym}
+be the root symbol of $\var{g1}'$,
+\typedPrime{S2}{'}{sym}
+be the root symbol of $\var{g2}'$,
 and \Vsym{S} be the root symbol of their union in \var{g}.
-Define the set of tree prefixes \var{prefixes1''} to be
+Define the set of tree prefixes $\var{prefixes1}''$ to be
 \begin{equation}
 \left\lbrace
-\ruleMarker{[\var{S} \de var{S1'}]} \cat \var{tp}
+\ruleMarker{[\var{S} \de \var{S1}']} \cat \var{tp}
 \middle|
-\var{tp} \in \var{prefixes1'}
+\var{tp} \in \var{prefixes1}'
 \right\rbrace
 \end{equation}
-Create \var{prefixes2''} in the same way,
+Create $\var{prefixes2}''$ in the same way,
 using \var{g2'} and \var{prefixes1'}.
 
 It can then be seen that
@@ -3223,176 +3229,8 @@ where \var{c} is a constant
 that depends on the grammar.
 \end{theorem}
 
-\begin{proof}
-Let \var{initial-tries} be the number of attempts to add the initial item to
-the Earley sets.
-For Earley set 0, it is clear from the pseudocode
-that there will be no attempts to add duplicate EIM's:
-\begin{equation*}
-\var{initial-tries} = \bigsize{\Vtable{0}}
-\end{equation*}
-
-Let \var{leo-tries} be the number of attempted Leo fusions in
-Earley set \Vloc{j}.
-For Leo fusion,
-we note that by its definition,
-duplicate attempts at Leo fusion cannot occur.
-From the pseudo-code of Sections \ref{p:fuse-one-lhs}
-and \ref{p:leo-op},
-we know there will be at most one Leo fusion for
-each EIM in the current Earley set,
-\Vloc{j}.
-\begin{equation*}
-\var{leo-tries} \le \bigsize{\Vtable{j}}
-\end{equation*}
-
-Let \var{scan-tries} be the number of attempted scan operations in
-Earley set \Vloc{j}.
-Marpa attempts a scan operation,
-in the worst case,
-once for every EIM in the Earley set
-at $\Vloc{j} \subtract 1$.
-Therefore, the number of attempts
-to add scans
-must be less than equal to \bigsize{\Etable{\var{j} \subtract 1}},
-the number
-of actual Earley items at
-$\Vloc{j} \subtract 1$.
-\begin{equation*}
-\var{scan-tries} \le \bigsize{\Etable{\var{j} \subtract 1}}
-\end{equation*}
-
-Let \var{predict-tries} be the number of attempted predictions in
-Earley set \Vloc{j}.
-\Marpa{} includes prediction
-in its scan and fusion operations,
-and the number of attempts to add duplicate predicted EIM's
-must be less than or equal
-to the number of attempts
-to add duplicate confirmed EIM's
-in the scan and fusion operations.
-\begin{equation*}
-\var{predict-tries} \le \var{fusion-tries} + \var{scan-tries}
-\end{equation*}
-
-The final and most complicated case is Earley fusion.
-Recall that \Ves{j} is the current Earley set.
-Consider the number of fusions attempted.
-\Marpa{} attempts to add an Earley fusion result
-once for every triple
-\begin{equation*}
-[\Veim{predecessor}, \Vsym{transition}, \Veim{component}].
-\end{equation*}
-where
-\begin{equation*}
-\begin{split}
-& \Veim{component} = [ \Vdr{component}, \Vloc{component-origin} ]  \\
-\land \quad & \Vdr{component} \in \Vdr{component} \\
- \land \quad & \Vsym{transition} = \LHS{\Vdr{component}}. \\
-\end{split}
-\end{equation*}
-
-We now put an upper bound on number of possible values of this triple.
-The number of possibilities for \Vsym{transition} is clearly at most
-\size{\var{symbols}},
-the number of symbols in \Cg{}.
-We have $\Veim{component} \in \Ves{j}$,
-and therefore there are at most 
-$\bigsize{\Ves{j}}$ choices for \Veim{component}.
-
-\begin{sloppypar}
-We can show that the number of possible choices of 
-\Veim{predecessor} is at most
-the number of dotted rules, \Vsize{dr}, by a reductio.
-Suppose, for the reduction,
-there were more than \Vsize{dr} possible choices of \Veim{predecessor}.
-Then there are two possible choices of \Veim{predecessor} with
-the same dotted rule.
-Call these \Veim{choice1} and \Veim{choice2}.
-We know, by the definition of Earley fusion, that
-$\Veim{predecessor} \in \Ves{j}$,
-and therefore we have
-$\Veim{choice1} \in \Ves{j}$ and
-$\Veim{choice2} \in \Ves{j}$.
-Since all EIM's in an Earley set must differ,
-and
-\Veim{choice1} and \Veim{choice2} both have the same
-dotted rule,
-they must differ in their origin.
-But two different origins would produce two different derivations for the
-fusion, which would mean that the parse was ambiguous.
-This is contrary to the assumption for the theorem
-that the grammar is unambiguous.
-This shows the reductio
-and that the number of choices for \Veim{predecessor},
-compatible with \Vorig{component}, is as most \Vsize{dr}.
-\end{sloppypar}
-
-\begin{sloppypar}
-Collecting the results we see that the possibilities for 
-each \Veim{component} are
-\begin{equation*}
-\begin{alignedat}{2}
-& \Vsize{dr} &&
-\qquad \text{choices of \Veim{predecessor}} \\
-\times \; & \Vsize{symbols} &&
-\qquad \text{choices of \Vsym{transition}} \\
-\times \; & \size{\Ves{j}} &&
-\qquad \text{choices of \Veim{component}} \\
-\end{alignedat}
-\end{equation*}
-\end{sloppypar}
-
-The number of fusion attempts will therefore be at most
-\begin{equation*}
-\var{fusion-tries} \leq \Vsize{dr} \times \Vsize{symbols} \times \bigsize{\Ves{j}}.
-\end{equation*}
-
-Summing
-\begin{multline*}
-\var{tries} =
-\var{scan-tries} +
-\var{leo-tries} + \\
-\var{predict-tries} +
-\var{fusion-tries} +
-\var{initial-tries},
-\end{multline*}
-we have,
-where $\var{n} = \Vsize{\Cw}$,
-the size of the input,
-\begin{equation*}
-\begin{alignedat}{2}
-& \bigsize{\Vtable{0}} & \quad &
-\qquad \text{initial EIM's} \\
-+ \; & \sum\limits_{i=0}^{n}{
-\bigsize{\Vtable{j}}
-} &&
-\qquad \text{LIM's} \\
-+ \; & 2 \times \sum\limits_{i=1}^{n}{
-\bigsize{\Etable{\var{j} \subtract 1}}
-} &&
-\qquad \text{scanned EIM's} \\
-+ \; & 2 \times \sum\limits_{i=0}^{n}{\Vsize{dr} \times \Vsize{symbols} \times \bigsize{\Ves{j}}} &&
-\qquad \text{fusion EIM's}.
-\end{alignedat}
-\end{equation*}
-In this summation,
-\var{prediction-tries} was accounted for by counting the scanned and predicted
-EIM attempts twice.
-Since \Vsize{dr} and \Vsize{symbols} are both constants
-that depend only on \Cg{},
-if we collect the terms of the summation,
-we will find a constant \var{c}
-such that
-\begin{equation*}
-\var{tries} \leq \var{c} \times \sum\limits_{i=0}^{n}{\bigsize{\Vtable{j}}},
-\end{equation*}
-and
-\begin{equation*}
-\var{tries} \leq \var{c} \times \Rtablesize{\Marpa},
-\end{equation*}
-where \var{c} is a constant that depends on \Cg{}.\qedhere
-\end{proof}
+Proof omitted.
+% TODO Supply this proof
 
 As a reminder,
 we follow tradition by
