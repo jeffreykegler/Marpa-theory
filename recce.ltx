@@ -648,11 +648,14 @@ Trivial grammars are special cased,
 and the remaining steps of this rewrite are ignored.
 \end{step}
 
+\begin{sloppypar}
 \begin{step}
-Reduce the grammar, eliminating inaccessible and unproductive symbols.
+Reduce the grammar, eliminating inaccessible and
+un\-productive symbols.
 Inaccessible symbols are those which cannot be reached from the start symbol.
 Unproductive symbols are those which can never derive a sentence in the language.
 \end{step}
+\end{sloppypar}
 
 \begin{step}
 Augment the grammar.
@@ -1828,7 +1831,7 @@ a memoization of the Earley set's location as an integer,
 and a per-set-list.
 Per-set-lists will be described in Section \ref{s:per-set-lists}.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Marpa Top-level}
 \begin{algorithmic}[1]
 \Procedure{Main}{}
@@ -1876,7 +1879,7 @@ been scanned.
 An application may examine the state of the parse,
 and may alter the input in response to what it finds.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Marpa Top-level}
 \begin{algorithmic}[1]
 \Procedure{Accept or Reject Logic}{}
@@ -1896,7 +1899,7 @@ which is caller-included.
 The caller will include charge this time and space
 to the parse.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Initialization}
 \begin{algorithmic}[1]
 \Procedure{Initial}{}
@@ -1915,7 +1918,7 @@ and is charged to the parse.
 \subsection{Prediction pass}
 \label{p:prediction-op}
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Prediction pass}
 \label{a:prediction-pass}
 \begin{algorithmic}[1]
@@ -1939,7 +1942,7 @@ and is charged to the parse.
 \end{algorithmic}
 \end{algorithm}
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Push predictions onto stack}
 \begin{algorithmic}[1]
 \Procedure{Predict from dotted rule}{\Vdr{x}, \var{stack}, \var{seen}}
@@ -2007,7 +2010,7 @@ the cause of an indirect prediction must be a prediction
 which is not the initial Earley item.
 
 The loop near line \ref{a:prediction-pass-loop1}
-in algorithm \ref{a:prediction-pass}
+in Algorithm \ref{a:prediction-pass}
 can be seen to
 examine, and use as causes, all Earley items already in
 Earley set \Vloc{j}, and as rules,
@@ -2066,7 +2069,7 @@ Inclusive time and space can be charged to the
 \Veim{predecessor}.
 Overhead is charged to the Earley set at \Vloc{i}.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Marpa Scan pass}
 \begin{algorithmic}[1]
 \Procedure{Scan pass}{$\Vloc{i},\Vsym{a}$}
@@ -2086,7 +2089,7 @@ Overhead is charged to the Earley set at \Vloc{i}.
 \subsection{Completeness of the scan pass}
 \label{p:scan-complete}
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Fusion pass}
 \begin{algorithmic}[1]
 \Procedure{Fusion pass}{\Vloc{i}}
@@ -2129,7 +2132,7 @@ that is current
 during that call to \call{Fuse one LHS}{}.
 Overhead may be charged to the Earley set at \Vloc{i}.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Memoize transitions}
 \begin{algorithmic}[1]
 \Procedure{Memoize transitions}{\Vloc{i}}
@@ -2190,7 +2193,7 @@ including that for the creation of a LIM if necessary,
 will be \Oc{} time per EIM examined,
 and can be charged to EIM being examined.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Fuse one LHS symbol}
 \begin{algorithmic}[1]
 \Procedure{Fuse one LHS}{\Vloc{i}, \Vloc{origin}, \Vsym{lhs}}
@@ -2235,7 +2238,7 @@ for the loop over the EIM attempts
 is charged to each EIM attempt.
 Overhead is \Oc{} and caller-included.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Earley fusion operation}
 \begin{algorithmic}[1]
 \Procedure{Earley fusion operation}{\Vloc{i}, \Veim{from}, \Vsym{trans}}
@@ -2263,7 +2266,7 @@ attempt.
 \subsection{Completeness of Earley fusion}
 \label{p:earley-fusion-complete}
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Leo fusion operation}
 \begin{algorithmic}[1]
 \Procedure{Leo fusion operation}{\Vloc{i}, \Vlim{from}}
@@ -2283,7 +2286,7 @@ called as part of an EIM attempt,
 and inclusive time and space is charged to the EIM
 attempt.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Add EIM}\label{a:pair}
 \begin{algorithmic}[1]
 \Procedure{Add EIM}{$\Ves{i},\Vdr{confirmed}, \Vloc{origin}$}
@@ -3169,7 +3172,7 @@ requires \Oc{} space.
 \ref{t:O1-time-per-eim},
 \ref{t:O1-space-per-eim},
 and \ref{t:O1-links-per-eim}]
-These theorems follows from the observations
+These theorems follow from the observations
 in Section \ref{s:pseudocode}
 and from Lemma \ref{l:nulling-rewrite}.
 \end{proof}
