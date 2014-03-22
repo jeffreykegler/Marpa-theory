@@ -3,8 +3,7 @@
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
 \documentclass[12pt]{amsart}
 \usepackage{amssymb}
-\usepackage{algorithm}
-\usepackage{algpseudocode}
+\usepackage{algorithm, algpseudocode}
 \usepackage{url}
 
 % This is now a "paper", but may be a chapter
@@ -1925,8 +1924,8 @@ and is charged to the parse.
 \State Let \var{seen} be the set of rules which have already
 \State \hspace{2.5em} been put on the stack.
 \State Initially, \var{stack} and \var{seen} are empty,
-\For{each Earley item $\Veim{work} \in \Vtable{i}$}
-\label{a:prediction-pass-loop1}
+\For{each Earley item $\Veim{work} \in \Vtable{i}$
+  }\label{a:prediction-pass-loop1}
 \State $[\Vdr{work}, \Vloc{origin}] \gets \Veim{work}$
 \State \Call{Predict from dotted rule}{\Vdr{work}, \var{stack}, \var{seen}}
 \EndFor
@@ -2007,7 +2006,9 @@ We can see directly that
 the cause of an indirect prediction must be a prediction
 which is not the initial Earley item.
 
-The loop near \label{a:prediction-pass-loop1} can be seen to
+The loop near line \ref{a:prediction-pass-loop1}
+in algorithm \ref{a:prediction-pass}
+can be seen to
 examine, and use as causes, all Earley items already in
 Earley set \Vloc{j}, and as rules,
 all rules whose LHS is their postdot symbol.
@@ -2127,12 +2128,6 @@ and is charged to the \Veim{work}
 that is current
 during that call to \call{Fuse one LHS}{}.
 Overhead may be charged to the Earley set at \Vloc{i}.
-
-\subsection{Correctness of the fusion pass}
-\label{p:fusion-correct}
-
-\subsection{Completeness of the fusion pass}
-\label{p:fusion-complete}
 
 \begin{algorithm}[h]
 \caption{Memoize transitions}
@@ -2796,12 +2791,12 @@ Let, for all
 \Vsf{prefix1}, \Vsf{prefix2},
 \Vstr{seen}, \Vstr{unseen1}, \Vstr{unseen2}
 \begin{gather}
-\label{e:leo-lemma-assumption-1}
+\label{e:leo-lemma-derivation-shorter}
 \begin{split}
    \Vsym{S} & \deRstar \Vsf{prefix1} \cat \Vstr{unseen1} \\
         & \deRstar \Vstr{seen} \cat \Vstr{unseen1},
 \end{split} \\
-\label{e:leo-lemma-assumption-2}
+\label{e:leo-lemma-derivation-longer}
 \begin{split}
    \Vsym{S} & \deRstar \Vsf{prefix2} \cat \Vstr{unseen2} \\
    & \deRstar \Vstr{seen} \cat \Vstr{unseen2} \quad \text{and}
@@ -2854,37 +2849,44 @@ Step \eqref{leo-lemma-step-1-0} with
 and note they are identical.
 To show the step of the induction, assume
 that the pre-threshold portions of step \var{n}
-in derivation \label{e:leo-lemma-assumption-1}
+in derivation \ref{e:leo-lemma-derivation-longer}
 is identical
 to the pre-threshold portions of step \var{n}
-in derivation \label{e:leo-lemma-assumption-2}.
+in derivation \ref{e:leo-lemma-derivation-shorter}.
 Without loss of generality, we show the direct derivation
 from step $\var{n}+1$ to step \var{n}
 for the two derivations as
 as
-\begin{multline}
+\begin{gather}
 \Vsf{before1} \cat \Vsym{lhs1} \cat \Vstr{after1} \diamond \Vstr{unseen1} \\
-\deR \Vsf{before1} \cat \Vsf{rhs1} \cat \Vstr{after1} \diamond \Vstr{unseen1}
-\end{multline}
+\label{e:handle-1} \deR \Vsf{before1} \cat \Vsf{rhs1} \cat \Vstr{after1} \diamond \Vstr{unseen1}
+\end{gather}
 and
-\begin{multline}
+\begin{gather}
 \Vsf{before2} \cat \Vsym{lhs2} \cat \Vstr{after2} \diamond \Vstr{unseen2} \\
-\deR \Vsf{before2} \cat \Vsf{rhs2} \cat \Vstr{after2} \diamond \Vstr{unseen2}
-\end{multline}
+\label{e:handle-2} \deR \Vsf{before2} \cat \Vsf{rhs2} \cat \Vstr{after2} \diamond \Vstr{unseen2}
+\end{gather}
 where from the assumption for the step we know that
 \begin{multline}
-\label{e:leo-lemma-induction_step-assumption}
+\label{e:leo-lemma-induction-step-assumption}
 \Vsf{before1} \cat \Vsf{rhs1} \; [\var{end1}] \; \Vstr{after1} \\
 = \Vsf{before2} \cat \Vsf{rhs2} \; [\var{end2}] \; \Vstr{after2}.
 \end{multline}
-In \label{e:leo-lemma-induction_step-assumption}
+In \eqref{e:leo-lemma-induction-step-assumption}
 \Vloc{end1} and \Vloc{end2} indicate where the ends of the next handle
 must be found in their respective derivation.
 
-This is a LR grammar, so we can find their handle by scanning terminals from the
+This is a LR grammar, so we can find the handles
+in \eqref{e:handle-1} and 
+\eqref{e:handle-2}
+by scanning terminals from the
 right.
 The two pre-threshold sentential forms are identical, so the scanned terminals will be
-identical.  Call the string \Vstr{after}.
+identical.
+There will be a handle in \eqref{e:handle-1}
+if and only if there is a handle \eqref{e:handle-2}
+and if the handles exists the will be identical.
+Call the string \Vstr{after}.
 By left congruence, we have
 \begin{equation}
    \Vstr{after} .\var{unseen1} \equiv
@@ -2923,25 +2925,10 @@ we can show that
 which show the step of the induction,
 and the induction.
 
-Let the number of steps in 
-derivation \label{e:leo-lemma-assumption-1}
-be \var{l1}.
-From the induction, 
-and in particular
-that
-\begin{equation}
-\label{e:leo-induction-result}
-\text{step \var{l1}
-of derivation \ref{e:leo-lemma-assumption-2} is }
-\Vsf{prefix1} \cat \Vstr{unseen2}.
-\end{equation}
-Recall that we assumed without loss of generality that
-derivation \ref{e:leo-lemma-assumption-2} was the longer of the two
-so that step
-\ref{leo-lemma-step-2-S}
-is an earlier (higher-numbered) step.
-From this and \ref{e:leo-induction-result},
-we have that
+By the induction, we have
+\eqref{leo-lemma-step-2-S} and
+\eqref{leo-lemma-step-2-n},
+so that
 \begin{equation*}
 \Vsf{prefix2} \diamond \Vstr{unseen2} \deRstar
 \Vsf{prefix1} \diamond \Vstr{unseen2}
@@ -2955,7 +2942,7 @@ and therefore
 
 \begin{theorem}
 Let \var{g} be $LR(\pi)$, with $\pi$
-a partition of cardinality $\size{\pi}$.
+a regular partition of cardinality $\size{\pi}$.
 If $\size{\pi}$ is finite, there are,
 for all \var{i}
 and all \Cwrange{0}{\var{i}-1},
