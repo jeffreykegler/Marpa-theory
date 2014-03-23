@@ -194,10 +194,9 @@ The Marpa recognizer is based on Jay Earley's algorithm,
 as modified by Joop Leo.
 Leo's algorithm, and therefore Marpa,
 is shown to have \On{} time complexity
-for any finite union of LR left-congruent grammars (LRLG).
-(The LRLG grammars properly include the LR-regular grammars.
-Individual LRLG grammars are unambiguous, but their finite union
-includes many ambiguous grammars.)
+for any finite union of LR-regular grammars (LRR).
+Individual LRR grammars are unambiguous, but their finite union
+includes many ambiguous grammars.
 The Marpa parsing strategy is primarily syntax-driven
 but, unlike previous Earley-based parse engines,
 the Marpa parse engine
@@ -327,31 +326,21 @@ all context-free grammars.
 Time bounds are the best of Leo\cite{Leo1991}
 and Earley\cite{Earley1970}.
 The bound which Leo claimed,
-\On{} for LR-regular grammars,
+\On{} for LR-regular (LRR) grammars,
 is especially relevant to
 Marpa's goal of being a practical parser:
 If a grammar is in a class of grammar currently in practical use,
 Marpa parses it in linear time.
 
-Later in
-this \doc{} we will show some results that
-improve on Leo's claims for his algorithm,
-results which also apply to Marpa.
-If a grammar is $LR(\pi)$, where $\pi$ is a partition
-which is both finite and a left congruence,
-then Marpa runs in \On{} time.
-We call this class of grammars LRLG.
-Since a regular partition is a left congruence,
-every LR-regular grammar is an LRLG grammar.
-
-We will also show that Marpa runs in \On{} space
+In this \doc{}
+we will show that Marpa runs in \On{} space
 and time for any grammar that is
-the union of a finite number of LRLG grammars.
-While all LRLG grammars are unambiguous,
+the union of a finite number of LRR grammars.
+While all LRR grammars are unambiguous,
 the class of their finite unions includes
 ambiguous grammars.
 Ambiguous grammars of practical interest
-are especially likely to be a finite union of LRLG grammars.
+are especially likely to a finite union of LRR grammars.
 
 \subsection{Error detection and recovery}
 
