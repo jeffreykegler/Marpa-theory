@@ -142,6 +142,8 @@
 % I want to use 'call' outside of pseudocode
 \newcommand\call[2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}}%
 
+\newcommand{\myendTheorem}{\ensuremath{\blacklozenge}}
+
 % I don't like to put whole paragraphs in italics,
 % so I make this simple variation on the "plain" theoremstyle
 \newtheoremstyle{myplain}
@@ -2775,13 +2777,32 @@ then \var{c} is greater than or equal to the number of EIM's
 in Earley set \var{cut}.
 \end{proof}
 
+\subsection{A study of a cell}
+
+In the section, we will be study \var{g}
+for an arbitrary partial input,
+$\Vstr{seen} = \Cwrange{0}{\var{j-1}}$.
+We assume that $\var{j} > 0$, but otherwise
+the choice of \var{seen} and \Vloc{j}
+is without loss of generality.
+
+We will assume that
+\var{g} is a Marpa internal grammar.
+As a reminder,
+all Marpa internal grammar
+are reduced.
+We will further assume that \var{g} is $LR(\pi)$,
+where $\pi$ is a finite left congruence.
+
+We will usually be concerned with one cell of the partition,
+\var{B}, $\var{B} \in \pi$,
+chosen arbitrarily and without loss of generality.
+
 \begin{theorem}
 \label{t:leo-lemma}
-Let \var{g} be an $LR(\pi)$
-grammar, where $\pi$ is a left congruence.
-Let, for all
+For all
 \Vsf{prefix1}, \Vsf{prefix2},
-\Vstr{seen}, \Vstr{unseen1}, \Vstr{unseen2}
+$\Vstr{unseen1} \in \var{B}$, and $\Vstr{unseen2} \in \var{B}$, let
 \begin{gather}
 \label{e:leo-lemma-derivation-shorter}
 \begin{split}
@@ -2792,10 +2813,7 @@ Let, for all
 \begin{split}
    \Vsym{S} & \deRstar \Vsf{prefix2} \cat \Vstr{unseen2} \\
    & \deRstar \Vstr{seen} \cat \Vstr{unseen2} \quad \text{and}
-\end{split} \\
-\label{e:leo-lemma-assumption-3}
-   \var{unseen1} \equiv
-   \var{unseen2} \pmod \pi.
+\end{split}
 \end{gather}
 Then, either
 \begin{gather}
@@ -2820,9 +2838,9 @@ that
 is step 0 of the derivation for \Vsf{prefix1}.
 
 In the following, we will be comparing steps, but we will only be interested in the
-part of the sentential forms before \Vstr{unseen1} and \Vstr{unseen2}.
-We call this point in the input the ``threshold''.
-For convenience will will mark it with a diamond.
+part of the sentential forms before \Vloc{j}.
+We call \var{j} the ``threshold''.
+For convenience we will mark \var{j} with a diamond.
 
 Without loss of generality, we assume that
 the derivation for \Vsf{prefix2} is longer than that of \Vsf{prefix1},
@@ -2848,7 +2866,6 @@ in derivation \ref{e:leo-lemma-derivation-shorter}.
 Without loss of generality, we show the direct derivation
 from step $\var{n}+1$ to step \var{n}
 for the two derivations as
-as
 \begin{gather}
 \Vsf{before1} \cat \Vsym{lhs1} \cat \Vstr{after1} \diamond \Vstr{unseen1} \\
 \label{e:handle-1} \deR \Vsf{before1} \cat \Vsf{rhs1} \cat \Vstr{after1} \diamond \Vstr{unseen1}
@@ -2868,29 +2885,59 @@ In \eqref{e:leo-lemma-induction-step-assumption}
 \Vloc{end1} and \Vloc{end2} indicate where the ends of the next handle
 must be found in their respective derivation.
 
-This is a LR grammar, so we can find the handles
+\var{g} is a LR grammar, so we can find the handles
 in \eqref{e:handle-1} and 
 \eqref{e:handle-2}
 by scanning terminals from the
 right.
-The two pre-threshold sentential forms are identical, so the scanned terminals will be
-identical.
-There will be a handle in \eqref{e:handle-1}
-if and only if there is a handle \eqref{e:handle-2}
-and if the handles exists the will be identical.
-Call the string \Vstr{after}.
-By left congruence, we have
+By \eqref{e:leo-lemma-induction-step-assumption},
+the two pre-threshold sentential forms are identical,
+so the scanned terminals will be identical.
+By the LR property,
+at a given location
+there will be a handle in \eqref{e:handle-1}
+if and only if there is a handle \eqref{e:handle-2}.
+
+Call the location where we find the two handles \Vloc{i}.
+Then the sentential form that we scanned before find the two handles
+$\Vstr{after} = \Cwrange{\var{i}}{\var{j}\subtract 1}$.
+\Vstr{after} is all terminals, and therefore a string,
+because by the LR property we must
+be able to reduce the rightmost non-terminal.
+
+Call the string of terminals that we have scanned
+at the point when we find the two handle
+and if the two handles exist, they will be identical.
+
+We assumed that $\var{unseen1} \in \var{B}$
+and $\var{unseen1} \in \var{B}$,
+so that
 \begin{equation}
+\label{e:leo-lemma-unseen-mod-pi-assumption}
+   \var{unseen1} \equiv \var{unseen2} \pmod \pi,
+\end{equation}
+By assumption,
+$\pi$ is a left congruence, so that from 
+\eqref{e:leo-lemma-unseen-mod-pi-assumption} it follows that
+\begin{gather}
    \Vstr{after} .\var{unseen1} \equiv
    \Vstr{after} .\var{unseen2} \pmod \pi,
-\end{equation}
+\end{gather}
 so that both strings are in the same cell of the partition, $\pi$.
 By the LR-property, this means that both handles will be
 found at the same location,
-that is, that $\Vloc{end1} = \Vloc{end2}$,
-which in turn means that
+that is, that 
 \begin{equation}
-\label{e:leo-lemma-after-eq} \Vstr{after1} = \Vstr{after2}.
+\label{e:leo-lemma-ends-equal}
+\Vloc{end1} = \Vloc{end2}.
+\end{equation}
+From 
+\eqref{e:leo-lemma-induction-step-assumption}
+and
+\eqref{e:leo-lemma-ends-equal}, we have
+\begin{equation}
+\label{e:leo-lemma-after-eq}
+\Vstr{after1} = \Vstr{after2}.
 \end{equation}
 By the LR-property, we also know that the production
 of the two handles will be identical, so that
@@ -2899,8 +2946,12 @@ that is, that
 \label{e:leo-lemma-lhs-eq} \Vsym{lhs1} = \Vsym{lhs2} \quad \text{and} \\
 \label{e:leo-lemma-rhs-eq} \Vsf{rhs1} = \Vsf{rhs2}.
 \end{gather}
-and 
-This in turn means that
+From
+\eqref{e:leo-lemma-induction-step-assumption},
+\eqref{e:leo-lemma-ends-equal},
+\eqref{e:leo-lemma-lhs-eq}
+and \eqref{e:leo-lemma-rhs-eq},
+we have
 \begin{equation}
 \label{e:leo-lemma-before-eq} 
 \Vsf{before1} = \Vsf{before2}.
@@ -2912,7 +2963,7 @@ and \ref{e:leo-lemma-after-eq},
 we can show that
 \begin{equation}
 \Vsf{before1} \cat \Vsym{lhs1} \cat \Vstr{after1} =
-\Vsf{before1} \cat \Vsym{lhs1} \cat \Vstr{after1},
+\Vsf{before2} \cat \Vsym{lhs2} \cat \Vstr{after2},
 \end{equation}
 which show the step of the induction,
 and the induction.
@@ -2999,6 +3050,49 @@ The contradiction shows the reductio,
 which in turn
 show that the number of derivations is at
 most $\size{\pi}+1$.
+\end{proof}
+
+\begin{theorem}
+The number of non-recursive completions tree predicates at \var{j}
+for \var{g}, \var{B}, \Cwrange{0}{\var{j}\subtract 1}
+is less than or equal to $\size{rules}$, the number of rules in \var{g}.
+\myendTheorem
+\end{theorem}
+
+\begin{proof}
+Assume, for a reductio, that there are 
+$\size{rules} + 1$ completion tree predicates,
+and that no two recurse.
+Then at least two of them will share the same dotted rule,
+Call their shared dotted rule, $[ \Vsym{lhs} \de \Vsf{rhs} \mydot ]$.
+By assumption they share the same current location, \Vloc{j},
+and therefore differ only in their origin.
+Call the two origins, \Vloc{i} and \typedPrime{i}{'}{loc}, so that
+the two tree predicates are of the form
+\begin{gather}
+[ [ \var{lhs} \de \var{rhs} \mydot ], \var{i}, \var{j} ] \\
+[ [ \var{lhs} \de \var{rhs} \mydot ], \var{i}', \var{j} ].
+\end{gather}
+Then by the definition of tree predicates,
+there will be the two rightmost derivation steps
+\begin{gather}
+\label{e:non-recursive-completion-step-1}
+\Vsf{before1} \var{lhs} \mydot \Cwrange{\var{j},\var{n}} \quad \text{and} \\
+\label{e:non-recursive-completion-step-2}
+\Vsf{before2} \var{lhs} \mydot \Cwrange{\var{j},\var{n}}.
+\end{gather}
+By theorem \ref{t:leo-lemma}, we have
+\begin{equation}
+\label{e:non-recursive-recursion}
+\Vsf{before1} \var{lhs} \mydot \Cwrange{\var{j},\var{n}} \deRstar
+\Vsf{before2} \var{lhs} \mydot \Cwrange{\var{j},\var{n}}.
+\end{equation}
+From \eqref{e:non-recursive-recursion}, we see the pair
+\eqref{e:non-recursive-completion-step-1} and
+\eqref{e:non-recursive-completion-step-2},
+must recurse.
+This is contrary to the assumption for the reductio,
+and shows the reduction and the theorem.
 \end{proof}
 
 \begin{definition}
