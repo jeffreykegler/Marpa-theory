@@ -3118,6 +3118,7 @@ the portion of the last derivation factored at \var{i}
 that is before \var{i}.
 
 \begin{theorem}
+\label{t:last-prefix-unique}
 For \var{g}, \var{B}, \var{j} and \Cwrange{0}{\var{j}\subtract 1},
 the last prefix at \var{j} is unique.
 \myendTheorem
@@ -3163,7 +3164,7 @@ medial dotted rules in \var{g}.
 We will say that a derivation factors internally at \var{j} if it is of
 the form
 \begin{equation}
-\label{e:medial-derivation}
+\label{e:medial-derivation-1}
 \Vsf{before} \cat \Vsym{A} \cat \Vsf{after}
   \de \var{before} \cat \Vsf{rhs1} [\Vloc{j}] \Vsf{rhs2} \cat \var{after}
 \end{equation}
@@ -3179,56 +3180,60 @@ Therefore none of their derived symbols can properly contain \var{j}.
 Consider a medial tree predicate at \var{j} in \var{B}.
 We can describe it, without loss of generality as being of the form
 \begin{equation}
-[[ \Vsym{A} \de \Vsf{rhs1} \mydot \Vsf{rhs2} ], \Vloc{i}, \Vloc{j}]
+\bigl[[ \Vsym{A} \de \Vsf{rhs1} \mydot \Vsf{rhs2} \bigr], \Vloc{i}, \Vloc{j}]
 \end{equation}
 By the definition of tree predicate, there will be a corresponding derivation
-which we can describe, again without loss of generality as being of the form
-shown in \eqref{e:medial-derivation}.
+which we can describe, again without loss of generality,
+as being of the form
+shown in \eqref{e:medial-derivation-1}.
 
 Let \var{c} be the number of medial dotted rules in \Cg.
 Assume, for a reductio, that there are $\var{c} + 1$ medial tree predicates at \var{j}.
 This means that at least two distinct tree predicates must share the same dotted rule.
 Let the second one, without loss of generality, be of the form
 \begin{equation}
-[[ \Vsym{A} \de \Vsf{rhs1} \mydot \Vsf{rhs2} ], \Vloc{i2}, \Vloc{j}]
+\bigl[[ \Vsym{A} \de \Vsf{rhs1} \mydot \Vsf{rhs2} \bigr], \Vloc{i2}, \Vloc{j}]
 \end{equation}
 and let its corresponding derivation be
-\begin{equation}
+\begin{multline}
 \label{e:medial-derivation-2}
-\Vsf{before2} \cat \Vsym{A} \cat \Vsf{after2}
-  \de \var{before2} [\Vloc{i2}] \Vsf{rhs1} [\Vloc{j}] \Vsf{rhs2} \cat \var{after2}
-\end{equation}
+\Vsf{before2} \cat \Vsym{A} \cat \Vsf{after2} \\
+  \de \var{before2} \; [\Vloc{i2}] \; \Vsf{rhs1} \; [\Vloc{j}] \; \Vsf{rhs2} \cat \var{after2}
+\end{multline}
 
 We see from 
-\eqref{e:medial-derivation-1} that $\var{before} \var{rhs1}$ is
+\eqref{e:medial-derivation-1} that $\var{before} \cat \var{rhs1}$ is
 the most reduced prefix of \var{B} at \var{j} or,
 as we have called it,
 the last prefix at \var{j}.
 From \eqref{e:medial-derivation-2} we see that 
 $\var{before2} \cat \var{rhs1}$ is also the last prefix at \var{j}.
-Therefore
+Therefore,
+by Theorem \ref{t:last-prefix-unique},
 \begin{gather}
 \var{before} \cat \var{rhs1} = \var{before2} \cat \var{rhs1}
-\quad \text{and therefore} \\
+\quad \text{and} \\
+\label{e:before-medial-eq}
 \var{before} = \var{before2}.
 \end{gather}
 
 For the two tree predicates to be distinct, we must have
-$\var{i} \neq \var{i2}$, so that 
-since 
-$\var{before} = \var{before2}$,
-and
+$\var{i} \neq \var{i2}$ and since
+\eqref{e:before-medial-eq},
+we know that
 \begin{gather}
-\var{before} [\var{i}] \var{rhs1} \de \Cwrange{0}{\var{j}\subtract 1} \quad \text{and}
-\var{before} [\var{i2}] \var{rhs1} \de \Cwrange{0}{\var{j}\subtract 1}
+\var{before} \; [\var{i}] \; \var{rhs1} \de \Cwrange{0}{\var{j}\subtract 1}
+  \quad \text{and} \\
+\var{before} \; [\var{i2}] \; \var{rhs1} \de \Cwrange{0}{\var{j}\subtract 1}
 \end{gather}
-are two distinct factorings of \Cwrange{0}{\var{j}\subtract 1}.
-If any substring of any derivation step of a reduced grammar allows different factorings,
-the that grammar is ambiguous.
-\Cg is a Marpa internal grammar and therefore reduced,
-So \Cg must be ambiguous.
-But \Cg, by assumption, is LR, and therefore not ambiguous.
-So \Cg is both ambiguous and not ambiguous, which completes the reductio.
+so that $\var{before} \cat \var{rhs1}$ produces
+two distinct factorings of \Cwrange{0}{\var{j}\subtract 1}.
+If any substring of any derivation step of a reduced grammar allows distinct factorings,
+that grammar is ambiguous.
+\Cg{} is a Marpa internal grammar and therefore reduced,
+so \Cg{} must be ambiguous.
+But \Cg{}, by assumption, is LR, and therefore is not ambiguous.
+So \Cg{} is both ambiguous and not ambiguous, which completes the reductio.
 \end{proof}
 
 \begin{definition}
