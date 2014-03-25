@@ -294,9 +294,6 @@ the basic notation and conventions
 of this \doc.
 Section \ref{s:rewrite} deals with the rewrites Marpa
 uses to put its grammars into Marpa internal form.
-This puts us in a position to describe,
-in Section \ref{s:tree-notation},
-our tree notation.
 Sections \ref{s:earley},
 \ref{s:earley-approach},
 and \ref{s:earley-ops}
@@ -740,141 +737,6 @@ contain cycles, it will still contain cycles
 in Marpa internal form.
 Nothing in the rewrite eliminates cycles.
 
-\section{Tree notation}
-\label{s:tree-notation}
-
-In this paper, we make use of tree strings,
-a notation from \cite{Wich2005},
-for describing trees.
-Wich's tree strings are formed from an alphabet
-which includes the symbols of the grammar
-plus rule markers.
-We will show rule markers in the form
-\begin{equation*}
-\ruleMarker{[\Vsym{lhs} \de \Vsf{rhs}]}.
-\end{equation*}
-It is important to note the rule
-markers must be treated as atomic.
-
-Wich describes tree strings in terms of leftmost derivations.
-Rightmost derivations are needed for our purposes,
-we in this \doc{} will describe them using a construction
-from a rightmost derivation.
-\begin{construction}
-
-Let $\var{a}[\var{i}]$ be the \var{i}'th step of a right
-derivation.
-For each step of this derivation, we construct a tree string.
-If $\var{a0} = \Vsym{S}$,
-the initial tree string is
-\begin{equation}
-\label{e:initial-tree-string}
-  S
-\end{equation}
-We call the tree tree constructed at a derivation step,
-the corresponding tree string.
-The tree string corresponding to \var{a0} is
-\eqref{e:initial-tree-string}.
-
-Within corresponding tree strings and derivation steps,
-we also identify pairs of symbols, one from the derivation 
-step and the other from the tree string, as ``corresponding''.
-In the tree string, every symbol which is not a rule marker
-will have a corresponding symbol in the derivation step.
-Every symbol in the derivation step will have a corresponding
-symbol in the tree string.
-Initially, \Vsym{S} in derivation step \var{a0} corresponds to
-the \var{S} in the tree string.
-Corresponding symbols will have the same name, but name is not
-enough to establish correspondence -- position also matter.
-
-For steps after the initial step,
-we determine the rule that was applied
-in the right derivation.
-Let
-\begin{equation}
-  \Vts{before} \cat \Vsym{lhs} \cat \Vts{after}
-\end{equation}
-be the current tree string,
-and
-\begin{equation}
-  \Vsf{before} \cat \Vsym{lhs} \cat \Vsf{after} \deR
-  \Vsf{before} \cat \Vsym{rhs} \cat \Vsf{after}
-\end{equation}
-be the current derivation step and its successor,
-Also let \Vsym{lhs} in the derivation step
-correspond to \Vsym{lhs} in the current tree string.
-We can see that $\Vsym{lhs} \de \Vsf{rhs}$ was the rule that
-was applied in the right derivation.
-The new tree string will be
-\begin{equation}
-  \Vts{before} \cat \ruleMarker{[\var{lhs} \de var{rhs}]} \cat \Vts{rhs} \cat \Vts{after}.
-\end{equation}
-and the symbols in \Vts{rhs} and \Vsf{rhs} will correspond.
-
-Let two subsequent steps of our right derivation be
-$\var{step-n}$ and $\var{step-n}'$ such that
-\begin{gather}
-    \var{step-n} = \var{A} \cat \var{D} \cat \var{x} \deR \var{A} \cat \var{B} \cat \var{C} \cat \var{D}
-\end{gather}
-Clearly the rule which
-
-For each step of the rightmost derivation, we will
-construct a new tree string from that
-left,
-Where $[\Vsym{S} \de \Vsf[start-rhs]]$ is the start rule
-We begin the construction
-For the purposes of illustration,
-we relax our restriction of grammars to the Marpa internal
-to assume a start rule of the more general form:
-\begin{equation*}
-\Vsym{S} \de \Vsym{rhs1} \cat \Vsym{rhs2} \dots \Vsym{rhs-n},
-\end{equation*}
-which has \var{n} RHS symbols.
-The first two steps of the rightmost derivation
-take the form:
-\begin{gather*}
-\Vsym{S} \deR \Vsym{rhs1} \cat \Vsym{rhs2} \dots \Vsym{rhs-n} \\
-\text{where} \quad \Vsym{S}) \text{ is step 0} \\
-\text{and} \quad \Vsym{rhs1} \cat \Vsym{rhs2} \dots \Vsym{rhs-n} \text{ is step 1}.
-\end{gather*}
-From this, we construct the initial tree string:
-\begin{gather*}
-\ruleMarker{[\Vsym{S} \de \Vsf{step-1}]} \cat \Vsym{rhs1} \cat \Vsym{rhs2} \dots \Vsym{rhs-n}.
-\end{gather*}
-This tree string consists of a rule marker, followed by \var{n} other symbols,
-so that its length, all told, is $\var{n}+1$.
-
-In this construction of tree string,
-we will specify symbols in the most recent derivation step
-which correspond one-to-one with symbols in the tree string.
-In the initial tree string, each symbol $\Vsym{rhs1}, \Vsym{rhs2}, \dots \Vsym{rhs-n}$
-corresponds one-to-one with the symbol of the same name in derivation step 1.
-(Note that it will not be the case in general that symbols of the same name correspond --
-correspondence depends on position.)
-
-For the next step, we pick the rightmost non-terminal in the derivation string,
-call it \Vsym{x},
-and replace it with its expansion
-\begin{gather*}
-\ruleMarker{[\var{x} \de \var{y1}\cat\var{y2} \dots \var{y-n}]} \cat \var{y1} \cat \var{y2} \dots \var{y-n}, \\
-\text{where} \quad \Vsym{x} \de  \Vsym{y1}\cat\Vsym{y2} \dots \Vsym{y-n} \in \Crules.
-\end{gather*}
-After this step,
-each symbol $\Vsym{y1}, \Vsym{y2}, \dots \Vsym{y-n}$ in the tree string
-will corresponds one-to-one with the symbol of the same name in the most recent derivation step.
-
-This step is repeated until there no non-terminals remain in either the tree string or the
-most recent derivation step.
-
-Note that corresponding symbols are always introduced together, and consumed together,
-at each step of this construction, and that, every symbol in the most recent derivation step
-always has a corresponding symbol in the most recent tree string.
-Rule markers in the tree string never have corresponding symbols, but all other symbols in
-the tree string do.
-
-\end{construction}
-
 \section{Earley's algorithm}
 \label{s:earley}
 
@@ -965,8 +827,6 @@ are also called, respectively,
 \section{Tree predicates}
 \label{s:tree-predicates}
 
-\begin{subequations}
-
 An tree predicate is is a triple
 \begin{equation*}
     [\Vdr{dotted-rule}, \Vloc{origin}, \Vloc{dot}].
@@ -992,65 +852,6 @@ for some \Vsf{after},
 \label{e:tree-predicate-4}
   \Vsf{predot} \destar \Cwrange{\var{origin}}{\Vloc{dot}-1}.
 \end{gather}
-
-We define the \dfn{input length} of any substring of a Wich tree, $\Tsize{\Vws{ws}}$,
-as its length, counting only terminals.
-Wich trees contain only rule markers and terminals,
-but Wich derivations may also contain non-terminals.
-If a Wich derivation is a cut of a substring of a Wich tree,
-its terminals length is the same as that of the original substring.
-By definition Wich trees do not contain ambiguities,
-so that for a given Wich tree, cut and substring,
-the terminals length is always well defined.
-The \dfn{input position} of
-the \var{i}'th symbol
-of a Wich derivation
-is the input length of the substring from symbols 0 to $\var{i} \subtract 1$.
-Intuitively, the input position of a Wich symbol is the input length
-of its prefix.
-
-\begin{theorem}
-Let
-\begin{gather}
-[[\var{A} \de \var{rhs1} \mydot \var{rhs2} ], i, j] \\
-\quad \text{where} \quad \Vrule{R} = [\Vsym{A} \de \Vsf{rhs1} \cat \Vsf{rhs2} ]
-\end{gather}
-be a tree predicate in a tree.
-Then a cut of the Wich tree will be of form
-\begin{equation}
-\label{e:tp-to-wich-1} \Vws{forest1} \cat \ruleMarker{\var{R}} \cat \Vws{rhs1} \cat \Vws{rhs2} \cat \Vws{forest2}
-\end{equation}
-where the input position of \var{rhs1} is \var{i}
-and the input position of \var{rhs1} is \var{j}.
-$\blacklozenge$
-\end{theorem}
-
-\begin{proof}
-By the definition of tree predicate,
-we know that the derivation tree will have the derivation step
-\begin{equation}
-\label{e:tp-to-wich-2} 
-\Vsf{before} \cat \Vsym{A} \Vsf{after} \derives \Vsf{before} \cat \Vsf{rhs1} \cat \Vsf{rhs2} \cat \Vsf{after}
-\end{equation}
-and \eqref{e:tp-to-wich-1} 
-follows from the procedure for constructing Wich derivations
-from the traditional ones.
-Since this is a tree, for each substring of a cut the terminal count is
-well-defined.
-By the definition of a tree predicate,
-we know that
-\begin{equation*}
-  \Vsf{rhs1} \destar \Cwrange{\var{i}}{\Vloc{j}-1},
-\end{equation*}
-which means the the input position of \var{rhs1} must be \var{i},
-and that the input position of the symbol following it must be
-\var{j}.
-From \eqref{e:tp-to-wich-2},
-we know that the symbol following \var{rhs1} is \var{rhs2},
-so that the input position of \var{rhs2} is \var{j}.
-\end{proof}
-
-\end{subequations}
 
 \section{An approach to the Earley algorithm}
 \label{s:earley-approach}
@@ -2777,26 +2578,21 @@ then \var{c} is greater than or equal to the number of EIM's
 in Earley set \var{cut}.
 \end{proof}
 
-\subsection{A study of a cell}
+\section{Cell partitions and tree predicates}
 
-In the section, we will be study \var{g}
+In the section
+we will examine a Marpa internal grammar \var{g}
 for an arbitrary partial input,
 $\Vstr{seen} = \Cwrange{0}{\var{j-1}}$.
 We assume that $\var{j} > 0$, but otherwise
 the choice of \var{seen} and \Vloc{j}
 is without loss of generality.
 
-We will assume that
-\var{g} is a Marpa internal grammar.
-As a reminder,
-all Marpa internal grammar
-are reduced.
-We will further assume that \var{g} is $LR(\pi)$,
+We will assume that \var{g} is $LR(\pi)$,
 where $\pi$ is a finite left congruence.
-
-We will usually be concerned with one cell of the partition,
-\var{B}, $\var{B} \in \pi$,
-chosen arbitrarily and without loss of generality.
+We will be concerned with one cell of the partition,
+\var{B}, $\var{B} \in \pi$.
+\var{B} is chosen arbitrarily and without loss of generality.
 
 \begin{theorem}
 \label{t:leo-lemma}
@@ -2984,77 +2780,6 @@ and therefore
 \end{proof}
 
 \begin{theorem}
-Let \var{g} be $LR(\pi)$, with $\pi$
-a regular partition of cardinality $\size{\pi}$.
-If $\size{\pi}$ is finite, there are,
-for all \var{i}
-and all \Cwrange{0}{\var{i}-1},
-at most
-$\size{\pi}$
-derivations up to \var{i}.
-\end{theorem}
-
-\begin{proof}
-Consider two inputs, \CVrange{w1}{0}{\var{n1}-1}
-and \CVrange{w2}{0}{\var{n2}-1}.
-of length \var{n1} and \var{n2}.
-Let
-\begin{gather*}
-  \Vstr{after1} = \CVrange{w1}{\var{i}}{\var{n1}-1} \quad \text{and} \\
-  \Vstr{after2} = \CVrange{w2}{\var{i}}{\var{n2}-1}.
-\end{gather*}
-
-Assume, for the purpose of a reduction,
-that there are $\size{\pi}+1$ derivations.
-In that case there must be at least two distinct derivations
-of where
-\begin{equation}
-   \Vstr{after1} \equiv \Vstr{after2} \pmod \pi.
-\end{equation}
-Let their first rightmost derivation steps up to \var{i} be
-\begin{gather}
-\label{leo-lemma-eq1}  \Vsf{before1} \diamond \Vstr{after2} \quad \text{and} \\
-\label{leo-lemma-eq2}  \Vsf{before2} \diamond \Vstr{after2}.
-\end{gather}
-Since, the two derivations are distinct,
-\begin{gather}
-\label{leo-lemma-eq3} \Vsf{before1} \neq \Vsf{before2}.
-\end{gather}
-
-From Theorem \ref{t:leo-lemma}, we know that either
-$\Vsf{before1} \derives \Vsf{before2}$ or
-$\Vsf{before2} \derives \Vsf{before1}$.
-Without loss of generality, we assume that
-\begin{equation}
-\label{leo-lemma-eq4}
-\Vsf{before1} \derives \Vsf{before2}.
-\end{equation}
-\eqref{leo-lemma-eq4} can only be the case
-if there is some value of \Vstr{after1}, such
-that $\Vstr{after1} = \Vstr{after2}$.
-Further, 
-\eqref{leo-lemma-eq1} and
-\eqref{leo-lemma-eq2} are, by assumption,
-both first rightmost derivation steps up to \var{i}.
-This is only possible if
-\begin{equation}
-\label{leo-lemma-eq5}
-\Vsf{before1} = \Vsf{before2}.
-\end{equation}
-
-But
-\eqref{leo-lemma-eq5}
-that contradicts
-\eqref{leo-lemma-eq3}.
-The contradiction shows the reductio,
-which in turn
-show that the number of derivations is at
-most $\size{\pi}+1$.
-\end{proof}
-
-% TODO Before pruning
-
-\begin{theorem}
 The number of non-recursive completions tree predicates at \var{j}
 for \var{g}, \var{B}, \Cwrange{0}{\var{j}\subtract 1}
 is less than or equal to $\size{\Crules}$, the number of rules in \var{g}.
@@ -3237,6 +2962,8 @@ so \Cg{} must be ambiguous.
 But \Cg{}, by assumption, is LR, and therefore is not ambiguous.
 So \Cg{} is both ambiguous and not ambiguous, which completes the reductio.
 \end{proof}
+
+\section{Linear complexity results}
 
 \begin{definition}
 \label{d:grammar-union}
@@ -3587,7 +3314,7 @@ must be less than or equal to \var{c},
 unless at least one step of that derivation uses a right recursive rule.
 \end{proof}
 
-\subsection{Non-linear complexity results}
+\section{Non-linear complexity results}
 
 \begin{theorem}
 For every unambiguous grammar,
