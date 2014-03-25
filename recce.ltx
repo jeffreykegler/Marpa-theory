@@ -2780,8 +2780,10 @@ and therefore
 \end{proof}
 
 \begin{theorem}
-The number of non-recursive completions tree predicates at \var{j}
-for \var{g}, \var{B}, \Cwrange{0}{\var{j}\subtract 1}
+\label{t:completions-per-cell}
+The number of completions tree predicates at \var{j}
+for \var{g}, \var{B}, \Cwrange{0}{\var{j}\subtract 1},
+excluding those in a deterministic recursion,
 is less than or equal to $\size{\Crules}$, the number of rules in \var{g}.
 \myendTheorem
 \end{theorem}
@@ -2880,6 +2882,7 @@ for the reductio.
 \end{proof}
 
 \begin{theorem}
+\label{t:medials-per-cell}
 The number of medial tree predicates at \var{j}
 for \var{g}, \var{B}, \Cwrange{0}{\var{j}\subtract 1}
 is less than or equal to the number of
@@ -2964,6 +2967,122 @@ So \Cg{} is both ambiguous and not ambiguous, which completes the reductio.
 \end{proof}
 
 \section{Linear complexity results}
+
+\begin{theorem}
+\label{t:predictions-per-es}
+No Earley set allows more than \size{\Crules} predicted tree
+predicates.
+\end{theorem}
+
+\begin{proof}
+Call the current Earley set \var{j}.
+Predicted tree predicates at \var{j} will be of the form
+\begin{equation}
+\bigl[ [ \Vsym{lhs} \de \mydot \Vsf{rhs} ], \var{j}, \var{j} \bigr].
+\end{equation}
+The dot will always be at the beginning of the rule,
+and the origin and current location will always be \var{j},
+so that only the rule varies.
+Therefore there can be no more predictions than rules.
+\end{proof}
+
+\begin{definition}
+We say that a tree predicate is \dfn{Marpa-charged}
+if it is medial, predicted,
+or a completion which is not in a determistic recursion.
+\end{definition}
+
+\begin{definition}
+We call a grammar \dfn{Leo bounded} if
+for all locations \var{j}
+and inputs \Cwrange{0}{var{j}\subtract 1},
+the number of allowed Marpa-charged tree predicates
+is less
+than \var{c},
+where \var{c} is a finite constant,
+which may depend on the grammar.
+\end{definition}
+
+\begin{theorem}
+If \var{g} is Leo bounded,
+Marpa runs in $\On$ time and space.
+\end{theorem}
+
+\begin{proof}
+In the pseudocode, it was shown that all time and space
+is charged to Marpa-charged tree predicates.
+Call a tree predicate to which time or space is charged,
+a charged predicate.
+Since \var{g} is Leo bounded, the number of charged predicates
+is less than a constant, call it \var{c}.
+In the pseudocode,
+it was also shown that all charges to tree predicates
+are less than a constant.
+Call the largest of these constants, \var{c}'.
+For each Earley set the total time and space charged is therefore
+\begin{equation}
+\var{c} \times \var{c}' = \Oc.
+\end{equation}
+Following the convention that the input length is \var{n}
+there are \var{n} Earley sets,
+so the 
+the total time and space charged by the parse
+is \On{}.
+\end{proof}
+
+\begin{theorem}
+Every LRR grammar is Leo bounded.
+\end{theorem}
+
+\begin{proof}
+Tree predicates may be predictions,
+completions or medial.
+By Theorem \ref{t:predictions-per-es},
+predictions at any Earley set are at most $\size{\Crules}$.
+The partition of
+an LRR grammar may be refined a finite number of cells.
+Call this refined size, $\size{\pi}$.
+By Theorem \ref{t:completions-per-cell}, each
+cell has
+at most $\size{rules}$ Marpa-charged completions.
+Call the number of medial dotted rules in \Cg{}, \var{c}.
+By Theorem \ref{t:medials-per-cell}, each
+cell has at most \var{c} Marpa-charged completions.
+Therefore the number of allowed Marpa-charged tree predicates
+is at most 
+\begin{equation}
+\size{\Crules}
++ \size{\pi} \times \size{\Crules}
++ \size{\pi} \times \var{c}
+\end{equation}
+This is a constant of the required type to satisfy the definition
+for Leo bounded-ness,
+and the theorem follows.
+\end{proof}
+
+The theorems which follow in the remainder of this section show
+\On{} time and space for classes of grammar beyond LRR.
+These classes include many ambiguous grammars.
+
+The proofs use the same basic method.
+Given several other grammars, assumed to be Leo-bounded,
+these proofs construct another grammar,
+also Leo-bounded.  From this, linearity follows directly.
+The construction is sometimes described in terms of an
+algorithm to carry it out.
+These algorithms may do parsing, but they are not intended
+as useful parsing algorithms.
+If they are effectively computable,
+that is more than sufficient.
+
+None of these constructions are complex.
+Correctness and completeness of the construction will be
+obvious.
+To preserve Leo-boundedness,
+it must be ensured that
+the all constructions
+preserve the determinism of recursive completions.
+This is as close as they come to having a tricky aspect.
 
 \begin{definition}
 \label{d:grammar-union}
@@ -3130,15 +3249,7 @@ in Section \ref{s:pseudocode}
 and from Lemma \ref{l:nulling-rewrite}.
 \end{proof}
 
-\subsection{Duplicate dotted rules}
-
-The same complexity results apply to \Marpa{} as to \Leo,
-and the proofs are very similar.
-\Leo's complexity results\cite{Leo1991}
-are based on charging
-resource to Earley items,
-as were the results
-in Earley's paper\cite{Earley1970}.
+\section{Non-linear complexity results}
 
 Earley\cite{Earley1970} shows that,
 for unambiguous grammars,
@@ -3313,8 +3424,6 @@ We therefore conclude that the length of a right derivation
 must be less than or equal to \var{c},
 unless at least one step of that derivation uses a right recursive rule.
 \end{proof}
-
-\section{Non-linear complexity results}
 
 \begin{theorem}
 For every unambiguous grammar,
