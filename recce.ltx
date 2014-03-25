@@ -533,7 +533,7 @@ unless indicated otherwise.
 In most contexts of this \doc{},
 only one grammar will be under discussion:
 \begin{equation*}
-    \Cg = [\Vsymset{V}, \Vsymset{L}, \var{rules}, \Vsym{S}].
+    \Cg = [\Vsymset{V}, \Vsymset{L}, \Crules, \Vsym{S}].
 \end{equation*}
 
 The rules imply the traditional rewriting system,
@@ -2812,7 +2812,7 @@ $\Vstr{unseen1} \in \var{B}$, and $\Vstr{unseen2} \in \var{B}$, let
 \label{e:leo-lemma-derivation-longer}
 \begin{split}
    \Vsym{S} & \deRstar \Vsf{prefix2} \cat \Vstr{unseen2} \\
-   & \deRstar \Vstr{seen} \cat \Vstr{unseen2} \quad \text{and}
+   & \deRstar \Vstr{seen} \cat \Vstr{unseen2}
 \end{split}
 \end{gather}
 Then, either
@@ -3055,15 +3055,15 @@ most $\size{\pi}+1$.
 \begin{theorem}
 The number of non-recursive completions tree predicates at \var{j}
 for \var{g}, \var{B}, \Cwrange{0}{\var{j}\subtract 1}
-is less than or equal to $\size{rules}$, the number of rules in \var{g}.
+is less than or equal to $\size{\Crules}$, the number of rules in \var{g}.
 \myendTheorem
 \end{theorem}
 
 \begin{proof}
 Assume, for a reductio, that there are 
-$\size{rules} + 1$ completion tree predicates,
+$\size{\Crules} + 1$ completion tree predicates,
 and that no two recurse.
-Then at least two of them will share the same dotted rule,
+Then at least two of them will share the same dotted rule.
 Call their shared dotted rule, $[ \Vsym{lhs} \de \Vsf{rhs} \mydot ]$.
 By assumption they share the same current location, \Vloc{j},
 and therefore differ only in their origin.
@@ -3095,6 +3095,142 @@ This is contrary to the assumption for the reductio,
 and shows the reduction and the theorem.
 \end{proof}
 
+We say a derivation step is \dfn{factored at location \var{i}}
+if \Vloc{i} is not the location 0 and there is a symbol of the
+derivation with input position \var{i}.
+Note that since the input position is always before a symbol,
+a derivation step is never factored at
+the last input location.
+A sentence of $\myL{\Cg}$ is factored at every possible factoring location.
+Each reduction of a derivation step
+may eliminate one or more of the factoring locations.
+A reduction will never add a new factoring location.
+When we have reduced back to the derivation which consists
+of only the start symbol, \Vsym{S},
+there are no factoring locations.
+
+The last (that is, most reduced) derivation factored at \var{i} is the last
+derivation step in a series of reductions that is factored at \var{i}.
+The first (that is, least reduced) derivation not factored at \var{i} is the first
+derivation step in a series of reductions that is not factored at \var{i}.
+The \dfn{last prefix at \var{i}} is the sentential form that is
+the portion of the last derivation factored at \var{i}
+that is before \var{i}.
+
+\begin{theorem}
+For \var{g}, \var{B}, \var{j} and \Cwrange{0}{\var{j}\subtract 1},
+the last prefix at \var{j} is unique.
+\myendTheorem
+\end{theorem}
+
+\begin{proof}
+Assume, for a reductio, that there are two last prefixes at \var{j}.
+For convenience, we will mark the position of \var{j} with a diamond.
+Call the two prefixes \Vsf{prefix1}
+and \Vsf{prefix2}.
+Then,
+where $\Vstr{seen} = \Cwrange{0}{\var{j}\subtract 1}$,
+$\Vstr{unseen1} \in \var{B}$ and
+$\Vstr{unseen2} \in \var{B}$,
+we have
+\begin{gather}
+\begin{split}
+   \var{S} & \deRstar \var{prefix1} \diamond \var{unseen1} \\
+        & \deRstar \Vstr{seen} \diamond \var{unseen1} \quad \text{and}
+\end{split} \\
+\begin{split}
+   \var{S} & \deRstar \var{prefix2} \diamond \var{unseen2} \\
+   & \deRstar \var{seen} \diamond \var{unseen2}
+\end{split}
+\end{gather}
+But by Theorem \ref{t:leo-lemma},
+this means one of \Vsf{prefix1} and
+\Vsf{prefix2} derives the other.
+The last prefix at \var{j} cannot be derived from another
+prefix factored at \var{j}, so this contradicts the assumption
+for the reductio.
+\end{proof}
+
+\begin{theorem}
+The number of medial tree predicates at \var{j}
+for \var{g}, \var{B}, \Cwrange{0}{\var{j}\subtract 1}
+is less than or equal to the number of
+medial dotted rules in \var{g}.
+\myendTheorem
+\end{theorem}
+
+\begin{proof}
+We will say that a derivation factors internally at \var{j} if it is of
+the form
+\begin{equation}
+\label{e:medial-derivation}
+\Vsf{before} \cat \Vsym{A} \cat \Vsf{after}
+  \de \var{before} \cat \Vsf{rhs1} [\Vloc{j}] \Vsf{rhs2} \cat \var{after}
+\end{equation}
+If any tree has a derivation that factors internally at \var{j}, it must
+be unique to that tree.
+Any reduction will see \var{j} as properly ``inside'' either \Vsym{A} or one
+of \var{A}'s indirect parent symbols.
+Any child derivation will either be from one of \var{before}, \var{rhs1}, \var{rhs2} or \var{after}.
+Every location of \var{before} and \var{rhs1} is less than or equal to \var{j}.
+Every location of \var{after} and \var{rhs2} is greater than or equal to \var{j}.
+Therefore none of their derived symbols can properly contain \var{j}.
+
+Consider a medial tree predicate at \var{j} in \var{B}.
+We can describe it, without loss of generality as being of the form
+\begin{equation}
+[[ \Vsym{A} \de \Vsf{rhs1} \mydot \Vsf{rhs2} ], \Vloc{i}, \Vloc{j}]
+\end{equation}
+By the definition of tree predicate, there will be a corresponding derivation
+which we can describe, again without loss of generality as being of the form
+shown in \eqref{e:medial-derivation}.
+
+Let \var{c} be the number of medial dotted rules in \Cg.
+Assume, for a reductio, that there are $\var{c} + 1$ medial tree predicates at \var{j}.
+This means that at least two distinct tree predicates must share the same dotted rule.
+Let the second one, without loss of generality, be of the form
+\begin{equation}
+[[ \Vsym{A} \de \Vsf{rhs1} \mydot \Vsf{rhs2} ], \Vloc{i2}, \Vloc{j}]
+\end{equation}
+and let its corresponding derivation be
+\begin{equation}
+\label{e:medial-derivation-2}
+\Vsf{before2} \cat \Vsym{A} \cat \Vsf{after2}
+  \de \var{before2} [\Vloc{i2}] \Vsf{rhs1} [\Vloc{j}] \Vsf{rhs2} \cat \var{after2}
+\end{equation}
+
+We see from 
+\eqref{e:medial-derivation-1} that $\var{before} \var{rhs1}$ is
+the most reduced prefix of \var{B} at \var{j} or,
+as we have called it,
+the last prefix at \var{j}.
+From \eqref{e:medial-derivation-2} we see that 
+$\var{before2} \cat \var{rhs1}$ is also the last prefix at \var{j}.
+Therefore
+\begin{gather}
+\var{before} \cat \var{rhs1} = \var{before2} \cat \var{rhs1}
+\quad \text{and therefore} \\
+\var{before} = \var{before2}.
+\end{gather}
+
+For the two tree predicates to be distinct, we must have
+$\var{i} \neq \var{i2}$, so that 
+since 
+$\var{before} = \var{before2}$,
+and
+\begin{gather}
+\var{before} [\var{i}] \var{rhs1} \de \Cwrange{0}{\var{j}\subtract 1} \quad \text{and}
+\var{before} [\var{i2}] \var{rhs1} \de \Cwrange{0}{\var{j}\subtract 1}
+\end{gather}
+are two distinct factorings of \Cwrange{0}{\var{j}\subtract 1}.
+If any substring of any derivation step of a reduced grammar allows different factorings,
+the that grammar is ambiguous.
+\Cg is a Marpa internal grammar and therefore reduced,
+So \Cg must be ambiguous.
+But \Cg, by assumption, is LR, and therefore not ambiguous.
+So \Cg is both ambiguous and not ambiguous, which completes the reductio.
+\end{proof}
+
 \begin{definition}
 \label{d:grammar-union}
 Let \var{g1} and \var{g2} be two grammars.
@@ -3106,7 +3242,7 @@ calling the rewritten grammars,
 \end{gather*}
 Let \Vsym{S} be a non-terminal which is new,
 that is, $\var{S} \notin \var{V1'} \cup \var{V2'}$.
-Let \var{rules} be 
+Let \var{\Crules} be 
 \begin{equation*}
 \bigset{
 [\Vsym{S} \de \var{S1'}],
@@ -3117,7 +3253,7 @@ Let \var{V} be $\var{V1'} \cup \var{V2'}$ and
 let \var{N} be $\var{N1'} \cup \var{N2'}$.
 Then \var{g}, the \dfn{union} of \var{g1} and \var{g2} is
 \begin{equation}
-\var{g} = [\var{V}, \var{N}, \var{rules}, \var{S}].
+\var{g} = [\var{V}, \var{N}, \var{\Crules}, \var{S}].
 \end{equation}
 The \dfn{union} of a set of grammars is the closure of 
 the union of pairs from the set.
