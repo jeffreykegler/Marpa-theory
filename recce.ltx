@@ -2792,15 +2792,13 @@ or a completion which is not in a determistic recursion.
 \begin{definition}
 We call a grammar \dfn{Leo bounded} if
 for all locations \var{j}
-and inputs \Cwrange{0}{var{j}\subtract 1},
-the number of allowed Marpa-charged tree predicates
-is less
-than \var{c},
-where \var{c} is a finite constant,
-which may depend on the grammar.
+and inputs \Cwrange{0}{\var{j}\subtract 1},
+at most \var{c},
+where \var{c} may depend on the grammar.
 \end{definition}
 
 \begin{theorem}
+\label{t:leo-bounded-is-linear}
 If \var{g} is Leo bounded,
 Marpa runs in $\On$ time and space.
 \end{theorem}
@@ -2808,17 +2806,17 @@ Marpa runs in $\On$ time and space.
 \begin{proof}
 In the pseudocode, it was shown that all time and space
 is charged to Marpa-charged tree predicates.
-Call a tree predicate to which time or space is charged,
-a charged predicate.
-Since \var{g} is Leo bounded, the number of charged predicates
-is less than a constant, call it \var{c}.
+Call a tree predicate to which time or space is charged
+to attempts to add charged tree predicates.
+Since \var{g} is Leo bounded, the number of charged tree predicates
+is less than a constant, call it \var{c1}.
 In the pseudocode,
-it was also shown that all charges to tree predicates
-are less than a constant.
-Call the largest of these constants, \var{c}'.
+it was also shown that all charges to attempts to add
+tree predicates are less than a constant.
+Call the largest of these constants, \var{c2}.
 For each Earley set the total time and space charged is therefore
 \begin{equation}
-\var{c} \times \var{c}' = \Oc.
+\var{c1} \times \var{c2} = \Oc.
 \end{equation}
 Following the convention that the input length is \var{n}
 there are \var{n} Earley sets,
@@ -2828,7 +2826,9 @@ is \On{}.
 \end{proof}
 
 \begin{theorem}
-Every LRR grammar is Leo bounded.
+\label{e:lrr-is-leo-bounded}
+LRR is Leo-bounded,
+and Marpa runs all LRR grammars in \On{} time and space.
 \end{theorem}
 
 \begin{proof}
@@ -2837,24 +2837,28 @@ completions or medial.
 By Theorem \ref{t:predictions-per-es},
 predictions at any Earley set are at most $\size{\Crules}$.
 The partition of
-an LRR grammar may be refined a finite number of cells.
-Call this refined size, $\size{\pi}$.
+an LRR grammar may be refined to
+a finite left congruence.
+Call this refined partition $\pi$, and
+its cardinality, $\size{\pi}$.
 By Theorem \ref{t:completions-per-cell}, each
 cell has
 at most $\size{rules}$ Marpa-charged completions.
-Call the number of medial dotted rules in \Cg{}, \var{c}.
+Call the number of medial dotted rules in \Cg{}, \var{medial-count}.
 By Theorem \ref{t:medials-per-cell}, each
 cell has at most \var{c} Marpa-charged completions.
 Therefore the number of allowed Marpa-charged tree predicates
 is at most 
 \begin{equation}
-\size{\Crules}
+\var{c} = \size{\Crules}
 + \size{\pi} \times \size{\Crules}
-+ \size{\pi} \times \var{c}
++ \size{\pi} \times \var{medial-count}.
 \end{equation}
-This is a constant of the required type to satisfy the definition
-for Leo bounded-ness,
-and the theorem follows.
+Since an LRR grammar is unambiguous, there will be exactly one
+attempt to add every valid tree predicate, so the 
+number of attempts to add charged tree predicates is also 
+\var{c} is a constant of the type required to satisfy the definition
+for Leo bounded-ness.
 \end{proof}
 
 The theorems which follow in the remainder of this section show
@@ -2872,35 +2876,65 @@ as useful parsing algorithms.
 If they are effectively computable,
 that is more than sufficient.
 
-None of these constructions are complex.
-Correctness and completeness of the construction will be
-obvious.
-To preserve Leo-boundedness,
-it must be ensured that
-the all constructions
-preserve the determinism of recursive completions.
-This is as close as they come to having a tricky aspect.
+These constructions will be relatively simple,
+so that their correctness and completeness of these construction
+will be obvious in most respects.
+But two of the requirements for
+keeping Leo-boundedness invariant
+will require a certain
+amount of care.
+
+First, to keep Leo-boundedness invariant,
+the constructions need to preserve the boundedness,
+not just of the count of tree predicates,
+but of attempts to add tree predicates.
+For LRR, a limit on the number of attempts
+was given by the fact that LRR grammars
+are unambiguous.
+But many of the constructions to follow will create
+ambiguous grammars.
+To ensure these ambiguities do not result in an
+an unbounded number of attempts to add one of the tree predicates,
+it is necessary to ensure that none of the new rules allows
+multiple factorings.
+It is for this reason that
+all but the last symbol of every
+new rule's RHS is required to have the prefix property.
+
+A second requirement imposed on these constructions,
+if they are to keep Leo-boundedness invariant,
+is that they not introduce non-deterministic right recursions,
+whether by introducing their own non-deterministic right recursions,
+or by introducing non-determinism into existing right recursions.
+The following restrictions are observed:
+\begin{itemize}
+\item No right recursive rules are introduced.
+\item No symbols from existing right-recursions are used in any newly introduced
+rules.
+\end{itemize}
 
 \begin{definition}
 \label{d:grammar-union}
 Let \var{g1} and \var{g2} be two grammars.
-Rewrite each so that they do not share LHS symbols,
-calling the rewritten grammars,
+Rewrite each so that they do not share LHS symbols.
+(LHS symbols which are equivalent, in the sense they derive exactly the same
+set of sentential forms, need not be rewritten.)
+Call the rewritten grammars,
 \begin{gather*}
-\var{g1'} = [ \var{V1'}, \var{N1'}, \var{rule1'}, \var{S1'}] \quad \text{and} \\
-\var{g2'} = [ \var{V2'}, \var{N2'}, \var{rule2'}, \var{S2'}].
+\var{g1}' = [ \var{V1}', \var{N1}', \var{rule1}', \var{S1}'] \quad \text{and} \\
+\var{g2}' = [ \var{V2}', \var{N2}', \var{rule2}', \var{S2}'].
 \end{gather*}
 Let \Vsym{S} be a non-terminal which is new,
-that is, $\var{S} \notin \var{V1'} \cup \var{V2'}$.
+that is, $\var{S} \notin \var{V1}' \cup \var{V2}'$.
 Let \var{\Crules} be 
 \begin{equation*}
 \bigset{
-[\Vsym{S} \de \var{S1'}],
-[\Vsym{S} \de \var{S2'}]}
-\cup \var{rule1'} \cup \var{rule2'}
+[\Vsym{S} \de \var{S1}'],
+[\Vsym{S} \de \var{S2}']}
+\cup \var{rule1}' \cup \var{rule2}'
 \end{equation*}
-Let \var{V} be $\var{V1'} \cup \var{V2'}$ and
-let \var{N} be $\var{N1'} \cup \var{N2'}$.
+Let \var{V} be $\var{V1}' \cup \var{V2}'$ and
+let \var{N} be $\var{N1}' \cup \var{N2}'$.
 Then \var{g}, the \dfn{union} of \var{g1} and \var{g2} is
 \begin{equation}
 \var{g} = [\var{V}, \var{N}, \var{\Crules}, \var{S}].
@@ -2911,10 +2945,8 @@ $\blacklozenge$
 \end{definition}
 
 \begin{theorem}
-A union of a \var{n} finite tree prefix grammars is a
-finite tree prefix grammar,
-if \var{n} is  finite.
-$\blacklozenge$
+\label{e:finite-union-is-leo-bounded}
+The Leo-bounded grammars are closed under finite union.
 \end{theorem}
 
 \begin{proof}
@@ -2961,6 +2993,18 @@ for the union of FTP grammars for the case $\var{n} = 2$.
 The result for finite \var{n} follows by taking the closure
 of this procedure.
 \end{proof}
+
+\begin{theorem}
+The Leo-bounded grammars with the prefix property are closed under
+concatenation,
+middle recursion, left recursion, right recursion and Kleene star.
+\end{theorem}
+
+\begin{theorem}
+If all but the last grammar of a concatenation of Leo-bounded grammars
+have the prefix property,
+that concatenation is Leo-bounded.
+\end{theorem}
 
 \subsection{Complexity of each Earley item}
 
