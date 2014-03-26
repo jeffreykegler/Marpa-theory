@@ -2950,48 +2950,42 @@ The Leo-bounded grammars are closed under finite union.
 \end{theorem}
 
 \begin{proof}
-Let \var{g1} and \var{g2} be two finite prefix grammars,
-with their respective sets of finite tree prefixes being
-\var{prefixes1} and
-\var{prefixes2}.
-We consider their union \var{g} as defined at \ref{d:grammar-union}.
+Consider the union of \var{z} grammars,
+which will call $\var{g}[0], \var{g}[0], \dots \var{g}[\var{z}]$.
+Let the rules added for the union be described as
+\begin{gather}
+\Vsym{S-union} \de \var{S}[\var{x}],
+\end{gather}
+where \var{S-union} is the new start symbol for the union
+and $\var{S}[\var{x}]$ is the start symbol of grammar $\var{g}[\var{x}]$.
 
-Let \var{g1'} be \var{g1} with its non-terminals rewritten as was done
-in creating \var{g}.
-We apply the same rewrite of non-terminals to
-\var{prefixes1}, calling the \var{result1'}.
-We do the same for \var{g2} and \var{prefixes2},
-to create 
-\var{g2'} and \var{prefixes2'}, respectively.
-
-Let \typedPrime{S1}{'}{sym}
-be the root symbol of $\var{g1}'$,
-\typedPrime{S2}{'}{sym}
-be the root symbol of $\var{g2}'$,
-and \Vsym{S} be the root symbol of their union in \var{g}.
-Define the set of tree prefixes $\var{prefixes1}''$ to be
+Let $\var{Valid}(\var{g}[\var{x}], \Vloc{i})$
+be the set of valid tree predicates for
+$var{g}[\var{x}]$ at \Vloc{i}.
+The set of tree predicates for the union
+at \Vloc{i}, $\var{Valid}(\var{g-union}, \var{i})$, is
 \begin{equation}
-\left\lbrace
-\ruleMarker{[\var{S} \de \var{S1}']} \cat \var{tp}
-\middle|
-\var{tp} \in \var{prefixes1}'
-\right\rbrace
+\bigcup_{0 \le \var{x} \le \var{z}} \var{Valid}(\var{g}[\var{x}], var{i}).
 \end{equation}
-Create $\var{prefixes2}''$ in the same way,
-using \var{g2'} and \var{prefixes1'}.
-
-It can then be seen that
+To
+$\var{Valid}(\var{g-union}, 0)$
+we must add the predictions from the new start symbol
 \begin{equation}
-\var{prefixes''} = \var{prefixes1''} \cup \var{prefixes2''}
+\bigcup_{0 \le \var{x} \le \var{z}} 
+  \Bigl[ \bigl[ \var{S-union} \de \mydot \var{S}[\var{x}] \bigr], 0, 0 \Bigr].
 \end{equation}
-is a full set of tree prefixes for \var{g} up to \var{i}.
-Since it is the union of two finite sets,
-\var{prefixes''} is finite.
+Finally, for every completion of one of the basis grammars,
+\begin{equation}
+   \bigl[ \var{S}[\var{x}] \de \Vsf{rhs} \mydot \bigr], 0, \var{i} \Bigr],
+\end{equation}
+we must add a completion of the union
+\begin{equation}
+   \bigl[ \var{S-union} \de \var{S}[\var{x}] \mydot \bigr], 0, \var{i} \Bigr].
+\end{equation}
 
-We have shown how to create a finite set of tree prefixes
-for the union of FTP grammars for the case $\var{n} = 2$.
-The result for finite \var{n} follows by taking the closure
-of this procedure.
+At most \var{z} tree predicates will be added for any location,
+and this set of tree predicates meets the other conditions for preserving
+Leo-boundedness.
 \end{proof}
 
 Concatenation also preserves Leo-boundedness,
@@ -3005,6 +2999,24 @@ the concatenations will preserve it.
 The Leo-bounded grammars with the prefix property
 are closed under concatenation.
 \end{theorem}
+
+\begin{proof}
+Consider the concatenation of \var{z} grammars, each
+of which has the prefix property.
+Call the grammar operands $\var{g}[0], \var{g}[0], \dots \var{g}[\var{z}]$.
+Let the rule added for the concatenation be described as
+\begin{equation}
+\Vsym{S-cat} \de \var{S}[0] \cat \var{S}[1] \dots \var{S}[\var{x}]
+\end{equation}
+where \var{S-cat} is the new start symbol for the concatenation,
+and $\var{S}[\var{x}]$ is the start symbol of grammar $\var{g}[\var{x}]$.
+
+Because the operand grammars have the prefix property,
+for our arbitrary choice of input \Cwrange{0}{\var{j}\subtract 1},
+each operand grammar will have at most one end location.
+(Our input may only allow recognition of part of the concatenation.)
+Call the end location of $\var{g}[\var{x}]$, $\var{end}[\var{x}]$.
+\end{proof}
 
 The closure
 result for the next set of operations must
