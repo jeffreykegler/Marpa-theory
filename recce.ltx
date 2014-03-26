@@ -3003,23 +3003,29 @@ are closed under concatenation.
 \begin{proof}
 Consider the concatenation of \var{z} grammars, each
 of which has the prefix property.
-Call the grammar operands $\var{g}[0], \var{g}[0], \dots \var{g}[\var{z}]$.
-Let the rule added for the concatenation be described as
+Call the grammar operands $\var{g}[0], \var{g}[0], \dots \var{g}[\var{z}]$,
+let $\var{S}[\var{x}]$ be the start symbol of grammar $\var{g}[\var{x}]$.
+We will create a new grammar, \var{g-cat},
+that concatenates them by adding
+and a new start symbol, \var{S-cat},
+and a new start rule,
 \begin{equation}
-\Vsym{S-cat} \de \var{S}[0] \cat \var{S}[1] \dots \var{S}[\var{x}]
+\Vsym{S-cat} \de \var{S}[0] \cat \var{S}[1] \dots \var{S}[\var{z}],
 \end{equation}
-where \var{S-cat} is the new start symbol for the concatenation,
-and $\var{S}[\var{x}]$ is the start symbol of grammar $\var{g}[\var{x}]$.
 
 Because the operand grammars have the prefix property,
 for our arbitrary choice of input \Cwrange{0}{\var{j}\subtract 1},
-each operand grammar will have at most one end location.
+each operand grammar will have at most one start
+and one end location.
 (Our input may only allow recognition of part of the concatenation.)
-Call the end location of $\var{g}[\var{x}]$, $\var{end}[\var{x}]$.
+Note that, while we have assumed that $\var{g}[\var{z}]$
+has the prefix property, we do not use that assumption here.
 
 Let \Vloc{current} be a location, $0 \le \var{current} \le \var{j}$.
 Let \var{current-g} be the operand grammar at \var{current},
-and \Vloc{offset} be the start position of \var{current-g}.
+If \Vloc{current} is the start of one grammar and the end of another,
+\var{current-g} is the one that starts at \Vloc{current}.
+Let \Vloc{offset} be the start position of \var{current-g}.
 $\var{Valid}(\var{g-concat}, \var{current})$
 includes all the tree predicates from the current operand grammar,
 \begin{multline}
@@ -3038,9 +3044,58 @@ offset appropriately:
       & \qquad \var{offset} + \var{origin}, \\
       & \qquad \qquad \var{offset} + \var{current}
     \end{aligned}
-    \right]
+    \right].
+\end{equation}
+We will call a tree predicate added to
+$\var{Valid}(\var{g-concat})$ by offseting tree predicates from
+one of its operand grammars, an offset tree predicate.
+
+To the offset tree predicates, we must add some others,
+which we will call ``original tree predicates''.
+These will track the parse's progress through the start rule.
+The original tree predicates will be
+the prediction of
+the concatenation's start rule,
+\begin{equation}
+    \Bigl[ \bigl[
+\Vsym{S-cat} \de \mydot \var{S}[0] \cat \var{S}[1] \dots \var{S}[\var{x} \bigr],
+  0, 0 \Bigr].
+\end{equation}
+and, for every grammar, $\var{g}[\var{n}]$, where
+$\var{end}[\var{n}]$ is its final location,
+\begin{equation}
+  \Bigl[
+    \bigl[ 
+      \Vsym{S-cat} \de
+      \var{S}[0] \cat \var{S}[1] \dots \var{S}[\var{n}] \mydot
+      \var{S}[\var{n} + 1 ] \dots \var{S}[\var{z}]
+    \bigr],
+    0, \var{end}[\var{n}]
+  \Bigr].
 \end{equation}
 
+For offset tree predicates,
+we can see that the number of attempts to add
+them will remain unchanged when they are offset.
+Further,
+the determinism of their right recursions will remain undisturbed.
+For the original tree predicates,
+we observe that they will all require exactly one add attempt,
+that introduce no new right recursions,
+and that from the offset tree predicates,
+they use only the top symbols, which
+are never involved in a right recursion.
+
+Finally, we observe that at most one new tree predicate is added
+at any location.
+Leo-boundedness is therefore preserved under this construction.
+
+Concatenation preserves the prefix property, so that the prefix
+property is also preserved by this construction.
+Note that this is the only place where
+we use
+the assumption that the last operand grammar, $\var{g}[\var{z}]$,
+has the prefix property.
 \end{proof}
 
 The closure
