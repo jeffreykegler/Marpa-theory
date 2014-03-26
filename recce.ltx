@@ -2994,11 +2994,34 @@ The result for finite \var{n} follows by taking the closure
 of this procedure.
 \end{proof}
 
+Concatenation also preserves Leo-boundedness,
+with a condition -- the grammars which are the basis
+of the closure must have the prefix property.
+But, if the grammars which are the basis of a series
+of concatenations have the prefix property,
+the concatenations will preserve it.
+
 \begin{theorem}
-The Leo-bounded grammars with the prefix property are closed under
-concatenation,
-middle recursion, left recursion, right recursion and Kleene star.
+The Leo-bounded grammars with the prefix property
+are closed under concatenation.
 \end{theorem}
+
+The closure
+result for the next set of operations must
+be weakened further.
+Operations like the Kleene star can be shown
+to preserve Leo-boundedness,
+but they require the prefix property,
+and they do not guarantee
+that the prefix property will be preserved.
+
+\begin{theorem}
+As long as they continue to have the prefix property,
+the Leo-bounded grammars remain closed under
+middle recursion, left recursion, right recursion and Kleene star,
+\end{theorem}
+
+Finally, we can strengthen the theorem for concatenation slightly.
 
 \begin{theorem}
 If all but the last grammar of a concatenation of Leo-bounded grammars
