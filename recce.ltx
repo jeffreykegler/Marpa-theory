@@ -3127,28 +3127,34 @@ For Leo-bounded grammars, they operations
 require, but do not preserve, the prefix property.
 
 \begin{theorem}
-A middle recursion between two Leo-bounded grammars with the prefix
+A middle recursion among three Leo-bounded grammars with the prefix
 property is a Leo-bounded grammar.
-The result of a left recursion, a right recursion or a Kleene star operation
-on a Leo-bounded grammars with the prefix property
-is a Leo-bounded grammar.
 \end{theorem}
 
 \begin{proof}
-Consider the a middle recursion of two Leo-bounded grammars, each
+Consider the middle recursion among three Leo-bounded grammars, each
 of which has the prefix property.
-Call the two grammar operands \var{gl}, and \var{gr}.
-let \var{S-l} and \var{S-r} be their start symbols.
-We will create a new grammar, \var{g-recurse},
-that represents a middle recursion between them.
+Let the three grammar operands be
+\begin{gather}
+\var{gl} = [ \var{Vl}, \var{Nl}, \var{Pl}, \var{Sl} ], \\
+\var{gm} = [ \var{Vm}, \var{Nm}, \var{Pm}, \var{Sm} ], \quad \text{and} \\
+\var{gr} = [ \var{Vr}, \var{Nr}, \var{Pr}, \var{Sr} ].
+\end{gather}
+Without loss of generality, we assume that the non-terminals of the three
+operand grammars are disjoint.
+
+To represent the middle recursion,
+we will create a new grammar, \var{g-recurse}.
 We create
 a new start symbol, \var{S-top},
 and three new rules,
-\begin{gather}
-\Vsym{S-recurse} \de \Vsym{S-middle} \\
-\Vsym{S-middle} \de \var{S-l} \var{S-middle} \var{S-r}, \quad \text{and} \\
-\Vsym{S-middle} \de \var{S-l} \var{S-r}.
-\end{gather}
+\begin{align}
+& \var{P-recurse} =  \lbrace \\
+& \quad [ \Vsym{S-top} \de \Vsym{S-recurse} ] , \\
+& \quad [ \Vsym{S-recurse} \de \var{Sl} \cat \var{S-recurse} \cat \var{Sr} ], \\
+& \quad [ \Vsym{S-recurse} \de \var{Sm} ] \\
+& \rbrace .
+\end{align}
 We include a dedicated start rule,
 and because it is convenient for our results on Leo boundedness if the
 start symbol is not involved in any kind of recursion.
@@ -3251,6 +3257,21 @@ at any location.
 Leo-boundedness is therefore preserved under this construction.
 
 \end{proof}
+
+\begin{theorem}
+The left recursion of two Leo-bounded grammars with the prefix property
+is a Leo-bounded grammar.
+\end{theorem}
+
+\begin{theorem}
+The right recursion of two Leo-bounded grammars with the prefix property
+is a Leo-bounded grammar.
+\end{theorem}
+
+\begin{theorem}
+The Kleene star closure of a Leo-bounded grammar with the prefix property
+is a Leo-bounded grammar.
+\end{theorem}
 
 Finally,
 if we do not require the prefix property to be preserved,
