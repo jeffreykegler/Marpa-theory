@@ -2913,6 +2913,28 @@ The following restrictions are observed:
 rules.
 \end{itemize}
 
+In the sequel we will often want to use tree predicates from one grammar
+in another grammar, with input positions moved appropriately.
+The following definition will be convenient.
+
+\begin{definition}
+Let \Vtp{tp} and \Vtp{tp2} be tree predicates,
+where
+\begin{equation}
+\Vtp{tp} = [ \Vrule{r}, \Vorig{i}, \Vloc{j} ].
+\end{equation}
+Let \var{n} be an integer.
+We say \var{tp2} is \var{tp} \dfn{offset} by \var{n},
+\begin{equation}
+\var{tp2} = \var{tp} + \var{n},
+\end{equation}
+if and only if
+\begin{equation}
+    \var{tp2} = [ \Vrule{r}, \var{i}+\var{n}, \var{j}+\var{n}].
+\end{equation}
+\myendTheorem
+\end{definition}
+
 \begin{definition}
 \label{d:grammar-union}
 Let \var{g1} and \var{g2} be two grammars.
@@ -3098,22 +3120,141 @@ the assumption that the last operand grammar, $\var{g}[\var{z}]$,
 has the prefix property.
 \end{proof}
 
-The closure
-result for the next set of operations must
-be weakened further.
-Operations like the Kleene star can be shown
-to preserve Leo-boundedness,
-but they require the prefix property,
-and they do not guarantee
-that the prefix property will be preserved.
+For the next set of operations
+preserve Leo-boundedness,
+but we cannot show a closure result.
+For Leo-bounded grammars, they operations
+require, but do not preserve, the prefix property.
 
 \begin{theorem}
-As long as they continue to have the prefix property,
-the Leo-bounded grammars remain closed under
-middle recursion, left recursion, right recursion and Kleene star,
+A middle recursion between two Leo-bounded grammars with the prefix
+property is a Leo-bounded grammar.
+The result of a left recursion, a right recursion or a Kleene star operation
+on a Leo-bounded grammars with the prefix property
+is a Leo-bounded grammar.
 \end{theorem}
 
-Finally, we can strengthen the theorem for concatenation slightly.
+\begin{proof}
+Consider the a middle recursion of two Leo-bounded grammars, each
+of which has the prefix property.
+Call the two grammar operands \var{gl}, and \var{gr}.
+let \var{S-l} and \var{S-r} be their start symbols.
+We will create a new grammar, \var{g-recurse},
+that represents a middle recursion between them.
+We create
+a new start symbol, \var{S-top},
+and three new rules,
+\begin{gather}
+\Vsym{S-recurse} \de \Vsym{S-middle} \\
+\Vsym{S-middle} \de \var{S-l} \var{S-middle} \var{S-r}, \quad \text{and} \\
+\Vsym{S-middle} \de \var{S-l} \var{S-r}.
+\end{gather}
+We include a dedicated start rule,
+and because it is convenient for our results on Leo boundedness if the
+start symbol is not involved in any kind of recursion.
+Additionally, Marpa internal grammars require a dedicated start rule,
+and it is convenient when combining the results of these theorems
+to make that restriction a matter of explicit statement,
+rather than implicit rewrite.
+Marpa internal grammars also are rewritten to eliminate nullable rules,
+so our grammar also obeys that restriction.
+
+As a reminder, we are considering a specific arbitrary input
+\Cwrange{0}{\var{j}\subtract 1}.
+Because the operand grammars have the prefix property,
+this input will contain an unambiguous sequence of, first,
+the left grammars, and then a sequence the right grammars.
+Our input may be any proper prefix of a middle recursion,
+so it may end without finding any right grammars.
+It may also end in the middle of a left grammar, including the first
+so that it is possible that no full occurrence of either operand grammar 
+will be found.
+
+Bearing that in mind, we call the recognized depth of our middle recursion,
+\var{d}.
+For our arbitrary choice of input \Cwrange{0}{\var{j}\subtract 1},
+Each recognized instance of an operand grammar will exactly one start location.
+It will also have at most one end location.
+
+The next part of our construction closely
+parallels that for concatentation of Leo-bounded grammars.
+Let \Vloc{current} be a location, $0 \le \var{current} \le \var{j}$.
+Let \var{current-g} be the operand grammar at \var{current}.
+\var{current-g} will be one of \var{gl} or \var{gr}.
+If \Vloc{current} is the start of one grammar and the end of another,
+\var{current-g} is the one that starts at \Vloc{current}.
+Let \Vloc{offset} be the start position of \var{current-g}.
+$\var{Valid}(\var{g-recurse}, \var{current})$
+includes all the tree predicates from the current operand grammar,
+\begin{multline}
+    \bigl[
+      [ \Vsym{lhs} \de \Vsf{rhs1} \mydot \Vsf{rhs2} ],
+      \var{origin},
+      \var{current}
+    \bigr] \\
+    \in \var{Valid}(\var{current-g},\Vloc{current})
+\end{multline}
+offset appropriately:
+\begin{equation}
+    \left[
+    \begin{aligned}
+      & [ \Vsym{lhs} \de \Vsf{rhs1} \mydot \Vsf{rhs2} ], \\
+      & \qquad \var{offset} + \var{origin}, \\
+      & \qquad \qquad \var{offset} + \var{current}
+    \end{aligned}
+    \right].
+\end{equation}
+We will call a tree predicate added to
+$\var{Valid}(\var{g-recurse})$ by offseting tree predicates from
+one of its operand grammars, an offset tree predicate.
+
+[ REWRITTEN TO HERE ]
+
+To the offset tree predicates, we must add some others,
+which we will call ``original tree predicates''.
+These will track the parse's progress through the start rule.
+The original tree predicates will be
+the prediction of
+the concatenation's start rule,
+\begin{equation}
+    \Bigl[ \bigl[
+\Vsym{S-cat} \de \mydot \var{S}[0] \cat \var{S}[1] \dots \var{S}[\var{x} \bigr],
+  0, 0 \Bigr].
+\end{equation}
+and, for every grammar, $\var{g}[\var{n}]$, where
+$\var{end}[\var{n}]$ is its final location,
+\begin{equation}
+  \Bigl[
+    \bigl[ 
+      \Vsym{S-cat} \de
+      \var{S}[0] \cat \var{S}[1] \dots \var{S}[\var{n}] \mydot
+      \var{S}[\var{n} + 1 ] \dots \var{S}[\var{z}]
+    \bigr],
+    0, \var{end}[\var{n}]
+  \Bigr].
+\end{equation}
+
+For offset tree predicates,
+we can see that the number of attempts to add
+them will remain unchanged when they are offset.
+Further,
+the determinism of their right recursions will remain undisturbed.
+For the original tree predicates,
+we observe that they will all require exactly one add attempt,
+that introduce no new right recursions,
+and that from the offset tree predicates,
+they use only the top symbols, which
+are never involved in a right recursion.
+
+Finally, we observe that at most one ?? tree predicate is added
+at any location.
+Leo-boundedness is therefore preserved under this construction.
+
+\end{proof}
+
+Finally,
+if we do not require the prefix property to be preserved,
+we can strengthen the theorem for concatenation slightly.
 
 \begin{theorem}
 If all but the last grammar of a concatenation of Leo-bounded grammars
