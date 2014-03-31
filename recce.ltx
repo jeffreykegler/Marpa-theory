@@ -3208,12 +3208,20 @@ where
   \end{aligned}
 \right\rbrace
 \end{equation}
+We say that \var{g-recurse} is a middle recursion,
+and that \var{gl} is its left grammar,
+and that \var{gm} is its middle grammar,
+and that \var{gr} is its right grammar.
+If \var{gm} is marked with respect to \var{gl},
+we say that the \var{g-recurse} is
+a \dfn{marked middle recursion}.
 \myendTheorem
 \end{definition}
 
 \begin{theorem}
-The marked middle recursion of three Leo-bounded grammars with the prefix
-property is a Leo-bounded grammar.
+If the left, right and middle grammars of a marked middle recursion
+are Leo-bounded grammars with the prefix property,
+then the middle recursion is a Leo-bounded grammar.
 \end{theorem}
 
 \begin{proof}
