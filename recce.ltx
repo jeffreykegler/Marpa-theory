@@ -509,17 +509,17 @@ We will write $\var{s}^\ast$ for set of strings
 is the closure of concatenation on \var{s1},
 and 
 $\var{s}^+$ for $\var{s}^\ast \backslash \epsilon$.
-Where \var{strings1} and \var{strings2} are sets of strings,
+Where \var{ss1} and \var{ss2} are sets of strings,
 \begin{gather}
-  \begin{split}
-    & \var{strings1} \cat \var{strings2} \defined \\
-     & \qquad \left\lbrace \var{s1} \cat \var{s2} \middle| \var{s1} \in \var{strings1}, \var{s2} \in \var{strings2} \right\rbrace,
-  \end{split} \\
-    \var{strings1} \times \var{n} \defined
+     \var{ss1} \cat \var{ss2} \defined 
+      \bigl\lbrace \var{s1} \cat \var{s2}
+	\bigm| \var{s1} \in \var{ss1}, \var{s2} \in \var{ss2}
+      \bigr\rbrace, \\
+    \var{ss1} \times \var{n} \defined
       \bigl\lbrace \var{s}[0] \cat \var{s}[1] \dots \var{s}[\var{n}\subtract 1]
-      \bigm| \forall \var{i} \, \var{s}[\var{i}] \in \var{strings1} \bigr\rbrace, \\
-    \var{strings1}^\ast \defined \bigcup_{\var{n} \ge 0}{ \var{string1}[\var{n}] } \quad \text{and} \\
-    \var{strings1}^+ \defined \var{strings1}^\ast \backslash \epsilon
+      \bigm| \forall \var{i} : \var{s}[\var{i}] \in \var{ss1} \bigr\rbrace, \\
+    \var{ss1}^\ast \defined \bigcup_{\var{n} \ge 0}{ \var{ss1} \times \var{n} } \quad \text{and} \\
+    \var{ss1}^+ \defined \var{ss1}^\ast \backslash \epsilon
 \end{gather}
 
 Let \Vruleset{rules} be a set of rules (type \type{RULE}),
