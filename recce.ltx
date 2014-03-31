@@ -3160,21 +3160,30 @@ require, but do not preserve, the prefix property.
 \begin{definition}
 Let \var{gp} and \var{gm} be Marpa internal grammars.
 Let the union of their sets of terminals be \var{T}.
-We say that \var{gm} is a \dfn{marker} with respect to \var{gp}
-if
-\begin{equation}
-\myL{\var{gp}}^+ \cap \myL{\var{gm}} = \epsilon
-\end{equation}
-and if there exists some integer, \var{n}, such that
+Let \var{n},
+$\var{n} > 0$, be the smallest integer such that
 \begin{equation}
 \bigl((\myL{\var{gp}} \times \var{n}) \; \cat \; \var{T}^\ast \bigr) \cap \myL{\var{gm}} = \epsilon.
 \end{equation}
-\var{gp} is called the \dfn{predecessor} of the marker,
-and \var{n} is called the marker's \dfn{stride}.
+There may be no such finite \var{n}.
+If \var{n} is defined,
+since the language of a Marpa internal grammar always contains a least one string
+of length greater than 0,
+\var{n} will be greater than 0.
+If \var{n} is finite, and
+\begin{equation}
+\myL{\var{gp}}^+ \cap \myL{\var{gm}} = \epsilon
+\end{equation}
+we say that \var{gm} is a \dfn{marker} with respect to \var{gp}
+that \var{gp} is called the \dfn{predecessor} of the marker,
+and that $\var{n} \subtract 1$ is called the marker's \dfn{stride}.
 \myendTheorem
 \end{definition}
 
-Intuitively, a grammar is a marker with respect to its predecessor
+Intuitively, the definition of marker ensures that the
+a marker does indeed leave a mark that Marpa can use to identify
+a location relative to the marker's predecessor.
+A grammar is a marker with respect to its predecessor
 if it cannot be mistaken for any sequence of predecessors,
 and if no proper prefix of it contains more than some fixed
 maximum number (the marker's ``stride'') of predessors.
@@ -3188,29 +3197,33 @@ Let the grammars be
 \var{gm} = [ \var{Vm}, \var{Nm}, \var{Pm}, \var{Sm}] \\
 \var{gr} = [ \var{Vr}, \var{Nr}, \var{Pr}, \var{Sr}].
 \end{gather*}
-We assume without that \var{Nl}, \var{Nm} and \var{Nr} are pairwise
+Without loss of generality,
+we assume without that \var{Nl}, \var{Nm} and \var{Nr} are pairwise
 disjoint.
-We define a set of new non-terminals, $\var{N-original} = \set{ \var{S-top}, \var{S-recurse} }$
-Let \var{g-recurse} be
-\begin{align}
-[ \var{V-recurse}, & \var{N-recurse}, \var{P-recurse}, \Vsym{S-top} ], \quad \text{where} \\
-\var{V-recurse} & = \var{Vl} \cup \var{Vm} \cup \var{Vl} \cup \var{N-original}, \\
-\var{N-recurse} & = \var{Nl} \cup \var{Nm} \cup \var{Nl} \cup \var{N-original} \quad \text{and} \\
-\var{P-recurse} & = \var{Pl} \cup \var{Pm} \cup \var{Pl} \cup \var{P-original}
-\end{align}
-where
+We define a set of new non-terminals, $\var{N-original} = \set{ \var{S-top}, \var{S-recurse} }$,
+and a new set of rules,
 \begin{equation}
 \var{P-original} = \left\lbrace
   \begin{aligned}
-    & [\Vsym{S-top} \de \var{S-recurse}], \\
-    & [\Vsym{S-recurse} \de \Vsym{Sm}], \\
-    & [\Vsym{S-recurse} \de \Vsym{Sl} \cat \Vsym{Sm} \cat \Vsym{Sr}]
+     & [\Vsym{S-top}     && \de \var{S-recurse}], \\
+     & [\Vsym{S-recurse} && \de \Vsym{Sm}], \\
+     & [\Vsym{S-recurse} && \de \Vsym{Sl} \cat \Vsym{Sm} \cat \Vsym{Sr}].
   \end{aligned}
 \right\rbrace
 \end{equation}
-We say that \var{g-recurse} is a middle recursion,
-and that \var{gl} is its left grammar,
-and that \var{gm} is its middle grammar,
+If \var{g-recurse} is
+\begin{equation}
+[ \var{V-recurse}, \var{N-recurse}, \var{P-recurse}, \Vsym{S-top} ]
+\end{equation}
+where
+\begin{align}
+\var{V-recurse} & = \var{Vl} \cup \var{Vm} \cup \var{Vl} \cup \var{N-original}, \\
+\var{N-recurse} & = \var{Nl} \cup \var{Nm} \cup \var{Nl} \cup \var{N-original} \quad \text{and} \\
+\var{P-recurse} & = \var{Pl} \cup \var{Pm} \cup \var{Pl} \cup \var{P-original},
+\end{align}
+we say that \var{g-recurse} is a middle recursion,
+that \var{gl} is its left grammar,
+that \var{gm} is its middle grammar,
 and that \var{gr} is its right grammar.
 If \var{gm} is marked with respect to \var{gl},
 we say that the \var{g-recurse} is
@@ -3218,137 +3231,128 @@ a \dfn{marked middle recursion}.
 \myendTheorem
 \end{definition}
 
+Recall that Marpa internal grammars are never nulling.
+Definition \ref{d:middle-recursion}
+can be extended to middle recursions with an empty middle
+by letting the middle grammar be the concatenation of the left
+and right grammars.
+The new rules for the middle recursion are defined to have a dedicated
+start symbol, and to avoid nulling rules.
+Marpa internal grammars forbid nulling rules and require a
+dedicated start symbol.
+
 \begin{theorem}
-If the left, right and middle grammars of a marked middle recursion
-are Leo-bounded grammars with the prefix property,
-then the middle recursion is a Leo-bounded grammar.
+A middle recursion is Leo-bounded if
+\begin{itemize}
+\item its left, right and middle grammars are Leo-bounded;
+\item its left, right and middle grammars have the prefix property;
+\item its middle grammar is a marker with respect to its left grammar; and
+\item its middle grammar is either free of right recrusions or has a stride of zero.
+\end{itemize}
 \end{theorem}
 
 \begin{proof}
-Consider the middle recursion among three Leo-bounded grammars, each
-of which has the prefix property.
-Let the three grammar operands be
-\begin{gather}
-\var{gl} = [ \var{Vl}, \var{Nl}, \var{Pl}, \var{Sl} ], \\
-\var{gm} = [ \var{Vm}, \var{Nm}, \var{Pm}, \var{Sm} ], \quad \text{and} \\
-\var{gr} = [ \var{Vr}, \var{Nr}, \var{Pr}, \var{Sr} ].
-\end{gather}
-Without loss of generality, we assume that the non-terminals of the three
-operand grammars are disjoint.
+Without loss of generality, let the marked middle recursion
+be as defined in
+Definition \ref{d:middle-recursion}.
 
-To represent the middle recursion,
-we will create a new grammar, \var{g-recurse}.
-We create
-a new start symbol, \var{S-top},
-and three new rules,
-\begin{align}
-& \var{P-recurse} =  \lbrace \\
-& \quad [ \Vsym{S-top} \de \Vsym{S-recurse} ] , \\
-& \quad [ \Vsym{S-recurse} \de \var{Sl} \cat \var{S-recurse} \cat \var{Sr} ], \\
-& \quad [ \Vsym{S-recurse} \de \var{Sm} ] \\
-& \rbrace .
-\end{align}
-We include a dedicated start rule,
-and because it is convenient for our results on Leo boundedness if the
-start symbol is not involved in any kind of recursion.
-Additionally, Marpa internal grammars require a dedicated start rule,
-and it is convenient when combining the results of these theorems
-to make that restriction a matter of explicit statement,
-rather than implicit rewrite.
-Marpa internal grammars also are rewritten to eliminate nullable rules,
-so our grammar also obeys that restriction.
-
-As a reminder, we are considering a specific arbitrary input
-\Cwrange{0}{\var{j}\subtract 1}.
-Because the operand grammars have the prefix property,
-this input will contain an unambiguous sequence of, first,
-the left grammars, and then a sequence the right grammars.
-Our input may be any proper prefix of a middle recursion,
-so it may end without finding any right grammars.
-It may also end in the middle of a left grammar, including the first
-so that it is possible that no full occurrence of either operand grammar 
-will be found.
-
-Bearing that in mind, we call the recognized depth of our middle recursion,
-\var{d}.
-For our arbitrary choice of input \Cwrange{0}{\var{j}\subtract 1},
-Each recognized instance of an operand grammar will exactly one start location.
-It will also have at most one end location.
-
-The next part of our construction closely
-parallels that for concatentation of Leo-bounded grammars.
-Let \Vloc{current} be a location, $0 \le \var{current} \le \var{j}$.
-Let \var{current-g} be the operand grammar at \var{current}.
-\var{current-g} will be one of \var{gl} or \var{gr}.
-If \Vloc{current} is the start of one grammar and the end of another,
-\var{current-g} is the one that starts at \Vloc{current}.
-Let \Vloc{offset} be the start position of \var{current-g}.
-$\var{Valid}(\var{g-recurse}, \var{current})$
-includes all the tree predicates from the current operand grammar,
-\begin{multline}
-    \bigl[
-      [ \Vsym{lhs} \de \Vsf{rhs1} \mydot \Vsf{rhs2} ],
-      \var{origin},
-      \var{current}
-    \bigr] \\
-    \in \var{Valid}(\var{current-g},\Vloc{current})
-\end{multline}
-offset appropriately:
+As a reminder, we are considering a specific arbitrary non-empty input
 \begin{equation}
-    \left[
-    \begin{aligned}
-      & [ \Vsym{lhs} \de \Vsf{rhs1} \mydot \Vsf{rhs2} ], \\
-      & \qquad \var{offset} + \var{origin}, \\
-      & \qquad \qquad \var{offset} + \var{current}
-    \end{aligned}
-    \right].
+\var{w} = \Cwrange{0}{\var{j}\subtract 1}.
 \end{equation}
-We will call a tree predicate added to
-$\var{Valid}(\var{g-recurse})$ by offseting tree predicates from
-one of its operand grammars, an offset tree predicate.
+\var{w} may be a partial input.
+But it will not be zero-length, that is $\var{j} > 0$.
+
+
+The proof will proceed by constructing the set of tree predicates for
+\var{g-recurse},
+checking as we proceed that the conditions for Leo-boundedness
+are preserved.
+We will first add, in order,
+\begin{itemize}
+\item the tree predicates for \var{Pl},
+\item the tree predicates for \var{Pr},
+\item the tree predicates for \var{Pm},
+\item the tree predicates for \var{P-original}.
+\end{itemize}
+We call the set of tree predicates resulting from a single prediction
+of its start symbol, an instance of that grammar.
+For example, the set of tree predicates derived from
+\begin{equation}
+\bigl[ [ \var{Sl} \de \Vsf{rhs} ], \Vorig{start}, \Vloc{start} \bigr]
+\end{equation}
+is the instance of \var{gl} starting at \Vloc{start}.
+
+We see from the rules in \var{P-original}
+that \Vsym{Sl} is predicted at location 0,
+and will be predicted again whenever \Vsym{Sl} is completed.
+Recall that Marpa only attempts to add a tree predicate if it
+is valid.
+Since \var{gl} has the prefix property,
+if an instance of \var{gl} has a completion of \Vsym{Sl}
+at location \var{end},
+no tree predicates for that instance
+will be valid at locations after \var{end}.
+Therefore there will be no attempts to add tree predicates
+for that \var{gl} instance after \var{end}.
+
+From the forgoing, we see that \var{gl} instances do not overlap --
+no instance of \var{gl} starts until another ends.
+They do however, abut --
+at the location where a \var{gl} instance ends,
+another starts.
+Marpa internal grammars do not predict zero-length inputs,
+so each \var{gl} instance can be identified by its start location.
+
+Let \var{gl-offsets} be the set of the start locations
+of the \var{gl} instances.
+The added tree predicates for all instances of \var{gl} will be
+\begin{equation}
+\bigcup_{\substack{\var{offset} \in \\ \var{gl-offsets}}}{
+  \var{Valid}(\var{g-recurse}, \var{w}) + \var{offset}
+}
+\end{equation}
+
+\var{gl} is Leo-bounded, so that for each input and location
+within that input it requires at most a constant number
+of attempts to add tree predicates.
+Call this constant, \var{cl}.
+While tree predicates from different instances do not overlap,
+they may abut, but the number of attempts to add tree predicates
+for \var{gl} instances within \var{g-recurse} will be less
+than or equal to $2 \times \var{cl}$.
+
+We now examine the right recursions in the offset instances
+of \var{gl}.
+\var{gl} is Leo-bounded, so its right recursions are deterministic.
+It is easy to see that offsetting the tree predicates of \var{gl}
+will not affect the form of its right recursions.
+We note that the only symbol that \var{gl} shares with another grammar
+used in the construction of \var{g-recurse} is \Vsym{Sl}.
+Since \Vsym{Sl} is not recursive within \var{gl},
+what other grammars do with it will not affect the right recursions within \var{gl}.
+
+To see that combining multiple \var{gl} instances within \var{g-recurse}
+does not introduce non-determinism, we note that, to preserve,
+right determinism, it is sufficient to introduce no new transitions to any \var{gl}
+instance.
+New transitions can only arise if the grammar instances overlap,
+and instances of \var{gl} will not overlap.
+So no non-determinism will be introduced into
+the right recursions in the instances of \var{gl}.
+
+In the above, we have seen that,
+when adding the tree predicates for \var{gl},
+we kept the bound on attempts to
+add tree predicates at each location less than a constant,
+and that we preserved the determinism of right recursions.
+The shows that adding the tree predicates for \var{gl},
+preserves Leo-boundedness.
+
+We now proceed to examine the tree predicates added to \var{g-recurse}
+for instances of \var{gr}.
 
 [ REWRITTEN TO HERE ]
-
-To the offset tree predicates, we must add some others,
-which we will call ``original tree predicates''.
-These will track the parse's progress through the start rule.
-The original tree predicates will be
-the prediction of
-the concatenation's start rule,
-\begin{equation}
-    \Bigl[ \bigl[
-\Vsym{S-cat} \de \mydot \var{S}[0] \cat \var{S}[1] \dots \var{S}[\var{x} \bigr],
-  0, 0 \Bigr].
-\end{equation}
-and, for every grammar, $\var{g}[\var{n}]$, where
-$\var{end}[\var{n}]$ is its final location,
-\begin{equation}
-  \Bigl[
-    \bigl[ 
-      \Vsym{S-cat} \de
-      \var{S}[0] \cat \var{S}[1] \dots \var{S}[\var{n}] \mydot
-      \var{S}[\var{n} + 1 ] \dots \var{S}[\var{z}]
-    \bigr],
-    0, \var{end}[\var{n}]
-  \Bigr].
-\end{equation}
-
-For offset tree predicates,
-we can see that the number of attempts to add
-them will remain unchanged when they are offset.
-Further,
-the determinism of their right recursions will remain undisturbed.
-For the original tree predicates,
-we observe that they will all require exactly one add attempt,
-that introduce no new right recursions,
-and that from the offset tree predicates,
-they use only the top symbols, which
-are never involved in a right recursion.
-
-Finally, we observe that at most one ?? tree predicate is added
-at any location.
-Leo-boundedness is therefore preserved under this construction.
-
 \end{proof}
 
 \begin{theorem}
