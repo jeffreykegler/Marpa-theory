@@ -3158,18 +3158,58 @@ For Leo-bounded grammars, they operations
 require, but do not preserve, the prefix property.
 
 \begin{definition}
-We say that a grammar \var{g} is \dfn{marked} with respect to
-another grammar, $\var{g}'$,
-called the \dfn{predecessor},
-% TODO Not finished
+Let \var{gp} and \var{gm} be Marpa internal grammars.
+Let the union of their sets of terminals be \var{T}.
+We say that \var{gm} is a \dfn{marker} with respect to \var{gp}
+if
+\begin{equation}
+\myL{\var{gp}}^+ \cap \myL{\var{gm}} = \epsilon
+\end{equation}
+and if there exists some integer, \var{n}, such that
+\begin{equation}
+\bigl((\myL{\var{gp}} \times \var{n}) \; \cat \; \var{T}^\ast \bigr) \cap \myL{\var{gm}} = \epsilon.
+\end{equation}
+\var{gp} is called the \dfn{predecessor} of the marker,
+and \var{n} is called the marker's \dfn{stride}.
+\myendTheorem
 \end{definition}
 
-Intuitively, one grammar is marked with respect to a predecessor
-grammar
-if their languages are disjoint,
-and if no prefix of the marked grammar contains more than
-a fixed number of occurrences of strings
-from the language of the predecessor grammar.
+Intuitively, a grammar is a marker with respect to its predecessor
+if it cannot be mistaken for any sequence of predecessors,
+and if no proper prefix of it contains more than some fixed
+maximum number (the marker's ``stride'') of predessors.
+
+\begin{definition}
+\label{d:middle-recursion}
+Let \var{gl}, \var{gm} and \var{gr} be three grammars.
+Let the grammars be
+\begin{gather*}
+\var{gl} = [ \var{Vl}, \var{Nl}, \var{Pl}, \var{Sl}] \\
+\var{gm} = [ \var{Vm}, \var{Nm}, \var{Pm}, \var{Sm}] \\
+\var{gr} = [ \var{Vr}, \var{Nr}, \var{Pr}, \var{Sr}].
+\end{gather*}
+We assume without that \var{Nl}, \var{Nm} and \var{Nr} are pairwise
+disjoint.
+We define a set of new non-terminals, $\var{N-original} = \set{ \var{S-top}, \var{S-recurse} }$
+Let \var{g-recurse} be
+\begin{align}
+[ \var{V-recurse}, & \var{N-recurse}, \var{P-recurse}, \Vsym{S-top} ], \quad \text{where} \\
+\var{V-recurse} & = \var{Vl} \cup \var{Vm} \cup \var{Vl} \cup \var{N-original}, \\
+\var{N-recurse} & = \var{Nl} \cup \var{Nm} \cup \var{Nl} \cup \var{N-original} \quad \text{and} \\
+\var{P-recurse} & = \var{Pl} \cup \var{Pm} \cup \var{Pl} \cup \var{P-original}
+\end{align}
+where
+\begin{equation}
+\var{P-original} = \left\lbrace
+  \begin{aligned}
+    & [\Vsym{S-top} \de \var{S-recurse}], \\
+    & [\Vsym{S-recurse} \de \Vsym{Sm}], \\
+    & [\Vsym{S-recurse} \de \Vsym{Sl} \cat \Vsym{Sm} \cat \Vsym{Sr}]
+  \end{aligned}
+\right\rbrace
+\end{equation}
+\myendTheorem
+\end{definition}
 
 \begin{theorem}
 The marked middle recursion of three Leo-bounded grammars with the prefix
