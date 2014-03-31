@@ -496,10 +496,31 @@ Call the empty string, $\epsilon$.
 Then $\Vsymset{sym-set}^+ = \var{sym-set}^\ast \backslash \epsilon$.
 If $\var{string} \in \var{T}^\ast$, \Vstr{string}
 is of type \type{STR}.
-If $\var{form} \in \var{V}^\ast$, \Vsf{form}
-is of type \type{SF}.
 Where \Vstr{s} is a string,
 \size{\Vstr{s}} is its length, counted in symbols.
+
+Where \var{s1} and \var{s2} are strings,
+whether of type \type{STR} or \type{SF},
+we will write $\var{s1} \cat \var{s2}$ for the
+concatenation of \var{s1} and \var{s2},
+and $\var{s1} \times \var{n}$ for the concatenation of \var{n} copies
+of \var{s1}.
+We will write $\var{s}^\ast$ for set of strings
+is the closure of concatenation on \var{s1},
+and 
+$\var{s}^+$ for $\var{s}^\ast \backslash \epsilon$.
+Where \var{strings1} and \var{strings2} are sets of strings,
+\begin{gather}
+  \begin{split}
+    & \var{strings1} \cat \var{strings2} \defined \\
+     & \qquad \left\lbrace \var{s1} \cat \var{s2} \middle| \var{s1} \in \var{strings1}, \var{s2} \in \var{strings2} \right\rbrace,
+  \end{split} \\
+    \var{strings1} \times \var{n} \defined
+      \bigl\lbrace \var{s}[0] \cat \var{s}[1] \dots \var{s}[\var{n}\subtract 1]
+      \bigm| \forall \var{i} \, \var{s}[\var{i}] \in \var{strings1} \bigr\rbrace, \\
+    \var{strings1}^\ast \defined \bigcup_{\var{n} \ge 0}{ \var{string1}[\var{n}] } \quad \text{and} \\
+    \var{strings1}^+ \defined \var{strings1}^\ast \backslash \epsilon
+\end{gather}
 
 Let \Vruleset{rules} be a set of rules (type \type{RULE}),
 where a rule is a duple
@@ -525,7 +546,7 @@ of
 Here \Vsym{start}, $\var{start} \in \var{lhs-syms}$,
 is a distinguished start symbol.
 The grammar's set of terminals will be
-be $\Vsymset{vocab} \backslash \Vsymset{lhs-syms}$,
+be $\var{T} = \Vsymset{vocab} \backslash \Vsymset{lhs-syms}$,
 unless indicated otherwise.
 In most contexts of this \doc{},
 only one grammar will be under discussion:
@@ -533,13 +554,23 @@ only one grammar will be under discussion:
     \Cg = [\Vsymset{V}, \Vsymset{L}, \Crules, \Vsym{S}].
 \end{equation*}
 
+In those context where
+a string is formed from
+the symbols in the vocabulary of some grammar,
+\var{vocab}, we will say that a string
+is of type \type{SF},
+if it potentially contains non-terminals.
+We will reserve
+\type{STR} for those strings which
+must be formed entirely from terminals.
+
 The rules imply the traditional rewriting system,
-in which $\Vstr{x} \derives \Vstr{y}$
-states that \Vstr{x} derives \Vstr{y} in exactly one step;
-$\Vstr{x} \deplus \Vstr{y}$
-states that \Vstr{x} derives \Vstr{y} in one or more steps;
-and $\Vstr{x} \destar \Vstr{y}$
-states that \Vstr{x} derives \Vstr{y} in zero or more steps.
+in which $\Vsf{x} \derives \Vsf{y}$
+states that \Vsf{x} derives \Vsf{y} in exactly one step;
+$\Vsf{x} \deplus \Vsf{y}$
+states that \Vsf{x} derives \Vsf{y} in one or more steps;
+and $\Vsf{x} \destar \Vsf{y}$
+states that \Vsf{x} derives \Vsf{y} in zero or more steps.
 
 We say that symbol \Vsym{x} is \dfn{nullable} if and only if
 $\Vsym{x} \destar \epsilon$.
@@ -3126,8 +3157,22 @@ but we cannot show a closure result.
 For Leo-bounded grammars, they operations
 require, but do not preserve, the prefix property.
 
+\begin{definition}
+We say that a grammar \var{g} is \dfn{marked} with respect to
+another grammar, $\var{g}'$,
+called the \dfn{predecessor},
+% TODO Not finished
+\end{definition}
+
+Intuitively, one grammar is marked with respect to a predecessor
+grammar
+if their languages are disjoint,
+and if no prefix of the marked grammar contains more than
+a fixed number of occurrences of strings
+from the language of the predecessor grammar.
+
 \begin{theorem}
-A middle recursion among three Leo-bounded grammars with the prefix
+The marked middle recursion of three Leo-bounded grammars with the prefix
 property is a Leo-bounded grammar.
 \end{theorem}
 
