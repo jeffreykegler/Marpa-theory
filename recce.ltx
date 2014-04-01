@@ -884,6 +884,24 @@ for some \Vsf{after},
   \Vsf{predot} \destar \Cwrange{\var{origin}}{\Vloc{dot}-1}.
 \end{gather}
 
+\begin{definition}
+For a fused tree predicate of the form,
+\begin{equation}
+\Vtp{tp} = \bigl[ [ \Vsym{lhs} \de \Vsf{rhs1} \Vsym{transition} \mydot \Vsf{rhs2} ], \Vorig{i}, \Vloc{k} \bigr],
+\end{equation}
+a completer proof is a pair of valid tree predicates of the form
+\begin{gather}
+ \bigl[ [ \Vsym{lhs} \de \Vsf{rhs1} \mydot \Vsym{transition} \Vsf{rhs2} ], \Vorig{i}, \Vloc{j} \bigr] \\
+ \bigl[ [ \Vsym{transition} \de \Vsf{transition-rhs} ], \Vorig{j}, \Vloc{k} \bigr],
+\end{gather}
+\end{definition}
+
+Predicted tree predicates and scanned tree predicates do not have
+completer proofs.
+Every valid fused tree predicate must have at least one completer proof.
+Completer proofs are one of the elegant and efficient notational
+ideas in ~\cite{Wich2005}.
+
 \section{An approach to the Earley algorithm}
 \label{s:earley-approach}
 
@@ -2965,6 +2983,102 @@ if and only if
 \end{equation}
 \myendTheorem
 \end{definition}
+
+\begin{definition}
+Let \var{tp-set} and \var{tp-set2} be sets of tree predicates,
+and \var{n} a non-negative integer.
+\var{tp-set} is \var{tp-set2} \dfn{offset} by \var{n},
+$\var{tp-set} = \var{tp-set2} + \var{n}$,
+if and only if
+\begin{equation}
+\var{tp-set} = \left\lbrace
+    \Vtp{x} + \var{n} \middle| \var{x} \in \var{tp-set2}
+\right\rbrace
+\end{equation}
+\end{definition}
+
+\begin{theorem}
+Let \var{n} be a non-negative integer
+and \var{tp-set} be the set of tree predicates produced by Marpa
+for grammar \var{g},
+with input \var{w},
+where $\var{j} = \size{\var{w}}$,
+and \var{tp-set2} be $\var{tp-set} + \var{n}$.
+For any tree predicate $\var{tp} \in \var{tp-set}$,
+the number of add attempts for $\var{tp} + \var{n}$
+will be the same as for \var{tp}.
+\myendTheorem
+\end{theorem}
+
+\begin{proof}
+Let \var{tp} be
+\begin{equation}
+[ \Vdr{dr}, \Vorig{i}, \Vloc{j} ].
+\end{equation}
+If \var{dr} is a scanned dotted rule,
+there will always be exactly one attempt to add it.
+We next examine the most complicated case,
+that of fused dotted rules.
+
+The number of add attempts for a fused dotted rule
+is equal to the number of valid completer proofs.
+Without loss of generality, let
+\begin{multline}
+\label{e:fused-1}
+\var{fused-tp} =
+ \bigl[ [ \Vsym{lhs} \de \Vsf{rhs1} \Vsym{transition} \mydot \Vsf{rhs2} ], \Vorig{i}, \Vloc{k} \bigr]
+\end{multline}
+be a fused tree predicate in \var{tp-set}.
+Then
+its completer proofs will have the form,
+\begin{multline}
+\label{e-completer-proof-1}
+ \bigl[ [ \Vsym{lhs} \de \Vsf{rhs1} \mydot \Vsym{transition} \Vsf{rhs2} ], \Vorig{i}, \Vloc{j} \bigr]
+   \quad \text{and} \\
+ \bigl[ [ \Vsym{transition} \de \Vsf{transition-rhs} ], \Vorig{j}, \Vloc{k} \bigr].
+\end{multline}
+It is clear from the definition of offset for tree predicates that this means that
+the tree predicates
+\begin{multline}
+\label{e-completer-proof-2}
+ \bigl[ [ \Vsym{lhs} \de \Vsf{rhs1} \mydot \Vsym{transition} \Vsf{rhs2} ],
+   \Vorig{i}+\var{n}, \Vloc{j}+\var{n} \bigr] \in \var{tp-set2} \\
+ \land \bigl[ [ \Vsym{transition} \de \Vsf{transition-rhs} ], \Vorig{j}+\var{n}, \Vloc{k}+\var{n} \bigr] \in \var{tp-set2}.
+\end{multline}
+will be in $\var{tp-set} + \var{n}$.
+By the definition of completer proof,
+\eqref{e-completer-proof-2} is a completer proof
+of $\var{fused-tp} + \var{n}$.
+% TODO -- Show the bijection?
+Offset is a bijection in the sets, \var{tp-set} and \var{tp-set2},
+so we can also see that there is a bijection between the Cartesian products of
+\var{tp-set} and \var{tp-set2},
+and therefore there is a bijection between completer
+proofs in \var{tp-set} and \var{tp-set2}.
+Therefore the number of completer proofs for
+\var{fused-tp} and $\var{fused-tp} + \var{n}$ must be the same.
+
+Finally, for predicted tree predicates, in Marpa the number of attempts to add a predicted tree predicate
+at \Vloc{j}
+will depend on the postdot symbols of the scanned and fused tree predicates at \Vloc{j}.
+We see that 
+\begin{equation*}
+ \bigl[ [ \Vsym{lhs} \de \Vsf{rhs1} \mydot \Vsym{post-dot} \Vsf{rhs2} ], \Vorig{i}, \Vloc{j} \bigr] \in \var{tp-set}
+\end{equation*}
+if and only if
+\begin{equation*}
+ \bigl[ [ \Vsym{lhs} \de \Vsf{rhs1} \mydot \Vsym{post-dot} \Vsf{rhs2} ], \Vorig{i}+\var{n}, \Vloc{j}+\var{n} \bigr] \in \var{tp-set}
+\end{equation*}
+so that the number of attempts to add 
+\begin{equation*}
+ \bigl[ [ \Vsym{post-dot} \de \mydot \Vsf{predicted-rhs} ], \Vorig{j}, \Vloc{j} \bigr]
+\end{equation*}
+to \var{tp-set} will be the same as the number of attempts to add
+\begin{equation*}
+ \bigl[ [ \Vsym{post-dot} \de \mydot \Vsf{predicted-rhs} ], \Vorig{j}+\var{n}, \Vloc{j}+\var{n} \bigr]
+\end{equation*}
+to \var{tp-set2}
+\end{proof}
 
 \begin{definition}
 \label{d:grammar-union}
