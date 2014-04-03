@@ -1,17 +1,18 @@
 Index of grammars in Earley's thesis
+Page defined before semi-colon; references after
 
 AE, p. 15
-BK, 39
+BK, 39; 62
 BP, 40
 UBDA, 42
-RR, 47
-RL, 63
-PAL, 65
-GAP, 67
+RR, 47; 72-76, 86
+RL, 63; 61
+PAL, 65; 62
+GAP, 67; 62
 LR, 71
-N, 90
+N, 90; 89
 INF, 110
-G1,G2,G3,G4, p. 118
+G1,G2,G3,G4, p. 118; 98
 Propositional Calculus, 119
 GRE, 120,
 NSE, 121
