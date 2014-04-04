@@ -3130,6 +3130,44 @@ is also a Leo bound.
 \end{theorem}
 
 \begin{proof}
+Call the set of Leo bounds, \var{lb-set}.
+From its definition,
+the union of \var{lb-set} is clearly a function
+of the proper form to be a Leo bound: from strings to sets of tree predicates.
+By assumption, there are no right recursions, so that
+it is vacuously true that
+the bound of 1 on proofs of right recursions is preserved.
+
+In the following we will assume, without loss of generality,
+an arbitrary input \var{w} and an arbitrary location, \Vloc{i}.
+By the definition of Leo bound, the number of tree predicates
+from each element of \var{lb-set} at \Vloc{i} will be less than some constant.
+Call that constant, for the \var{n}'th member of \var{lb-set},
+$\var{c}[\var{n}]$.
+
+Call the set of Leo bounds containing tree predicates at \Vloc{i},
+\var{lb-i}, $\var{lb-i} \subseteq \var{lb-set}$.
+The number of tree predicates at \var{i} will be
+\begin{equation}
+\size{\bigcup_{\var{lb} \in \var{lb-i}}{\var{lb}(\var{w},\var{i})}}
+\end{equation}
+By assumption, $\size{\var{lb-i}}$ is bounded by a constant, call it \var{c1}.
+By the definition of Leo bound, each
+$\size{\var{lb}(\var{w},\var{i})}$ is less than some constant,
+so that
+\begin{equation}
+\var{c} = \sum_{\var{lb} \in \var{lb-i}}
+    {\bigl| \var{lb}(\var{w},\var{i}) \bigr| }
+\end{equation}
+is the summation of a finite series of finite constants,
+and therefore \var{c} must be some finite constant.
+This means the number of tree predicates at \Vloc{i} will be 
+at most \var{c},
+which satisifies the requirement to preserve the Leo-boundedness of
+the union.
+
+It remains to show that for any tree predicate in \var{lb-union},
+the number of costed proofs is less than some constant.
 \end{proof}
 
 \begin{definition}
