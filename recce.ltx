@@ -3130,7 +3130,9 @@ is also a Leo bound.
 \end{theorem}
 
 \begin{proof}
-Call the set of Leo bounds, \var{lb-set}.
+Call the set of Leo bounds, \var{lb-set},
+and call their union, \var{lb-union}.
+We need to show that \var{lb-union} is a Leo bound.
 From its definition,
 the union of \var{lb-set} is clearly a function
 of the proper form to be a Leo bound: from strings to sets of tree predicates.
@@ -3163,11 +3165,61 @@ is the summation of a finite series of finite constants,
 and therefore \var{c} must be some finite constant.
 This means the number of tree predicates at \Vloc{i} will be 
 at most \var{c},
-which satisifies the requirement to preserve the Leo-boundedness of
+\begin{equation}
+\label{e:lb-union-loc-bound}
+\size{\var{lb-union}(\var{w}, \var{i})} \le \var{c}
+\end{equation}
+as required to preserve the Leo-boundedness of
 the union.
 
 It remains to show that for any tree predicate in \var{lb-union},
 the number of costed proofs is less than some constant.
+Consider an arbitrary tree predicate at \Vloc{i}, \var{tp}.
+The cause of the scanned proofs at \var{i} will always be the same --
+the symbol $\var{w}[\var{i}\subtract 1]$.
+All predecessors of scanned proofs will be at location $\var{i}\subtract 1$.
+From \eqref{e:lb-union-loc-bound},
+we know that the number of tree predicates at
+any location of \var{lb-union} is at most some constant,
+call it \var{c},
+so there will be at most \var{c} tree predicates at
+$\var{i}\subtract 1$.
+Every predecessor of a scanned proof must be a tree predicates
+at location $\var{i}\subtract 1$,
+so there will be at most \var{c} different predecessors.
+Because the scanned proofs all share a single cause,
+there can be no more scanned proofs than there are predecessors.
+So there will be at most \var{c} different
+scanned proofs of \var{tp}.
+
+The causes of its fusion proofs will be tree predicates
+ending at \Vloc{i}.
+From \eqref{e:lb-union-loc-bound},
+the number of tree predicates at
+\Vloc{i} is at most some constant, call it \var{c}.
+The predecessor of a fusion proof must be at the origin location
+of the cause of the fusion proof.
+Call this location, \Vloc{middle}.
+From \eqref{e:lb-union-loc-bound},
+we also know that there will be at most a fixed number of tree
+predicates at \Vloc{middle}.
+Fusion proofs have at most \var{c} causes, each of which
+have at most \var{c} predecessors, so there are at most
+$\var{c}^2$ fusion proofs.
+
+We have just seen the number of scanned proofs of each
+tree predicate is \Oc,
+and that the number of fusion proofs of each
+tree predicate is \Oc.
+Every costed proof is either a scanned proof or a fusion proof,
+so that the number of costed proofs is $\Oc = \Oc + Oc$.
+
+\var{lb-union} is a function of the proper form to be a Leo bound,
+and it also has the required bounds on
+costed proofs of right recursions,
+on stored tree predicates per location,
+and on costed proofs of stored tree predicates.
+\var{lb-union} is therefore a Leo bound.
 \end{proof}
 
 \begin{definition}
