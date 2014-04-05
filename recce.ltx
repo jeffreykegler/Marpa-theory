@@ -3082,20 +3082,26 @@ to \var{tp-set2}
 
 \begin{definition}
 Let \var{lb-set} be a set of Leo bounds.
-We say that \var{lb-set} has bounded overlap if there is
-a constant \var{c} such that,
-for all \var{lb}, $\var{lb} \in \var{lb-set}$,
-inputs \Vstr{w},
-and locations \Vloc{i},
+We say that \var{lb-set} has bounded overlap if
+for all \Vstr{w}, \Vloc{i},
 \begin{equation}
-\size{\var{lb}(\var{w},\var{i})} \le \var{c}
+\Bigl|
+  \bigl\lbrace \var{lb}
+  \bigm|
+    \var{lb} \in \var{lb-set} \land
+      \var{lb}(\var{w},\var{i}) > 0
+  \bigr\rbrace
+\Bigr| = \Oc
 \end{equation}
 \end{definition}
 
 Less formally, a set of Leo bounds has bounded overlap if
-there is some fixed limit \var{c}, such that
-for every specific location and input,
-no more than \var{c} of the Leo bounds have tree predicates there.
+there is a finite limit to the number of Leo bounds which have
+tree predicates at any input location.
+This concept is useful primarily where \var{lb-set} has transfinite
+cardinality, since
+it is trivially true that any set of finite cardinality is
+a bounded overlap set.
 
 \begin{definition}
 Let \var{lb-set} be
@@ -3104,23 +3110,29 @@ Let
 \begin{equation}
 \var{all-inputs} =
 \bigcup_{\var{lb} \in \var{lb-set}}
-{\left\lbrace x \; \middle| \; lb:\var{x} \mapsto \var{y}
+{\left\lbrace \var{x} \;
+  \middle| \; \var{lb} :\var{x} \mapsto \var{y}
 \right\rbrace}
 \end{equation}
 and
-\begin{equation}
-\var{all-predicate-sets} =
-\bigcup_{\var{lb} \in \var{lb-set}}
-{\left\lbrace y \; \middle| \; lb:\var{x} \mapsto \var{y}
-\right\rbrace}.
-\end{equation}
-Then $\var{lb-union} : \var{all-inputs} \mapsto \var{all-predicate-sets}$
+\begin{multline}
+\var{all-predicates} = \\
+\bigcup{
+  \bigl\lbrace \var{tp}
+  \; \bigm| \;
+    \var{tp} \in \var{y}
+    \; \land \; \var{lb} \in \var{lb-set}
+    \; \land \; \var{lb} : \var{x} \mapsto \var{y}
+  \bigr\rbrace
+}.
+\end{multline}
+Then $\var{lb-union} : \var{all-inputs} \mapsto \var{all-predicates}^2$
 is defined as
 \begin{equation}
 \var{lb-union}(\var{w}) =
 \bigcup_{\var{lb} \in \var{lb-set}}{\var{lb}(\var{w})}.
 \end{equation}
-
+  \myendTheorem
 \end{definition}
 
 \begin{theorem}
