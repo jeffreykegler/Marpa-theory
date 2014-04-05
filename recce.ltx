@@ -884,6 +884,21 @@ for some \Vsf{after},
   \Vsf{predot} \destar \Cwrange{\var{origin}}{\Vloc{dot}-1}.
 \end{gather}
 
+We write the set of valid tree predicates for \var{g} and input \var{w} as $\var{Valid}(\var{g}, \var{w})$.
+Often \var{g} will be understood in a context, and \var{Valid} will be treated as a function mapping
+strings to sets of tree predicates, and written $\var{Valid}(\var{w})$.
+The set of tree predicates valid at a location \Vloc{i} is
+\begin{multline}
+\var{Valid}(\var{g}, \var{w}) [ \var{i} ] = \\
+\Bigl\lbrace \var{tp} 
+\Bigm|
+  \var{tp} = \bigl[ \Vdr{dotted}, \Vorig{start}, \Vloc{i} \bigr]
+  \land \var{tp} \in \var{Valid}(\var{w})
+\Bigr\rbrace .
+\end{multline}
+Where \var{g} is understood, it is written
+$\var{Valid}(\var{w}) [ \var{i} ]$.
+
 \begin{definition}
 For a fused tree predicate of the form,
 \begin{equation}
@@ -2839,11 +2854,15 @@ or a completion which is not in a determistic recursion.
 \end{definition}
 
 \begin{definition}
-We call a grammar \dfn{Leo bounded} if
-for all locations \var{j}
-and inputs \Cwrange{0}{\var{j}\subtract 1},
-at most \var{c},
-where \var{c} may depend on the grammar.
+We call $\var{g} = [ \var{V}, \var{N}, \var{P}, \var{S} ]$
+\dfn{Leo bounded} if
+all of the following are true.
+\begin{gather}
+\label{e:lb-is-reducted} \text{\var{g} is reduced}. \\
+\label{e:lb-S-not-on-rhs} \forall \Vsym{lhs}, \Vsf{rhs1}, \Vsf{rhs2}, \quad [ \var{lhs} \de \var{rhs1} \cat \var{S} \cat \var{rhs2} ] \notin \var{P} \\
+\label{e:lb-S-dedicated} \size{ \left\lbrace \Vrule{r} \middle| [ \var{S} \de \Vsf{rhs} ] = \var{r} \land \var{r} \in \var{P} \right\rbrace } = 1 \\
+\label{e:lb-rr-deterministic} \forall \Vstr{w}, \Vloc{i}, \quad \size{ \var{Valid}(\var{w})[\var{i}] } = \Oc \\
+\end{gather}
 \end{definition}
 
 \begin{theorem}
@@ -3146,8 +3165,9 @@ Call the set of Leo bounds, \var{lb-set},
 and call their union, \var{lb-union}.
 We need to show that \var{lb-union} is a Leo bound.
 From its definition,
-the union of \var{lb-set} is clearly a function
-of the proper form to be a Leo bound: from strings to sets of tree predicates.
+\var{lb-union} is clearly
+of the proper form to be a Leo bound:
+a function mapping strings to sets of tree predicates.
 By assumption, there are no right recursions, so that
 it is vacuously true that
 the bound of 1 on proofs of right recursions is preserved.
@@ -3155,7 +3175,7 @@ the bound of 1 on proofs of right recursions is preserved.
 In the following we will assume, without loss of generality,
 an arbitrary input \var{w} and an arbitrary location, \Vloc{i}.
 By the definition of Leo bound, the number of tree predicates
-from each element of \var{lb-set} at \Vloc{i} will be less than some constant.
+from each element of \var{lb-set} at \Vloc{i} is \Oc{}.
 Call that constant, for the \var{n}'th member of \var{lb-set},
 $\var{c}[\var{n}]$.
 
@@ -3165,66 +3185,60 @@ The number of tree predicates at \var{i} will be
 \begin{equation}
 \size{\bigcup_{\var{lb} \in \var{lb-i}}{\var{lb}(\var{w},\var{i})}}
 \end{equation}
-By assumption, $\size{\var{lb-i}}$ is bounded by a constant, call it \var{c1}.
-By the definition of Leo bound, each
-$\size{\var{lb}(\var{w},\var{i})}$ is less than some constant,
+By assumption, \var{lb-set} is bounded,
+so that $\size{\var{lb-i}} = \Oc$.
+By the definition of Leo bound,
+\begin{equation}
+\forall \var{lb} \in \var{lb-i}, \; \size{\var{lb}(\var{w},\var{i})} = \Oc.
+\end{equation}
 so that
 \begin{equation}
 \var{c} = \sum_{\var{lb} \in \var{lb-i}}
-    {\bigl| \var{lb}(\var{w},\var{i}) \bigr| }
+    {\bigl| \var{lb}(\var{w},\var{i}) \bigr| } = \Oc.
 \end{equation}
-is the summation of a finite series of finite constants,
-and therefore \var{c} must be some finite constant.
-This means the number of tree predicates at \Vloc{i} will be 
-at most \var{c},
+This means the number of tree predicates at \Vloc{i},
 \begin{equation}
 \label{e:lb-union-loc-bound}
-\size{\var{lb-union}(\var{w}, \var{i})} \le \var{c}
+\size{\var{lb-union}(\var{w}, \var{i})} \le \var{c} = \Oc
 \end{equation}
 as required to preserve the Leo-boundedness of
 the union.
 
 It remains to show that for any tree predicate in \var{lb-union},
-the number of costed proofs is less than some constant.
+the number of costed proofs is \Oc{}.
 Consider an arbitrary tree predicate at \Vloc{i}, \var{tp}.
 The cause of the scanned proofs at \var{i} will always be the same --
 the symbol $\var{w}[\var{i}\subtract 1]$.
 All predecessors of scanned proofs will be at location $\var{i}\subtract 1$.
 From \eqref{e:lb-union-loc-bound},
 we know that the number of tree predicates at
-any location of \var{lb-union} is at most some constant,
-call it \var{c},
-so there will be at most \var{c} tree predicates at
+any location of \var{lb-union} is \Oc{}.
+so there will be \Oc{} tree predicates at
 $\var{i}\subtract 1$.
-Every predecessor of a scanned proof must be a tree predicates
+Every predecessor of a scanned proof must be a tree predicate
 at location $\var{i}\subtract 1$,
-so there will be at most \var{c} different predecessors.
+so there will be \Oc{} different predecessors.
 Because the scanned proofs all share a single cause,
 there can be no more scanned proofs than there are predecessors.
-So there will be at most \var{c} different
+So there will be \Oc{} different
 scanned proofs of \var{tp}.
 
 The causes of its fusion proofs will be tree predicates
 ending at \Vloc{i}.
 From \eqref{e:lb-union-loc-bound},
 the number of tree predicates at
-\Vloc{i} is at most some constant, call it \var{c}.
+\Vloc{i} is \Oc{}.
 The predecessor of a fusion proof must be at the origin location
 of the cause of the fusion proof.
 Call this location, \Vloc{middle}.
 From \eqref{e:lb-union-loc-bound},
-we also know that there will be at most a fixed number of tree
+we also know that there will be \Oc{}
 predicates at \Vloc{middle}.
-Fusion proofs have at most \var{c} causes, each of which
-have at most \var{c} predecessors, so there are at most
-$\var{c}^2$ fusion proofs.
-
-We have just seen the number of scanned proofs of each
-tree predicate is \Oc,
-and that the number of fusion proofs of each
-tree predicate is \Oc.
+Fusion proofs have at most \Oc{} causes, each of which
+have at most \Oc{} predecessors, so there are at most
+$\Oc^2$ fusion proofs.
 Every costed proof is either a scanned proof or a fusion proof,
-so that the number of costed proofs is $\Oc = \Oc + Oc$.
+so that the number of costed proofs is $\Oc + \Oc^2 = \Oc$.
 
 \var{lb-union} is a function of the proper form to be a Leo bound,
 and it also has the required bounds on
