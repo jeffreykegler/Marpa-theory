@@ -2959,54 +2959,6 @@ The theorems which follow in the remainder of this section show
 \On{} time and space for classes of grammar beyond LRR.
 These classes include many ambiguous grammars.
 
-The proofs use the same basic method.
-Given several other grammars, assumed to be Leo-bounded,
-these proofs construct another grammar,
-also Leo-bounded.  From this, linearity follows directly.
-The construction is sometimes described in terms of an
-algorithm to carry it out.
-These algorithms may do parsing, but they are not intended
-as useful parsing algorithms.
-If they are effectively computable,
-that is more than sufficient.
-
-These constructions will be relatively simple,
-so that their correctness and completeness of these construction
-will be obvious in most respects.
-But two of the requirements for
-keeping Leo-boundedness invariant
-will require a certain
-amount of care.
-
-First, to keep Leo-boundedness invariant,
-the constructions need to preserve the boundedness,
-not just of the count of tree predicates,
-but of attempts to add tree predicates.
-For LRR, a limit on the number of attempts
-was given by the fact that LRR grammars
-are unambiguous.
-But many of the constructions to follow will create
-ambiguous grammars.
-To ensure these ambiguities do not result in an
-an unbounded number of attempts to add one of the tree predicates,
-it is necessary to ensure that none of the new rules allows
-multiple factorings.
-It is for this reason that
-all but the last symbol of every
-new rule's RHS is required to have the prefix property.
-
-A second requirement imposed on these constructions,
-if they are to keep Leo-boundedness invariant,
-is that they not introduce non-deterministic right recursions,
-whether by introducing their own non-deterministic right recursions,
-or by introducing non-determinism into existing right recursions.
-The following restrictions are observed:
-\begin{itemize}
-\item No right recursive rules are introduced.
-\item No symbols from existing right-recursions are used in any newly introduced
-rules.
-\end{itemize}
-
 In the sequel we will often want to use tree predicates from one grammar
 in another grammar, with input positions moved appropriately.
 The following definition will be convenient.
