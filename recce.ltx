@@ -904,18 +904,37 @@ For a fused tree predicate of the form,
 \begin{equation}
 \Vtp{tp} = \bigl[ [ \Vsym{lhs} \de \Vsf{rhs1} \Vsym{transition} \mydot \Vsf{rhs2} ], \Vorig{i}, \Vloc{k} \bigr],
 \end{equation}
-a completer proof is a pair of valid tree predicates of the form
+a fusion proof is a pair of valid tree predicates of the form
 \begin{gather}
  \bigl[ [ \Vsym{lhs} \de \Vsf{rhs1} \mydot \Vsym{transition} \Vsf{rhs2} ], \Vorig{i}, \Vloc{j} \bigr] \\
  \bigl[ [ \Vsym{transition} \de \Vsf{transition-rhs} ], \Vorig{j}, \Vloc{k} \bigr],
 \end{gather}
 \end{definition}
 
-Predicted tree predicates and scanned tree predicates do not have
-completer proofs.
-Every valid fused tree predicate must have at least one completer proof.
-Completer proofs are one of the elegant and efficient notational
-ideas in ~\cite{Wich2005}.
+\begin{definition}
+For a scanned tree predicate of the form,
+\begin{equation}
+\Vtp{tp} = \bigl[ [ \Vsym{lhs} \de \Vsf{rhs1} \Vsym{transition} \mydot \Vsf{rhs2} ], \Vorig{i}, \Vloc{k} \bigr],
+\end{equation}
+a scanning proof is a duple consisting of a tree predicate of the form
+\begin{equation}
+ \bigl[ [ \Vsym{lhs} \de \Vsf{rhs1} \mydot \Vsym{transition} \Vsf{rhs2} ], \Vorig{i}, (\var{k}\subtract 1) \bigr]
+\end{equation}
+and the input symbol
+\begin{equation}
+\CVw{\var{k}\subtract 1} = \Vsym{transition}.
+\end{equation}
+\end{definition}
+
+Every valid fused tree predicate will have at least
+one fusion proof.~\footnote{
+Fusion proofs are one of the elegant and efficient notational
+ideas in ~\cite{Wich2005}, where they are called ``completer proofs''.
+}
+Every valid scanned tree predicate will have at least one scanning proof.
+Together, fusion proofs and scanning proofs are called ``costed proofs''.
+The set of costed proofs for a tree predicate \Vtp{tp} is written
+$\var{Costed}(\var{tp})$.
 
 \section{An approach to the Earley algorithm}
 \label{s:earley-approach}
@@ -2861,7 +2880,13 @@ all of the following are true.
 \label{e:lb-is-reducted} \text{\var{g} is reduced}. \\
 \label{e:lb-S-not-on-rhs} \forall \Vsym{lhs}, \Vsf{rhs1}, \Vsf{rhs2}, \quad [ \var{lhs} \de \var{rhs1} \cat \var{S} \cat \var{rhs2} ] \notin \var{P} \\
 \label{e:lb-S-dedicated} \size{ \left\lbrace \Vrule{r} \middle| [ \var{S} \de \Vsf{rhs} ] = \var{r} \land \var{r} \in \var{P} \right\rbrace } = 1 \\
-\label{e:lb-rr-deterministic} \forall \Vstr{w}, \Vloc{i}, \quad \size{ \var{Valid}(\var{w})[\var{i}] } = \Oc \\
+\label{e:lb-tp-bounded} \forall \Vstr{w}, \Vloc{i}, \quad \size{ \var{Valid}(\var{w})[\var{i}] } = \Oc \\
+\label{e:lb-cost-bounded} \forall \Vstr{w}, \Vtp{tp}, \var{tp} \in \var{Valid}(\var{w}), \size{ \var{Costed}(\var{tp}) } = \Oc \\
+\label{e:lb-rr-deterministic}
+\begin{gathered}
+\forall \Vstr{w}, \Vtp{tp}, \var{tp} \in \var{Valid}(\var{w}) \\
+\qquad \text{if \var{tp} is right recursive, then} \quad \size{ \var{Costed}(\var{tp}) } = 1
+\end{gathered}
 \end{gather}
 \end{definition}
 
