@@ -2877,16 +2877,17 @@ We call $\var{g} = [ \var{V}, \var{N}, \var{P}, \var{S} ]$
 \dfn{Leo bounded} if
 all of the following are true.
 \begin{gather}
-\label{e:lb-is-reducted} \text{\var{g} is reduced}. \\
+\label{e:lb-accessible} \forall \Vsym{A}, \quad \var{A} \in \var{V} \backslash \set{\var{S}}, \quad \text{\var{A} is accessible} \\
+\label{e:lb-productive} \forall \Vsym{A}, \quad \var{A} \in \var{V}, \quad \text{\var{A} is productive} \\
 \label{e:lb-S-not-on-rhs} \forall \Vsym{lhs}, \Vsf{rhs1}, \Vsf{rhs2}, \quad [ \var{lhs} \de \var{rhs1} \cat \var{S} \cat \var{rhs2} ] \notin \var{P} \\
 \label{e:lb-S-dedicated} \size{ \left\lbrace \Vrule{r} \middle| [ \var{S} \de \Vsf{rhs} ] = \var{r} \land \var{r} \in \var{P} \right\rbrace } = 1 \\
 \label{e:lb-tp-bounded} \forall \Vstr{w}, \Vloc{i}, \quad \size{ \var{Valid}(\var{w})[\var{i}] } = \Oc \\
 \label{e:lb-cost-bounded} \forall \Vstr{w}, \Vtp{tp}, \var{tp} \in \var{Valid}(\var{w}), \size{ \var{Costed}(\var{tp}) } = \Oc \\
 \label{e:lb-rr-deterministic}
-\begin{gathered}
-\forall \Vstr{w}, \Vtp{tp}, \var{tp} \in \var{Valid}(\var{w}) \\
-\qquad \text{if \var{tp} is right recursive, then} \quad \size{ \var{Costed}(\var{tp}) } = 1
-\end{gathered}
+\begin{aligned}
+& \forall \Vstr{w}, \Vtp{tp}, \quad \text{where $ \var{tp} \in \var{Valid}(\var{w})$} \\
+& \qquad \text{and \var{tp} is right recursive}, \quad \size{ \var{Costed}(\var{tp}) } = 1
+\end{aligned}
 \end{gather}
 \end{definition}
 
