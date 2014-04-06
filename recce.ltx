@@ -5,6 +5,10 @@
 \usepackage{amssymb}
 \usepackage{algorithm, algpseudocode}
 \usepackage{url}
+\usepackage{amsfonts}% to get the \mathbb alphabet
+
+\newcommand{\field}[1]{\mathbb{#1}}
+\newcommand{\TP}{\field{TP}}
 
 % This is now a "paper", but may be a chapter
 % or something else someday
@@ -26,7 +30,7 @@
 \newcommand{\size}[1]{\ensuremath{\left | {#1} \right |}}
 \newcommand{\bigsize}[1]{\ensuremath{\bigl| {#1} \bigr|}}
 \newcommand{\order}[1]{\ensuremath{{\mathcal O}(#1)}}
-\newcommand{\Oc}{\order{1}}
+\newcommand{\Oc}{\order{42}}
 \newcommand{\On}{\order{\var{n}}}
 \newcommand{\inference}[2]{\genfrac{}{}{1pt}{}{#1}{#2}}
 \newcommand{\ruleMarker}[1]{\boxed{#1}}
