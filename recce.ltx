@@ -152,8 +152,8 @@
 % I don't like to put whole paragraphs in italics,
 % so I make this simple variation on the "plain" theoremstyle
 \newtheoremstyle{myplain}
-  {\topsep}   % ABOVESPACE
-  {\topsep}   % BELOWSPACE
+  {10pt}   % ABOVESPACE
+  {10pt}   % BELOWSPACE
   {\normalfont}  % BODYFONT
   {0pt}       % INDENT (empty value is the same as 0pt)
   {\bfseries} % HEADFONT
@@ -165,7 +165,16 @@
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{construction}[theorem]{Construction}
 \newtheorem{lemma}[theorem]{Lemma}
+\index{Lemmas|see{Theorems}}
+
 \newtheorem{definition}[theorem]{Definition}
+\newenvironment{mydefinition}{
+  \begin{definition}
+}{
+  \myendTheorem
+  \end{definition}
+}
+
 \newtheorem{observation}[theorem]{Observation}
 \newtheorem{step}[theorem]{Step}
 
@@ -939,7 +948,7 @@ ideas in ~\cite{Wich2005}, where they are called ``completer proofs''.
 }
 Every valid scanned tree predicate will have at least one scanning proof.
 Together, fusion proofs and scanning proofs are called ``costed proofs''.
-\index{costed proof}
+\index{costed proof|emph}
 The set of costed proofs for a tree predicate \Vtp{tp} found in 
 a set of tree predicates \var{tp-set}, is written
 $\var{Costed}(\var{tp-set}, \var{tp})$.
@@ -951,8 +960,10 @@ $\var{Costed}(\var{tp})$.
 A tree predicate \Vtp{tp}
 is
 \dfn{actually right recursive}
-\index{actually right recursive}
-with respect to a set of tree predicates \var{tp-set}
+\index{actually right recursive|emph},
+with respect to a set of tree predicates \var{tp-set},
+$\var{RR}(\var{tp-set}, \var{tp})$,
+\index{notation!RR@$\var{RR}(\var{tp-set}, \Vtp{tp})$|emph}
 if and only if it is of the form
 \begin{multline*}
 \var{tp} = \bigl[ [ \Vsym{lhs} \de \Vsf{before} \mydot \Vsym{recurse} ], \var{i}, \var{j} \bigr] \\
@@ -3249,6 +3260,79 @@ costed proofs of right recursions,
 on stored tree predicates per location,
 and on costed proofs of stored tree predicates.
 \var{lb-union} is therefore a Leo bound.
+\end{proof}
+
+\begin{mydefinition}[Grammar substitution]
+\label{d:grammar-substitution}
+\index{grammar substitution}
+\index{substitution (of grammars)}
+Let
+\begin{equation*}
+\var{g-top} = \bigl[
+\var{V-top},
+\var{N-top},
+\var{P-top},
+\var{S-top} \bigr],
+\end{equation*}
+be a grammar whose
+terminal symbols are
+\begin{equation*}
+\Vsym{t}[1], \var{t}[2], \dotsc \Vsym{t}[\var{n}].
+\end{equation*}
+Let
+\begin{equation}
+ \var{g}[\var{i}] = \bigl[
+\var{V}[\var{i}],
+\var{N}[\var{i}],
+\var{P}[\var{i}],
+\var{S}[\var{i}] \bigr],
+ 1 \le \var{i} \le \var{n}
+\end{equation}
+be a series of grammars which are pairwise symbolically
+equivalent and symbolically disjoint from \var{g-top}.
+The \dfn{substitution} of every
+\begin{equation*}
+\var{g}[\var{i}], 1 \le \var{i} \le \var{n}
+\end{equation*}
+for the terminal of the equivalent index,
+$\var{t}[\var{i}]$,
+is the grammar
+\begin{equation}
+\var{g-subst} = \bigl[
+\var{V-subst},
+\var{N-subst},
+\var{P-subst},
+\Vsym{S-subst} \bigr],
+\end{equation}
+where \Vsym{S-subst} is a new start symbol and
+\begin{gather}
+\var{V-subst} = \set{ \var{S-subst} } \cup \var{V-top} \cup \bigcup_{1 \le \var{i} \le \var{n}} \var{V}[\var{i}], \\
+\var{N-subst} = \set{ \var{S-subst} } \cup \var{N-top} \cup
+  \bigcup_{1 \le \var{i} \le \var{n}} \var{N}[\var{i}] \quad \text{and} \\
+\var{P-subst} = \var{P-top} \cup \bigcup_{1 \le \var{i} \le \var{n}} \var{P}[\var{i}] \cup
+ \bigl\lbrace [ \var{t}[\var{i}] \de \var{S}[\var{i}] ] \bigr\rbrace.
+\end{gather}
+The new rules of the form $[ \var{t}[\var{i}] \de \var{S}[\var{i}] ]$
+are called ``shim rules''.
+\end{mydefinition}
+
+\begin{theorem}[Linear grammar substitution]
+\label{t:linear-grammar-substitution}
+\index{Linear grammar substitution theorem}
+\index{Theorems!linear grammar substitution}
+Let \var{g-top}, \var{g-subst} and
+$\var{g}[1], \var{g}[2], \dotsc \var{g}[\var{n}]$
+be as in Definition \ref{d:grammar-substitution}.
+If \var{g-top} is Leo-bounded,
+and the set
+\begin{equation}
+\bigl\lbrace  \var{g}[\var{i}] \bigm| 1 \le \var{i} \le \var{n} \bigr\rbrace
+\end{equation}
+is Leo-bound compatible,
+then \var{g-subst} is Leo-bounded.
+\end{theorem}
+
+\begin{proof}
 \end{proof}
 
 \begin{definition}
