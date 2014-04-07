@@ -31,7 +31,7 @@
 \newcommand{\size}[1]{\ensuremath{\left | {#1} \right |}}
 \newcommand{\bigsize}[1]{\ensuremath{\bigl| {#1} \bigr|}}
 \newcommand{\order}[1]{\ensuremath{{\mathcal O}(#1)}}
-\newcommand{\Oc}{\order{42}}
+\newcommand{\Oc}{\order{1}}
 \newcommand{\On}{\order{\var{n}}}
 \newcommand{\inference}[2]{\genfrac{}{}{1pt}{}{#1}{#2}}
 \newcommand{\ruleMarker}[1]{\boxed{#1}}
@@ -2974,6 +2974,7 @@ which is defined as
 \end{mydefinition}
 
 \begin{mydefinition}
+\label{d:leo-bounded}
 Let \var{tps} be a set of tree predicates,
 and \var{T} the set of terminals it implies,
 We call \var{tps}, \dfn{Leo bounded}
@@ -3196,6 +3197,7 @@ Let \var{lb-set} be a set of Leo bounds.
 We say that \var{lb-set} has bounded overlap if
 for all \Vstr{w}, \Vloc{i},
 \begin{equation}
+\label{e:def-bounded-overlap}
 \Bigl|
   \bigl\lbrace \var{lb}
   \bigm|
@@ -3214,132 +3216,204 @@ cardinality, since
 it is trivially true that any set of finite cardinality is
 a bounded overlap set.
 
-\begin{definition}
-Let \var{lb-set} be
-a set of Leo bounds.
-Let
-\begin{equation}
-\var{all-inputs} =
-\bigcup_{\var{lb} \in \var{lb-set}}
-{\left\lbrace \var{x} \;
-  \middle| \; \var{lb} :\var{x} \mapsto \var{y}
-\right\rbrace}
-\end{equation}
-and
-\begin{multline}
-\var{all-predicates} = \\
-\bigcup{
-  \bigl\lbrace \var{tp}
-  \; \bigm| \;
-    \var{tp} \in \var{y}
-    \; \land \; \var{lb} \in \var{lb-set}
-    \; \land \; \var{lb} : \var{x} \mapsto \var{y}
-  \bigr\rbrace
-}.
-\end{multline}
-Then $\var{lb-union} : \var{all-inputs} \mapsto \var{all-predicates}^2$
-is defined as
-\begin{equation}
-\var{lb-union}(\var{w}) =
-\bigcup_{\var{lb} \in \var{lb-set}}{\var{lb}(\var{w})}.
-\end{equation}
-  \myendTheorem
-\end{definition}
+To deal with unions of Leo bounds,
+it is convenient to
+single out
+the issues around right recursion.
+We thereforce state and prove the following lemma,
+which takes care of the other conditions.
 
-\begin{theorem}
-The union of a set of Leo bounds which
-are free of right recursion and have bounded overlap
-is also a Leo bound.
-\end{theorem}
+\begin{lemma}
+\label{t:leo_bound_union}
+The union of a set of Leo bounds is a Leo bound,
+if it has bounded overlap and if it does not introduce
+non-determinism to existing right recursions.
+\end{lemma}
 
 \begin{proof}
 Call the set of Leo bounds, \var{lb-set},
 and call their union, \var{lb-union}.
-We need to show that \var{lb-union} is a Leo bound.
-From its definition,
-\var{lb-union} is clearly
-of the proper form to be a Leo bound:
-a function mapping strings to sets of tree predicates.
-By assumption, there are no right recursions, so that
-it is vacuously true that
-the bound of 1 on proofs of right recursions is preserved.
+By definition, \Vtpm{lb-union} is a tree predicate map.
+We need to show that \var{lb-union} is also a Leo bound.
+We do this by showing, by cases, that
+the conditions of Definition \ref{d:leo-bounded} are preserved.
 
-In the following we will assume, without loss of generality,
+To show \eqref{e:lb-tp-bounded},
+we consider
 an arbitrary input \var{w} and an arbitrary location, \Vloc{i}.
-By the definition of Leo bound, the number of tree predicates
-from each element of \var{lb-set} at \Vloc{i} is \Oc{}.
-Call that constant, for the \var{n}'th member of \var{lb-set},
-$\var{c}[\var{n}]$.
-
-Call the set of Leo bounds containing tree predicates at \Vloc{i},
-\var{lb-i}, $\var{lb-i} \subseteq \var{lb-set}$.
-The number of tree predicates at \var{i} will be
+Call the set of tree predicates at \Vloc{i} for \var{w},
+\var{tp-i},
+\begin{gather}
+\var{tp-i} \subseteq \var{lb-set} \quad \text{and} \\
+\label{e:bounded-union-3}
+\var{lb-i} = \left\lbrace \Vtpm{lb}
+\quad \text{such that} \quad
+\size{
+  \bigcup_{\var{lb} \in \var{lb-i}}
+    {\Vtpm{lb}(\var{w},\var{i})}
+} > 0
+\right\rbrace
+\end{gather}
+By assumption, \var{lb-i} is bounded,
+or using
+\eqref{e:def-bounded-overlap}
 \begin{equation}
-\size{\bigcup_{\var{lb} \in \var{lb-i}}{\var{lb}(\var{w},\var{i})}}
+\label{e:bounded-union-1}
+\size{\var{lb-i}} = \Oc.
 \end{equation}
-By assumption, \var{lb-set} is bounded,
-so that $\size{\var{lb-i}} = \Oc$.
-By the definition of Leo bound,
+\var{lb} is a Leo bound by definition,
+and from condition \eqref{e:lb-tp-bounded} of that definition,
+we know
 \begin{equation}
+\label{e:bounded-union-2}
 \forall \var{lb} \in \var{lb-i}, \; \size{\var{lb}(\var{w},\var{i})} = \Oc.
 \end{equation}
-so that
+Using
+\eqref{e:bounded-union-1}
+and \eqref{e:bounded-union-2},
+we see that
 \begin{equation}
-\var{c} = \sum_{\var{lb} \in \var{lb-i}}
-    {\bigl| \var{lb}(\var{w},\var{i}) \bigr| } = \Oc.
+\label{e:bounded-union-4}
+\sum_{\var{lb} \in \var{lb-i}}
+    {\bigl| \var{lb}(\var{w},\var{i}) \bigr| }
+    = \Oc \times \Oc.
 \end{equation}
-This means the number of tree predicates at \Vloc{i},
+Since by
+\eqref{e:bounded-union-3},
+there are no tree predicates except for elements of \var{lb-i},
 \begin{equation}
-\label{e:lb-union-loc-bound}
-\size{\var{lb-union}(\var{w}, \var{i})} \le \var{c} = \Oc
+\size{\Vtpm{lb-union}(\var{w}, \var{i})} =
+  \sum_{\var{lb} \in \var{lb-i}}
+      {\bigl| \Vtpm{lb}(\var{w},\var{i}) \bigr| }.
 \end{equation}
-as required to preserve the Leo-boundedness of
-the union.
+and using
+\eqref{e:bounded-union-4},
+\begin{equation}
+\label{e:bounded-union-5},
+\size{\Vtpm{lb-union}(\var{w}, \var{i})} = \Oc \times \Oc = \Oc.
+\end{equation}
+Because the choice of \Vstr{w} and \var{i} was arbitrary,
+\eqref{e:bounded-union-5} shows
+that condition \eqref{e:lb-tp-bounded}
+of Definition \ref{d:leo-bounded}
+is preserved in \Vtpm{lb-union}.
 
-It remains to show that for any tree predicate in \var{lb-union},
-the number of costed proofs is \Oc{}.
-Consider an arbitrary tree predicate at \Vloc{i}, \var{tp}.
-The cause of the scanned proofs at \var{i} will always be the same --
-the symbol $\var{w}[\var{i}\subtract 1]$.
-All predecessors of scanned proofs will be at location $\var{i}\subtract 1$.
-From \eqref{e:lb-union-loc-bound},
-we know that the number of tree predicates at
-any location of \var{lb-union} is \Oc{}.
-so there will be \Oc{} tree predicates at
-$\var{i}\subtract 1$.
-Every predecessor of a scanned proof must be a tree predicate
-at location $\var{i}\subtract 1$,
-so there will be \Oc{} different predecessors.
-Because the scanned proofs all share a single cause,
-there can be no more scanned proofs than there are predecessors.
-So there will be \Oc{} different
-scanned proofs of \var{tp}.
+We now
+show condition \label{e:lb-cost-bounded}
+of Definition \ref{d:leo-bounded},
+that the number of costed proofs for each tree predicate remains bounded.
+To do this, we again
+consider an arbitrary \Vloc{i}
+and an arbitrary input \Vstr{w}.
+This time we also consider an an arbitrary tree predicate at \Vloc{i}, \Vtp{tp}.
+Every costed proof is a duple of predecessor and cause.
+The find the cardinality of the costed proofs for \var{tp},
+we examine the possibile values of each element this duple.
 
-The causes of its fusion proofs will be tree predicates
-ending at \Vloc{i}.
-From \eqref{e:lb-union-loc-bound},
-the number of tree predicates at
-\Vloc{i} is \Oc{}.
-The predecessor of a fusion proof must be at the origin location
-of the cause of the fusion proof.
-Call this location, \Vloc{middle}.
-From \eqref{e:lb-union-loc-bound},
-we also know that there will be \Oc{}
-predicates at \Vloc{middle}.
-Fusion proofs have at most \Oc{} causes, each of which
-have at most \Oc{} predecessors, so there are at most
-$\Oc^2$ fusion proofs.
-Every costed proof is either a scanned proof or a fusion proof,
-so that the number of costed proofs is $\Oc + \Oc^2 = \Oc$.
+Causes must be either a scanned terminal symbol,
+or another tree predicate at \Vloc{i}.
+By \eqref{e:bounded-union-5},
+the number of tree predicates at \var{i} is \Oc,
+so that the total number of possible causes is $\Oc + 1$.
 
-\var{lb-union} is a function of the proper form to be a Leo bound,
-and it also has the required bounds on
-costed proofs of right recursions,
-on stored tree predicates per location,
-and on costed proofs of stored tree predicates.
+Each cause of a costed proof uniquely determines a middle location,
+call it \Vloc{mid}.
+The predecessor of the costed proof must be a tree predicate at
+\var{mid}.
+By \eqref{e:bounded-union-5},
+the number of tree predicates at \var{mid} is \Oc.
+Since the number of causes is $\Oc + 1$ and the number of predecessors
+for each cause is \Oc,
+the number of costed proofs is
+\begin{equation}
+\label{e:bounded-union-6}
+\var{Costed}(\Vtpm{lb-union}(\var{w}), \var{tp}) = \Oc \times (\Oc + 1) = \Oc.
+\end{equation}
+Because the choice of \Vstr{w} and \var{i} and \Vtp{tp} was arbitrary,
+\eqref{e:bounded-union-6} shows
+that condition \eqref{e:lb-cost-bounded}
+of Definition \ref{d:leo-bounded}
+is preserved in \Vtpm{lb-union}.
+
+By assumption, we
+condition \eqref{e:lb-rr-deterministic}
+of Definition \ref{d:leo-bounded} is preserved;
+\eqref{e:bounded-union-5} showed
+condition \eqref{e:lb-tp-bounded};
+and \eqref{e:bounded-union-6}
+showed condition \eqref{e:lb-cost-bounded}.
 \var{lb-union} is therefore a Leo bound.
 \end{proof}
 
+\begin{theorem}
+The union of a set of Leo bounds is a Leo bound,
+if it has bounded overlap and the elements of the set
+contain no right recursions.
+\end{theorem}
+
+\begin{proof}
+The assumption shows
+condition \eqref{e:lb-rr-deterministic}
+of Definition \ref{d:leo-bounded} vacuously
+and the result follows directly from
+Lemma \ref{t:leo_bound_union}.
+\end{proof}
+
+\begin{theorem}
+The union of a set of Leo bounds is a Leo bound,
+if it has bounded overlap and the elements of the set
+are symbolically disjoint.
+\end{theorem}
+
+\begin{proof}
+Call the set of Leo bounds, \var{tp-set}.
+New costed proofs would have to involve tree predicates
+from two or more of the elements of \var{tp-set}.
+This is clearly not possible if they
+are symbolically disjoint.
+If there are no new costed proofs,
+Condition \eqref{e:lb-rr-deterministic}
+of Definition \ref{d:leo-bounded} will continue to hold.
+The result follows directly from
+Lemma \ref{t:leo_bound_union}.
+\end{proof}
+
+
+\begin{theorem}
+The union of a set of Leo bounds is a Leo bound,
+if the elements of the set
+do not properly overlap,
+\end{theorem}
+
+\begin{proof}
+Call the set of Leo bounds, \var{tp-set}.
+By assumption Condition \eqref{e:lb-rr-deterministic}
+of Definition \ref{d:leo-bounded} holds for the costed proofs
+of each element of \var{tp-set}.
+Any new costed proof must involve two or more elements of
+of \var{tp-set}.
+In a Marpa internal grammar,
+neither the cause or the predecessor of a costed proof
+is allowed to be zero-length, so that the proof would have to
+be of a tree predicate which properly overlaps
+two or more of the elements of \var{tp-set}.
+But, by assumption, none of them do.
+So condition \eqref{e:lb-rr-deterministic}
+of Definition \ref{d:leo-bounded} will continue to hold.
+
+In addition,
+since the elements of \var{tp-set} cannot be zero length,
+if they do not properly overlap, overlap can only take place
+at a boundary between two elements of \var{tp-set}.
+Therefore \var{tp-set} has a bounded overlap of 2.
+Since the union does not introduce non-determinism to any existing
+right recursive tree predicate,
+and it has bounded overlap,
+the result follows directly from
+Lemma \ref{t:leo_bound_union}.
+\end{proof}
+
+Call the set of Leo bounds, \var{tp-set}.
 \begin{mydefinition}[Grammar substitution]
 \label{d:grammar-substitution}
 \index{grammar substitution}
