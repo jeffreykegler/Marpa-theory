@@ -99,6 +99,7 @@
 \newcommand{\Vtoken}[1]{\ensuremath{\token{#1}}}
 \newcommand{\tp}[1]{\typed{#1}{tp}}
 \newcommand{\Vtp}[1]{\ensuremath{\tp{#1}}}
+\newcommand{\Vtpm}[1]{\ensuremath{\overrightarrow{\var{#1}}}}
 \newcommand{\ws}[1]{\typed{#1}{ws}}
 \newcommand{\Vws}[1]{\ensuremath{\ws{#1}}}
 
@@ -971,6 +972,39 @@ if and only if it is of the form
   \var{i2}, \var{j} \bigr] \in \var{tp-set} \\
 \text{and} \quad \var{i2} < \var{i}.
 \end{multline*}
+
+A tree predicate map is a function that maps strings to sets of tree predicates.
+More precisely, where \var{tp-set} is a set of tree predicates,
+and \var{T} is the set of terminals they imply,
+the function \Vtpm{tp-map},
+\begin{equation*}
+\Vtpm{tp-map} : \var{T}^+ \mapsto 2^\var{tp-set}
+\end{equation*}
+$\overrightarrow{\var{Valid}(\var{g})}$ (also written as \Vtpm{Valid}) is a tree predicate map,
+as is
+$\overrightarrow{\var{Valid}(\var{tps})}$ where \var{tps} is any set of tree predicates.
+If the type is clear in context,
+\Vtpm{tpm} may be written without the over-arrow:
+\var{tpm}.
+
+The union of a set of tree predicate maps,
+is a tree predicate map.
+Call the union \Vtpm{union},
+and the set of tree predicate maps, \var{tpm-set}.
+For every
+\begin{gather}
+\Vstr{w} \in
+\bigcup_{\var{tpm} \in \var{tpm-set}}
+{\left\lbrace \var{x} \;
+   \middle| \; \Vtpm{tpm} :\var{x} \mapsto \var{y}
+\right\rbrace}, \\
+\Vtpm{union}(\Vstr{w}) = 
+  \bigcup_{
+   \var{tpm}
+   \in \var{tpm-set}
+  }
+{\Vtpm{tpm}(\var{w})}.
+\end{gather}
 
 \section{An approach to the Earley algorithm}
 \label{s:earley-approach}
@@ -2908,24 +2942,68 @@ if it is medial, predicted,
 or a completion which is not in a determistic recursion.
 \end{definition}
 
-\begin{definition}
-We call $\var{g} = [ \var{V}, \var{N}, \var{P}, \var{S} ]$
-\dfn{Leo bounded} if
-all of the following are true.
+\begin{mydefinition}
+Let \var{lb-set} be
+a set of tree predicate maps,
+Let
+\begin{equation}
+\var{all-inputs} =
+\bigcup_{\var{lb} \in \var{lb-set}}
+{\left\lbrace \var{x} \;
+  \middle| \; \var{lb} :\var{x} \mapsto \var{y}
+\right\rbrace}
+\end{equation}
+and
+\begin{multline}
+\var{all-predicates} = \\
+\bigcup{
+  \bigl\lbrace \var{tp}
+  \; \bigm| \;
+    \var{tp} \in \var{y}
+    \; \land \; \var{lb} \in \var{lb-set}
+    \; \land \; \var{lb} : \var{x} \mapsto \var{y}
+  \bigr\rbrace
+}.
+\end{multline}
+Then their union
+is a new tree predicate mapping
+which is defined as
+\begin{equation*}
+\bigcup_{\var{lb} \in \var{lb-set}}{\var{lb}(\var{w})}.
+\end{equation*}
+\end{mydefinition}
+
+\begin{mydefinition}
+Let \var{tps} be a set of tree predicates,
+and \var{T} the set of terminals it implies,
+We call \var{tps}, \dfn{Leo bounded}
+if and only if
+for every
+\begin{equation*}
+\Vtp{tp} \in \var{tps},
+\quad \Vstr{w} \in \var{T} \quad \text{and}
+\quad \Vloc{i},  0 < \var{i} < (\size{\var{w}} \subtract 1),
+\end{equation*}
+all of the following are true
 \begin{gather}
-\label{e:lb-accessible} \forall \Vsym{A}, \quad \var{A} \in \var{V} \backslash \set{\var{S}}, \quad \text{\var{A} is accessible} \\
-\label{e:lb-productive} \forall \Vsym{A}, \quad \var{A} \in \var{V}, \quad \text{\var{A} is productive} \\
-\label{e:lb-S-not-on-rhs} \forall \Vsym{lhs}, \Vsf{rhs1}, \Vsf{rhs2}, \quad [ \var{lhs} \de \var{rhs1} \cat \var{S} \cat \var{rhs2} ] \notin \var{P} \\
-\label{e:lb-S-dedicated} \size{ \left\lbrace \Vrule{r} \middle| [ \var{S} \de \Vsf{rhs} ] = \var{r} \land \var{r} \in \var{P} \right\rbrace } = 1 \\
-\label{e:lb-tp-bounded} \forall \Vstr{w}, \Vloc{i}, \quad \size{ \var{Valid}(\var{w})[\var{i}] } = \Oc \\
-\label{e:lb-cost-bounded} \forall \Vstr{w}, \Vtp{tp}, \var{tp} \in \var{Valid}(\var{w}), \size{ \var{Costed}(\var{tp}) } = \Oc \\
+\label{e:lb-tp-bounded} \bigsize{ \var{Valid}(\var{tp-set}, \var{w})[\var{i}] } = \Oc, \\
+\label{e:lb-cost-bounded} \bigsize{ \var{Costed}(\var{tp-set}, \var{tp}) } = \Oc \quad \text{and} \\
 \label{e:lb-rr-deterministic}
-\begin{aligned}
-& \forall \Vstr{w}, \Vtp{tp}, \quad \text{where $ \var{tp} \in \var{Valid}(\var{w})$} \\
-& \qquad \text{and \var{tp} is right recursive}, \quad \size{ \var{Costed}(\var{tp}) } = 1
-\end{aligned}
+ \var{RR}(\var{tps}, \var{tp}) \implies \bigsize{ \var{Costed}(\var{tp-set}, \var{tp}) } = 1
 \end{gather}
-\end{definition}
+We call a set of sets of tree predicates, \var{tpss},
+\dfn{Leo bound compatible}
+or just
+\dfn{bound compatible},
+if the union of its elements,
+\begin{equation*}
+\bigcup_{\var{tps} \in \var{tpss}}\var{tps},
+\end{equation*}
+is Leo bounded.
+We call a Marpa internal grammar \var{g}
+\dfn{Leo bounded} if and only if
+$\var{Valid}(\var{g})$ is Leo-bounded.
+\end{mydefinition}
 
 \begin{theorem}
 \label{t:leo-bounded-is-linear}
