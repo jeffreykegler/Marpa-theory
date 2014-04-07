@@ -6,6 +6,7 @@
 \usepackage{algorithm, algpseudocode}
 \usepackage{url}
 \usepackage{amsfonts}% to get the \mathbb alphabet
+\makeindex
 
 \newcommand{\field}[1]{\mathbb{#1}}
 \newcommand{\TP}{\field{TP}}
@@ -377,17 +378,18 @@ forces the programmer to specify the parsing
 logic step by step,
 but this is a necessity that practitioners have come to see
 as an advantage.
-The programmer of a recursive descent
-parser can easily insert
+Recurisve descent make it easy for the
+programmer to insert
 application-specific logic at
-any point in the parse,
-although maintaining
-all the application-specific coding that
-recursive descent requires
-over the life-cycle of the
-parser may prove anything but easy.
+any point in the parse.
+What may prove anything but easy
+is maintaining
+all this case-specific coding once
+it is widely-dispersed throughout and intertwined
+with the logic that addresses more general
+structure.
 
-Marpa allows the programmer the best of both worlds.
+Here Marpa allows the programmer the best of both worlds.
 Marpa's approach to parsing is primarily syntax-driven.
 But the syntax-driven parsing can be interrupted at any point
 in favor of application-specific logic.
@@ -937,8 +939,27 @@ ideas in ~\cite{Wich2005}, where they are called ``completer proofs''.
 }
 Every valid scanned tree predicate will have at least one scanning proof.
 Together, fusion proofs and scanning proofs are called ``costed proofs''.
-The set of costed proofs for a tree predicate \Vtp{tp} is written
+\index{costed proof}
+The set of costed proofs for a tree predicate \Vtp{tp} found in 
+a set of tree predicates \var{tp-set}, is written
+$\var{Costed}(\var{tp-set}, \var{tp})$.
+Often, \var{tp-set} is $\var{Valid}(\var{g}$.
+In contexts, where \var{tp-set} is understood,
+it may be written
 $\var{Costed}(\var{tp})$.
+
+A tree predicate \Vtp{tp}
+is
+\dfn{actually right recursive}
+\index{actually right recursive}
+with respect to a set of tree predicates \var{tp-set}
+if and only if it is of the form
+\begin{multline*}
+\var{tp} = \bigl[ [ \Vsym{lhs} \de \Vsf{before} \mydot \Vsym{recurse} ], \var{i}, \var{j} \bigr] \\
+\text{where} \quad \bigl[ [ \Vsym{lhs} \de \Vsf{before} \mydot \Vsym{recurse} \bigr],
+  \var{i2}, \var{j} \bigr] \in \var{tp-set} \\
+\text{and} \quad \var{i2} < \var{i}.
+\end{multline*}
 
 \section{An approach to the Earley algorithm}
 \label{s:earley-approach}
@@ -4162,5 +4183,6 @@ Klaus Wich.
 
 \clearpage
 \tableofcontents
+\printindex
 
 \end{document}

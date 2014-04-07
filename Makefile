@@ -15,8 +15,11 @@
 
 all: ah2002_notes.pdf recce.pdf
 
-recce.pdf: recce.ltx
+recce.pdf: recce.ltx recce.ind
 	pdflatex $?
+
+recce.ind: recce.idx
+	makeindex recce
 
 ah2002_notes.pdf: ah2002_notes.ltx
 	pdflatex $?
