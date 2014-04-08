@@ -126,10 +126,11 @@
 \newcommand{\Cg}{\var{g}}
 \newcommand{\Crules}{\var{rules}}
 \newcommand{\Cw}{\var{w}}
-\newcommand{\Cwrange}[2]{\CVrange{\Cw}{#1}{#2}}
+\newcommand{\Crange}[3]{\ensuremath{{#1[#2 \dots #3]}}}
+\newcommand{\Cwrange}[2]{\Crange{\Cw}{#1}{#2}}
+\newcommand{\CVstr}[3]{\ensuremath{{#1[#2]}}}
+\newcommand{\CVwstr}[1]{\CVstr{w}{#1}}
 \newcommand{\CVw}[1]{\ensuremath{\sym{\Cw[\var{#1}]}}}
-\newcommand{\CVwstr}[1]{\ensuremath{\str{\Cw[\var{#1}]}}}
-\newcommand{\CVrange}[3]{\ensuremath{{#1[#2 \dots #3]}}}
 
 \newcommand{\GOTO}{\mymathop{GOTO}}
 \newcommand{\Next}[1]{\mymathop{Next}(#1)}
@@ -532,10 +533,29 @@ we will write $\var{s1} \cat \var{s2}$ for the
 concatenation of \var{s1} and \var{s2},
 and $\var{s1} \times \var{n}$ for the concatenation of \var{n} copies
 of \var{s1}.
-We will write $\var{s}^\ast$ for set of strings
-is the closure of concatenation on \var{s1},
+The \var{x}'th character of a string \var{s} is written as \CVstr{\var{s}}{\var{x}}.
+The span of characters from \var{x} to \var{y}, inclusive,
+is written as
+\Crange{\var{s}}{\var{x}}{\var{y}}.
+Since the range is inclusive,
+\begin{equation*}
+\Crange{\var{s}}{\var{x}}{\var{x}} = \CVstr{\var{s}}{\var{x}}.
+\quad \text{and} \quad
+\bigl| \Crange{\var{s}}{\var{x}}{\var{x}} \bigr| = 1.
+\end{equation*}
+For a zero-length string starting at location \var{x},
+we write $\Crange{\var{s}} {\var{x}} {(\var{x}\subtract 1)}$.
+In this case,
+$\var{x}\subtract 1$ need not be an actual location.
+For example, the empty substring at the start of \var{s}
+would be written $\Crange{\var{s}}{0}{(-1)}$.
+
+Where \var{ss} is a set of strings,
+we will write $\var{ss}^\ast$ for
+the set of strings
+that is the closure of concatenation on \var{ss},
 and 
-$\var{s}^+$ for $\var{s}^\ast \backslash \epsilon$.
+$\var{ss}^+$ for $\var{ss}^\ast \backslash \epsilon$.
 Where \var{ss1} and \var{ss2} are sets of strings,
 \begin{gather}
      \var{ss1} \cat \var{ss2} \defined 
@@ -603,34 +623,14 @@ We say that symbol \Vsym{x} is \dfn{nullable} if and only if
 $\Vsym{x} \destar \epsilon$.
 \Vsym{x} is \dfn{nonnull} if and only if it is not nullable.
 
-Let the input to
+In general,
+the input to
 the parse be \Cw{} such that $\Cw \in \var{T}^+$.
 Locations in the input will be of type \type{LOC}.
 Let \Vsize{w} be the length of the input, counted in symbols.
 When we state our complexity results later,
 they will often be in terms of $\var{n}$,
 where $\var{n} = \Vsize{w}$.
-Let \CVw{i} be character \var{i}
-of the input,
-$0 \le \Vloc{i} < \Vsize{w}$.
-Let $\Cwrange{\var{i}}{\var{j}}$ be string of characters from
-\Vloc{i} to \Vloc{j}, inclusive,
-where
-$0 \le \Vloc{i}, \Vloc{j} < \Vsize{w}$.
-As a special case, 
-$\Cwrange{\var{i}}{\var{j}}$,
-where $\Vloc{j} \le \Vloc{i}$,
-is the input of
-zero length, starting at \Vloc{i}.
-
-The alert reader may have noticed that the previous definition
-of \Cw{} did not allow zero-length inputs.
-To simplify the mathematics, we exclude null parses
-and trivial grammars from consideration.
-In its implementations,
-the Marpa parser
-deals with null parses and trivial grammars as special cases.
-(Trivial grammars are those that recognize only the null string.)
 
 % TODO -- Move these to where used?  Or eliminate them?
 In this \doc{},
@@ -690,8 +690,10 @@ A grammar \Cg{} is trivial if and only if
 $\myL{\Cg} = \set{ \epsilon }$.
 Trivial grammars are easily dealt with, without using the methods
 described in this paper.
-Trivial grammars are special cased,
-and the remaining steps of this rewrite are ignored.
+If the grammar is trivial,
+ignore the remaining steps of this rewrite.
+In the Marpa implementation,
+trivial grammars are special cased.
 \end{step}
 
 \begin{sloppypar}
@@ -779,17 +781,24 @@ unless otherwise noted,
 the grammar \Cg{} will refer to a Marpa internal grammar.
 Summarizing the result of this rewrite:
 \begin{itemize}
+\item \Cg{} will not be a trivial gramamr -- it will accept
+at least one non-null input.
+\item \Cg{} will not be nullable -- it will accept no null
+inputs.  (In the implementation, trivial
+grammars and null inputs are special-cased.)
 \item \Cg{} will contain no inaccessible symbols.
 \item \Cg{} will contain no unproductive symbols.
 \item \Cg{} will contain no nullable symbols.
 \item \Cg{} will contain no nullable rules.
 \item \Cg{} will have a dedicated start symbol, \Vsym{S}, which
 occurs only as the LHS of the start rule.
-\item \Cg{} will have a dedicated start rule, of the form
+\item \Cg{} will have a dedicated start rule,
+whose RHS is of length one, so that it takes the form
 \begin{equation*}
 [\Vsym{S} \de \Vsym{old-start}].
 \end{equation*}
 \end{itemize}
+
 Note that if a grammar in Marpa external form
 contain cycles, it will still contain cycles
 in Marpa internal form.
@@ -1059,11 +1068,15 @@ is
 \begin{equation}
  [ \var{dr}, \var{i}+\var{n}, \var{j}+\var{n} ]
 \end{equation}
+An offset may be negative, as long as it never
+results in a location that is less than zero.
+The negative offset of a \var{tp} may be
+written $\var{tp}\subtract \var{n}$
 \end{mydefinition}
 
 \begin{mydefinition}
 \label{d:grammar-offset}
-We define the offset of a grammar in an input stream,
+We define the \dfn{offset} of a grammar in an input stream,
 written
 \begin{equation}
 \Vtpm{offset} = \Vtpoffset{g}{\var{n},\var{T2}}
@@ -1092,6 +1105,8 @@ so that, for example,
 \begin{equation}
 \Vtpm{\var{Valid}(\var{g})} = \Vtpoffset{g}{0}.
 \end{equation}
+An offset may be negative, as long as it never results
+in a location that is less than zero.
 \end{mydefinition}
 
 When comparing two grammars, 
@@ -1148,7 +1163,7 @@ where \var{g1} is a subgrammar of \var{g2}.
 We can show \ref{t:offset-valid} we need to show
 that the tree predicates derived from
 \begin{equation}
-\label{e:offset-valid-1}
+\label{e:offset-valid-proof-1}
 \bigl[ [\var{S2} \de \mydot \Vsf{rhs} ], 0, 0 \bigr]
 \end{equation}
 for the input string
@@ -1158,23 +1173,92 @@ for the input string
 \end{equation}
 will match one-to-one with the those derived from
 \begin{equation}
-\label{e:offset-valid-2}
+\label{e:offset-valid-proof-3}
 \bigl[ [\var{S2} \de \mydot \Vsf{rhs} ], \var{n}, \var{n} \bigr]
 \end{equation}
 for the input
 \begin{equation}
-\label{e:offset-valid-proof-2}
+\label{e:offset-valid-proof-4}
   \var{w1} = \var{prefix} \cat \Vstr{relevant}
 \end{equation}
 where \var{prefix} is a string of terminals of length \var{n}.
 
-Define two grammars \var{g1} and \var{g2} such that \var{S2} is the
-start symbol of \var{g2} and \var{g2} is a subgrammar of \var{g1}.
+Define two grammars
+\begin{gather}
+\var{g1} = [ \var{V1}, \var{N1}, \var{P1}, \var{S1} ] \quad \text{and} \\
+\var{g2} = [ \var{V2}, \var{N2}, \var{P2}, \var{S2} ]
+\end{gather}
+where \var{g2} is a subgrammar of \var{g1}.
 Let
-\begin{equation}
-\var{vp1} = \var{Valid-Predicates}(\var{g1}, \Vsym{S2}, \var{n}, \var{w1}) \quad \text{and}
+\begin{gather}
+\label{e:offset-valid-proof-5}
+\var{vp1} = \var{Valid-Predicates}(\var{g1}, \Vsym{S2}, \var{n}, \var{w1}) \quad \text{and} \\
+\label{e:offset-valid-proof-6}
 \var{vp2} = \var{Valid-Predicates}(\var{g2}, \Vsym{S2}, 0, \var{w2})
+\end{gather}
+
+We will consider \var{tp1} an arbitrary tree predicate from \var{vp1},
+and show that
+\begin{equation}
+\label{e:offset-valid-proof-8}
+\var{tp1} \in \var{tp1} \iff \var{tp1} \subtract \var{n} \in \var{vp2}.
 \end{equation}
+In the following, we will show the ``if'',
+but at each step we will
+also be careful that it a mutual implication,
+so that the ``only if'' can be shown easily immediately afterwards.
+
+For the ``if'' direction,
+assume that
+\begin{equation}
+\var{tp1} = \bigl[ [\var{lhs} \de \Vsf{rhs1} \mydot \Vsf{rhs} ], \var{i}, \var{j} \bigr] \in \var{vp1}
+\end{equation}
+Then, for some $\Vsf{after} \in \var{V1}^\ast$,
+by Definition \ref{d:valid-tp}
+\begin{gather}
+\label{e:offset-valid-proof-9}
+  [\var{lhs} \de \var{rhs1} \cat \var{rhs2}] \in \var{P1}, \\
+\label{e:offset-valid-proof-10}
+  \Vsym{S2} \destar
+  \Crange{\var{w1}}{\var{n}}{\var{i}-1} \cat \var{lhs} \cat \var{after} \quad \text{and} \\
+\label{e:offset-valid-proof-11}
+  \var{rhs1} \destar \Crange{\var{w1}}{\var{i}}{\Vloc{j}-1}.
+\end{gather}
+
+By the symbolic equivalence of \var{g1} and \var{g2}, we know that every derivation
+from any symbol they share can be performed in both grammars.
+This means that every symbol derivable from
+\var{S2} must be in both \var{V1} and \var{V2}.
+It also means that any rule in \var{P1} with a shared symbol on its LHS,
+must also be in \var{P2}, so that
+\begin{equation}
+\label{e:offset-valid-proof-12}
+  [\var{lhs} \de \var{rhs1} \cat \var{rhs2}] \in \var{P2}.
+\end{equation}
+It also means that
+\begin{equation}
+\label{e:offset-valid-proof-13}
+\var{after} \in \var{V2}^\ast.
+\end{equation}
+Note that we use symbol equivalence to show 
+\eqref{e:offset-valid-proof-12}
+and \eqref{e:offset-valid-proof-13} and not the
+subgrammar relationship.
+This is in order to preserve the chain of mutual implications.
+
+[ REVISED TO HERE ]
+
+Let \var{vp1} be
+By the definition of \var{vp1} at
+\eqref{e:offset-valid-proof-5},
+we know that
+\begin{equation}
+\label{e:offset-valid-proof-7}
+\var{i} \ge \var{n}, \quad \var{j} \ge \var{n}
+\end{equation}
+so that the subtraction of \var{n} in
+\eqref{e:offset-valid-proof-8} will not result in a location less than 0.
+
 Assume that, for some \var{tp1},
 \begin{equation}
 \var{tp2} \in \var{vp2} \land \var{tp2}+var{n} \notin \var{vp1}
@@ -1333,7 +1417,7 @@ and
 \begin{equation}
 \label{e:eim-reduction-2}
 \textup{
-  $\Vsym{transition} \destar \CVwstr{\var{j}+1,\var{k}}$
+  $\Vsym{transition} \destar \Cwrange{\var{j}+1}{\var{k}}$
 }
 \end{equation}
 where $\var{j} < \var{k}$,
@@ -1342,8 +1426,8 @@ then the EIM
 \label{e:eim-reduction-3}
 \textup{
      $\bigl[\Vdr{successor}, \Vorig{i} \bigr]$ at \Ves{k}
+      is correct.
 }
-is correct.
 \end{equation}
 \end{lemma}
 
@@ -1361,13 +1445,13 @@ From assumption \eqref{e:eim-reduction-1}, we know that
 \begin{equation}
 \label{e:eim-reduction-4}
  \Vsym{start} \destar
-   \CVwstr{0,\Vloc{i} - 1} \cat \Vsym{transition} \cat \Vsf{post-rule}.
+   \Cwrange{0}{\Vloc{i} - 1} \cat \Vsym{transition} \cat \Vsf{post-rule}.
 \end{equation}
 Also from \eqref{e:eim-reduction-1},
 we have
 \begin{equation}
 \label{e:eim-reduction-5}
-  \Vsf{before} \destar \CVwstr{i,j}.
+  \Vsf{before} \destar \Cwrange{\var{i}}{\var{j}}.
 \end{equation}
 Combining
 \eqref{e:eim-reduction-5}
@@ -1375,7 +1459,7 @@ with the assumption \eqref{e:eim-reduction-2},
 we have
 \begin{equation}
 \label{e:eim-reduction-6}
-  \Vsf{before} \cat \Vsym{transition} \destar \CVwstr{i,k}.
+  \Vsf{before} \cat \Vsym{transition} \destar \Cwrange{\var{i}}{\var{k}}.
 \end{equation}
 
 If, for substitution in the definition of tree prediction validity,
