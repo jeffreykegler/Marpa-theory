@@ -100,6 +100,10 @@
 \newcommand{\tp}[1]{\typed{#1}{tp}}
 \newcommand{\Vtp}[1]{\ensuremath{\tp{#1}}}
 \newcommand{\Vtpm}[1]{\ensuremath{\overrightarrow{\var{#1}}}}
+\newcommand{\Vtpoffset}[2]{\ensuremath{
+  \xrightarrow[\mbox{\normalsize\texttt{#1}}]
+   {#2}
+} }
 \newcommand{\ws}[1]{\typed{#1}{ws}}
 \newcommand{\Vws}[1]{\ensuremath{\ws{#1}}}
 
@@ -177,6 +181,13 @@
 }
 
 \newtheorem{observation}[theorem]{Observation}
+\newenvironment{myobservation}{
+  \begin{observation}
+}{
+  \myendTheorem
+  \end{observation}
+}
+
 \newtheorem{step}[theorem]{Step}
 
 % \theoremstyle{remark}
@@ -882,27 +893,57 @@ Let
 \begin{equation*}
     \Vdr{dotted-rule} = [\Vsym{LHS} \de \Vsf{predot} \mydot \Vsf{postdot}].
 \end{equation*}
-The tree predicate
+
+\begin{mydefinition}
+\label{d:valid-tp}
+In the context of a grammar
+\begin{equation}
+\var{g} = [ \var{V}, \var{N}, \var{P}, \var{S} ],
+\end{equation}
+we say that tree predicate
 \begin{equation}
     \bigl[
 \label{e:tree-predicate-1} [\Vsym{LHS} \de \Vsf{predot} \mydot \Vsf{postdot}]
     , \Vloc{origin}, \Vloc{dot} \bigr]
 \end{equation}
-is valid for grammar \var{g}
+is \dfn{valid} for symbol \Vsym{A} at location \Vloc{base}
 if and only if,
 for some \Vsf{after},
 \begin{gather}
 \label{e:tree-predicate-2}
-  \Vsym{LHS} \de \Vsf{predot} \mydot \Vsf{postdot} \in \Crules, \\
+  [\var{LHS} \de \var{predot} \cat \var{postdot}] \in \var{P}, \\
 \label{e:tree-predicate-3}
-  \Vsym{S} \destar \Cwrange{0}{\var{origin}-1} \cat \Vsym{LHS} \cat \Vsf{after} \quad \text{and} \\
+  \Vsym{A} \destar
+  \Cwrange{\var{base}}{\var{origin}-1} \cat \var{LHS} \cat \var{after} \quad \text{and} \\
 \label{e:tree-predicate-4}
-  \Vsf{predot} \destar \Cwrange{\var{origin}}{\Vloc{dot}-1}.
+  \var{predot} \destar \Cwrange{\var{origin}}{\Vloc{dot}-1}.
 \end{gather}
+We write the set of valid tree predicates
+for grammar \var{g},
+symbol \Vsym{A}, base location \var{b}, and input \Vstr{w}
+as $\var{Valid-Predicates}(\var{g}, \var{A}, \var{b}, \var{w})$.
+\end{mydefinition}
 
-We write the set of valid tree predicates for \var{g} and input \var{w} as $\var{Valid}(\var{g}, \var{w})$.
-Often \var{g} will be understood in a context, and \var{Valid} will be treated as a function mapping
-strings to sets of tree predicates, and written $\var{Valid}(\var{w})$.
+\begin{mydefinition}
+A tree predicate
+is \dfn{valid} for grammar \var{g}
+and input \Vstr{w},
+if and only if it is valid for its start symbol at location 0.
+We write the set of valid tree predicates
+for grammar \var{g} and input \var{w}
+as $\var{Valid}(\var{g}, \var{w})$.
+\end{mydefinition}
+
+This definition means that
+\begin{equation}
+\var{Valid}(\var{g}, \var{w})
+  = \var{Valid-Predicates}(\var{g}, \var{S}, 0, \var{w}),
+\end{equation}
+where \Vsym{S} is the start symbol of \var{g}.
+
+We will find it convenient to overload the \var{Valid} predicate.
+We will write the set of valid tree predicates for \var{g} and input \var{w} as $\var{Valid}(\var{w})$,
+in contexts where \var{g} is understood.
 The set of tree predicates valid at a location \Vloc{i} is
 \begin{multline}
 \var{Valid}(\var{g}, \var{w}) [ \var{i} ] = \\
@@ -912,7 +953,7 @@ The set of tree predicates valid at a location \Vloc{i} is
   \land \var{tp} \in \var{Valid}(\var{w})
 \Bigr\rbrace .
 \end{multline}
-Where \var{g} is understood, it is written
+Where \var{g} is understood, this is written
 $\var{Valid}(\var{w}) [ \var{i} ]$.
 
 \begin{definition}
@@ -1005,6 +1046,185 @@ For every
   }
 {\Vtpm{tpm}(\var{w})}.
 \end{gather}
+
+We will often want to relocate tree predicate maps to an offset in
+a input stream.
+
+\begin{mydefinition}
+Let $\var{tp} = [ \var{dr}, \var{i}, \var{j} ]$
+be a tree predicate
+The \dfn{offset} of \var{tp} by \var{n}
+written $\var{tp}+\var{n}$
+is
+\begin{equation}
+ [ \var{dr}, \var{i}+\var{n}, \var{j}+\var{n} ]
+\end{equation}
+\end{mydefinition}
+
+\begin{mydefinition}
+\label{d:grammar-offset}
+We define the offset of a grammar in an input stream,
+written
+\begin{equation}
+\Vtpm{offset} = \Vtpoffset{g}{\var{n},\var{T2}}
+\end{equation}
+to be the tree predicate map
+\begin{multline}
+\Vtpm{offset}(\Vstr{prefix} . \Vstr{w}) = \\
+\left\lbrace
+\Vtp{tp} + \var{n}
+\; \middle| \;
+\Vtp{tp} \in
+\Vtpm{\var{Valid}(\var{g},\Vstr{w})}
+\right\rbrace
+\end{multline}
+where $\Vstr{prefix} \in (\var{T2} \cup \var{T}) ^\ast$ and
+$\size{\var{prefix}} = \var{n}$.
+Here
+\var{T} is the set of terminals for \var{g}
+and \var{T2} is a set of additional terminals.
+If \var{T2} is the empty set,
+we may write
+\begin{equation}
+\Vtpm{offset} = \Vtpoffset{g}{\var{n}},
+\end{equation}
+so that, for example,
+\begin{equation}
+\Vtpm{\var{Valid}(\var{g})} = \Vtpoffset{g}{0}.
+\end{equation}
+\end{mydefinition}
+
+When comparing two grammars, 
+\begin{gather*}
+\var{g1} = [ \var{V1}, \var{N1}, \var{P1}, \var{S1} ] \quad \text{and} \\
+\var{g2} = [ \var{V2}, \var{N2}, \var{P2}, \var{S2} ],
+\end{gather*}
+we say they are symbolically disjoint if $\var{V1} \cup \var{V2} = \epsilon$.
+We say they are symbolically equivalent if every \Vsym{A} such that
+$\Vsym{A} \in \var{V1} \land \Vsym{A} \in \var{V2}$
+has exactly the same set of derivations.
+
+\begin{mydefinition}
+A grammar \var{g1} is a subgrammar of another symbolically equivalent
+grammar \var{g2}, if 
+\begin{gather*}
+\var{g2} = [ \var{V2}, \var{N2}, \var{P2}, \var{S2} ], \\
+\text{where} \quad \var{g1} = [ \var{V1}, \var{N1}, \var{P1}, \var{S1} ], \\
+\quad \var{V1} \subset \var{V2}, \quad
+\quad \var{N1} \subseteq \var{N2}, \quad
+\quad \var{P1} \subset \var{P2} \quad \text{and} \quad
+\quad \var{S1} \neq \var{S2}.
+\end{gather*}
+\end{mydefinition}
+
+Note that by this definition of subgrammar,
+a grammar is never a subgrammar of itself.
+
+In a symbolically equivalent context,
+we can offset a set of tree
+predicates by \var{n} without affecting their validity.
+The next observation states this more formally.
+
+\begin{myobservation}
+\label{t:offset-valid}
+Consider two grammars,
+\begin{equation}
+\var{g1} = [ \var{V1}, \var{N1}, \var{P1}, \var{S1} ] \quad \text{and}
+\var{g2} = [ \var{V2}, \var{N2}, \var{P2}, \var{S2} ],
+\end{equation}
+where \var{g1} is a subgrammar of \var{g2}.
+\begin{gather}
+\Vstr{w} \in (\var{V1} \backslash \var{N1})^+, \\
+0 \le \Vloc{n} < \size{\var{w}} \quad \text{and} \\
+\var{w2} = \var{prefix} \cat \var{w}, \quad \size{\var{prefix}} = \var{n}, \\
+\var{prefix} \in (\var{V2} \backslash \var{N2})^\ast, \\
+\text{then} \quad
+\Vtpoffset{g1}{\var{n}}(\var{w}) = \var{Valid-Predicates}(\var{g2}, \Vsym{S1}, \var{n}, \var{w2}).
+\end{gather}
+\end{myobservation}
+
+
+\begin{proof}
+We can show \ref{t:offset-valid} we need to show
+that the tree predicates derived from
+\begin{equation}
+\label{e:offset-valid-1}
+\bigl[ [\var{S2} \de \mydot \Vsf{rhs} ], 0, 0 \bigr]
+\end{equation}
+for the input string
+\begin{equation}
+\label{e:offset-valid-proof-2}
+\var{w2} = \Vstr{relevant}
+\end{equation}
+will match one-to-one with the those derived from
+\begin{equation}
+\label{e:offset-valid-2}
+\bigl[ [\var{S2} \de \mydot \Vsf{rhs} ], \var{n}, \var{n} \bigr]
+\end{equation}
+for the input
+\begin{equation}
+\label{e:offset-valid-proof-2}
+  \var{w1} = \var{prefix} \cat \Vstr{relevant}
+\end{equation}
+where \var{prefix} is a string of terminals of length \var{n}.
+
+Define two grammars \var{g1} and \var{g2} such that \var{S2} is the
+start symbol of \var{g2} and \var{g2} is a subgrammar of \var{g1}.
+Let
+\begin{equation}
+\var{vp1} = \var{Valid-Predicates}(\var{g1}, \Vsym{S2}, \var{n}, \var{w1}) \quad \text{and}
+\var{vp2} = \var{Valid-Predicates}(\var{g2}, \Vsym{S2}, 0, \var{w2})
+\end{equation}
+Assume that, for some \var{tp1},
+\begin{equation}
+\var{tp2} \in \var{vp2} \land \var{tp2}+var{n} \notin \var{vp1}
+\end{equation}
+First, assume for a reductio
+that \var{tp2} contains a dotted rule not in any tree predicate in \var{vp1}.
+But \var{g1} and \var{g2} are symbolically equivalent by assumption,
+so they have the same set of derivations.
+Each derivation step implies a rule, and
+by Definition \ref{d:valid-tp} a dotted rule is in a tree predicate
+if and only if it is used in a derivation step.
+But if the dotted rule in \var{tp2} is not used in \var{vp1},
+then that derivation step is represented in \var{vp2}
+but not represented in \var{vp2},
+even though both start with the same symbol (\var{S2})
+and derive the same string of terminals: \var{relevant}.
+This is not possible, which completes the reductio,
+and shows that the dotted rule of \var{tp2} must be represented in \var{vp1}.
+
+Since the dotted rule for \var{tp2} must be represented in \var{vp1},
+we have
+\begin{multline}
+\var{tp2} = [ \Vsym{A} \de \Vsf{before} \mydot \Vsf{after} ], \var{i}, \var{j} ] \quad \text{and} \\
+[ [ \Vsym{A} \de \Vsf{before} \mydot \Vsf{after} ], \var{i}', \var{j}' ] \in \var{vp1}
+\end{multline}
+and we also have, since $\var{tp2} \in \var{tp2}$,
+\begin{equation}
+\Vsf{before} \destar \var{w2}[\var{i} \cdots \var{j} \subtract 1].
+\end{equation}
+But by
+\eqref{e:offset-valid-proof-1}
+and \eqref{e:offset-valid-proof-2},
+we have
+\begin{multline}
+\var{w2}[\var{i} \cdots \var{j} \subtract 1] 
+=  \var{relevant}[\var{i} \cdots \var{j} \subtract 1] \\
+= \var{w1}[\var{i}+\var{n} \cdots \var{j}+\var{n} \subtract 1]
+\end{multline}
+so that in \var{g1} and \var{vp1},
+\begin{equation}
+\Vsf{before} \destar = \var{w1}[\var{i}+\var{n} \cdots \var{j}+\var{n} \subtract 1]
+\end{equation}
+and therefore
+\begin{equation}
+[ [ \Vsym{A} \de \Vsf{before} \mydot \Vsf{after} ], \var{i}+\var{n}, \var{j}+\var{n} ] \in \var{vp1}
+\end{equation}
+
+(Definition \ref{d:grammar-offset})
+(Definition \ref{d:valid-tp}).
+\end{proof}
 
 \section{An approach to the Earley algorithm}
 \label{s:earley-approach}
@@ -2373,17 +2593,17 @@ and a new time-stamp is set, as follow:
 For convenience, we collect and summarize here
 some of the observations of this section.
 
-\begin{observation}
+\begin{myobservation}
 The time and space charged to an Earley item
 which is actually added to the Earley sets
 is \Oc{}.
-\end{observation}
+\end{myobservation}
 
-\begin{observation}
+\begin{myobservation}
 The time charged to an attempt
 to add a duplicate Earley item to the Earley sets
 is \Oc{}.
-\end{observation}
+\end{myobservation}
 
 For evaluation purposes, \Marpa{} adds a link to
 each EIM that records each attempt to
@@ -2394,21 +2614,21 @@ as recognizers, and such costs are ignored.
 This will be an issue when the space complexity
 for unambiguous grammars is considered.
 
-\begin{observation}
+\begin{myobservation}
 The space charged to an attempt
 to add a duplicate Earley item to the Earley sets
 is \Oc{} if links are included,
 zero otherwise.
-\end{observation}
+\end{myobservation}
 
 As noted in Section \ref{p:add-eim},
 the time and space used by predicted Earley items
 and attempts to add them is charged elsewhere.
 
-\begin{observation}
+\begin{myobservation}
 No space or time is charged to predicted Earley items,
 or to attempts to add predicted Earley items.
-\end{observation}
+\end{myobservation}
 
 \section{Marpa is correct}
 \label{s:correct}
@@ -3299,7 +3519,7 @@ of Definition \ref{d:leo-bounded}
 is preserved in \Vtpm{lb-union}.
 
 We now
-show condition \label{e:lb-cost-bounded}
+show condition \eqref{e:lb-cost-bounded}
 of Definition \ref{d:leo-bounded},
 that the number of costed proofs for each tree predicate remains bounded.
 To do this, we again
