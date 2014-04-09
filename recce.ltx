@@ -3213,30 +3213,6 @@ So \Cg{} is both ambiguous and not ambiguous, which completes the reductio.
 
 \section{Linear complexity results}
 
-\begin{theorem}
-\label{t:predictions-per-es}
-No Earley set allows more than \size{\Crules} predicted tree
-predicates.
-\end{theorem}
-
-\begin{proof}
-Call the current Earley set \var{j}.
-Predicted tree predicates at \var{j} will be of the form
-\begin{equation}
-\bigl[ [ \Vsym{lhs} \de \mydot \Vsf{rhs} ], \var{j}, \var{j} \bigr].
-\end{equation}
-The dot will always be at the beginning of the rule,
-and the origin and current location will always be \var{j},
-so that only the rule varies.
-Therefore there can be no more predictions than rules.
-\end{proof}
-
-\begin{definition}
-We say that a tree predicate is \dfn{Marpa-charged}
-if it is medial, predicted,
-or a completion which is not in a determistic recursion.
-\end{definition}
-
 \begin{mydefinition}
 Let \var{lb-set} be
 a set of tree predicate maps,
@@ -3282,10 +3258,21 @@ for every
 \end{equation*}
 all of the following are true
 \begin{gather}
-\label{e:lb-tp-bounded} \bigsize{ \var{Valid}(\var{tp-set}, \var{w})[\var{i}] } = \Oc, \\
-\label{e:lb-cost-bounded} \bigsize{ \var{Costed}(\var{tp-set}, \var{tp}) } = \Oc \quad \text{and} \\
+\label{e:lb-tp-bounded}
+\left|
+  \left\lbrace
+  \var{tp}
+  \; \middle| \;
+  \begin{aligned}
+     & \var{tp} \in \var{Valid}(\var{tps}, \var{w})[\var{i}] \\
+     & \land \quad \neg \var{RR}(\var{tps}, \var{tp})
+  \end{aligned}
+  \right\rbrace
+\right|
+  = \Oc, \\
+\label{e:lb-cost-bounded} \bigsize{ \var{Costed}(\var{tps}, \var{tp}) } = \Oc \quad \text{and} \\
 \label{e:lb-rr-deterministic}
- \var{RR}(\var{tps}, \var{tp}) \implies \bigsize{ \var{Costed}(\var{tp-set}, \var{tp}) } \le 1
+ \var{RR}(\var{tps}, \var{tp}) \implies \bigsize{ \var{Costed}(\var{tps}, \var{tp}) } \le 1
 \end{gather}
 We call a Marpa internal grammar \var{g}
 \dfn{Leo bounded} if and only if
@@ -3307,7 +3294,7 @@ Leo-bounded.
 \begin{proof}
 Examination of the definition of Leo Bounded
 (Definition \ref{d:leo-bounded})
-will show elimination that the conditions
+will show that the conditions
 \eqref{e:lb-tp-bounded},
 \eqref{e:lb-cost-bounded},
 and \eqref{e:lb-rr-deterministic}
@@ -3317,6 +3304,22 @@ set will not cause any of the remaining tree predicates to fail
 the conditions.
 \end{proof}
 
+In the pseudo-code, it was shown that all time and
+space is charged to
+\begin{itemize}
+\item an Earley set,
+\item a medial tree predicate, or
+\item a fusion tree predicate which is either not a right recursion
+or not in a deterministic right recursion.
+\end{itemize}
+
+\begin{definition}
+We say that a tree predicate is \dfn{Marpa-charged}
+if it is medial
+or a completion which is not a right recursion
+that is part of a determistic right recursion.
+\end{definition}
+
 \begin{mytheorem}
 \label{t:leo-bounded-is-linear}
 If \var{g} is Leo bounded,
@@ -3325,14 +3328,20 @@ where \var{n} is the input length.
 \end{mytheorem}
 
 \begin{proof}
-Since \var{g} is Leo bounded, the number of charged tree predicates
-at any location is \Oc,
-and the number of attempts to add each of them is \Oc.
+Since \var{g} is Leo bounded,
+by condition \eqref{e:lb-tp-bounded},
+the number of Marpa-charged tree predicates
+at any location is \Oc.
+By condition \eqref{e:lb-cost-bounded},
+the number of attempts to add each of them is \Oc.
 In the pseudocode,
-it was shown that all charges to attempts to add
-tree predicates is \Oc.
+it was shown that all charges
+of time and space are either to the Earley sets
+or to attempts to add tree predicates.
+Each Earley set is charged \Oc time and space.
+Each add-attempt is also charged \Oc time and space.
 For each Earley set the total time and space charged is therefore
-$\Oc \times \Oc \times \Oc = \Oc$.
+$\Oc + \Oc \times \Oc \times \Oc = \Oc$.
 By assumption,
 there are \var{n} Earley sets,
 the total time and space charged by the parse is $\Oc \times \On = \On$.
