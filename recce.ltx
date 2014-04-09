@@ -33,9 +33,6 @@
 \newcommand{\order}[1]{\ensuremath{{\mathcal O}(#1)}}
 \newcommand{\Oc}{\order{1}}
 \newcommand{\On}{\order{\var{n}}}
-\newcommand{\inference}[2]{\genfrac{}{}{1pt}{}{#1}{#2}}
-\newcommand{\ruleMarker}[1]{\boxed{#1}}
-\newcommand{\Tsize}[1]{\size{#1}_T}
 
 % I use hyphens in variable names,
 % so I need to ensure that subtraction is
@@ -43,8 +40,6 @@
 \newcommand{\subtract}{\,-\,}
 
 \newcommand{\var}[1]{\ensuremath{\texttt{#1}}}
-
-\newcommand{\cfg}{CFG}
 
 \newcommand{\de}{\rightarrow}
 \newcommand{\derives}{\Rightarrow}
@@ -126,7 +121,7 @@
 \newcommand{\Cg}{\var{g}}
 \newcommand{\Crules}{\var{rules}}
 \newcommand{\Cw}{\var{w}}
-\newcommand{\Crange}[3]{\ensuremath{{#1[#2 \dots #3]}}}
+\newcommand{\Crange}[3]{\ensuremath{#1[#2 \dots #3]}}
 \newcommand{\Cwrange}[2]{\Crange{\Cw}{#1}{#2}}
 \newcommand{\CVstr}[3]{\ensuremath{{#1[#2]}}}
 \newcommand{\CVwstr}[1]{\CVstr{w}{#1}}
@@ -1143,25 +1138,31 @@ The next observation states this more formally.
 \begin{myobservation}
 \label{t:offset-valid}
 Consider two grammars,
-\begin{equation}
-\var{g1} = [ \var{V1}, \var{N1}, \var{P1}, \var{S1} ] \quad \text{and}
+\begin{gather*}
+\var{g1} = [ \var{V1}, \var{N1}, \var{P1}, \var{S1} ] \quad \text{and} \\
 \var{g2} = [ \var{V2}, \var{N2}, \var{P2}, \var{S2} ],
-\end{equation}
-where \var{g1} is a subgrammar of \var{g2}.
-\begin{gather}
-\Vstr{w} \in (\var{V1} \backslash \var{N1})^+, \\
+\end{gather*}
+where \var{g2} is a subgrammar of \var{g1}.
+If
+\begin{gather*}
+\Vstr{w2} \in (\var{V1} \backslash \var{N1})^+, \\
 0 \le \Vloc{n} < \size{\var{w}} \quad \text{and} \\
-\var{w2} = \var{prefix} \cat \var{w}, \quad \size{\var{prefix}} = \var{n}, \\
-\var{prefix} \in (\var{V2} \backslash \var{N2})^\ast, \\
+\var{w1} = \bigl( (\var{V2} \backslash \var{N2}) \times \var{n} \bigr) \cat \var{w2}, \\
 \text{then} \quad
-\Vtpoffset{g1}{\var{n}}(\var{w}) = \var{Valid-Predicates}(\var{g2}, \Vsym{S1}, \var{n}, \var{w2}).
-\end{gather}
+\Vtpoffset{g2}{\var{n}}(\var{w2}) = \var{Valid-Predicates}(\var{g1}, \Vsym{S2}, \var{n}, \var{w1}).
+\end{gather*}
 \end{myobservation}
 
 
 \begin{proof}
-We can show \ref{t:offset-valid} we need to show
-that the tree predicates derived from
+Define two grammars
+\begin{gather}
+\var{g1} = [ \var{V1}, \var{N1}, \var{P1}, \var{S1} ] \quad \text{and} \\
+\var{g2} = [ \var{V2}, \var{N2}, \var{P2}, \var{S2} ]
+\end{gather}
+where \var{g2} is a subgrammar of \var{g1}.
+We need to show
+that the tree predicates derived using \var{g2} from
 \begin{equation}
 \label{e:offset-valid-proof-1}
 \bigl[ [\var{S2} \de \mydot \Vsf{rhs} ], 0, 0 \bigr]
@@ -1171,7 +1172,7 @@ for the input string
 \label{e:offset-valid-proof-2}
 \var{w2} = \Vstr{relevant}
 \end{equation}
-will match one-to-one with the those derived from
+will match one-to-one with the those derived using \var{g1} from
 \begin{equation}
 \label{e:offset-valid-proof-3}
 \bigl[ [\var{S2} \de \mydot \Vsf{rhs} ], \var{n}, \var{n} \bigr]
@@ -1179,16 +1180,9 @@ will match one-to-one with the those derived from
 for the input
 \begin{equation}
 \label{e:offset-valid-proof-4}
-  \var{w1} = \var{prefix} \cat \Vstr{relevant}
+  \var{w1} = \bigl( (\var{V1} \backslash \var{N1}) \times \var{n} \bigr) \; \cat \; \Vstr{relevant}
 \end{equation}
-where \var{prefix} is a string of terminals of length \var{n}.
 
-Define two grammars
-\begin{gather}
-\var{g1} = [ \var{V1}, \var{N1}, \var{P1}, \var{S1} ] \quad \text{and} \\
-\var{g2} = [ \var{V2}, \var{N2}, \var{P2}, \var{S2} ]
-\end{gather}
-where \var{g2} is a subgrammar of \var{g1}.
 Let
 \begin{gather}
 \label{e:offset-valid-proof-5}
@@ -1246,68 +1240,57 @@ and \eqref{e:offset-valid-proof-13} and not the
 subgrammar relationship.
 This is in order to preserve the chain of mutual implications.
 
-[ REVISED TO HERE ]
-
-Let \var{vp1} be
-By the definition of \var{vp1} at
-\eqref{e:offset-valid-proof-5},
-we know that
-\begin{equation}
-\label{e:offset-valid-proof-7}
-\var{i} \ge \var{n}, \quad \var{j} \ge \var{n}
-\end{equation}
-so that the subtraction of \var{n} in
-\eqref{e:offset-valid-proof-8} will not result in a location less than 0.
-
-Assume that, for some \var{tp1},
-\begin{equation}
-\var{tp2} \in \var{vp2} \land \var{tp2}+var{n} \notin \var{vp1}
-\end{equation}
-First, assume for a reductio
-that \var{tp2} contains a dotted rule not in any tree predicate in \var{vp1}.
-But \var{g1} and \var{g2} are symbolically equivalent by assumption,
-so they have the same set of derivations.
-Each derivation step implies a rule, and
-by Definition \ref{d:valid-tp} a dotted rule is in a tree predicate
-if and only if it is used in a derivation step.
-But if the dotted rule in \var{tp2} is not used in \var{vp1},
-then that derivation step is represented in \var{vp2}
-but not represented in \var{vp2},
-even though both start with the same symbol (\var{S2})
-and derive the same string of terminals: \var{relevant}.
-This is not possible, which completes the reductio,
-and shows that the dotted rule of \var{tp2} must be represented in \var{vp1}.
-
-Since the dotted rule for \var{tp2} must be represented in \var{vp1},
-we have
+We know from \eqref{e:offset-valid-proof-2}
+and \eqref{e:offset-valid-proof-4} that
 \begin{multline}
-\var{tp2} = [ \Vsym{A} \de \Vsf{before} \mydot \Vsf{after} ], \var{i}, \var{j} ] \quad \text{and} \\
-[ [ \Vsym{A} \de \Vsf{before} \mydot \Vsf{after} ], \var{i}', \var{j}' ] \in \var{vp1}
+\label{e:offset-valid-proof-14}
+    \Crange{\var{w1}} {\var{n}} {(\var{i}-1)} \\
+   = \Crange{\var{relevant}} {0} {(\var{i}-\var{n}-1)} =  \\
+   = \Crange{\var{w2}} {0} {(\var{i}-\var{n}-1)}
 \end{multline}
-and we also have, since $\var{tp2} \in \var{tp2}$,
-\begin{equation}
-\Vsf{before} \destar \var{w2}[\var{i} \cdots \var{j} \subtract 1].
-\end{equation}
-But by
-\eqref{e:offset-valid-proof-1}
-and \eqref{e:offset-valid-proof-2},
-we have
+and that
 \begin{multline}
-\var{w2}[\var{i} \cdots \var{j} \subtract 1] 
-=  \var{relevant}[\var{i} \cdots \var{j} \subtract 1] \\
-= \var{w1}[\var{i}+\var{n} \cdots \var{j}+\var{n} \subtract 1]
+\label{e:offset-valid-proof-15}
+   \Crange{\var{w1}} {\var{i}} {(\var{j}-1)} \\
+   = \Crange{\var{relevant}} {(\var{i}-\var{n})} {(\var{j}-\var{n}-1)} \\
+   = \Crange{\var{w2}} {(\var{i}-\var{n})} {(\var{j}-\var{n}-1)}.
 \end{multline}
-so that in \var{g1} and \var{vp1},
+Note that, since the notation for ranges is inclusive, the notation
+for a zero length range is $\Crange{\var{s}}{\var{x}}{(\var{x}-1)}$.
+$\Crange{\var{s}}{\var{0}}{(-1)}$ is a possible value, and indicates
+at zero-length string based at location 0.
+
+Combining
+\eqref{e:offset-valid-proof-10}
+and \eqref{e:offset-valid-proof-14}, we obtain
 \begin{equation}
-\Vsf{before} \destar = \var{w1}[\var{i}+\var{n} \cdots \var{j}+\var{n} \subtract 1]
+\label{e:offset-valid-proof-16}
+  \Vsym{S2} \destar
+  \Crange{\var{w2}}{\var{n}}{(\var{i}-\var{n}-1)} \cat \var{lhs} \cat \var{after}.
 \end{equation}
-and therefore
+Similarly, combining
+\eqref{e:offset-valid-proof-11}
+and \eqref{e:offset-valid-proof-15}, we obtain
 \begin{equation}
-[ [ \Vsym{A} \de \Vsf{before} \mydot \Vsf{after} ], \var{i}+\var{n}, \var{j}+\var{n} ] \in \var{vp1}
+\label{e:offset-valid-proof-17}
+  \var{rhs1} \destar \Crange{\var{w2}}{(\var{i}-\var{n})}{(\Vloc{j}-\var{n}-1)}.
 \end{equation}
 
-(Definition \ref{d:grammar-offset})
-(Definition \ref{d:valid-tp}).
+Combining \eqref{e:offset-valid-proof-12},
+\eqref{e:offset-valid-proof-13},
+\eqref{e:offset-valid-proof-16},
+and \eqref{e:offset-valid-proof-17},
+and using the definition of validity for tree predicates
+(Definition \ref{d:valid-tp}),
+shows us that
+\begin{equation}
+\var{tp1}-\var{n} = \bigl[ [\var{lhs} \de \Vsf{rhs1} \mydot \Vsf{rhs} ], \var{i}-\var{n}, \var{j}-\var{n} \bigr] \in \var{vp2}
+\end{equation}
+This was what we needed to show the ``if'' direction of
+\eqref{e:offset-valid-proof-8}.
+To show the ``if only'' direction,
+we note that every step of the argument for the ``if'' direction
+was a mutual implication.
 \end{proof}
 
 \section{An approach to the Earley algorithm}
