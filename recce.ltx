@@ -3279,24 +3279,23 @@ all of the following are true
 \label{e:lb-rr-deterministic}
  \var{RR}(\var{tps}, \var{tp}) \implies \bigsize{ \var{Costed}(\var{tp-set}, \var{tp}) } = 1
 \end{gather}
+We call a Marpa internal grammar \var{g}
+\dfn{Leo bounded} if and only if
+$\var{Valid}(\var{g})$ is Leo-bounded.
 We call a set of sets of tree predicates, \var{tpss},
-\dfn{Leo bound compatible}
-or just
-\dfn{bound compatible},
+\dfn{Leo bounded}
 if the union of its elements,
 \begin{equation*}
 \bigcup_{\var{tps} \in \var{tpss}}\var{tps},
 \end{equation*}
 is Leo bounded.
-We call a Marpa internal grammar \var{g}
-\dfn{Leo bounded} if and only if
-$\var{Valid}(\var{g})$ is Leo-bounded.
 \end{mydefinition}
 
 \begin{theorem}
 \label{t:leo-bounded-is-linear}
 If \var{g} is Leo bounded,
 Marpa runs in $\On$ time and space.
+where \var{n} is the input length.
 \end{theorem}
 
 \begin{proof}
@@ -3305,20 +3304,15 @@ is charged to Marpa-charged tree predicates.
 Call a tree predicate to which time or space is charged
 to attempts to add charged tree predicates.
 Since \var{g} is Leo bounded, the number of charged tree predicates
-is less than a constant, call it \var{c1}.
+at any location is \Oc.
 In the pseudocode,
 it was also shown that all charges to attempts to add
-tree predicates are less than a constant.
-Call the largest of these constants, \var{c2}.
+tree predicates are \Oc.
 For each Earley set the total time and space charged is therefore
-\begin{equation}
-\var{c1} \times \var{c2} = \Oc.
-\end{equation}
-Following the convention that the input length is \var{n}
+$\Oc \times \Oc = \Oc$.
+By assumption,
 there are \var{n} Earley sets,
-so the 
-the total time and space charged by the parse
-is \On{}.
+the total time and space charged by the parse is $\Oc \times \On = \On$.
 \end{proof}
 
 \begin{theorem}
