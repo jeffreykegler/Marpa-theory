@@ -163,7 +163,15 @@
   {}          % CUSTOM-HEAD-SPEC
 
 \theoremstyle{myplain}
+
 \newtheorem{theorem}{Theorem}[section]
+\newenvironment{mytheorem}{
+  \begin{theorem}
+}{
+  \myendTheorem
+  \end{theorem}
+}
+
 \newtheorem{construction}[theorem]{Construction}
 \newtheorem{lemma}[theorem]{Lemma}
 \index{Lemmas|see{Theorems}}
@@ -3277,7 +3285,7 @@ all of the following are true
 \label{e:lb-tp-bounded} \bigsize{ \var{Valid}(\var{tp-set}, \var{w})[\var{i}] } = \Oc, \\
 \label{e:lb-cost-bounded} \bigsize{ \var{Costed}(\var{tp-set}, \var{tp}) } = \Oc \quad \text{and} \\
 \label{e:lb-rr-deterministic}
- \var{RR}(\var{tps}, \var{tp}) \implies \bigsize{ \var{Costed}(\var{tp-set}, \var{tp}) } = 1
+ \var{RR}(\var{tps}, \var{tp}) \implies \bigsize{ \var{Costed}(\var{tp-set}, \var{tp}) } \le 1
 \end{gather}
 We call a Marpa internal grammar \var{g}
 \dfn{Leo bounded} if and only if
@@ -3291,25 +3299,40 @@ if the union of its elements,
 is Leo bounded.
 \end{mydefinition}
 
-\begin{theorem}
+\begin{mytheorem}
+Any subset of a Leo-bounded set of tree predicates is
+Leo-bounded.
+\end{mytheorem}
+
+\begin{proof}
+Examination of the definition of Leo Bounded
+(Definition \ref{d:leo-bounded})
+will show elimination that the conditions
+\eqref{e:lb-tp-bounded},
+\eqref{e:lb-cost-bounded},
+and \eqref{e:lb-rr-deterministic}
+all set maximums on the number of tree predicates.
+Therefore removal of a tree predicate from a Leo-bounded predicate
+set will not cause any of the remaining tree predicates to fail
+the conditions.
+\end{proof}
+
+\begin{mytheorem}
 \label{t:leo-bounded-is-linear}
 If \var{g} is Leo bounded,
 Marpa runs in $\On$ time and space.
 where \var{n} is the input length.
-\end{theorem}
+\end{mytheorem}
 
 \begin{proof}
-In the pseudocode, it was shown that all time and space
-is charged to Marpa-charged tree predicates.
-Call a tree predicate to which time or space is charged
-to attempts to add charged tree predicates.
 Since \var{g} is Leo bounded, the number of charged tree predicates
-at any location is \Oc.
+at any location is \Oc,
+and the number of attempts to add each of them is \Oc.
 In the pseudocode,
-it was also shown that all charges to attempts to add
-tree predicates are \Oc.
+it was shown that all charges to attempts to add
+tree predicates is \Oc.
 For each Earley set the total time and space charged is therefore
-$\Oc \times \Oc = \Oc$.
+$\Oc \times \Oc \times \Oc = \Oc$.
 By assumption,
 there are \var{n} Earley sets,
 the total time and space charged by the parse is $\Oc \times \On = \On$.
