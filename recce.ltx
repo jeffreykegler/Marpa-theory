@@ -3418,7 +3418,7 @@ completions or medial.
 From the pseudo-code, we know that predictions are charged
 to the Earley set, and  the charge will be \Oc{} time and space.
 
-By Theorem \ref{t:lrr-completions-Oc},
+By Theorem \ref{t:lrr-completed-Oc},
 there are at most \Oc{} completions,
 excluding right recursions.
 Deterministic right recursions are not Marpa-charged,
@@ -3910,11 +3910,11 @@ and $\var{S}[\var{x}]$ is the start symbol of grammar $\var{g}[\var{x}]$.
 
 Let $\var{Valid}(\var{g}[\var{x}], \Vloc{i})$
 be the set of valid tree predicates for
-$var{g}[\var{x}]$ at \Vloc{i}.
+$\var{g}[\var{x}]$ at \Vloc{i}.
 The set of tree predicates for the union
 at \Vloc{i}, $\var{Valid}(\var{g-union}, \var{i})$, is
 \begin{equation}
-\bigcup_{0 \le \var{x} \le \var{z}} \var{Valid}(\var{g}[\var{x}], var{i}).
+\bigcup_{0 \le \var{x} \le \var{z}} \var{Valid}(\var{g}[\var{x}], \var{i}).
 \end{equation}
 To
 $\var{Valid}(\var{g-union}, 0)$
