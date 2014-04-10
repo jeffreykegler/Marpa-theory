@@ -119,7 +119,7 @@
 
 \newcommand{\Cdr}{\var{dr}}
 \newcommand{\Cg}{\var{g}}
-\newcommand{\Crules}{\var{rules}}
+\newcommand{\Crules}{\var{P}}
 \newcommand{\Cw}{\var{w}}
 \newcommand{\Crange}[3]{\ensuremath{#1[#2 \dots #3]}}
 \newcommand{\Cwrange}[2]{\Crange{\Cw}{#1}{#2}}
@@ -2808,7 +2808,7 @@ the previous two equalities.
 \label{s:complexity}
 
 In the following we extend the notation for sentential forms to
-allow location to be indicate.
+allow location to be indicated.
 Specifically, to indicate in the sentential form
 \begin{equation*}
     \Vsf{a} \cat \Vsf{b} \mydot \Vsf{c}
@@ -2818,11 +2818,6 @@ and that the dot is at location \var{y},
 we will write
 \begin{equation*}
     \Vsf{a} \; [\var{x}] \; \Vsf{b} \; [\var{y}] \; \Vsf{c}.
-\end{equation*}
-We will also sometimes indicate the dot location
-more explicitly
-\begin{equation*}
-    \Vsf{a} \; [\var{x}] \; \Vsf{b} \; [\var{dot}] \; \Vsf{c}.
 \end{equation*}
 
 In the section
@@ -2922,34 +2917,24 @@ where from the assumption for the step we know that
 \Vsf{before1} \cat \Vsf{rhs1} \; [\var{end1}] \; \Vstr{after1} \\
 = \Vsf{before2} \cat \Vsf{rhs2} \; [\var{end2}] \; \Vstr{after2}.
 \end{multline}
+
 In \eqref{e:leo-lemma-induction-step-assumption}
 \Vloc{end1} and \Vloc{end2} indicate where the ends of the next handle
 must be found in their respective derivation.
+We know the two sentential forms
+in \eqref{e:leo-lemma-induction-step-assumption}
+are equal, but we need to show that $\var{end1} = \var{end2}$.
+To do this, we proceed by reductio.
 
-\var{g} is a LR grammar, so we can find the handles
-in \eqref{e:handle-1} and 
-\eqref{e:handle-2}
-by scanning terminals from the
-right.
-By \eqref{e:leo-lemma-induction-step-assumption},
-the two pre-threshold sentential forms are identical,
-so the scanned terminals will be identical.
-By the LR property,
-at a given location
-there will be a handle in \eqref{e:handle-1}
-if and only if there is a handle \eqref{e:handle-2}.
-
-Call the location where we find the two handles \Vloc{i}.
-Then the sentential form that we scanned before find the two handles
-$\Vstr{after} = \Cwrange{\var{i}}{\var{j}\subtract 1}$.
-\Vstr{after} is all terminals, and therefore a string,
-because by the LR property we must
-be able to reduce the rightmost non-terminal.
-
-Call the string of terminals that we have scanned
-at the point when we find the two handle
-and if the two handles exist, they will be identical.
-
+We assume for the reductio that
+\begin{equation}
+\label{e:leo-lemma-2}
+\var{end1} \neq \var{end2},
+\end{equation}
+\eqref{e:leo-lemma-2} means that
+$\var{after1} \neq \var{after2}$.
+Without loss of generality, we assume that
+$\var{after1} > \var{after2}$.
 We assumed that $\var{unseen1} \in \var{B}$
 and $\var{unseen1} \in \var{B}$,
 so that
@@ -2961,17 +2946,26 @@ By assumption,
 $\pi$ is a left congruence, so that from 
 \eqref{e:leo-lemma-unseen-mod-pi-assumption} it follows that
 \begin{gather}
-   \Vstr{after} .\var{unseen1} \equiv
-   \Vstr{after} .\var{unseen2} \pmod \pi,
+\label{e:leo-lemma-1}
+   \Vstr{after2} .\var{unseen1} \equiv
+   \Vstr{after2} .\var{unseen2} \pmod \pi,
 \end{gather}
 so that both strings are in the same cell of the partition, $\pi$.
-By the LR-property, this means that both handles will be
-found at the same location,
-that is, that 
+By the LR-property, if there is a handle just before
+$\Vstr{after2} .\var{unseen1}$ in \eqref{e:leo-lemma-1},
+there must also be a handle just before
+$\Vstr{after2} .\var{unseen2}$ in \eqref{e:leo-lemma-1}.
+Since \var{end1} and \var{end2} are the handle locations,
+that means that
+$\var{end1} = \var{end2}$.
+But this contradicts 
+\eqref{e:leo-lemma-2}, our assumption for the reductio.
+So, in fact,
 \begin{equation}
 \label{e:leo-lemma-ends-equal}
 \Vloc{end1} = \Vloc{end2}.
 \end{equation}
+
 From 
 \eqref{e:leo-lemma-induction-step-assumption}
 and
@@ -3026,9 +3020,9 @@ and therefore
 
 \begin{theorem}
 \label{t:completions-per-cell}
-The number of completions tree predicates at \var{j}
+The number of completed tree predicates at \var{j}
 for \var{g}, \var{B}, \Cwrange{0}{\var{j}\subtract 1},
-excluding those in a deterministic recursion,
+excluding those in right recursions,
 is less than or equal to $\size{\Crules}$, the number of rules in \var{g}.
 \myendTheorem
 \end{theorem}
@@ -3051,26 +3045,30 @@ Then by the definition of tree predicates,
 there will be the two rightmost derivation steps
 \begin{gather}
 \label{e:non-recursive-completion-step-1}
-\Vsf{before1} \var{lhs} \mydot \Cwrange{\var{j},\var{n}} \quad \text{and} \\
+\Vsf{before1} \cat \var{lhs} \mydot \Cwrange{\var{j}}{\var{n}} \quad \text{and} \\
 \label{e:non-recursive-completion-step-2}
-\Vsf{before2} \var{lhs} \mydot \Cwrange{\var{j},\var{n}}.
+\Vsf{before2} \cat \var{lhs} \mydot \Cwrange{\var{j}}{\var{n}}.
 \end{gather}
 By theorem \ref{t:leo-lemma}, we have
 \begin{equation}
 \label{e:non-recursive-recursion}
-\Vsf{before1} \var{lhs} \mydot \Cwrange{\var{j},\var{n}} \deRstar
-\Vsf{before2} \var{lhs} \mydot \Cwrange{\var{j},\var{n}}.
+\Vsf{before1} \cat \var{lhs} \mydot \Cwrange{\var{j}}{\var{n}} \deRstar
+\Vsf{before2} \cat \var{lhs} \mydot \Cwrange{\var{j}}{\var{n}}.
 \end{equation}
 From \eqref{e:non-recursive-recursion}, we see the pair
 \eqref{e:non-recursive-completion-step-1} and
 \eqref{e:non-recursive-completion-step-2},
 must recurse.
 This is contrary to the assumption for the reductio,
-and shows the reduction and the theorem.
+and shows the reduction.
+To show the theorem, we note that any recursion of tree predicates
+is on the predot symbol,
+and therefore any recursion of completed tree predicates
+is be a right recursion.
 \end{proof}
 
-We say a derivation step is \dfn{factored at location \var{i}}
-if \Vloc{i} is not the location 0 and there is a symbol of the
+We say a rightmost derivation step is \dfn{factored at location \var{i}}
+if \Vloc{i} is not location 0 and there is a symbol of the
 derivation with input position \var{i}.
 Note that since the input position is always before a symbol,
 a derivation step is never factored at
@@ -3083,13 +3081,28 @@ When we have reduced back to the derivation which consists
 of only the start symbol, \Vsym{S},
 there are no factoring locations.
 
-The last (that is, most reduced) derivation factored at \var{i} is the last
-derivation step in a series of reductions that is factored at \var{i}.
-The first (that is, least reduced) derivation not factored at \var{i} is the first
+\begin{mydefinition}
+\label{d:last-prefix}
+The
+most reduced derivation factored at \var{i}
+is the last
+derivation step in a series of rightmost
+reductions that is factored at \var{i}.
+It is also called the \dfn{last derivation factored at \var{i}}.
+The least reduced derivation not factored at \var{i} is the first
 derivation step in a series of reductions that is not factored at \var{i}.
+It is also called the \dfn{first derivation factored at \var{i}}.
 The \dfn{last prefix at \var{i}} is the sentential form that is
 the portion of the last derivation factored at \var{i}
-that is before \var{i}.
+at locations 0 through $\var{i}\subtract 1$, inclusive.
+\end{mydefinition}
+
+Less formally, the last prefix at \var{i}
+is the prefix of the rightmost
+derivation that is as reduced as possible
+without location \var{i} being swallowed up by a symbol.
+Once that happens, the prefix of location \var{i} is no
+longer well defined.
 
 \begin{theorem}
 \label{t:last-prefix-unique}
@@ -3136,13 +3149,14 @@ medial dotted rules in \var{g}.
 \end{theorem}
 
 \begin{proof}
-We will say that a derivation factors internally at \var{j} if it is of
+We say that a derivation factors internally at \var{j} if it is of
 the form
-\begin{equation}
+\begin{multline}
 \label{e:medial-derivation-1}
-\Vsf{before} \cat \Vsym{A} \cat \Vsf{after}
-  \de \var{before} \cat \Vsf{rhs1} [\Vloc{j}] \Vsf{rhs2} \cat \var{after}
-\end{equation}
+\Vsf{before} \cat \Vsym{A} \cat \Vsf{after} \\
+  \de \var{before} \cat \Vsf{rhs1} \; [\Vloc{j}] \; \Vsf{rhs2} \cat \var{after} \\
+  \text{where} \quad \var{rhs1} \neq \epsilon, \var{rhs2} \neq \epsilon
+\end{multline}
 If any tree has a derivation that factors internally at \var{j}, it must
 be unique to that tree.
 Any reduction will see \var{j} as properly ``inside'' either \Vsym{A} or one
@@ -3150,7 +3164,9 @@ of \var{A}'s indirect parent symbols.
 Any child derivation will either be from one of \var{before}, \var{rhs1}, \var{rhs2} or \var{after}.
 Every location of \var{before} and \var{rhs1} is less than or equal to \var{j}.
 Every location of \var{after} and \var{rhs2} is greater than or equal to \var{j}.
-Therefore none of their derived symbols can properly contain \var{j}.
+Therefore symbol of a child derivation can properly contain \var{j}
+and, as a further consequence,
+no child derivation can factor internally at \var{j}.
 
 Consider a medial tree predicate at \var{j} in \var{B}.
 We can describe it, without loss of generality as being of the form
@@ -3182,7 +3198,8 @@ the most reduced prefix of \var{B} at \var{j} or,
 as we have called it,
 the last prefix at \var{j}.
 From \eqref{e:medial-derivation-2} we see that 
-$\var{before2} \cat \var{rhs1}$ is also the last prefix at \var{j}.
+$\var{before2} \cat \var{rhs1}$ is also the last prefix at \var{j},
+as defined in Definition \ref{d:last-prefix}.
 Therefore,
 by Theorem \ref{t:last-prefix-unique},
 \begin{gather}
@@ -3209,6 +3226,47 @@ that grammar is ambiguous.
 so \Cg{} must be ambiguous.
 But \Cg{}, by assumption, is LR, and therefore is not ambiguous.
 So \Cg{} is both ambiguous and not ambiguous, which completes the reductio.
+\end{proof}
+
+\begin{mytheorem}
+\label{t:lrr-medial-Oc}
+The number of medial tree predicates at any location of an LRR parse
+is \Oc.
+\end{mytheorem}
+
+\begin{proof}
+An LRR parse, by definition, is an $LR(\pi)$ parse of finite index.
+The partition has \Oc{} cells.
+By Theorem \ref{t:medials-per-cell},
+in an LRR parse,
+the number of medial tree predicates
+at each location
+for each cell is \Oc.
+The number of medial tree predicates is therefore $\Oc \times \Oc = \Oc$.
+\end{proof}
+
+\begin{mytheorem}
+\label{t:lrr-completed-Oc}
+In an LRR parse,
+the number of
+completed tree predicates at any location
+is \Oc,
+if right recursions are excluded.
+\end{mytheorem}
+
+\begin{proof}
+An LRR parse, by definition, is an $LR(\pi)$ parse of finite index.
+and therefore the partition has \Oc{} cells.
+By Theorem
+\ref{t:completions-per-cell}
+in an LRR parse,
+the number of completed tree predicates
+at each location,
+and for each cell is \Oc,
+if right recursions are excluded.
+The number of non-right-recursive
+completed tree predicates at any location
+is therefore $\Oc \times \Oc = \Oc$.
 \end{proof}
 
 \section{Linear complexity results}
@@ -3309,8 +3367,8 @@ space is charged to
 \begin{itemize}
 \item an Earley set,
 \item a medial tree predicate, or
-\item a fusion tree predicate which is either not a right recursion
-or not in a deterministic right recursion.
+\item a completed tree predicate which is
+not in a deterministic right recursion.
 \end{itemize}
 
 \begin{definition}
@@ -3338,8 +3396,8 @@ In the pseudocode,
 it was shown that all charges
 of time and space are either to the Earley sets
 or to attempts to add tree predicates.
-Each Earley set is charged \Oc time and space.
-Each add-attempt is also charged \Oc time and space.
+Each Earley set is charged \Oc{} time and space.
+Each add-attempt is also charged \Oc{} time and space.
 For each Earley set the total time and space charged is therefore
 $\Oc + \Oc \times \Oc \times \Oc = \Oc$.
 By assumption,
@@ -3350,37 +3408,41 @@ the total time and space charged by the parse is $\Oc \times \On = \On$.
 \begin{theorem}
 \label{e:lrr-is-leo-bounded}
 LRR is Leo-bounded,
-and Marpa runs all LRR grammars in \On{} time and space.
+and Marpa runs all LRR grammars in \On{} time and space,
+where \var{n} is the number of locations.
 \end{theorem}
 
 \begin{proof}
 Tree predicates may be predictions,
 completions or medial.
-By Theorem \ref{t:predictions-per-es},
-predictions at any Earley set are at most $\size{\Crules}$.
-The partition of
-an LRR grammar may be refined to
-a finite left congruence.
-Call this refined partition $\pi$, and
-its cardinality, $\size{\pi}$.
-By Theorem \ref{t:completions-per-cell}, each
-cell has
-at most $\size{rules}$ Marpa-charged completions.
-Call the number of medial dotted rules in \Cg{}, \var{medial-count}.
-By Theorem \ref{t:medials-per-cell}, each
-cell has at most \var{c} Marpa-charged completions.
-Therefore the number of allowed Marpa-charged tree predicates
-is at most 
-\begin{equation}
-\var{c} = \size{\Crules}
-+ \size{\pi} \times \size{\Crules}
-+ \size{\pi} \times \var{medial-count}.
-\end{equation}
-Since an LRR grammar is unambiguous, there will be exactly one
-attempt to add every valid tree predicate, so the 
-number of attempts to add charged tree predicates is also 
-\var{c} is a constant of the type required to satisfy the definition
-for Leo bounded-ness.
+From the pseudo-code, we know that predictions are charged
+to the Earley set, and  the charge will be \Oc{} time and space.
+
+By Theorem \ref{t:lrr-completions-Oc},
+there are at most \Oc{} completions,
+excluding right recursions.
+Deterministic right recursions are not Marpa-charged,
+Because LRR grammars are unambiguous, none of its right recursions
+are not Marpa-charged.
+So at \Oc{} completions per location are Marpa-charged.
+By Theorem \ref{t:lrr-medial-Oc},
+there are at most \Oc{} medial tree predicates per location.
+
+There are therefore $\Oc+\Oc=\Oc$ Marpa-charged tree predicates
+per location.
+From the pseudo-code, we know that each attempt to 
+add a Marpa-charged tree predicate is charge \Oc{} time
+and space.
+Because LRR parses are unambiguous, there will be no more
+exactly one attempt to add every tree predicate,
+so that the total charges for tree predicates come to
+$1 \times \Oc \times \Oc = \Oc$ time and space.
+
+Counting the charges for each Earley set and the charges for
+each tree predicates, the charges for each location are
+$\Oc+\Oc=\Oc$.
+There are \On locations, so the total charges for the parse
+are $\Oc \times \On = \On$.
 \end{proof}
 
 The theorems which follow in the remainder of this section show
@@ -3626,7 +3688,7 @@ we examine the possibile values of each element this duple.
 Causes must be either a scanned terminal symbol,
 or another tree predicate at \Vloc{i}.
 By \eqref{e:bounded-union-5},
-the number of tree predicates at \var{i} is \Oc,
+the number of tree predicates at \var{i} is \Oc{},
 so that the total number of possible causes is $\Oc + 1$.
 
 Each cause of a costed proof uniquely determines a middle location,
@@ -3648,7 +3710,7 @@ that condition \eqref{e:lb-cost-bounded}
 of Definition \ref{d:leo-bounded}
 is preserved in \Vtpm{lb-union}.
 
-By assumption, we
+By assumption for the theorem,
 condition \eqref{e:lb-rr-deterministic}
 of Definition \ref{d:leo-bounded} is preserved;
 \eqref{e:bounded-union-5} showed
