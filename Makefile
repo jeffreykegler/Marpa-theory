@@ -20,6 +20,18 @@ recce.pdf: recce.ltx recce.ind
 
 recce.ind: recce.idx
 	makeindex recce
-
+	
+recce.idx: recce.ltx
+	pdflatex $?
+	mv recce.log recce.idx.log
+	rm -f recce.pdf
+	
 ah2002_notes.pdf: ah2002_notes.ltx
 	pdflatex $?
+
+realclean: clean
+	rm -f *.pdf
+
+clean:
+	rm -f *.log *.aux *.ilg *.idx *.ind *.toc *.dvi
+
