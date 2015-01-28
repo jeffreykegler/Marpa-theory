@@ -28,3 +28,10 @@ recce.idx: recce.ltx
 	
 ah2002_notes.pdf: ah2002_notes.ltx
 	pdflatex $?
+
+realclean: clean
+	rm -f *.pdf
+
+clean:
+	rm -f *.log *.aux *.ilg *.idx *.ind *.toc *.dvi
+
