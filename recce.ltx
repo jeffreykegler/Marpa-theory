@@ -1,4 +1,4 @@
-% Copyright 2013 Jeffrey Kegler
+% Copyright 2015 Jeffrey Kegler
 % This document is licensed under
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
 \documentclass[12pt]{amsart}
@@ -135,11 +135,11 @@
 
 \date{\today}
 
-\title{Marpa, a practical general parser: the recognizer}
+\title{The Marpa recognizer: a simplification}
 
 \author{Jeffrey Kegler}
 \thanks{%
-Copyright \copyright\ 2013 Jeffrey Kegler.
+Copyright \copyright\ 2015 Jeffrey Kegler.
 }
 \thanks{%
 This document is licensed under
@@ -147,26 +147,27 @@ a Creative Commons Attribution-NoDerivs 3.0 United States License.
 }
 
 \begin{abstract}
-The Marpa recognizer is described.
+A Marpa recognizer is described
+that simplifies the one
+described in our 2013 paper\cite{Marpa-2013}
 Marpa is
 a practical and fully implemented
 algorithm for the recognition,
 parsing and evaluation of context-free grammars.
 The Marpa recognizer is the first
-to unite the improvements
+to include the improvements
 to Earley's algorithm found in
-Joop Leo's 1991 paper
-to those in Aycock and Horspool's 2002 paper.
-Marpa tracks the full state of the parse,
-at it proceeds,
-in a form convenient for the application.
-This greatly improves error detection
-and enables event-driven parsing.
-One such technique is
-``Ruby Slippers'' parsing,
-in which
-the input is altered in response
-to the parser's expectations.
+Joop Leo's 1991 paper.
+Marpa has a new parse engine that
+allows the user to alternate
+between Earley-style syntax-driven parsing,
+and procedural parsing of the type available
+with recursive descent.
+Marpa is left-eidetic, so that,
+unlike in recursive descent,
+procedural logic have available
+full information about
+the state of the parse so far.
 \end{abstract}
 
 \maketitle
@@ -183,12 +184,9 @@ to take the best results from the literature
 on Earley parsing off the pages
 of the journals and bring them
 to a wider audience.
-Marpa::XS\cite{Marpa-XS},
-a stable version of this tool,
-was uploaded to the CPAN Perl archive
-on Solstice Day in 2011.
-This paper describes the algorithm of Marpa::R2\cite{Marpa-R2},
-a later version.
+This paper describes the algorithm used
+in the most recent version of Marpa::R2\cite{Marpa-R2}.
+It is a simplification of the one presented in an earlier paper\cite{Marpa-2013}.
 
 As implemented,
 Marpa parses,
@@ -236,7 +234,8 @@ parse with a clean
 but oversimplified grammar,
 programming the lexical analyzer to make up for the grammar's
 short-comings on the fly.
-The author has implemented an HTML parser\cite{Marpa-HTML},
+As part of the Marpa::R2\cite{Marpa-R2},
+the author has implemented an HTML parser,
 based on a grammar that assumes that all start
 and end tags are present.
 Such an HTML grammar is too simple even to describe perfectly
@@ -2798,35 +2797,29 @@ the number of traditional Earley items produced by
 \order{\Vsize{\Cw}} = \order{\var{n}}.
 \end{equation*}
 \Marpa{} may produce more Earley items than \Leo{}
-for two reasons:
-First, \Marpa{} does not apply Leo memoization to Leo sequences
+because
+\Marpa{} does not apply Leo memoization to Leo sequences
 which do not contain right recursion.
-Second, \Marpa{}'s Earley items group dotted rules into
-states and this has the potential to increase the number
-of Earley items.
 
-By theorem \ref{t:leo-singleton},
-the definition of an EIMT,
+By the definition of an EIM,
 and the construction of a Leo sequence,
 it can be seen that a Leo sequence
 corresponds step-for-step with a
 right derivation.
 It can therefore be seen that 
-the number of EIMT's in the Leo sequence
+the number of EIM's in the Leo sequence
 and the number of right derivation steps
 in its corresponding right derivation
 will be the same.
 
-Consider one EIMT that is memoized in \Leo{}.
-By theorem \ref{t:leo-singleton} it corresponds to
-a single dotted rule, and therefore a single rule.
+Consider one EIM that is memoized in \Leo{}.
 If not memoized because it is not a right recursion,
-this EIMT will be expanded to a sequence
-of EIMT's.
-How long will this sequence of non-memoized EIMT's
-be, if we still continue to memoize EIMT's
+this EIM will be expanded to a sequence
+of EIM's.
+How long will this sequence of non-memoized EIM's
+be, if we still continue to memoize EIM's
 which correspond to right recursive rules?
-The EIMT sequence, which was formerly a memoized Leo sequence,
+The EIM sequence, which was formerly a memoized Leo sequence,
 will correspond to a right
 derivation that does not include
 any steps that use right recursive rules.
@@ -2836,35 +2829,30 @@ right derivation can be
 of length at most \var{c1},
 where \var{c1} is a constant that depends on \Cg{}.
 As noted, this right derivation has
-the same length as its corresponding EIMT sequence,
-so that each EIMT not memoized in \Marpa{} will expand
-to at most \var{c1} EIMT's.
+the same length as its corresponding EIM sequence,
+so that each EIM not memoized in \Marpa{} will expand
+to at most \var{c1} EIM's.
 
-By Theorem \ref{t:marpa-O-leo},
-when EIMT's are replaced with EIM's,
-the number of EIM's \Marpa{} requires is at worst,
-$\var{c2}$ times the number of EIMT's,
-where \var{c2} is a constant that depends on \Cg{}.
-Therefore the number of EIM's per Earley set
+The number of EIM's per Earley set
 for an LR-regular grammar in a \Marpa{} parse
 is less than
 \begin{equation*}
-    \var{c1} \times \var{c2} \times \order{\var{n}} = \order{\var{n}}.
+    \var{c1} \times \order{\var{n}} = \order{\var{n}}.
 \end{equation*}
 
-LR-regular grammar are unambiguous, so that
+LR-regular grammars are unambiguous, so that
 by Theorem \ref{t:tries-O-eims},
 the number of attempts that \Marpa{} will make to add
 EIM's is less than or equal to
-\var{c3} times the number of EIM's,
-where \var{c3} is a constant that depends on \Cg{}.
+\var{c2} times the number of EIM's,
+where \var{c2} is a constant that depends on \Cg{}.
 Therefore,
 by Theorems \ref{t:O1-time-per-eim}
 and \ref{t:O1-links-per-eim},
 the time and space complexity of \Marpa{} for LR-regular
 grammars is
 \begin{equation*}
-    \var{c3} \times \order{\var{n}}
+    \var{c2} \times \order{\var{n}}
     = \order{\var{n}}.\qedhere
 \end{equation*}
 \end{proof}
@@ -2971,17 +2959,14 @@ Stephen~C. Johnson.
 \newblock Yacc: Yet another compiler-compiler.
 \newblock In {\em Unix Programmer's Manual Supplementary Documents 1}. 1986.
 
-\bibitem{Marpa-HTML}
-Jeffrey~Kegler, 2011: Marpa-HTML.
-\newblock \url{http://search.cpan.org/dist/Marpa-HTML/}.
+\bibitem{Marpa-2013}
+Jeffrey~Kegler.
+\newblock Marpa, a practical general parser: the recognizer.
+\newblock \url{https://www.academia.edu/10341474/Marpa_A_practical_general_parser_the_recognizer}.
 
 \bibitem{Marpa-R2}
-Jeffrey~Kegler, 2013: Marpa-R2.
+Jeffrey~Kegler, 2015: Marpa-R2.
 \newblock \url{http://search.cpan.org/dist/Marpa-R2/}.
-
-\bibitem{Marpa-XS}
-Jeffrey~Kegler, 2011: Marpa-XS-1.002000.
-\newblock \url{http://search.cpan.org/dist/Marpa-XS/}.
 
 \bibitem{Leo1991}
 J.~M. I.~M. Leo.
