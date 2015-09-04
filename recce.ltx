@@ -337,7 +337,7 @@ of \Vrule{r}.
 \Vstr{rhs} is referred to as the right hand side (RHS)
 of \Vrule{r}.
 The LHS and RHS of \Vrule{r} may also be
-referred to as 
+referred to as
 $\LHS{\Vrule{r}}$ and $\RHS{\Vrule{r}}$, respectively.
 This definition follows \cite{AH2002},
 which departs from tradition by disallowing an empty RHS.
@@ -397,7 +397,7 @@ if and only if
 \LHS{\Vrule{x}} = \RightNN{\Vrule{x}}.
 \end{equation*}
 \Vrule{x} is \dfn{indirectly right-recursive}
-if and only if 
+if and only if
 \begin{equation*}
 \exists \, \Vstr{y} \mid \RightNN{\Vrule{x}} \deplus \Vstr{y} \land \RightNN{\Vstr{y}} = \LHS{\Vrule{x}}.
 \end{equation*}
@@ -853,14 +853,14 @@ the only role the other EIM's in the sequence
 play in the parse is to derive the top EIM.
 We will call these memoized sequences, Leo sequences.
 
-To quarantee that a Leo sequence is deterministic,
+To guarantee that a Leo sequence is deterministic,
 \Leo{} enforced \dfn{Leo uniqueness}.
 Define containment of a dotted rule in a Earley set
 of EIM's as
 \begin{equation*}
 \begin{split}
 & \mymathop{Contains}(\Ves{i}, \Vdr{d}) \defined \exists \, \Veim{b}, \Vorig{j} \mid  \\
-& \qquad \Veim{b} = [ \Vdr{d}, \Vorig{j} ] 
+& \qquad \Veim{b} = [ \Vdr{d}, \Vorig{j} ]
   \land \Veim{b} \in \Ves{i}.
 \end{split}
 \end{equation*}
@@ -941,7 +941,7 @@ so \Marpa{}'s restriction of Leo memoization
 preserves the correctness as shown in Leo\cite{Leo1991}.
 Later in this \doc{} we will
 show that this change also leaves
-the complexity results of 
+the complexity results of
 Leo\cite{Leo1991} intact.
 
 Implementing the Leo logic requires
@@ -1001,7 +1001,7 @@ We define uniqueness of a penult in an Earley set as
 \begin{equation*}
 \begin{split}
 & \mymathop{Penult-Unique}(\Vsym{penult},\Ves{i}) \defined \\
-& \qquad \forall \, \Vdr{y} \bigl( \mymathop{Contains}(\Ves{current}, \Vdr{y}) 
+& \qquad \forall \, \Vdr{y} \bigl( \mymathop{Contains}(\Ves{current}, \Vdr{y})
 \land \Vsym{penult} = \Penult{\Vdr{y}} \bigr) \\
 & \qquad \qquad \implies \Vdr{x} = \Vdr{y}.
 \end{split}
@@ -1034,7 +1034,7 @@ an EIM, and false otherwise:
 & \quad \qquad \Vloc{pred-origin}, \Vloc{bottom-origin} \quad \text{such that}  \\
 & \quad \qquad \qquad \Veim{bottom} = [ \Vdr{bottom}, \Vloc{bottom-origin} ] \\
 & \quad \qquad \qquad \land \Vlim{pred} = [ \Vdr{pred}, \LHS{\Vdr{bottom}}, \Vloc{pred-origin} ] \\
-& \quad \qquad \qquad \land \Vlim{pred} \in \Ves{bottom-origin} 
+& \quad \qquad \qquad \land \Vlim{pred} \in \Ves{bottom-origin}
 \end{split}
 \end{equation*}
 
@@ -1140,7 +1140,7 @@ Earley sets may be represented by \Ves{i},
 where \var{i} is the Earley set's locaiton \Vloc{i}.
 The two notations should be regarded as interchangeable.
 The actual implementation of either
-should be the equivalent of a pointer to 
+should be the equivalent of a pointer to
 a data structure containing,
 at a minium,
 the Earley items,
@@ -1489,7 +1489,7 @@ remains \Oc.
 
 In the general case,
 where \var{x} is an arbitrary datum,
-it is not possible 
+it is not possible
 to use duple $[\Ves{i}, x]$
 as a search key and expect the search to use
 \Oc{} time.
@@ -1674,7 +1674,7 @@ EIM's in
 \begin{definition}
 The Marpa Earley set \EVtable{\Marpa}{i}
 is \dfn{complete} if and only if for every
-traditional Earley item in \EVtable{\Leo}{i}
+Earley item in \EVtable{\Leo}{i}
 there is a corresponding Earley item in
 \EVtable{\Marpa}{i}.
 \end{definition}
@@ -1838,9 +1838,10 @@ and \Veim{component}.
 hypothesis
 and \Veim{component}
 will be consistent by the inner induction hypothesis.
-From \Veim{component}, we will find zero or more transition
-symbols, \Vsym{lhs}.
-From this point,  the argument is very similar to
+From the LHS of the dotted rule of \Veim{component},
+we obtain the transition symbol, \Vsym{lhs}.
+From this point,
+the argument is very similar to
 that for the case of the scanning operation.
 \end{sloppypar}
 
@@ -1929,7 +1930,7 @@ that
 \EVtable{\Marpa}{i} is complete.
 To do this,
 we show that
-at least one EIM in \EVtable{\Marpa}{i}
+an EIM in \EVtable{\Marpa}{i}
 corresponds to every EIM in
 \EVtable{\Leo}{i}.
 We will proceed by cases,
@@ -2007,7 +2008,7 @@ so a traversal of them must terminate.
 Consider, for the purposes of the level 2 induction,
 the reductions of \Leo{} to occur in generations.
 Let the scanned Earley items be generation 0.
-An EIMT produced by a reduction is generation $\var{n} + 1$
+An EIM produced by a reduction is generation $\var{n} + 1$
 if its component Earley item was generation was \var{n}.
 Predicted Earley items do not need to be assigned generations.
 In Marpa grammars they can never contain completions,
@@ -2022,7 +2023,7 @@ we know that all Earley items in Marpa's sets are consistent.
 In Section \ref{s:scan-complete},
 we showed that generation 0 is complete --
 it contains Earley items
-corresponding to all of the generation 0 EIMT's of \Leo.
+corresponding to all of the generation 0 EIM's of \Leo.
 This is the basis of the level 2 induction.
 
 Since we stipulated that \Marpa{} adds Earley items
@@ -2047,7 +2048,7 @@ pair \Veim{predecessor}, \Veim{working}.
 (Again, $\mymathop{transitions}()$ is ignored
 as a memoization.)
 By the outer induction hypothesis we know that,
-for every traditional Earley item in the previous
+for every \Leo{} Earley item in the previous
 Earley set,
 there is at least one corresponding Marpa Earley item.
 We see from the pseudocode, therefore,
@@ -2251,7 +2252,7 @@ add duplicate Earley items.
 Earley's proof shows that for each attempt
 to add a duplicate,
 the causation must be different --
-that the EIMT's causing the attempt
+that the EIM's causing the attempt
 differ in either their dotted
 rules or their origin.
 Multiple causations for an Earley item
@@ -2347,11 +2348,11 @@ The number of possibilities for \Vsym{transition} is clearly at most
 \size{\var{symbols}},
 the number of symbols in \Cg{}.
 We have $\Veim{component} \in \Ves{j}$,
-and therefore there are at most 
+and therefore there are at most
 $\bigsize{\Ves{j}}$ choices for \Veim{component}.
 
 Let the number of dotted rules be \Vsize{\Cdr}.
-We can show that the number of possible choices of 
+We can show that the number of possible choices of
 \Veim{predecessor} is at most \Vsize{\Cdr}, by a reductio.
 Suppose, for the reductio,
 there were more than \Vsize{dr} possible choices of \Veim{predecessor}.
@@ -2377,7 +2378,7 @@ and that the number of choices for \Veim{predecessor},
 compatible with \Vorig{component}, is as most \Vsize{dr}.
 
 \begin{sloppypar}
-Collecting the results we see that the possibilities for 
+Collecting the results we see that the possibilities for
 each \Veim{component} are
 \begin{equation*}
 \begin{alignedat}{2}
@@ -2513,7 +2514,7 @@ We know still know that
 \begin{equation*}
 \Veim{predecessor} \in \Ves{component-origin},
 \end{equation*}
-where 
+where
 \Vloc{component-origin} is the origin of \Veim{component}.
 Worst case, every EIM in \Ves{component-origin} is a possible
 match, so that
@@ -2553,7 +2554,7 @@ on the grammar.
 Let the constant \var{c} be the number
 of symbols.
 Assume, for a reductio, that a right derivation
-expands to a 
+expands to a
 Leo sequence of length
 $\var{c}+1$, but that none of its steps uses a right recursive rule.
 
@@ -2592,7 +2593,7 @@ For every LR-regular grammar,
 
 \begin{proof}
 By Theorem 4.6 in \cite[p. 173]{Leo1991},
-the number of traditional Earley items produced by
+the number of Earley items produced by
 \Leo{} when parsing input \Cw{} with an LR-regular grammar \Cg{} is
 \begin{equation*}
 \order{\Vsize{\Cw}} = \order{\var{n}}.
@@ -2607,7 +2608,7 @@ and the construction of a Leo sequence,
 it can be seen that a Leo sequence
 corresponds step-for-step with a
 right derivation.
-It can therefore be seen that 
+It can therefore be seen that
 the number of EIM's in the Leo sequence
 and the number of right derivation steps
 in its corresponding right derivation
@@ -2625,7 +2626,7 @@ will correspond to a right
 derivation that does not include
 any steps that use right recursive rules.
 By Theorem \ref{t:leo-right-recursion},
-such a 
+such a
 right derivation can be
 of length at most \var{c1},
 where \var{c1} is a constant that depends on \Cg{}.
@@ -2702,11 +2703,11 @@ and Theorem \ref{t:eim-count}.
 \end{proof}
 
 Traditionally only the space result stated for a parsing algorithm
-is that 
+is that
 without links, as in \ref{t:cfg-space}.
 This is sufficiently relevant
 if the parser is only used as a recognizer.
-In practice, however, 
+In practice, however,
 algorithms like \Marpa{}
 are typically used in anticipation
 of an evaluation phase,
