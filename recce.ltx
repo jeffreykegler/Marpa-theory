@@ -87,7 +87,7 @@
 \newcommand{\Leo}{\ensuremath{\alg{Leo}}}
 \newcommand{\Marpa}{\ensuremath{\alg{Marpa}}}
 
-\newcommand{\Cfa}{\var{fa}}
+\newcommand{\Cdr}{\var{dr}}
 \newcommand{\Cg}{\var{g}}
 \newcommand{\Cw}{\var{w}}
 \newcommand{\CVw}[1]{\ensuremath{\sym{\Cw[\var{#1}]}}}
@@ -792,6 +792,23 @@ of that operation,
 and the set of operands for an Earley operation
 is its \dfn{causation}.
 
+\subsection{The dotted rule transition function}
+
+We define
+a partial transition function for
+pairs of dotted rule and symbol,
+\begin{equation*}
+\GOTO: \Cdr, (\epsilon \cup \var{vocab}) \mapsto \Cdr.
+\end{equation*}
+$\GOTO(\Vdr{from}, \epsilon)$ is a
+\dfn{null transition}.
+
+If \Vdr{predicted} is the result of a null transition,
+the dotted rule is called a \dfn{prediction}.
+If a dotted is not a \dfn{prediction},
+it is called a \dfn{confirmed} dotted rule.
+The initial dotted rule is a confirmed dotted rule.
+
 \section{The Leo algorithm}
 \label{s:leo}
 
@@ -1054,25 +1071,6 @@ and another, which holds if
     \bigset{ [ \Next{\Vdr{bottom}}, \Penult{\Vdr{bottom}}, \Vorig{bottom} ] }
 }
 \end{equation*}
-
-\section{To be moved}
-
-\cite{AH2002} also defines
-a partial transition function for
-pairs of AHFA state and symbol,
-\begin{equation*}
-\GOTO: \Cfa, (\epsilon \cup \var{vocab}) \mapsto \Cfa.
-\end{equation*}
-$\GOTO(\Vah{from}, \epsilon)$ is a
-\dfn{null transition}.
-(AHFA's are not fully deterministic.)
-If \Vah{predicted} is the result of a null transition,
-it is called a \dfn{predicted} AHFA state.
-If an AHFA state is not a \dfn{predicted} AFHA state,
-it is called a \dfn{confirmed} AHFA state.
-The initial AHFA state is a confirmed AHFA state.
-(In \cite{AH2002} confirmed states are called ``kernel states'',
-and predicted states are called ``non-kernel states''.)
 
 \section{The Marpa Recognizer}
 \label{s:recce}
@@ -1806,7 +1804,7 @@ and a parse location \Vloc{i},
 \end{theorem}
 
 \begin{proof}
-EIM's have the form $[\Vah{x}, \Vorig{x}]$.
+EIM's have the form $[\Vdr{x}, \Vorig{x}]$.
 \Vorig{x} is the origin of the EIM,
 which in Marpa cannot be after the current
 Earley set  at \Vloc{i},
@@ -1814,14 +1812,14 @@ so that
 \begin{equation*}
 0 \le \Vorig{x} \le \Vloc{i}.
 \end{equation*}
-The possibilities for \Vah{x} are finite,
-since the number of AHFA states is a constant,
-$\size{\Cfa}$,
-which depends on \Cg{}.
+The possibilities for \Vdr{x},
+call it $\size{\Cdr}$,
+is a finite constant that depend on the grammar,
+\Cg{}.
 Since duplicate EIM's are never added to an Earley set,
 the maximum size of Earley set \Vloc{i} is therefore
 \begin{equation*}
-\Vloc{i} \times \size{\Cfa} = \order{\Vloc{i}}.\qedhere
+\Vloc{i} \times \size{\Cdr} = \order{\Vloc{i}}.\qedhere
 \end{equation*}
 \end{proof}
 
