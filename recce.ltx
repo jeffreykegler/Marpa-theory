@@ -77,7 +77,6 @@
 \newcommand{\token}[1]{#1_{TOK}}
 
 \newcommand{\alg}[1]{\ensuremath{\textsc{#1}}}
-\newcommand{\AH}{\ensuremath{\alg{AH}}}
 \newcommand{\Earley}{\ensuremath{\alg{Earley}}}
 \newcommand{\Leo}{\ensuremath{\alg{Leo}}}
 \newcommand{\Marpa}{\ensuremath{\alg{Marpa}}}
@@ -443,9 +442,6 @@ In this \doc{},
 recognizer\cite{Earley1970}.
 \Leo{} will refer to Leo's revision of \Earley{}
 as described in~\cite{Leo1991}.
-\AH{} will refer to the Aycock and Horspool's revision
-of \Earley{}
-as described in~\cite{AH2002}.
 \Marpa{} will refer to the parser described in
 this \doc{}.
 Where $\alg{Recce}$ is a recognizer,
@@ -1181,7 +1177,7 @@ All these resource charges are obviously \Oc.
 
 \subsection{Ruby Slippers parsing}
 This top-level code represents a significant change
-from \AH{}.
+from previous versions of Earley's algorithm.
 \call{Scan pass}{} and \call{Reduction pass}{}
 are separated.
 As a result,
