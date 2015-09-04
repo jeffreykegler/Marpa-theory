@@ -1546,9 +1546,10 @@ let \Vloc{i} be its location,
 and vice versa.
 \Vloc{i} is an integer which is
 assigned as Earley sets are created.
-Let $\ID{\Vah{x}}$ be the integer ID of an AHFA state.
-Numbering the AHFA states from 0 on up as they are created
-is an easy way to create $\ID{\Vah{x}}$.
+We can easily assign a zero-based numbering
+to the dotted rules of the grammar,
+call it $\ID{\Vdr{x}}$,
+and this can be used as the integer ID of a dotted rule.
 Let $\PSL{\Ves{x}}{\var{y}}$
 be the entry for integer \var{y} in the PSL in
 the Earley set at \Vloc{x}.
@@ -1648,7 +1649,7 @@ In its implementation,
 \Marpa{} does not directly rewrite the grammar
 to eliminate nulling symbols.
 But nulling symbols are ignored in
-creating the AHFA states,
+creating the dotted rules,
 and must be restored during \Marpa's evaluation phase,
 so that the implementation and
 this simplification for theory purposes
@@ -1782,9 +1783,9 @@ We now examine them in detail.
 
 Let
 \begin{equation*}
-    \Vah{confirmed} = \GOTO(\Vah{predecessor}, \Vsym{token})
+    \Vdr{confirmed} = \GOTO(\Vdr{predecessor}, \Vsym{token})
 \end{equation*}
-If $\Vah{confirmed} = \Lambda$,
+If $\Vdr{confirmed} = \Lambda$,
 the pseudocode of Section \ref{p:scan-op} shows
 that we do nothing.
 If we do nothing,
@@ -1803,11 +1804,11 @@ and since \EVtable{\Marpa}{i} is consistent by the inner induction,
 \Veim{confirmed} is added.
 
 For predictions,
-if $\Vah{confirmed} \ne \Lambda$, let
+if $\Vdr{confirmed} \ne \Lambda$, let
 \begin{equation*}
-\Vah{predicted} = \GOTO(\Vah{confirmed}, \epsilon)
+\Vdr{predicted} = \GOTO(\Vdr{confirmed}, \epsilon)
 \end{equation*}
-If $\Vah{predicted} = \Lambda$,
+If $\Vdr{predicted} = \Lambda$,
 the pseudocode of Section \ref{p:add-eim-pair} shows
 that we do nothing.
 If we do nothing,
@@ -1871,14 +1872,13 @@ whether or not a \Veim{predicted} is added.
 \subsubsection{Leo reduction is consistent}
 \label{s:leo-consistent}
 
-\begin{sloppypar}
 We now show consistency for \Marpa{}'s
 reduction operation,
 in the case where there is a Leo reduction.
 If there is a Leo reduction, it is signaled by the
 presence of \Vlim{predecessor},
 \begin{equation*}
-\Vlim{predecessor} = [ \Vah{top}, \Vsym{lhs}, \Vorig{top} ]
+\Vlim{predecessor} = [ \Vdr{top}, \Vsym{lhs}, \Vorig{top} ]
 \end{equation*}
 in the Earley set where we would look
 for the \Veim{predecessor}.
@@ -1887,7 +1887,6 @@ the logic to create \Vlim{predecessor} as a matter of memoization
 of the previous Earley sets,
 and its correctness follows from
 the outer induction hypothesis.
-\end{sloppypar}
 
 As the result of a Leo reduction,
 \Leo{} will add
@@ -2079,20 +2078,15 @@ and the case of reduction completeness.
 \subsubsection{Leo reduction is complete}
 \label{s:leo-complete}
 
-\begin{sloppypar}
 We now show completeness for \Marpa{}'s reduction operation,
 in the case where there is a Leo reduction.
 In Section \ref{s:leo-consistent},
 we found that where \Leo{} would create
-the EIMT $[\Vdr{top}, \Vorig{top}]$,
-Marpa adds
-$[\Vah{top}, \Vorig{top}]$
-such that $\Vdr{top} \in \Vah{top}$.
+the EIM $[\Vdr{top}, \Vorig{top}]$.
 Since \Vdr{top} is a completed rule,
 there are no predictions.
 This shows the case immediately,
 by the definition of completeness.
-\end{sloppypar}
 
 \subsubsection{Prediction is complete}
 \label{s:prediction-complete}
@@ -2140,9 +2134,8 @@ we know that
 \end{equation*}
 if and only there is a
 \begin{equation*}
-[\Vah{accept},0] \in \EVtable{\Marpa}{\Vsize{w}}
+[\Vdr{accept},0] \in \EVtable{\Marpa}{\Vsize{w}}.
 \end{equation*}
-such that $\Vdr{accept} \in \Vah{accept}$.
 From the acceptance criteria in the \Leo{} definitions
 and the \Marpa{} pseudocode,
 it follows that
@@ -2347,8 +2340,7 @@ once for every triple
 where
 \begin{equation*}
 \begin{split}
-& \Veim{component} = [ \Vah{component}, \Vloc{component-origin} ]  \\
-\land \quad & \Vdr{component} \in \Vah{component} \\
+& \Veim{component} = [ \Vdr{component}, \Vloc{component-origin} ]  \\
  \land \quad & \Vsym{transition} = \LHS{\Vdr{component}}. \\
 \end{split}
 \end{equation*}
@@ -2361,14 +2353,13 @@ We have $\Veim{component} \in \Ves{j}$,
 and therefore there are at most 
 $\bigsize{\Ves{j}}$ choices for \Veim{component}.
 
-\begin{sloppypar}
+Let the number of dotted rules be \Vsize{\Cdr}.
 We can show that the number of possible choices of 
-\Veim{predecessor} is at most
-the number of AHFA states, \Vsize{fa}, by a reductio.
-Suppose, for the reduction,
-there were more than \Vsize{fa} possible choices of \Veim{predecessor}.
+\Veim{predecessor} is at most \Vsize{\Cdr}, by a reductio.
+Suppose, for the reductio,
+there were more than \Vsize{dr} possible choices of \Veim{predecessor}.
 Then there are two possible choices of \Veim{predecessor} with
-the same AHFA state.
+the same dotted rule.
 Call these \Veim{choice1} and \Veim{choice2}.
 We know, by the definition of Earley reduction, that
 $\Veim{predecessor} \in \Ves{j}$,
@@ -2377,8 +2368,8 @@ $\Veim{choice1} \in \Ves{j}$ and
 $\Veim{choice2} \in \Ves{j}$.
 Since all EIM's in an Earley set must differ,
 and
-\Veim{choice1} and \Veim{choice2} both have the same
-AHFA state,
+since \Veim{choice1} and \Veim{choice2} both share the same
+dotted rule,
 they must differ in their origin.
 But two different origins would produce two different derivations for the
 reduction, which would mean that the parse was ambiguous.
@@ -2386,15 +2377,14 @@ This is contrary to the assumption for the theorem
 that the grammar is unambiguous.
 This shows the reductio
 and that the number of choices for \Veim{predecessor},
-compatible with \Vorig{component}, is as most \Vsize{fa}.
-\end{sloppypar}
+compatible with \Vorig{component}, is as most \Vsize{dr}.
 
 \begin{sloppypar}
 Collecting the results we see that the possibilities for 
 each \Veim{component} are
 \begin{equation*}
 \begin{alignedat}{2}
-& \Vsize{fa} &&
+& \Vsize{\Cdr} &&
 \qquad \text{choices of \Veim{predecessor}} \\
 \times \; & \Vsize{symbols} &&
 \qquad \text{choices of \Vsym{transition}} \\
@@ -2406,7 +2396,7 @@ each \Veim{component} are
 
 The number of reduction attempts will therefore be at most
 \begin{equation*}
-\var{reduction-tries} \leq \Vsize{fa} \times \Vsize{symbols} \times \bigsize{\Ves{j}}.
+\var{reduction-tries} \leq \Vsize{\Cdr} \times \Vsize{symbols} \times \bigsize{\Ves{j}}.
 \end{equation*}
 
 Summing
@@ -2426,21 +2416,21 @@ the size of the input,
 & \bigsize{\Vtable{0}} & \quad &
 \qquad \text{initial EIM's} \\
 + \; & \sum\limits_{i=0}^{n}{
-\var{max-AHFA} \times \bigsize{\Vtable{j}}
+\bigsize{\Vtable{j}}
 } &&
 \qquad \text{LIM's} \\
 + \; & 2 \times \sum\limits_{i=1}^{n}{
 \bigsize{\Etable{\var{j} \subtract 1}}
 } &&
 \qquad \text{scanned EIM's} \\
-+ \; & 2 \times \sum\limits_{i=0}^{n}{\Vsize{fa} \times \Vsize{symbols} \times \bigsize{\Ves{j}}} &&
++ \; & 2 \times \sum\limits_{i=0}^{n}{\Vsize{\Cdr} \times \Vsize{symbols} \times \bigsize{\Ves{j}}} &&
 \qquad \text{reduction EIM's}.
 \end{alignedat}
 \end{equation*}
 In this summation,
 \var{prediction-tries} was accounted for by counting the scanned and predicted
 EIM attempts twice.
-Since \var{max-AHFA} and \Vsize{symbols} are both constants
+Since \Vsize{\Cdr} and \Vsize{symbols} are both constants
 that depend only on \Cg{},
 if we collect the terms of the summation,
 we will find a constant \var{c}
