@@ -258,8 +258,6 @@ Sections \ref{s:earley} and \ref{s:earley-ops}
 introduce Earley's algorithm.
 Section \ref{s:leo} describes Leo's modification
 to Earley's algorithm.
-Section \ref{s:AHFA} describes the modifications
-proposed by Aycock and Horspool.
 Section \ref{s:pseudocode} presents the pseudocode
 for Marpa's recognizer.
 Section
@@ -272,9 +270,6 @@ Section
 contain a proof of Marpa's correctness,
 while Section \ref{s:complexity} contains
 its complexity results.
-Finally,
-section \ref{s:input}
-generalizes Marpa's input model.
 
 \section{Preliminaries}
 \label{s:preliminaries}
@@ -599,7 +594,7 @@ Predicted, confirmed and completed dotted rules
 are also called, respectively,
 \dfn{predictions}, \dfn{confirmations} and \dfn{completions}.
 
-A traditional Earley item (type \type{EIMT}) is a duple
+An Earley item (type \type{EIM}) is a duple
 \[
     [\Vdr{dotted-rule}, \Vorig{x}]
 \]
@@ -820,14 +815,11 @@ Earley set, using what Leo called
 ``transitive items''.
 In this \doc{} Leo's ``transitive items''
 will be called Leo items.
-Leo items in the form that Marpa uses
+Leo items of the form used in Leo's paper\cite{Leo1991},
 will be type \type{LIM}.
-``Traditional'' Leo items,
-that is, those of the form used in Leo's paper\cite{Leo1991},
-will be type \type{LIMT}.
 
 In each Earley set, there is at most one Leo item per symbol.
-A traditional Leo item (LIMT) is the triple
+A Leo item (LIM) is the triple
 \begin{equation*}
 [ \Vdr{top}, \Vsym{transition}, \Vorig{top} ]
 \end{equation*}
@@ -845,14 +837,14 @@ Leo items only memoize unambiguous (or
 deterministic) sequences,
 so that the top of the sequence can represent
 the entire sequence --
-the only role the other EIMT's in the sequence
-play in the parse is to derive the top EIMT.
+the only role the other EIM's in the sequence
+play in the parse is to derive the top EIM.
 We will call these memoized sequences, Leo sequences.
 
 To quarantee that a Leo sequence is deterministic,
 \Leo{} enforced \dfn{Leo uniqueness}.
 Define containment of a dotted rule in a Earley set
-of EIMT's as
+of EIM's as
 \begin{equation*}
 \begin{split}
 & \mymathop{Contains}(\Ves{i}, \Vdr{d}) \defined \exists \, \Veimt{b}, \Vorig{j} \mid  \\
@@ -883,11 +875,11 @@ even those which are ineligible for Leo memoization.
 
 Let \var{n} be the length of a Leo sequence.
 In \Earley, each such sequence would be expanded in every
-Earley set that is the origin of an EIMT included in the
-sequence, and the total number of EIMT's would be
+Earley set that is the origin of an EIM included in the
+sequence, and the total number of EIM's would be
 \order{\var{n}^2}.
 
-With Leo memoization, a single EIMT stands in for the sequence.
+With Leo memoization, a single EIM stands in for the sequence.
 There are \Oc{} Leo items per Earley set,
 so the cost of the sequence is \Oc{} per Earley set,
 or \On{} for the entire sequence.
@@ -895,8 +887,8 @@ If, at evaluation time,
 it is desirable to expand the Leo sequence,
 only those items actually involved in the parse
 need to be expanded.
-All the EIMT's of a potential right-recursion
-will be in one Earley set and the number of EIMT's
+All the EIM's of a potential right-recursion
+will be in one Earley set and the number of EIM's
 will be \On{},
 so that even including expansion of the Leo sequence
 for evaluation, the time and space complexity of
@@ -945,7 +937,7 @@ adding Leo reduction as a new basic operation,
 adding a new premise to the Earley reduction
 operation,
 and extending the Earley sets to memoize Earley
-items as LIMT's.
+items as LIM's.
 
 \subsection{Leo reduction}
 
@@ -964,8 +956,8 @@ items as LIMT's.
 }
 \end{equation*}
 The new Leo reduction operation resembles the Earley reduction
-operation, except that it looks for an LIMT,
-instead of a predecessor EIMT.
+operation, except that it looks for an LIM,
+instead of a predecessor EIM.
 \Vlimt{predecessor} and
 \Veimt{component} are the operands of the Leo reduction
 operation.
@@ -986,7 +978,7 @@ Earley reduction still applies, with an additional premise:
 \end{multline*}
 The additional premise
 prevents Earley reduction from being applied
-where there is an LIMT with \Vsym{lhs} as its transition symbol.
+where there is an LIM with \Vsym{lhs} as its transition symbol.
 This reflects the fact that
 Leo reduction replaces Earley reduction if and only if
 there is a Leo memoization.
@@ -1021,11 +1013,11 @@ and Leo eligibility as
 \end{split}
 \end{equation*}
 For convenience, we define a relation that is
-true if \Vlimt{pred} is the LIMT predecessor of
-an EIMT, and false otherwise:
+true if \Vlimt{pred} is the LIM predecessor of
+an EIM, and false otherwise:
 \begin{equation*}
 \begin{split}
-& \mymathop{LIMT-Predecessor}({\Vlimt{pred},\Veimt{bottom}}) \defined \\
+& \mymathop{LIM-Predecessor}({\Vlimt{pred},\Veimt{bottom}}) \defined \\
 & \quad \exists \Ves{bottom-origin}, \Vdr{bottom}, \Vdr{pred}, \\
 & \quad \qquad \Vloc{pred-origin}, \Vloc{bottom-origin} \quad \text{such that}  \\
 & \quad \qquad \qquad \Veimt{bottom} = [ \Vdr{bottom}, \Vloc{bottom-origin} ] \\
@@ -1035,11 +1027,11 @@ an EIMT, and false otherwise:
 \end{equation*}
 
 We are now ready to define an inference rule which holds if
-a LIMT predecessor can be found for an EIMT \Veimt{bottom}
+a LIM predecessor can be found for an EIM \Veimt{bottom}
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    \mymathop{LIMT-Predecessor}({\Vlimt{pred},\Veimt{bottom}}) \\
+    \mymathop{LIM-Predecessor}({\Vlimt{pred},\Veimt{bottom}}) \\
     \Vlimt{pred} = [ \Vdr{pred}, \LHS{\Vdr{bottom}}, \Vorig{pred} ] \\
     \Veimt{bottom} = [ \Vdr{bottom}, \Vloc{bottom} ] \\
     \Veimt{bottom} \in \Ves{current} \\
@@ -1050,11 +1042,11 @@ a LIMT predecessor can be found for an EIMT \Veimt{bottom}
 }
 \end{equation*}
 and another, which holds if
-\Veimt{bottom} has no predecessor LIMT,
+\Veimt{bottom} has no predecessor LIM,
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    \neg \mymathop{LIMT-Predecessor}({\Vlimt{pred},\Veimt{bottom}}) \\
+    \neg \mymathop{LIM-Predecessor}({\Vlimt{pred},\Veimt{bottom}}) \\
     \Veimt{bottom} = [ \Vdr{bottom}, \Vorig{bottom} ] \\
     \Veimt{bottom} \in \Ves{current} \\
     \LeoEligible{\Vdr{bottom}}
@@ -1064,85 +1056,7 @@ and another, which holds if
 }
 \end{equation*}
 
-\section{The Aycock-Horspool finite automaton}
-\label{s:AHFA}
-\label{s:end-prelim}
-
-In this \doc{} a
-``split LR(0) $\epsilon$-DFA''
-as described by Aycock and Horspool\cite{AH2002},
-will be called an Aycock-Horspool Finite Automaton,
-or AHFA.
-This section will
-summarize the ideas
-from \cite{AH2002}
-that are central to Marpa.
-
-Aycock and Horspool based their AHFA's
-on a few observations.
-\begin{itemize}
-\item
-In practice, Earley items sharing the same origin,
-but having different dotted rules,
-often appear together in the same Earley set.
-\item
-There is in the literature a method
-for associating groups of dotted rules that often appear together
-when parsing.
-This method is the LR(0) DFA used in the much-studied
-LALR and LR parsers.
-\item
-The LR(0) items that are the components of LR(0)
-states are, exactly, dotted rules.
-\item
-By taking into account symbols that derive the
-null string, the LR(0) DFA could be turned into an
-LR(0) $\epsilon$-DFA,
-which would be even more effective
-at grouping dotted rules that often occur together
-into a single DFA state.
-\end{itemize}
-
-AHFA states are, in effect,
-a shorthand
-for groups of dotted rules that occur together frequently.
-Aycock and Horspool realized that,
-by changing Earley items to track AHFA states
-instead of individual dotted rules,
-the size of Earley sets could be reduced,
-and Earley's algorithm made faster in practice.
-
-As a reminder,
-the original Earley items (EIMT's)
-were duples, $[\Vdr{x}, \Vorig{x}]$,
-where \Vdr{x} is a dotted rule.
-An Aycock-Horspool Earley item is a duple
-\begin{equation*}
-[\Vah{y}, \Vorig{y}],
-\end{equation*}
-where $\Vah{y}$ is an AHFA state.
-
-\Marpa{} uses
-Earley items of the form
-created by Aycock and Horspool.
-A Marpa Earley item has type \type{EIM},
-and a Marpa Earley item is often referred to as an EIM.
-
-\begin{sloppypar}
-Aycock and Horspool did not consider
-Leo's modifications,
-but \Marpa{} incorporates them,
-and \Marpa{} also changes its Leo items to use AHFA states.
-Marpa's Leo items (LIM's) are triples
-of the form
-\end{sloppypar}
-\begin{equation*}
-[\Vah{top}, \Vsym{transition}, \Vorig{top}],
-\end{equation*}
-where \Vsym{transition} and \Vorig{top}
-are as in the traditional Leo items,
-and \Vah{top} is an AHFA state.
-A Marpa Leo item has type \type{LIM}.
+\section{To be moved}
 
 \cite{AH2002} also defines
 a partial transition function for
@@ -1160,134 +1074,6 @@ it is called a \dfn{confirmed} AHFA state.
 The initial AHFA state is a confirmed AHFA state.
 (In \cite{AH2002} confirmed states are called ``kernel states'',
 and predicted states are called ``non-kernel states''.)
-
-The states of an AHFA
-are not a partition of the dotted
-rules --
-a single dotted rule can occur
-in more than one AHFA state.
-In combining
-the improvements of Leo~\cite{Leo1991} and
-Aycock and Horspool\cite{AH2002},
-the following theorem is crucial.
-
-\begin{theorem}\label{t:leo-singleton}
-If a Marpa Earley item (EIM) is the result of a
-Leo reduction,
-then its AHFA state contains only one dotted rule.
-\end{theorem}
-
-\begin{proof}
-Let the EIM that is the result of the Leo
-reduction be
-\begin{equation*}
-\Veim{result} = [\Vah{result}, \Vorig{result}]
-\end{equation*}
-Let the Earley set that contains \Veim{result} be
-\Ves{i}.
-Since \Veim{result} is the result of a Leo reduction
-we know, from the definition of a Leo reduction,
-that
-\begin{equation*}
-\Vdr{complete} \in \Vah{result}
-\end{equation*}
-where
-\Vdr{complete} is a completed rule.
-Let \Vrule{c} be the rule of \Vdr{complete},
-and \var{cp} its dot position,
-\begin{equation*}
-\Vdr{complete} = [ \Vrule{c}, \var{cp} ].
-\end{equation*}
-$\var{cp} > 0$ because, in \Marpa{}
-grammars, completions are never
-predictions.
-
-Suppose, for a reduction to absurdity,
-that the AHFA state contains another dotted rule,
-\Vdr{other}, that is, that
-\begin{equation*}
-\Vdr{other} \in \Vah{result},
-\end{equation*}
-where $\Vdr{complete} \neq \Vdr{other}$.
-Let \Vrule{o} be the rule of \Vdr{other},
-and \var{op} its dot position,
-\begin{equation*}
-\Vdr{other} = [ \Vrule{o}, \var{op} ].
-\end{equation*}
-AHFA construction never places a prediction in the same
-AHFA state as a completion, so
-\Vdr{other} is not a prediction.
-Therefore, $\var{op} > 0$.
-To show this outer reduction to absurdity, we first prove
-by a first inner reductio that
-$\Vrule{c} \neq \Vrule{o}$,
-then by a second inner reductio that
-$\Vrule{c} = \Vrule{o}$.
-
-Assume, for the first inner reductio,
-that
-$\Vrule{c} = \Vrule{o}$.
-By the construction of an AHFA
-state,
-both \Vdr{complete} and \Vdr{other}
-resulted from the same series
-of transitions.
-But the same series of transitions over the
-same rule would result in the same dot position,
-$\var{cp} = \var{op}$,
-so that if $\Vrule{c} = \Vrule{o}$,
-$\Vdr{complete} = \Vdr{other}$,
-which is contrary to the assumption for the outer reductio.
-This shows the first inner reductio.
-
-Next, we assume for the second inner reductio that
-$\Vrule{c} \ne \Vrule{o}$.
-Since both \Vdr{complete} and \Vdr{other}
-are in the same EIM
-and neither is a prediction,
-both must result from transitions,
-and their transitions must have been from the same Earley set.
-Since they are in the same AHFA state,
-by the AHFA construction,
-that transition must have been
-over the same transition symbol,
-call it \Vsym{transition}.
-But Leo uniqueness applies to \Vdr{complete},
-and requires that the transition
-over \Vsym{transition} be unique in \Ves{i}.
-
-But if $\Vrule{c} \ne \Vrule{o}$,
-\Vsym{transition} was the transition symbol
-of two different dotted rules,
-and the Leo uniqueness requirement does not hold.
-The conclusion that the Leo uniqueness requirement
-both does and does not hold
-is a contradiction,
-which shows the second inner reductio.
-Since the assumption for
-the second inner reductio was that
-$\Vrule{c} \ne \Vrule{o}$,
-we conclude that
-$\Vrule{c} = \Vrule{o}$.
-
-By the two inner reductio's,
-we have both
-$\Vrule{c} \neq \Vrule{o}$
-and $\Vrule{c} = \Vrule{o}$,
-which completes the outer reduction to absurdity.
-For the outer reductio, we assumed that
-\Vdr{other}
-was a second dotted rule in \Vah{result},
-such that
-$\Vdr{other} \neq \Vdr{complete}$.
-We can therefore conclude that
-\begin{equation*}
-\Vdr{other} \in \Vah{result} \implies \Vdr{other} = \Vdr{complete}.
-\end{equation*}
-If \Vdr{complete} is a dotted rule
-in the AHFA state of a Leo reduction EIM,
-then it must be the only dotted rule in that AHFA state.
-\end{proof}
 
 \section{The Marpa Recognizer}
 \label{s:recce}
@@ -1521,7 +1307,7 @@ Overhead may be charged to the Earley set at \Vloc{i}.
 \State \hspace\algorithmicindent to a LIM
 \Else
 \State Set $\var{transitions}(\Vloc{i},\Vsym{postdot})$
-\State \hspace\algorithmicindent to the set of EIM's that have
+\State \hspace\algorithmicindent to the set of EIM's at \Vloc{i} that have
 \State \hspace\algorithmicindent \Vsym{postdot} as their postdot symbol
 \EndIf
 \EndFor
@@ -3147,136 +2933,6 @@ including the space for tracking links.
 By Theorem \ref{t:O1-links-per-eim},
 and Theorem \ref{t:ambiguous-tries}.
 \end{proof}
-
-\section{The Marpa Input Model}
-\label{s:input}
-
-In this \doc{},
-up to this point,
-the traditional input stream model
-has been assumed.
-As implemented,
-Marpa generalizes the idea of
-input streams beyond the traditional
-model.
-
-Marpa's generalized input model
-replaces the input \Cw{}
-with a set of tokens,
-\var{tokens},
-whose elements are triples of symbol,
-start location and length:
-\begin{equation*}
-    [\Vsym{t}, \Vloc{start}, \var{length}]
-\end{equation*}
-such that
-$\var{length} \ge 1$
-and
-$\Vloc{start} \ge 0$.
-The size of the input, \size{\Cw},
-is the maximum over
-\var{tokens} of $\Vloc{start}+\var{length}$.
-
-Multiple tokens can start at a single location.
-(This is how \Marpa{} supports ambiguous tokens.)
-The variable-length,
-ambiguous and overlapping tokens
-of \Marpa{}
-bend the conceptual framework of ``parse location''
-beyond its breaking point,
-and a new term for parse location is needed.
-Start and end of tokens are described in terms
-of \dfn{earleme} locations,
-or simply \dfn{earlemes}.
-Token length is also measured in earlemes.
-
-Like standard parse locations, earlemes start at 0,
-and run up to \size{\Cw}.
-Unlike standard parse locations,
-there is not necessarily a token ``at'' any particular earleme.
-(A token is considered to be ``at an earleme'' if it ends there,
-so that there is never a token ``at'' earleme 0.)
-In fact,
-there may be earlemes at which no token either starts or ends,
-although for the parse to succeed, such an earleme would have to be
-properly inside at least one token.
-Here ``properly inside'' means after the token's start earleme
-and before the token's end earleme.
-
-In the Marpa input stream, tokens
-may interweave and overlap freely,
-but gaps are not allowed.
-That is, for all \Vloc{i} such
-that $0 \le \Vloc{i} < \size{\Cw}$,
-there must exist
-\begin{equation*}
-	 \var{token} = [\Vsym{t}, \Vloc{start}, \var{length}]
-\end{equation*}
-such that
-\begin{gather*}
-	 \var{token} \in \var{tokens} \quad \text{and} \\
-	 \Vloc{start} \le \Vloc{i} < \Vloc{start}+\var{length}.
-\end{gather*}
-
-The intent of Marpa's generalized input model is to allow
-users to define alternative input models for special
-applications.
-An example that arises in current practice is natural
-language, features of which are most
-naturally expressed with ambiguous tokens.
-The traditional input stream can be seen as the special case of
-the Marpa input model where
-for all \Vsym{x}, \Vsym{y}, \Vloc{x}, \Vloc{y},
-\var{xlength}, \var{ylength},
-if we have both of
-\begin{align*}
-    [\Vsym{x}, \Vloc{x}, \var{xlength}] & \in \var{tokens} \quad \text{and} \\
-    [\Vsym{y}, \Vloc{y}, \var{ylength}] & \in \var{tokens},
-\end{align*}
-then we have both of
-\begin{gather*}
-\var{xlength} = \var{ylength} = 1 \quad \text{and} \\
-     \Vloc{x} = \Vloc{y} \implies \Vsym{x} = \Vsym{y}.
-\end{gather*}
-
-The correctness results hold for Marpa input streams,
-but to preserve the time complexity bounds,
-restrictions must be imposed.
-In stating them,
-let it be understood that
-\begin{equation*}
-	\token{[ \Vsym{x}, \Vloc{x}, \var{length} ]} \in \var{tokens}
-\end{equation*}
-We require that,
-for some constant \var{c},
-possibly dependent on the grammar \Cg{},
-that every token length be less than \var{c},
-\begin{equation}
-\label{e:restriction1}
-\forall \, \token{[\Vsym{x}, \Vloc{x}, \var{length}]},
-\; \var{length} < \var{c},
-\end{equation}
-and that
-the cardinality of the set of tokens starting at any
-one location
-be less than \var{c},
-\begin{equation}
-\label{e:restriction2}
- \forall \Vloc{i}, \;
- \Bigl|
- \bigl \lbrace
-	\token{[ \Vsym{x}, \Vloc{x}, \var{length} ]} \bigm|
-	\Vloc{x} = \Vloc{i}
-  \bigr \rbrace
-  \Bigr| < \var{c}
-\end{equation}
-Restrictions \ref{e:restriction1}
-and \ref{e:restriction2}
-impose little or no obstacle
-to the practical use
-of Marpa's generalized input model.
-And with them,
-the complexity results for \Marpa{} stand.
 
 \bibliographystyle{plain}
 
