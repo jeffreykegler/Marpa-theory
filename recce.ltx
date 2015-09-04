@@ -1251,8 +1251,21 @@ including which tokens are acceptable during the scanning phase.
 \subsection{Initialization}
 \label{p:initial-op}
 
+\subsubsection{Initialization complexity}
+\label{p:initial-op-complexity}
 Inclusive time and space is \Oc{}
 and is charged to the parse.
+
+\subsubsection{Initialization correctness}
+\label{p:initial-op-correct}
+
+\begin{theorem}\label{t:initial-op-correct}
+Initialization is correct.
+\end{theorem}
+
+\begin{proof}
+Omitted.
+\end{proof}
 
 \begin{algorithm}[h]
 \caption{Marpa Scan pass}
@@ -1270,6 +1283,9 @@ and is charged to the parse.
 
 \subsection{Scan pass}
 \label{p:scan-op}
+
+\subsubsection{Scan pass complexity}
+\label{p:scan-op-complexity}
 
 \var{transitions} is a set of tables, one per Earley set.
 The tables in the set are indexed by symbol.
@@ -1289,6 +1305,17 @@ and retrieved in \Oc{} time.
 Inclusive time and space can be charged to the
 \Veim{predecessor}.
 Overhead is charged to the Earley set at \Vloc{i}.
+
+\subsubsection{Scan pass correctness}
+\label{p:scan-op-correct}
+
+\begin{theorem}\label{t:scan-op-correct}
+The scan pass is correct.
+\end{theorem}
+
+\begin{proof}
+Omitted.
+\end{proof}
 
 \begin{algorithm}[h]
 \caption{Reduction pass}
@@ -1312,6 +1339,9 @@ Overhead is charged to the Earley set at \Vloc{i}.
 
 \subsection{Reduction pass}
 
+\subsubsection{Reduction pass complexity}
+\label{p:reduction-op-complexity}
+
 The loop over \Vtable{i} must also include
 any items added by \call{Reduce one LHS}{}.
 This can be done by implementing \Vtable{i} as an ordered
@@ -1331,6 +1361,17 @@ and is charged to the \Veim{work}
 that is current
 during that call to \call{Reduce one LHS}{}.
 Overhead may be charged to the Earley set at \Vloc{i}.
+
+\subsubsection{Reduction pass correctness}
+\label{p:reduction-op-correct}
+
+\begin{theorem}\label{t:reduction-op-correct}
+The reduction pass is correct.
+\end{theorem}
+
+\begin{proof}
+Omitted.
+\end{proof}
 
 \begin{algorithm}[h]
 \caption{Memoize transitions}
