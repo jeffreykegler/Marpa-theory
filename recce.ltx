@@ -51,8 +51,6 @@
 \newcommand{\set}[1]{{\left\lbrace #1 \right\rbrace} }
 \newcommand{\bigset}[1]{{\bigl\lbrace #1 \bigr\rbrace} }
 \newcommand{\Bigset}[1]{{\Bigl\lbrace #1 \Bigr\rbrace} }
-\newcommand{\ah}[1]{#1_{AH}}
-\newcommand{\Vah}[1]{\ensuremath{\var{#1}_{AH}}}
 \newcommand{\bool}[1]{\var{#1}_{BOOL}}
 \newcommand{\Vbool}[1]{\ensuremath{\bool{#1}}}
 \newcommand{\dr}[1]{#1_{DR}}
@@ -144,15 +142,13 @@ a Creative Commons Attribution-NoDerivs 3.0 United States License.
 }
 
 \begin{abstract}
-A Marpa recognizer is described
-that simplifies the one
-described in our 2013 paper\cite{Marpa-2013}
 Marpa is
 a practical and fully implemented
 algorithm for the recognition,
 parsing and evaluation of context-free grammars.
 The Marpa recognizer is the first
-to include the improvements
+practical implementation
+of the improvements
 to Earley's algorithm found in
 Joop Leo's 1991 paper.
 Marpa has a new parse engine that
@@ -162,9 +158,12 @@ and procedural parsing of the type available
 with recursive descent.
 Marpa is left-eidetic, so that,
 unlike in recursive descent,
-procedural logic have available
+the procedural logic has available
 full information about
 the state of the parse so far.
+The Marpa recognizer described
+is a simplification of that
+in our 2013 paper\cite{Marpa-2013}.
 \end{abstract}
 
 \maketitle
@@ -1162,11 +1161,9 @@ Per-set-lists will be described in Section \ref{s:per-set-lists}.
 \EndIf
 \State \Call{Reduction pass}{\var{i}}
 \EndFor
-\For{every $[\Vah{x}, 0] \in \Etable{\Vsize{w}}$}
-\If{$\Vdr{accept} \in \Vah{x}$}
+\If{$[\Vdr{accept}, 0] \in \Etable{\Vsize{w}}$}
 \State accept \Cw{} and return
 \EndIf
-\EndFor
 \State reject \Cw{}
 \EndProcedure
 \end{algorithmic}
@@ -1200,7 +1197,7 @@ including which tokens are acceptable during the scanning phase.
 \caption{Initialization}
 \begin{algorithmic}[1]
 \Procedure{Initial}{}
-\State \Call{Add EIM pair}{$0_{ES}, \ah{start}, 0$}
+\State \Call{Add EIM pair}{$0_{ES}, \dr{start}, 0$}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
@@ -1217,9 +1214,9 @@ and is charged to the parse.
 \Procedure{Scan pass}{$\Vloc{i},\Vsym{a}$}
 \State Note: Each pass through this loop is an EIM attempt
 \For{each $\Veim{predecessor} \in \var{transitions}((\var{i} \subtract 1),\var{a})$}
-\State $[\Vah{from}, \Vloc{origin}] \gets \Veim{predecessor}$
-\State $\Vah{to} \gets \GOTO(\Vah{from}, \Vsym{a})$
-\State \Call{Add EIM pair}{$\Ves{i}, \Vah{to}, \Vloc{origin}$}
+\State $[\Vdr{from}, \Vloc{origin}] \gets \Veim{predecessor}$
+\State $\Vdr{to} \gets \GOTO(\Vdr{from}, \Vsym{a})$
+\State \Call{Add EIM pair}{$\Ves{i}, \Vdr{to}, \Vloc{origin}$}
 \EndFor
 \EndProcedure
 \end{algorithmic}
@@ -1255,7 +1252,7 @@ Overhead is charged to the Earley set at \Vloc{i}.
 \State \hspace{2.5em} by \Call{Reduce one LHS}{} and
 \State \hspace{2.5em} the loop must traverse these
 \For{each Earley item $\Veim{work} \in \Vtable{i}$}
-\State $[\Vah{work}, \Vloc{origin}] \gets \Veim{work}$
+\State $[\Vdr{work}, \Vloc{origin}] \gets \Veim{work}$
 \State $\Vsymset{lh-sides} \gets$ a set containing the LHS
 \State \hspace\algorithmicindent of every completed rule in \Veim{work}
 \For{each $\Vsym{lhs} \in \Vsymset{lh-sides}$}
@@ -1398,9 +1395,9 @@ Overhead is \Oc{} and caller-included.
 \caption{Earley reduction operation}
 \begin{algorithmic}[1]
 \Procedure{Earley reduction operation}{\Vloc{i}, \Veim{from}, \Vsym{trans}}
-\State $[\Vah{from}, \Vloc{origin}] \gets \Veim{from}$
-\State $\Vah{to} \gets \GOTO(\Vah{from}, \Vsym{trans})$
-\State \Call{Add EIM pair}{\Ves{i}, \Vah{to}, \Vloc{origin}}
+\State $[\Vdr{from}, \Vloc{origin}] \gets \Veim{from}$
+\State $\Vdr{to} \gets \GOTO(\Vdr{from}, \Vsym{trans})$
+\State \Call{Add EIM pair}{\Ves{i}, \Vdr{to}, \Vloc{origin}}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
@@ -1420,9 +1417,9 @@ attempt.
 \caption{Leo reduction operation}
 \begin{algorithmic}[1]
 \Procedure{Leo reduction operation}{\Vloc{i}, \Vlim{from}}
-\State $[\Vah{from}, \Vsym{trans}, \Vloc{origin}] \gets \Vlim{from}$
-\State $\Vah{to} \gets \GOTO(\Vah{from}, \Vsym{trans})$
-\State \Call{Add EIM pair}{\Ves{i}, \Vah{to}, \Vloc{origin}}
+\State $[\Vdr{from}, \Vsym{trans}, \Vloc{origin}] \gets \Vlim{from}$
+\State $\Vdr{to} \gets \GOTO(\Vdr{from}, \Vsym{trans})$
+\State \Call{Add EIM pair}{\Ves{i}, \Vdr{to}, \Vloc{origin}}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
@@ -1439,14 +1436,14 @@ attempt.
 \begin{algorithm}[h]
 \caption{Add EIM pair}\label{a:pair}
 \begin{algorithmic}[1]
-\Procedure{Add EIM pair}{$\Ves{i},\Vah{confirmed}, \Vloc{origin}$}
-\State $\Veim{confirmed} \gets [\Vah{confirmed}, \Vloc{origin}]$
-\State $\Vah{predicted} \gets \GOTO(\Vah{confirmed}, \epsilon)$
+\Procedure{Add EIM pair}{$\Ves{i},\Vdr{confirmed}, \Vloc{origin}$}
+\State $\Veim{confirmed} \gets [\Vdr{confirmed}, \Vloc{origin}]$
+\State $\Vdr{predicted} \gets \GOTO(\Vdr{confirmed}, \epsilon)$
 \If{\Veim{confirmed} is new}
 \State Add \Veim{confirmed} to \Vtable{i}
 \EndIf
-\If{$\Vah{predicted} \neq \Lambda$}
-\State $\Veim{predicted} \gets [\Vah{predicted}, \Vloc{i}]$
+\If{$\Vdr{predicted} \neq \Lambda$}
+\State $\Veim{predicted} \gets [\Vdr{predicted}, \Vloc{i}]$
 \If{\Veim{predicted} is new}
 \State Add \Veim{predicted} to \Vtable{i}
 \EndIf
@@ -1556,11 +1553,11 @@ the Earley set at \Vloc{x}.
 
 Consider the case where Marpa is building \Ves{j}
 and wants to check whether Earley item \Veim{x} is new,
-where $\Veim{x} = [ \Vah{x}, \Vorig{x} ]$.
+where $\Veim{x} = [ \Vdr{x}, \Vorig{x} ]$.
 To check if \Veim{x} is new,
 Marpa checks
 \begin{equation*}
-\var{time-stamp} = \PSL{\Ves{x}}{\ID{\Vah{x}}}
+\var{time-stamp} = \PSL{\Ves{x}}{\ID{\Vdr{x}}}
 \end{equation*}
 If the entry has never been used,
 we assume that $\var{time-stamp} = \Lambda$.
@@ -1573,7 +1570,7 @@ then \Veim{x} is new.
 \Veim{x} is added to the Earley set,
 and a new time-stamp is set, as follow:
 \begin{equation*}
-\PSL{\Ves{x}}{\ID{\Vah{x}}} \gets \Vloc{j}.
+\PSL{\Ves{x}}{\ID{\Vdr{x}}} \gets \Vloc{j}.
 \end{equation*}
 
 \subsection{Complexity summary}
@@ -1663,7 +1660,7 @@ $\Veim{x} = [\Vdr{x}, \Vorig{x}]$
 \dfn{corresponds}
 to another Earley item \Veim{y}
 if and only if
-$\Veim{y} = [\Vah{y}, \Vorig{x}].$
+$\Veim{y} = [\Vdr{y}, \Vorig{x}].$
 \end{definition}
 
 \begin{definition}
