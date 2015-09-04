@@ -851,6 +851,38 @@ If a dotted is not a \dfn{prediction},
 it is called a \dfn{confirmed} dotted rule.
 The initial dotted rule is a confirmed dotted rule.
 
+\subsection{Marpa's Earley sets grow at worst linearly}
+
+\begin{theorem}\label{t:es-count}
+For a context-free grammar,
+and a parse location \Vloc{i},
+\begin{equation*}
+\textup{
+    $\bigsize{\EVtable{\Marpa}{i}} = \order{\var{i}}$.
+}
+\end{equation*}
+\end{theorem}
+
+\begin{proof}
+EIM's have the form $[\Vdr{x}, \Vorig{x}]$.
+\Vorig{x} is the origin of the EIM,
+which in Marpa cannot be after the current
+Earley set  at \Vloc{i},
+so that
+\begin{equation*}
+0 \le \Vorig{x} \le \Vloc{i}.
+\end{equation*}
+The possibilities for \Vdr{x},
+call it $\size{\Cdr}$,
+is a finite constant that depend on the grammar,
+\Cg{}.
+Since duplicate EIM's are never added to an Earley set,
+the maximum size of Earley set \Vloc{i} is therefore
+\begin{equation*}
+\Vloc{i} \times \size{\Cdr} = \order{\Vloc{i}}.\qedhere
+\end{equation*}
+\end{proof}
+
 \section{The Leo algorithm}
 \label{s:leo}
 
@@ -1775,464 +1807,13 @@ and consistent.
 \section{Marpa is correct}
 \label{s:correct}
 
-\subsection{Marpa's Earley sets grow at worst linearly}
-
-\begin{theorem}\label{t:es-count}
-For a context-free grammar,
-and a parse location \Vloc{i},
-\begin{equation*}
-\textup{
-    $\bigsize{\EVtable{\Marpa}{i}} = \order{\var{i}}$.
-}
-\end{equation*}
-\end{theorem}
-
-\begin{proof}
-EIM's have the form $[\Vdr{x}, \Vorig{x}]$.
-\Vorig{x} is the origin of the EIM,
-which in Marpa cannot be after the current
-Earley set  at \Vloc{i},
-so that
-\begin{equation*}
-0 \le \Vorig{x} \le \Vloc{i}.
-\end{equation*}
-The possibilities for \Vdr{x},
-call it $\size{\Cdr}$,
-is a finite constant that depend on the grammar,
-\Cg{}.
-Since duplicate EIM's are never added to an Earley set,
-the maximum size of Earley set \Vloc{i} is therefore
-\begin{equation*}
-\Vloc{i} \times \size{\Cdr} = \order{\Vloc{i}}.\qedhere
-\end{equation*}
-\end{proof}
-
-\subsection{Marpa's Earley sets are correct}
-
-\begin{theorem}\label{t:table-correct}
-Marpa's Earley sets are correct.
-\end{theorem}
-
-The proof
-is by triple induction,
-that is, induction with a depth down to 3 levels.
-We number the levels of induction
-0, 1 and 2,
-starting with the outermost.
-The level 0 induction is usually called the outer induction.
-The level 1 induction is usually called the inner induction.
-Level 2 induction is referred to by number.
-
-The outer induction is on the Earley sets.
-The outer induction hypothesis is that all Earley sets
-\EVtable{\Marpa}{i},
-$0 \le \Vloc{i} \le \Vloc{n}$,
-are complete and consistent,
-and therefore correct.
-We leave it as an exercise to show, as the
-basis of the induction, that
-\EEtable{\Marpa}{0} is complete and consistent.
-
-To show the outer induction step, we show first
-consistency, then completeness.
-We show consistency by
-an inner induction on the Marpa operations.
-The inner induction hypothesis is that
-\EVtable{\Marpa}{i},
-as so far built,
-is consistent with respect to
-\EVtable{\Leo}{i}.
-
-As the basis of the inner induction,
-an empty Marpa Earley set is
-consistent, trivially.
-We show the step of the inner induction by cases:
-\begin{itemize}
-\item \Marpa{} scanning operations;
-\item \Marpa{} reductions when there are no Leo reductions; and
-\item \Marpa{}'s Leo reductions
-\end{itemize}
-
-\subsubsection{Marpa scanning is consistent}
-\label{s:scan-consistent}
-
-For Marpa's scanning operation, we know
-that the predecessor EIM is correct
-by the outer induction hypothesis,
-and that the token is correct
-by the definitions in the preliminaries.
-We know, from Section \ref{p:scan-op},
-that at most two EIM's will be added.
-We now examine them in detail.
-
-Let
-\begin{equation*}
-    \Vdr{confirmed} = \GOTO(\Vdr{predecessor}, \Vsym{token})
-\end{equation*}
-If $\Vdr{confirmed} = \Lambda$,
-the pseudocode of Section \ref{p:scan-op} shows
-that we do nothing.
-If we do nothing,
-since \EVtable{\Marpa}{i} is consistent by the inner
-induction hypothesis,
-it remains consistent, trivially.
-
-Otherwise, let
-$\Veim{confirmed} = [\Vdr{confirmed}, \Vloc{i}]$.
-We see that \Veim{confirmed} is consistent with respect
-to \EVtable{\Leo}{i},
-by the definition of Earley scanning (Section~\ref{d:scan}).
-Consistency is invariant under union,
-and since \EVtable{\Marpa}{i} is consistent by the inner induction,
-\EVtable{\Marpa}{i} remains consistent after
-\Veim{confirmed} is added.
-
-For predictions,
-if $\Vdr{confirmed} \ne \Lambda$, let
-\begin{equation*}
-\Vdr{predicted} = \GOTO(\Vdr{confirmed}, \epsilon)
-\end{equation*}
-If $\Vdr{predicted} = \Lambda$,
-the pseudocode of Section \ref{p:add-eim-pair} shows
-that we do nothing.
-If we do nothing,
-since \EVtable{\Marpa}{i} is consistent by the inner
-induction hypothesis,
-it remains consistent, trivially.
-Otherwise, let
-\begin{equation*}
-\Veim{predicted} = [\Vdr{predicted}, \Vloc{i}].
-\end{equation*}
-We see that \Veim{predicted} is consistent with respect
-to \EVtable{\Leo}{i},
-by the definition of Earley prediction (Section~\ref{d:prediction}).
-Consistency is invariant under union and,
-since \EVtable{\Marpa}{i} is consistent by the inner induction,
-\EVtable{\Marpa}{i} remains consistent after
-\Veim{predicted} is added.
-
-\subsubsection{Earley reduction is consistent}
-\label{s:reduction-consistent}
-
-\begin{sloppypar}
-Next,
-we show that \Marpa{}'s reduction operation
-is consistent,
-in the case where there is no Leo reduction.
-There will be two cause EIM's, \Veim{predecessor}
-and \Veim{component}.
-\Veim{predecessor} will be correct by the outer induction
-hypothesis
-and \Veim{component}
-will be consistent by the inner induction hypothesis.
-From the LHS of the dotted rule of \Veim{component},
-we obtain the transition symbol, \Vsym{lhs}.
-From this point,
-the argument is very similar to
-that for the case of the scanning operation.
-\end{sloppypar}
-
-Let
-\begin{equation*}
-\Vdr{confirmed} = \GOTO(\Vdr{predecessor}, \Vsym{lhs})
-\end{equation*}
-If $\Vdr{confirmed} = \Lambda$, we do nothing,
-and \EVtable{\Marpa}{i} remains consistent, trivially.
-Otherwise, let
-\begin{equation*}
-\Veim{confirmed} = [\Vdr{confirmed}, \Vloc{i}].
-\end{equation*}
-We see that \Veim{confirmed} is consistent with respect
-to \EVtable{\Leo}{i}
-by the definition of Earley reduction (Section~\ref{d:reduction}).
-By the invariance of consistency under union,
-\EVtable{\Marpa}{i} remains consistent after
-\Veim{confirmed} is added.
-
-For predictions, the argument exactly repeats that of
-Section \ref{s:scan-consistent}.
-\EVtable{\Marpa}{i} remains consistent,
-whether or not a \Veim{predicted} is added.
-
-\subsubsection{Leo reduction is consistent}
-\label{s:leo-consistent}
-
-We now show consistency for \Marpa{}'s
-reduction operation,
-in the case where there is a Leo reduction.
-If there is a Leo reduction, it is signaled by the
-presence of \Vlim{predecessor},
-\begin{equation*}
-\Vlim{predecessor} = [ \Vdr{top}, \Vsym{lhs}, \Vorig{top} ]
-\end{equation*}
-in the Earley set where we would look
-for the \Veim{predecessor}.
-We treat
-the logic to create \Vlim{predecessor} as a matter of memoization
-of the previous Earley sets,
-and its correctness follows from
-the outer induction hypothesis.
-
-As the result of a Leo reduction,
-\Leo{} will add
-$[\Vdr{top}, \Vorig{top}]$
-to \EVtable{\Leo}{j}.
-Because the \Marpa{} LIM is correct,
-and from Section \ref{p:leo-op},
-we see that,
-as the result of the Leo reduction,
-\Marpa{} will add
-\begin{equation*}
-\Veim{leo} = [\Vdr{top}, \Vorig{top}]
-\end{equation*}
-to \EVtable{\Marpa}{j}.
-The consistency of \Veim{leo} follows from the definition
-of EIM consistency.
-The consistency of
-\EVtable{\Marpa}{i},
-once \Veim{leo} is added,
-follows by the invariance
-of consistency under union.
-
-\subsubsection{Marpa's Earley sets are consistent}
-\label{s:sets-consistent}
-
-Sections
-\ref{s:scan-consistent},
-\ref{s:reduction-consistent}
-and
-\ref{s:leo-consistent}
-show the cases for the step of the inner induction,
-which shows the induction.
-It was the purpose of the inner induction to show
-that consistency of \EVtable{\Marpa}{i} is invariant
-under Marpa's operations.
-
-\subsubsection{The inner induction for completeness}
-
-It remains to show that,
-when Marpa's operations are run as described
-in the pseudocode of Section \ref{s:pseudocode},
-that
-\EVtable{\Marpa}{i} is complete.
-To do this,
-we show that
-an EIM in \EVtable{\Marpa}{i}
-corresponds to every EIM in
-\EVtable{\Leo}{i}.
-We will proceed by cases,
-where the cases are \Leo{} operations.
-For every operation that \Leo{} would perform,
-we show that
-\Marpa{} performs an operation that
-produces a corresponding Earley item.
-Our cases for the operations of \Leo{} are
-Earley scanning operations;
-Earley reductions;
-Leo reductions;
-and Earley predictions.
-
-\subsubsection{Scanning is complete}
-\label{s:scan-complete}
-
-For scanning, the Marpa pseudocode shows
-that a scan is attempted for every
-pair
-\begin{equation*}
-[\Veim{predecessor}, \Vsym{token}],
-\end{equation*}
-where \Veim{predecessor} is an EIM in the previous
-Earley set,
-and \Vsym{token} is the token scanned at \Vloc{i}.
-(The pseudocode actually finds
-\Veim{predecessor} in a set
-returned by $\mymathop{transitions}()$.
-This is a memoization for efficiency
-and we will ignore it.)
-
-By the preliminary definitions, we know that \Vsym{token}
-is the same in both \Earley{} and \Leo{}.
-By the outer induction hypothesis we know that,
-for every Earley item in the previous
-\Leo{} Earley set,
-there is at least one corresponding \Marpa{} Earley item.
-Therefore, \Marpa{} performs its scan operation on a complete set
-of correct operands.
-
-Comparing the Marpa pseudocode (section \ref{p:scan-op}),
-with the Earley scanning operation (section \ref{d:scan}),
-we see that a Earley item will be added to
-\EVtable{\Marpa}{i} corresponding to every scanned Earley item
-of \EVtable{\Leo}{i}.
-We also see,
-from the pseudocode of Section \ref{p:add-eim-pair},
-that the \Marpa{} scanning operation will
-add to \EVtable{\Marpa}{i}
-an Earley item for
-every prediction that results from
-a scanned Earley item in \EVtable{\Leo}{i}.
-
-\subsubsection{Earley reduction is complete}
-\label{s:reduction-complete}
-
-We now examine Earley reduction,
-under the assumption that there is
-no Leo transition.
-The Marpa pseudocode shows that the Earley items
-in \EVtable{\Marpa}{i}
-are traversed in a single pass for reduction.
-
-To show that we traverse a complete and consistent
-series of component Earley items,
-we stipulate that
-the Earley set is an ordered set,
-and that new Earley items are added at the end.
-From Theorem \ref{t:es-count}, we know
-that
-the number of Earley items is finite,
-so a traversal of them must terminate.
-
-Consider, for the purposes of the level 2 induction,
-the reductions of \Leo{} to occur in generations.
-Let the scanned Earley items be generation 0.
-An EIM produced by a reduction is generation $\var{n} + 1$
-if its component Earley item was generation was \var{n}.
-Predicted Earley items do not need to be assigned generations.
-In Marpa grammars they can never contain completions,
-and therefore can never act as the component of a reduction.
-
-The induction hypothesis for the level 2 induction
-is that for some \var{n},
-the Earley items of \EVtable{\Marpa}{i} for generations 0 through \var{n}
-are complete and consistent.
-From Section \ref{s:sets-consistent},
-we know that all Earley items in Marpa's sets are consistent.
-In Section \ref{s:scan-complete},
-we showed that generation 0 is complete --
-it contains Earley items
-corresponding to all of the generation 0 EIM's of \Leo.
-This is the basis of the level 2 induction.
-
-Since we stipulated that \Marpa{} adds Earley items
-at the end of each set,
-we know that they occur in generation order.
-Therefore \Marpa{},
-when creating Earley items of generation $\var{n}+1$
-while traversing \EVtable{\Marpa}{i},
-can rely
-on the level 2 induction hypothesis for
-the completeness of Earley items
-in generation \var{n}.
-
-Let
-$\Veim{working} \in \Ves{i}$
-be the Earley item
-currently being considered as a potential component for
-an Earley reduction operation.
-From the pseudocode, we see
-that reductions are attempted for every
-pair \Veim{predecessor}, \Veim{working}.
-(Again, $\mymathop{transitions}()$ is ignored
-as a memoization.)
-By the outer induction hypothesis we know that,
-for every \Leo{} Earley item in the previous
-Earley set,
-there is at least one corresponding Marpa Earley item.
-We see from the pseudocode, therefore,
-that for each \Veim{working}
-that \Marpa{} performs its reduction operation on a complete set
-of correct predecessors.
-Therefore \Marpa{} performs its reduction operations on a
-complete set of operand pairs.
-
-Comparing the Marpa pseudocode (Section \ref{p:reduction-op})
-with the Earley reduction operation (Section \ref{d:reduction}),
-we see that a Earley reduction result of
-generation $\var{n}+1$
-will be added to
-\EVtable{\Marpa}{i} corresponding to every Earley reduction result
-in generation $\var{n}+1$
-of \EVtable{\Leo}{i},
-as well as one corresponding
-to every prediction that results from
-an Earley reduction result
-of generation $\var{n}+1$ in \EVtable{\Leo}{i}.
-This shows the level 2 induction
-and the case of reduction completeness.
-
-\subsubsection{Leo reduction is complete}
-\label{s:leo-complete}
-
-We now show completeness for \Marpa{}'s reduction operation,
-in the case where there is a Leo reduction.
-In Section \ref{s:leo-consistent},
-we found that where \Leo{} would create
-the EIM $[\Vdr{top}, \Vorig{top}]$.
-Since \Vdr{top} is a completed rule,
-there are no predictions.
-This shows the case immediately,
-by the definition of completeness.
-
-\subsubsection{Prediction is complete}
-\label{s:prediction-complete}
-
-\begin{sloppypar}
-Predictions result only from items in the same Earley set.
-In Sections \ref{s:scan-complete},
-\ref{s:reduction-complete}
-and \ref{s:leo-complete},
-we showed that,
-for every prediction that would result
-from an item added to \EVtable{\Leo}{i},
-a corresponding prediction
-was added to \EVtable{\Marpa}{i}.
-\end{sloppypar}
-
-\subsubsection{Finishing the proof}
-Having shown the cases in Sections
-\ref{s:scan-complete},
-\ref{s:reduction-complete},
-\ref{s:leo-complete} and
-\ref{s:prediction-complete},
-we know that Earley set
-\EVtable{\Marpa}{i} is complete.
-In section \ref{s:sets-consistent}
-we showed that \EVtable{\Marpa}{i} is consistent.
-It follows that \EVtable{\Marpa}{i} is correct,
-which is the step of the outer induction.
-Having shown its step, we have the outer induction,
-and the theorem.
-\qedsymbol
-
-\subsection{Marpa is correct}
-
 We are now is a position to show that Marpa is correct.
 \begin{theorem}
 \textup{ $\myL{\Marpa,\Cg} = \myL{\Cg}$ }
 \end{theorem}
 
 \begin{proof}
-From Theorem \ref{t:table-correct},
-we know that
-\begin{equation*}
-[\Vdr{accept},0] \in \EVtable{\Leo}{\Vsize{w}}
-\end{equation*}
-if and only there is a
-\begin{equation*}
-[\Vdr{accept},0] \in \EVtable{\Marpa}{\Vsize{w}}.
-\end{equation*}
-From the acceptance criteria in the \Leo{} definitions
-and the \Marpa{} pseudocode,
-it follows that
-\begin{equation*}
-\myL{\Marpa,\Cg} = \myL{\Leo,\Cg}.
-\end{equation*}
-By Theorem 4.1 in \cite{Leo1991}, we know that
-\begin{equation*}
-\myL{\Leo,\Cg} = \myL{\Cg}.
-\end{equation*}
-The theorem follows from
-the previous two equalities.
+Omitted.
 \end{proof}
 
 \section{Marpa recognizer complexity}
