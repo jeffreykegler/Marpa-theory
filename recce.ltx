@@ -60,12 +60,9 @@
 \newcommand{\Vdrset}[1]{\ensuremath{\var{#1}_{\set{DR}}}}
 \newcommand{\eim}[1]{#1_{EIM}}
 \newcommand{\Veim}[1]{\ensuremath{\var{#1}_{EIM}}}
-\newcommand{\Veimt}[1]{\ensuremath{\var{#1}_{EIMT}}}
 \newcommand{\Veimset}[1]{\ensuremath{\var{#1}_{\set{EIM}}}}
-\newcommand{\Veimtset}[1]{\ensuremath{\var{#1}_{\set{EIMT}}}}
 \newcommand{\Ees}[1]{\ensuremath{#1_{ES}}}
 \newcommand{\Vlim}[1]{\ensuremath{\var{#1}_{LIM}}}
-\newcommand{\Vlimt}[1]{\ensuremath{\var{#1}_{LIMT}}}
 \newcommand{\Eloc}[1]{\ensuremath{{#1}_{LOC}}}
 \newcommand{\Vloc}[1]{\Eloc{\var{#1}}}
 \newcommand{\Ves}[1]{\Ees{\var{#1}}}
@@ -709,17 +706,17 @@ place in Earley set 0.
 	\\[3pt]
 	\Vsym{token} = \Cw\bigl[\Vloc{previous}\bigr]
 	\\[3pt]
-	\Veimt{predecessor} = [ \Vdr{before}, \Vorig{predecessor} ] \\
-	\Veimt{predecessor} \in \Ves{previous} \\
+	\Veim{predecessor} = [ \Vdr{before}, \Vorig{predecessor} ] \\
+	\Veim{predecessor} \in \Ves{previous} \\
 	\Postdot{\Vdr{before}} = \Vsym{token}
     \end{array}
 }{
     \bigset{ [ \Next{\Vdr{before}}, \Vorig{predecessor} ] }
 }
 \end{equation*}
-\Veimt{predecessor}
+\Veim{predecessor}
 and \Vsym{token} are the operands of an Earley scan.
-\Veimt{predecessor} is called the predecessor of the scanning operation.
+\Veim{predecessor} is called the predecessor of the scanning operation.
 The token, \Vsym{token}, is the transition symbol
 of the scanning operation.
 
@@ -728,12 +725,12 @@ of the scanning operation.
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    \Veimt{component} = \bigl[
+    \Veim{component} = \bigl[
      [ \Vsym{lhs} \de \Vstr{rhs} \mydot ]
     , \Vloc{component-orig} \bigr] \\
-    \Veimt{component} \in \Ves{current} \\[3pt]
-    \Veimt{predecessor} = [ \Vdr{before}, \Vorig{predecessor} ] \\
-    \Veimt{predecessor} \in \Ves{component-orig} \\
+    \Veim{component} \in \Ves{current} \\[3pt]
+    \Veim{predecessor} = [ \Vdr{before}, \Vorig{predecessor} ] \\
+    \Veim{predecessor} \in \Ves{component-orig} \\
     \Postdot{\Vdr{before}} = \Vsym{lhs} \\
     \end{array}
 }{
@@ -741,31 +738,31 @@ of the scanning operation.
 }
 \end{equation*}
 
-\Veimt{component} is called
+\Veim{component} is called
 the component of the reduction operation.\footnote{
 The term ``component'' comes from Irons \cite{Irons}.
 }
-\Veimt{predecessor} is the predecessor
+\Veim{predecessor} is the predecessor
 of the reduction operation.
 \Vsym{lhs} is the transition symbol
 of the reduction operation.
 
-\Veimt{predecessor} and
-\Veimt{component} are the operands of the reduction
+\Veim{predecessor} and
+\Veim{component} are the operands of the reduction
 operation.
 In some contexts, it is convenient to treat the transition
 symbol
 as an operand,
 so that the operands
-are \Veimt{predecessor} and \Vsym{lhs}.
+are \Veim{predecessor} and \Vsym{lhs}.
 
 \subsection{Prediction}
 \label{d:prediction}
 \begin{equation*}
 \inference{
     \begin{array}{c}
-	\Veimt{predecessor} = [ \Vdr{predecessor}, \Vorig{predecessor} ] \\
-	\Veimt{predecessor} \in \Ves{current}
+	\Veim{predecessor} = [ \Vdr{predecessor}, \Vorig{predecessor} ] \\
+	\Veim{predecessor} \in \Ves{current}
     \end{array}
 }{
   \left\{
@@ -783,7 +780,7 @@ are \Veimt{predecessor} and \Vsym{lhs}.
 \end{equation*}
 A prediction operation can add several Earley items
 to Earley set \Vloc{current}.
-\Veimt{predecessor} is called the predecessor of the prediction operation,
+\Veim{predecessor} is called the predecessor of the prediction operation,
 and is its only operand.
 
 \subsection{Causation}
@@ -842,7 +839,7 @@ A Leo item (LIM) is the triple
 where \Vsym{transition} is the transition symbol,
 and
 \begin{equation*}
-\Veimt{top} = [\Vdr{top}, \Vorig{top}]
+\Veim{top} = [\Vdr{top}, \Vorig{top}]
 \end{equation*}
 is the Earley item to be added on reductions over
 \Vsym{transition}.
@@ -863,9 +860,9 @@ Define containment of a dotted rule in a Earley set
 of EIM's as
 \begin{equation*}
 \begin{split}
-& \mymathop{Contains}(\Ves{i}, \Vdr{d}) \defined \exists \, \Veimt{b}, \Vorig{j} \mid  \\
-& \qquad \Veimt{b} = [ \Vdr{d}, \Vorig{j} ] 
-  \land \Veimt{b} \in \Ves{i}.
+& \mymathop{Contains}(\Ves{i}, \Vdr{d}) \defined \exists \, \Veim{b}, \Vorig{j} \mid  \\
+& \qquad \Veim{b} = [ \Vdr{d}, \Vorig{j} ] 
+  \land \Veim{b} \in \Ves{i}.
 \end{split}
 \end{equation*}
 A dotted rule \Vdr{d} is \dfn{Leo unique} in the Earley set
@@ -960,12 +957,12 @@ items as LIM's.
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    \Veimt{component} = \bigl[
+    \Veim{component} = \bigl[
      [ \Vsym{lhs} \de \Vstr{rhs} \mydot ]
     , \Vloc{component-origin} \bigr] \\
-    \Veimt{component} \in \Ves{current} \\[3pt]
-	\Vlimt{predecessor} = [ \Vdr{top}, \Vsym{lhs}, \Vorig{top} ] \\
-	\Vlimt{predecessor} \in \Ves{component-orig} \\
+    \Veim{component} \in \Ves{current} \\[3pt]
+	\Vlim{predecessor} = [ \Vdr{top}, \Vsym{lhs}, \Vorig{top} ] \\
+	\Vlim{predecessor} \in \Ves{component-orig} \\
     \end{array}
 }{
     \bigset{ [ \Vdr{top}, \Vorig{top} ] }
@@ -974,8 +971,8 @@ items as LIM's.
 The new Leo reduction operation resembles the Earley reduction
 operation, except that it looks for an LIM,
 instead of a predecessor EIM.
-\Vlimt{predecessor} and
-\Veimt{component} are the operands of the Leo reduction
+\Vlim{predecessor} and
+\Veim{component} are the operands of the Leo reduction
 operation.
 \Vsym{lhs} is the transition symbol
 of the Leo reduction.
@@ -983,14 +980,14 @@ As with Earley reduction,
 it may be convenient to treat the transition
 symbol as an operand,
 so that the operands
-are \Vlimt{predecessor} and \Vsym{lhs}.
+are \Vlim{predecessor} and \Vsym{lhs}.
 
 \subsection{Changes to Earley reduction}
 
 Earley reduction still applies, with an additional premise:
 \begin{multline*}
-\neg \exists \, \Vlimt{x} \; \mid \; \Vlimt{x} \in \Ves{component-orig} \\
-	\land \Vlimt{x} = [ \Vdr{x}, \Vsym{lhs}, \Vorig{x} ]
+\neg \exists \, \Vlim{x} \; \mid \; \Vlim{x} \in \Ves{component-orig} \\
+	\land \Vlim{x} = [ \Vdr{x}, \Vsym{lhs}, \Vorig{x} ]
 \end{multline*}
 The additional premise
 prevents Earley reduction from being applied
@@ -1029,28 +1026,28 @@ and Leo eligibility as
 \end{split}
 \end{equation*}
 For convenience, we define a relation that is
-true if \Vlimt{pred} is the LIM predecessor of
+true if \Vlim{pred} is the LIM predecessor of
 an EIM, and false otherwise:
 \begin{equation*}
 \begin{split}
-& \mymathop{LIM-Predecessor}({\Vlimt{pred},\Veimt{bottom}}) \defined \\
+& \mymathop{LIM-Predecessor}({\Vlim{pred},\Veim{bottom}}) \defined \\
 & \quad \exists \Ves{bottom-origin}, \Vdr{bottom}, \Vdr{pred}, \\
 & \quad \qquad \Vloc{pred-origin}, \Vloc{bottom-origin} \quad \text{such that}  \\
-& \quad \qquad \qquad \Veimt{bottom} = [ \Vdr{bottom}, \Vloc{bottom-origin} ] \\
-& \quad \qquad \qquad \land \Vlimt{pred} = [ \Vdr{pred}, \LHS{\Vdr{bottom}}, \Vloc{pred-origin} ] \\
-& \quad \qquad \qquad \land \Vlimt{pred} \in \Ves{bottom-origin} 
+& \quad \qquad \qquad \Veim{bottom} = [ \Vdr{bottom}, \Vloc{bottom-origin} ] \\
+& \quad \qquad \qquad \land \Vlim{pred} = [ \Vdr{pred}, \LHS{\Vdr{bottom}}, \Vloc{pred-origin} ] \\
+& \quad \qquad \qquad \land \Vlim{pred} \in \Ves{bottom-origin} 
 \end{split}
 \end{equation*}
 
 We are now ready to define an inference rule which holds if
-a LIM predecessor can be found for an EIM \Veimt{bottom}
+a LIM predecessor can be found for an EIM \Veim{bottom}
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    \mymathop{LIM-Predecessor}({\Vlimt{pred},\Veimt{bottom}}) \\
-    \Vlimt{pred} = [ \Vdr{pred}, \LHS{\Vdr{bottom}}, \Vorig{pred} ] \\
-    \Veimt{bottom} = [ \Vdr{bottom}, \Vloc{bottom} ] \\
-    \Veimt{bottom} \in \Ves{current} \\
+    \mymathop{LIM-Predecessor}({\Vlim{pred},\Veim{bottom}}) \\
+    \Vlim{pred} = [ \Vdr{pred}, \LHS{\Vdr{bottom}}, \Vorig{pred} ] \\
+    \Veim{bottom} = [ \Vdr{bottom}, \Vloc{bottom} ] \\
+    \Veim{bottom} \in \Ves{current} \\
     \LeoEligible{\Vdr{bottom}}
     \end{array}
 }{
@@ -1058,13 +1055,13 @@ a LIM predecessor can be found for an EIM \Veimt{bottom}
 }
 \end{equation*}
 and another, which holds if
-\Veimt{bottom} has no predecessor LIM,
+\Veim{bottom} has no predecessor LIM,
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    \neg \mymathop{LIM-Predecessor}({\Vlimt{pred},\Veimt{bottom}}) \\
-    \Veimt{bottom} = [ \Vdr{bottom}, \Vorig{bottom} ] \\
-    \Veimt{bottom} \in \Ves{current} \\
+    \neg \mymathop{LIM-Predecessor}({\Vlim{pred},\Veim{bottom}}) \\
+    \Veim{bottom} = [ \Vdr{bottom}, \Vorig{bottom} ] \\
+    \Veim{bottom} \in \Ves{current} \\
     \LeoEligible{\Vdr{bottom}}
     \end{array}
 }{
@@ -1530,8 +1527,8 @@ tracks the Earley items in \Ves{j} that have \Vloc{i}
 as their origin.
 The maximum number of Earley items that must be tracked
 in each PSL is
-the number of AHFA states,
-\Vsize{\Cfa},
+the number of dotted rules,
+\Vsize{\Cdr},
 which is a constant of reasonable size
 that depends on \Cg{}.
 
@@ -1660,133 +1657,35 @@ track each other closely.
 \subsection{Comparing Earley items}
 
 \begin{definition}
-A Marpa Earley item \dfn{corresponds}
-to a traditional Earley item
-$\Veimt{x} = [\Vdr{x}, \Vorig{x}]$
-if and only if the Marpa Earley item is a
-$\Veim{y} = [\Vah{y}, \Vorig{x}]$
-such that $\Vdr{x} \in \Vah{y}$.
-A traditional Earley item, \Veimt{x}, corresponds to a
-Marpa Earley item, \Veim{y}, if and only if
-\Veim{y} corresponds to \Veimt{x}.
+An Earley item
+$\Veim{x} = [\Vdr{x}, \Vorig{x}]$
+\dfn{corresponds}
+to another Earley item \Veim{y}
+if and only if
+$\Veim{y} = [\Vah{y}, \Vorig{x}].$
 \end{definition}
 
 \begin{definition}
-A set of EIM's is \dfn{consistent} with respect to
-a set of EIMT's,
-if and only if each of the EIM's in the first set
-corresponds to at least one of the
-EIMT's in the second set.
-A Marpa Earley set \EVtable{\Marpa}{i}
+The Marpa Earley set \EVtable{\Marpa}{i}
 is \dfn{consistent} if and only if
 all of its EIM's correspond to
-EIMT's in
+EIM's in
 \EVtable{\Leo}{i}.
 \end{definition}
 
-\begin{sloppypar}
 \begin{definition}
-A set of EIM's is \dfn{complete} with respect to
-a set of EIMT's,
-if and only if for every EIMT in the second set,
-there is a corresponding EIM in the first set.
-A Marpa Earley set \EVtable{\Marpa}{i}
+The Marpa Earley set \EVtable{\Marpa}{i}
 is \dfn{complete} if and only if for every
 traditional Earley item in \EVtable{\Leo}{i}
 there is a corresponding Earley item in
 \EVtable{\Marpa}{i}.
 \end{definition}
-\end{sloppypar}
 
 \begin{definition}
 A Marpa Earley set is \dfn{correct}
 if and only that Marpa Earley set is complete
 and consistent.
 \end{definition}
-
-\subsection{About AHFA states}
-
-Several facts from \cite{AH2002}
-will be heavily used in the following proofs.
-For convenience, they are restated here.
-
-\begin{observation}
-Every dotted rule is an element of one
-or more AHFA states, that is,
-\begin{equation*}
-\forall \, \Vdr{x} \, \exists \, \Vah{y} \; \mid \; \Vdr{x} \in \Vah{y}.
-\end{equation*}
-\end{observation}
-
-\begin{observation}
-\label{o:confirmed-AHFA-consistent}
-AHFA confirmation is consistent with respect to the dotted rules.
-That is,
-for all \Vah{from}, \Vsym{t}, \Vah{to}, \Vdr{to} such that
-\begin{equation*}
-\begin{split}
-& \GOTO(\Vah{from}, \Vsym{t}) = \Vah{to} \\
-\qquad \qquad \land \quad & \Vdr{to} \in \Vah{to}, \\
-\intertext{there exists \Vdr{from} such that}
-& \Vdr{from} \in \Vah{from} \\
-\qquad \qquad \land \quad & \Vsym{t} = \Postdot{\Vdr{from}} \\
-\qquad \qquad \land \quad & \Next{\Vdr{from}} = \Vdr{to}. \\
-\end{split}
-\end{equation*}
-\end{observation}
-
-\begin{observation}
-\label{o:confirmed-AHFA-complete}
-AHFA confirmation is complete with respect to the dotted rules.
-That is,
-for all \Vah{from}, \Vsym{t}, \Vdr{from}, \Vdr{to} if
-\begin{equation*}
-\begin{split}
-& \Vdr{from} \in \Vah{from} \\
-\qquad \land \quad & \Postdot{\Vdr{from}} = \Vsym{t}, \\
-\qquad \land \quad & \Next{\Vdr{from}} = \Vdr{to} \\
-\intertext{then there exists \Vah{to} such that }
-& \GOTO(\Vah{from}, \Vsym{t}) = \Vah{to}  \\
-\qquad \land \quad & \Vdr{to} \in \Vah{to}. \\
-\end{split}
-\end{equation*}
-\end{observation}
-
-\begin{observation}
-\label{o:predicted-AHFA-consistent}
-AHFA prediction is consistent with respect to the dotted rules.
-That is,
-for all \Vah{from}, \Vah{to}, \Vdr{to} such that
-\begin{equation*}
- \GOTO(\Vah{from}, \epsilon) = \Vah{to} 
-\, \land  \,
- \Vdr{to} \in \Vah{to}, 
-\end{equation*}
-there exists \Vdr{from} such that
-\begin{equation*}
- \Vdr{from} \in \Vah{from} 
-\, \land  \,
- \Vdr{to} \in \Predict{\Vdr{from}}.
-\end{equation*}
-\end{observation}
-
-\begin{observation}
-\label{o:predicted-AHFA-complete}
-AHFA prediction is complete with respect to the dotted rules.
-That is,
-for all \Vah{from}, \Vdr{from}, \Vdr{to}, if
-\begin{equation*}
- \Vdr{from} \in \Vah{from} 
-\, \land \,
-\Vdr{to} \in \Predict{\Vdr{from}},
-\end{equation*}
-then there exists \Vah{to} such that
-\begin{equation*}
-\Vdr{to} \in \Vah{to}
-\, \land  \,
-\GOTO(\Vah{from}, \epsilon) = \Vah{to}
-\end{equation*}
-\end{observation}
 
 \section{Marpa is correct}
 \label{s:correct}
@@ -1894,11 +1793,10 @@ induction hypothesis,
 it remains consistent, trivially.
 
 Otherwise, let
-$\Veim{confirmed} = [\Vah{confirmed}, \Vloc{i}]$.
+$\Veim{confirmed} = [\Vdr{confirmed}, \Vloc{i}]$.
 We see that \Veim{confirmed} is consistent with respect
 to \EVtable{\Leo}{i},
-by the definition of Earley scanning (Section~\ref{d:scan})
-and Observation~\ref{o:confirmed-AHFA-consistent}.
+by the definition of Earley scanning (Section~\ref{d:scan}).
 Consistency is invariant under union,
 and since \EVtable{\Marpa}{i} is consistent by the inner induction,
 \EVtable{\Marpa}{i} remains consistent after
@@ -1918,12 +1816,11 @@ induction hypothesis,
 it remains consistent, trivially.
 Otherwise, let
 \begin{equation*}
-\Veim{predicted} = [\Vah{predicted}, \Vloc{i}].
+\Veim{predicted} = [\Vdr{predicted}, \Vloc{i}].
 \end{equation*}
 We see that \Veim{predicted} is consistent with respect
 to \EVtable{\Leo}{i},
-by the definition of Earley prediction (Section~\ref{d:prediction}) and
-Observation ~\ref{o:predicted-AHFA-consistent}.
+by the definition of Earley prediction (Section~\ref{d:prediction}).
 Consistency is invariant under union and,
 since \EVtable{\Marpa}{i} is consistent by the inner induction,
 \EVtable{\Marpa}{i} remains consistent after
@@ -1951,18 +1848,17 @@ that for the case of the scanning operation.
 
 Let
 \begin{equation*}
-\Vah{confirmed} = \GOTO(\Vah{predecessor}, \Vsym{lhs})
+\Vdr{confirmed} = \GOTO(\Vdr{predecessor}, \Vsym{lhs})
 \end{equation*}
-If $\Vah{confirmed} = \Lambda$, we do nothing,
+If $\Vdr{confirmed} = \Lambda$, we do nothing,
 and \EVtable{\Marpa}{i} remains consistent, trivially.
 Otherwise, let
 \begin{equation*}
-\Veim{confirmed} = [\Vah{confirmed}, \Vloc{i}].
+\Veim{confirmed} = [\Vdr{confirmed}, \Vloc{i}].
 \end{equation*}
 We see that \Veim{confirmed} is consistent with respect
 to \EVtable{\Leo}{i}
-by the definition of Earley reduction (Section~\ref{d:reduction}),
-and Observation~\ref{o:confirmed-AHFA-consistent}.
+by the definition of Earley reduction (Section~\ref{d:reduction}).
 By the invariance of consistency under union,
 \EVtable{\Marpa}{i} remains consistent after
 \Veim{confirmed} is added.
@@ -1998,16 +1894,12 @@ As the result of a Leo reduction,
 $[\Vdr{top}, \Vorig{top}]$
 to \EVtable{\Leo}{j}.
 Because the \Marpa{} LIM is correct,
-using Observations \ref{o:confirmed-AHFA-consistent}
-and \ref{o:confirmed-AHFA-complete}
-and Theorem \ref{t:leo-singleton},
-we see that \Vah{top} is the singleton set
-$\set{ \Vdr{top} }$.
-From Section \ref{p:leo-op}, we see
-that, as the result of the Leo reduction,
+and from Section \ref{p:leo-op},
+we see that,
+as the result of the Leo reduction,
 \Marpa{} will add
 \begin{equation*}
-\Veim{leo} = [\Vah{top}, \Vorig{top}]
+\Veim{leo} = [\Vdr{top}, \Vorig{top}]
 \end{equation*}
 to \EVtable{\Marpa}{j}.
 The consistency of \Veim{leo} follows from the definition
@@ -2042,7 +1934,7 @@ that
 To do this,
 we show that
 at least one EIM in \EVtable{\Marpa}{i}
-corresponds to every EIMT in
+corresponds to every EIM in
 \EVtable{\Leo}{i}.
 We will proceed by cases,
 where the cases are \Leo{} operations.
@@ -2075,19 +1967,16 @@ This is a memoization for efficiency
 and we will ignore it.)
 
 By the preliminary definitions, we know that \Vsym{token}
-is the same in both \Earley{} and \Leo.
+is the same in both \Earley{} and \Leo{}.
 By the outer induction hypothesis we know that,
-for every traditional Earley item in the previous
-Earley set,
-there is at least one corresponding Marpa Earley item.
+for every Earley item in the previous
+\Leo{} Earley set,
+there is at least one corresponding \Marpa{} Earley item.
 Therefore, \Marpa{} performs its scan operation on a complete set
 of correct operands.
 
 Comparing the Marpa pseudocode (section \ref{p:scan-op}),
-with the Earley scanning operation (section \ref{d:scan})
-and using
-Observations~\ref{o:confirmed-AHFA-complete}
-and \ref{o:predicted-AHFA-complete},
+with the Earley scanning operation (section \ref{d:scan}),
 we see that a Earley item will be added to
 \EVtable{\Marpa}{i} corresponding to every scanned Earley item
 of \EVtable{\Leo}{i}.
@@ -2173,10 +2062,7 @@ Therefore \Marpa{} performs its reduction operations on a
 complete set of operand pairs.
 
 Comparing the Marpa pseudocode (Section \ref{p:reduction-op})
-with the Earley reduction operation (Section \ref{d:reduction})
-and using
-Observations~\ref{o:confirmed-AHFA-complete}
-and \ref{o:predicted-AHFA-complete},
+with the Earley reduction operation (Section \ref{d:reduction}),
 we see that a Earley reduction result of
 generation $\var{n}+1$
 will be added to
@@ -2358,8 +2244,6 @@ in Section \ref{s:pseudocode}
 and from Lemma \ref{l:nulling-rewrite}.
 \end{proof}
 
-\subsection{Duplicate dotted rules}
-
 The same complexity results apply to \Marpa{} as to \Leo,
 and the proofs are very similar.
 \Leo's complexity results\cite{Leo1991}
@@ -2367,58 +2251,6 @@ are based on charging
 resource to Earley items,
 as were the results
 in Earley's paper\cite{Earley1970}.
-But both assume that there is one dotted rule
-per Earley item,
-which is not the case with \Marpa.
-
-\Marpa's Earley items group dotted rules into AHFA
-states, but this is not a partitioning in the strict
-sense -- dotted rules can fall into more than one AHFA
-state.
-This is an optimization,
-in that it allows dotted rules,
-if they often occur together,
-to be grouped together aggressively.
-But it opens up the possibility
-that, in cases where \Earley{} and \Leo{} disposed
-of a dotted rule once and for all,
-\Marpa{} might have to deal with it multiple times.
-
-From an efficiency perspective,
-\Marpa's duplicate rules
-are by all the evidence, a plus.
-And they do not change the complexity results,
-although the price of showing this is the
-theoretical apparatus of this section.
-
-\begin{theorem}\label{t:marpa-O-leo}
-\begin{equation*}
-\textup{
-    $\Rtablesize{\Marpa} < \var{c} \times \Rtablesize{\Leo}$,
-}
-\end{equation*}
-where \var{c} is a constant that depends on the grammar.
-\end{theorem}
-
-\begin{proof}
-We know from Theorem \ref{t:table-correct}
-that every Marpa Earley item corresponds to one of
-\Leo's traditional Earley items.
-If an EIM corresponds to an EIMT,
-the AHFA state of the EIM contains the
-EIMT's dotted rule,
-while their origins are identical.
-Even in the worst case, a dotted rule cannot
-appear in every AHFA state,
-so that
-the number of Marpa items corresponding to a single
-traditional Earley item must be less
-than $\size{\Cfa}$.
-Therefore,
-\begin{equation*}
-    \Rtablesize{\Marpa} < \size{\Cfa} \times \Rtablesize{\Leo}\qedhere
-\end{equation*}
-\end{proof}
 
 Earley\cite{Earley1970} shows that,
 for unambiguous grammars,
@@ -2438,20 +2270,6 @@ for the sentential form that it represents.
 That in turn would mean that
 the grammar is ambiguous,
 contrary to assumption.
-
-In \Marpa, there is an slight complication.
-A dotted rule can occur in more than one AHFA
-state.
-Because of that,
-it is possible that two of \Marpa's
-operations to add an EIM
-will represent identical Earley causations,
-and therefore will be
-consistent with an unambiguous grammar.
-Dealing with this complication requires us
-to prove a result that is weaker than that of \cite{Earley1970},
-but that is
-still sufficient to produce the same complexity results.
 
 \begin{theorem}\label{t:tries-O-eims}
 For an unambiguous grammar,
@@ -2480,15 +2298,13 @@ Earley set \Vloc{j}.
 For Leo reduction,
 we note that by its definition,
 duplicate attempts at Leo reduction cannot occur.
-Let \var{max-AHFA} be the maximum number of
-dotted rules in any AHFA state.
 From the pseudo-code of Sections \ref{p:reduce-one-lhs}
 and \ref{p:leo-op},
 we know there will be at most one Leo reduction for
 each each dotted rule in the current Earley set,
 \Vloc{j}.
 \begin{equation*}
-\var{leo-tries} \le \var{max-AHFA} \times \bigsize{\Vtable{j}}
+\var{leo-tries} \le \bigsize{\Vtable{j}}
 \end{equation*}
 
 Let \var{scan-tries} be the number of attempted scan operations in
