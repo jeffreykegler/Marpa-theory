@@ -924,7 +924,7 @@ The dotted rules in the set that results from a null transition
 will be either predictions or confirmed rules with
 a nulling predot symbol.
 
-Computing the result of \GOTO when it is not
+Computing the result of $\GOTO$ when it is not
 a null transition is trivial.
 But the complexity of null transitions is of interest:
 we may want to compute them on the fly,
@@ -932,14 +932,143 @@ and in any case,
 we want to know if the computation has finite
 time complexity.
 
-\begin{theorem}\label{t:null-transition-finite}
+\begin{algorithm}[h]\label{alg:null-transition}
+\caption{Create null transition set}
+\begin{algorithmic}[1]
+\Procedure{Add generation}{\Vdr{dr}, \Vdrset{results}}
+\If{\Vdr{dr} has no postdot symbol}
+\State return
+\EndIf
+\State Here \Vdr{dr} is $[ \Vsym{lhs} \de \Vstr{before} \mydot \Vsym{A} \cat \Vstr{after} ]$
+\State \Comment We can state this without loss of generality
+\If{$\Vsym{A}$ is a nulling symbol}
+\State $\Vdr{new} \gets [ \Vsym{lhs} \de \Vstr{before} \cat \Vsym{A} \mydot \Vstr{after} ]$
+\State Add \Vdr{new} to \Vdrset{results}
+\State return
+\EndIf
+\State Here \Vsym{A} must be a non-nullable symbol
+\For{ each \Vrule{r} in \Cg{}}
+\If{ $\LHS{\Vrule{r}} = \Vsym{A}$ }
+\State Here \Vrule{r} is $[ \Vsym{A} \de \Vstr{rhs} ]$
+\State \Comment We can state this without loss of generality
+\State $\Vdr{new} \gets [ \Vsym{A} \de \mydot \Vstr{rhs} ]$
+\State Add \Vdr{new} to \Vdrset{results}
+\EndIf
+\EndFor
+\State return
+\EndProcedure
+\Function{Create null transition set}{\Vdr{dr0}}
+\State Initialize \Vdrset{result} to the empty set
+\State Initialize \Vdrset{work} to the emtpy set
+\State \Call{Add generation}{\Vdr{dr0}}
+\While{\Vdrset{work} is not empty}
+\State Remove a dotted rule from \Vdrset{work}, call it \Vdr{work}
+\State \Call{Add generation}{\Vdr{work}, \Vdrset{result}}
+\EndWhile
+\State return \Vdrset{result}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+The algorithm \ref{alg:null-transition} does not correspond closely to
+any implementation.
+The current Marpa implementation, for example, actually handles
+nulling symbols implicitly,
+while it computes predicitons at the end.
+But for theory purposes, it is convenient to consider all
+nulling transitions together.
+
+\begin{theorem}\label{t:null-transition-Oc}
 A null transition set can be computed in time \\Oc{}.
-\end{theorem}\label{t:null-transition-finite}
+\end{theorem}\label{t:null-transition-Oc}
 
 \begin{proof}
+We consider the algorithm \ref{t:null-transition-finite}.
+This clearly runs in \Oc{} time if there is a constant
+number of calls to the ``Add generation'' function.
+
+To finish the proof, we need to show
+that the ``Add generation'' function is called a constant number
+of times.
+The ``Add generation'' function is called
+once for the base dotted rule of the computation.
+It is called again for every dotted rule added to the working set
+of dotted rules, \Vdrset{work}.
+We know that no dotted rule is added to
+\Vdrset{work} twice.
+Therefore 
+the ``Add generation'' function is called
+at most once for each dotted rule.
+\Cg{} has a fixed number of dotted rules,
+so the ``Add generation'' function is called
+a most \Oc{} times.
 \end{proof}
 
-\subsection{Marpa's Earley sets grow at worst linearly}
+\begin{theorem}\label{t:null-transition-correct}
+The algorithm \ref{t:null-transition-finite} is correct.
+\end{theorem}
+
+\begin{proof}
+We consider the algorithm \ref{alg:null-transition}.
+It is directly clear from examining it that the null transitions 
+for nulling postdot symbols are complete and consistent,
+and therefore correct.
+It remains to consider the null transitions for non-nullable
+postdot symbols -- predictions.
+
+The algorithm \ref{alg:null-transition}
+clearly adds all predictions derivable in a single step
+to its results.
+It also
+calls the ``Add generation'' function
+repeatedly, so that indirect predictions will be added.
+But it will refuse to
+add a dotted rule to its working set more than once.
+It remains to consider whether this means some predictions
+will not be derived.
+
+Consider a prediction
+\begin{equation}\label{null-transition-correct-5}
+\Vsym{postdot-penult} \de \mydot \Vsym{postdot-last} \cat \Vstr{after-last}
+\end{equation}
+which is derived through a chain
+of derivations in which the same dotted rule occurs at least twice.
+\begin{equation*}
+\begin{split}
+& [ \Vsym{lhs-a} \mydot \Vsym{postdot-0} \cat \Vstr{after} ] \qquad \text{Step 0} \\
+& \derives [ \mydot \Vsym{postdot-1} \cat \Vstr{after-1} ] \qquad \text{Step 0} \\
+& \ldots \\
+& \derives [ \mydot \Vsym{postdot--before-i} \cat \Vstr{after-i} ] \qquad \text{Step $i-1$} \\
+& \derives [ \mydot \Vsym{postdot-i} \cat \Vstr{after-i} ] \qquad \text{Step $i$} \\
+& \ldots \\
+& \derives [ \mydot \Vsym{postdot-i} \cat \Vstr{after-i} ] \qquad \text{Step $j$}\\
+& \ldots \\
+& \derives [ \mydot \Vsym{postdot-penult} \cat \Vstr{after-penult} ] \\
+& \derives [ \mydot \Vsym{postdot-last} \cat \Vstr{after-last} ]
+\end{split}
+\end{equation*}
+We can create a shorter derivation by removing the derivation from Step $i$ to Step $j$
+and replacing it with Step $i$.
+From this we see that
+The algorithm \ref{alg:null-transition}
+can derive
+\ref{null-transition-correct-5}
+without having to add
+$$ [ \Vsym{postdot-before-i} \de \mydot \Vsym{postdot-twice} \cat \Vstr{after-twice} ] $$
+to \Vdrset{work}
+more than once.
+
+We can do this for to every postdot symbol which occurs twice.
+In this we way see that no dotted rule needs to be added to \
+From this we see that 
+The algorithm \ref{alg:null-transition}
+can derive a complete set of predictions
+without having to add any dotted rule
+to \Vdrset{work}
+more than once.
+\end{proof}
+
+\subsection{Earley sets grow at worst linearly}
 
 \begin{theorem}\label{t:es-count}
 For a context-free grammar,
