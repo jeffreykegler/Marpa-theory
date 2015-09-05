@@ -373,7 +373,8 @@ for all \Vrule{x},
 \land \quad & (\Vsym{accept} = \LHS{\Vrule{x}} \implies \Vrule{accept} = \Vrule{x}).
 \end{split}
 \end{equation*}
-
+We further assume that every symbol is productive --
+that is, that it derives a sentence.
 
 We define rightmost non-null symbol of a string
 as
@@ -669,11 +670,8 @@ $\Vstr{suffix} \in \var{vocab}^\ast$
 such that
 \begin{equation*}
 \begin{split}
-&  \Vsym{accept} \destar \Vstr{before} \cat \Vsym{A} \cat \Vstr{after} \\
-&  \qquad \derives \Vstr{before} \cat \Vstr{predot} \cat \Vstr{postdot} \cat \Vstr{after} \\
-&  \land \, \Vstr{postdot} \cat \Vstr{after} \destar \Vstr{suffix} \\
-&  \land \, \Vstr{before} \destar \var{w}[0, \var{i} \subtract 1] \\
-&  \land \, \Vstr{predot} \destar \var{w}[\var{i}, \var{j} \subtract 1].
+&  \Vsym{accept} \destar [0] \, \Vstr{before} \, [\var{i}] \, \Vsym{A} \cat \Vstr{after} \, [\Vsize{\Cw}] \\
+&  \qquad \derives [0] \, \Vstr{before} \, [\var{i}] \, \Vstr{predot} \, [\var{j}] \, \Vstr{postdot} \cat \Vstr{after} \, [\Vsize{\Cw}] \\
 \end{split}
 \end{equation*}
 An Earley set is \dfn{consistent} if and only if all of its
@@ -708,51 +706,39 @@ we have, by \eqref{eq:algorithm-correct-3}
 and by the definition of valid for an Earley item,
 \begin{equation}
 \label{eq:algorithm-correct-6}
-\Vsym{accept} \destar \Vstr{before} \cat \Vstr{predot} \cat \Vstr{postdot} \cat \Vstr{after}
+\begin{split}
+& \Vsym{accept} \destar \\
+& \qquad  [0] \, \Vstr{before} \,[0]\, \Vstr{predot} \,[\Vsize{\Cw}]\, \Vstr{postdot} \,[\Vsize{\Cw}]\, \Vstr{after} \,[\Vsize{\Cw}]
+\end{split}
 \end{equation}
-where
+where the accept dotted rule is
 \begin{equation}
 \label{eq:algorithm-correct-9}
 \Vsym{accept} \de \cat \Vstr{predot} \mydot \Vstr{postdot}.
 \end{equation}
-We know from the definition of the accept dotted rule that
+We see from
+\eqref{eq:algorithm-correct-6}
+that
 \begin{equation}
 \Vstr{before} = \Vstr{postdot} = \Vstr{after} = \epsilon.
 \end{equation}
-and therefore that
+so that
+\eqref{eq:algorithm-correct-6}
+simplifies to
 \begin{equation}
 \label{eq:algorithm-correct-12}
-\Vsym{accept} \de \Vstr{predot}.
+\Vsym{accept} \destar [0]\, \Vstr{predot} \,[\Vsize{\Cw}]
 \end{equation}
-From the definition of valid for an Earley item,
-we know that
+which, by the definition of the locaion markers
+means that
 \begin{equation}
 \label{eq:algorithm-correct-15}
-\Vstr{predot} \destar \var{w}[\var{i}, \var{j} \subtract 1].
+\Vstr{accept} \destar \var{w}[\var{0}, \Vsize{\Cw} \subtract 1] \destar \Cw.
 \end{equation}
-where \var{i} is the origin of the Earley item and \var{j} is the
-dot position.
-By \eqref{eq:algorithm-correct-3}, we know that
-$\var{i} = 0$ and
-$\var{j} = \Vsize{\Cw}$, so that
-\begin{equation}
-\label{eq:algorithm-correct-18}
-\Vstr{predot} \destar \var{w}[0, \Vsize{\Cw} \subtract 1].
-\end{equation}
-or
-\begin{equation}
-\label{eq:algorithm-correct-21}
-\Vstr{predot} \destar \Cw.
-\end{equation}
-Using \eqref{eq:algorithm-correct-12},
-we know that
-\begin{equation}
-\label{eq:algorithm-correct-24}
-\Vsym{accept} \destar \Cw.
-\end{equation}
-By the definition of the \Vsym{accept} symbol,
-and the definition of $\var{L}(\Cg)$,
-we now have that
+From
+\eqref{eq:algorithm-correct-15},
+by the definition of $\var{L}(\Cg)$,
+we have that
 \begin{equation}
 \label{eq:algorithm-correct-27}
 \Cw \in \var{L}(\Cg).
@@ -765,31 +751,25 @@ From it,
 the definition of the \Vsym{accept} symbol,
 and the definition of $\var{L}(\Cg)$,
 we have 
-\eqref{eq:algorithm-correct-24}.
+\eqref{eq:algorithm-correct-15}.
 By the definition of the \Vsym{accept} symbol,
-it is only on the RHS of the rule
+it is only on the LHS of the rule
 \eqref{eq:algorithm-correct-12},
 so that we have
 \begin{equation}
 \label{eq:algorithm-correct-40}
-\Vsym{accept} \de \Vstr{predot} \destar \Cw.
-\end{equation}
-By the defintion of \Cw,
-\begin{equation}
-\label{eq:algorithm-correct-43}
-\Cw = \var{w}[0, \Vsize{\Cw} \subtract 1].
+\Vsym{accept} \derives [0]\, \Vstr{predot} \,[\Vsize{\Cw}] \destar \Cw.
 \end{equation}
 By assumption for the theorem, the Earley set at
 \Vsize{\Cw} is correct and therefore complete.
 If the Earley set at \Vsize{\Cw} is complete,
-by \eqref{eq:algorithm-correct-40}
-and \eqref{eq:algorithm-correct-43},
+by \eqref{eq:algorithm-correct-40},
+we have
 \begin{equation}
 \label{eq:algorithm-correct-46}
 [\Vdr{accept}, 0] \in \bigEtable{\Vsize{\Cw}}.
 \end{equation}
 This shows the reverse direction of the implication.
-
 We have now shown both directions of the implication,
 and therefore the theorem.
 \end{proof}
@@ -1688,15 +1668,31 @@ An Earley item can be added to the current
 set in \Oc{} time
 if Earley set is seen as a linked
 list, to the head of which the new Earley item is added.
-
 The resource used by \call{Add EIM Pair}{}
 is always caller-included.
-No time or space is ever charged
+
+\subsubsection{Prediction EIM complexity}
+\label{p:prediction-op-complexity}
+
+From the discussion in 
+\ref{p:add-eim-pair}, we see that
+no time or space is ever charged
 to a predicted Earley item.
 At most one attempt to add a \Veim{predicted} will
 be made per attempt to add a \Veim{confirmed},
 so that the total resource charged
 remains \Oc.
+
+\subsubsection{Prediction EIM correctness}
+\label{p:prediction-op-correct}
+
+\begin{theorem}\label{t:prediction-op-correct}
+The addition of prediction items is correct.
+\end{theorem}
+
+\begin{proof}
+Omitted.
+\end{proof}
 
 \subsection{Per-set lists}
 \label{s:per-set-lists}
