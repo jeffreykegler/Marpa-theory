@@ -20,3 +20,6 @@ recce.pdf: recce.ltx
 
 ah2002_notes.pdf: ah2002_notes.ltx
 	pdflatex $?
+
+clean:
+	rm -f recce.aux recce.idx recce.ilg recce.ind recce.pdf recce.toc

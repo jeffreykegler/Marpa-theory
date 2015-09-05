@@ -932,8 +932,9 @@ and in any case,
 we want to know if the computation has finite
 time complexity.
 
-\begin{algorithm}[h]\label{alg:null-transition}
-\caption{Create null transition set}
+\begin{algorithm}[h]
+\caption{Add one generation to a null transition set}
+\label{alg:null-transition-generation}
 \begin{algorithmic}[1]
 \Procedure{Add generation}{\Vdr{dr}, \Vdrset{results}}
 \If{\Vdr{dr} has no postdot symbol}
@@ -943,7 +944,10 @@ time complexity.
 \State \Comment We can state this without loss of generality
 \If{$\Vsym{A}$ is a nulling symbol}
 \State $\Vdr{new} \gets [ \Vsym{lhs} \de \Vstr{before} \cat \Vsym{A} \mydot \Vstr{after} ]$
-\State Add \Vdr{new} to \Vdrset{results}
+\State Add \Vdr{new} to \Vdrset{results} \ldots
+\State $\qquad$ but only if it has never been added before
+\State Add \Vdr{new} to \Vdrset{work} \ldots
+\State $\qquad$ but only if it has never been added before
 \State return
 \EndIf
 \State Here \Vsym{A} must be a non-nullable symbol
@@ -952,11 +956,21 @@ time complexity.
 \State Here \Vrule{r} is $[ \Vsym{A} \de \Vstr{rhs} ]$
 \State \Comment We can state this without loss of generality
 \State $\Vdr{new} \gets [ \Vsym{A} \de \mydot \Vstr{rhs} ]$
-\State Add \Vdr{new} to \Vdrset{results}
+\State Add \Vdr{new} to \Vdrset{results} \ldots
+\State $\qquad$ but only if it has never been added before
+\State Add \Vdr{new} to \Vdrset{work} \dots
+\State $\qquad$ but only if it has never been added before
 \EndIf
 \EndFor
 \State return
 \EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[h]
+\caption{Create null transition set}
+\label{alg:null-transition}
+\begin{algorithmic}[1]
 \Function{Create null transition set}{\Vdr{dr0}}
 \State Initialize \Vdrset{result} to the empty set
 \State Initialize \Vdrset{work} to the emtpy set
@@ -980,10 +994,10 @@ nulling transitions together.
 
 \begin{theorem}\label{t:null-transition-Oc}
 A null transition set can be computed in time \\Oc{}.
-\end{theorem}\label{t:null-transition-Oc}
+\end{theorem}
 
 \begin{proof}
-We consider the algorithm \ref{t:null-transition-finite}.
+We consider the algorithm \ref{alg:null-transition}.
 This clearly runs in \Oc{} time if there is a constant
 number of calls to the ``Add generation'' function.
 
@@ -1005,7 +1019,7 @@ a most \Oc{} times.
 \end{proof}
 
 \begin{theorem}\label{t:null-transition-correct}
-The algorithm \ref{t:null-transition-finite} is correct.
+The algorithm \ref{alg:null-transition} is correct.
 \end{theorem}
 
 \begin{proof}
@@ -1054,7 +1068,7 @@ The algorithm \ref{alg:null-transition}
 can derive
 \ref{null-transition-correct-5}
 without having to add
-$$ [ \Vsym{postdot-before-i} \de \mydot \Vsym{postdot-twice} \cat \Vstr{after-twice} ] $$
+$$ \Vsym{postdot-before-i} \de \mydot \Vsym{postdot-i} \cat \Vstr{after-i} $$
 to \Vdrset{work}
 more than once.
 
