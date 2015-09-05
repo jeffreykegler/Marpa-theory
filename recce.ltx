@@ -1063,17 +1063,14 @@ of derivations in which the same dotted rule occurs at least twice.
 \end{equation*}
 We can create a shorter derivation by removing the derivation from Step $i$ to Step $j$
 and replacing it with Step $i$.
-From this we see that
-The algorithm \ref{alg:null-transition}
-can derive
-\ref{null-transition-correct-5}
-without having to add
+Algorithm \ref{alg:null-transition} will also follow this shorter derivation,
+and therefore will add \eqref{null-transition-correct-5}
+without needing to add
 $$ \Vsym{postdot-before-i} \de \mydot \Vsym{postdot-i} \cat \Vstr{after-i} $$
 to \Vdrset{work}
 more than once.
 
 We can do this for to every postdot symbol which occurs twice.
-In this we way see that no dotted rule needs to be added to \
 From this we see that 
 The algorithm \ref{alg:null-transition}
 can derive a complete set of predictions
