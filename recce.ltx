@@ -299,36 +299,43 @@ Type names are often used in the text
 as a convenient way to refer to
 their type.
 
-Where \Vsymset{vocab} is non-empty set of symbols,
-let $\var{vocab}^\ast$ be the set of all strings
+Where \Vsymset{syms} is non-empty set of symbols,
+let $\var{syms}^\ast$ be the set of all strings
 (type \type{STR}) formed
 from those symbols.
 Where \Vstr{s} is a string,
 let \size{\Vstr{s}} be its length, counted in symbols.
-Let $\var{vocab}^+$ be
+Let $\var{syms}^+$ be
 \begin{equation*}
 \bigl\{ \Vstr{x}
-\bigm| \Vstr{x} \in \var{vocab}* \land \Vsize{\Vstr{x}} > 0
+\bigm| \Vstr{x} \in \var{syms}* \land \Vsize{\Vstr{x}} > 0
 \bigr\}.
 \end{equation*}
 
 In this \doc{} we use,
 without loss of generality,
 the grammar \Cg{},
-where \Cg{} is the 3-tuple
+where \Cg{} is the 4-tuple
 \begin{equation*}
-    (\Vsymset{vocab}, \var{rules}, \Vsym{accept}).
+    (\Vsymset{nt}, \Vsymset{term}, \var{rules}, \Vsym{accept}).
 \end{equation*}
-Here $\Vsym{accept} \in \var{vocab}$.
+\Vsymset{nt} is a set of symbols called non-terminals,
+and \Vsymset{term} is a set of symbols called terminals.
+Here $\Vsym{accept} \in \var{nt}$.
 Call the language of \var{g}, $\myL{\Cg}$,
-where $\myL{\Cg} \subseteq \var{vocab}^\ast$.
+where $\myL{\Cg} \subseteq \var{term}^\ast$.
+The vocabulary of the the grammar is the union of
+the sets of terminals and non-terminals:
+$$ \Vsymset{vocab} = \Vsymset{nt} \cup \Vsymset{term}. $$
+If a string of symbols contains only terminal symbols,
+that string is called a \dfn{sentence}.
 
 \Vruleset{rules} is a set of rules (type \type{RULE}),
 where a rule is a duple
 of the form $[\Vsym{lhs} \de \Vstr{rhs}]$,
 such that
 \begin{equation*}
-\Vsym{lhs} \in \var{vocab} \quad \text{and}
+\Vsym{lhs} \in \var{nt} \quad \text{and}
 \quad \Vstr{rhs} \in \var{vocab}^+.
 \end{equation*}
 \Vsym{lhs} is referred to as the left hand side (LHS)
@@ -405,21 +412,8 @@ if and only if
 $\RightRecursive{\Vrule{x}}$,
 if and only if is either directly or indirectly right-recursive.
 
-The definition of \Cg{} does not sharply distinguish terminals
-from non-terminals.
-\Marpa{}'s implementations allow terminals to be the LHS
-of rules,
-and every symbol except \Vsym{accept} can be a terminal.
-The implementations have options that allow
-the user to reinstate
-the traditional restrictions,
-in part or in whole.
-Note that,
-as a result of these definitions,
-sentential forms will be of type \type{STR}.
-
 Let the input to
-the parse be \Cw{} such that $\Cw \in \var{vocab}^+$.
+the parse be \Cw{} such that $\Cw \in \var{term}^+$.
 Locations in the input will be of type \type{LOC}.
 Let \Vsize{w} be the length of the input, counted in symbols.
 When we state our complexity results later,
@@ -912,19 +906,38 @@ is its \dfn{causation}.
 \subsection{The dotted rule transition function}
 
 We define
-a partial transition function for
-pairs of dotted rule and symbol,
+a partial transition function from
+pairs of dotted rule and symbol
+to sets of dotted rules.
 \begin{equation*}
-\GOTO: \Cdr, (\epsilon \cup \var{vocab}) \mapsto \Cdr.
+\GOTO: \Cdr, (\epsilon \cup \var{vocab}) \mapsto 2^\Cdr.
 \end{equation*}
 $\GOTO(\Vdr{from}, \epsilon)$ is a
-\dfn{null transition}.
+\dfn{null transition}
+and its result is a \dfn{null transition set}.
 
-If \Vdr{predicted} is the result of a null transition,
-the dotted rule is called a \dfn{prediction}.
-If a dotted is not a \dfn{prediction},
-it is called a \dfn{confirmed} dotted rule.
-The initial dotted rule is a confirmed dotted rule.
+If the transition is not a null transition,
+the resulting set of dotted rules will be a singleton --
+only null transitions result in a set of dotted rules
+with a cardinaliy greater than one.
+The dotted rules in the set that results from a null transition
+will be either predictions or confirmed rules with
+a nulling predot symbol.
+
+Computing the result of \GOTO when it is not
+a null transition is trivial.
+But the complexity of null transitions is of interest:
+we may want to compute them on the fly,
+and in any case,
+we want to know if the computation has finite
+time complexity.
+
+\begin{theorem}\label{t:null-transition-finite}
+A null transition set can be computed in time \\Oc{}.
+\end{theorem}\label{t:null-transition-finite}
+
+\begin{proof}
+\end{proof}
 
 \subsection{Marpa's Earley sets grow at worst linearly}
 
