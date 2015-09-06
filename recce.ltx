@@ -665,9 +665,144 @@ such that
 \begin{equation*}
 \begin{split}
 &  \Vsym{accept} \destar [0] \, \Vstr{before} \, [\var{i}] \, \Vsym{A} \cat \Vstr{after} \, [\Vsize{\Cw}] \\
-&  \qquad \derives [0] \, \Vstr{before} \, [\var{i}] \, \Vstr{predot} \, [\var{j}] \, \Vstr{postdot} \cat \Vstr{after} \, [\Vsize{\Cw}] \\
+&  \qquad \derives [0] \, \Vstr{before} \, [\var{i}] \, \Vstr{predot} \, [\var{j}] \, \Vstr{postdot} \cat \Vstr{after} \, [\Vsize{\Cw}].
 \end{split}
 \end{equation*}
+
+\subsection{Top-down and bottom-up causes}
+
+We now proceed to define two important concepts:
+the top-down cause of an Earley item
+and the bottom-up cause of an Earley item.
+For the purpose of this definition, we divide Earley items
+into three kinds, and proceed by cases.
+The three kinds of Earley item are predicted,
+scanned,
+and reduced.
+
+Without loss of generality, let our reduced Earley item be
+\begin{equation}\label{eq:reduced-effect}
+[ [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{B} \mydot \Vstr{suffix} ], \var{i}, \var{k} ]
+\end{equation}
+Again without loss of generality, its derivation is
+\begin{equation}\label{eq:reduced-derivation}
+\begin{split}
+&  \Vsym{accept} \destar [0]\, \Vstr{before} \,[\var{i}]\, \Vsym{A} \,[\var{l}]\, \Vstr{after} \,[\Vsize{\Cw}] \\
+&  \qquad \derives [0]\, \Vstr{before} \,[\var{i}]\, \Vstr{prefix} \,[\var{j}]\, \\
+&  \qquad \qquad \qquad \Vsym{B} \,[\var{k}]\, \Vstr{suffix} \,[\var{l}]\, \Vstr{after} \,[\Vsize{\Cw}] \\
+&  \qquad \derives [0]\, \Vstr{before} \,[\var{i}]\, \Vstr{prefix} \,[\var{j}]\, \\
+&  \qquad \qquad \qquad \Vstr{B-rhs} \,[\var{k}]\, \Vstr{suffix} \,[\var{l}]\, \Vstr{after} \,[\Vsize{\Cw}]. \\
+\end{split}
+\end{equation}
+We say that
+\begin{equation*}
+[ [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{B} \cat \Vstr{suffix} ], \var{i}, \var{j} ]
+\end{equation*}
+is a \dfn{top-down cause} of \eqref{eq:reduced-effect}.
+We say that
+\begin{equation*}
+[ [ \Vsym{B} \derives \Vstr{B-rhs} \mydot ], \var{j}, \var{k} ]
+\end{equation*}
+is a \dfn{bottom-up cause} of \eqref{eq:reduced-effect}.
+We say that \eqref{eq:reduced-effect} is the dfn{effect}
+of these two causes.
+
+Without loss of generality, let our predicted Earley item be
+\begin{equation}\label{eq:predicted-effect}
+[ [ \Vsym{B} \de \mydot \Vstr{B-rhs} ], \var{i}, \var{i} ]
+\end{equation}
+We may use the same derivation as for the case of the reduced Earley item,
+and it is again without loss of generality.
+We say that
+\begin{equation}\label{predicted-top-down-cause}
+[ [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{B} \cat \Vstr{suffix} ], \var{i}, \var{j} ]
+\end{equation}
+is a \dfn{top-down cause} of \eqref{eq:predicted-effect}.
+From the bottom-up point of view, it is a null transition --
+no property of the input is required that is not already required by
+\eqref{predicted-top-down-cause}.
+We say that its
+\dfn{bottom-up cause} is 
+null, or \dfn{ethereal}.
+We say that \eqref{eq:predicted-effect} is the dfn{effect}
+of these two causes.
+
+Without loss of generality, let our scanned Earley item be
+\begin{equation}\label{eq:scanned-effect}
+[ [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{B} \mydot \Vstr{suffix} ], \var{i}, \var{k} ].
+\end{equation}
+\eqref{eq:scanned-effect} takes the same form as
+\eqref{eq:reduced-effect},
+but there is a difference --
+here \Vsym{B} must be a terminal.
+Again without loss of generality, its derivation is
+\begin{equation}\label{eq:scanned-derivation}
+\begin{split}
+&  \Vsym{accept} \destar [0]\, \Vstr{before} \,[\var{i}]\, \Vsym{A} \,[\var{l}]\, \Vstr{after} \,[\Vsize{\Cw}] \\
+&  \qquad \derives [0]\, \Vstr{before} \,[\var{i}]\, \Vstr{prefix} \,[\var{j}]\, \\
+&  \qquad \qquad \qquad \Vsym{B} \,[\var{k}]\, \Vstr{suffix} \,[\var{l}]\, \Vstr{after} \,[\Vsize{\Cw}].
+\end{split}
+\end{equation}
+We say that
+\begin{equation}\label{scanned-top-down-cause}.
+[ [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{B} \cat \Vstr{suffix} ], \var{i}, \var{j} ]
+\end{equation}
+is a \dfn{top-down cause} of \eqref{eq:scanned-effect}.
+We say that \Vsym{B} is the \dfn{bottom-up cause} of \eqref{eq:scanned-effect}.
+\Vsym{B} may be a nulling symbol,
+in which no property of the input is required that is not already required by
+\eqref{scanned-top-down-cause}.
+When \Vsym{B} is zero-length, or null,
+we say that
+the \dfn{bottom-up cause} of
+\eqref{eq:scanned-effect}
+is null, or \dfn{ethereal}.
+When \Vsym{B} is of length greater than zero
+we say that
+the \dfn{bottom-up cause}
+\eqref{eq:scanned-effect}
+is \Vsym{B}.
+We say that \eqref{eq:scanned-effect} is the dfn{effect}
+of these two causes.
+
+Bottom-up causes are either \dfn{mundane} or \dfn{ethereal}.
+The bottom-up cause of a reduced Earley item is always mundane.
+The bottom-up cause of a predicted Earley item is always ethereal.
+The bottom-up cause of a scanned Earley item is mundane if the scanned symbol
+is of zero-length,
+and mundane, otherwise.
+In determining whether a cause is valid,
+an ethereal cause is always considered valid.
+
+\begin{theorem}\label{t:multi-cause-eq-ambiguous-g}
+If any Earley item has more than one top-down cause,
+or more than one bottom-up cause,
+the grammar is ambiguous.
+\end{theorem}
+
+\begin{proof}
+This may be proved using the derivations in the defintion
+of top-down and bottom-up cause.
+More than one cause means more than one derivation,
+and a grammar with more than one derivation for \Cw{}.
+The definition of ambiguity for a grammar is that it
+has more than one derivation for a single input.
+\end{proof}
+
+\begin{theorem}\label{t:cause-effect-consistent}
+If the top-down cause and bottom-up cause of an
+effect are both valid,
+the effect is a valid Earley item.
+\end{theorem}
+
+\begin{theorem}\label{t:cause-effect-complete}
+If an Earley is valid,
+it has a valid top-down cause
+and a valid bottom-up cause.
+\end{theorem}
+
+\subsection{Consistency, completeness and correctness}
+
 An Earley set is \dfn{consistent} if and only if all of its
 Earley items are valid.
 An Earley set is \dfn{complete} if and only if it contains
@@ -723,7 +858,7 @@ simplifies to
 \label{eq:algorithm-correct-12}
 \Vsym{accept} \destar [0]\, \Vstr{predot} \,[\Vsize{\Cw}]
 \end{equation}
-which, by the definition of the locaion markers
+which, by the definition of the location markers
 means that
 \begin{equation}
 \label{eq:algorithm-correct-15}
@@ -771,87 +906,6 @@ and therefore the theorem.
 \section{Operations of the Earley algorithm}
 \label{s:earley-ops}
 
-In this section,
-each Earley operation is shown in the form of
-an inference rule,
-the conclusion of which
-is the set of the Earley items
-that is that operation's \dfn{result}.
-The Earley sets correspond to parse locations,
-and for any Earley operation there is a
-current parse location, \Vloc{current}, and
-a current Earley set, \Ves{current}.
-
-Each location starts with an empty Earley set.
-For the purposes of this description of
-\Earley{}, the order of the
-Earley operations
-when building an
-Earley set is non-deterministic.
-After each Earley operation is performed,
-its result is unioned with the
-current Earley set.
-When no more Earley items
-can be added, the Earley set is
-complete.
-The Earley sets are built in
-order from 0 to \Vsize{w}.
-
-\subsection{Initialization}
-\label{d:initial}
-\begin{equation*}
-\inference{
-   \Vloc{current} = 0
-}{
-    \Bigset{\bigl[ [ \Vsym{accept} \de \mydot \Vsym{start} ], 0 \bigr]}
-}
-\end{equation*}
-Earley {\bf initialization} has no operands
-and only takes
-place in Earley set 0.
-
-\subsection{Scanning}
-\label{d:scan}
-\begin{equation*}
-\inference{
-    \begin{array}{c}
-	\Vloc{current} > 0 \\
-	\Vloc{previous} = \Vloc{current} \subtract 1
-	\\[3pt]
-	\Vsym{token} = \Cw\bigl[\Vloc{previous}\bigr]
-	\\[3pt]
-	\Veim{predecessor} = [ \Vdr{before}, \Vorig{predecessor} ] \\
-	\Veim{predecessor} \in \Ves{previous} \\
-	\Postdot{\Vdr{before}} = \Vsym{token}
-    \end{array}
-}{
-    \bigset{ [ \Next{\Vdr{before}}, \Vorig{predecessor} ] }
-}
-\end{equation*}
-\Veim{predecessor}
-and \Vsym{token} are the operands of an Earley scan.
-\Veim{predecessor} is called the predecessor of the scanning operation.
-The token, \Vsym{token}, is the transition symbol
-of the scanning operation.
-
-\subsection{Reduction}
-\label{d:reduction}
-\begin{equation*}
-\inference{
-    \begin{array}{c}
-    \Veim{component} = \bigl[
-     [ \Vsym{lhs} \de \Vstr{rhs} \mydot ]
-    , \Vloc{component-orig} \bigr] \\
-    \Veim{component} \in \Ves{current} \\[3pt]
-    \Veim{predecessor} = [ \Vdr{before}, \Vorig{predecessor} ] \\
-    \Veim{predecessor} \in \Ves{component-orig} \\
-    \Postdot{\Vdr{before}} = \Vsym{lhs} \\
-    \end{array}
-}{
-    \bigset{ [ \Next{\Vdr{before}}, \Vorig{predecessor} ] }
-}
-\end{equation*}
-
 \Veim{component} is called
 the component of the reduction operation.\footnote{
 The term ``component'' comes from Irons \cite{Irons}.
@@ -864,44 +918,6 @@ of the reduction operation.
 \Veim{predecessor} and
 \Veim{component} are the operands of the reduction
 operation.
-In some contexts, it is convenient to treat the transition
-symbol
-as an operand,
-so that the operands
-are \Veim{predecessor} and \Vsym{lhs}.
-
-\subsection{Prediction}
-\label{d:prediction}
-\begin{equation*}
-\inference{
-    \begin{array}{c}
-	\Veim{predecessor} = [ \Vdr{predecessor}, \Vorig{predecessor} ] \\
-	\Veim{predecessor} \in \Ves{current}
-    \end{array}
-}{
-  \left\{
-  \begin{aligned}
-  & \Bigl[ \bigl[ \Vsym{L} \de \mydot \Vstr{rh} \bigr],
-  \Vloc{current}
-  \Bigr]
-  \quad \text{such that} \\
-  & \qquad \bigl[ \Vsym{L} \de \Vstr{rh} \bigr] \in \Crules  \\
-  & \qquad \land \bigl( \exists \, \Vstr{z} \mid
-  \Postdot{\Vdr{predecessor}} \destar \Vsym{L} \cat \Vstr{z} \bigr)
-  \end{aligned}
-  \right\}
-}
-\end{equation*}
-A prediction operation can add several Earley items
-to Earley set \Vloc{current}.
-\Veim{predecessor} is called the predecessor of the prediction operation,
-and is its only operand.
-
-\subsection{Causation}
-An operand of an operation is also called a \dfn{cause}
-of that operation,
-and the set of operands for an Earley operation
-is its \dfn{causation}.
 
 \subsection{The dotted rule transition function}
 
