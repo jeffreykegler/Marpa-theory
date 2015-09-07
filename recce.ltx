@@ -746,11 +746,9 @@ Without loss of generality, let our reduced Earley item be
 Again without loss of generality, its derivation is
 \begin{equation}\label{eq:reduced-derivation}
 \begin{split}
-&  \Vsym{accept} \destar [0]\, \Vstr{before} \,[\var{i}]\, \Vsym{A} \,[\var{l}]\, \Vstr{after} \,[\Vsize{\Cw}] \\
-&  \qquad \derives [0]\, \Vstr{before} \,[\var{i}]\, \Vstr{prefix} \,[\var{j}]\, \\
-&  \qquad \qquad \qquad \Vsym{B} \,[\var{k}]\, \Vstr{suffix} \,[\var{l}]\, \Vstr{after} \,[\Vsize{\Cw}] \\
-&  \qquad \derives [0]\, \Vstr{before} \,[\var{i}]\, \Vstr{prefix} \,[\var{j}]\, \\
-&  \qquad \qquad \qquad \Vstr{B-rhs} \,[\var{k}]\, \Vstr{suffix} \,[\var{l}]\, \Vstr{after} \,[\Vsize{\Cw}]. \\
+&  \Vsym{A} \\
+&  \qquad \derives \,[\var{i}]\, \Vstr{prefix} \,[\var{j}]\, \Vsym{B} \,[\var{k}]\, \Vstr{suffix} \\
+&  \qquad \derives \,[\var{i}]\, \Vstr{prefix} \,[\var{j}]\, \Vstr{B-rhs} \,[\var{k}]\, \Vstr{suffix}. \\
 \end{split}
 \end{equation}
 We say that
@@ -763,7 +761,7 @@ We say that
 [ [ \Vsym{B} \derives \Vstr{B-rhs} \mydot ], \var{j}, \var{k} ]
 \end{equation*}
 is a \dfn{bottom-up cause} of \eqref{eq:reduced-effect}.
-We say that \eqref{eq:reduced-effect} is the dfn{effect}
+We say that \eqref{eq:reduced-effect} is the \dfn{effect}
 of these two causes.
 
 Without loss of generality, let our predicted Earley item be
@@ -783,7 +781,7 @@ no property of the input is required that is not already required by
 We say that its
 \dfn{bottom-up cause} is 
 null, or \dfn{ethereal}.
-We say that \eqref{eq:predicted-effect} is the dfn{effect}
+We say that \eqref{eq:predicted-effect} is the \dfn{effect}
 of these two causes.
 
 Without loss of generality, let our scanned Earley item be
@@ -797,9 +795,8 @@ here \Vsym{B} must be a terminal.
 Again without loss of generality, its derivation is
 \begin{equation}\label{eq:scanned-derivation}
 \begin{split}
-&  \Vsym{accept} \destar [0]\, \Vstr{before} \,[\var{i}]\, \Vsym{A} \,[\var{l}]\, \Vstr{after} \,[\Vsize{\Cw}] \\
-&  \qquad \derives [0]\, \Vstr{before} \,[\var{i}]\, \Vstr{prefix} \,[\var{j}]\, \\
-&  \qquad \qquad \qquad \Vsym{B} \,[\var{k}]\, \Vstr{suffix} \,[\var{l}]\, \Vstr{after} \,[\Vsize{\Cw}].
+&  \Vsym{A} \\
+&  \qquad \derives \,[\var{i}]\, \Vstr{prefix} \,[\var{j}]\, \Vsym{B} \,[\var{k}]\, \Vstr{suffix} \\
 \end{split}
 \end{equation}
 We say that
@@ -821,7 +818,7 @@ we say that
 the \dfn{bottom-up cause}
 \eqref{eq:scanned-effect}
 is \Vsym{B}.
-We say that \eqref{eq:scanned-effect} is the dfn{effect}
+We say that \eqref{eq:scanned-effect} is the \dfn{effect}
 of these two causes.
 
 Bottom-up causes are either \dfn{mundane} or \dfn{ethereal}.
@@ -936,8 +933,7 @@ and by the definition of valid for an Earley item,
 \begin{equation}
 \label{eq:algorithm-correct-6}
 \begin{split}
-& \Vsym{accept} \destar \\
-& \qquad  [0] \, \Vstr{before} \,[0]\, \Vstr{predot} \,[\Vsize{\Cw}]\, \Vstr{postdot} \,[\Vsize{\Cw}]\, \Vstr{after} \,[\Vsize{\Cw}]
+& \Vsym{accept} \destar \Vstr{before} \,[0]\, \Vstr{predot} \,[\Vsize{\Cw}]\, \Vstr{postdot} \cat \Vstr{after}
 \end{split}
 \end{equation}
 where the accept dotted rule is
@@ -945,7 +941,9 @@ where the accept dotted rule is
 \label{eq:algorithm-correct-9}
 \Vsym{accept} \de \cat \Vstr{predot} \mydot \Vstr{postdot}.
 \end{equation}
-We see from
+Since no terminals can come before location 0 or after
+location \Vsize{\Cw},
+we see from
 \eqref{eq:algorithm-correct-6}
 that
 \begin{equation}
@@ -1202,66 +1200,52 @@ is a valid Earley item.
 \begin{proof}
 Without loss of generality,
 let
-\begin{equation*}
-\Vdr{base} = [ [ \Vsym{base-lhs} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ]. \Vloc{origin} ]
-\end{equation*}
+\begin{equation}\label{eq:prediction-from-dr-valid-4}
+\begin{split}
+& \Vdr{base} = [ \Vsym{base-lhs} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ] \\
+& \text{and} \qquad \Veim{base} = [ \Vdr{base}, \Vloc{origin}, \Vloc{j} ]
+\end{split}
+\end{equation}
 and let
 \begin{equation}\label{eq:prediction-from-dr-valid-5}
 \Vsym{A} \de \mydot \Vstr{A-rhs}
 \end{equation}
 be the prediction.
-Then we have
-\begin{equation*}
-\Vsym{base-lhs} \de \,[\var{origin}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{A} \cat \Vstr{post},
-\end{equation*}
 To show the theorem, we must show that
 \begin{equation}\label{eq:prediction-from-dr-valid-8}
-\Veim{prediction} = [ [ \Vsym{A} \de \mydot \Vstr{A-rhs} ], \var{j} ]
+\Veim{prediction} = [ [ \Vsym{A} \de \mydot \Vstr{A-rhs} ], \var{j}, \var{j} ]
 \end{equation}
 is valid.
+By the definition of validity for an Earley item,
+we will have shown this if we can show that
+\begin{equation}\label{eq:prediction-from-dr-valid-8}
+\Vsym{A} \derives [\var{j}] \Vstr{A-rhs}.
+\end{equation}
 
 By assumption, \Veim{base} is valid.
-By the definition of validity for an Earley item:
+From \eqref{eq:prediction-from-dr-valid-4}
+and the definition of validity for an Earley item:
 \begin{equation}\label{eq:prediction-from-dr-valid-12}
-\begin{split}
-&  \Vsym{accept} \destar [0] \, \Vstr{before} \, [\var{i}] \, \Vsym{base-lhs} \cat \Vstr{after} \, [\Vsize{\Cw}] \\
-&  \qquad \derives [0] \, \Vstr{before} \, [\var{i}] \, \Vstr{pre} \,[\var{j}]\, \Vsym{A} \cat \Vstr{post} \cat \Vstr{after} \, [\Vsize{\Cw}].
-\end{split}
+\Vsym{base-lhs} \derives [\var{origin}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{A} \cat \Vstr{post}
+\end{equation}
+We can simplify this to the one-step derivation
+\begin{equation}\label{eq:prediction-from-dr-valid-14}
+\,[\var{j}]\, \Vsym{A}
 \end{equation}
 From \eqref{eq:prediction-from-dr-valid-5} we know that
 $\Vsym{A} \de \Vstr{A-rhs}$
 is a rule of the grammar,
 and by Theorem \ref{t:null-transition-dr-correct},
 we know that the predicted dotted rule is correct,
-so that we can extend 
-\eqref{eq:prediction-from-dr-valid-12}
+so that we can extend the derivation of
+\eqref{eq:prediction-from-dr-valid-14}
 to
 \begin{equation}\label{eq:prediction-from-dr-valid-16}
-\begin{split}
-&  \Vsym{accept} \destar [0] \, \Vstr{before} \, [\var{i}] \, \Vsym{base-lhs} \cat \Vstr{after} \, [\Vsize{\Cw}] \\
-&  \qquad \derives [0] \, \Vstr{before} \, [\var{i}] \, \Vstr{pre} \\
-&  \qquad \qquad\qquad  [\var{j}]\, \Vsym{A} \cat \Vstr{post} \cat \Vstr{after} \, [\Vsize{\Cw}] \\
-&  \qquad \derives [0] \, \Vstr{before} \, [\var{i}] \, \Vstr{pre} \\
-&  \qquad \qquad\qquad  [\var{j}]\, \Vsym{A-rhs} \cat \Vstr{post} \cat \Vstr{after} \, [\Vsize{\Cw}].
-\end{split}
+[\var{j}]\, \Vsym{A} \derives [\var{j}]\, \Vsym{A-rhs}
 \end{equation}
-Letting
-$$\Vstr{before2} = \Vstr{before} \cat \Vstr{pre}$$
-and
-$$\Vstr{after2} = \Vstr{post} \cat \Vstr{after}$$
-and simplifying \eqref{eq:prediction-from-dr-valid-16},
-we have
-\begin{equation}\label{eq:prediction-from-dr-valid-20}
-\begin{split}
-&  \Vsym{accept} \destar [0] \, \Vstr{before2} \, [\var{j}] \, \Vsym{A} \cat \Vstr{after2} \, [\Vsize{\Cw}] \\
-&  \qquad \derives [0] \, \Vstr{before2} \,[\var{j}]\, \Vsym{A-rhs} \cat \Vstr{after2} \, [\Vsize{\Cw}].
-\end{split}
-\end{equation}
-It follows directly from
-\eqref{eq:prediction-from-dr-valid-20}
-and the definition of validity for an Earley item that
-that the prediction Earley item \eqref{eq:prediction-from-dr-valid-8}
-is valid.
+This is equivalent to
+\eqref{eq:prediction-from-dr-valid-8},
+which is what we needed to show for the theorem.
 \end{proof}
 
 \subsection{Earley sets grow at worst linearly}
