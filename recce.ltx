@@ -1106,7 +1106,7 @@ we will have shown this if we can show that
 By assumption, \Veim{top-down} is valid.
 From
 \eqref{eq:reduction-valid-2}
-and \eqref{eq:reduction-valid-4}
+and \eqref{eq:reduction-valid-4a}
 and the definition of validity for an Earley item:
 \begin{equation}\label{eq:reduction-valid-12}
 \Vsym{down-lhs} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{A} \cat \Vstr{post}
@@ -1185,13 +1185,13 @@ is valid.
 By the definition of validity for an Earley item,
 we will have shown this if we can show that
 \begin{equation}\label{eq:scansion-valid-11}
-\Vsym{down-lhs} \derives [\var{i}] \Vstr{pre} \cat \Vstr{bottom} [\var{j}+1] \Vstr{post}.
+\Vsym{down-lhs} \derives [\var{i}] \Vstr{pre} \cat \Vsym{bottom} [\var{j}+1] \Vstr{post}.
 \end{equation}
 
 By assumption, \Veim{top-down} is valid.
 From
 \eqref{eq:scansion-valid-2}
-and \eqref{eq:scansion-valid-4}
+and \eqref{eq:scansion-valid-6}
 and the definition of validity for an Earley item:
 \begin{equation}\label{eq:scansion-valid-12}
 \Vsym{down-lhs} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{bottom} \cat \Vstr{post}.
