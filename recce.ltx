@@ -1141,6 +1141,84 @@ is \eqref{eq:reduction-valid-8},
 which is what we needed to show for the theorem.
 \end{proof}
 
+\begin{theorem}\label{t:scansion-valid}
+Let
+\begin{equation}\label{eq:scansion-valid-2}
+\Veim{top-down} = [ \Vdr{down}, \Vloc{i}, \Vloc{j} ]
+\end{equation}
+be a valid Earley item
+where \Vsym{bottom} is a non-nullable symbol
+such that
+\begin{equation}\label{eq:scansion-valid-3}
+\Postdot{\Vdr{down}} = \Vsym{bottom} = \CVw{j}
+\end{equation}
+Then
+\begin{equation}\label{eq:scansion-valid-4}
+\Veim{scansion} = [ \Next{\Vdr{down}}, \Vloc{i}, \Vloc{j}+1 ]
+\end{equation}
+is a valid Earley item.
+\end{theorem}
+
+\begin{proof}
+Without loss of generality,
+let
+\begin{equation}\label{eq:scansion-valid-4}
+\Vdr{down} = [ \Vsym{down-lhs} \de \Vstr{pre} \mydot \Vsym{bottom} \cat \Vstr{post} ].
+\end{equation}
+To show the theorem, we must show that
+\begin{equation}\label{eq:scansion-valid-8}
+\Veim{scansion} = 
+\left[
+\begin{split}
+& \left[
+\begin{split}
+& \Vsym{down-lhs} \de \\
+& \qquad \Vstr{pre} \cat \Vsym{bottom} \mydot \Vstr{post}
+\end{split}
+\right], \\
+& \var{i}, \\
+& \var{j}+1
+\end{split}
+\right]
+\end{equation}
+is valid.
+By the definition of validity for an Earley item,
+we will have shown this if we can show that
+\begin{equation}\label{eq:scansion-valid-12}
+\Vsym{down-lhs} \derives [\var{i}] \Vstr{pre} \cat \Vstr{bottom} [\var{j}+1] \Vstr{post}.
+\end{equation}
+
+By assumption, \Veim{top-down} is valid.
+From
+\eqref{eq:scansion-valid-2}
+and \eqref{eq:scansion-valid-4}
+and the definition of validity for an Earley item:
+\begin{equation}\label{eq:scansion-valid-12}
+\Vsym{down-lhs} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{bottom} \cat \Vstr{post}
+\end{equation}
+
+All non-nullable symbols have a length in the input of 1.
+From this and eqref{eq:scansion-valid-3}
+we know that
+\begin{equation}\label{eq:scansion-valid-18}
+\,[\var{j}]\, \Vsym{bottom} \,[\var{j}+1]\,
+\end{equation}
+We know the location markers in
+\eqref{eq:scansion-valid-12}
+and
+\eqref{eq:scansion-valid-18}
+are compatible:
+The \var{i} is unrestricted,
+while the use of \var{j} in both derivations is compatible.
+Composing them we have
+\begin{equation}\label{eq:scansion-valid-21}
+\Vsym{down-lhs} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{bottom} \,[\var{j}+1]\, \Vstr{post}
+\end{equation}
+If we drop the location marker for $[\var{j}]$, this
+is \eqref{eq:scansion-valid-12},
+which is what we needed to show for the theorem.
+\end{proof}
+
 \subsection{Earley sets grow at worst linearly}
 
 \begin{theorem}\label{t:es-count}
