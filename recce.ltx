@@ -1082,7 +1082,7 @@ is a valid Earley item.
 \begin{proof}
 Without loss of generality,
 let
-\begin{equation}\label{eq:reduction-valid-4}
+\begin{equation}\label{eq:reduction-valid-4a}
 \Vdr{down} = [ \Vsym{down-lhs} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ]
 \end{equation}
 and
@@ -1099,7 +1099,7 @@ To show the theorem, we must show that
 is valid.
 By the definition of validity for an Earley item,
 we will have shown this if we can show that
-\begin{equation}\label{eq:reduction-valid-8}
+\begin{equation}\label{eq:reduction-valid-10}
 \Vsym{down-lhs} \derives [\var{i}] \Vstr{pre} \cat \Vstr{A} [\var{k}] \Vstr{post}.
 \end{equation}
 
@@ -1133,7 +1133,7 @@ are compatible:
 The \var{i} and \var{k} are unrestricted,
 while the use of \var{j} in both derivations is compatible.
 Composing them we have
-\begin{equation}\label{eq:reduction-valid-21}
+\begin{equation}\label{eq:reduction-valid-25}
 \Vsym{down-lhs} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{A} \,[\var{k}]\, \Vstr{post}
 \end{equation}
 If we drop the location marker for \var{j}, this
@@ -1162,29 +1162,29 @@ is a valid Earley item.
 \begin{proof}
 Without loss of generality,
 let
-\begin{equation}\label{eq:scansion-valid-4}
+\begin{equation}\label{eq:scansion-valid-6}
 \Vdr{down} = [ \Vsym{down-lhs} \de \Vstr{pre} \mydot \Vsym{bottom} \cat \Vstr{post} ].
 \end{equation}
 To show the theorem, we must show that
 \begin{equation}\label{eq:scansion-valid-8}
 \Veim{scansion} = 
 \left[
-\begin{split}
+\begin{aligned}
 & \left[
-\begin{split}
+\begin{aligned}
 & \Vsym{down-lhs} \de \\
 & \qquad \Vstr{pre} \cat \Vsym{bottom} \mydot \Vstr{post}
-\end{split}
+\end{aligned}
 \right], \\
 & \var{i}, \\
 & \var{j}+1
-\end{split}
+\end{aligned}
 \right]
 \end{equation}
 is valid.
 By the definition of validity for an Earley item,
 we will have shown this if we can show that
-\begin{equation}\label{eq:scansion-valid-12}
+\begin{equation}\label{eq:scansion-valid-11}
 \Vsym{down-lhs} \derives [\var{i}] \Vstr{pre} \cat \Vstr{bottom} [\var{j}+1] \Vstr{post}.
 \end{equation}
 
@@ -1194,11 +1194,11 @@ From
 and \eqref{eq:scansion-valid-4}
 and the definition of validity for an Earley item:
 \begin{equation}\label{eq:scansion-valid-12}
-\Vsym{down-lhs} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{bottom} \cat \Vstr{post}
+\Vsym{down-lhs} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{bottom} \cat \Vstr{post}.
 \end{equation}
 
 All non-nullable symbols have a length in the input of 1.
-From this and eqref{eq:scansion-valid-3}
+From this and \eqref{eq:scansion-valid-3}
 we know that
 \begin{equation}\label{eq:scansion-valid-18}
 \,[\var{j}]\, \Vsym{bottom} \,[\var{j}+1]\,
@@ -1215,7 +1215,87 @@ Composing them we have
 \Vsym{down-lhs} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{bottom} \,[\var{j}+1]\, \Vstr{post}
 \end{equation}
 If we drop the location marker for $[\var{j}]$, this
-is \eqref{eq:scansion-valid-12},
+is \eqref{eq:scansion-valid-11},
+which is what we needed to show for the theorem.
+\end{proof}
+
+\begin{theorem}\label{t:null-scansion-valid}
+Let
+\begin{equation}\label{eq:null-scansion-valid-2}
+\Veim{top-down} = [ \Vdr{down}, \Vloc{i}, \Vloc{j} ]
+\end{equation}
+be a valid Earley item
+where \Vsym{bottom} is a nulling symbol
+such that
+\begin{equation}\label{eq:null-scansion-valid-3}
+\Postdot{\Vdr{down}} = \Vsym{bottom}
+\end{equation}
+Then
+\begin{equation}\label{eq:null-scansion-valid-4}
+\Veim{scansion} = [ \Next{\Vdr{down}}, \Vloc{i}, \Vloc{j} ]
+\end{equation}
+is a valid Earley item.
+\end{theorem}
+
+\begin{proof}
+Without loss of generality,
+let
+\begin{equation}\label{eq:null-scansion-valid-6}
+\Vdr{down} = [ \Vsym{down-lhs} \de \Vstr{pre} \mydot \Vsym{bottom} \cat \Vstr{post} ].
+\end{equation}
+To show the theorem, we must show that
+\begin{equation}\label{eq:null-scansion-valid-8}
+\Veim{scansion} = 
+\left[
+\begin{aligned}
+& \left[
+\begin{aligned}
+& \Vsym{down-lhs} \de \\
+& \qquad \Vstr{pre} \cat \Vsym{bottom} \mydot \Vstr{post}
+\end{aligned}
+\right], \\
+& \var{i}, \\
+& \var{j}
+\end{aligned}
+\right]
+\end{equation}
+is valid.
+By the definition of validity for an Earley item,
+we will have shown this if we can show that
+\begin{equation}\label{eq:null-scansion-valid-11}
+\Vsym{down-lhs} \derives [\var{i}] \Vstr{pre} \cat \Vsym{bottom} [\var{j}] \Vstr{post}.
+\end{equation}
+
+By assumption, \Veim{top-down} is valid.
+From
+\eqref{eq:null-scansion-valid-2}
+and \eqref{eq:null-scansion-valid-6}
+and the definition of validity for an Earley item:
+\begin{equation}\label{eq:null-scansion-valid-12}
+\Vsym{down-lhs} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{bottom} \cat \Vstr{post}
+\end{equation}
+
+By definition,
+nullable symbols are zero-length.
+From this, \eqref{eq:null-scansion-valid-2},
+and \eqref{eq:null-scansion-valid-3}
+we know that
+\begin{equation}\label{eq:null-scansion-valid-18}
+\,[\var{j}]\, \Vsym{bottom} \,[\var{j}]\,
+\end{equation}
+We know the location markers in
+\eqref{eq:null-scansion-valid-12}
+and
+\eqref{eq:null-scansion-valid-18}
+are compatible:
+The \var{i} is unrestricted,
+while the use of \var{j} in both derivations is compatible.
+Composing them we have
+\begin{equation}\label{eq:null-scansion-valid-21}
+\Vsym{down-lhs} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{bottom} \,[\var{j}]\, \Vstr{post}
+\end{equation}
+If we drop the first location marker for $[\var{j}]$, this
+is \eqref{eq:null-scansion-valid-11},
 which is what we needed to show for the theorem.
 \end{proof}
 
@@ -1433,7 +1513,7 @@ To show the theorem, we must show that
 is valid.
 By the definition of validity for an Earley item,
 we will have shown this if we can show that
-\begin{equation}\label{eq:prediction-from-dr-valid-8}
+\begin{equation}\label{eq:prediction-from-dr-valid-10}
 \Vsym{A} \derives [\var{j}] \Vstr{A-rhs}.
 \end{equation}
 
