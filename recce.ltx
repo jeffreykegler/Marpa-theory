@@ -668,6 +668,14 @@ Predicted, confirmed and completed dotted rules
 are also called, respectively,
 \dfn{predictions}, \dfn{confirmations} and \dfn{completions}.
 
+A dotted rule which has only nulling symbols after the dot
+is a \df{quasi-completion}.
+A dotted rule which has only nulling symbols before the dot
+is a \df{quasi-prediction}.
+These definitions may be vacuously true,
+so that all predictions are quasi-predictions,
+and all completions are quasi-completions.
+
 An Earley item (type \type{EIM}) is a triple
 \[
     [\Vdr{dotted-rule}, \Vorig{x}, \Vloc{current} ]
