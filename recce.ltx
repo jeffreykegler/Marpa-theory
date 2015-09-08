@@ -669,12 +669,24 @@ are also called, respectively,
 \dfn{predictions}, \dfn{confirmations} and \dfn{completions}.
 
 A dotted rule which has only nulling symbols after the dot
-is a \df{quasi-completion}.
+is a \dfn{quasi-completion}.
 A dotted rule which has only nulling symbols before the dot
-is a \df{quasi-prediction}.
+is a \dfn{quasi-prediction}.
 These definitions may be vacuously true,
 so that all predictions are quasi-predictions,
 and all completions are quasi-completions.
+If in a pair of EIMs,
+\begin{equation*}
+\begin{split}
+& \Vdr{quasi} = [\Vsym{A} \de \Vstr{alpha} \mydot \Vstr{nulls} ] \\
+& \Vdr{completion} = [\Vsym{A} \de \Vstr{alpha} \cat \Vstr{nulls} \mydot ]
+\end{split}
+\end{equation*}
+where \Vstr{nulls} is a string composed entirely of nullable symbols
+we say that \Vdr{completion} is the \dfn{completion dotted rule}
+of the quasi-completion \Vdr{quasi}.
+\begin{equation*}
+\end{equation*}
 
 An Earley item (type \type{EIM}) is a triple
 \[
@@ -699,6 +711,20 @@ the current location is specified by the context,
 either explicitly or implicitly.
 This paper will use Earley items
 in both the duple and triple forms.
+
+When a dotted rule notion is applied to an EIM,
+it refers to the dotted rule of the EIM.
+For example,
+a completion EIM is an EIM with a completion
+dotted rule,
+and a predicted EIM is an EIM with a predicted dotted rule.
+The completion EIM of a quasi-complete EIM
+If is a quasi-complete EIM
+$\Veim{quasi} = [ \Vdr{quasi}, \var{i}, \var{j} ]$,
+then its completion EIM is
+$[ \Vdr{complete}, \var{i}, \var{j} ]$,
+where \Vdr{complete} is the completion dotted
+rule of \Vdr{quasi}.
 
 An Earley parser builds a table of Earley sets,
 \begin{equation*}
@@ -1350,8 +1376,8 @@ we want to know if the computation has finite
 time complexity.
 
 \begin{algorithm}[!htp]
-\caption{Create null transition set}
-\label{alg:null-transition}
+\caption{Add one null transition generation}
+\label{alg:null-transition-generation}
 \begin{algorithmic}[1]
 \Procedure{Add generation}{\Vdr{dr}, \Vdrset{results}}
 \If{\Vdr{dr} has no postdot symbol}
@@ -1381,6 +1407,13 @@ time complexity.
 \EndFor
 \State return
 \EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[!htp]
+\caption{Create null transition set}
+\label{alg:null-transition}
+\begin{algorithmic}[1]
 \Function{Create null transition set}{\Vdr{base}}
 \State Initialize \Vdrset{result} to the empty set
 \State Initialize \Vdrset{work} to the emtpy set
@@ -1394,7 +1427,7 @@ time complexity.
 \end{algorithmic}
 \end{algorithm}
 
-The algorithm \ref{alg:null-transition} does not correspond closely to
+Algorithm \ref{alg:null-transition} does not correspond closely to
 any implementation.
 The current Marpa implementation, for example, actually handles
 nulling symbols implicitly,
@@ -1407,24 +1440,31 @@ A null transition set can be computed in time \Oc{}.
 \end{theorem}
 
 \begin{proof}
-We consider the algorithm \ref{alg:null-transition}.
+We consider Algorithm \ref{alg:null-transition}.
 This clearly runs in \Oc{} time if there is a constant
-number of calls to the ``Add generation'' function.
+number of calls to
+Algorithm \ref{alg:null-transition-generation}.
 
 To finish the proof, we need to show
-that the ``Add generation'' function is called a constant number
+that
+Algorithm \ref{alg:null-transition-generation}.
+is called a constant number
 of times.
-The ``Add generation'' function is called
+Algorithm \ref{alg:null-transition-generation}
+is called
 once for the base dotted rule of the computation.
 It is called again for every dotted rule added to the working set
 of dotted rules, \Vdrset{work}.
 We know that no dotted rule is added to
 \Vdrset{work} twice.
 Therefore 
-the ``Add generation'' function is called
+Algorithm \ref{alg:null-transition-generation}
+is called
 at most once for each dotted rule.
 \Cg{} has a fixed number of dotted rules,
-so the ``Add generation'' function is called
+so
+that Algorithm \ref{alg:null-transition-generation}
+is called
 a most \Oc{} times.
 \end{proof}
 
@@ -1433,14 +1473,15 @@ Algorithm \ref{alg:null-transition} is correct.
 \end{theorem}
 
 \begin{proof}
-We consider the algorithm \ref{alg:null-transition}.
-It is directly clear from examining it that the null transitions 
+It is directly clear from examining
+Algorithm \ref{alg:null-transition}.
+that the null transitions 
 for nulling postdot symbols are complete and consistent,
 and therefore correct.
 It remains to consider the null transitions for non-nullable
 postdot symbols -- predictions.
 
-The algorithm \ref{alg:null-transition}
+Algorithm \ref{alg:null-transition}
 clearly adds all predictions derivable in a single step
 to its results.
 It also
@@ -1482,7 +1523,7 @@ more than once.
 
 We can do this for to every postdot symbol which occurs twice.
 From this we see that 
-The algorithm \ref{alg:null-transition}
+Algorithm \ref{alg:null-transition}
 can derive a complete set of predictions
 without having to add any dotted rule
 to \Vdrset{work}
@@ -1943,6 +1984,7 @@ including which tokens are acceptable during the scanning phase.
 
 \begin{algorithm}[h]
 \caption{Initialization}
+\label{a:initial}
 \begin{algorithmic}[1]
 \Procedure{Initial}{}
 \State \Call{Add EIM pair}{$0_{ES}, \dr{start}, 0$}
@@ -1966,7 +2008,36 @@ Initialization is correct.
 \end{theorem}
 
 \begin{proof}
-Omitted.
+
+TO DO.
+
+The only EIM which is not caused by another EIM
+is the start rule.
+Algorithm \ref{a:initial} shows that we add
+the start rule to Earley set 0
+using Algorithm \ref{a:pair}.
+From
+Theorem \ref{t:prediction-correct},
+we see that
+Algorithm \ref{a:pair} will also all
+the quasi-predictions from
+the start rule.
+
+Since only the start rule and its quasi-predictions
+are added by
+Algorithm \ref{a:pair},
+we know that 
+Algorithm \ref{a:pair}
+leaves Earley set 0
+consistent.
+
+Since the current location of every EIM
+in Earley set 0 must be 0,
+any predot symbols must be zero length.
+If the string of predot symbols in an
+EIM is zero-length,
+that EIM is either the start EIM,
+or a quasi-prediction.
 \end{proof}
 
 \begin{algorithm}[h]
@@ -2232,7 +2303,7 @@ attempt.
 \EndIf
 \State $\Vdrset{next} \gets \GOTO(\Vdr{base}, \epsilon)$
 \For{every $\Vdr{next} \in  \Vdrset{next}$}
-\If{\Vdr{next} is a prediction}
+\If{\Vdr{next} is a quasi-prediction}
 \State $\Veim{next} \gets [\Vdr{next}, \Vloc{i}]$
 \If{\Veim{next} is new}
 \State Add \Veim{next} to \Vtable{i}
@@ -2309,12 +2380,49 @@ remains \Oc.
 \subsubsection{Null transition correctness}
 \label{p:prediction-op-correct}
 
-\begin{theorem}\label{t:null-transition-op-correct}
-The addition of null transition items is correct.
+\begin{theorem}\label{t:quasi-completion-correct}
+Let \Veim{base} be a quasi-completion.
+If Algorithm \ref{a:pair} adds \Veim{base},
+it also adds all null transitions from it,
+including the the completion EIM.
 \end{theorem}
 
 \begin{proof}
-Omitted.
+By theorem \ref{t:null-transition-dr-correct},
+Algorithm \ref{a:pair} correctly finds the
+transitive closure of null transitions from
+the dotted rule \Veim{base}.
+Algorithm \ref{a:pair} adds these with the
+same origin and the same current location,
+which can be seen to be correct
+by the definition of validity for scanned
+Earley items.
+All the postdot symbols of a quasi-completion
+are null symbols,
+so Algorithm \ref{a:pair} therefore will add
+the completion EIM 
+of \Veim{base}.
+\end{proof}
+
+\begin{theorem}\label{t:prediction-correct}
+If Algorithm \ref{a:pair} adds \Veim{base},
+it also adds all predictions which are null transitions
+from it,
+including the valid quasi-prediction EIMs.
+\end{theorem}
+
+\begin{proof}
+By theorem \ref{t:null-transition-dr-correct},
+Algorithm \ref{a:pair} correctly finds the
+transitive closure of null transitions from
+the dotted rule \Veim{base}.
+If there are predictions or quasi-predictions,
+Algorithm \ref{a:pair} adds these as
+EIMS whose origin and current location
+is the current location of \Veim{base}.
+This can be seen to be correct
+by the definition of validity for scanned
+and predicted Earley items.
 \end{proof}
 
 \subsection{Per-set lists}
