@@ -2380,6 +2380,41 @@ remains \Oc.
 \subsubsection{Null transition correctness}
 \label{p:prediction-op-correct}
 
+\begin{theorem}\label{t:null-transition-op-correct}
+If Algorithm \ref{a:pair} adds \Veim{base},
+it also adds all null transitions from it.
+\end{theorem}
+
+\begin{proof}
+By theorem \ref{t:null-transition-dr-correct},
+Algorithm \ref{a:pair} correctly finds the
+transitive closure of null transitions from
+the dotted rule \Veim{base}.
+Algorithm \ref{a:pair} adds these with the
+and the same current location as \Veim{base},
+which can be seen to be correct
+by the definition of validity for scanned
+and predicted Earley items.
+The origin of the new EIMs
+is the same as \Veim{base}
+for scanned items
+which can be seen to be correct
+by the definition of validity for scanned
+Earley items.
+The origin of the new EIMs
+is the current location
+for predictions items
+which can be seen to be correct
+by the definition of validity for predicted
+EIMs.
+For quasi-predictions other than predictions,
+the origin of the new EIMs
+is the current location,
+which can be seen to be correct
+by the definition of validity for null-scansion
+and the definition of validity for predictions.
+\end{proof}
+
 \begin{theorem}\label{t:quasi-completion-correct}
 Let \Veim{base} be a quasi-completion.
 If Algorithm \ref{a:pair} adds \Veim{base},
