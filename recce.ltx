@@ -2299,19 +2299,21 @@ attempt.
 \Procedure{Add EIM pair}{$\Ves{i},\Vdr{base}, \Vloc{origin}$}
 \State $\Veim{confirmed} \gets [\Vdr{base}, \Vloc{origin}]$
 \If{\Veim{base} is new}
-\State Add \Veim{base} to \Vtable{i}
+\State Add \Veim{base} to \Vtable{i}\label{line:pair-10}
 \EndIf
-\State $\Vdrset{next} \gets \GOTO(\Vdr{base}, \epsilon)$
+\State $\Vdrset{next} \gets \GOTO(\Vdr{base}, \epsilon)$\label{line:pair-20}
 \For{every $\Vdr{next} \in  \Vdrset{next}$}
 \If{\Vdr{next} is a quasi-prediction}
-\State $\Veim{next} \gets [\Vdr{next}, \Vloc{i}]$
+\State $\Veim{next} \gets [\Vdr{next}, \Vloc{i}, \Vloc{i}]$
+\label{line:pair-25}
 \If{\Veim{next} is new}
-\State Add \Veim{next} to \Vtable{i}
+\State Add \Veim{next} to \var{table}\label{line:pair-30}
 \EndIf
 \Else
-\State $\Veim{next} \gets [\Vdr{next}, \Vloc{origin}]$
+\State $\Veim{next} \gets [\Vdr{next}, \Vloc{origin}, \Vloc{i}]$
+\label{line:pair-35}
 \If{\Veim{next} is new}
-\State Add \Veim{next} to \Vtable{i}
+\State Add \Veim{next} to \var{table}\label{line:pair-40}
 \EndIf
 \EndIf
 \EndFor
@@ -2382,37 +2384,71 @@ remains \Oc.
 
 \begin{theorem}\label{t:null-transition-op-correct}
 If Algorithm \ref{a:pair} adds \Veim{base},
-it also adds all null transitions from it.
+all of its null transitions
+and no other EIMs.
 \end{theorem}
 
 \begin{proof}
+By inspection, we see that 
+Algorithm \ref{a:pair} adds items
+at lines 
+\ref{line:pair-10},
+\ref{line:pair-30}
+and \ref{line:pair-40}.
+That the addition of \Veim{base}
+at line \ref{line:pair-10}
+is complete,
+consistent and therefore correct,
+follows directly from
+inspection of
+the pseudo-code.
+
+By the definition of validity for null-scanned
+and predicted Earley items, we see that
+in all cases,
+the origin and current location of the new
+EIMs depends, directly or indirectly,
+only on their values in \Veim{base}.
+Therefore there is,
+for each dotted rule,
+only one correct set of values
+for origin and current location
+--
+the ones
+used by Algorithm \ref{a:pair}
+in lines
+\ref{line:pair-25}
+and \ref{line:pair-35}.
+Therefore the set of correct EIMS corresponds
+one-to-one
+with the dotted rules
+and, from inspection of
+Algorithm \ref{a:pair},
+this is the set added by
+Algorithm \ref{a:pair}
+at lines
+\ref{line:pair-30}
+and \ref{line:pair-40}.
+
+It remains to show that the set of dotted rules on
+which the EIMs added
+at lines \ref{line:pair-30}
+and \ref{line:pair-40}
+are based
+is correct.
+The EIMs added at lines
+\ref{line:pair-30}
+and \ref{line:pair-40} are based on
+the dotted rules found
+at line
+\ref{line:pair-20}.
 By theorem \ref{t:null-transition-dr-correct},
-Algorithm \ref{a:pair} correctly finds the
+line \ref{line:pair-20} of
+Algorithm \ref{a:pair} the
 transitive closure of null transitions from
-the dotted rule \Veim{base}.
-Algorithm \ref{a:pair} adds these with the
-and the same current location as \Veim{base},
-which can be seen to be correct
-by the definition of validity for scanned
-and predicted Earley items.
-The origin of the new EIMs
-is the same as \Veim{base}
-for scanned items
-which can be seen to be correct
-by the definition of validity for scanned
-Earley items.
-The origin of the new EIMs
-is the current location
-for predictions items
-which can be seen to be correct
-by the definition of validity for predicted
-EIMs.
-For quasi-predictions other than predictions,
-the origin of the new EIMs
-is the current location,
-which can be seen to be correct
-by the definition of validity for null-scansion
-and the definition of validity for predictions.
+the dotted rule \Veim{base} found
+by line \ref{line:pair-20} is
+complete, consistent and therefore correct.
 \end{proof}
 
 \begin{theorem}\label{t:quasi-completion-correct}
@@ -2423,20 +2459,14 @@ including the the completion EIM.
 \end{theorem}
 
 \begin{proof}
-By theorem \ref{t:null-transition-dr-correct},
-Algorithm \ref{a:pair} correctly finds the
-transitive closure of null transitions from
-the dotted rule \Veim{base}.
-Algorithm \ref{a:pair} adds these with the
-same origin and the same current location,
-which can be seen to be correct
-by the definition of validity for scanned
-Earley items.
-All the postdot symbols of a quasi-completion
-are null symbols,
-so Algorithm \ref{a:pair} therefore will add
-the completion EIM 
-of \Veim{base}.
+For null transitions,
+the result follows directly
+from theorem \ref{t:null-transition-op-correct}.
+By the definition of completion EIM,
+a completion EIM is the result of null transition
+from any of its quasi-completions,
+so that case also follows
+from theorem \ref{t:null-transition-op-correct}.
 \end{proof}
 
 \begin{theorem}\label{t:prediction-correct}
@@ -2447,17 +2477,11 @@ including the valid quasi-prediction EIMs.
 \end{theorem}
 
 \begin{proof}
-By theorem \ref{t:null-transition-dr-correct},
-Algorithm \ref{a:pair} correctly finds the
-transitive closure of null transitions from
-the dotted rule \Veim{base}.
-If there are predictions or quasi-predictions,
-Algorithm \ref{a:pair} adds these as
-EIMS whose origin and current location
-is the current location of \Veim{base}.
-This can be seen to be correct
-by the definition of validity for scanned
-and predicted Earley items.
+The predictions
+and quasi-predictions are
+null transitions form \Veim{base},
+so the result follows directly
+from theorem \ref{t:null-transition-op-correct}.
 \end{proof}
 
 \subsection{Per-set lists}
