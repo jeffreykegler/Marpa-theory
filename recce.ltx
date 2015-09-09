@@ -2080,6 +2080,7 @@ including which tokens are acceptable during the scanning phase.
 \begin{algorithmic}[1]
 \Procedure{Initial}{}
 \State \Call{Add EIM pair}{$0_{ES}, \dr{start}, 0$}
+\label{line:initial-10}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
@@ -2100,36 +2101,47 @@ Initialization is correct.
 \end{theorem}
 
 \begin{proof}
+We first note that Leo memoization will have
+no effect on the set of
+EIMs in Earley set 0.
+This is because no EIM is Leo memoized,
+except because of a LIM in a prior Earley
+set,
+and no Earley set is prior to Earley set 0.
 
-TO DO.
+Since the bottom-up causes of both
+mundane scansions and reductions
+has an input length of greater than 0,
+these EIMs cannot appear in Earley set 0.
+All EIMs in Earley set 0 are therefore
+\begin{itemize}
+\item the start Earley item,
+\item predictions, or
+\item ethereal scansions.
+\end{itemize}
 
-The only EIM which is not caused by another EIM
-is the start rule.
-Algorithm \ref{a:initial} shows that we add
-the start rule to Earley set 0
-using Algorithm \ref{a:pair}.
-From
-Theorem \ref{t:prediction-correct},
-we see that
-Algorithm \ref{a:pair} will also all
-the quasi-predictions from
-the start rule.
+The predictions and ethereal scansions
+must have a top-down cause in the same
+Earley set.
+Together, the predictions and ethereal scansions
+are exactly the EIMs with null transitions.
+So null transition EIMs
+must have some other EIM in Earley set 0
+as either a direct or an indirect cause.
+The start Earley item is 
+the only remaining possibility,
+and it is in Earley set 0.
+Therefore the start Earley item is the direct
+or indirect cause of all other EIMs in Earley set 0.
 
-Since only the start rule and its quasi-predictions
-are added by
-Algorithm \ref{a:pair},
-we know that 
-Algorithm \ref{a:pair}
-leaves Earley set 0
-consistent.
-
-Since the current location of every EIM
-in Earley set 0 must be 0,
-any predot symbols must be zero length.
-If the string of predot symbols in an
-EIM is zero-length,
-that EIM is either the start EIM,
-or a quasi-prediction.
+From these considerations, we see that Earley 0
+consists of the start Earley item and the transitive
+closure of null transition from it.
+By \eqref{t:null-transition-op-correct},
+this is exactly the set of EIMs added to Earley set 0
+in line 
+\ref{line:initial-10}
+of Algorithm \ref{a:initial}.
 \end{proof}
 
 \begin{algorithm}[h]
@@ -2475,7 +2487,7 @@ remains \Oc.
 \label{p:prediction-op-correct}
 
 \begin{theorem}\label{t:null-transition-op-correct}
-If Algorithm \ref{a:pair} adds \Veim{base},
+Algorithm \ref{a:pair} adds \Veim{base},
 all of its null transitions
 and no other EIMs.
 \end{theorem}
