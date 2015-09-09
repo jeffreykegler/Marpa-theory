@@ -453,13 +453,14 @@ In its most general form
 derivation step with a single location marker is
 $$ \Vstr{pre} \,[\var{x}]\, \Vstr{post}. $$
 It means
-\begin{equation*}
+\begin{equation}
+\label{eq:location-marker-def}
 \begin{split}
 &  \Vsym{accept} \destar \Vstr{before} \cat \Vstr{pre} \cat \Vstr{post} \cat \Vstr{after} \\
 &  \land \Vstr{before} \cat \Vstr{pre} \destar \var{w}[0, (\var{x} \subtract 1)] \\
-&  \land \Vstr{post} \cat \Vstr{after} \destar \var{w}[\var{x}, \Vsize{\Cw}]
+&  \land \Vstr{post} \cat \Vstr{after} \destar \var{w}[\var{x}, (\Vsize{\Cw} \subtract 1)]
 \end{split}
-\end{equation*}
+\end{equation}
 
 Derivations may have many location markers.
 The meaning of a derivation with \var{j} different location markers,
@@ -771,15 +772,106 @@ a \Marpa{} parse.
 
 \subsection{Validity of Earley items}
 
+We say that
 an Earley item
 \begin{equation*}
 \bigl[[\Vsym{A} \de \Vstr{predot} \mydot \Vstr{postdot}], \var{i}, \var{j} \bigr]
 \end{equation*}
 is \dfn{valid}
 if and only if
-\begin{equation*}
+\begin{equation}
+\label{eq:eim-valid-def}
 \Vsym{A} \derives [\var{i}]\, \Vstr{predot} \,[\var{j}]\, \Vstr{postdot}.
-\end{equation*}
+\end{equation}
+We could simply stipulate that the start EIM
+is valid.
+Instead,
+for the sake of example, we prove it from
+the definition of EIM validity.
+
+\begin{theorem}\label{t:start-eim-is-valid}
+The start Earley item is valid.
+\end{theorem}
+
+\begin{proof}
+Let
+\begin{equation}
+\label{eq:start-eim-is-valid-5}
+\Vsym{accept} \de \Vstr{accept-rhs}
+\end{equation}
+be the accept rule,
+and let
+\begin{equation}
+\label{eq:start-eim-is-valid-10}
+[ [\Vsym{accept} \de \mydot \Vstr{accept-rhs} ], 0, 0]
+\end{equation}
+be the start EIM.
+
+By the definition of EIM validity,
+to show that 
+\eqref{eq:start-eim-is-valid-10}
+is valid,
+we need to show
+that
+\begin{multline}
+\label{eq:start-eim-is-valid-15}
+\Vsym{accept} \derives [0]\, \Vstr{predot} \,[0]\, \Vstr{postdot}\\ 
+\text{where} \qquad \Vstr{predot} \cat \Vstr{postdot} = \Vstr{accept-rhs}.
+\end{multline}
+Clearly, $\Vstr{predot} = \epsilon$
+so that $\Vstr{postdot} = \Vstr{accept-rhs}$
+so that
+\eqref{eq:start-eim-is-valid-15}
+simplifies to
+\begin{multline}
+\label{eq:start-eim-is-valid-18}
+\Vsym{accept} \derives \,[0]\, \Vstr{accept-rhs} \\ 
+\end{multline}
+To show 
+\eqref{eq:start-eim-is-valid-18},
+we expand it using
+the definition of location marker derivations
+\eqref{eq:location-marker-def}.
+We let $\Vsym{A} = \Vsym{accept}$
+$\Vstr{pre} = \epsilon$,
+and $\Vstr{post} = \Vsym{accept-rhs}$.
+With these settings,
+\eqref{eq:location-marker-def}
+requires us to show that,
+for some \Vstr{before}, \Vstr{after},
+\begin{gather}
+\Vsym{accept} \destar \Vstr{before} \cat \Vstr{accept-rhs} \cat \Vstr{after}
+\label{eq:start-eim-is-valid-20} \\
+\land \quad \Vstr{before} \destar \epsilon
+\label{eq:start-eim-is-valid-21} \\
+\land \quad \Vstr{accept-rhs} \cat \Vstr{after} \destar \var{w}[0, (\Vsize{\Cw} \subtract 1)]
+\label{eq:start-eim-is-valid-22}
+\end{gather}
+We can set
+\begin{equation}
+\label{eq:start-eim-is-valid-24}
+\Vstr{before} = \Vstr{after} = \epsilon.
+\end{equation}
+\eqref{eq:start-eim-is-valid-24}
+makes
+\eqref{eq:start-eim-is-valid-21}
+true, so that
+\eqref{eq:start-eim-is-valid-20}
+simplifies to
+\begin{gather}
+\Vsym{accept} \destar \Vstr{accept-rhs}
+\label{eq:start-eim-is-valid-30} \\
+\land \qquad \Vstr{accept-rhs} \destar \var{w}[0, (\Vsize{\Cw} \subtract 1)]
+\label{eq:start-eim-is-valid-31}
+\end{gather}
+We know \eqref{eq:start-eim-is-valid-30}
+from \eqref{eq:start-eim-is-valid-5}.
+By definition, the accept rule derives the input in a successful
+parse,
+$$ \Vsym{accept} \derives \Vstr{accept-rhs} \destar \Cw = \var{w}[0, (\Vsize{\Cw} \subtract 1)]$$
+and from this we have
+\eqref{eq:start-eim-is-valid-31}.
+\end{proof}
 
 \subsection{Top-down and bottom-up causes}
 
