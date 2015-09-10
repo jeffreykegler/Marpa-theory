@@ -1825,130 +1825,6 @@ show that this change also leaves
 the complexity results of
 Leo\cite{Leo1991} intact.
 
-Implementing the Leo logic requires
-adding Leo reduction as a new basic operation,
-adding a new premise to the Earley reduction
-operation,
-and extending the Earley sets to memoize Earley
-items as LIM's.
-
-\subsection{Leo reduction}
-
-\begin{equation*}
-\inference{
-    \begin{array}{c}
-    \Veim{component} = \bigl[
-     [ \Vsym{lhs} \de \Vstr{rhs} \mydot ]
-    , \Vloc{component-origin} \bigr] \\
-    \Veim{component} \in \Ves{current} \\[3pt]
-	\Vlim{predecessor} = [ \Vdr{top}, \Vsym{lhs}, \Vorig{top} ] \\
-	\Vlim{predecessor} \in \Ves{component-orig} \\
-    \end{array}
-}{
-    \bigset{ [ \Vdr{top}, \Vorig{top} ] }
-}
-\end{equation*}
-The new Leo reduction operation resembles the Earley reduction
-operation, except that it looks for an LIM,
-instead of a predecessor EIM.
-\Vlim{predecessor} and
-\Veim{component} are the operands of the Leo reduction
-operation.
-\Vsym{lhs} is the transition symbol
-of the Leo reduction.
-As with Earley reduction,
-it may be convenient to treat the transition
-symbol as an operand,
-so that the operands
-are \Vlim{predecessor} and \Vsym{lhs}.
-
-\subsection{Changes to Earley reduction}
-
-Earley reduction still applies, with an additional premise:
-\begin{multline*}
-\neg \exists \, \Vlim{x} \; \mid \; \Vlim{x} \in \Ves{component-orig} \\
-	\land \Vlim{x} = [ \Vdr{x}, \Vsym{lhs}, \Vorig{x} ]
-\end{multline*}
-The additional premise
-prevents Earley reduction from being applied
-where there is an LIM with \Vsym{lhs} as its transition symbol.
-This reflects the fact that
-Leo reduction replaces Earley reduction if and only if
-there is a Leo memoization.
-
-\subsection{Leo memoization}
-
-We define uniqueness of a penult in an Earley set as
-\begin{equation*}
-\begin{split}
-& \mymathop{Penult-Unique}(\Vsym{penult},\Ves{i}) \defined \\
-& \qquad \forall \, \Vdr{y} \bigl( \mymathop{Contains}(\Ves{current}, \Vdr{y})
-\land \Vsym{penult} = \Penult{\Vdr{y}} \bigr) \\
-& \qquad \qquad \implies \Vdr{x} = \Vdr{y}.
-\end{split}
-\end{equation*}
-We define
-Leo uniqueness as
-\begin{equation*}
-\begin{split}
-& \LeoUnique{\Vdr{x},\Vloc{current}} \defined \mymathop{Contains}(\Ves{current}, \Vdr{x})  \\
-& \qquad \land \Penult{\Vdr{x}} \neq \Lambda \\
-& \qquad \land \mymathop{Penult-Unique}({\Penult{\Vdr{x}}}, \Ves{current})
-\end{split}
-\end{equation*}
-and Leo eligibility as
-\begin{equation*}
-\begin{split}
-& \LeoEligible{\Vdr{x},\Vloc{current}} \defined \\
-& \qquad \exists \, \Vrule{x}, \Vorig{x} \; \mid \; \Vdr{x} = [ \Vrule{x}, \Vorig{i} ] \\
-& \qquad \land \RightRecursive{\Vrule{x}} \\
-& \qquad \land \LeoUnique{\Ves{current},\Vdr{x}}.
-\end{split}
-\end{equation*}
-For convenience, we define a relation that is
-true if \Vlim{pred} is the LIM predecessor of
-an EIM, and false otherwise:
-\begin{equation*}
-\begin{split}
-& \mymathop{LIM-Predecessor}({\Vlim{pred},\Veim{bottom}}) \defined \\
-& \quad \exists \Ves{bottom-origin}, \Vdr{bottom}, \Vdr{pred}, \\
-& \quad \qquad \Vloc{pred-origin}, \Vloc{bottom-origin} \quad \text{such that}  \\
-& \quad \qquad \qquad \Veim{bottom} = [ \Vdr{bottom}, \Vloc{bottom-origin} ] \\
-& \quad \qquad \qquad \land \Vlim{pred} = [ \Vdr{pred}, \LHS{\Vdr{bottom}}, \Vloc{pred-origin} ] \\
-& \quad \qquad \qquad \land \Vlim{pred} \in \Ves{bottom-origin}
-\end{split}
-\end{equation*}
-
-We are now ready to define an inference rule which holds if
-a LIM predecessor can be found for an EIM \Veim{bottom}
-\begin{equation*}
-\inference{
-    \begin{array}{c}
-    \mymathop{LIM-Predecessor}({\Vlim{pred},\Veim{bottom}}) \\
-    \Vlim{pred} = [ \Vdr{pred}, \LHS{\Vdr{bottom}}, \Vorig{pred} ] \\
-    \Veim{bottom} = [ \Vdr{bottom}, \Vloc{bottom} ] \\
-    \Veim{bottom} \in \Ves{current} \\
-    \LeoEligible{\Vdr{bottom}}
-    \end{array}
-}{
-    \left \lbrace [ \Vdr{pred}, \Penult{\Vdr{bottom}}, \Vorig{pred} ] \right \rbrace
-}
-\end{equation*}
-and another, which holds if
-\Veim{bottom} has no predecessor LIM,
-\begin{equation*}
-\inference{
-    \begin{array}{c}
-    \neg \mymathop{LIM-Predecessor}({\Vlim{pred},\Veim{bottom}}) \\
-    \Veim{bottom} = [ \Vdr{bottom}, \Vorig{bottom} ] \\
-    \Veim{bottom} \in \Ves{current} \\
-    \LeoEligible{\Vdr{bottom}}
-    \end{array}
-}{
-    \bigset{ [ \Next{\Vdr{bottom}}, \Penult{\Vdr{bottom}}, \Vorig{bottom} ] }
-}
-\end{equation*}
-
 \section{The Marpa Recognizer}
 \label{s:recce}
 \label{s:pseudocode}
@@ -2119,6 +1995,20 @@ All EIMs in Earley set 0 are therefore
 \item predictions, or
 \item ethereal scansions.
 \end{itemize}
+
+The set of start Earley items that we will
+add to Earley set 0 is the singleton set
+\begin{multline}\label{eq:initial-op-correct}
+\left\lbrace \bigl[ [ \Vsym{accept} \de \mydot \Vstr{accept-rhs} ], 0, 0 \bigr] \right\rbrace \\
+\text{where $[ \Vsym{accept} \de \mydot \Vstr{accept-rhs} ]$ is the start rule.}
+\end{multline}
+We first show that this set is correct.
+It is consistent by theorem \ref{t:start-eim-is-valid}.
+It is complete because the start rule is by definition unique.
+Therefore the set of start EIMs
+added by
+Algorithm \ref{a:initial} to Earley set 0
+is correct.
 
 The predictions and ethereal scansions
 must have a top-down cause in the same
@@ -2523,7 +2413,7 @@ used by Algorithm \ref{a:pair}
 in lines
 \ref{line:pair-25}
 and \ref{line:pair-35}.
-Therefore the set of correct EIMS corresponds
+Therefore the set of correct EIMs corresponds
 one-to-one
 with the dotted rules
 and, from inspection of
