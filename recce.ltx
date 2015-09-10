@@ -541,8 +541,8 @@ one being used for the parse,
 and the one to which
 his semantics are applied.
 
-\section{Earley's algorithm}
-\label{s:earley}
+\section{Dotted rules}
+\label{s:dotted}
 
 Let $\Vrule{r} \in \Crules$
 be a rule,
@@ -597,24 +597,51 @@ Let
 %
 \end{align*}
 
-The \dfn{initial dotted rule} is
-\begin{equation*}
-\Vdr{initial} = [\Vsym{accept} \de \mydot \Vsym{start} ].
-\end{equation*}
+The \dfn{start dotted rule} is
+\begin{equation}
+\label{eq:start-eim-def}
+\Vdr{start} = [\Vsym{accept} \de \mydot \Vsym{start} ].
+\end{equation}
 The \dfn{accept dotted rule} is
 \begin{equation*}
+\label{eq:accept-eim-def}
 \Vdr{accept} = [\Vsym{accept} \de \Vsym{start} \mydot ].
 \end{equation*}
-A \dfn{predicted dotted rule} is a dotted rule,
-other than the initial dotted rule,
-with a dot position of zero,
+
+We divide all Earley items into four disjoint types
+based on their dotted rule
+\begin{enumerate}
+\item
+\label{def:start-dr}
+If an dotted rule does not have a predot symbol and it is the start dotted rule
+its type is \dfn{start} dotted rule as defined above \eqref{eq:start-eim-def}.
+\item
+\label{def:prediction-dr}
+If it does not have a predot symbol and it is not the start dotted rule,
+it is a \dfn{prediction} dotted rule.
+\item
+\label{def:ethereal-dr}
+If it does have a predot symbol and that symbol is a nulling terminal,
+it is an \dfn{ethereal} dotted rule.
+\item
+\label{def:read-dr}
+If it does have a predot symbol and that symbol is a non-nullable terminal,
+it is an \dfn{read} dotted rule.
+Note that in \Marpa{} all terminals are either nulling or non-nullable.
+\item
+\label{def:reduction-dr}
+If it does have a predot symbol and that symbol is a non-terminal
+it is an \dfn{reduction} dotted rule.
+\end{enumerate}
+
+A \dfn{predicted dotted rule}
+always has a dot position of zero,
 for example,
 \begin{equation*}
 \Vdr{predicted} = [\Vsym{A} \de \mydot \Vstr{alpha} ].
 \end{equation*}
 A \dfn{confirmed dotted rule}
-is the initial dotted rule,
-or a dotted rule
+is a dotted rule
 with a dot position greater than zero.
 A \dfn{completed dotted rule} is a dotted rule with its dot
 position after the end of its RHS,
@@ -646,11 +673,36 @@ of the quasi-completion \Vdr{quasi}.
 \begin{equation*}
 \end{equation*}
 
+\subsection{The dotted rule transition function}
+
+We define
+a partial transition function from
+pairs of dotted rule and symbol
+to sets of dotted rules.
+\begin{equation*}
+\GOTO: \Cdr, (\epsilon \cup \var{vocab}) \mapsto 2^\Cdr.
+\end{equation*}
+$\GOTO(\Vdr{from}, \epsilon)$ is a
+\dfn{null transition}
+and its result is a \dfn{null transition set}.
+
+If the transition is not a null transition,
+the resulting set of dotted rules will be a singleton --
+only null transitions result in a set of dotted rules
+with a cardinaliy greater than one.
+The dotted rules in the set that results from a null transition
+will be either predictions or confirmed rules with
+a nulling predot symbol.
+
+\section{Earley items}
+\label{s:earley-items}
+
 An Earley item (type \type{EIM}) is a triple
 \[
     [\Vdr{dotted-rule}, \Vorig{x}, \Vloc{current} ]
 \]
 of dotted rule, origin, and current location.
+
 The \dfn{origin} is the location where recognition of the rule
 started.
 It is sometimes called the ``parent''.)
@@ -670,7 +722,8 @@ either explicitly or implicitly.
 This paper will use Earley items
 in both the duple and triple forms.
 
-When a dotted rule notion is applied to an EIM,
+An EIM has the same type as its dotted rule.
+Whenever a dotted rule notion is applied to an EIM,
 it refers to the dotted rule of the EIM.
 For example,
 a completion EIM is an EIM with a completion
@@ -684,48 +737,22 @@ $[ \Vdr{complete}, \var{i}, \var{j} ]$,
 where \Vdr{complete} is the completion dotted
 rule of \Vdr{quasi}.
 
-An Earley parser builds a table of Earley sets,
-\begin{equation*}
-\EVtable{\Earley}{i},
-\quad \text{where} \quad
-0 \le \Vloc{i} \le \size{\Cw}.
-\end{equation*}
-Earley sets are of type \type{ES}.
-Earley sets are often named by their location,
-so that \Ves{i} means the Earley set at \Vloc{i}.
-The type designator \type{ES} is often omitted to avoid clutter,
-especially in cases where the Earley set is not
-named by location.
+\begin{theorem}
+\label{eim-types-correct}
+Every EIM falls into one of these
+five disjoint types:
+start, prediction, read, ethereal and reduction.
+\end{theorem}
 
-At points,
-we will need to compare the Earley sets
-produced by the different recognizers.
-\EVtable{\alg{Recce}}{i} will be
-the Earley set at \Vloc{i}
-in the table of Earley sets of
-the \alg{Recce} recognizer.
-For example,
-\EVtable{\Marpa}{j} will be Earley set \Vloc{j}
-in \Marpa's table of Earley sets.
-In contexts where it is clear which recognizer is
-intended,
-\Vtable{k}, or \Ves{k}, will symbolize Earley set \Vloc{k}
-in that recognizer's table of Earley sets.
-If \Ees{\var{working}} is an Earley set,
-$\size{\Ees{\var{working}}}$ is the number of Earley items
-in \Ees{\var{working}}.
-
-\Rtablesize{\alg{Recce}} is the total number
-of Earley items in all Earley sets for \alg{Recce},
-\begin{equation*}
-\Rtablesize{\alg{Recce}} =
-     \sum\limits_{\Vloc{i}=0}^{\size{\Cw}}
-	{\bigsize{\EVtable{\alg{Recce}}{i}}}.
-\end{equation*}
-For example,
-\Rtablesize{\Marpa} is the total number
-of Earley items in all the Earley sets of
-a \Marpa{} parse.
+\begin{proof}
+The proof follows directly from definitions
+\eqref{def:start-dr},
+\eqref{def:prediction-dr},
+\eqref{def:ethereal-dr},
+\eqref{def:read-dr}
+and \eqref{def:reduction-dr}
+above.
+\end{proof}
 
 \subsection{Validity of Earley items}
 
@@ -740,11 +767,6 @@ if and only if
 \label{eq:eim-valid-def}
 \Vsym{A} \derives [\var{i}]\, \Vstr{predot} \,[\var{j}]\, \Vstr{postdot}.
 \end{equation}
-We could simply stipulate that the start EIM
-is valid.
-Instead,
-for the sake of example, we prove it from
-the definition of EIM validity.
 
 \subsection{Top-down and bottom-up causes}
 
@@ -802,93 +824,7 @@ null, or \dfn{ethereal}.
 We say that \eqref{eq:predicted-effect} is the \dfn{effect}
 of these two causes.
 
-Without loss of generality, let our scanned Earley item be
-\begin{equation}\label{eq:scanned-effect}
-[ [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{B} \mydot \Vstr{suffix} ], \var{i}, \var{k} ].
-\end{equation}
-\eqref{eq:scanned-effect} takes the same form as
-\eqref{eq:reduced-effect},
-but there is a difference --
-here \Vsym{B} must be a terminal.
-Again without loss of generality, its derivation is
-\begin{equation}\label{eq:scanned-derivation}
-\begin{split}
-&  \Vsym{A} \\
-&  \qquad \derives \,[\var{i}]\, \Vstr{prefix} \,[\var{j}]\, \Vsym{B} \,[\var{k}]\, \Vstr{suffix} \\
-\end{split}
-\end{equation}
-We say that
-\begin{equation}\label{scanned-top-down-cause}.
-[ [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{B} \cat \Vstr{suffix} ], \var{i}, \var{j} ]
-\end{equation}
-is a \dfn{top-down cause} of \eqref{eq:scanned-effect}.
-We say that \Vsym{B} is the \dfn{bottom-up cause} of \eqref{eq:scanned-effect}.
-\Vsym{B} may be a nulling symbol,
-in which no property of the input is required that is not already required by
-\eqref{scanned-top-down-cause}.
-When \Vsym{B} is zero-length, or null,
-we say that
-the \dfn{bottom-up cause} of
-\eqref{eq:scanned-effect}
-is null, or \dfn{ethereal}.
-When \Vsym{B} is of length greater than zero
-we say that
-the \dfn{bottom-up cause}
-\eqref{eq:scanned-effect}
-is \Vsym{B}.
-We say that \eqref{eq:scanned-effect} is the \dfn{effect}
-of these two causes.
-
-\section{Operations of the Earley algorithm}
-\label{s:earley-ops}
-
-We divide all Earley items into four disjoint types
-based on their dotted rule
-\begin{itemize}
-\item
-\label{def:start-dr}
-If an dotted rule does not have a predot symbol and it is the start dotted rule
-its type is \dfn{start} dotted rule.
-The start dotted rule is defined
-below \eqref{eq:start-eim-def}.
-\item
-\label{def:prediction-dr}
-If it does not have a predot symbol and it is not the start dotted rule,
-it is a \dfn{prediction} dotted rule.
-\item
-\label{def:ethereal-dr}
-If it does have a predot symbol and that symbol is a nulling terminal,
-it is an \dfn{ethereal} dotted rule.
-\item
-\label{def:read-dr}
-If it does have a predot symbol and that symbol is a non-nullable terminal,
-it is an \dfn{read} dotted rule.
-Note that in \Marpa{} all terminals are either nulling or non-nullable.
-\item
-\label{def:reduction-dr}
-If it does have a predot symbol and that symbol is a non-terminal
-it is an \dfn{reduction} dotted rule.
-\end{itemize}
-An EIM has the same type as its dotted rule.
-
-\begin{theorem}
-\label{eim-types-correct}
-Every EIM falls into one of these
-five disjoint types:
-start, prediction, read, ethereal and reduction.
-\end{theorem}
-
-\begin{proof}
-The proof follows directly from definitions
-\eqref{def:start-dr},
-\eqref{def:prediction-dr},
-\eqref{def:ethereal-dr},
-\eqref{def:read-dr}
-and \eqref{def:reduction-dr}
-above.
-\end{proof}
-
-\subsection{The Start Earley item}
+\subsection{The start Earley item}
 \label{s:start}
 
 \begin{theorem}\label{t:start-eim-is-valid}
@@ -1064,6 +1000,41 @@ which is what we needed to show for the theorem.
 
 \subsection{Reads}
 \label{s:read}
+
+Without loss of generality, let our
+read Earley item be
+\begin{equation}\label{eq:scanned-effect}
+[ [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{B} \mydot \Vstr{suffix} ], \var{i}, \var{k} ].
+\end{equation}
+where \Vsym{B} must be a non-nullable terminal.
+Again without loss of generality, its derivation is
+\begin{equation}\label{eq:scanned-derivation}
+\begin{split}
+&  \Vsym{A} \\
+&  \qquad \derives \,[\var{i}]\, \Vstr{prefix} \,[\var{j}]\, \Vsym{B} \,[\var{k}]\, \Vstr{suffix} \\
+\end{split}
+\end{equation}
+We say that
+\begin{equation}\label{scanned-top-down-cause}.
+[ [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{B} \cat \Vstr{suffix} ], \var{i}, \var{j} ]
+\end{equation}
+is a \dfn{top-down cause} of \eqref{eq:scanned-effect}.
+We say that \Vsym{B} is the \dfn{bottom-up cause} of \eqref{eq:scanned-effect}.
+\Vsym{B} may be a nulling symbol,
+in which no property of the input is required that is not already required by
+\eqref{scanned-top-down-cause}.
+When \Vsym{B} is zero-length, or null,
+we say that
+the \dfn{bottom-up cause} of
+\eqref{eq:scanned-effect}
+is null, or \dfn{ethereal}.
+When \Vsym{B} is of length greater than zero
+we say that
+the \dfn{bottom-up cause}
+\eqref{eq:scanned-effect}
+is \Vsym{B}.
+We say that \eqref{eq:scanned-effect} is the \dfn{effect}
+of these two causes.
 
 \begin{theorem}\label{t:scansion-valid}
 Let
@@ -1491,26 +1462,7 @@ the maximum size of Earley set \Vloc{i} is therefore
 \end{equation*}
 \end{proof}
 
-\subsection{The dotted rule transition function}
-
-We define
-a partial transition function from
-pairs of dotted rule and symbol
-to sets of dotted rules.
-\begin{equation*}
-\GOTO: \Cdr, (\epsilon \cup \var{vocab}) \mapsto 2^\Cdr.
-\end{equation*}
-$\GOTO(\Vdr{from}, \epsilon)$ is a
-\dfn{null transition}
-and its result is a \dfn{null transition set}.
-
-If the transition is not a null transition,
-the resulting set of dotted rules will be a singleton --
-only null transitions result in a set of dotted rules
-with a cardinaliy greater than one.
-The dotted rules in the set that results from a null transition
-will be either predictions or confirmed rules with
-a nulling predot symbol.
+\subsection{Causes}
 
 Bottom-up causes are either \dfn{mundane} or \dfn{ethereal}.
 The bottom-up cause of a reduced Earley item is always mundane.
@@ -1589,7 +1541,47 @@ that of predicted and scanned Earley items.
 We therefore have all cases, and the theorem.
 \end{proof}
 
-\subsection{Consistency, completeness and correctness}
+\subsection{Earley algorithms}
+
+An Earley parser builds a table of Earley sets,
+\begin{equation*}
+\EVtable{\Earley}{i},
+\quad \text{where} \quad
+0 \le \Vloc{i} \le \size{\Cw}.
+\end{equation*}
+Earley sets are of type \type{ES}.
+Earley sets are often named by their location,
+so that \Ves{i} means the Earley set at \Vloc{i}.
+The type designator \type{ES} is often omitted to avoid clutter,
+especially in cases where the Earley set is not
+named by location.
+
+\EVtable{\alg{Recce}}{i} will be
+the Earley set at \Vloc{i}
+in the table of Earley sets of
+the \alg{Recce} recognizer.
+For example,
+\EVtable{\Marpa}{j} will be Earley set \Vloc{j}
+in \Marpa's table of Earley sets.
+In contexts where it is clear which recognizer is
+intended,
+\Vtable{k}, or \Ves{k}, will symbolize Earley set \Vloc{k}
+in that recognizer's table of Earley sets.
+If \Ees{\var{working}} is an Earley set,
+$\size{\Ees{\var{working}}}$ is the number of Earley items
+in \Ees{\var{working}}.
+
+\Rtablesize{\alg{Recce}} is the total number
+of Earley items in all Earley sets for \alg{Recce},
+\begin{equation*}
+\Rtablesize{\alg{Recce}} =
+     \sum\limits_{\Vloc{i}=0}^{\size{\Cw}}
+	{\bigsize{\EVtable{\alg{Recce}}{i}}}.
+\end{equation*}
+For example,
+\Rtablesize{\Marpa} is the total number
+of Earley items in all the Earley sets of
+a \Marpa{} parse.
 
 An Earley set is \dfn{consistent} if and only if all of its
 Earley items are valid.
