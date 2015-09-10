@@ -40,6 +40,7 @@
 
 \newcommand{\de}{\rightarrow}
 \newcommand{\derives}{\Rightarrow}
+\newcommand{\nderives}{\not\Rightarrow}
 \newcommand{\destar}
     {\mathrel{\mbox{$\:\stackrel{\!{\ast}}{\Rightarrow\!}\:$}}}
 \newcommand{\deplus}
@@ -360,6 +361,12 @@ states that \Vstr{x} derives \Vstr{y} in zero or more steps.
 
 We say that symbol \Vsym{x} is \dfn{nullable} if and only if
 $\Vsym{x} \destar \epsilon$.
+This implies that $\Vstr{y} \derives \epsilon$ if and only
+if all of the symbols in Vstr{y} are nullable.
+As a special case,
+when Vstr{z} is an empty string of symbols,
+we will say that $\Vstr{z} \derives \epsilon$.
+
 \Vsym{x} is \dfn{nonnull} if and only if it is not nullable.
 Following Aycock and Horspool\cite{AH2002},
 all nullable symbols in grammar \Cg{} are nulling -- every symbol
@@ -449,8 +456,8 @@ Location-marked derivation steps are like the derivation steps
 of the traditional rewriting system except that they also contain
 location markers of the form $[\var{x}]$, where \var{x} is a
 location in \Cw{}.
-In its most general form
-derivation step with a single location marker is
+In its most general form,
+a derivation step with a single location marker is
 $$ \Vstr{pre} \,[\var{x}]\, \Vstr{post}. $$
 It means
 \begin{equation}
@@ -626,20 +633,8 @@ then
 \text{$\Lambda$, otherwise}
 \end{cases} \\
 %
-\Penult{\Vdr{x}} \defined
-\begin{cases}
-\Vsym{next}, \quad \text{if} \\
-\qquad \Postdot{\Vdr{x}} = \var{next} \\
-\qquad \land \quad \Vstr{post} \destar \epsilon \\
-\qquad \land \quad \neg (\Vsym{next} \destar \epsilon) \\
-\Lambda, \quad \text{otherwise}
-\end{cases}
-%
 \end{gather*}
 
-A \dfn{penult} is a dotted rule \Vdr{d} such that $\Penult{\var{d}} \neq \Lambda$.
-Note that $\Penult{\Vdr{x}}$
-is never a nullable symbol.
 The \dfn{initial dotted rule} is
 \begin{equation*}
 \Vdr{initial} = [\Vsym{accept} \de \mydot \Vsym{start} ].
@@ -797,13 +792,13 @@ The start Earley item is valid.
 Let
 \begin{equation}
 \label{eq:start-eim-is-valid-5}
-\Vsym{accept} \de \Vstr{accept-rhs}
+\Vsym{accept} \de \Vsym{start}
 \end{equation}
 be the accept rule,
 and let
 \begin{equation}
 \label{eq:start-eim-is-valid-10}
-[ [\Vsym{accept} \de \mydot \Vstr{accept-rhs} ], 0, 0]
+[ [\Vsym{accept} \de \mydot \Vsym{start} ], 0, 0]
 \end{equation}
 be the start EIM.
 
@@ -816,16 +811,16 @@ that
 \begin{multline}
 \label{eq:start-eim-is-valid-15}
 \Vsym{accept} \derives [0]\, \Vstr{predot} \,[0]\, \Vstr{postdot}\\ 
-\text{where} \qquad \Vstr{predot} \cat \Vstr{postdot} = \Vstr{accept-rhs}.
+\text{where} \qquad \Vstr{predot} \cat \Vstr{postdot} = \Vsym{start}.
 \end{multline}
 Clearly, $\Vstr{predot} = \epsilon$
-so that $\Vstr{postdot} = \Vstr{accept-rhs}$
+so that $\Vstr{postdot} = \Vstr{start}$
 so that
 \eqref{eq:start-eim-is-valid-15}
 simplifies to
 \begin{multline}
 \label{eq:start-eim-is-valid-18}
-\Vsym{accept} \derives \,[0]\, \Vstr{accept-rhs} \\ 
+\Vsym{accept} \derives \,[0]\, \Vsym{start} \\ 
 \end{multline}
 To show 
 \eqref{eq:start-eim-is-valid-18},
@@ -834,17 +829,17 @@ the definition of location marker derivations
 \eqref{eq:location-marker-def}.
 We let $\Vsym{A} = \Vsym{accept}$
 $\Vstr{pre} = \epsilon$,
-and $\Vstr{post} = \Vsym{accept-rhs}$.
+and $\Vstr{post} = \Vsym{start}$.
 With these settings,
 \eqref{eq:location-marker-def}
 requires us to show that,
 for some \Vstr{before}, \Vstr{after},
 \begin{gather}
-\Vsym{accept} \destar \Vstr{before} \cat \Vstr{accept-rhs} \cat \Vstr{after}
+\Vsym{accept} \destar \Vstr{before} \cat \Vsym{start} \cat \Vstr{after}
 \label{eq:start-eim-is-valid-20} \\
 \land \quad \Vstr{before} \destar \epsilon
 \label{eq:start-eim-is-valid-21} \\
-\land \quad \Vstr{accept-rhs} \cat \Vstr{after} \destar \var{w}[0, (\Vsize{\Cw} \subtract 1)]
+\land \quad \Vsym{start} \cat \Vstr{after} \destar \var{w}[0, (\Vsize{\Cw} \subtract 1)]
 \label{eq:start-eim-is-valid-22}
 \end{gather}
 We can set
@@ -859,16 +854,16 @@ true, so that
 \eqref{eq:start-eim-is-valid-20}
 simplifies to
 \begin{gather}
-\Vsym{accept} \destar \Vstr{accept-rhs}
+\Vsym{accept} \destar \Vsym{start}
 \label{eq:start-eim-is-valid-30} \\
-\land \qquad \Vstr{accept-rhs} \destar \var{w}[0, (\Vsize{\Cw} \subtract 1)]
+\land \qquad \Vsym{start} \destar \var{w}[0, (\Vsize{\Cw} \subtract 1)]
 \label{eq:start-eim-is-valid-31}
 \end{gather}
 We know \eqref{eq:start-eim-is-valid-30}
 from \eqref{eq:start-eim-is-valid-5}.
 By definition, the accept rule derives the input in a successful
 parse,
-$$ \Vsym{accept} \derives \Vstr{accept-rhs} \destar \Cw = \var{w}[0, (\Vsize{\Cw} \subtract 1)]$$
+$$ \Vsym{accept} \derives \Vstr{start} \destar \Cw = \var{w}[0, (\Vsize{\Cw} \subtract 1)]$$
 and from this we have
 \eqref{eq:start-eim-is-valid-31}.
 \end{proof}
@@ -1736,34 +1731,32 @@ We will call these memoized sequences, Leo sequences.
 
 To guarantee that a Leo sequence is deterministic,
 \Leo{} enforced \dfn{Leo uniqueness}.
-Define containment of a dotted rule in a Earley set
-of EIM's as
+We say that \Vdr{q} is a \dfn{quasi-penult}
+if and only if it is
 \begin{equation*}
 \begin{split}
-& \mymathop{Contains}(\Ves{i}, \Vdr{d}) \defined \exists \, \Veim{b}, \Vorig{j} \mid  \\
-& \qquad \Veim{b} = [ \Vdr{d}, \Vorig{j} ]
-  \land \Veim{b} \in \Ves{i}.
+& \Vdr{q} = [ \Vsym{A} \de \Vstr{before} \mydot \Vsym{B} \cat \Vstr{after} ] \\
+& \qquad \text{for some $[ \Vsym{A} \de \Vstr{before} \cat \Vsym{B} \cat \Vstr{after} ] \in \Crules$} \\
+& \qquad \qquad \text{such that $\Vstr{after} \derives \epsilon \land \Vstr{B} \nderives \epsilon$}.
 \end{split}
 \end{equation*}
-A dotted rule \Vdr{d} is \dfn{Leo unique} in the Earley set
-at \Ves{i}
-if and only if
+We say that \Veim{x} is \dfn{Leo unique}
+if and only if it is
 \begin{equation*}
 \begin{split}
-&    \Penult{\Vdr{d}} \neq \Lambda \\
-&    \land \forall \, \Vdr{d2} \bigl( \mymathop{Contains}(\Ves{i}, \Vdr{d2}) \implies \\
-&    \qquad \Postdot{\Vdr{d}} = \Postdot{\Vdr{d2}} \implies \Vdr{d} = \Vdr{d2} \bigr).
+& \Veim{x} = [ \Vdr{x},  \Vorig{x}, \Vloc{x} ] \\
+& \qquad \text{for some \Vdr{x}, \Vorig{x}, \Vloc{x}} \\
+& \qquad \text{such that for all $\Veim{y} = [ \Vdr{y},  \Vorig{y}, \Vloc{x} ]$} \\
+& \qquad \qquad \Postdot{\Vdr{x}} = \Postdot{\Vdr{y}} \implies \Veim{x} = \Veim{y} .
 \end{split}
 \end{equation*}
-If \Vdr{d} is Leo unique, then the symbol $\Postdot{\Vdr{d}}$ is
-also said to be \dfn{Leo unique}.
-In cases where a symbol \Vsym{transition} is Leo unique in \Ves{i},
-we can speak of the dotted rule for \Vsym{transition},
-and the rule for \Vsym{transition},
-because there can be only one of each.
-In the previous definitions,
-it is important to emphasize that \Vdr{d2} ranges over all the dotted
-rules of Earley set \Ves{i},
+
+If \Veim{x} is Leo unique, then the symbol \Vdr{x}
+and $\Postdot{\Vdr{x}}$ are
+also said to be \dfn{Leo unique} in Earley set \Vloc{x}.
+In the definition
+it is important to emphasize that \Veim{y} ranges over all the dotted
+rules of Earley set \Ves{x},
 even those which are ineligible for Leo memoization.
 
 Let \var{n} be the length of a Leo sequence.
@@ -1787,9 +1780,6 @@ so that even including expansion of the Leo sequence
 for evaluation, the time and space complexity of
 the sequence remains \On{}.
 
-\begin{sloppypar}
-Recall that we
-call a dotted rule \Vdr{d} a \dfn{penult} if $\Penult{\var{d}} \neq \Lambda$.
 In Leo's original algorithm, any penult
 was treated as a potential right-recursion.
 \Marpa{} applies the Leo memoizations in more restricted circumstances.
@@ -1800,7 +1790,6 @@ For \Marpa{} to consider a dotted rule
 for Leo memoization,
 \Vdr{candidate} must be a penult and
 \Vrule{candidate} must be right-recursive.
-\end{sloppypar}
 
 By restricting Leo memoization to right-recursive rules,
 \Marpa{} incurs the cost of Leo memoization only in cases
@@ -1999,8 +1988,8 @@ All EIMs in Earley set 0 are therefore
 The set of start Earley items that we will
 add to Earley set 0 is the singleton set
 \begin{multline}\label{eq:initial-op-correct}
-\left\lbrace \bigl[ [ \Vsym{accept} \de \mydot \Vstr{accept-rhs} ], 0, 0 \bigr] \right\rbrace \\
-\text{where $[ \Vsym{accept} \de \mydot \Vstr{accept-rhs} ]$ is the start rule.}
+\left\lbrace \bigl[ [ \Vsym{accept} \de \mydot \Vsym{start} ], 0, 0 \bigr] \right\rbrace \\
+\text{where $[ \Vsym{accept} \de \mydot \Vstr{start} ]$ is the start rule.}
 \end{multline}
 We first show that this set is correct.
 It is consistent by theorem \ref{t:start-eim-is-valid}.
