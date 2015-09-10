@@ -96,8 +96,6 @@
 \newcommand{\Penult}[1]{\mymathop{Penult}(#1)}
 \newcommand{\LHS}[1]{\mymathop{LHS}(#1)}
 \newcommand{\RHS}[1]{\mymathop{RHS}(#1)}
-\newcommand{\RightRecursive}[1]{\mymathop{Right-Recursive}(#1)}
-\newcommand{\RightNN}[1]{\mymathop{Right-NN}(#1)}
 \newcommand{\LeoEligible}[1]{\mymathop{Leo-Eligible}(#1)}
 \newcommand{\LeoUnique}[1]{\mymathop{Leo-Unique}(#1)}
 \newcommand{\ID}[1]{\mymathop{ID}(#1)}
@@ -362,9 +360,9 @@ states that \Vstr{x} derives \Vstr{y} in zero or more steps.
 We say that symbol \Vsym{x} is \dfn{nullable} if and only if
 $\Vsym{x} \destar \epsilon$.
 This implies that $\Vstr{y} \derives \epsilon$ if and only
-if all of the symbols in Vstr{y} are nullable.
+if all of the symbols in \Vstr{y} are nullable.
 As a special case,
-when Vstr{z} is an empty string of symbols,
+when \Vstr{z} is an empty string of symbols,
 we will say that $\Vstr{z} \derives \epsilon$.
 
 \Vsym{x} is \dfn{nonnull} if and only if it is not nullable.
@@ -391,35 +389,6 @@ for all \Vrule{x},
 \end{equation*}
 We further assume that every symbol is productive --
 that is, that it derives a sentence.
-
-We define rightmost non-null symbol of a string
-as
-\begin{equation*}
-\begin{split}
-& \RightNN{\Vstr{x}} \defined \Vsym{rnn} \quad \text{such that} \quad
- \exists \, \Vstr{pre}, \Vstr{post} \mid \\
-& \qquad \qquad \Vstr{x} = \Vstr{pre} \cat \Vsym{rnn} \cat \Vstr{post} \\
-& \qquad \qquad \land \Vstr{post} \destar \epsilon \\
-& \qquad \qquad \land \neg (\Vsym{rnn} \destar \epsilon).
-\end{split}
-\end{equation*}
-We define the rightmost non-null symbol of a rule as
-\begin{equation*}
-\RightNN{[\Vsym{lhs} \de \Vstr{rhs}]} \defined \RightNN{\Vstr{rhs}}.
-\end{equation*}
-A rule \Vrule{x} is \dfn{directly right-recursive}
-if and only if
-\begin{equation*}
-\LHS{\Vrule{x}} = \RightNN{\Vrule{x}}.
-\end{equation*}
-\Vrule{x} is \dfn{indirectly right-recursive}
-if and only if
-\begin{equation*}
-\exists \, \Vstr{y} \mid \RightNN{\Vrule{x}} \deplus \Vstr{y} \land \RightNN{\Vstr{y}} = \LHS{\Vrule{x}}.
-\end{equation*}
-\Vrule{x} is \dfn{right recursive},
-$\RightRecursive{\Vrule{x}}$,
-if and only if is either directly or indirectly right-recursive.
 
 Let the input to
 the parse be \Cw{} such that $\Cw \in \var{term}^+$.
@@ -784,90 +753,6 @@ Instead,
 for the sake of example, we prove it from
 the definition of EIM validity.
 
-\begin{theorem}\label{t:start-eim-is-valid}
-The start Earley item is valid.
-\end{theorem}
-
-\begin{proof}
-Let
-\begin{equation}
-\label{eq:start-eim-is-valid-5}
-\Vsym{accept} \de \Vsym{start}
-\end{equation}
-be the accept rule,
-and let
-\begin{equation}
-\label{eq:start-eim-is-valid-10}
-[ [\Vsym{accept} \de \mydot \Vsym{start} ], 0, 0]
-\end{equation}
-be the start EIM.
-
-By the definition of EIM validity,
-to show that 
-\eqref{eq:start-eim-is-valid-10}
-is valid,
-we need to show
-that
-\begin{multline}
-\label{eq:start-eim-is-valid-15}
-\Vsym{accept} \derives [0]\, \Vstr{predot} \,[0]\, \Vstr{postdot}\\ 
-\text{where} \qquad \Vstr{predot} \cat \Vstr{postdot} = \Vsym{start}.
-\end{multline}
-Clearly, $\Vstr{predot} = \epsilon$
-so that $\Vstr{postdot} = \Vstr{start}$
-so that
-\eqref{eq:start-eim-is-valid-15}
-simplifies to
-\begin{multline}
-\label{eq:start-eim-is-valid-18}
-\Vsym{accept} \derives \,[0]\, \Vsym{start} \\ 
-\end{multline}
-To show 
-\eqref{eq:start-eim-is-valid-18},
-we expand it using
-the definition of location marker derivations
-\eqref{eq:location-marker-def}.
-We let $\Vsym{A} = \Vsym{accept}$
-$\Vstr{pre} = \epsilon$,
-and $\Vstr{post} = \Vsym{start}$.
-With these settings,
-\eqref{eq:location-marker-def}
-requires us to show that,
-for some \Vstr{before}, \Vstr{after},
-\begin{gather}
-\Vsym{accept} \destar \Vstr{before} \cat \Vsym{start} \cat \Vstr{after}
-\label{eq:start-eim-is-valid-20} \\
-\land \quad \Vstr{before} \destar \epsilon
-\label{eq:start-eim-is-valid-21} \\
-\land \quad \Vsym{start} \cat \Vstr{after} \destar \var{w}[0, (\Vsize{\Cw} \subtract 1)]
-\label{eq:start-eim-is-valid-22}
-\end{gather}
-We can set
-\begin{equation}
-\label{eq:start-eim-is-valid-24}
-\Vstr{before} = \Vstr{after} = \epsilon.
-\end{equation}
-\eqref{eq:start-eim-is-valid-24}
-makes
-\eqref{eq:start-eim-is-valid-21}
-true, so that
-\eqref{eq:start-eim-is-valid-20}
-simplifies to
-\begin{gather}
-\Vsym{accept} \destar \Vsym{start}
-\label{eq:start-eim-is-valid-30} \\
-\land \qquad \Vsym{start} \destar \var{w}[0, (\Vsize{\Cw} \subtract 1)]
-\label{eq:start-eim-is-valid-31}
-\end{gather}
-We know \eqref{eq:start-eim-is-valid-30}
-from \eqref{eq:start-eim-is-valid-5}.
-By definition, the accept rule derives the input in a successful
-parse,
-$$ \Vsym{accept} \derives \Vstr{start} \destar \Cw = \var{w}[0, (\Vsize{\Cw} \subtract 1)]$$
-and from this we have
-\eqref{eq:start-eim-is-valid-31}.
-\end{proof}
-
 \subsection{Top-down and bottom-up causes}
 
 We now proceed to define two important concepts:
@@ -1144,39 +1029,141 @@ and therefore the theorem.
 \section{Operations of the Earley algorithm}
 \label{s:earley-ops}
 
-\Veim{component} is called
-the component of the reduction operation.\footnote{
-The term ``component'' comes from Irons \cite{Irons}.
-}
-\Veim{predecessor} is the predecessor
-of the reduction operation.
-\Vsym{lhs} is the transition symbol
-of the reduction operation.
+We divide all Earley items into four disjoint types
+based on their dotted rule
+\begin{itemize}
+\item
+\label{def:start-dr}
+If an dotted rule does not have a predot symbol and it is the start dotted rule
+its type is \dfn{start} dotted rule.
+The start dotted rule is defined
+below \eqref{eq:start-eim-def}.
+\item
+\label{def:prediction-dr}
+If it does not have a predot symbol and it is not the start dotted rule,
+it is a \dfn{prediction} dotted rule.
+\item
+\label{def:ethereal-dr}
+If it does have a predot symbol and that symbol is a nulling terminal,
+it is an \dfn{ethereal} dotted rule.
+\item
+\label{def:read-dr}
+If it does have a predot symbol and that symbol is a non-nullable terminal,
+it is an \dfn{read} dotted rule.
+Note that in \Marpa{} all terminals are either nulling or non-nullable.
+\item
+\label{def:reduction-dr}
+If it does have a predot symbol and that symbol is a non-terminal
+it is an \dfn{reduction} dotted rule.
+\end{itemize}
+An EIM has the same type as its dotted rule.
 
-\Veim{predecessor} and
-\Veim{component} are the operands of the reduction
-operation.
+\begin{theorem}
+\label{eim-types-correct}
+Every EIM falls into one of these
+five disjoint types:
+start, prediction, read, ethereal and reduction.
+\end{theorem}
 
-\subsection{The dotted rule transition function}
+\begin{proof}
+The proof follows directly from definitions
+\eqref{def:start-dr},
+\eqref{def:prediction-dr},
+\eqref{def:ethereal-dr},
+\eqref{def:read-dr}
+and \eqref{def:reduction-dr}
+above.
+\end{proof}
 
-We define
-a partial transition function from
-pairs of dotted rule and symbol
-to sets of dotted rules.
-\begin{equation*}
-\GOTO: \Cdr, (\epsilon \cup \var{vocab}) \mapsto 2^\Cdr.
-\end{equation*}
-$\GOTO(\Vdr{from}, \epsilon)$ is a
-\dfn{null transition}
-and its result is a \dfn{null transition set}.
+\subsection{The Start Earley item}
+\label{s:start}
 
-If the transition is not a null transition,
-the resulting set of dotted rules will be a singleton --
-only null transitions result in a set of dotted rules
-with a cardinaliy greater than one.
-The dotted rules in the set that results from a null transition
-will be either predictions or confirmed rules with
-a nulling predot symbol.
+\begin{theorem}\label{t:start-eim-is-valid}
+The start Earley item is valid.
+\end{theorem}
+
+\begin{proof}
+Let
+\begin{equation}
+\label{eq:start-eim-is-valid-5}
+\Vsym{accept} \de \Vsym{start}
+\end{equation}
+be the accept rule,
+and let
+\begin{equation}
+\label{eq:start-eim-is-valid-10}
+[ [\Vsym{accept} \de \mydot \Vsym{start} ], 0, 0]
+\end{equation}
+be the start EIM.
+
+By the definition of EIM validity,
+to show that 
+\eqref{eq:start-eim-is-valid-10}
+is valid,
+we need to show
+that
+\begin{multline}
+\label{eq:start-eim-is-valid-15}
+\Vsym{accept} \derives [0]\, \Vstr{predot} \,[0]\, \Vstr{postdot}\\ 
+\text{where} \qquad \Vstr{predot} \cat \Vstr{postdot} = \Vsym{start}.
+\end{multline}
+Clearly, $\Vstr{predot} = \epsilon$
+so that $\Vstr{postdot} = \Vstr{start}$
+so that
+\eqref{eq:start-eim-is-valid-15}
+simplifies to
+\begin{multline}
+\label{eq:start-eim-is-valid-18}
+\Vsym{accept} \derives \,[0]\, \Vsym{start} \\ 
+\end{multline}
+To show 
+\eqref{eq:start-eim-is-valid-18},
+we expand it using
+the definition of location marker derivations
+\eqref{eq:location-marker-def}.
+We let $\Vsym{A} = \Vsym{accept}$
+$\Vstr{pre} = \epsilon$,
+and $\Vstr{post} = \Vsym{start}$.
+With these settings,
+\eqref{eq:location-marker-def}
+requires us to show that,
+for some \Vstr{before}, \Vstr{after},
+\begin{gather}
+\Vsym{accept} \destar \Vstr{before} \cat \Vsym{start} \cat \Vstr{after}
+\label{eq:start-eim-is-valid-20} \\
+\land \quad \Vstr{before} \destar \epsilon
+\label{eq:start-eim-is-valid-21} \\
+\land \quad \Vsym{start} \cat \Vstr{after} \destar \var{w}[0, (\Vsize{\Cw} \subtract 1)]
+\label{eq:start-eim-is-valid-22}
+\end{gather}
+We can set
+\begin{equation}
+\label{eq:start-eim-is-valid-24}
+\Vstr{before} = \Vstr{after} = \epsilon.
+\end{equation}
+\eqref{eq:start-eim-is-valid-24}
+makes
+\eqref{eq:start-eim-is-valid-21}
+true, so that
+\eqref{eq:start-eim-is-valid-20}
+simplifies to
+\begin{gather}
+\Vsym{accept} \destar \Vsym{start}
+\label{eq:start-eim-is-valid-30} \\
+\land \qquad \Vsym{start} \destar \var{w}[0, (\Vsize{\Cw} \subtract 1)]
+\label{eq:start-eim-is-valid-31}
+\end{gather}
+We know \eqref{eq:start-eim-is-valid-30}
+from \eqref{eq:start-eim-is-valid-5}.
+By definition, the accept rule derives the input in a successful
+parse,
+$$ \Vsym{accept} \derives \Vstr{start} \destar \Cw = \var{w}[0, (\Vsize{\Cw} \subtract 1)]$$
+and from this we have
+\eqref{eq:start-eim-is-valid-31}.
+\end{proof}
+
+\subsection{Reductions}
+\label{s:reduction}
 
 \begin{theorem}\label{t:reduction-valid}
 Let
@@ -1262,6 +1249,9 @@ is \eqref{eq:reduction-valid-8},
 which is what we needed to show for the theorem.
 \end{proof}
 
+\subsection{Reads}
+\label{s:read}
+
 \begin{theorem}\label{t:scansion-valid}
 Let
 \begin{equation}\label{eq:scansion-valid-2}
@@ -1339,6 +1329,9 @@ If we drop the location marker for $[\var{j}]$, this
 is \eqref{eq:scansion-valid-11},
 which is what we needed to show for the theorem.
 \end{proof}
+
+\subsection{Ethereal scansion}
+\label{s:ethereral-scansion}
 
 \begin{theorem}\label{t:null-scansion-valid}
 Let
@@ -1420,39 +1413,8 @@ is \eqref{eq:null-scansion-valid-11},
 which is what we needed to show for the theorem.
 \end{proof}
 
-\subsection{Earley sets grow at worst linearly}
-
-\begin{theorem}\label{t:es-count}
-For a context-free grammar,
-and a parse location \Vloc{i},
-\begin{equation*}
-\textup{
-    $\bigsize{\EVtable{\Marpa}{i}} = \order{\var{i}}$.
-}
-\end{equation*}
-\end{theorem}
-
-\begin{proof}
-EIM's have the form $[\Vdr{x}, \Vorig{x}]$.
-\Vorig{x} is the origin of the EIM,
-which in Marpa cannot be after the current
-Earley set  at \Vloc{i},
-so that
-\begin{equation*}
-0 \le \Vorig{x} \le \Vloc{i}.
-\end{equation*}
-The possibilities for \Vdr{x},
-call it $\size{\Cdr}$,
-is a finite constant that depend on the grammar,
-\Cg{}.
-Since duplicate EIM's are never added to an Earley set,
-the maximum size of Earley set \Vloc{i} is therefore
-\begin{equation*}
-\Vloc{i} \times \size{\Cdr} = \order{\Vloc{i}}.\qedhere
-\end{equation*}
-\end{proof}
-
-\subsection{Null transitions}
+\subsection{Ethereal transitions}
+\label{s:ethereral}
 
 Computing the result of $\GOTO$ when it is not
 a null transition is trivial.
@@ -1617,6 +1579,9 @@ to \Vdrset{work}
 more than once.
 \end{proof}
 
+\subsection{Predictions}
+\label{s:prediction}
+
 \begin{theorem}\label{t:prediction-from-dr-valid}
 Let
 \begin{equation}\label{eq:prediction-from-dr-valid-2}
@@ -1680,6 +1645,59 @@ This is equivalent to
 \eqref{eq:prediction-from-dr-valid-8},
 which is what we needed to show for the theorem.
 \end{proof}
+
+\subsection{Earley sets grow at worst linearly}
+
+\begin{theorem}\label{t:es-count}
+For a context-free grammar,
+and a parse location \Vloc{i},
+\begin{equation*}
+\textup{
+    $\bigsize{\EVtable{\Marpa}{i}} = \order{\var{i}}$.
+}
+\end{equation*}
+\end{theorem}
+
+\begin{proof}
+EIM's have the form $[\Vdr{x}, \Vorig{x}]$.
+\Vorig{x} is the origin of the EIM,
+which in Marpa cannot be after the current
+Earley set  at \Vloc{i},
+so that
+\begin{equation*}
+0 \le \Vorig{x} \le \Vloc{i}.
+\end{equation*}
+The possibilities for \Vdr{x},
+call it $\size{\Cdr}$,
+is a finite constant that depend on the grammar,
+\Cg{}.
+Since duplicate EIM's are never added to an Earley set,
+the maximum size of Earley set \Vloc{i} is therefore
+\begin{equation*}
+\Vloc{i} \times \size{\Cdr} = \order{\Vloc{i}}.\qedhere
+\end{equation*}
+\end{proof}
+
+\subsection{The dotted rule transition function}
+
+We define
+a partial transition function from
+pairs of dotted rule and symbol
+to sets of dotted rules.
+\begin{equation*}
+\GOTO: \Cdr, (\epsilon \cup \var{vocab}) \mapsto 2^\Cdr.
+\end{equation*}
+$\GOTO(\Vdr{from}, \epsilon)$ is a
+\dfn{null transition}
+and its result is a \dfn{null transition set}.
+
+If the transition is not a null transition,
+the resulting set of dotted rules will be a singleton --
+only null transitions result in a set of dotted rules
+with a cardinaliy greater than one.
+The dotted rules in the set that results from a null transition
+will be either predictions or confirmed rules with
+a nulling predot symbol.
 
 \section{The Leo algorithm}
 \label{s:leo}
