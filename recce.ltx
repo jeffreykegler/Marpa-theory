@@ -774,15 +774,17 @@ We are now in a position to define the ethereal transition of \GOTO{}
 from the dotted rule \Vdr{from},
 when
 \Vdr{from} has a postdot symbol.
-It is the transitive closure of \var{ethereal-next} over
-the singleton set containing the dotted rule argument of \GOTO{}.
+It is the ethereal closure
+over the singleton set containing the dotted rule argument of \GOTO{}.
 \begin{multline*}
 \Vsym{A} = \Postdot{\Vdr{from}} \land \Vsym{A} \neq \Lambda \implies \\
-\GOTO(\Vdr{from}, \Vsym{A}) =  \var{ethereal-closure}(\lbrace \Vdr{from}, \Vsym{A}\rbrace)
+\GOTO(\Vdr{from}, \Vsym{A}) =  \var{ethereal-closure}(\lbrace \Vdr{from} \rbrace)
 \end{multline*}
-When we speak of the ethereal closure of a dotted rule,
-we mean the ethereal closure of the singleton set containing
-that dotted rule.
+The ethereal closure for a dotted rule is the ethereal closure of the singleton
+set containing that dotted rule:
+\begin{multline*}
+\var{ethereal-closure}(\Vdr{from}) \defined  \var{ethereal-closure}(\lbrace \Vdr{from} \rbrace)
+\end{multline*}
 
 The complexity of the ethereal closure is of interest:
 we may want to compute it on the fly,
