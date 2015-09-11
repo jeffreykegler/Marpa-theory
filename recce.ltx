@@ -82,7 +82,7 @@
 \newcommand{\Cw}{\var{w}}
 \newcommand{\CVw}[1]{\ensuremath{\sym{\Cw[\var{#1}]}}}
 \newcommand{\Crules}{\var{rules}}
-\newcommand{\GOTO}{\mymathop{GOTO}}
+\newcommand{\GOTO}{\ensuremath{\mymathop{GOTO}}}
 \newcommand{\Next}[1]{\mymathop{Next}(#1)}
 \newcommand{\Previous}[1]{\mymathop{Previous}(#1)}
 \newcommand{\Predict}[1]{\mymathop{Predict}(#1)}
@@ -702,7 +702,7 @@ a nulling predot symbol.
 
 Where the transition is over a symbol,
 call it \Vsym{A},
-the behavior of $\GOTO$ is straightforward:
+the behavior of \GOTO is straightforward:
 \begin{equation*}
 \GOTO(\Vdr{from}, \Vsym{A}) = 
 \begin{cases}
@@ -716,12 +716,47 @@ the behavior of $\GOTO$ is straightforward:
 \end{equation*}
 
 Ethereal transitions are more complicated.
-The result of $\GOTO$ is always the empty set
+The result of \GOTO is always the empty set
 if there is
 no postdot symbol:
 \begin{equation*}
 \Postdot{\Vdr{from}} = \Lambda \implies \GOTO(\Vdr{from}, \Vsym{A}) = \emptyset.
 \end{equation*}
+To find $\GOTO(\Vdr{from}, \epsilon)$ where
+$\Postdot{\Vdr{from}} \neq \Lambda$,
+we need to make some definitions,
+many of which will be useful later.
+
+Let \var{direct-predict} be the set of
+pairs of dotted rules
+\begin{align*}
+& \begin{aligned}
+& \quad \left\lbrace \Vdr{cause}, \Vdr{effect} \right\rbrace \,\, \text{such that}
+\end{aligned} \\
+& \begin{aligned}
+& \quad \Vdr{cause} \in \Cdr \quad \text{and} \quad \Vdr{effect} \in \Cdr \\
+\text{and} & \quad \Vdr{effect} \in \Cdr \\
+\text{and} & \quad \Vdr{cause} = [ \Vsym{A} \de \Vstr{before-B} \mydot \Vsym{B} \cat \Vstr{after-B} ] \\
+\text{and} & \quad \Vdr{effect} = [ \Vsym{B} \de \mydot \Vsym{C} \cat \Vstr{after-C} ]
+\end{aligned}
+\end{align*}
+
+Let \var{direct-scan} be the set of
+pairs of dotted rules
+\begin{align*}
+& \begin{aligned}
+& \quad \left\lbrace \Vdr{cause}, \Vdr{effect} \right\rbrace \,\, \text{such that}
+\end{aligned} \\
+& \begin{aligned}
+& \quad \Vdr{cause} \in \Cdr \quad \text{and} \quad \Vdr{effect} \in \Cdr \\
+\text{and} & \quad \Vdr{cause} = [ \Vsym{A} \de \Vstr{before-B} \mydot \Vsym{B} \cat \Vstr{after-B} ] \\
+\text{and} & \quad \Vdr{effect} = [ \Vsym{A} \de \Vstr{before-B} \cat \Vsym{B} \mydot \Vstr{after-B} ] \\
+\text{and} & \quad \Vsym{B} \derives \epsilon.
+\end{aligned}
+\end{align*}
+
+TODO: Define top-down, bottom-up causes.
+First we define the ``ethereal next'' relation,
 
 The complexity of ethereal transitions is of serious interest:
 we may want to compute them on the fly,
