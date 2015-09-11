@@ -706,19 +706,28 @@ the behavior of $\GOTO$ is straightforward:
 \begin{equation*}
 \GOTO(\Vdr{from}, \Vsym{A}) = 
 \begin{cases}
+\text{$\emptyset$, if $\Vsym{A} = \Lambda$},
+\\
 \left\lbrace \Next{\Vdr{from}} \right\rbrace, \\
 \qquad \text{if $\Vsym{A} = \Postdot{\Vdr{from}}$}, \\
-\text{$\emptyset$, otherwise.}
+\text{$\emptyset$, if $\Vsym{A} \ne \Postdot{\Vdr{from}}$},
+\\
 \end{cases}
 \end{equation*}
 
 Ethereal transitions are more complicated.
+The result of $\GOTO$ is always the empty set
+if there is
+no postdot symbol:
+\begin{equation*}
+\Postdot{\Vdr{from}} = \Lambda \implies \GOTO(\Vdr{from}, \Vsym{A}) = \emptyset.
+\end{equation*}
+
 The complexity of ethereal transitions is of serious interest:
 we may want to compute them on the fly,
 and in any case,
 we certainly want to know if the computation has finite
 time complexity.
-
 \begin{algorithm}[!htp]
 \caption{Add one null transition generation}
 \label{alg:null-transition-generation}
