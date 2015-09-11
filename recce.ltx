@@ -36,8 +36,6 @@
 
 \newcommand{\var}[1]{\ensuremath{\texttt{#1}}}
 
-\newcommand{\cfg}{CFG}
-
 \newcommand{\de}{\rightarrow}
 \newcommand{\derives}{\Rightarrow}
 \newcommand{\nderives}{\not\Rightarrow}
@@ -52,8 +50,6 @@
 \newcommand{\set}[1]{{\left\lbrace #1 \right\rbrace} }
 \newcommand{\bigset}[1]{{\bigl\lbrace #1 \bigr\rbrace} }
 \newcommand{\Bigset}[1]{{\Bigl\lbrace #1 \Bigr\rbrace} }
-\newcommand{\bool}[1]{\var{#1}_{BOOL}}
-\newcommand{\Vbool}[1]{\ensuremath{\bool{#1}}}
 \newcommand{\dr}[1]{#1_{DR}}
 \newcommand{\Vdr}[1]{\ensuremath{\var{#1}_{DR}}}
 \newcommand{\Vdrset}[1]{\ensuremath{\var{#1}_{\set{DR}}}}
@@ -75,7 +71,6 @@
 \newcommand{\symset}[1]{#1_{\lbrace SYM \rbrace} }
 \newcommand{\Vsymset}[1]{\ensuremath{\var{#1}_{\set{SYM}}}}
 \newcommand{\term}[1]{#1_{TERM}}
-\newcommand{\token}[1]{#1_{TOK}}
 
 \newcommand{\alg}[1]{\ensuremath{\textsc{#1}}}
 \newcommand{\Earley}{\ensuremath{\alg{Earley}}}
@@ -685,14 +680,199 @@ to sets of dotted rules.
 $\GOTO(\Vdr{from}, \epsilon)$ is a
 \dfn{null transition}
 and its result is a \dfn{null transition set}.
+``null'' is an overloaded term,
+so we more often call the null transition
+an \dfn{ethereal transition}
+and the null transition set
+an \dfn{ethereal transition set}.
+If a transition is not an ethereral transition,
+it is a \dfn{mundane transition},
+and if a transition set
+is not an ethereal transition set,
+it is a \dfn{mundane transition set}.
 
-If the transition is not a null transition,
-the resulting set of dotted rules will be a singleton --
-only null transitions result in a set of dotted rules
-with a cardinaliy greater than one.
+A mundane transition set is always the empty set
+or a singleton set.
+Only ethereal transition sets have
+with cardinalities greater than one.
+
 The dotted rules in the set that results from a null transition
 will be either predictions or confirmed rules with
 a nulling predot symbol.
+
+Where the transition is over a symbol,
+call it \Vsym{A},
+the behavior of $\GOTO$ is straightforward:
+\begin{equation*}
+\GOTO(\Vdr{from}, \Vsym{A}) = 
+\begin{cases}
+\left\lbrace \Next{\Vdr{from}} \right\rbrace, \\
+\qquad \text{if $\Vsym{A} = \Postdot{\Vdr{from}}$}, \\
+\text{$\emptyset$, otherwise.}
+\end{cases}
+\end{equation*}
+
+Ethereal transitions are more complicated.
+The complexity of ethereal transitions is of serious interest:
+we may want to compute them on the fly,
+and in any case,
+we certainly want to know if the computation has finite
+time complexity.
+
+\begin{algorithm}[!htp]
+\caption{Add one null transition generation}
+\label{alg:null-transition-generation}
+\begin{algorithmic}[1]
+\Procedure{Add generation}{\Vdr{dr}, \Vdrset{results}}
+\If{\Vdr{dr} has no postdot symbol}
+\State return
+\EndIf
+\State Here \Vdr{dr} is $[ \Vsym{lhs} \de \Vstr{before} \mydot \Vsym{A} \cat \Vstr{after} ]$
+\State \Comment We can state this without loss of generality
+\If{$\Vsym{A}$ is a nulling symbol}
+\State $\Vdr{new} \gets [ \Vsym{lhs} \de \Vstr{before} \cat \Vsym{A} \mydot \Vstr{after} ]$
+\State Add \Vdr{new} to \Vdrset{results} \ldots
+\State $\qquad$ but only if it has never been added before
+\State Add \Vdr{new} to \Vdrset{work} \ldots
+\State $\qquad$ but only if it has never been added before
+\State return
+\EndIf
+\State Here \Vsym{A} must be a non-nullable symbol
+\For{ each \Vrule{r} in \Cg{}}
+\If{ $\LHS{\Vrule{r}} = \Vsym{A}$ }
+\State Here \Vrule{r} is $[ \Vsym{A} \de \Vstr{rhs} ]$
+\State \Comment We can state this without loss of generality
+\State $\Vdr{new} \gets [ \Vsym{A} \de \mydot \Vstr{rhs} ]$
+\State Add \Vdr{new} to \Vdrset{results} \ldots
+\State $\qquad$ but only if it has never been added before
+\State Add \Vdr{new} to \Vdrset{work} \dots
+\State $\qquad$ but only if it has never been added before
+\EndIf
+\EndFor
+\State return
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[!htp]
+\caption{Create null transition set}
+\label{alg:null-transition}
+\begin{algorithmic}[1]
+\Function{Create null transition set}{\Vdr{base}}
+\State Initialize \Vdrset{result} to the empty set
+\State Initialize \Vdrset{work} to the emtpy set
+\State \Call{Add generation}{\Vdr{base}}
+\While{\Vdrset{work} is not empty}
+\State Remove a dotted rule from \Vdrset{work}, call it \Vdr{work}
+\State \Call{Add generation}{\Vdr{work}, \Vdrset{result}}
+\EndWhile
+\State return \Vdrset{result}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+Algorithm \ref{alg:null-transition}
+is not that actually used by any
+of Marpa's versions,
+but is chosen for convenience in explaining the theory.
+The current Marpa implementation handles
+transitions over ethereal symbols implicitly,
+but computes predictons at the end.
+
+\begin{theorem}\label{t:null-transition-Oc}
+A null transition set can be computed in time \Oc{}.
+\end{theorem}
+
+\begin{proof}
+We consider Algorithm \ref{alg:null-transition}.
+This clearly runs in \Oc{} time if there is a constant
+number of calls to
+Algorithm \ref{alg:null-transition-generation}.
+
+To finish the proof, we need to show
+that
+Algorithm \ref{alg:null-transition-generation}.
+is called a constant number
+of times.
+Algorithm \ref{alg:null-transition-generation}
+is called
+once for the base dotted rule of the computation.
+It is called again for every dotted rule added to the working set
+of dotted rules, \Vdrset{work}.
+We know that no dotted rule is added to
+\Vdrset{work} twice.
+Therefore 
+Algorithm \ref{alg:null-transition-generation}
+is called
+at most once for each dotted rule.
+\Cg{} has a fixed number of dotted rules,
+so
+that Algorithm \ref{alg:null-transition-generation}
+is called
+a most \Oc{} times.
+\end{proof}
+
+\begin{theorem}\label{t:null-transition-dr-correct}
+Algorithm \ref{alg:null-transition} is correct.
+\end{theorem}
+
+\begin{proof}
+It is directly clear from examining
+Algorithm \ref{alg:null-transition}.
+that the null transitions 
+for nulling postdot symbols are complete and consistent,
+and therefore correct.
+It remains to consider the null transitions for non-nullable
+postdot symbols -- predictions.
+
+Algorithm \ref{alg:null-transition}
+clearly adds all predictions derivable in a single step
+to its results.
+It also
+calls the ``Add generation'' function
+repeatedly, so that indirect predictions will be added.
+But it will refuse to
+add a dotted rule to its working set more than once.
+It remains to consider whether this means some predictions
+will not be derived.
+
+Consider a prediction
+\begin{equation}\label{null-transition-correct-5}
+\Vsym{postdot-penult} \de \mydot \Vsym{postdot-last} \cat \Vstr{after-last}
+\end{equation}
+which is derived through a chain
+of derivations in which the same dotted rule occurs at least twice.
+\begin{equation*}
+\begin{split}
+& [ \Vsym{lhs-a} \mydot \Vsym{postdot-0} \cat \Vstr{after} ] \qquad \text{Step 0} \\
+& \derives [ \mydot \Vsym{postdot-1} \cat \Vstr{after-1} ] \qquad \text{Step 0} \\
+& \ldots \\
+& \derives [ \mydot \Vsym{postdot--before-i} \cat \Vstr{after-i} ] \qquad \text{Step $i-1$} \\
+& \derives [ \mydot \Vsym{postdot-i} \cat \Vstr{after-i} ] \qquad \text{Step $i$} \\
+& \ldots \\
+& \derives [ \mydot \Vsym{postdot-i} \cat \Vstr{after-i} ] \qquad \text{Step $j$}\\
+& \ldots \\
+& \derives [ \mydot \Vsym{postdot-penult} \cat \Vstr{after-penult} ] \\
+& \derives [ \mydot \Vsym{postdot-last} \cat \Vstr{after-last} ]
+\end{split}
+\end{equation*}
+We can create a shorter derivation by removing the derivation from Step $i$ to Step $j$
+and replacing it with Step $i$.
+Algorithm \ref{alg:null-transition} will also follow this shorter derivation,
+and therefore will add \eqref{null-transition-correct-5}
+without needing to add
+$$ \Vsym{postdot-before-i} \de \mydot \Vsym{postdot-i} \cat \Vstr{after-i} $$
+to \Vdrset{work}
+more than once.
+
+We can do this for to every postdot symbol which occurs twice.
+From this we see that 
+Algorithm \ref{alg:null-transition}
+can derive a complete set of predictions
+without having to add any dotted rule
+to \Vdrset{work}
+more than once.
+\end{proof}
 
 \section{Earley items}
 \label{s:earley-items}
@@ -1195,172 +1375,6 @@ Composing them we have
 If we drop the first location marker for $[\var{j}]$, this
 is \eqref{eq:null-scansion-valid-11},
 which is what we needed to show for the theorem.
-\end{proof}
-
-\subsection{Ethereal transitions}
-\label{s:ethereral}
-
-Computing the result of $\GOTO$ when it is not
-a null transition is trivial.
-But the complexity of null transitions is of interest:
-we may want to compute them on the fly,
-and in any case,
-we want to know if the computation has finite
-time complexity.
-
-\begin{algorithm}[!htp]
-\caption{Add one null transition generation}
-\label{alg:null-transition-generation}
-\begin{algorithmic}[1]
-\Procedure{Add generation}{\Vdr{dr}, \Vdrset{results}}
-\If{\Vdr{dr} has no postdot symbol}
-\State return
-\EndIf
-\State Here \Vdr{dr} is $[ \Vsym{lhs} \de \Vstr{before} \mydot \Vsym{A} \cat \Vstr{after} ]$
-\State \Comment We can state this without loss of generality
-\If{$\Vsym{A}$ is a nulling symbol}
-\State $\Vdr{new} \gets [ \Vsym{lhs} \de \Vstr{before} \cat \Vsym{A} \mydot \Vstr{after} ]$
-\State Add \Vdr{new} to \Vdrset{results} \ldots
-\State $\qquad$ but only if it has never been added before
-\State Add \Vdr{new} to \Vdrset{work} \ldots
-\State $\qquad$ but only if it has never been added before
-\State return
-\EndIf
-\State Here \Vsym{A} must be a non-nullable symbol
-\For{ each \Vrule{r} in \Cg{}}
-\If{ $\LHS{\Vrule{r}} = \Vsym{A}$ }
-\State Here \Vrule{r} is $[ \Vsym{A} \de \Vstr{rhs} ]$
-\State \Comment We can state this without loss of generality
-\State $\Vdr{new} \gets [ \Vsym{A} \de \mydot \Vstr{rhs} ]$
-\State Add \Vdr{new} to \Vdrset{results} \ldots
-\State $\qquad$ but only if it has never been added before
-\State Add \Vdr{new} to \Vdrset{work} \dots
-\State $\qquad$ but only if it has never been added before
-\EndIf
-\EndFor
-\State return
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}[!htp]
-\caption{Create null transition set}
-\label{alg:null-transition}
-\begin{algorithmic}[1]
-\Function{Create null transition set}{\Vdr{base}}
-\State Initialize \Vdrset{result} to the empty set
-\State Initialize \Vdrset{work} to the emtpy set
-\State \Call{Add generation}{\Vdr{base}}
-\While{\Vdrset{work} is not empty}
-\State Remove a dotted rule from \Vdrset{work}, call it \Vdr{work}
-\State \Call{Add generation}{\Vdr{work}, \Vdrset{result}}
-\EndWhile
-\State return \Vdrset{result}
-\EndFunction
-\end{algorithmic}
-\end{algorithm}
-
-Algorithm \ref{alg:null-transition} does not correspond closely to
-any implementation.
-The current Marpa implementation, for example, actually handles
-nulling symbols implicitly,
-while it computes predicitons at the end.
-But for theory purposes, it is convenient to consider all
-nulling transitions together.
-
-\begin{theorem}\label{t:null-transition-Oc}
-A null transition set can be computed in time \Oc{}.
-\end{theorem}
-
-\begin{proof}
-We consider Algorithm \ref{alg:null-transition}.
-This clearly runs in \Oc{} time if there is a constant
-number of calls to
-Algorithm \ref{alg:null-transition-generation}.
-
-To finish the proof, we need to show
-that
-Algorithm \ref{alg:null-transition-generation}.
-is called a constant number
-of times.
-Algorithm \ref{alg:null-transition-generation}
-is called
-once for the base dotted rule of the computation.
-It is called again for every dotted rule added to the working set
-of dotted rules, \Vdrset{work}.
-We know that no dotted rule is added to
-\Vdrset{work} twice.
-Therefore 
-Algorithm \ref{alg:null-transition-generation}
-is called
-at most once for each dotted rule.
-\Cg{} has a fixed number of dotted rules,
-so
-that Algorithm \ref{alg:null-transition-generation}
-is called
-a most \Oc{} times.
-\end{proof}
-
-\begin{theorem}\label{t:null-transition-dr-correct}
-Algorithm \ref{alg:null-transition} is correct.
-\end{theorem}
-
-\begin{proof}
-It is directly clear from examining
-Algorithm \ref{alg:null-transition}.
-that the null transitions 
-for nulling postdot symbols are complete and consistent,
-and therefore correct.
-It remains to consider the null transitions for non-nullable
-postdot symbols -- predictions.
-
-Algorithm \ref{alg:null-transition}
-clearly adds all predictions derivable in a single step
-to its results.
-It also
-calls the ``Add generation'' function
-repeatedly, so that indirect predictions will be added.
-But it will refuse to
-add a dotted rule to its working set more than once.
-It remains to consider whether this means some predictions
-will not be derived.
-
-Consider a prediction
-\begin{equation}\label{null-transition-correct-5}
-\Vsym{postdot-penult} \de \mydot \Vsym{postdot-last} \cat \Vstr{after-last}
-\end{equation}
-which is derived through a chain
-of derivations in which the same dotted rule occurs at least twice.
-\begin{equation*}
-\begin{split}
-& [ \Vsym{lhs-a} \mydot \Vsym{postdot-0} \cat \Vstr{after} ] \qquad \text{Step 0} \\
-& \derives [ \mydot \Vsym{postdot-1} \cat \Vstr{after-1} ] \qquad \text{Step 0} \\
-& \ldots \\
-& \derives [ \mydot \Vsym{postdot--before-i} \cat \Vstr{after-i} ] \qquad \text{Step $i-1$} \\
-& \derives [ \mydot \Vsym{postdot-i} \cat \Vstr{after-i} ] \qquad \text{Step $i$} \\
-& \ldots \\
-& \derives [ \mydot \Vsym{postdot-i} \cat \Vstr{after-i} ] \qquad \text{Step $j$}\\
-& \ldots \\
-& \derives [ \mydot \Vsym{postdot-penult} \cat \Vstr{after-penult} ] \\
-& \derives [ \mydot \Vsym{postdot-last} \cat \Vstr{after-last} ]
-\end{split}
-\end{equation*}
-We can create a shorter derivation by removing the derivation from Step $i$ to Step $j$
-and replacing it with Step $i$.
-Algorithm \ref{alg:null-transition} will also follow this shorter derivation,
-and therefore will add \eqref{null-transition-correct-5}
-without needing to add
-$$ \Vsym{postdot-before-i} \de \mydot \Vsym{postdot-i} \cat \Vstr{after-i} $$
-to \Vdrset{work}
-more than once.
-
-We can do this for to every postdot symbol which occurs twice.
-From this we see that 
-Algorithm \ref{alg:null-transition}
-can derive a complete set of predictions
-without having to add any dotted rule
-to \Vdrset{work}
-more than once.
 \end{proof}
 
 \subsection{Predictions}
@@ -2251,13 +2265,11 @@ Overhead is \Oc{} and caller-included.
 \subsection{Earley Reduction operation}
 \label{p:reduction-op}
 
-\begin{sloppypar}
 Exclusive time and space is clearly \Oc.
 \call{Earley reduction operation}{} is always
 called as part of an EIM attempt,
 and inclusive time and space is charged to the EIM
 attempt.
-\end{sloppypar}
 
 \begin{algorithm}[h]
 \caption{Leo reduction operation}
@@ -2912,7 +2924,6 @@ This shows the reductio
 and that the number of choices for \Veim{predecessor},
 compatible with \Vorig{component}, is as most \Vsize{dr}.
 
-\begin{sloppypar}
 Collecting the results we see that the possibilities for
 each \Veim{component} are
 \begin{equation*}
@@ -2925,7 +2936,6 @@ each \Veim{component} are
 \qquad \text{choices of \Veim{component}} \\
 \end{alignedat}
 \end{equation*}
-\end{sloppypar}
 
 The number of reduction attempts will therefore be at most
 \begin{equation*}
@@ -3034,7 +3044,6 @@ and by Theorem \ref{t:tries-O-eims},
 so that
 $\var{other-tries} = \order{\var{n}^2}$.
 
-\begin{sloppypar}
 Looking again at \var{reduction-tries}
 for the case of ambiguous grammars,
 we need to look again at the triple
@@ -3059,7 +3068,6 @@ the number of possibilities for \Veim{predecessor} now grows to
 \var{reduction-tries} =
 \bigsize{\Ves{component-origin}} \times \Vsize{symbols} \times \bigsize{\Ves{j}}.
 \end{equation*}
-\end{sloppypar}
 
 In the worst case $\var{component-origin} \simeq \var{j}$,
 so that by Theorem \ref{t:es-count},
