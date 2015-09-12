@@ -1158,7 +1158,7 @@ is valid if and only if
 Let the non-terminal symbol instance
 \begin{equation}
 \label{eq:valid-eim-from-symbol-3}
-\,[\var{i}\, \Vsym{up} \,[\var{j}]
+\,[\var{i}]\, \Vsym{up} \,[\var{j}]
 \end{equation}
 be valid.
 Then \Veim{up}
@@ -1188,17 +1188,17 @@ It remain to show
 
 Using 
 \eqref{eq:valid-eim-from-symbol-3}
-and \label{eq:valid-eim-from-symbol-9},
+and \eqref{eq:valid-eim-from-symbol-9},
 we have
-\begin{align*}
-& [\var{i}]\, \Vsym{up} \,[var{j}] \derives \Vstr{rhs} \\
-\therefore \quad & [\var{i}]\, \Vsym{up} \,[var{j}] \derives
-[ \var{i}]\, \Vstr{rhs} \,[var{j}] \\
-\therefore \quad & \Vsym{up} \derives
-[\var{i}]\, \Vstr{rhs} \,[var{j}]
-\end{align*}
-If in the definition of EIM validity,
-\eqref{eq:eim-valid-def}
+\begin{alignat*}{3}
+& [\var{i}]\, \Vsym{up} \,[\var{j}] && \derives \Vstr{rhs} \\
+\therefore \quad & [\var{i}]\, \Vsym{up} \,[\var{j}] && \derives
+[ \var{i}]\, \Vstr{rhs} \,[\var{j}] \\
+\therefore \quad & \Vsym{up} && \derives
+[\var{i}]\, \Vstr{rhs} \,[\var{j}]
+\end{alignat*}
+If in the definition of EIM validity
+\eqref{eq:eim-valid-def},
 we set
 $\Vstr{predot} = \Vstr{rhs}$
 and
