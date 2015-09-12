@@ -89,6 +89,14 @@
 \newcommand{\symset}[1]{#1_{\lbrace SYM \rbrace} }
 \newcommand{\Vsymset}[1]{\ensuremath{\var{#1}_{\set{SYM}}}}
 \newcommand{\term}[1]{#1_{TERM}}
+\newcommand{\mk}[1]{[#1]}
+\newcommand{\lmk}[1]{\,\,\mk{#1}}
+\newcommand{\rmk}[1]{\mk{#1}\,}
+\newcommand{\rlmk}[1]{\,\,\mk{#1}\,\,}
+\newcommand{\Vmk}[1]{\mk{\var{#1}}}
+\newcommand{\Vrmk}[1]{\Vmk{#1}\,\,}
+\newcommand{\Vlmk}[1]{\,\,\Vmk{#1}}
+\newcommand{\Vlrmk}[1]{\,\,\Vmk{#1}\,\,}
 
 \newcommand{\alg}[1]{\ensuremath{\textsc{#1}}}
 \newcommand{\Earley}{\ensuremath{\alg{Earley}}}
@@ -104,8 +112,8 @@
 \newcommand{\Next}[1]{\mymathop{Next}(#1)}
 \newcommand{\Previous}[1]{\mymathop{Previous}(#1)}
 \newcommand{\Predict}[1]{\mymathop{Predict}(#1)}
-\newcommand{\Predot}[1]{\mymathop{Predot}(#1)}
-\newcommand{\Postdot}[1]{\mymathop{Postdot}(#1)}
+\newcommand{\Predot}[1]{\ensuremath{\mymathop{Predot}(#1)}}
+\newcommand{\Postdot}[1]{\ensuremath{\mymathop{Postdot}(#1)}}
 \newcommand{\Penult}[1]{\mymathop{Penult}(#1)}
 \newcommand{\LHS}[1]{\mymathop{LHS}(#1)}
 \newcommand{\RHS}[1]{\mymathop{RHS}(#1)}
@@ -471,11 +479,11 @@ In the context of a grammar \Cg{} and an input \Cw{},
 we will often use location-marked derivations and derivation steps.
 Location-marked derivation steps are like the derivation steps
 of the traditional rewriting system except that they also contain
-location markers of the form $[\var{x}]$, where \var{x} is a
+location markers of the form $\mk{x}$, where \var{x} is a
 location in \Cw{}.
 In its most general form,
 a derivation step with a single location marker is
-$$ \Vstr{pre} \,[\var{x}]\, \Vstr{post}. $$
+$$ \Vstr{pre} \Vlrmk{x} \Vstr{post}. $$
 It means
 \begin{equation}
 \label{eq:location-marker-def}
@@ -494,8 +502,8 @@ where the \var{i}'th member has all the markers removed except for $\var{m}[i]$.
 For example,
 \begin{equation}\label{eq:location-marker-definition-1}
 \begin{split}
-&  \Vsym{accept} \destar \Vstr{before} \,[\var{i}]\, \Vsym{A} \cat \Vstr{after} \\
-&  \qquad \derives \Vstr{before} \,[\var{i}]\, \Vstr{predot} \,[\var{j}]\, \Vstr{postdot} \cat \Vstr{after}.
+&  \Vsym{accept} \destar \Vstr{before} \Vlrmk{i} \Vsym{A} \cat \Vstr{after} \\
+&  \qquad \derives \Vstr{before} \Vlrmk{i} \Vstr{predot} \Vlrmk{j} \Vstr{postdot} \cat \Vstr{after}.
 \end{split}
 \end{equation}
 is the equivalent of the logical conjunction of the two derivations:
@@ -1285,55 +1293,176 @@ their effect is valid.
 \end{mytheorem}
 
 \begin{proof}
+Without loss of generality,
+let the top-down cause be
+\begin{equation}
+\label{t:effect-from-symbolic-causes-3}
+\begin{split}
+& \Veim{down} =  \\
+& \qquad \qquad [ [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j} ].
+\end{split}
+\end{equation}
+and let the symbolic equivalent of the bottom-up cause be
+\begin{equation}
+\label{eq:effect-from-symbolic-causes-6}
+\,[\var{j}]\, \Vsym{A} \,[\var{k}]\, .
+\end{equation}
+
+To show the theorem, we must show that
+\begin{equation}
+\label{t:effect-from-symbolic-causes-9}
+\begin{split}
+& \Veim{effect} =  \\
+& \qquad \qquad [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
+\end{split}
+\end{equation}
+is valid.
+By the definition of validity for an Earley item,
+we will have shown this if we can show that
+\begin{equation}
+\label{eq:effect-from-symbolic-causes-12}
+\Vsym{down} \derives [\var{i}] \Vstr{pre} \cat \Vstr{A} [\var{k}] \Vstr{post}.
+\end{equation}
+
+By assumption,
+\eqref{t:effect-from-symbolic-causes-3}
+is valid.
+From the definition of validity for an Earley item:
+\begin{equation}
+\label{eq:effect-from-symbolic-causes-20}
+\Vsym{down} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{A} \cat \Vstr{post}
+\end{equation}
+
+We see taht the location markers in
+\eqref{eq:effect-from-symbolic-causes-6}
+and
+\eqref{eq:effect-from-symbolic-causes-20}
+are compatible:
+\var{i} and \var{k} are unrestricted,
+while the use of \var{j} in both derivations is compatible.
+Composing them we have
+\begin{alignat}{2}
+\label{eq:effect-from-symbolic-causes-25}
+& \Vsym{down} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{A} \,[\var{k}]\, \Vstr{post} \\
+\therefore \quad & \Vsym{down} \derives [\var{i}]\, \Vstr{pre} \cat \Vsym{A} \,[\var{k}]\, \Vstr{post}
+\label{eq:effect-from-symbolic-causes-28}
+\end{alignat}
+Where
+\eqref{eq:effect-from-symbolic-causes-28}
+is
+\eqref{eq:effect-from-symbolic-causes-12},
+which is what we needed to show for the theorem.
+\end{proof}
+
+\begin{mytheorem}
+\label{t:symbolic-causes-from-effect}
+If a confirmed EIM,
+call it
+$$\Veim{effect} = [ \Vdr{effect}, var{i}, \var{k} ]$$,
+is valid,
+then
+\begin{enumerate}
+\item \Veim{effect} must have a valid symbolic bottom-up cause,
+\label{item:symbolic-causes-from-effect-3}
+\item \Veim{effect} must have a top-down cause, call it
+$\Veim{down} = [ \Vdr{down}$, 
+\label{item:symbolic-causes-from-effect-6}
+\item the two causes must match,
+\label{item:symbolic-causes-from-effect-9}
+\item the right location of the bottom-up cause must be \Vloc{k},
+\label{item:symbolic-causes-from-effect-12}
+\item the left location of the top-down cause must be \Vloc{i},
+\label{item:symbolic-causes-from-effect-15}
+\item the cause symbol of the bottom-up cause must be \Predot{\Veim{effect}}, and
+\label{item:symbolic-causes-from-effect-18}
+\item $\Next{\Vdr{down}} = \Vdr{effect}$
+\label{item:symbolic-causes-from-effect-21}
+\end{enumerate}
+\end{mytheorem}
+
+\begin{proof}
+Without loss of generality,
+let \Veim{effect} be
+\begin{equation}
+\label{t:symbolic-causes-from-effect-20}
+\begin{split}
+& \Veim{effect} =  \\
+& \qquad \qquad [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
+\end{split}
+\end{equation}
+By assumption,
+\eqref{t:symbolic-causes-from-effect-20}
+is valid, so that
+\begin{equation}
+\label{t:symbolic-causes-from-effect-23}
+\Vsym{down} \derives \Vlrmk{i} \Vstr{pre} \cat \Vstr{A} \Vlrmk{k} \Vstr{post}.
+\end{equation}
+Using
+\eqref{t:symbolic-causes-from-effect-23},
+and the definition of location markers,
+we have
+\begin{equation}
+\label{t:symbolic-causes-from-effect-29}
+\Vstr{pre} \cat \Vstr{A} \destar \var{w}[\var{i}, (\var{k} \subtract 1)],
+\end{equation}
+so that there must be some \Vloc{j}, $\Vloc{i} \le \Vloc{j} \le \Vloc{k}$,
+such that
+\begin{equation}
+\label{t:symbolic-causes-from-effect-32}
+\Vsym{down} \derives \Vrmk{i} \Vstr{pre} \Vlrmk{j} \Vstr{A} \Vlrmk{k} \Vstr{post}.
+\end{equation}
+Simplifying
+\eqref{t:symbolic-causes-from-effect-32},
+we have
+\begin{equation}
+\label{t:symbolic-causes-from-effect-35}
+\Vrmk{j} \Vstr{A} \Vlmk{k}
+\end{equation}
+A different simplification of
+\eqref{t:symbolic-causes-from-effect-32}
+produces
+\begin{equation}
+\label{t:symbolic-causes-from-effect-38}
+\Vsym{down} \derives \Vrmk{i} \Vstr{pre} \Vlrmk{j} \Vstr{A} \cat \Vstr{post}.
+\end{equation}
+and
+from 
+\eqref{t:symbolic-causes-from-effect-38},
+by the definition of EIM validity,
+\begin{equation}
+\label{t:symbolic-causes-from-effect-41}
+\Veim{down} = [ [ \Vsym{down} \derives \Vstr{pre} \cat \Vstr{A} \mydot \Vstr{post} ], \var{i}, \var{j} ]
+\end{equation}
+
+To show requirement \ref{item:symbolic-causes-from-effect-3},
+we say that
+\eqref{t:symbolic-causes-from-effect-35}
+is our bottom-up
+cause.
+To show requirement \ref{item:symbolic-causes-from-effect-6},
+we say that
+\eqref{t:symbolic-causes-from-effect-41} is our top-down
+cause.
+To fulfill requirement \ref{item:symbolic-causes-from-effect-9},
+we note that they match,
+because \Postdot{\Veim{down}} = \Vsym{A},
+and because the left position of 
+\eqref{t:symbolic-causes-from-effect-35}
+is the right position of \Veim{down}.
+Examination of 
+\eqref{t:symbolic-causes-from-effect-35}
+and
+\eqref{t:symbolic-causes-from-effect-41}
+shows that requirements
+\ref{item:symbolic-causes-from-effect-12},
+\ref{item:symbolic-causes-from-effect-15},
+\ref{item:symbolic-causes-from-effect-18}
+and
+\ref{item:symbolic-causes-from-effect-21}
+are also met.
 \end{proof}
 
 TODO: Revise from here
-
-Without loss of generality, let our reduced Earley item be
-\begin{equation}\label{eq:reduced-effect}
-[ [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{B} \mydot \Vstr{suffix} ], \var{i}, \var{k} ]
-\end{equation}
-Again without loss of generality, its derivation is
-\begin{equation}\label{eq:reduced-derivation}
-\begin{split}
-&  \Vsym{A} \\
-&  \qquad \derives \,[\var{i}]\, \Vstr{prefix} \,[\var{j}]\, \Vsym{B} \,[\var{k}]\, \Vstr{suffix} \\
-&  \qquad \derives \,[\var{i}]\, \Vstr{prefix} \,[\var{j}]\, \Vstr{B-rhs} \,[\var{k}]\, \Vstr{suffix}. \\
-\end{split}
-\end{equation}
-We say that
-\begin{equation*}
-[ [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{B} \cat \Vstr{suffix} ], \var{i}, \var{j} ]
-\end{equation*}
-is a \dfn{top-down cause} of \eqref{eq:reduced-effect}.
-We say that
-\begin{equation*}
-[ [ \Vsym{B} \derives \Vstr{B-rhs} \mydot ], \var{j}, \var{k} ]
-\end{equation*}
-is a \dfn{bottom-up cause} of \eqref{eq:reduced-effect}.
-We say that \eqref{eq:reduced-effect} is the \dfn{effect}
-of these two causes.
-
-Without loss of generality, let our predicted Earley item be
-\begin{equation}\label{eq:predicted-effect}
-[ [ \Vsym{B} \de \mydot \Vstr{B-rhs} ], \var{i}, \var{i} ]
-\end{equation}
-We may use the same derivation as for the case of the reduced Earley item,
-and it is again without loss of generality.
-We say that
-\begin{equation}\label{predicted-top-down-cause}
-[ [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{B} \cat \Vstr{suffix} ], \var{i}, \var{j} ]
-\end{equation}
-is a \dfn{top-down cause} of \eqref{eq:predicted-effect}.
-From the bottom-up point of view, it is a null transition --
-no property of the input is required that is not already required by
-\eqref{predicted-top-down-cause}.
-We say that its
-\dfn{bottom-up cause} is 
-null, or \dfn{ethereal}.
-We say that \eqref{eq:predicted-effect} is the \dfn{effect}
-of these two causes.
-
 \subsection{The start Earley item}
 \label{s:start}
 
@@ -1419,292 +1548,6 @@ parse,
 $$ \Vsym{accept} \derives \Vstr{start} \destar \Cw = \var{w}[0, (\Vsize{\Cw} \subtract 1)]$$
 and from this we have
 \eqref{eq:start-eim-is-valid-31}.
-\end{proof}
-
-\subsection{Reductions}
-\label{s:reduction}
-
-\begin{mytheorem}\label{t:reduction-valid}
-Let
-\begin{equation}\label{eq:reduction-valid-2}
-\Veim{top-down} = [ \Vdr{down}, \Vloc{i}, \Vloc{j} ]
-\end{equation}
-and
-\begin{equation}\label{eq:reduction-valid-2a}
-\Veim{bottom-up} = [ \Vdr{up}, \Vloc{j}, \Vloc{k} ]
-\end{equation}
-be valid Earley items,
-where
-\Vdr{up} is a completion and
-\begin{equation}\label{eq:reduction-valid-3}
-\Postdot{\Vdr{down}} = \LHS{\Vdr{up}}.
-\end{equation}
-Then
-\begin{equation}\label{eq:reduction-valid-4}
-\Veim{reduction} = [ \Next{\Vdr{down}}, \Vloc{i}, \Vloc{k} ]
-\end{equation}
-is a valid Earley item.
-\end{mytheorem}
-
-\begin{proof}
-Without loss of generality,
-let
-\begin{equation}\label{eq:reduction-valid-4a}
-\Vdr{down} = [ \Vsym{down-lhs} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ]
-\end{equation}
-and
-\begin{equation}\label{eq:reduction-valid-5}
-\Vdr{up} = [ \Vsym{A} \de \Vstr{A-rhs} \mydot ].
-\end{equation}
-To show the theorem, we must show that
-\begin{equation}\label{eq:reduction-valid-8}
-\begin{split}
-& \Veim{reduction} =  \\
-& \qquad \qquad [ [ \Vsym{down-lhs} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ]
-\end{split}
-\end{equation}
-is valid.
-By the definition of validity for an Earley item,
-we will have shown this if we can show that
-\begin{equation}\label{eq:reduction-valid-10}
-\Vsym{down-lhs} \derives [\var{i}] \Vstr{pre} \cat \Vstr{A} [\var{k}] \Vstr{post}.
-\end{equation}
-
-By assumption, \Veim{top-down} is valid.
-From
-\eqref{eq:reduction-valid-2}
-and \eqref{eq:reduction-valid-4a}
-and the definition of validity for an Earley item:
-\begin{equation}\label{eq:reduction-valid-12}
-\Vsym{down-lhs} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{A} \cat \Vstr{post}
-\end{equation}
-
-From \eqref{eq:reduction-valid-2a} and
-\eqref{eq:reduction-valid-5} we know that
-\begin{equation}\label{eq:reduction-valid-18}
-\Vsym{A} \derives \,[\var{j}]\, \Vstr{A-rhs} \,[\var{k}]\,
-\end{equation}
-and therefore that
-\begin{equation}\label{eq:reduction-valid-21}
-\,[\var{j}]\, \Vsym{A} \,[\var{k}]\, \derives \,[\var{j}]\, \Vstr{A-rhs} \,[\var{k}]\,
-\end{equation}
-or, simplifying,
-\begin{equation}\label{eq:reduction-valid-24}
-\,[\var{j}]\, \Vsym{A} \,[\var{k}]\,
-\end{equation}
-We know the location markers in
-\eqref{eq:reduction-valid-12}
-and
-\eqref{eq:reduction-valid-24}
-are compatible:
-The \var{i} and \var{k} are unrestricted,
-while the use of \var{j} in both derivations is compatible.
-Composing them we have
-\begin{equation}\label{eq:reduction-valid-25}
-\Vsym{down-lhs} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{A} \,[\var{k}]\, \Vstr{post}
-\end{equation}
-If we drop the location marker for \var{j}, this
-is \eqref{eq:reduction-valid-8},
-which is what we needed to show for the theorem.
-\end{proof}
-
-\subsection{Reads}
-\label{s:read}
-
-Without loss of generality, let our
-read Earley item be
-\begin{equation}\label{eq:scanned-effect}
-[ [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{B} \mydot \Vstr{suffix} ], \var{i}, \var{k} ].
-\end{equation}
-where \Vsym{B} must be a non-nullable terminal.
-Again without loss of generality, its derivation is
-\begin{equation}\label{eq:scanned-derivation}
-\begin{split}
-&  \Vsym{A} \\
-&  \qquad \derives \,[\var{i}]\, \Vstr{prefix} \,[\var{j}]\, \Vsym{B} \,[\var{k}]\, \Vstr{suffix} \\
-\end{split}
-\end{equation}
-We say that
-\begin{equation}\label{scanned-top-down-cause}.
-[ [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{B} \cat \Vstr{suffix} ], \var{i}, \var{j} ]
-\end{equation}
-is a \dfn{top-down cause} of \eqref{eq:scanned-effect}.
-We say that \Vsym{B} is the \dfn{bottom-up cause} of \eqref{eq:scanned-effect}.
-\Vsym{B} may be a nulling symbol,
-in which no property of the input is required that is not already required by
-\eqref{scanned-top-down-cause}.
-When \Vsym{B} is zero-length, or null,
-we say that
-the \dfn{bottom-up cause} of
-\eqref{eq:scanned-effect}
-is null, or \dfn{ethereal}.
-When \Vsym{B} is of length greater than zero
-we say that
-the \dfn{bottom-up cause}
-\eqref{eq:scanned-effect}
-is \Vsym{B}.
-We say that \eqref{eq:scanned-effect} is the \dfn{effect}
-of these two causes.
-
-\begin{mytheorem}\label{t:scansion-valid}
-Let
-\begin{equation}\label{eq:scansion-valid-2}
-\Veim{top-down} = [ \Vdr{down}, \Vloc{i}, \Vloc{j} ]
-\end{equation}
-be a valid Earley item
-where \Vsym{bottom} is a non-nullable symbol
-such that
-\begin{equation}\label{eq:scansion-valid-3}
-\Postdot{\Vdr{down}} = \Vsym{bottom} = \CVw{j}
-\end{equation}
-Then
-\begin{equation}\label{eq:scansion-valid-4}
-\Veim{scansion} = [ \Next{\Vdr{down}}, \Vloc{i}, \Vloc{j}+1 ]
-\end{equation}
-is a valid Earley item.
-\end{mytheorem}
-
-\begin{proof}
-Without loss of generality,
-let
-\begin{equation}\label{eq:scansion-valid-6}
-\Vdr{down} = [ \Vsym{down-lhs} \de \Vstr{pre} \mydot \Vsym{bottom} \cat \Vstr{post} ].
-\end{equation}
-To show the theorem, we must show that
-\begin{equation}\label{eq:scansion-valid-8}
-\Veim{scansion} = 
-\left[
-\begin{aligned}
-& \left[
-\begin{aligned}
-& \Vsym{down-lhs} \de \\
-& \qquad \Vstr{pre} \cat \Vsym{bottom} \mydot \Vstr{post}
-\end{aligned}
-\right], \\
-& \var{i}, \\
-& \var{j}+1
-\end{aligned}
-\right]
-\end{equation}
-is valid.
-By the definition of validity for an Earley item,
-we will have shown this if we can show that
-\begin{equation}\label{eq:scansion-valid-11}
-\Vsym{down-lhs} \derives [\var{i}] \Vstr{pre} \cat \Vsym{bottom} [\var{j}+1] \Vstr{post}.
-\end{equation}
-
-By assumption, \Veim{top-down} is valid.
-From
-\eqref{eq:scansion-valid-2}
-and \eqref{eq:scansion-valid-6}
-and the definition of validity for an Earley item:
-\begin{equation}\label{eq:scansion-valid-12}
-\Vsym{down-lhs} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{bottom} \cat \Vstr{post}.
-\end{equation}
-
-All non-nullable symbols have a length in the input of 1.
-From this and \eqref{eq:scansion-valid-3}
-we know that
-\begin{equation}\label{eq:scansion-valid-18}
-\,[\var{j}]\, \Vsym{bottom} \,[\var{j}+1]\,
-\end{equation}
-We know the location markers in
-\eqref{eq:scansion-valid-12}
-and
-\eqref{eq:scansion-valid-18}
-are compatible:
-The \var{i} is unrestricted,
-while the use of \var{j} in both derivations is compatible.
-Composing them we have
-\begin{equation}\label{eq:scansion-valid-21}
-\Vsym{down-lhs} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{bottom} \,[\var{j}+1]\, \Vstr{post}
-\end{equation}
-If we drop the location marker for $[\var{j}]$, this
-is \eqref{eq:scansion-valid-11},
-which is what we needed to show for the theorem.
-\end{proof}
-
-\subsection{Ethereal scansion}
-\label{s:ethereral-scansion}
-
-\begin{mytheorem}\label{t:null-scansion-valid}
-Let
-\begin{equation}\label{eq:null-scansion-valid-2}
-\Veim{top-down} = [ \Vdr{down}, \Vloc{i}, \Vloc{j} ]
-\end{equation}
-be a valid Earley item
-where \Vsym{bottom} is a nulling symbol
-such that
-\begin{equation}\label{eq:null-scansion-valid-3}
-\Postdot{\Vdr{down}} = \Vsym{bottom}
-\end{equation}
-Then
-\begin{equation}\label{eq:null-scansion-valid-4}
-\Veim{scansion} = [ \Next{\Vdr{down}}, \Vloc{i}, \Vloc{j} ]
-\end{equation}
-is a valid Earley item.
-\end{mytheorem}
-
-\begin{proof}
-Without loss of generality,
-let
-\begin{equation}\label{eq:null-scansion-valid-6}
-\Vdr{down} = [ \Vsym{down-lhs} \de \Vstr{pre} \mydot \Vsym{bottom} \cat \Vstr{post} ].
-\end{equation}
-To show the theorem, we must show that
-\begin{equation}\label{eq:null-scansion-valid-8}
-\Veim{scansion} = 
-\left[
-\begin{aligned}
-& \left[
-\begin{aligned}
-& \Vsym{down-lhs} \de \\
-& \qquad \Vstr{pre} \cat \Vsym{bottom} \mydot \Vstr{post}
-\end{aligned}
-\right], \\
-& \var{i}, \\
-& \var{j}
-\end{aligned}
-\right]
-\end{equation}
-is valid.
-By the definition of validity for an Earley item,
-we will have shown this if we can show that
-\begin{equation}\label{eq:null-scansion-valid-11}
-\Vsym{down-lhs} \derives [\var{i}] \Vstr{pre} \cat \Vsym{bottom} [\var{j}] \Vstr{post}.
-\end{equation}
-
-By assumption, \Veim{top-down} is valid.
-From
-\eqref{eq:null-scansion-valid-2}
-and \eqref{eq:null-scansion-valid-6}
-and the definition of validity for an Earley item:
-\begin{equation}\label{eq:null-scansion-valid-12}
-\Vsym{down-lhs} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{bottom} \cat \Vstr{post}
-\end{equation}
-
-By definition,
-nullable symbols are zero-length.
-From this, \eqref{eq:null-scansion-valid-2},
-and \eqref{eq:null-scansion-valid-3}
-we know that
-\begin{equation}\label{eq:null-scansion-valid-18}
-\,[\var{j}]\, \Vsym{bottom} \,[\var{j}]\,
-\end{equation}
-We know the location markers in
-\eqref{eq:null-scansion-valid-12}
-and
-\eqref{eq:null-scansion-valid-18}
-are compatible:
-The \var{i} is unrestricted,
-while the use of \var{j} in both derivations is compatible.
-Composing them we have
-\begin{equation}\label{eq:null-scansion-valid-21}
-\Vsym{down-lhs} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{bottom} \,[\var{j}]\, \Vstr{post}
-\end{equation}
-If we drop the first location marker for $[\var{j}]$, this
-is \eqref{eq:null-scansion-valid-11},
-which is what we needed to show for the theorem.
 \end{proof}
 
 \subsection{Predictions}
@@ -1808,15 +1651,6 @@ the maximum size of Earley set \Vloc{i} is therefore
 
 \subsection{Causes}
 
-Bottom-up causes are either \dfn{mundane} or \dfn{ethereal}.
-The bottom-up cause of a reduced Earley item is always mundane.
-The bottom-up cause of a predicted Earley item is always ethereal.
-The bottom-up cause of a scanned Earley item is mundane if the scanned symbol
-is of zero-length,
-and mundane, otherwise.
-In determining whether a cause is valid,
-an ethereal cause is always considered valid.
-
 \begin{theorem}\label{t:multi-cause-eq-ambiguous-g}
 If any Earley item has more than one top-down cause,
 or more than one bottom-up cause,
@@ -1830,59 +1664,6 @@ More than one cause means more than one derivation,
 and a grammar with more than one derivation for \Cw{}.
 The definition of ambiguity for a grammar is that it
 has more than one derivation for a single input.
-\end{proof}
-
-\begin{theorem}\label{t:cause-effect-consistent}
-If the top-down cause and bottom-up cause of an
-effect are both valid,
-the effect is a valid Earley item.
-\end{theorem}
-
-\begin{proof}
-We first examine the case of reduced Earley items.
-Top-down and bottom-up cause for a reduced Earley item
-has a dual definition.
-\eqref{eq:reduced-derivation} in
-This definition is a fully general derivation
-of both causes.
-\eqref{eq:reduced-effect} in the dual definition
-is a statement of the cause's effect.
-And \eqref{eq:reduced-derivation} shows the validity
-of the effect,
-according to the definition of validity for Earley items.
-
-The previous reasoning shows the theorem for reduced
-Earley items.
-Exactly the same argument may be made for predicted
-and scanned Earley items.
-This shows all cases and therefore the theorem.
-\end{proof}
-
-\begin{theorem}\label{t:cause-effect-complete}
-If an Earley item is valid,
-it has a valid top-down cause
-and a valid bottom-up cause.
-\end{theorem}
-
-\begin{proof}
-Again, the proof is by the
-definition of top-down and bottom-up causes.
-Looking at the case in that definition for
-reduced Earley items,
-we see that the definition contained
-\eqref{eq:reduced-derivation}:
-a fully general demonstration of the validity
-of the
-\eqref{eq:reduced-effect}, an Earley item
-which was reduced, but otherwise arbitrary.
-Given the derivation \eqref{eq:reduced-derivation},
-the definition showed there must be valid
-top-down and bottom-up causes for
-\eqref{eq:reduced-effect}.
-
-The same was true for the other two cases,
-that of predicted and scanned Earley items.
-We therefore have all cases, and the theorem.
 \end{proof}
 
 \subsection{Earley algorithms}
