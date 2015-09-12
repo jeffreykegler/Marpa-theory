@@ -1207,11 +1207,65 @@ we see that \Veim{up} in
 \eqref{eq:valid-eim-from-symbol-6} is valid.
 \end{proof}
 
-TODO Revise from here.
+\begin{mytheorem}
+\label{t:valid-symbol-from-eim}
+Let
+\begin{equation}
+\label{eq:valid-eim-from-symbol-3}
+\Veim{up} = [ [ \Vsym{up} \de \Vstr{rhs} \mydot ], \var{i}, \var{j} ]
+\end{equation}
+be a valid Earley item.
+Then
+\begin{equation}
+\label{eq:valid-eim-from-symbol-6}
+\,[\var{i}]\, \Vsym{up} \,[\var{j}]
+\end{equation}
+is a valid symbol instance.
+\end{mytheorem}
 
-If a bottom-up cause is an Earley item,
-we say that the \dfn{symbol} of the cause
-is the LHS of its dotted rule.
+\begin{proof}
+Because
+\eqref{eq:valid-eim-from-symbol-3}
+is valid by assumption for the theorem,
+we have
+\begin{alignat}{3}
+& \Vsym{up} && \derives 
+[ \var{i}]\, \Vstr{rhs} \,[\var{j}] \\
+\therefore \quad 
+& [\var{i}]\, \Vsym{up} \,[\var{j}] && \derives
+[\var{i}]\, \Vstr{rhs} \,[\var{j}] \\
+\label{eq:valid-eim-from-symbol-20}
+\therefore \quad 
+& [\var{i}]\, \Vsym{up} \,[\var{j}] &&
+\end{alignat}
+\eqref{eq:valid-eim-from-symbol-20} is
+\eqref{eq:valid-eim-from-symbol-6},
+which is what we needed to show
+for the theorem.
+\end{proof}
+
+For every bottom-up causes that is a symbol
+and an EIM, the ``cause symbol'' is defined.
+If the bottom-up cause is a symbol,
+call it \Vsym{up}
+we say that the \dfn{cause symbol} is
+\Vsym{up}.
+If the bottom-up cause is an EIM,
+call it \Veim{up}
+we say that the \dfn{cause symbol} is
+$\LHS{\Veim{up}}$.
+
+\begin{mydefinition}
+We say that a bottom-up and top-down
+cause \dfn{match}
+if and only if
+the symbol of the bottom up cause is
+the postdot symbol of the top-down cause,
+and the left location of the bottom-up cause
+is the right location of the top-down cause.
+\end{mydefinition}
+
+TODO: Revise from here
 
 Without loss of generality, let our reduced Earley item be
 \begin{equation}\label{eq:reduced-effect}
@@ -1748,7 +1802,7 @@ the grammar is ambiguous.
 \end{theorem}
 
 \begin{proof}
-This may be proved using the derivations in the defintion
+This may be proved using the derivations in the definition
 of top-down and bottom-up cause.
 More than one cause means more than one derivation,
 and a grammar with more than one derivation for \Cw{}.
