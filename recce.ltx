@@ -1207,63 +1207,85 @@ we see that \Veim{up} in
 \eqref{eq:valid-eim-from-symbol-6} is valid.
 \end{proof}
 
-\begin{mytheorem}
-\label{t:valid-symbol-from-eim}
-Let
-\begin{equation}
+For every bottom-up causes that is a symbol
+and an EIM, its ``symbolic equivalent'' is defined.
+If the bottom-up cause is a symbol,
+it is its own \dfn{symbolic equivalent}.
+If the bottom-up cause is an EIM,
+its symbolic equivalent is the instance
+of its LHS symbol
+with the same left and right locations
+as the EIM.
+That is, if
+\begin{equation*}
 \label{eq:valid-eim-from-symbol-3}
-\Veim{up} = [ [ \Vsym{up} \de \Vstr{rhs} \mydot ], \var{i}, \var{j} ]
-\end{equation}
-be a valid Earley item.
-Then
+\Veim{up} = [ [ \Vsym{up} \de \Vstr{up-rhs} \mydot ], \var{i}, \var{j} ]
+\end{equation*}
+its \dfn{symbol equivalent} is
 \begin{equation}
 \label{eq:valid-eim-from-symbol-6}
 \,[\var{i}]\, \Vsym{up} \,[\var{j}]
 \end{equation}
-is a valid symbol instance.
+
+\begin{mytheorem}
+\label{t:valid-symbolic-equivalent-valid}
+If a bottom-up EIM cause is valid, its symbolic equivalent is valid.
 \end{mytheorem}
 
 \begin{proof}
-Because
+A bottom-up cause must be a completion.
+We may therefore,
+without loss of generality,
+let the bottom-up EIM be
+\eqref{eq:valid-eim-from-symbol-3}
+and its symbolic equivalent is therefore
+\eqref{eq:valid-eim-from-symbol-6}.
 \eqref{eq:valid-eim-from-symbol-3}
 is valid by assumption for the theorem,
-we have
+so we have
 \begin{alignat}{3}
 & \Vsym{up} && \derives 
-[ \var{i}]\, \Vstr{rhs} \,[\var{j}] \\
+[ \var{i}]\, \Vstr{up-rhs} \,[\var{j}] \\
 \therefore \quad 
 & [\var{i}]\, \Vsym{up} \,[\var{j}] && \derives
-[\var{i}]\, \Vstr{rhs} \,[\var{j}] \\
+[\var{i}]\, \Vstr{up-rhs} \,[\var{j}] \\
 \label{eq:valid-eim-from-symbol-20}
 \therefore \quad 
 & [\var{i}]\, \Vsym{up} \,[\var{j}] &&
 \end{alignat}
 \eqref{eq:valid-eim-from-symbol-20} is
 \eqref{eq:valid-eim-from-symbol-6},
-which is what we needed to show
-for the theorem.
+which shows the theorem.
 \end{proof}
 
-For every bottom-up causes that is a symbol
-and an EIM, the ``cause symbol'' is defined.
-If the bottom-up cause is a symbol,
-call it \Vsym{up}
-we say that the \dfn{cause symbol} is
-\Vsym{up}.
-If the bottom-up cause is an EIM,
-call it \Veim{up}
-we say that the \dfn{cause symbol} is
-$\LHS{\Veim{up}}$.
+We say that a bottom-up cause is \dfn{symbolic},
+if it has a symbolic equivalent.
+The bottom-up causes of predictions
+do not have a symbolic equivalent,
+and are not therefore not symbolic.
+All other bottom-up causes are symbolic.
 
 \begin{mydefinition}
-We say that a bottom-up and top-down
-cause \dfn{match}
+We say that a top-down cause
+and a symbolic bottom-up cause
+\dfn{match}
 if and only if
 the symbol of the bottom up cause is
 the postdot symbol of the top-down cause,
 and the left location of the bottom-up cause
 is the right location of the top-down cause.
 \end{mydefinition}
+
+\begin{mytheorem}
+\label{t:effect-from-symbolic-causes}
+If a symbolic bottom-up cause
+and a top-down cause match
+and are both valid,
+their effect is valid.
+\end{mytheorem}
+
+\begin{proof}
+\end{proof}
 
 TODO: Revise from here
 
