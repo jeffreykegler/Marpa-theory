@@ -2,9 +2,27 @@
 % This document is licensed under
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
 \documentclass[12pt]{amsart}
-\usepackage{algorithm}
-\usepackage{algpseudocode}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{algorithm, algpseudocode}
 \usepackage{url}
+\usepackage{amsfonts}% to get the \mathbb alphabet
+\makeindex
+
+% This is used to find the font size if need be
+% its uses are usually commented out
+\makeatletter
+\newcommand\thefontsize[1]{{#1 The current font size is: \f@size pt\par}}
+\makeatother
+
+\DeclareMathSizes{6}{6}{6}{6}
+\DeclareMathSizes{8}{8}{8}{8}
+\DeclareMathSizes{10}{10}{10}{10}
+\DeclareMathSizes{10.95}{10.95}{10.95}{10.95}
+\DeclareMathSizes{12}{12}{12}{12}
+\DeclareMathSizes{14.4}{14.4}{14.4}{14.4}
+\DeclareMathSizes{20.74}{20.74}{20.74}{20.74}
+\DeclareMathSizes{24.88}{24.88}{24.88}{24.88}
 
 % This is now a "paper", but may be a chapter
 % or something else someday
@@ -107,15 +125,46 @@
 % I want to use 'call' outside of pseudocode
 \newcommand\call[2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}}%
 
+% I don't like to put whole paragraphs in italics,
+% so I make this simple variation on the "plain" theoremstyle
+\newtheoremstyle{myplain}
+  {10pt}   % ABOVESPACE
+  {10pt}   % BELOWSPACE
+  {\normalfont}  % BODYFONT
+  {0pt}       % INDENT (empty value is the same as 0pt)
+  {\bfseries} % HEADFONT
+  {.}         % HEADPUNCT
+  {5pt plus 1pt minus 1pt} % HEADSPACE
+  {}          % CUSTOM-HEAD-SPEC
+
+\theoremstyle{myplain}
+
 \newtheorem{theorem}{Theorem}[section]
+\newenvironment{mytheorem}{ \begin{theorem}
+}{ \begin{center}
+\vspace{-.4\baselineskip}
+\rule{3em}{.5pt}
+\end{center} \end{theorem} }
+
+\newtheorem{construction}[theorem]{Construction}
 \newtheorem{lemma}[theorem]{Lemma}
+\index{Lemmas|see{Theorems}}
 
-\theoremstyle{definition}
-\newtheorem*{definition}{Definition}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{mydefinition}{ \begin{definition}
+}{ \begin{center}
+\vspace{-.4\baselineskip}
+\rule{3em}{.5pt}
+\end{center} \end{definition} }
 
-\theoremstyle{remark}
-\newtheorem*{remark}{Remark}
 \newtheorem{observation}[theorem]{Observation}
+\newenvironment{myobservation}{
+  \gdef\myendmark{\hfill \ensuremath{\blacklozenge}}
+  \begin{observation}
+}{
+  \myendmark
+  \end{observation}
+}
 
 \hyphenation{oper-and oper-ands}
 \hyphenation{look-ahead}
@@ -855,9 +904,9 @@ The current Marpa implementation handles
 transitions over ethereal symbols implicitly,
 but computes predictons at the end.
 
-\begin{theorem}\label{t:null-transition-Oc}
+\begin{mytheorem}\label{t:null-transition-Oc}
 Ethereal closure has time complexity \Oc{}.
-\end{theorem}
+\end{mytheorem}
 
 \begin{proof}
 We consider Algorithm \ref{alg:null-transition}.
@@ -888,9 +937,9 @@ is called
 a most \Oc{} times.
 \end{proof}
 
-\begin{theorem}\label{t:null-transition-dr-correct}
+\begin{mytheorem}\label{t:null-transition-dr-correct}
 Algorithm \ref{alg:null-transition} is correct.
-\end{theorem}
+\end{mytheorem}
 
 \begin{proof}
 It is directly clear from examining
@@ -993,15 +1042,16 @@ $[ \Vdr{complete}, \var{i}, \var{j} ]$,
 where \Vdr{complete} is the completion dotted
 rule of \Vdr{quasi}.
 
-\begin{theorem}
+\begin{mytheorem}
 \label{eim-types-correct}
 Every EIM falls into one of these
 five disjoint types:
 start, prediction, read, ethereal and reduction.
-\end{theorem}
+\end{mytheorem}
 
 \begin{proof}
-The proof follows directly from definitions
+Recall that EIMs take their type from their dotted rule.
+The proof then follows directly from definitions
 \eqref{def:start-dr},
 \eqref{def:prediction-dr},
 \eqref{def:ethereal-dr},
@@ -1026,14 +1076,142 @@ if and only if
 
 \subsection{Top-down and bottom-up causes}
 
-We now proceed to define two important concepts:
-the top-down cause of an Earley item
-and the bottom-up cause of an Earley item.
-For the purpose of this definition, we divide Earley items
-into three kinds, and proceed by cases.
-The three kinds of Earley item are predicted,
-scanned,
-and reduced.
+We referred to top-down and bottom-up causes earlier,
+when introducing dotted rules.
+We now revisit these concepts in the context of Earley items.
+
+By symbol instance,
+we mean a symbol in the context of a parse,
+and therefore
+associated with a specific leftmost and rightmost input location.
+When it is clear in context, we will often say ``symbol''
+when we mean ``symbol instance''.
+
+When we speak of an Earley item,
+we say that its \dfn{left location} is its origin,
+and its \dfn{right location} is its dot, or current, location.
+When we speak of a non-nullable terminal symbol instance in a parse,
+call it \CVw{i},
+we say that its \dfn{left location} is \var{i}
+and its \dfn{right location} is $\var{i}+1$.
+When we speak of a nulling terminal symbol instance in a parse,
+again call it \CVw{i},
+we say that its \dfn{left location} is \var{i}
+and its \dfn{right location} is \var{i}.
+When we speak of a non-terminal symbol instance in a parse,
+we say that its \dfn{left location} is the left location
+of the leftmost terminal which it derives,
+and that its \dfn{right location} is the right location
+of the rightmost terminal which it derives.
+
+Consider an Earley item with a predot symbol instance.
+Without loss of generality, call it
+\begin{equation*}
+\Veim{effect} = [ [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{up} \mydot \Vstr{suffix} ], \var{i}, \var{k} ]
+\end{equation*}
+Then we call 
+\begin{equation*}
+\Veim{down} = [ [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{up} \cat \Vstr{suffix} ], \var{i}, \var{k} ]
+\end{equation*}
+a \dfn{top-down cause} of \Veim{effect};
+we call \Vsym{up} a \dfn{bottom-up cause} of \Veim{effect};
+and we call \Veim{effect} the \dfn{effect} of \Veim{down} and \Vsym{up}.
+An effect is always an Earley item.
+A top-down cause is always an Earley item.
+
+A bottom-up cause may be ethereal or mundane.
+If a bottom-up cause is ethereal, it may be because the effect has no
+predot symbol,
+or because the bottom-up cause is a nulling terminal symbol instance.
+If a bottom-up cause is mundane, it may be because it is
+an Earley item,
+because it is a non-terminal symbol instance,
+or because it is a non-nullable terminal symbol instance.
+Recall that rules in \Marpa{} cannot be
+nulling,
+and therefore Earley items
+and non-terminal symbol instances cannot be nulling.
+
+We have already defined validity for Earley items.
+We now extend the concept of validity to other types of
+causes.
+An ethereal cause is always valid.
+If \Vsym{T} is a mundane terminal symbol,
+\begin{equation*}
+[\var{i}]\, \Vsym{T} \,[\var{j}]
+\end{equation*}
+is valid if and only if
+\begin{equation*}
+\Vsym{A} = \CVw{i} \land \var{j} = \var{i} + 1.
+\end{equation*}
+If \Vsym{N} is a non-terminal symbol,
+\begin{equation*}
+[\var{i}]\, \Vsym{T} \,[\var{j}]
+\end{equation*}
+is valid if and only if
+\begin{equation*}
+\Vsym{T} \deplus \var{w}[\var{i}, (\var{j} \subtract 1)].
+\end{equation*}
+
+\begin{mytheorem}
+\label{t:valid-eim-from-symbol}
+Let the non-terminal symbol instance
+\begin{equation}
+\label{eq:valid-eim-from-symbol-3}
+\,[\var{i}\, \Vsym{up} \,[\var{j}]
+\end{equation}
+be valid.
+Then \Veim{up}
+is a valid completed Earley item,
+where
+\begin{gather}
+\label{eq:valid-eim-from-symbol-6}
+\Veim{up} = [ [ \Vsym{up} \de \Vstr{rhs} \mydot ], \var{i}, \var{j} ]
+\\
+\label{eq:valid-eim-from-symbol-9}
+\land \quad [ \Vsym{up} \de \Vstr{rhs} ] \in \Crules.
+\end{gather}
+\end{mytheorem}
+
+\begin{proof}
+To be valid, \Vsym{up}
+must derive the sentence
+$\var{w}[\var{i}, (\var{j}\subtract 1)]$.
+\Vsym{up} must do this using at least one derivation step,
+since it is a non-terminal.
+Therefore \Vsym{up} derives a sentence through a derivation
+whose next step uses a rule in \Crules,
+where \Vsym{up} is the LHS.
+This shows \eqref{eq:valid-eim-from-symbol-9}.
+It remain to show
+\eqref{eq:valid-eim-from-symbol-6}.
+
+Using 
+\eqref{eq:valid-eim-from-symbol-3}
+and \label{eq:valid-eim-from-symbol-9},
+we have
+\begin{align*}
+& [\var{i}]\, \Vsym{up} \,[var{j}] \derives \Vstr{rhs} \\
+\therefore \quad & [\var{i}]\, \Vsym{up} \,[var{j}] \derives
+[ \var{i}]\, \Vstr{rhs} \,[var{j}] \\
+\therefore \quad & \Vsym{up} \derives
+[\var{i}]\, \Vstr{rhs} \,[var{j}]
+\end{align*}
+If in the definition of EIM validity,
+\eqref{eq:eim-valid-def}
+we set
+$\Vstr{predot} = \Vstr{rhs}$
+and
+$\Vstr{postdot} = \epsilon$,
+we see that \Veim{up} in
+\eqref{eq:valid-eim-from-symbol-6} is valid.
+\end{proof}
+
+TODO Revise from here.
+
+If a bottom-up cause is an Earley item,
+we say that the \dfn{symbol} of the cause
+is the LHS of its dotted rule.
 
 Without loss of generality, let our reduced Earley item be
 \begin{equation}\label{eq:reduced-effect}
@@ -1083,9 +1261,9 @@ of these two causes.
 \subsection{The start Earley item}
 \label{s:start}
 
-\begin{theorem}\label{t:start-eim-is-valid}
+\begin{mytheorem}\label{t:start-eim-is-valid}
 The start Earley item is valid.
-\end{theorem}
+\end{mytheorem}
 
 \begin{proof}
 Let
@@ -1170,7 +1348,7 @@ and from this we have
 \subsection{Reductions}
 \label{s:reduction}
 
-\begin{theorem}\label{t:reduction-valid}
+\begin{mytheorem}\label{t:reduction-valid}
 Let
 \begin{equation}\label{eq:reduction-valid-2}
 \Veim{top-down} = [ \Vdr{down}, \Vloc{i}, \Vloc{j} ]
@@ -1190,7 +1368,7 @@ Then
 \Veim{reduction} = [ \Next{\Vdr{down}}, \Vloc{i}, \Vloc{k} ]
 \end{equation}
 is a valid Earley item.
-\end{theorem}
+\end{mytheorem}
 
 \begin{proof}
 Without loss of generality,
@@ -1292,7 +1470,7 @@ is \Vsym{B}.
 We say that \eqref{eq:scanned-effect} is the \dfn{effect}
 of these two causes.
 
-\begin{theorem}\label{t:scansion-valid}
+\begin{mytheorem}\label{t:scansion-valid}
 Let
 \begin{equation}\label{eq:scansion-valid-2}
 \Veim{top-down} = [ \Vdr{down}, \Vloc{i}, \Vloc{j} ]
@@ -1308,7 +1486,7 @@ Then
 \Veim{scansion} = [ \Next{\Vdr{down}}, \Vloc{i}, \Vloc{j}+1 ]
 \end{equation}
 is a valid Earley item.
-\end{theorem}
+\end{mytheorem}
 
 \begin{proof}
 Without loss of generality,
@@ -1373,7 +1551,7 @@ which is what we needed to show for the theorem.
 \subsection{Ethereal scansion}
 \label{s:ethereral-scansion}
 
-\begin{theorem}\label{t:null-scansion-valid}
+\begin{mytheorem}\label{t:null-scansion-valid}
 Let
 \begin{equation}\label{eq:null-scansion-valid-2}
 \Veim{top-down} = [ \Vdr{down}, \Vloc{i}, \Vloc{j} ]
@@ -1389,7 +1567,7 @@ Then
 \Veim{scansion} = [ \Next{\Vdr{down}}, \Vloc{i}, \Vloc{j} ]
 \end{equation}
 is a valid Earley item.
-\end{theorem}
+\end{mytheorem}
 
 \begin{proof}
 Without loss of generality,
