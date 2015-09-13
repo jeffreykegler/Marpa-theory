@@ -1228,12 +1228,11 @@ with the same left and right locations
 as the EIM.
 That is, if
 \begin{equation*}
-\label{eq:valid-eim-from-symbol-3}
 \Veim{up} = [ [ \Vsym{up} \de \Vstr{up-rhs} \mydot ], \var{i}, \var{j} ]
 \end{equation*}
 its \dfn{symbol equivalent} is
 \begin{equation}
-\label{eq:valid-eim-from-symbol-6}
+\label{eq:valid-eim-from-symbol-16}
 \,[\var{i}]\, \Vsym{up} \,[\var{j}]
 \end{equation}
 
@@ -1367,7 +1366,7 @@ then
 \item \Veim{effect} must have a valid symbolic bottom-up cause,
 \label{item:symbolic-causes-from-effect-3}
 \item \Veim{effect} must have a top-down cause, call it
-$\Veim{down} = [ \Vdr{down}$, 
+$\Veim{down}$, 
 \label{item:symbolic-causes-from-effect-6}
 \item the two causes must match,
 \label{item:symbolic-causes-from-effect-9}
@@ -1375,8 +1374,15 @@ $\Veim{down} = [ \Vdr{down}$,
 \label{item:symbolic-causes-from-effect-12}
 \item the left location of the top-down cause must be \Vloc{i},
 \label{item:symbolic-causes-from-effect-15}
-\item the cause symbol of the bottom-up cause must be \Predot{\Veim{effect}}, and
+\item
+{\raggedright
+the cause symbol of the bottom-up cause must be
+\Predot{\Veim{effect}},
+
+}
 \label{item:symbolic-causes-from-effect-18}
+\item $\Predot{\Veim{effect}} = \Postdot{\Veim{down}}$, and
+\label{item:symbolic-causes-from-effect-19}
 \item $\Next{\Vdr{down}} = \Vdr{effect}$
 \label{item:symbolic-causes-from-effect-21}
 \end{enumerate}
@@ -1452,13 +1458,14 @@ and because the left position of
 \eqref{t:symbolic-causes-from-effect-35}
 is the right position of \Veim{down}.
 Examination of 
-\eqref{t:symbolic-causes-from-effect-35}
-and
+\eqref{t:symbolic-causes-from-effect-20},
+\eqref{t:symbolic-causes-from-effect-35},
 \eqref{t:symbolic-causes-from-effect-41}
 shows that requirements
 \ref{item:symbolic-causes-from-effect-12},
 \ref{item:symbolic-causes-from-effect-15},
-\ref{item:symbolic-causes-from-effect-18}
+\ref{item:symbolic-causes-from-effect-18},
+\ref{item:symbolic-causes-from-effect-19}
 and
 \ref{item:symbolic-causes-from-effect-21}
 are also met.
@@ -1473,14 +1480,14 @@ Let
 be a valid symbol instance.
 If $\Vsym{A} \neq \Vsym{accept}$
 then
-\begin{itemize}
+\begin{enumerate}
 \item
 \label{req:effect-from-symbol-1}
-\Vsym{A-inst} is the bottom-up cause of a valid effect, call
+\var{A-inst} is the bottom-up cause of a valid effect, call
 it \Veim{effect}
 \item
 \label{req:effect-from-symbol-2}
-\Vsym{A-inst} has a matching top-down cause, call it
+\var{A-inst} has a matching top-down cause, call it
 it \Veim{down},
 \item
 \label{req:effect-from-symbol-3}
@@ -1489,7 +1496,7 @@ $$\Veim{down} = [\Vdr{down}, \Vloc{i}, \Vloc{j}]$$
 \item
 \label{req:effect-from-symbol-4}
 and $\Vsym{A} = \Predot{\Vdr{down}}.$
-\end{itemize}
+\end{enumerate}
 \end{theorem}
 
 \begin{proof}
@@ -1522,40 +1529,46 @@ such that
 From \eqref{eq:effect-from-symbol-14} we know there must be some \Vloc{i},
 $0 \le \var{i} < \Vloc{j}$,
 such that
-\begin{equation}
+\begin{multline}
 \label{eq:effect-from-symbol-22}
 \Vsym{accept} \destar \Vstr{before} \cat \Vsym{down} \cat \Vstr{after} \\
-\derives \Vstr{before} \Vmkm{i} \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \\
-\qquad \qquad \Vstr{post} \cat \Vstr{after}
-\end{equation}
+\derives \Vstr{before} \Vmkm{i} \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \Vstr{post} \cat \Vstr{after}
+\end{multline}
 Simplifying
 \eqref{eq:effect-from-symbol-22},
 we have
 \begin{equation}
 \label{eq:effect-from-symbol-25}
-\Vsym{down} \derives \Vmkm{i} \Vstr{pre} \Vsym{A} \Vmkm{k} \Vstr{post}.
+\Vsym{down} \derives \Vmkm{i} \Vstr{pre} \cat \Vsym{A} \Vmkm{k} \Vstr{post}.
 \end{equation}
 From
 \eqref{eq:effect-from-symbol-25},
 by the definition of validity for an Earley item,
 we know that
 \begin{equation}
-\label{eq:effect-from-symbol-25}
+\label{eq:effect-from-symbol-28}
 \Veim{down} = \left[
 \begin{multlined}
-[ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \cat \Vstr{post} ], \\
+[ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \\
 \var{i}, \var{k} \shoveleft
 \end{multlined}
 \right]
 \end{equation}
 is valid.
-
-
-TODO: Finish this.
-
+\eqref{eq:effect-from-symbol-28}
+is requirement
+\ref{req:effect-from-symbol-1} to show the theorem.
+Requirements 
+\ref{req:effect-from-symbol-2},
+\ref{req:effect-from-symbol-3},
+and
+\ref{req:effect-from-symbol-4}
+follow from
+Theorem
+\ref{t:symbolic-causes-from-effect}
+and \eqref{eq:effect-from-symbol-28}.
 \end{proof}
 
-TODO: Revise from here
 \subsection{The start Earley item}
 \label{s:start}
 
