@@ -824,8 +824,8 @@ For symmetry, we say that \Vdr{cause}
 has a bottom-up cause,
 but that that  \dfn{bottom-up cause} is ethereal.
 
-{\raggedright
-We next define the ``ethereal next'' relation
+\begin{raggedright}
+We define the ``ethereal next'' relation
 to be the union of
 \var{direct-scan} and \var{direct-predict}.
 \begin{equation*}
@@ -834,8 +834,7 @@ to be the union of
 We call the transitive closure of \var{ethereal-next},
 the \dfn{ethereal closure},
 $$ \var{ethereal-closure} \defined \var{ethereal-next}^+ $$
-
-} % end of \raggedright
+\end{raggedright}
 
 We are now in a position to define the ethereal transition of \GOTO{}
 from the dotted rule \Vdr{from},
@@ -1363,10 +1362,11 @@ which is what we needed to show for the theorem.
 \label{t:symbolic-causes-from-effect}
 If a confirmed EIM,
 call it
-$$\Veim{effect} = [ \Vdr{effect}, \var{i}, \var{k} ]$$,
+$$\Veim{effect} = [ \Vdr{effect}, \var{i}, \var{k} ],$$
 is valid,
 then
 \begin{enumerate}
+\raggedright
 \item \Veim{effect} must have a valid symbolic bottom-up cause,
 \label{item:symbolic-causes-from-effect-3}
 \item \Veim{effect} must have a top-down cause, call it
@@ -1379,11 +1379,8 @@ $\Veim{down}$,
 \item the left location of the top-down cause must be \Vloc{i},
 \label{item:symbolic-causes-from-effect-15}
 \item
-{\raggedright
 the cause symbol of the bottom-up cause must be
 \Predot{\Veim{effect}},
-
-}
 \label{item:symbolic-causes-from-effect-18}
 \item $\Predot{\Veim{effect}} = \Postdot{\Veim{down}}$, and
 \label{item:symbolic-causes-from-effect-19}
