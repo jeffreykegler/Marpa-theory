@@ -90,13 +90,13 @@
 \newcommand{\Vsymset}[1]{\ensuremath{\var{#1}_{\set{SYM}}}}
 \newcommand{\term}[1]{#1_{TERM}}
 \newcommand{\mk}[1]{\lfloor#1\rceil}
-\newcommand{\lmk}[1]{\,\,\mk{#1}}
-\newcommand{\rmk}[1]{\mk{#1}\,}
-\newcommand{\rlmk}[1]{\,\,\mk{#1}\,\,}
+\newcommand{\mkr}[1]{\,\,\mk{#1}}
+\newcommand{\mkl}[1]{\mk{#1}\,}
+\newcommand{\mkm}[1]{\,\,\mk{#1}\,\,}
 \newcommand{\Vmk}[1]{\mk{\var{#1}}}
-\newcommand{\Vrmk}[1]{\Vmk{#1}\,\,}
-\newcommand{\Vlmk}[1]{\,\,\Vmk{#1}}
-\newcommand{\Vlrmk}[1]{\,\,\Vmk{#1}\,\,}
+\newcommand{\Vmkl}[1]{\Vmk{#1}\,\,}
+\newcommand{\Vmkr}[1]{\,\,\Vmk{#1}}
+\newcommand{\Vmkm}[1]{\,\,\Vmk{#1}\,\,}
 
 \newcommand{\alg}[1]{\ensuremath{\textsc{#1}}}
 \newcommand{\Earley}{\ensuremath{\alg{Earley}}}
@@ -147,32 +147,34 @@
 
 \theoremstyle{myplain}
 
-\newtheorem{theorem}{Theorem}[section]
-\newenvironment{mytheorem}{ \begin{theorem}
-}{ \begin{center}
-\vspace{-.4\baselineskip}
-\rule{3em}{.5pt}
-\end{center} \end{theorem} }
+\newtheorem{oldtheorem}{Theorem}[section]
+\newenvironment{theorem}
+{
+    \begin{oldtheorem}
+}
+{ \begin{center}
+  \vspace{-.4\baselineskip}
+  \rule{3em}{.5pt}
+  \end{center}
+  \end{oldtheorem}
+}
 
-\newtheorem{construction}[theorem]{Construction}
-\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{lemma}[oldtheorem]{Lemma}
 \index{Lemmas|see{Theorems}}
 
-\newtheorem{definition}[theorem]{Definition}
-\newenvironment{mydefinition}{ \begin{definition}
+\newtheorem{baredefinition}[oldtheorem]{Definition}
+\newenvironment{definition}{ \begin{baredefinition}
 }{ \begin{center}
 \vspace{-.4\baselineskip}
 \rule{3em}{.5pt}
-\end{center} \end{definition} }
+\end{center} \end{baredefinition} }
 
-\newtheorem{observation}[theorem]{Observation}
-\newenvironment{myobservation}{
-  \gdef\myendmark{\hfill \ensuremath{\blacklozenge}}
-  \begin{observation}
-}{
-  \myendmark
-  \end{observation}
-}
+\newtheorem{bareobservation}[oldtheorem]{Definition}
+\newenvironment{observation}{ \begin{bareobservation}
+}{ \begin{center}
+\vspace{-.4\baselineskip}
+\rule{3em}{.5pt}
+\end{center} \end{bareobservation} }
 
 \hyphenation{oper-and oper-ands}
 \hyphenation{look-ahead}
@@ -483,7 +485,7 @@ location markers of the form $\mk{x}$, where \var{x} is a
 location in \Cw{}.
 In its most general form,
 a derivation step with a single location marker is
-$$ \Vstr{pre} \Vlrmk{x} \Vstr{post}. $$
+$$ \Vstr{pre} \Vmkm{x} \Vstr{post}. $$
 It means
 \begin{equation}
 \label{eq:location-marker-def}
@@ -502,8 +504,8 @@ where the \var{i}'th member has all the markers removed except for $\var{m}[i]$.
 For example,
 \begin{equation}\label{eq:location-marker-definition-1}
 \begin{split}
-&  \Vsym{accept} \destar \Vstr{before} \Vlrmk{i} \Vsym{A} \cat \Vstr{after} \\
-&  \qquad \derives \Vstr{before} \Vlrmk{i} \Vstr{predot} \Vlrmk{j} \Vstr{postdot} \cat \Vstr{after}.
+&  \Vsym{accept} \destar \Vstr{before} \Vmkm{i} \Vsym{A} \cat \Vstr{after} \\
+&  \qquad \derives \Vstr{before} \Vmkm{i} \Vstr{predot} \Vmkm{j} \Vstr{postdot} \cat \Vstr{after}.
 \end{split}
 \end{equation}
 is the equivalent of the logical conjunction of the two derivations:
@@ -912,9 +914,9 @@ The current Marpa implementation handles
 transitions over ethereal symbols implicitly,
 but computes predictons at the end.
 
-\begin{mytheorem}\label{t:null-transition-Oc}
+\begin{theorem}\label{t:null-transition-Oc}
 Ethereal closure has time complexity \Oc{}.
-\end{mytheorem}
+\end{theorem}
 
 \begin{proof}
 We consider Algorithm \ref{alg:null-transition}.
@@ -945,9 +947,9 @@ is called
 a most \Oc{} times.
 \end{proof}
 
-\begin{mytheorem}\label{t:null-transition-dr-correct}
+\begin{theorem}\label{t:null-transition-dr-correct}
 Algorithm \ref{alg:null-transition} is correct.
-\end{mytheorem}
+\end{theorem}
 
 \begin{proof}
 It is directly clear from examining
@@ -1050,12 +1052,12 @@ $[ \Vdr{complete}, \var{i}, \var{j} ]$,
 where \Vdr{complete} is the completion dotted
 rule of \Vdr{quasi}.
 
-\begin{mytheorem}
+\begin{theorem}
 \label{eim-types-correct}
 Every EIM falls into one of these
 five disjoint types:
 start, prediction, read, ethereal and reduction.
-\end{mytheorem}
+\end{theorem}
 
 \begin{proof}
 Recall that EIMs take their type from their dotted rule.
@@ -1161,7 +1163,7 @@ is valid if and only if
 \Vsym{T} \deplus \var{w}[\var{i}, (\var{j} \subtract 1)].
 \end{equation*}
 
-\begin{mytheorem}
+\begin{theorem}
 \label{t:valid-eim-from-symbol}
 Let the non-terminal symbol instance
 \begin{equation}
@@ -1179,7 +1181,7 @@ where
 \label{eq:valid-eim-from-symbol-9}
 \land \quad [ \Vsym{up} \de \Vstr{rhs} ] \in \Crules.
 \end{gather}
-\end{mytheorem}
+\end{theorem}
 
 \begin{proof}
 To be valid, \Vsym{up}
@@ -1235,10 +1237,10 @@ its \dfn{symbol equivalent} is
 \,[\var{i}]\, \Vsym{up} \,[\var{j}]
 \end{equation}
 
-\begin{mytheorem}
+\begin{theorem}
 \label{t:valid-symbolic-equivalent-valid}
 If a bottom-up EIM cause is valid, its symbolic equivalent is valid.
-\end{mytheorem}
+\end{theorem}
 
 \begin{proof}
 A bottom-up cause must be a completion.
@@ -1273,7 +1275,7 @@ do not have a symbolic equivalent,
 and are not therefore not symbolic.
 All other bottom-up causes are symbolic.
 
-\begin{mydefinition}
+\begin{definition}
 We say that a top-down cause
 and a symbolic bottom-up cause
 \dfn{match}
@@ -1282,15 +1284,15 @@ the symbol of the bottom up cause is
 the postdot symbol of the top-down cause,
 and the left location of the bottom-up cause
 is the right location of the top-down cause.
-\end{mydefinition}
+\end{definition}
 
-\begin{mytheorem}
+\begin{theorem}
 \label{t:effect-from-symbolic-causes}
 If a symbolic bottom-up cause
 and a top-down cause match
 and are both valid,
 their effect is valid.
-\end{mytheorem}
+\end{theorem}
 
 \begin{proof}
 Without loss of generality,
@@ -1354,7 +1356,7 @@ is
 which is what we needed to show for the theorem.
 \end{proof}
 
-\begin{mytheorem}
+\begin{theorem}
 \label{t:symbolic-causes-from-effect}
 If a confirmed EIM,
 call it
@@ -1378,7 +1380,7 @@ $\Veim{down} = [ \Vdr{down}$,
 \item $\Next{\Vdr{down}} = \Vdr{effect}$
 \label{item:symbolic-causes-from-effect-21}
 \end{enumerate}
-\end{mytheorem}
+\end{theorem}
 
 \begin{proof}
 Without loss of generality,
@@ -1395,7 +1397,7 @@ By assumption,
 is valid, so that
 \begin{equation}
 \label{t:symbolic-causes-from-effect-23}
-\Vsym{down} \derives \Vlrmk{i} \Vstr{pre} \cat \Vstr{A} \Vlrmk{k} \Vstr{post}.
+\Vsym{down} \derives \Vmkm{i} \Vstr{pre} \cat \Vstr{A} \Vmkm{k} \Vstr{post}.
 \end{equation}
 Using
 \eqref{t:symbolic-causes-from-effect-23},
@@ -1409,21 +1411,21 @@ so that there must be some \Vloc{j}, $\Vloc{i} \le \Vloc{j} \le \Vloc{k}$,
 such that
 \begin{equation}
 \label{t:symbolic-causes-from-effect-32}
-\Vsym{down} \derives \Vrmk{i} \Vstr{pre} \Vlrmk{j} \Vstr{A} \Vlrmk{k} \Vstr{post}.
+\Vsym{down} \derives \Vmkl{i} \Vstr{pre} \Vmkm{j} \Vstr{A} \Vmkm{k} \Vstr{post}.
 \end{equation}
 Simplifying
 \eqref{t:symbolic-causes-from-effect-32},
 we have
 \begin{equation}
 \label{t:symbolic-causes-from-effect-35}
-\Vrmk{j} \Vstr{A} \Vlmk{k}
+\Vmkl{j} \Vstr{A} \Vmkr{k}
 \end{equation}
 A different simplification of
 \eqref{t:symbolic-causes-from-effect-32}
 produces
 \begin{equation}
 \label{t:symbolic-causes-from-effect-38}
-\Vsym{down} \derives \Vrmk{i} \Vstr{pre} \Vlrmk{j} \Vstr{A} \cat \Vstr{post}.
+\Vsym{down} \derives \Vmkl{i} \Vstr{pre} \Vmkm{j} \Vstr{A} \cat \Vstr{post}.
 \end{equation}
 and
 from 
@@ -1462,13 +1464,104 @@ and
 are also met.
 \end{proof}
 
+\begin{theorem}
+\label{t:effect-from-symbol}
+Let
+\begin{equation}
+\var{A-inst} = \Vmkm{j} \Vsym{A} \Vmkm{k}
+\end{equation}
+be a valid symbol instance.
+If $\Vsym{A} \neq \Vsym{accept}$
+then
+\begin{itemize}
+\item
+\label{req:effect-from-symbol-1}
+\Vsym{A-inst} is the bottom-up cause of a valid effect, call
+it \Veim{effect}
+\item
+\label{req:effect-from-symbol-2}
+\Vsym{A-inst} has a matching top-down cause, call it
+it \Veim{down},
+\item
+\label{req:effect-from-symbol-3}
+\Vloc{j} is such that for some \Vloc{i}, \Vdr{down},
+$$\Veim{down} = [\Vdr{down}, \Vloc{i}, \Vloc{j}]$$
+\item
+\label{req:effect-from-symbol-4}
+and $\Vsym{A} = \Predot{\Vdr{down}}.$
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+Without loss of generality,
+we let the symbolic equivalent of the bottom-up cause be
+\begin{equation}
+\label{eq:effect-from-symbol-6}
+\Vmkl{j} \Vsym{A} \Vmkr{k}.
+\end{equation}
+By assumption for the theorem,
+$\Vsym{A} \neq \Vsym{accept}$,
+there is at least one derivation step before
+\eqref{eq:effect-from-symbol-6},
+so that, without loss of generality, we may write
+\begin{equation}
+\label{eq:effect-from-symbol-9}
+\Vsym{down} \derives \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \Vstr{post}.
+\end{equation}
+By the definition of location markers there is 
+some \Vstr{before}
+such that
+\begin{gather}
+\label{eq:effect-from-symbol-12}
+\Vsym{accept} \destar \Vstr{before} \cat \Vsym{down} \cat \Vstr{after} \\
+\label{eq:effect-from-symbol-13}
+\derives \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \Vstr{post} \cat \Vstr{after} \\
+\label{eq:effect-from-symbol-14}
+\text{and} \qquad \Vstr{before} \cat \Vstr{pre} \destar \var{w}[0, \var{j} \subtract 1].
+\end{gather}
+From \eqref{eq:effect-from-symbol-14} we know there must be some \Vloc{i},
+$0 \le \var{i} < \Vloc{j}$,
+such that
+\begin{equation}
+\label{eq:effect-from-symbol-22}
+\Vsym{accept} \destar \Vstr{before} \cat \Vsym{down} \cat \Vstr{after} \\
+\derives \Vstr{before} \Vmkm{i} \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \\
+\qquad \qquad \Vstr{post} \cat \Vstr{after}
+\end{equation}
+Simplifying
+\eqref{eq:effect-from-symbol-22},
+we have
+\begin{equation}
+\label{eq:effect-from-symbol-25}
+\Vsym{down} \derives \Vmkm{i} \Vstr{pre} \Vsym{A} \Vmkm{k} \Vstr{post}.
+\end{equation}
+From
+\eqref{eq:effect-from-symbol-25},
+by the definition of validity for an Earley item,
+we know that
+\begin{equation}
+\label{eq:effect-from-symbol-25}
+\Veim{down} = \left[
+\begin{multlined}
+[ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \cat \Vstr{post} ], \\
+\var{i}, \var{k} \shoveleft
+\end{multlined}
+\right]
+\end{equation}
+is valid.
+
+
+TODO: Finish this.
+
+\end{proof}
+
 TODO: Revise from here
 \subsection{The start Earley item}
 \label{s:start}
 
-\begin{mytheorem}\label{t:start-eim-is-valid}
+\begin{theorem}\label{t:start-eim-is-valid}
 The start Earley item is valid.
-\end{mytheorem}
+\end{theorem}
 
 \begin{proof}
 Let
