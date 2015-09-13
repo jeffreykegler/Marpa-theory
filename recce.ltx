@@ -1934,6 +1934,18 @@ show that this change also leaves
 the complexity results of
 Leo\cite{Leo1991} intact.
 
+\begin{theorem}
+\label{t:ethereal-closure-is-Leo-disjoint},
+Let \Veim{eim2}
+be an EIM in the ethereal closure of \Veim{eim1}.
+Then \Veim{1} is Leo-memoized if and only if
+\Veim{eim2} is Leo-memoized.
+\end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
+
 \section{The Marpa Recognizer}
 \label{s:recce}
 \label{s:pseudocode}
@@ -2395,7 +2407,7 @@ and inclusive time and space is charged to the EIM
 attempt.
 
 \begin{algorithm}[!htp]
-\caption{Add EIM pair}\label{a:pair}
+\caption{Add EIM pair}\label{a:eim-set}
 \begin{algorithmic}[1]
 \Procedure{Add EIM pair}{$\Ves{i},\Vdr{base}, \Vloc{origin}$}
 \State $\Veim{confirmed} \gets [\Vdr{base}, \Vloc{origin}]$
@@ -2484,13 +2496,26 @@ remains \Oc.
 \label{p:prediction-op-correct}
 
 \begin{theorem}\label{t:null-transition-op-correct}
-Algorithm \ref{a:pair} adds all and only the EIMs
+Algorithm \ref{a:eim-set} adds all and only the EIMs
 for the ethereal closure of \Veim{base}.
 \end{theorem}
 
 \begin{proof}
+We first examine the effect Leo memoization will
+have
+on Algorithm \ref{a:eim-set}.
+We note the 
+Algorithm \ref{a:eim-set} is only called when
+\Veim{base} is not Leo memoized.
+By Theorem \ref{t:ethereal-closure-is-Leo-disjoint},
+we see that if \Veim{base} is not Leo memoized,
+none of the other EIMs in its ethereal closure
+will be Leo memoized.
+Therefore,
+we may ignore Leo memoization in what follows.
+
 By inspection, we see that 
-Algorithm \ref{a:pair} adds items
+Algorithm \ref{a:eim-set} adds items
 at lines 
 \ref{line:pair-10},
 \ref{line:pair-30}
@@ -2542,7 +2567,7 @@ only one correct set of values
 for origin and current location.
 These locations are
 the ones
-used by Algorithm \ref{a:pair}
+used by Algorithm \ref{a:eim-set}
 in lines
 \ref{line:pair-25}
 and \ref{line:pair-35}.
@@ -2550,9 +2575,9 @@ Therefore the set of correct EIMs corresponds
 one-to-one
 with the dotted rules
 and, from inspection of
-Algorithm \ref{a:pair},
+Algorithm \ref{a:eim-set},
 this is the set added by
-Algorithm \ref{a:pair}
+Algorithm \ref{a:eim-set}
 at lines
 \ref{line:pair-30}
 and \ref{line:pair-40}.
@@ -2571,18 +2596,16 @@ at line
 \ref{line:pair-20}.
 By theorem \ref{t:null-transition-dr-correct},
 line \ref{line:pair-20} of
-Algorithm \ref{a:pair} the
+Algorithm \ref{a:eim-set} the
 transitive closure of null transitions from
 the dotted rule \Veim{base} found
 by line \ref{line:pair-20} is
 complete, consistent and therefore correct.
-
-TODO: Show that Leo memoization does not affect this.
 \end{proof}
 
 \begin{theorem}\label{t:quasi-completion-correct}
 Let \Veim{base} be a quasi-completion.
-If Algorithm \ref{a:pair} adds \Veim{base},
+If Algorithm \ref{a:eim-set} adds \Veim{base},
 it also adds all null transitions from it,
 including the the completion EIM.
 \end{theorem}
@@ -2599,7 +2622,7 @@ from theorem \ref{t:null-transition-op-correct}.
 \end{proof}
 
 \begin{theorem}\label{t:prediction-correct}
-If Algorithm \ref{a:pair} adds \Veim{base},
+If Algorithm \ref{a:eim-set} adds \Veim{base},
 it also adds all predictions which are null transitions
 from it,
 including the valid quasi-prediction EIMs.
