@@ -115,7 +115,7 @@
 \newcommand{\Predot}[1]{\ensuremath{\mymathop{Predot}(#1)}}
 \newcommand{\Postdot}[1]{\ensuremath{\mymathop{Postdot}(#1)}}
 \newcommand{\Penult}[1]{\mymathop{Penult}(#1)}
-\newcommand{\LHS}[1]{\mymathop{LHS}(#1)}
+\newcommand{\LHS}[1]{\ensuremath{\mymathop{LHS}(#1)}}
 \newcommand{\RHS}[1]{\mymathop{RHS}(#1)}
 \newcommand{\LeoEligible}[1]{\mymathop{Leo-Eligible}(#1)}
 \newcommand{\LeoUnique}[1]{\mymathop{Leo-Unique}(#1)}
@@ -2387,13 +2387,10 @@ as required for the theorem.
 \State Note: \Vtable{i} may include EIM's added by
 \State \hspace{2.5em} by \Call{Reduce one LHS}{} and
 \State \hspace{2.5em} the loop must traverse these
-\For{each Earley item $\Veim{work} \in \Vtable{i}$}
-\State $[\Vdr{work}, \Vloc{origin}] \gets \Veim{work}$
-\State $\Vsymset{lh-sides} \gets$ a set containing the LHS
-\State \hspace\algorithmicindent of every completed rule in \Veim{work}
-\For{each $\Vsym{lhs} \in \Vsymset{lh-sides}$}
-\State \Call{Reduce one LHS}{\Vloc{i}, \Vloc{origin}, \Vsym{lhs}}
-\EndFor
+\For{each Earley item $\Veim{up} \in \Vtable{i}$}
+\State $[\Vdr{up}, \Vloc{origin}, \Vloc{dummy}] \gets \Veim{up}$
+\State \Comment It is always the case that $\Vloc{dummy} = \Vloc{i}$
+\State \Call{Reduce one LHS}{\Vloc{i}, \Vloc{origin}, \LHS{\Vdr{lhs}}}
 \EndFor
 \State \Call{Memoize transitions}{\Vloc{i}}
 \EndProcedure
@@ -2428,13 +2425,155 @@ Overhead may be charged to the Earley set at \Vloc{i}.
 \subsubsection{Reduction pass correctness}
 \label{p:reduction-op-correct}
 
-\begin{theorem}\label{t:reduction-op-correct}
-The reduction pass is correct.
+\begin{theorem}
+\label{t:reduction-op-correct}
+Call the
+EIMs at \Vloc{i}
+whose bottom-up cause is an EIM
+at \Vloc{i}
+the ``EIMs reduced at \Vloc{i}``.
+Let the Earley tables for all locations 
+\Vloc{h},
+$\var{h} < \Vloc{i}$ be correct;
+and
+let the ethereal closure of
+the set of EIMs read at \Vloc{i} be correct.
+Then the reduction pass at \Vloc{i}
+adds all and only
+the ethereal closure of
+the EIMs reduced at \Vloc{i}.
 \end{theorem}
 
 \begin{proof}
-TODO.
+We first assure ourselves that Leo 
+memoization has no effect on the reduction pass.
+The top-down causes
+in Algorithm
+\ref{alg:reduction-pass}
+must be quasi-incomplete because they are the result
+of the \var{transitions} function,
+which only memoizes EIMs with a non-nullable postdot
+symbol --
+see line
+\ref{line:memoize-transitions-20}
+in Algorithm
+\ref{alg:memoize-transitions}.
+A quasi-complete EIM cannot have a
+non-nullable postdot symbol,
+so therefore
+\Veim{down} at line
+\ref{line:reduction-pass-20}
+must be quasi-incomplete.
+By Theorem 
+\ref{t:leo-quasi-complete},
+no quasi-incomplete EIM
+is Leo-memoized.
+Therefore none of the EIMs used
+as top-down causes
+in Algorithm
+\ref{alg:memoize-transitions}
+will be overlooked because
+of Leo memoization.
+
+The bottom-up causes,
+in Algorithm
+\ref{alg:reduction-pass}
+must be complete EIMs.
+By Theorem
+ref{t:TODO-leo-top-unmemoized},
+the only unmemoized EIM with
+an memoized top
+is the Leo path top EIM.
+
+TODO: Finish this line of reasoning.
+
+By Theorem
+\ref{t:TODO-FIND-ME},
+for every bottom-up EIM cause
+there is a bottom-up symbol cause.
+Examination of the code at
+\ref{line:reduction-pass-TODO-FIND-ME},
+shows that this bottom up cause \ldots
+
+TODO: Finish this line of reasoning.
+
+Without loss of generality,
+let an \Veim{up} be
+\begin{equation}
+\label{eq:reduction-op-correct-20}
+\bigl[ [ \Vsym{up} \de \Vstr{rhs} \mydot ], \Vorig{up}, \Vloc{match} \bigr].
+\end{equation}
+Then the symbolic equivalent of \Veim{up} is
+\begin{equation}
+\label{eq:reduction-op-correct-40}
+\Vmkl{match} \,\, \Vsym{up} \Vmkr{i}.
+\end{equation}
+
+The definition of matching top-down cause
+requires that \Veim{down} have a postdot symbol
+of \Vsym{up} and a right location of
+${\var{i} \subtract 1}$.
+By theorem
+\ref{t:TODO-memoize-transitions-correct},
+the \var{transitions} function returns all of these for
+use as the value of \Veim{down}
+in the loop at line
+\ref{line:reduction-pass-TODO}.
+
+TODO: Finish this line of reasoning.
+
+From this, we observe that
+all and only 
+the matching pairs of causes
+for the EIMs reduced at \Vloc{i}
+are used to add EIMs
+in the loop at line
+\ref{line:reduction-pass-40}.
+Call this the ``cause-correctness'' observation.
+
+From the cause-correctness observation and
+Theorem
+\ref{t:effect-from-symbolic-causes}
+we know that the EIMs we attempt to add
+at line
+\ref{line:reduction-pass-40}
+are consistent.
+From the cause-correctness observation and
+Theorem
+\ref{t:symbolic-causes-from-effect}
+we know that the EIMs we attempt to add
+at line
+\ref{line:reduction-pass-40}
+are complete.
+
+Since the 
+the EIMs we attempt to add
+at line
+\ref{line:reduction-pass-40}
+are consistent and complete,
+we know that,
+at line
+\ref{line:reduction-pass-40},
+we attempted to add EIMs from
+a correct set of causes
+for the EIMs reduced at \Vloc{i}.
+By Theorem
+\ref{t:null-transition-op-correct}
+we know that the
+Algorithm
+\ref{alg:eim-set}
+used
+at line
+\ref{line:reduction-pass-40}
+adds the ethereal closure of
+the EIM that is its argument.
+Therefore, we did add
+all of, and only, the EIMs
+in the ethereal closure of the
+EIMs reduced at \Vloc{i},
+as required for the theorem.
 \end{proof}
+
 
 \begin{algorithm}[h]
 \caption{Memoize transitions}
