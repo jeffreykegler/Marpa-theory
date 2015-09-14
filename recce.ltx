@@ -15,14 +15,14 @@
 \newcommand\thefontsize[1]{{#1 The current font size is: \f@size pt\par}}
 \makeatother
 
-\DeclareMathSizes{6}{6}{6}{6}
-\DeclareMathSizes{8}{8}{8}{8}
-\DeclareMathSizes{10}{10}{10}{10}
-\DeclareMathSizes{10.95}{10.95}{10.95}{10.95}
-\DeclareMathSizes{12}{12}{12}{12}
-\DeclareMathSizes{14.4}{14.4}{14.4}{14.4}
-\DeclareMathSizes{20.74}{20.74}{20.74}{20.74}
-\DeclareMathSizes{24.88}{24.88}{24.88}{24.88}
+% \DeclareMathSizes{6}{6}{6}{6}
+% \DeclareMathSizes{8}{8}{8}{8}
+% \DeclareMathSizes{10}{10}{10}{10}
+% \DeclareMathSizes{10.95}{10.95}{10.95}{10.95}
+% \DeclareMathSizes{12}{12}{12}{12}
+% \DeclareMathSizes{14.4}{14.4}{14.4}{14.4}
+% \DeclareMathSizes{20.74}{20.74}{20.74}{20.74}
+% \DeclareMathSizes{24.88}{24.88}{24.88}{24.88}
 
 % This is now a "paper", but may be a chapter
 % or something else someday
@@ -2253,16 +2253,18 @@ Overhead is charged to the Earley set at \Vloc{i}.
 
 \begin{theorem}
 \label{t:read-op-correct}
+Call the
+EIMs at \Vloc{i}
+whose bottom-up cause is a terminal
+symbol instance,
+the ``EIMs read at \Vloc{i}``.
 Let the Earley tables for all locations 
 \Vloc{h},
 $\var{h} < \Vloc{i}$ be correct.
-Then read pass at \Vloc{i}
+Then the read pass at \Vloc{i}
 adds all and only
 the ethereal closure of
-those
-EIMs at \Vloc{i}
-whose bottom-up cause is a terminal
-symbol instance.
+the EIMs read at \Vloc{i}.
 \end{theorem}
 
 \begin{proof}
@@ -2303,15 +2305,17 @@ will be overlooked because
 of Leo memoization.
 
 By the definition of \Cw{},
+there is only one
+terminal symbol instance
+with right location \Vloc{i}.
+Without loss of generality, let this instance be
 \begin{equation}
 \label{eq:read-op-correct-40}
 \mkl{\var{i} \subtract 1} \,\, \Vsym{up} \Vmkr{i}
 \end{equation}
-is the only terminal symbol instance
-with right location \Vloc{i}.
-Call the EIMs whose bottom-up cause
-is \eqref{eq:read-op-correct-40},
-the ``EIMs read at \Vloc{i}``.
+The EIMs read at \Vloc{i}.
+are the EIMs whose bottom-up cause
+is \eqref{eq:read-op-correct-40}.
 
 The definition of matching top-down cause
 requires that \Veim{down} have a postdot symbol
@@ -2429,7 +2433,7 @@ The reduction pass is correct.
 \end{theorem}
 
 \begin{proof}
-Omitted.
+TODO.
 \end{proof}
 
 \begin{algorithm}[h]
@@ -3020,7 +3024,7 @@ We are now is a position to show that Marpa is correct.
 \end{theorem}
 
 \begin{proof}
-Omitted.
+TODO.
 \end{proof}
 
 \section{Marpa recognizer complexity}
