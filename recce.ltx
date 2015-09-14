@@ -712,12 +712,15 @@ are also called, respectively,
 \dfn{predictions}, \dfn{confirmations} and \dfn{completions}.
 
 A dotted rule which has only nulling symbols after the dot
-is a \dfn{quasi-completion}.
-A dotted rule which has only nulling symbols before the dot
-is a \dfn{quasi-prediction}.
-These definitions may be vacuously true,
-so that all predictions are quasi-predictions,
-and all completions are quasi-completions.
+is \dfn{quasi-complete}.
+A quasi-complete dotted rule is called an
+\dfn{quasi-completion}.
+If a dotted rule is not quasi-complete,
+it is said to be \dfn{quasi-imcomplete},
+or a \dfn{quasi-incompletion}.
+These definitions may be vacuously true:
+all completions are quasi-completions.
+
 If in a pair of EIMs,
 \begin{equation*}
 \begin{split}
@@ -730,6 +733,35 @@ we say that \Vdr{completion} is the \dfn{completion dotted rule}
 of the quasi-completion \Vdr{quasi}.
 \begin{equation*}
 \end{equation*}
+
+A dotted rule which has only nulling symbols before the dot
+is a \dfn{quasi-prediction}.
+This definition may be vacuously true:
+all predictions are quasi-predictions.
+
+\begin{theorem}
+\label{t:quasi-drs-disjoint}
+In Marpa grammars,
+no quasi-completion is a quasi-prediction.
+\end{theorem}
+
+\begin{proof}
+The rewrite of
+Marpa grammars 
+eliminates all nullable rules.
+So every rule must have a non-nullable symbol.
+In a dotted rule, therefore,
+there must be
+at least one non-nullable symbol
+and it must come either before the dot
+or after it.
+If a non-nullable symbol comes before the dot,
+the dotted rule might be a quasi-completion,
+but it cannot be a quasi-prediction.
+If a non-nullable symbol comes after the dot,
+the dotted rule might be a quasi-prediction,
+but it cannot be a quasi-completion.
+\end{proof}
 
 \subsection{The dotted rule transition function}
 
@@ -1048,8 +1080,9 @@ a completion EIM is an EIM with a completion
 dotted rule,
 and a predicted EIM is an EIM with a predicted dotted rule.
 The completion EIM of a quasi-complete EIM
-If is a quasi-complete EIM
-$\Veim{quasi} = [ \Vdr{quasi}, \var{i}, \var{j} ]$,
+If \Veim{quasi},
+$\Veim{quasi} = [ \Vdr{quasi}, \var{i}, \var{j} ],$
+is a quasi-complete EIM,
 then its completion EIM is
 $[ \Vdr{complete}, \var{i}, \var{j} ]$,
 where \Vdr{complete} is the completion dotted
@@ -1935,6 +1968,15 @@ the complexity results of
 Leo\cite{Leo1991} intact.
 
 \begin{theorem}
+\label{t:earley-set-0-is-Leo-free},
+No EIM in Earley set 0 is memoized.
+\end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
+
+\begin{theorem}
 \label{t:ethereal-closure-is-Leo-disjoint},
 Let \Veim{eim2}
 be an EIM in the ethereal closure of \Veim{eim1}.
@@ -2098,13 +2140,11 @@ Initialization is correct.
 \end{theorem}
 
 \begin{proof}
-We first note that Leo memoization will have
+From Theorem
+\ref{t:earley-set-0-is-Leo-free},
+we know that Leo memoization has
 no effect on the set of
 EIMs in Earley set 0.
-This is because no EIM is Leo memoized,
-except because of a LIM in a prior Earley
-set,
-and no Earley set is prior to Earley set 0.
 
 Since the bottom-up causes of both
 mundane scansions and reductions
