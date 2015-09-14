@@ -1968,12 +1968,22 @@ the complexity results of
 Leo\cite{Leo1991} intact.
 
 \begin{theorem}
+\label{t:leo-quasi-complete}
+Only quasi-complete EIMs are
+Leo-memoized.
+\end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
+
+\begin{theorem}
 \label{t:earley-set-0-is-Leo-free},
 No EIM in Earley set 0 is memoized.
 \end{theorem}
 
 \begin{proof}
-TODO.
+TODO: uses Theorem \ref{t:leo-quasi-complete}
 \end{proof}
 
 \begin{theorem}
@@ -2057,7 +2067,7 @@ resource passed upward to the
 current procedure from called procedures.
 
 Earley sets may be represented by \Ves{i},
-where \var{i} is the Earley set's locaiton \Vloc{i}.
+where \var{i} is the Earley set's location \Vloc{i}.
 The two notations should be regarded as interchangeable.
 The actual implementation of either
 should be the equivalent of a pointer to
@@ -2075,7 +2085,7 @@ Per-set-lists will be described in Section \ref{s:per-set-lists}.
 \State \Call{Initial}{}
 \For{ $\var{i}, 0 \le \var{i} \le \Vsize{w}$ }
 \State \Comment At this point, $\Ves{x}$ is complete, for $0 \le \var{x} < \var{i}$
-\State \Call{Scan pass}{$\var{i}, \var{w}[\var{i} \subtract 1]$}
+\State \Call{Read pass}{$\var{i}, \var{w}[\var{i} \subtract 1]$}
 \If{$\size{\Ves{i}} = 0$}
 \State reject \Cw{} and return
 \EndIf
@@ -2102,7 +2112,7 @@ All these resource charges are obviously \Oc.
 \subsection{Ruby Slippers parsing}
 This top-level code represents a significant change
 from previous versions of Earley's algorithm.
-\call{Scan pass}{} and \call{Reduction pass}{}
+\call{Read pass}{} and \call{Reduction pass}{}
 are separated.
 As a result,
 when the scanning of tokens that start at location \Vloc{i} begins,
@@ -2118,7 +2128,7 @@ including which tokens are acceptable during the scanning phase.
 \label{a:initial}
 \begin{algorithmic}[1]
 \Procedure{Initial}{}
-\State \Call{Add EIM pair}{$0_{ES}, \dr{start}, 0$}
+\State \Call{Add EIM set}{$\dr{start}, 0, 0$}
 \label{line:initial-10}
 \EndProcedure
 \end{algorithmic}
@@ -2196,24 +2206,28 @@ of Algorithm \ref{a:initial}.
 \end{proof}
 
 \begin{algorithm}[h]
-\caption{Marpa Scan pass}
+\caption{Marpa Read pass}
+\label{alg:read-pass}
 \begin{algorithmic}[1]
-\Procedure{Scan pass}{$\Vloc{i},\Vsym{a}$}
+\Procedure{Read pass}{$\Vloc{i},\Vsym{up}$}
 \State Note: Each pass through this loop is an EIM attempt
-\For{each $\Veim{predecessor} \in \var{transitions}((\var{i} \subtract 1),\var{a})$}
-\State $[\Vdr{from}, \Vloc{origin}] \gets \Veim{predecessor}$
-\State $\Vdr{to} \gets \GOTO(\Vdr{from}, \Vsym{a})$
-\State \Call{Add EIM pair}{$\Ves{i}, \Vdr{to}, \Vloc{origin}$}
+\For{each $\Veim{down} \in \var{transitions}((\var{i} \subtract 1),\Vsym{up})$}
+\label{line:read-pass-18}
+\State $[\Vdr{down}, \Vloc{origin}] \gets \Veim{down}$
+\label{line:read-pass-20}
+\State $\Vdr{effect} \gets \GOTO(\Vdr{down}, \Vsym{up})$
+\State \Call{Add EIM set}{$\Vdr{effect}, \Vloc{origin}, \Vloc{i}$}
+\label{line:read-pass-40}
 \EndFor
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Scan pass}
-\label{p:scan-op}
+\subsection{Read pass}
+\label{p:read-op}
 
-\subsubsection{Scan pass complexity}
-\label{p:scan-op-complexity}
+\subsubsection{Read pass complexity}
+\label{p:read-op-complexity}
 
 \var{transitions} is a set of tables, one per Earley set.
 The tables in the set are indexed by symbol.
@@ -2231,18 +2245,135 @@ the lookup is always in the previous Earley set,
 which can easily be tracked in \Oc{} space
 and retrieved in \Oc{} time.
 Inclusive time and space can be charged to the
-\Veim{predecessor}.
+\Veim{down}.
 Overhead is charged to the Earley set at \Vloc{i}.
 
-\subsubsection{Scan pass correctness}
-\label{p:scan-op-correct}
+\subsubsection{Read pass correctness}
+\label{p:read-op-correct}
 
-\begin{theorem}\label{t:scan-op-correct}
-The scan pass is correct.
+\begin{theorem}
+\label{t:read-op-correct}
+Let the Earley tables for all locations 
+\Vloc{h},
+$\var{h} < \Vloc{i}$ be correct.
+Then read pass at \Vloc{i}
+adds all and only
+the ethereal closure of
+those
+EIMs at \Vloc{i}
+whose bottom-up cause is a terminal
+symbol instance.
 \end{theorem}
 
 \begin{proof}
-Omitted.
+We first assure ourselves that Leo 
+memoization has no effect on the read pass.
+The bottom-up causes,
+in Algorithm
+\ref{alg:read-pass}
+are terminal symbol instances.
+Leo memoizations are of EIMs --
+terminal instances are not Leo-memoized.
+
+The top-down causes
+in Algorithm
+\ref{alg:read-pass}
+must be quasi-incomplete because it is the result
+of the \var{transitions} function,
+which only memoizes EIMs with a non-nullable postdot
+symbol --
+see line
+\ref{line:memoize-transitions-20}
+in Algorithm
+\ref{alg:memoize-transitions}.
+A quasi-complete EIM cannot have a
+non-nullable postdot symbol,
+so therefore
+\Veim{down} at line
+\ref{line:read-pass-20}
+must be quasi-incomplete.
+By Theorem 
+\ref{t:leo-quasi-complete},
+no quasi-incomplete EIM
+is Leo-memoized.
+Therefore none of the EIMs used
+in Algorithm
+\ref{alg:memoize-transitions}
+will be overlooked because
+of Leo memoization.
+
+By the definition of \Cw{},
+\begin{equation}
+\label{eq:read-op-correct-40}
+\mkl{\var{i} \subtract 1} \,\, \Vsym{up} \Vmkr{i}
+\end{equation}
+is the only terminal symbol instance
+with right location \Vloc{i}.
+Call the EIMs whose bottom-up cause
+is \eqref{eq:read-op-correct-40},
+the ``EIMs read at \Vloc{i}``.
+
+The definition of matching top-down cause
+requires that \Veim{down} have a postdot symbol
+of \Vsym{up} and a right location of
+${\var{i} \subtract 1}$.
+By theorem
+\ref{t:TODO-memoize-transitions-correct},
+the \var{transitions} function returns all of these for
+use as the value of \Veim{down}
+in the loop at line
+\ref{line:read-pass-18}.
+
+From this, we observe that
+all and only 
+the matching pairs of causes
+for the EIMs read at \Vloc{i}
+are used to add EIMs
+in the loop at line
+\ref{line:read-pass-40}.
+Call this the ``cause-correctness'' observation.
+
+From the cause-correctness observation and
+Theorem
+\ref{t:effect-from-symbolic-causes}
+we know that the EIMs we attempt to add
+at line
+\ref{line:read-pass-40}
+are consistent.
+From the cause-correctness observation and
+Theorem
+\ref{t:symbolic-causes-from-effect}
+we know that the EIMs we attempt to add
+at line
+\ref{line:read-pass-40}
+are complete.
+
+Since the 
+the EIMs we attempt to add
+at line
+\ref{line:read-pass-40}
+are consistent and complete,
+we know that,
+at line
+\ref{line:read-pass-40},
+we attempted to add EIMs from
+a correct set of causes
+for the EIMs read at \Vloc{i}.
+By Theorem
+\ref{t:null-transition-op-correct}
+we know that the
+Algorithm
+\ref{alg:eim-set}
+used
+at line
+\ref{line:read-pass-40}
+adds the ethereal closure of
+the EIM that is its argument.
+Therefore, we did add
+all of, and only, the EIMs
+in the ethereal closure of the
+EIMs read at \Vloc{i},
+as required for the theorem.
 \end{proof}
 
 \begin{algorithm}[h]
@@ -2303,9 +2434,11 @@ Omitted.
 
 \begin{algorithm}[h]
 \caption{Memoize transitions}
+\label{alg:memoize-transitions}
 \begin{algorithmic}[1]
 \Procedure{Memoize transitions}{\Vloc{i}}
-\For{every \Vsym{postdot}, a postdot symbol of $\Ves{i}$}
+\For{every \Vsym{postdot}, a non-nullable postdot symbol of $\Ves{i}$}
+\label{line:memoize-transitions-20}
 \State Note: \Vsym{postdot} is ``Leo eligible" if it is
 \State \hspace\algorithmicindent  Leo unique and its rule is right recursive
 \If{\Vsym{postdot} is Leo eligible}
@@ -2412,7 +2545,7 @@ Overhead is \Oc{} and caller-included.
 \Procedure{Earley reduction operation}{\Vloc{i}, \Veim{from}, \Vsym{trans}}
 \State $[\Vdr{from}, \Vloc{origin}] \gets \Veim{from}$
 \State $\Vdr{to} \gets \GOTO(\Vdr{from}, \Vsym{trans})$
-\State \Call{Add EIM pair}{\Ves{i}, \Vdr{to}, \Vloc{origin}}
+\State \Call{Add EIM set}{\Vdr{to}, \Vloc{origin}, Vloc{i}}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
@@ -2432,7 +2565,7 @@ attempt.
 \Procedure{Leo reduction operation}{\Vloc{i}, \Vlim{from}}
 \State $[\Vdr{from}, \Vsym{trans}, \Vloc{origin}] \gets \Vlim{from}$
 \State $\Vdr{to} \gets \GOTO(\Vdr{from}, \Vsym{trans})$
-\State \Call{Add EIM pair}{\Ves{i}, \Vdr{to}, \Vloc{origin}}
+\State \Call{Add EIM set}{\Vdr{to}, \Vloc{origin}, \Vloc{i}}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
@@ -2447,26 +2580,26 @@ and inclusive time and space is charged to the EIM
 attempt.
 
 \begin{algorithm}[!htp]
-\caption{Add EIM pair}\label{a:eim-set}
+\caption{Add EIM set}\label{alg:eim-set}
 \begin{algorithmic}[1]
-\Procedure{Add EIM pair}{$\Ves{i},\Vdr{base}, \Vloc{origin}$}
+\Procedure{Add EIM set}{$\Vdr{base}, \Vloc{origin}, Vloc{i}$}
 \State $\Veim{confirmed} \gets [\Vdr{base}, \Vloc{origin}]$
 \If{\Veim{base} is new}
-\State Add \Veim{base} to \Vtable{i}\label{line:pair-10}
+\State Add \Veim{base} to \Vtable{i}\label{line:eim-set-10}
 \EndIf
-\State $\Vdrset{next} \gets \GOTO(\Vdr{base}, \epsilon)$\label{line:pair-20}
+\State $\Vdrset{next} \gets \GOTO(\Vdr{base}, \epsilon)$\label{line:eim-set-20}
 \For{every $\Vdr{next} \in  \Vdrset{next}$}
 \If{\Vdr{next} is a quasi-prediction}
 \State $\Veim{next} \gets [\Vdr{next}, \Vloc{i}, \Vloc{i}]$
-\label{line:pair-25}
+\label{line:eim-set-25}
 \If{\Veim{next} is new}
-\State Add \Veim{next} to \var{table}\label{line:pair-30}
+\State Add \Veim{next} to \var{table}\label{line:eim-set-30}
 \EndIf
 \Else
 \State $\Veim{next} \gets [\Vdr{next}, \Vloc{origin}, \Vloc{i}]$
-\label{line:pair-35}
+\label{line:eim-set-35}
 \If{\Veim{next} is new}
-\State Add \Veim{next} to \var{table}\label{line:pair-40}
+\State Add \Veim{next} to \var{table}\label{line:eim-set-40}
 \EndIf
 \EndIf
 \EndFor
@@ -2474,8 +2607,8 @@ attempt.
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Adding a pair of Earley items}
-\label{p:add-eim-pair}
+\subsection{Adding a set of Earley items}
+\label{p:add-eim-set}
 
 \subsubsection{Complexity}
 \label{p:null-transition-op-complexity}
@@ -2535,17 +2668,18 @@ remains \Oc.
 \subsubsection{Null transition correctness}
 \label{p:prediction-op-correct}
 
-\begin{theorem}\label{t:null-transition-op-correct}
-Algorithm \ref{a:eim-set} adds all and only the EIMs
+\begin{theorem}
+\label{t:null-transition-op-correct}
+Algorithm \ref{alg:eim-set} adds all and only the EIMs
 for the ethereal closure of \Veim{base}.
 \end{theorem}
 
 \begin{proof}
 We first examine the effect Leo memoization will
 have
-on Algorithm \ref{a:eim-set}.
+on Algorithm \ref{alg:eim-set}.
 We note the 
-Algorithm \ref{a:eim-set} is only called when
+Algorithm \ref{alg:eim-set} is only called when
 \Veim{base} is not Leo memoized.
 By Theorem \ref{t:ethereal-closure-is-Leo-disjoint},
 we see that if \Veim{base} is not Leo memoized,
@@ -2555,13 +2689,13 @@ Therefore,
 we may ignore Leo memoization in what follows.
 
 By inspection, we see that 
-Algorithm \ref{a:eim-set} adds items
+Algorithm \ref{alg:eim-set} adds items
 at lines 
-\ref{line:pair-10},
-\ref{line:pair-30}
-and \ref{line:pair-40}.
+\ref{line:eim-set-10},
+\ref{line:eim-set-30}
+and \ref{line:eim-set-40}.
 That the addition of \Veim{base}
-at line \ref{line:pair-10}
+at line \ref{line:eim-set-10}
 is complete,
 consistent and therefore correct,
 follows directly from
@@ -2607,45 +2741,45 @@ only one correct set of values
 for origin and current location.
 These locations are
 the ones
-used by Algorithm \ref{a:eim-set}
+used by Algorithm \ref{alg:eim-set}
 in lines
-\ref{line:pair-25}
-and \ref{line:pair-35}.
+\ref{line:eim-set-25}
+and \ref{line:eim-set-35}.
 Therefore the set of correct EIMs corresponds
 one-to-one
 with the dotted rules
 and, from inspection of
-Algorithm \ref{a:eim-set},
+Algorithm \ref{alg:eim-set},
 this is the set added by
-Algorithm \ref{a:eim-set}
+Algorithm \ref{alg:eim-set}
 at lines
-\ref{line:pair-30}
-and \ref{line:pair-40}.
+\ref{line:eim-set-30}
+and \ref{line:eim-set-40}.
 
 It remains to show that the set of dotted rules on
 which the EIMs added
-at lines \ref{line:pair-30}
-and \ref{line:pair-40}
+at lines \ref{line:eim-set-30}
+and \ref{line:eim-set-40}
 are based
 is correct.
 The EIMs added at lines
-\ref{line:pair-30}
-and \ref{line:pair-40} are based on
+\ref{line:eim-set-30}
+and \ref{line:eim-set-40} are based on
 the dotted rules found
 at line
-\ref{line:pair-20}.
+\ref{line:eim-set-20}.
 By theorem \ref{t:null-transition-dr-correct},
-line \ref{line:pair-20} of
-Algorithm \ref{a:eim-set} the
+line \ref{line:eim-set-20} of
+Algorithm \ref{alg:eim-set} the
 transitive closure of null transitions from
 the dotted rule \Veim{base} found
-by line \ref{line:pair-20} is
+by line \ref{line:eim-set-20} is
 complete, consistent and therefore correct.
 \end{proof}
 
 \begin{theorem}\label{t:quasi-completion-correct}
 Let \Veim{base} be a quasi-completion.
-If Algorithm \ref{a:eim-set} adds \Veim{base},
+If Algorithm \ref{alg:eim-set} adds \Veim{base},
 it also adds all null transitions from it,
 including the the completion EIM.
 \end{theorem}
@@ -2662,7 +2796,7 @@ from theorem \ref{t:null-transition-op-correct}.
 \end{proof}
 
 \begin{theorem}\label{t:prediction-correct}
-If Algorithm \ref{a:eim-set} adds \Veim{base},
+If Algorithm \ref{alg:eim-set} adds \Veim{base},
 it also adds all predictions which are null transitions
 from it,
 including the valid quasi-prediction EIMs.
@@ -2798,7 +2932,7 @@ is \Oc{} if links are included,
 zero otherwise.
 \end{observation}
 
-As noted in Section \ref{p:add-eim-pair},
+As noted in Section \ref{p:add-eim-set},
 the time and space used by predicted Earley items
 and attempts to add them is charged elsewhere.
 
@@ -3074,7 +3208,7 @@ Consider the number of reductions attempted.
 \Marpa{} attempts to add an Earley reduction result
 once for every triple
 \begin{equation*}
-[\Veim{predecessor}, \Vsym{transition}, \Veim{component}].
+[\Veim{down}, \Vsym{transition}, \Veim{component}].
 \end{equation*}
 where
 \begin{equation*}
@@ -3094,14 +3228,14 @@ $\bigsize{\Ves{j}}$ choices for \Veim{component}.
 
 Let the number of dotted rules be \Vsize{\Cdr}.
 We can show that the number of possible choices of
-\Veim{predecessor} is at most \Vsize{\Cdr}, by a reductio.
+\Veim{down} is at most \Vsize{\Cdr}, by a reductio.
 Suppose, for the reductio,
-there were more than \Vsize{dr} possible choices of \Veim{predecessor}.
-Then there are two possible choices of \Veim{predecessor} with
+there were more than \Vsize{dr} possible choices of \Veim{down}.
+Then there are two possible choices of \Veim{down} with
 the same dotted rule.
 Call these \Veim{choice1} and \Veim{choice2}.
 We know, by the definition of Earley reduction, that
-$\Veim{predecessor} \in \Ves{j}$,
+$\Veim{down} \in \Ves{j}$,
 and therefore we have
 $\Veim{choice1} \in \Ves{j}$ and
 $\Veim{choice2} \in \Ves{j}$.
@@ -3115,7 +3249,7 @@ reduction, which would mean that the parse was ambiguous.
 This is contrary to the assumption for the theorem
 that the grammar is unambiguous.
 This shows the reductio
-and that the number of choices for \Veim{predecessor},
+and that the number of choices for \Veim{down},
 compatible with \Vorig{component}, is as most \Vsize{dr}.
 
 Collecting the results we see that the possibilities for
@@ -3123,7 +3257,7 @@ each \Veim{component} are
 \begin{equation*}
 \begin{alignedat}{2}
 & \Vsize{\Cdr} &&
-\qquad \text{choices of \Veim{predecessor}} \\
+\qquad \text{choices of \Veim{down}} \\
 \times \; & \Vsize{symbols} &&
 \qquad \text{choices of \Vsym{transition}} \\
 \times \; & \size{\Ves{j}} &&
@@ -3242,21 +3376,21 @@ Looking again at \var{reduction-tries}
 for the case of ambiguous grammars,
 we need to look again at the triple
 \begin{equation*}
-[\Veim{predecessor}, \Vsym{transition}, \Veim{component}].
+[\Veim{down}, \Vsym{transition}, \Veim{component}].
 \end{equation*}
 We did not use the fact that the grammar was unambigous in counting
 the possibilities for \Vsym{transition} or \Veim{component}, but
 we did make use of it in determining the count of possibilities
-for \Veim{predecessor}.
+for \Veim{down}.
 We know still know that
 \begin{equation*}
-\Veim{predecessor} \in \Ves{component-origin},
+\Veim{down} \in \Ves{component-origin},
 \end{equation*}
 where
 \Vloc{component-origin} is the origin of \Veim{component}.
 Worst case, every EIM in \Ves{component-origin} is a possible
 match, so that
-the number of possibilities for \Veim{predecessor} now grows to
+the number of possibilities for \Veim{down} now grows to
 \size{\Ves{component-origin}}, and
 \begin{equation*}
 \var{reduction-tries} =
