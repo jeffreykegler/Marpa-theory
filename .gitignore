@@ -1,10 +1,11 @@
-junk
-*.ltx.swp
 ah2002_notes[.]aux
 ah2002_notes[.]log
 ah2002_notes[.]pdf
+junk
+*.ltx.swp
 recce[.]aux
 recce[.]idx
 recce[.]log
+recce-lr0[.]pdf
 recce[.]pdf
 recce[.]toc

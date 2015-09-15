@@ -90,13 +90,14 @@
 \newcommand{\Vsymset}[1]{\ensuremath{\var{#1}_{\set{SYM}}}}
 \newcommand{\term}[1]{#1_{TERM}}
 \newcommand{\mk}[1]{\lfloor#1\rceil}
-\newcommand{\mkr}[1]{\,\,\mk{#1}}
-\newcommand{\mkl}[1]{\mk{#1}\,}
-\newcommand{\mkm}[1]{\,\,\mk{#1}\,\,}
+\newcommand{\mkdelim}{\,\,}
+\newcommand{\mkr}[1]{\mkdelim \mk{#1}}
+\newcommand{\mkl}[1]{\mk{#1} \mkdelim}
+\newcommand{\mkm}[1]{\mkdelim \mk{#1} \mkdelim}
 \newcommand{\Vmk}[1]{\mk{\var{#1}}}
-\newcommand{\Vmkl}[1]{\Vmk{#1}\,\,}
-\newcommand{\Vmkr}[1]{\,\,\Vmk{#1}}
-\newcommand{\Vmkm}[1]{\,\,\Vmk{#1}\,\,}
+\newcommand{\Vmkl}[1]{\Vmk{#1} \mkdelim}
+\newcommand{\Vmkr}[1]{\mkdelim \Vmk{#1}}
+\newcommand{\Vmkm}[1]{\mkdelim \Vmk{#1} \mkdelim}
 
 \newcommand{\alg}[1]{\ensuremath{\textsc{#1}}}
 \newcommand{\Earley}{\ensuremath{\alg{Earley}}}
@@ -2080,16 +2081,20 @@ Per-set-lists will be described in Section \ref{s:per-set-lists}.
 
 \begin{algorithm}[h]
 \caption{Marpa Top-level}
+\label{alg:top}
 \begin{algorithmic}[1]
 \Procedure{Main}{}
-\State \Call{Initial}{}
+\State \Call{Initialization}{}
+\label{line:top-20}
 \For{ $\var{i}, 0 \le \var{i} \le \Vsize{w}$ }
-\State \Comment At this point, $\Ves{x}$ is complete, for $0 \le \var{x} < \var{i}$
+\label{line:top-30}
 \State \Call{Read pass}{$\var{i}, \var{w}[\var{i} \subtract 1]$}
+\label{line:top-33}
 \If{$\size{\Ves{i}} = 0$}
 \State reject \Cw{} and return
 \EndIf
 \State \Call{Reduction pass}{\var{i}}
+\label{line:top-40}
 \EndFor
 \If{$[\Vdr{accept}, 0] \in \Etable{\Vsize{w}}$}
 \State accept \Cw{} and return
@@ -2145,7 +2150,8 @@ and is charged to the parse.
 \subsubsection{Initialization correctness}
 \label{p:initial-op-correct}
 
-\begin{theorem}\label{t:initial-op-correct}
+\begin{theorem}
+\label{t:initial-op-correct}
 Initialization is correct.
 \end{theorem}
 
@@ -3159,11 +3165,72 @@ and consistent.
 
 We are now is a position to show that Marpa is correct.
 \begin{theorem}
+\label{t:marpa-is-correct}
 \textup{ $\myL{\Marpa,\Cg} = \myL{\Cg}$ }
 \end{theorem}
 
 \begin{proof}
-TODO.
+We proceed by induction on the Earley sets.
+As the basis of the induction,
+we note that
+Algorithm \label{alg:top}
+at \label{line:top-20}
+is called first
+and that by
+Theorem
+\ref{t:initial-op-correct},
+after it is run,
+Earley set 0 is corrent.
+
+As the step of the induction,
+we assume that we
+are
+at line \ref{line:top-30}
+of 
+Algorithm \ref{alg:top},
+about to process
+the Earley set at \Vloc{i}.
+We assume for the induction step
+that
+\begin{equation}
+\label{eq:marpa-is-correct-20}
+\text{the Earley sets at locations $0 \ldots (decr{i}) are correct.}
+\end{equation}
+
+Line
+\ref{line:top-33}
+executes the read pass for Earley set \var{i}.
+From 
+\eqref{eq:marpa-is-correct-20}
+and Theorem
+\ref{t:read-op-correct},
+we see that,
+after the execution
+of line
+\ref{line:top-33},
+\begin{equation}
+\label{eq:marpa-is-correct-40}
+\text{the ethereal closure of the read EIMs at \Vloc{i} is correct.}
+\end{equation}
+
+Next,
+\ref{line:top-40}
+executes the reduction pass for Earley set \var{i}.
+From 
+\eqref{eq:marpa-is-correct-20},
+\eqref{eq:marpa-is-correct-40}
+and Theorem
+\ref{t:reduction-op-correct},
+we see that,
+after the execution
+of line
+\ref{line:top-40},
+\begin{equation}
+\label{eq:marpa-is-correct-40}
+\text{the ethereal closure of the reduced EIMs at \Vloc{i} is correct.}
+\end{equation}
+
+TODO: Finish this
 \end{proof}
 
 \section{Marpa recognizer complexity}
