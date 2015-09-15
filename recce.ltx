@@ -51,8 +51,10 @@
 % so I need to ensure that subtraction is
 % clearly distinguished by the typography
 \newcommand{\subtract}{\,-\,}
+\newcommand{\decr}[1]{\ensuremath{#1 \subtract 1}}
 
 \newcommand{\var}[1]{\ensuremath{\texttt{#1}}}
+\newcommand{\Vdecr}[1]{\decr{var{#1}}}
 
 \newcommand{\de}{\rightarrow}
 \newcommand{\derives}{\Rightarrow}
@@ -492,7 +494,7 @@ It means
 \label{eq:location-marker-def}
 \begin{split}
 &  \Vsym{accept} \destar \Vstr{before} \cat \Vstr{pre} \cat \Vstr{post} \cat \Vstr{after} \\
-&  \land \Vstr{before} \cat \Vstr{pre} \destar \var{w}[0, (\var{x} \subtract 1)] \\
+&  \land \Vstr{before} \cat \Vstr{pre} \destar \var{w}[0, (\Vdecr{x})] \\
 &  \land \Vstr{post} \cat \Vstr{after} \destar \var{w}[\var{x}, (\Vsize{\Cw} \subtract 1)]
 \end{split}
 \end{equation}
@@ -3173,14 +3175,14 @@ We are now is a position to show that Marpa is correct.
 We proceed by induction on the Earley sets.
 As the basis of the induction,
 we note that
-Algorithm \label{alg:top}
-at \label{line:top-20}
+Algorithm \ref{alg:top}
+at \ref{line:top-20}
 is called first
 and that by
 Theorem
 \ref{t:initial-op-correct},
 after it is run,
-Earley set 0 is corrent.
+Earley set 0 is correct.
 
 As the step of the induction,
 we assume that we
@@ -3194,7 +3196,7 @@ We assume for the induction step
 that
 \begin{equation}
 \label{eq:marpa-is-correct-20}
-\text{the Earley sets at locations $0 \ldots (decr{i}) are correct.}
+\forall \, \Vloc{h} \mid 0 \le \var{h} < \Vloc{i} \implies \text{\Vtable{h} is correct.}
 \end{equation}
 
 Line
@@ -3214,7 +3216,7 @@ of line
 \end{equation}
 
 Next,
-\ref{line:top-40}
+line \ref{line:top-40}
 executes the reduction pass for Earley set \var{i}.
 From 
 \eqref{eq:marpa-is-correct-20},
@@ -3226,7 +3228,7 @@ after the execution
 of line
 \ref{line:top-40},
 \begin{equation}
-\label{eq:marpa-is-correct-40}
+\label{eq:marpa-is-correct-50}
 \text{the ethereal closure of the reduced EIMs at \Vloc{i} is correct.}
 \end{equation}
 
