@@ -1645,11 +1645,9 @@ and $\Vstr{postdot} = \Vstr{start}$,
 follows directly from the definition of EIM validity.
 \end{proof}
 
-\subsection{Earley sets grow at worst linearly}
-
 \begin{theorem}\label{t:es-count}
-For a context-free grammar,
-and a parse location \Vloc{i},
+The size of the Earley set at \Vloc{i} is,
+worst case, $\order{\var{i}}$:
 \begin{equation*}
 \textup{
     $\bigsize{\EVtable{\Marpa}{i}} = \order{\var{i}}$.
@@ -1677,21 +1675,20 @@ the maximum size of Earley set \Vloc{i} is therefore
 \end{equation*}
 \end{proof}
 
-\subsection{Causes}
-
 \begin{theorem}\label{t:multi-cause-eq-ambiguous-g}
 If any Earley item has more than one top-down cause,
 or more than one bottom-up cause,
 the grammar is ambiguous.
 \end{theorem}
 
+% TODO -- write a more careful proof
 \begin{proof}
 This may be proved using the derivations in the definition
 of top-down and bottom-up cause.
-More than one cause means more than one derivation,
-and a grammar with more than one derivation for \Cw{}.
-The definition of ambiguity for a grammar is that it
-has more than one derivation for a single input.
+More than one cause means more than one derivation.
+Since every symbol in a Marpa grammar is production,
+if a grammar allows more than one derivation for any of its symbol,
+there exists some input for which it is ambiguous.
 \end{proof}
 
 \subsection{Earley algorithms}
