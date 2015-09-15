@@ -681,9 +681,9 @@ its type is \dfn{start} dotted rule as defined above \eqref{eq:start-eim-def}.
 If it does not have a predot symbol and it is not the start dotted rule,
 it is a \dfn{prediction} dotted rule.
 \item
-\label{def:ethereal-dr}
+\label{def:null-scan-dr}
 If it does have a predot symbol and that symbol is a nulling terminal,
-it is an \dfn{ethereal} dotted rule.
+it is an \dfn{null-scanned} dotted rule.
 \item
 \label{def:read-dr}
 If it does have a predot symbol and that symbol is a non-nullable terminal,
@@ -1095,7 +1095,7 @@ rule of \Vdr{quasi}.
 \label{eim-types-correct}
 Every EIM falls into one of these
 five disjoint types:
-start, prediction, read, ethereal and reduction.
+start, prediction, read, null-scan and reduction.
 \end{theorem}
 
 \begin{proof}
@@ -1103,7 +1103,7 @@ Recall that EIMs take their type from their dotted rule.
 The proof then follows directly from definitions
 \eqref{def:start-dr},
 \eqref{def:prediction-dr},
-\eqref{def:ethereal-dr},
+\eqref{def:null-scan-dr},
 \eqref{def:read-dr}
 and \eqref{def:reduction-dr}
 above.
@@ -2165,14 +2165,14 @@ no effect on the set of
 EIMs in Earley set 0.
 
 Since the bottom-up causes of both
-mundane scansions and reductions
+reads and reductions
 has an input length of greater than 0,
 these EIMs cannot appear in Earley set 0.
 All EIMs in Earley set 0 are therefore
 \begin{itemize}
 \item the start Earley item,
 \item predictions, or
-\item ethereal scansions.
+\item null-scans.
 \end{itemize}
 
 The set of start Earley items that we will
@@ -2189,10 +2189,12 @@ added by
 Algorithm \ref{alg:initial} to Earley set 0
 is correct.
 
-The predictions and ethereal scansions
+TODO: Prove these next assertions.
+
+The predictions and null-scans
 must have a top-down cause in the same
 Earley set.
-Together, the predictions and ethereal scansions
+Together, the predictions and null-scans
 are exactly the EIMs with null transitions.
 So null transition EIMs
 must have some other EIM in Earley set 0
@@ -2856,14 +2858,14 @@ the pseudo-code.
 Other than \Veim{base} itsefl,
 all EIMs in the ethereal closure of
 \Veim{base} are the product of
-a series of ethereal scans
+a series of null scans
 and predictions.
 These operations never change the current location --
 it will always be that of \Veim{base}.
 The origin only changes if the operation is a prediction --
 the origin of a predictions is the same as its current
 location.
-This remains true for the ethereal scan of a predictions --
+This remains true for the null scan of a predictions --
 its origin is that of its top-down cause, but since
 that top-down cause is a prediction,
 the origin is the same as if it was a prediction.
