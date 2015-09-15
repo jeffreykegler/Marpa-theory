@@ -2090,7 +2090,7 @@ Per-set-lists will be described in Section \ref{s:per-set-lists}.
 \label{line:top-20}
 \For{ $\var{i}, 0 \le \var{i} \le \Vsize{w}$ }
 \label{line:top-30}
-\State \Call{Read pass}{$\var{i}, \var{w}[\var{i} \subtract 1]$}
+\State \Call{Read pass}{$\var{i}, \var{w}[\Vdecr{i}]$}
 \label{line:top-33}
 \If{$\size{\Ves{i}} = 0$}
 \State reject \Cw{} and return
@@ -2132,7 +2132,7 @@ including which tokens are acceptable during the scanning phase.
 
 \begin{algorithm}[h]
 \caption{Initialization}
-\label{a:initial}
+\label{alg:initial}
 \begin{algorithmic}[1]
 \Procedure{Initial}{}
 \State \Call{Add EIM set}{$\dr{start}, 0, 0$}
@@ -2186,7 +2186,7 @@ It is consistent by theorem \ref{t:start-eim-is-valid}.
 It is complete because the start rule is by definition unique.
 Therefore the set of start EIMs
 added by
-Algorithm \ref{a:initial} to Earley set 0
+Algorithm \ref{alg:initial} to Earley set 0
 is correct.
 
 The predictions and ethereal scansions
@@ -2210,7 +2210,7 @@ By \eqref{t:null-transition-op-correct},
 this is exactly the set of EIMs added to Earley set 0
 in line 
 \ref{line:initial-10}
-of Algorithm \ref{a:initial}.
+of Algorithm \ref{alg:initial}.
 \end{proof}
 
 \begin{algorithm}[h]
@@ -3176,12 +3176,12 @@ We proceed by induction on the Earley sets.
 As the basis of the induction,
 we note that
 Algorithm \ref{alg:top}
-at \ref{line:top-20}
-is called first
-and that by
-Theorem
+at line \ref{line:top-20},
+calls Algorithm \ref{alg:initial}.
+By Theorem
 \ref{t:initial-op-correct},
-after it is run,
+after 
+line \ref{line:top-20},
 Earley set 0 is correct.
 
 As the step of the induction,
