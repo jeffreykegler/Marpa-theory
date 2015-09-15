@@ -78,8 +78,8 @@
 \newcommand{\Veimset}[1]{\ensuremath{\var{#1}_{\set{EIM}}}}
 \newcommand{\Ees}[1]{\ensuremath{#1_{ES}}}
 \newcommand{\Vlim}[1]{\ensuremath{\var{#1}_{LIM}}}
-\newcommand{\Eloc}[1]{\ensuremath{{#1}_{LOC}}}
-\newcommand{\Vloc}[1]{\Eloc{\var{#1}}}
+\newcommand{\loc}[1]{\ensuremath{{#1}_{LOC}}}
+\newcommand{\Vloc}[1]{\loc{\var{#1}}}
 \newcommand{\Ves}[1]{\Ees{\var{#1}}}
 \newcommand{\Vrule}[1]{\ensuremath{\var{#1}_{RULE}}}
 \newcommand{\Vruleset}[1]{\ensuremath{\var{#1}_{\set{RULE}}}}
@@ -125,6 +125,10 @@
 \newcommand{\ID}[1]{\mymathop{ID}(#1)}
 \newcommand{\PSL}[2]{\mymathop{PSL}[#1][#2]}
 \newcommand{\myL}[1]{\mymathop{L}(#1)}
+
+\newcommand\Ctables{\var{tables}}
+\newcommand\Vtables[1]{\Ctables[\alg{#1}]}
+
 \newcommand\Etable[1]{\ensuremath{\mymathop{table}[#1]}}
 \newcommand\bigEtable[1]{\ensuremath{\mymathop{table}\bigl[#1\bigr]}}
 \newcommand\Rtable[1]{\ensuremath{\mymathop{table}[#1]}}
@@ -695,6 +699,9 @@ If it does have a predot symbol and that symbol is a non-terminal
 it is an \dfn{reduction} dotted rule.
 \end{enumerate}
 
+Prediction and null-scan dotted rules are called \dfn{ethereal} dotted rules.
+All other dotted rules are called \dfn{telluric} dotted rules.
+
 A \dfn{predicted dotted rule}
 always has a dot position of zero,
 for example,
@@ -724,7 +731,7 @@ or a \dfn{quasi-incompletion}.
 These definitions may be vacuously true:
 all completions are quasi-completions.
 
-If in a pair of EIMs,
+If in a pair of dotted rules,
 \begin{equation*}
 \begin{split}
 & \Vdr{quasi} = [\Vsym{A} \de \Vstr{alpha} \mydot \Vstr{nulls} ] \\
@@ -1058,7 +1065,7 @@ of dotted rule, origin, and current location.
 
 The \dfn{origin} is the location where recognition of the rule
 started.
-It is sometimes called the ``parent''.)
+(It is sometimes called the ``parent''.)
 The \dfn{current} or \dfn{dot location} is the location
 in \Cw{} of the dot position in \Vdr{dotted-rule}
 For convenience, the type \type{ORIG} will be a synonym
@@ -1108,6 +1115,15 @@ The proof then follows directly from definitions
 and \eqref{def:reduction-dr}
 above.
 \end{proof}
+
+Following the convention for dotted rules,
+EIMs are telluric is they are the start EIM,
+a read EIM or a reduction EIM.
+An EIM is ethereal if it is not telluric.
+The idea is that telluric dotted rules are ``grounded'' either
+in the input or in the initial state of the parse,
+while
+ethereal dotted rules emerge out of an invisible realm.
 
 \subsection{Validity of Earley items}
 
@@ -1642,36 +1658,6 @@ and $\Vstr{postdot} = \Vstr{start}$,
 follows directly from the definition of EIM validity.
 \end{proof}
 
-\begin{theorem}\label{t:es-count}
-The size of the Earley set at \Vloc{i} is,
-worst case, $\order{\var{i}}$:
-\begin{equation*}
-\textup{
-    $\bigsize{\EVtable{\Marpa}{i}} = \order{\var{i}}$.
-}
-\end{equation*}
-\end{theorem}
-
-\begin{proof}
-EIM's have the form $[\Vdr{x}, \Vorig{x}]$.
-\Vorig{x} is the origin of the EIM,
-which in Marpa cannot be after the current
-Earley set  at \Vloc{i},
-so that
-\begin{equation*}
-0 \le \Vorig{x} \le \Vloc{i}.
-\end{equation*}
-The possibilities for \Vdr{x},
-call it $\size{\Cdr}$,
-is a finite constant that depend on the grammar,
-\Cg{}.
-Since duplicate EIM's are never added to an Earley set,
-the maximum size of Earley set \Vloc{i} is therefore
-\begin{equation*}
-\Vloc{i} \times \size{\Cdr} = \order{\Vloc{i}}.\qedhere
-\end{equation*}
-\end{proof}
-
 \begin{theorem}\label{t:multi-cause-eq-ambiguous-g}
 If any Earley item has more than one top-down cause,
 or more than one bottom-up cause,
@@ -1688,11 +1674,26 @@ if a grammar allows more than one derivation for any of its symbol,
 there exists some input for which it is ambiguous.
 \end{proof}
 
-\subsection{Earley algorithms}
+\section{Earley implementations}
 
-An Earley parser builds a table of Earley sets,
+In the context of a specific \Cg{},
+a specific \Cw{},
+and a specific Earley implementation,
+an Earley parser builds a table of Earley sets,
+\Ctables.
+Let \alg{Impl} be an Earley implementation.
+When we wish to make clear that
+we are speak of the tables of the \alg{Impl},
+its tables are
+\Vtables{Impl}.
+For example, the tables for the Marpa
+are \Vtables{Marpa}.
+
+Traditionally, the tables of an Earley algorithm
+are grouped into sets,
+one \dfn{Earley set} for each location of \Cw{}:
 \begin{equation*}
-\EVtable{\Earley}{i},
+\EVtable{Impl}{i},
 \quad \text{where} \quad
 0 \le \Vloc{i} \le \size{\Cw}.
 \end{equation*}
@@ -1703,10 +1704,10 @@ The type designator \type{ES} is often omitted to avoid clutter,
 especially in cases where the Earley set is not
 named by location.
 
-\EVtable{\alg{Recce}}{i} will be
+\EVtable{\alg{Impl}}{i} will be
 the Earley set at \Vloc{i}
 in the table of Earley sets of
-the \alg{Recce} recognizer.
+the \alg{Impl} implementation.
 For example,
 \EVtable{\Marpa}{j} will be Earley set \Vloc{j}
 in \Marpa's table of Earley sets.
@@ -1737,13 +1738,31 @@ all valid Earley items.
 An Earley set is \dfn{correct} if and only if it is
 consistent and complete.
 
+We call 
+\begin{equation}
+\Veim{accept} = [\Vdr{accept}, 0, \Vsize{\Cw}]
+\end{equation}
+the \dfn{accept EIM}.
+Let \alg{Impl} be an Earley implementation.
+We say that \alg{Impl} 
+\dfn{accepts} an input
+if and only if \Veim{accept} is in its Earley tables:
+\begin{equation}
+\label{eq:def-implementation-accepts}
+\myL{\alg{Impl},\Cg}
+\defined
+\Veim{accept} \in \Vtables{Impl}
+\end{equation}
+if and only if the accept EIM is in its Earley tables.
 We say that an Earley implementation is \dfn{correct} if and only
 if it the set of strings it accepts is exactly the set of
-string in the language of its grammar.
+strings in the language of its grammar.
 
 \begin{theorem}\label{t:algorithm-correct}
 If an Earley implementation creates a correct Earley set
 at location \Vsize{\Cw}, then
+that implementation accepts all and only the
+correct inputs:
 \begin{equation}
 \label{eq:algorithm-correct-2}
 [\Vdr{accept}, 0] \in \bigEtable{\Vsize{\Cw}} \equiv \Cw \in \var{L}(\Cg).
@@ -1829,6 +1848,36 @@ we have
 This shows the reverse direction of the implication.
 We have now shown both directions of the implication,
 and therefore the theorem.
+\end{proof}
+
+\begin{theorem}\label{t:es-count}
+The size of the Earley set at \Vloc{i} is,
+worst case, $\order{\var{i}}$:
+\begin{equation*}
+\textup{
+    $\bigsize{\EVtable{\Marpa}{i}} = \order{\var{i}}$.
+}
+\end{equation*}
+\end{theorem}
+
+\begin{proof}
+EIM's have the form $[\Vdr{x}, \Vorig{x}]$.
+\Vorig{x} is the origin of the EIM,
+which in Marpa cannot be after the current
+Earley set  at \Vloc{i},
+so that
+\begin{equation*}
+0 \le \Vorig{x} \le \Vloc{i}.
+\end{equation*}
+The possibilities for \Vdr{x},
+call it $\size{\Cdr}$,
+is a finite constant that depend on the grammar,
+\Cg{}.
+Since duplicate EIM's are never added to an Earley set,
+the maximum size of Earley set \Vloc{i} is therefore
+\begin{equation*}
+\Vloc{i} \times \size{\Cdr} = \order{\Vloc{i}}.\qedhere
+\end{equation*}
 \end{proof}
 
 \section{The Leo algorithm}
@@ -2202,7 +2251,7 @@ or indirect cause of all other EIMs in Earley set 0.
 From these considerations, we see that Earley 0
 consists of the start Earley item and the transitive
 closure of null transition from it.
-By \eqref{t:null-transition-op-correct},
+By Theorem \ref{t:ethereal-closure-op-correct},
 this is exactly the set of EIMs added to Earley set 0
 in line 
 \ref{line:initial-10}
@@ -2368,7 +2417,7 @@ we attempted to add EIMs from
 a correct set of causes
 for the EIMs read at \Vloc{i}.
 By Theorem
-\ref{t:null-transition-op-correct}
+\ref{t:ethereal-closure-op-correct}
 we know that the
 Algorithm
 \ref{alg:eim-set}
@@ -2562,7 +2611,7 @@ we attempted to add EIMs from
 a correct set of causes
 for the EIMs reduced at \Vloc{i}.
 By Theorem
-\ref{t:null-transition-op-correct}
+\ref{t:ethereal-closure-op-correct}
 we know that the
 Algorithm
 \ref{alg:eim-set}
@@ -2758,7 +2807,7 @@ attempt.
 \label{p:add-eim-set}
 
 \subsubsection{Complexity}
-\label{p:null-transition-op-complexity}
+\label{p:ethereal-closure-op-complexity}
 
 This operation adds the ethereal closure
 of a confirmed EIM
@@ -2804,7 +2853,7 @@ is \Oc{} per call.
 
 Looking specifically at predictions,
 From the discussion in 
-\ref{p:null-transition-op-complexity}, we see that
+\ref{p:ethereal-closure-op-complexity}, we see that
 no time or space is ever charged
 to a predicted Earley item.
 At most one attempt to add a \Veim{predicted} will
@@ -2816,7 +2865,7 @@ remains \Oc.
 \label{p:prediction-op-correct}
 
 \begin{theorem}
-\label{t:null-transition-op-correct}
+\label{t:ethereal-closure-op-correct}
 Algorithm \ref{alg:eim-set} adds all and only the EIMs
 for the ethereal closure of \Veim{base}.
 \end{theorem}
@@ -2849,7 +2898,7 @@ follows directly from
 inspection of
 the pseudo-code.
 
-Other than \Veim{base} itsefl,
+Other than \Veim{base} itself,
 all EIMs in the ethereal closure of
 \Veim{base} are the product of
 a series of null scans
@@ -2934,12 +2983,12 @@ including the the completion EIM.
 \begin{proof}
 For null transitions,
 the result follows directly
-from theorem \ref{t:null-transition-op-correct}.
+from theorem \ref{t:ethereal-closure-op-correct}.
 By the definition of completion EIM,
 a completion EIM is the result of null transition
 from any of its quasi-completions,
 so that case also follows
-from theorem \ref{t:null-transition-op-correct}.
+from theorem \ref{t:ethereal-closure-op-correct}.
 \end{proof}
 
 \begin{theorem}\label{t:prediction-correct}
@@ -2954,7 +3003,7 @@ The predictions
 and quasi-predictions are
 null transitions form \Veim{base},
 so the result follows directly
-from theorem \ref{t:null-transition-op-correct}.
+from theorem \ref{t:ethereal-closure-op-correct}.
 \end{proof}
 
 \subsection{Per-set lists}
@@ -3048,20 +3097,34 @@ and a new time-stamp is set, as follow:
 
 \subsection{Complexity summary}
 
-For convenience, we collect and summarize here
-some of the observations of this section.
+For convenience, we summarize
+the complexity results 
+of this section here,
+as theorems.
 
-\begin{observation}
+\begin{theorem}
+\label{t:added-eim-charge}
 The time and space charged to an Earley item
 which is actually added to the Earley sets
 is \Oc.
-\end{observation}
+\end{theorem}
 
-\begin{observation}
+\begin{proof}
+The theorem follows from collecting the results
+in the complexity discussions of this section.
+\end{proof}
+
+\begin{theorem}
+\label{t:dup-eim-time}
 The time charged to an attempt
 to add a duplicate Earley item to the Earley sets
 is \Oc.
-\end{observation}
+\end{theorem}
+
+\begin{proof}
+The theorem follows from collecting the results
+in the complexity discussions of this section.
+\end{proof}
 
 For evaluation purposes, \Marpa{} adds a link to
 each EIM that records each attempt to
@@ -3072,21 +3135,30 @@ as recognizers, and such costs are ignored.
 This will be an issue when the space complexity
 for unambiguous grammars is considered.
 
-\begin{observation}
+\begin{theorem}
+\label{t:dup-eim-space}
 The space charged to an attempt
 to add a duplicate Earley item to the Earley sets
 is \Oc{} if links are included,
 zero otherwise.
-\end{observation}
+\end{theorem}
 
+\begin{proof}
+The theorem follows from collecting the results
+in the complexity discussions of this section.
+\end{proof}
+
+\begin{theorem}
+\label{t:prediction-time}
+No space or time is charged to predicted Earley items,
+or to attempts to add predicted Earley items.
+\end{theorem}
+
+\begin{proof}
 As noted in Section \ref{p:add-eim-set},
 the time and space used by predicted Earley items
 and attempts to add them is charged elsewhere.
-
-\begin{observation}
-No space or time is charged to predicted Earley items,
-or to attempts to add predicted Earley items.
-\end{observation}
+\end{proof}
 
 \section{Preliminaries to the theoretical results}
 \label{s:proof-preliminaries}
@@ -3228,7 +3300,55 @@ of line
 \text{the ethereal closure of the reduced EIMs at \Vloc{i} is correct.}
 \end{equation}
 
-TODO: Finish this
+By assumption for the step,
+Earley set \Vloc{i} cannot be Earley set 0,
+so we know vacously that
+\begin{equation}
+\label{eq:marpa-is-correct-53}
+\text{the ethereal closure of start EIMs at \Vloc{i} is correct.}
+\end{equation}
+From
+\eqref{eq:marpa-is-correct-40},
+\eqref{eq:marpa-is-correct-50}
+and
+\eqref{eq:marpa-is-correct-53}
+we see that the ethereal closure of
+the set of telluric EIMs at \Vloc{i} is correct.
+By theorem
+\ref{t:ethereal-closure-op-correct}
+we know that the set of ethereal EIMs at \Vloc{i}
+is correct.
+Since every EIM is either telluric or ethereal,
+we know that Earley set \Vloc{i} is correct.
+This shows the step of the induction,
+and the induction.
+
+We know from the induction
+and line \ref{line:top-30}
+of Algorithm \ref{alg:top},
+that the Earley set at \loc{\Vsize{w}}
+is correct.
+Therefore,
+by Theorem
+\ref{t:algorithm-correct},
+it contains
+the accept EIM if and only if
+\Cw{} is in the language of the grammar,
+$\var{L}(\Cg)$, so that
+\begin{equation}
+\label{eq:marpa-is-correct-60}
+\Veim{accept} \in \Vtables{Marpa} \equiv \Cw \in \var{L}(\Cg).
+\end{equation}
+
+From \eqref{eq:def-implementation-accepts},
+we know that an algorithm accepts an input if
+and only if the accept EIM is in its tables.
+Using 
+\eqref{eq:def-implementation-accepts} and
+\eqref{eq:marpa-is-correct-60}, we have
+\begin{equation*}
+\Cw{} \in \var{L}(\alg{Marpa}, \Cg) \equiv \Cw \in \var{L}(\Cg).
+\end{equation*}
 \end{proof}
 
 \section{Marpa recognizer complexity}
