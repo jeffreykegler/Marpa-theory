@@ -559,7 +559,7 @@ and
 &  \qquad \derives \Vstr{before} \cat \Vstr{predot} \,[\var{j}]\, \Vstr{postdot} \cat \Vstr{after}.
 \end{split}
 \end{equation}
-In this example, 
+In this example,
 \eqref{eq:location-marker-definition-2} and
 \eqref{eq:location-marker-definition-3}
 imply that
@@ -787,7 +787,7 @@ no quasi-completion is a quasi-prediction.
 
 \begin{proof}
 The rewrite of
-Marpa grammars 
+Marpa grammars
 eliminates all nullable rules.
 So every rule must have a non-nullable symbol.
 In a dotted rule, therefore,
@@ -839,7 +839,7 @@ Where the transition is over a symbol,
 call it \Vsym{A},
 the behavior of \GOTO is straightforward:
 \begin{equation*}
-\GOTO(\Vdr{from}, \Vsym{A}) = 
+\GOTO(\Vdr{from}, \Vsym{A}) =
 \begin{cases}
 \text{$\emptyset$, if $\Vsym{A} = \Lambda$},
 \\
@@ -1011,7 +1011,7 @@ It is called again for every dotted rule added to the working set
 of dotted rules, \Vdrset{work}.
 We know that no dotted rule is added to
 \Vdrset{work} twice.
-Therefore 
+Therefore
 Algorithm \ref{alg:null-transition-generation}
 is called
 at most once for each dotted rule.
@@ -1029,7 +1029,7 @@ Algorithm \ref{alg:null-transition} is correct.
 \begin{proof}
 It is directly clear from examining
 Algorithm \ref{alg:null-transition}.
-that the null transitions 
+that the null transitions
 for nulling postdot symbols are complete and consistent,
 and therefore correct.
 It remains to consider the null transitions for non-nullable
@@ -1076,7 +1076,7 @@ to \Vdrset{work}
 more than once.
 
 We can do this for to every postdot symbol which occurs twice.
-From this we see that 
+From this we see that
 Algorithm \ref{alg:null-transition}
 can derive a complete set of predictions
 without having to add any dotted rule
@@ -1204,7 +1204,7 @@ Without loss of generality, call it
 \begin{equation*}
 \Veim{effect} = [ [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{up} \mydot \Vstr{suffix} ], \var{i}, \var{k} ]
 \end{equation*}
-Then we call 
+Then we call
 \begin{equation*}
 \Veim{down} = [ [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{up} \cat \Vstr{suffix} ], \var{i}, \var{k} ]
 \end{equation*}
@@ -1281,7 +1281,7 @@ This shows \eqref{eq:valid-eim-from-symbol-9}.
 It remain to show
 \eqref{eq:valid-eim-from-symbol-6}.
 
-Using 
+Using
 \eqref{eq:valid-eim-from-symbol-3}
 and \eqref{eq:valid-eim-from-symbol-9},
 we have
@@ -1338,13 +1338,13 @@ and its symbolic equivalent is therefore
 is valid by assumption for the theorem,
 so we have
 \begin{alignat}{3}
-& \Vsym{up} && \derives 
+& \Vsym{up} && \derives
 [ \var{i}]\, \Vstr{up-rhs} \,[\var{j}] \\
-\therefore \quad 
+\therefore \quad
 & [\var{i}]\, \Vsym{up} \,[\var{j}] && \derives
 [\var{i}]\, \Vstr{up-rhs} \,[\var{j}] \\
 \label{eq:valid-eim-from-symbol-20}
-\therefore \quad 
+\therefore \quad
 & [\var{i}]\, \Vsym{up} \,[\var{j}] &&
 \end{alignat}
 \eqref{eq:valid-eim-from-symbol-20} is
@@ -1452,7 +1452,7 @@ then
 \item \Veim{effect} must have a valid symbolic bottom-up cause,
 \label{item:symbolic-causes-from-effect-3}
 \item \Veim{effect} must have a top-down cause, call it
-$\Veim{down}$, 
+$\Veim{down}$,
 \label{item:symbolic-causes-from-effect-6}
 \item the two causes must match,
 \label{item:symbolic-causes-from-effect-9}
@@ -1517,7 +1517,7 @@ produces
 \Vsym{down} \derives \Vmkl{i} \Vstr{pre} \Vmkm{j} \Vstr{A} \cat \Vstr{post}.
 \end{equation}
 and
-from 
+from
 \eqref{t:symbolic-causes-from-effect-38},
 by the definition of EIM validity,
 \begin{equation}
@@ -1537,10 +1537,10 @@ cause.
 To fulfill requirement \ref{item:symbolic-causes-from-effect-9},
 we note that they match,
 because \Postdot{\Veim{down}} = \Vsym{A},
-and because the left position of 
+and because the left position of
 \eqref{t:symbolic-causes-from-effect-35}
 is the right position of \Veim{down}.
-Examination of 
+Examination of
 \eqref{t:symbolic-causes-from-effect-20},
 \eqref{t:symbolic-causes-from-effect-35},
 and
@@ -1599,7 +1599,7 @@ so that, without loss of generality, we may write
 \label{eq:effect-from-symbol-9}
 \Vsym{down} \derives \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \Vstr{post}.
 \end{equation}
-By the definition of location markers there is 
+By the definition of location markers there is
 some \Vstr{before}
 such that
 \begin{gather}
@@ -1642,7 +1642,7 @@ is valid.
 \eqref{eq:effect-from-symbol-28}
 is requirement
 \ref{req:effect-from-symbol-1} to show the theorem.
-Requirements 
+Requirements
 \ref{req:effect-from-symbol-2},
 \ref{req:effect-from-symbol-3},
 and
@@ -1672,14 +1672,14 @@ and let
 be the start EIM.
 
 By the definition of EIM validity,
-to show that 
+to show that
 \eqref{eq:start-eim-is-valid-10}
 is valid,
 we need to show
 that
 \begin{multline}
 \label{eq:start-eim-is-valid-15}
-\Vsym{accept} \derives [0]\, \Vstr{predot} \,[0]\, \Vstr{postdot}\\ 
+\Vsym{accept} \derives [0]\, \Vstr{predot} \,[0]\, \Vstr{postdot}\\
 \text{where} \qquad \Vstr{predot} \cat \Vstr{postdot} = \Vsym{start}.
 \end{multline}
 If w set $\Vstr{predot} = \epsilon$
@@ -1768,13 +1768,13 @@ all valid Earley items.
 An Earley set is \dfn{correct} if and only if it is
 consistent and complete.
 
-We call 
+We call
 \begin{equation}
 \Veim{accept} = [\Vdr{accept}, 0, \Vsize{\Cw}]
 \end{equation}
 the \dfn{accept EIM}.
 Let \alg{Impl} be an Earley implementation.
-We say that \alg{Impl} 
+We say that \alg{Impl}
 \dfn{accepts} an input
 if and only if \Veim{accept} is in its Earley tables:
 \begin{equation}
@@ -1856,7 +1856,7 @@ To show the reverse direction of the implication, we assume
 From it,
 the definition of the \Vsym{accept} symbol,
 and the definition of $\var{L}(\Cg)$,
-we have 
+we have
 \eqref{eq:algorithm-correct-15}.
 By the definition of the \Vsym{accept} symbol,
 it is only on the LHS of the rule
@@ -1880,7 +1880,8 @@ We have now shown both directions of the implication,
 and therefore the theorem.
 \end{proof}
 
-\begin{theorem}\label{t:es-count}
+\begin{theorem}
+\label{t:es-count}
 The size of the Earley set at \Vloc{i} is,
 worst case, $\order{\var{i}}$:
 \begin{equation*}
@@ -2054,7 +2055,7 @@ TODO.
 \end{proof}
 
 \begin{theorem}
-\label{t:earley-set-0-is-Leo-free},
+\label{t:earley-set-0-is-Leo-free}
 No EIM in Earley set 0 is memoized.
 \end{theorem}
 
@@ -2063,7 +2064,7 @@ TODO: uses Theorem \ref{t:leo-quasi-complete}
 \end{proof}
 
 \begin{theorem}
-\label{t:ethereal-closure-is-Leo-disjoint},
+\label{t:ethereal-closure-is-Leo-disjoint}
 Let \Veim{eim2}
 be an EIM in the ethereal closure of \Veim{eim1}.
 Then \Veim{1} is Leo-memoized if and only if
@@ -2272,7 +2273,7 @@ are exactly the EIMs with null transitions.
 So null transition EIMs
 must have some other EIM in Earley set 0
 as either a direct or an indirect cause.
-The start Earley item is 
+The start Earley item is
 the only remaining possibility,
 and it is in Earley set 0.
 Therefore the start Earley item is the direct
@@ -2283,7 +2284,7 @@ consists of the start Earley item and the transitive
 closure of null transition from it.
 By Theorem \ref{t:ethereal-closure-op-correct},
 this is exactly the set of EIMs added to Earley set 0
-in line 
+in line
 \ref{line:initial-10}
 of Algorithm \ref{alg:initial}.
 \end{proof}
@@ -2341,7 +2342,7 @@ EIMs at \Vloc{i}
 whose bottom-up cause is a terminal
 symbol instance,
 the ``EIMs read at \Vloc{i}``.
-Let the Earley tables for all locations 
+Let the Earley tables for all locations
 \Vloc{h},
 $\var{h} < \Vloc{i}$ be correct.
 Then the read pass at \Vloc{i}
@@ -2351,7 +2352,7 @@ the EIMs read at \Vloc{i}.
 \end{theorem}
 
 \begin{proof}
-We first assure ourselves that Leo 
+We first assure ourselves that Leo
 memoization has no effect on the read pass.
 The bottom-up causes,
 in Algorithm
@@ -2377,7 +2378,7 @@ so therefore
 \Veim{down} at line
 \ref{line:read-pass-20}
 must be quasi-incomplete.
-By Theorem 
+By Theorem
 \ref{t:leo-quasi-complete},
 no quasi-incomplete EIM
 is Leo-memoized.
@@ -2412,7 +2413,7 @@ in the loop at line
 \ref{line:read-pass-18}.
 
 From this, we observe that
-all and only 
+all and only
 the matching pairs of causes
 for the EIMs read at \Vloc{i}
 are used to add EIMs
@@ -2435,7 +2436,7 @@ at line
 \ref{line:read-pass-40}
 are complete.
 
-Since the 
+Since the
 the EIMs we attempt to add
 at line
 \ref{line:read-pass-40}
@@ -2515,7 +2516,7 @@ EIMs at \Vloc{i}
 whose bottom-up cause is an EIM
 at \Vloc{i}
 the ``EIMs reduced at \Vloc{i}``.
-Let the Earley tables for all locations 
+Let the Earley tables for all locations
 \Vloc{h},
 $\var{h} < \Vloc{i}$ be correct;
 and
@@ -2528,7 +2529,7 @@ the EIMs reduced at \Vloc{i}.
 \end{theorem}
 
 \begin{proof}
-We first assure ourselves that Leo 
+We first assure ourselves that Leo
 memoization has no effect on the reduction pass.
 The top-down causes
 in Algorithm
@@ -2547,7 +2548,7 @@ so therefore
 \Veim{down} at line
 \ref{line:reduction-pass-20}
 must be quasi-incomplete.
-By Theorem 
+By Theorem
 \ref{t:leo-quasi-complete},
 no quasi-incomplete EIM
 is Leo-memoized.
@@ -2606,7 +2607,7 @@ in the loop at line
 TODO: Finish this line of reasoning.
 
 From this, we observe that
-all and only 
+all and only
 the matching pairs of causes
 for the EIMs reduced at \Vloc{i}
 are used to add EIMs
@@ -2629,7 +2630,7 @@ at line
 \ref{line:reduction-pass-40}
 are complete.
 
-Since the 
+Since the
 the EIMs we attempt to add
 at line
 \ref{line:reduction-pass-40}
@@ -2863,7 +2864,7 @@ list, to the head of which the new Earley item is added.
 The space required for added EIM added is at most
 for the \Vdr{base},
 one for every transition over a null postdot symbol,
-and 
+and
 one for every prediction.
 The number of EIMs that result from
 transitions over null postdot symbols is limited
@@ -2872,7 +2873,7 @@ which is constant for a given \Cg{}.
 At any \Vloc{i}, the number of predictions is
 at most the number of rules in \Cg{}.
 The number of EIMs that result from
-predictions 
+predictions
 is therefore constant for a given \Cg{}.
 Summing the space, we see that all space
 requirement are constant, so that the space
@@ -2882,7 +2883,7 @@ is \Oc{} per call.
 \label{p:prediction-op-complexity}
 
 Looking specifically at predictions,
-From the discussion in 
+From the discussion in
 \ref{p:ethereal-closure-op-complexity}, we see that
 no time or space is ever charged
 to a predicted Earley item.
@@ -2904,7 +2905,7 @@ for the ethereal closure of \Veim{base}.
 We first examine the effect Leo memoization will
 have
 on Algorithm \ref{alg:eim-set}.
-We note the 
+We note the
 Algorithm \ref{alg:eim-set} is only called when
 \Veim{base} is not Leo memoized.
 By Theorem \ref{t:ethereal-closure-is-Leo-disjoint},
@@ -2914,9 +2915,9 @@ will be Leo memoized.
 Therefore,
 we may ignore Leo memoization in what follows.
 
-By inspection, we see that 
+By inspection, we see that
 Algorithm \ref{alg:eim-set} adds items
-at lines 
+at lines
 \ref{line:eim-set-10},
 \ref{line:eim-set-30}
 and \ref{line:eim-set-40}.
@@ -3128,7 +3129,7 @@ and a new time-stamp is set, as follow:
 \subsection{Complexity summary}
 
 For convenience, we summarize
-the complexity results 
+the complexity results
 of this section here,
 as theorems.
 
@@ -3208,7 +3209,7 @@ at line \ref{line:top-20},
 calls Algorithm \ref{alg:initial}.
 By Theorem
 \ref{t:initial-op-correct},
-after 
+after
 line \ref{line:top-20},
 Earley set 0 is correct.
 
@@ -3216,7 +3217,7 @@ As the step of the induction,
 we assume that we
 are
 at line \ref{line:top-30}
-of 
+of
 Algorithm \ref{alg:top},
 about to process
 the Earley set at \Vloc{i}.
@@ -3230,7 +3231,7 @@ that
 Line
 \ref{line:top-33}
 executes the read pass for Earley set \var{i}.
-From 
+From
 \eqref{eq:marpa-is-correct-20}
 and Theorem
 \ref{t:read-op-correct},
@@ -3246,7 +3247,7 @@ of line
 Next,
 line \ref{line:top-40}
 executes the reduction pass for Earley set \var{i}.
-From 
+From
 \eqref{eq:marpa-is-correct-20},
 \eqref{eq:marpa-is-correct-40}
 and Theorem
@@ -3303,7 +3304,7 @@ $\var{L}(\Cg)$, so that
 From \eqref{eq:def-implementation-accepts},
 we know that an algorithm accepts an input if
 and only if the accept EIM is in its tables.
-Using 
+Using
 \eqref{eq:def-implementation-accepts} and
 \eqref{eq:marpa-is-correct-60}, we have
 \begin{equation*}
@@ -3493,50 +3494,52 @@ the grammar is ambiguous,
 contrary to assumption.
 
 \begin{theorem}
-\label{t:tries-O-eims}
+\label{t:tries}
 For an unambiguous grammar,
-the number of attempts to add
-Earley items will be less than or equal to
+let \var{z} be the number of EIMs
+in all the Marpa tables,
 \begin{equation*}
-\textup{
-    $\var{c} \times \Rtablesize{\Marpa}$,
-}
+    \var{z} = \Rtablesize{\Marpa}.
 \end{equation*}
-where \var{c} is a constant
-that depends on the grammar.
+and let \var{tries} be the
+number of attempts to add
+Leo memos and Earley items.
+Then $$\var{tries} = \order{\var{z}}.$$
 \end{theorem}
 
 \begin{proof}
-The number of attempts to add items will be the number of attempts
-to add Leo items,
-the number of attempts to add telluric EIMs,
-plus the number of attemptsto add ethereal EIMs:
+Let
+\var{leo-tries} be the number of attempt to add Leo memos,
+\var{telluric-tries} be the number of attempts to add telluric EIMs,
+and \var{ethereal-tries}
+be the number of attempts to add ethereal EIMs.
+Then
 \begin{multline}
-\label{eq:tries-O-eims-5}
-\var{tries} = \\
-\var{telluric-tries} + \var{ethereal-tries} + \var{leo-tries},
+\label{eq:tries-5}
+\var{tries} =
+\var{telluric-tries} + \var{ethereal-tries} + \var{leo-tries}.
 \end{multline}
 
-We look at each of these for an Earley set \Vloc{i}.
 We consider first the telluric EIMs.
-The number of attempts to add telluric EIMs
-is the number of attempts to add read EIMs,
-the number of attemptsto add reduction EIMs,
-plus number of attemptsto add the start EIMs.
+Let
+\var{start-tries} be the number of attempts to add the start EIM,
+\var{read-tries} be the number of attempts to add read EIMs,
+and \var{reduction-tries} be the number of attempts to add reduction EIMs.
 \begin{multline}
-\label{eq:tries-O-eims-10}
+\label{eq:tries-10}
 \var{telluric-tries} = \\
 \var{read-tries} + \var{reduction-tries} + \var{start-tries},
 \end{multline}
 
 Let \var{start-tries} be the number of attempts to add the initial item to
 the Earley sets.
-For Earley set 0, it is clear from the pseudocode
-that there will be no attempts to add duplicate EIM's,
-so that for any Earley set:
-\begin{equation*}
-\var{start-tries} \le 1
-\end{equation*}
+It is clear from the pseudocode
+that there will be no attempts to add duplicate start EIM's.
+and that
+\begin{equation}
+\label{eq:tries-15}
+\var{start-tries} = 1 = \Oc
+\end{equation}
 
 Let \var{read-tries} be the number of attempted read operations in
 Earley set \Vloc{j}.
@@ -3545,24 +3548,26 @@ in the worst case,
 once for every EIM in the Earley set
 at $\Vloc{i} \subtract 1$.
 Therefore, the number of attempts
-to add read EIMs
+to add read EIMs at Earley set \Vloc{i}
 must be less than equal to \bigsize{\Etable{\var{i} \subtract 1}},
+and
 the number
 of actual Earley items at
 $\Vloc{i} \subtract 1$.
-\begin{equation*}
-\var{read-tries} \le \bigsize{\Etable{\var{i} \subtract 1}}
-\end{equation*}
+\begin{equation}
+\label{eq:tries-18}
+\var{read-tries} \le \sum\limits_{i=1}^{n}{ \bigsize{\Etable{\decr{i}}} } = \order{\var{z}}
+\end{equation}
 
 The most complicated case is Earley reduction.
 Recall that \Ves{i} is the current Earley set.
 Consider the number of reductions attempted.
 \Marpa{} attempts to add an Earley reduction result
-once for every triple
+once for every pair of matching causes,
 \begin{equation*}
-[\Veim{down}, \Vsym{transition}, \Veim{up}].
+[\Veim{down}, \Veim{up}].
 \end{equation*}
-where
+Let
 \begin{equation*}
 \begin{split}
 & \Veim{up} = [ \Vdr{up}, \Vloc{up-origin}, \var{i} ]  \\
@@ -3570,13 +3575,16 @@ where
 \end{split}
 \end{equation*}
 
-We now put an upper bound on number of possible values of this triple.
-The number of possibilities for \Vsym{transition} is clearly at most
-\size{\var{symbols}},
-the number of symbols in \Cg{}.
+We now attempt to
+put an upper bound on number of possible matching pairs of
+causes.
 We have $\Veim{up} \in \Ves{i}$,
-and therefore there are at most
-$\bigsize{\Ves{i}}$ choices for \Veim{up}.
+and therefore
+\begin{equation}
+\label{eq:tries-20}
+\text{there are at most
+$\bigsize{\Vtable{i}}$ choices for \Veim{up}.}
+\end{equation}
 
 Let the number of dotted rules be \Vsize{\Cdr}.
 We can show that the number of possible choices of
@@ -3606,81 +3614,58 @@ this would mean that the parse was ambiguous.
 This is contrary to the assumption for the theorem
 that the grammar is unambiguous.
 This shows the reductio
-and that the number of choices for \Veim{down},
-compatible with \Vorig{up}, is as most \Vsize{dr}.
-
-Collecting the results we see that the possibilities for
-each \Veim{component} are
-\begin{equation*}
-\begin{alignedat}{2}
-& \Vsize{\Cdr} &&
-\qquad \text{choices of \Veim{down}} \\
-\times \; & \Vsize{symbols} &&
-\qquad \text{choices of \Vsym{transition}} \\
-\times \; & \size{\Vtable{i}} &&
-\qquad \text{choices of \Veim{component}} \\
-\end{alignedat}
-\end{equation*}
-
-The number of reduction attempts will therefore be at most
+and that
+\newlength{\mathparwidth}
+\setlength{\mathparwidth}{0.7\textwidth}
 \begin{equation}
-\label{eq:reduction-tries}
-\var{reduction-tries} \leq \var{c1} \times \bigsize{\Ves{i}}, \\
+\label{eq:tries-25}
+\parbox{\mathparwidth}{
+\begin{raggedright}
+the number of choices for \Veim{down},
+compatible with \Vorig{up}, is as most \Vsize{dr}.
+\end{raggedright}
+}
 \end{equation}
-where $\var{c1} = \Vsize{\Cdr} \times \Vsize{symbols}$,
-so that \var{c1} is a constant which depends on \Cg{}.
+
+From
+\eqref{eq:tries-20}
+and
+\eqref{eq:tries-25},
+we see that the number of possible matching
+cause pairs for reductions at the Earley set at \Vloc{i}
+is
+\begin{equation}
+\label{eq:tries-27}
+\Vsize{\Cdr} \times \bigsize{\Vtable{i}}.
+\end{equation}
+Since \Vsize{\Cdr} is a constant that depends on \Cg{},
+\begin{align}
+\label{eq:tries-28}
+\var{reduction-tries} & = \sum\limits_{i=0}^{n}{\Vsize{\Cdr} \times \bigsize{\Vtable{i}}} \\
+  & = \Vsize{\Cdr} \times \sum\limits_{i=0}^{n}{\bigsize{\Vtable{i}}} \\
+  & = \Oc \times \order{\var{z}} \\
+  & = \order{\var{z}}
+\end{align}
 
 We have now set a limit on the number of attempts
 for all of the telluric EIMs.
 We return to
-\eqref{eq:tries-O-eims-10}:
-\begin{multline}
-\label{eq:tries-O-eims-30}
-\var{telluric-tries} = \\
-\var{read-tries} + \var{reduction-tries} + \var{start-tries},
-\end{multline}
-
+\eqref{eq:tries-10}.
 Using
-\ref{eq:start-tries},
-\ref{eq:read-tries}
-and \ref{eq:reduction-tries},
-we expand
-\eqref{eq:tries-O-eims-30} to
-\begin{multline}
-\label{eq:tries-O-eims-33}
-\var{telluric-tries} \le 1 +
-\var{c1} \times \bigsize{\Vtable{i}}
-+ \bigsize{\Etable{\var{i} \subtract 1}}
-\end{multline}
+\eqref{eq:tries-15},
+\eqref{eq:tries-18}
+and
+\eqref{eq:tries-28},
+\begin{align}
+\label{eq:tries-30}
+\var{telluric-tries} & = \var{read-tries} + \var{reduction-tries} \\
+\notag & \qquad \qquad + \var{start-tries}  \\
+  & = \Oc + \order{\var{z}} + \order{\var{z}} \\
+  & = \order{\var{z}}
+\label{eq:tries-33}
+\end{align}
 
-Summing \var{telluric-tries} for all the Earley sets:
-\begin{multline*}
-\var{all-telluric-tries} \le 1 + \\
-\sum\limits_{i=0}^{n}{\var{c1} \times \bigsize{\Vtable{i}}} 
-+ \sum\limits_{i=1}^{n}{ \bigsize{\Etable{\var{i} \subtract 1}} }
-\end{multline*}
-and using the fact the every Early set contains at least one EIM
-\begin{equation*}
-\var{all-telluric-tries} \le (\var{c1} + 1) \times \sum\limits_{i=0}^{n}{\bigsize{\Vtable{i}}}
-\end{equation*}
-
-TODO: Revise from here.
-
-Let \var{leo-tries} be the number of attempted Leo reductions in
-Earley set \Vloc{j}.
-For Leo reduction,
-we note that by its definition,
-duplicate attempts at Leo reduction cannot occur.
-From the pseudo-code of Sections \ref{p:reduce-one-lhs}
-and \ref{p:leo-op},
-we know there will be at most one Leo reduction for
-each each dotted rule in the current Earley set,
-\Vloc{j}.
-\begin{equation*}
-\var{leo-tries} \le \bigsize{\Vtable{j}}
-\end{equation*}
-
-Let \var{ethereal-tries} be the number of attempts to add ethereal
+Recall that \var{ethereal-tries} was the number of attempts to add ethereal
 items in
 Earley set \Vloc{j}.
 \Marpa{} includes ethereal closure
@@ -3696,71 +3681,58 @@ call it \var{rhs-max},
 of the longest rule in \Cg.
 The number of predictions is limited by the number of rules
 in Cg{}, \Vsize{\Crules}.
-Therefore,
-\begin{alignat}{2}
-\label{eq:ethereal-tries}
-\var{ethereal-tries} & \le (\var{rhs-max} + \Vsize{Crules})  \times \var{telluric-tries} \\
-& \le \var{c1} \times \var{telluric-tries}
-\end{alignat}
-where \var{c1} is a constant which depends on \Cg{}.
+so that
+for every telluric Earley item added,
+\begin{equation*}
+\var{ethereal-tries} = (\var{rhs-max} + \Vsize{Crules})  \times \var{telluric-tries}
+\end{equation*}
+and because \var{rhs-max} and
+\Vsize{\Crules} are constants the depend on \Cg{},
+\begin{equation}
+\label{eq:tries-42}
+\var{ethereal-tries} = \Oc \times \var{telluric-tries}.
+\end{equation}
+And using
+\eqref{eq:tries-30},
+\begin{equation}
+\label{eq:tries-45}
+\var{ethereal-tries} = \order{\var{z}}.
+\end{equation}
 
-Summing all attempts to add EIMs,
-\begin{alignat*}{2}
-\label{eq:tries-O-eims-50}
-\var{tries} & =
-\var{read-tries} +
-\var{leo-tries} + \\
-& \qquad \qquad \var{ethereal-tries} +
-\var{reduction-tries} +
-\var{start-tries}.
-\end{alignat*}
-Setting
+Recall that \var{leo-tries} was the number of attempted Leo reductions in
+Earley set \Vloc{j}.
+For Leo reduction,
+we note that by its definition,
+duplicate attempts at Leo reduction cannot occur.
+From the pseudo-code of Sections \ref{p:reduce-one-lhs}
+and \ref{p:leo-op},
+we know there will be at most one Leo reduction for
+every Earley item in the Earley tables,
+so that
+\Vloc{j}.
+\begin{equation}
+\label{eq:tries-50}
+\var{leo-tries} = \order{\var{z}}
+\end{equation}
+
+Returning to
+\eqref{eq:tries-5}:
 \begin{multline}
-\var{telluric-tries} = \\
-\var{read-tries} + \var{reduction-tries} + \var{start-tries},
+\var{tries} =
+\var{telluric-tries} + \var{ethereal-tries} + \var{leo-tries}.
 \end{multline}
-and using
-\eqref{eq:ethereal-tries}
-and \eqref{eq:tries-O-eims-50},
-\begin{alignat*}{2}
-\var{tries} & \le
-\var{telluric-tries} +
-\var{leo-tries} +
-\var{ethereal-tries} \\
-& 
-\le (\var{c1} + 1) \times \var{telluric-tries} + \var{leo-tries}
-\end{alignat*}
-
-Let
-$\var{n} = \Vsize{\Cw}$.
-Then
-\begin{alignat}{2}
-\var{start-tries} & = 1 \\
-\var{leo-tries} & =
-\sum\limits_{i=1}^{n}{
-  \bigsize{\Vtable{i}}
-} \\
-\var{read-tries} & =
-\sum\limits_{i=1}^{n}{
-\bigsize{\Etable{\var{j} \subtract 1}}
-} \\
-\var{reduction-tries} & =
-\sum\limits_{i=0}^{n}{\var{c1} \bigsize{\Vtable{j}}} \\
-\end{alignat}
-
-TODO: Finish this.
-
-If we collect the terms of the summation,
-we will find a constant \var{c}
-such that
-\begin{equation*}
-\var{tries} \leq \var{c} \times \sum\limits_{i=0}^{n}{\bigsize{\Vtable{j}}},
-\end{equation*}
+We have, using the results of
+\eqref{eq:tries-33},
+\eqref{eq:tries-45}
 and
-\begin{equation*}
-\var{tries} \leq \var{c} \times \Rtablesize{\Marpa},
-\end{equation*}
-where \var{c} is a constant that depends on \Cg{}.\qedhere
+\eqref{eq:tries-50},
+\begin{equation}
+\var{tries} =
+\order{\var{z}}
++ \order{\var{z}}
++ \order{\var{z}}
+= \order{\var{z}}.\qedhere
+\end{equation}
 \end{proof}
 
 As a reminder,
@@ -3867,7 +3839,7 @@ is less than
 \end{equation*}
 
 LR-regular grammars are unambiguous, so that
-by Theorem \ref{t:tries-O-eims},
+by Theorem \ref{t:tries},
 the number of attempts that \Marpa{} will make to add
 EIM's is less than or equal to
 \var{c2} times the number of EIM's,
@@ -3886,7 +3858,8 @@ grammars is
 \section{Other complexity results}
 \label{s:other-complexity}
 
-\begin{theorem}\label{t:eim-count}
+\begin{theorem}
+\label{t:eim-count}
 For a context-free grammar,
 \begin{equation*}
 \textup{
@@ -3916,62 +3889,109 @@ Earley items is $\order{\var{n}^3}$.
 \end{theorem}
 
 \begin{proof}
-Reexamining the proof of Theorem \ref{t:tries-O-eims},
+Reexamining the proof of Theorem \ref{t:tries},
 we see that the only bound that required
 the assumption that \Cg{} was unambiguous
 was \var{reduction-tries},
 the count of the number of attempts to
 add Earley reductions.
-Let \var{other-tries}
-be attempts to add EIM's other than
-as the result of Earley reductions.
+Recall that \var{z} was the total number
+of Earley items in the Earley tables.
 By Theorem \ref{t:eim-count},
 \begin{equation*}
-\Rtablesize{\Marpa} = \order{\var{n}^2},
+\var{z} = \Rtablesize{\Marpa} = \order{\var{n}^2}.
 \end{equation*}
-and by Theorem \ref{t:tries-O-eims},
-\begin{equation*}
-\var{other-tries} \le \var{c} \times \Rtablesize{\Marpa},
-\end{equation*}
-so that
-$\var{other-tries} = \order{\var{n}^2}$.
 
 Looking again at \var{reduction-tries}
 for the case of ambiguous grammars,
-we need to look again at the triple
+the only place we used the assumption that \Cg{}
+was unambiguous was in
+the count of matching pairs.
 \begin{equation*}
-[\Veim{down}, \Vsym{transition}, \Veim{component}].
+[\Veim{down}, \Veim{up}].
 \end{equation*}
+We need to look at this again.
 We did not use the fact that the grammar was unambigous in counting
-the possibilities for \Vsym{transition} or \Veim{component}, but
+the possibilities for \Veim{up}, but
 we did make use of it in determining the count of possibilities
 for \Veim{down}.
 We know still know that
 \begin{equation*}
-\Veim{down} \in \Ves{component-origin},
+\Veim{down} \in \Ves{up-origin},
 \end{equation*}
 where
-\Vloc{component-origin} is the origin of \Veim{component}.
-Worst case, every EIM in \Ves{component-origin} is a possible
+\Vloc{up-origin} is the origin of \Veim{up}.
+
+In the proof of Theorem \ref{t:tries},
+we calculated
+the number of possible matching
+cause pairs for reductions at the Earley set at \Vloc{i}
+in
+\eqref{eq:tries-27}
+as
+\begin{equation}
+\label{eq:ambiguous-tries-27}
+\Vsize{\Cdr} \times \bigsize{\Vtable{i}},
+\end{equation}
+where
+\Vsize{\Cdr} was the number of dotted rules.
+In showing that the number of dotted rules bounded the choice
+of \Veim{down},
+we used the assumption that \Cg{} was unambiguous.
+Relaxing this assumption,
+and looking at the worst case,
+every EIM in \Ves{up-origin} is a possible
 match, so that
 the number of possibilities for \Veim{down} now grows to
-\size{\Ves{component-origin}}, and
-\begin{equation*}
-\var{reduction-tries} =
-\bigsize{\Ves{component-origin}} \times \Vsize{symbols} \times \bigsize{\Ves{j}}.
-\end{equation*}
+\size{\Ves{up-origin}}, and
+\eqref{eq:ambiguous-tries-27} becomes
+\begin{equation}
+\label{eq:ambiguous-tries-30}
+\bigsize{\Vtable{up-origin}} \times \bigsize{\Vtable{i}}.
+\end{equation}
 
-In the worst case $\var{component-origin} \simeq \var{j}$,
-so that by Theorem \ref{t:es-count},
+Revisiting \eqref{eq:tries-28},
+it now becomes
+\begin{equation}
+\label{eq:ambiguous-tries-28}
+\var{reduction-tries} = \sum\limits_{i=0}^{n}{\bigsize{\Vtable{up-origin}} \times \bigsize{\Vtable{i}}}.
+\end{equation}
+Our best bound for the size of the Earley sets involved comes from
+\eqref{t:es-count}, and is
+$\Vsize{\Cw} = \var{n}$,
+so that
+\eqref{eq:ambiguous-tries-28}
+becomes
+\begin{align}
+\label{eq:ambiguous-tries-33}
+\var{reduction-tries} & = \sum\limits_{i=0}^{n}{\bigsize{\Vtable{up-origin}} \times \bigsize{\Vtable{i}}} \\
+& = \order{\var{n}^3}.
+\label{eq:ambiguous-tries-35}
+\end{align}
+
+We now reexamine the count of the number
+of attempts to add Leo memos and Earley items,
+this time without assuming ambiguity.
+Our worst case cannot be worse than the sum of
+the entire count under the assumption of unambiguity,
+plus any counts that needed to be revised
+when the assumption is relaxed.
+The count assuming unambiguity was
+$\order{\var{z}}$,
+and from \eqref{t:es-count} we know
+that
+\begin{equation}
+\label{eq:ambiguous-tries-36}
+\order{\var{z}} = \order{\var{n}^2}.
+\end{equation}
+The one count that we needed to revise
+in order to relax the assumption of unambiguity is
+\eqref{eq:ambiguous-tries-35}.
+
+Therefore the count for the ambiguous case is not worse
+than
 \begin{equation*}
-\size{\Ves{component-origin}} \times \size{\Ves{j}} = \order{\var{j}^2}.
-\end{equation*}
-Adding \var{other-tries}
-and summing over the Earley sets,
-we have
-\begin{equation*}
-\order{\var{n}^2} +
-\! \sum\limits_{\Vloc{j}=0}^{n}{\order{\var{j}^2}} = \order{\var{n}^3}.
+\var{tries} = \order{\var{n}^2} + \order{\var{n}^3} = \order{\var{n}^3}.
 \qedhere
 \end{equation*}
 \end{proof}
@@ -3983,7 +4003,7 @@ For every unambiguous grammar,
 
 \begin{proof}
 By assumption, \Cg{} is unambiguous, so that
-by Theorem \ref{t:tries-O-eims},
+by Theorem \ref{t:tries},
 and Theorem \ref{t:eim-count},
 the number of attempts that \Marpa{} will make to add
 EIM's is
