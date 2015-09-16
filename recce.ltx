@@ -703,8 +703,7 @@ The \dfn{accept dotted rule} is
 \Vdr{accept} = [\Vsym{accept} \de \Vsym{start} \mydot ].
 \end{equation*}
 
-We divide all Earley items into four disjoint types
-based on their dotted rule
+We divide all dotted rules into four disjoint types:
 \begin{enumerate}
 \item
 \label{def:start-dr}
@@ -803,6 +802,12 @@ the dotted rule might be a quasi-prediction,
 but it cannot be a quasi-completion.
 \end{proof}
 
+We also divide dotted rules into two disjoint classes
+based on their postdot symbol.
+A dotted rule with a null postdot symbol is called \dfn{fleeting}.
+Any other dotted rule is called \dfn{lasting}.
+A completions is always a lasting dotted rules.
+
 \subsection{The dotted rule transition function}
 
 We define
@@ -821,17 +826,17 @@ an \dfn{ethereal transition}
 and the null transition set
 an \dfn{ethereal transition set}.
 If a transition is not an ethereral transition,
-it is a \dfn{mundane transition},
+it is a \dfn{telluric transition},
 and if a transition set
 is not an ethereal transition set,
-it is a \dfn{mundane transition set}.
+it is a \dfn{telluric transition set}.
 
-A mundane transition set is always the empty set
+A telluric transition set is always the empty set
 or a singleton set.
 Only ethereal transition sets have
 with cardinalities greater than one.
 
-The dotted rules in the set that results from a null transition
+The dotted rules in the set that results from an ethereal transition
 will be either predictions or confirmed rules with
 a nulling predot symbol.
 
@@ -1214,11 +1219,11 @@ and we call \Veim{effect} the \dfn{effect} of \Veim{down} and \Vsym{up}.
 An effect is always an Earley item.
 A top-down cause is always an Earley item.
 
-A bottom-up cause may be ethereal or mundane.
+A bottom-up cause may be ethereal or telluric.
 If a bottom-up cause is ethereal, it may be because the effect has no
 predot symbol,
 or because the bottom-up cause is a nulling terminal symbol instance.
-If a bottom-up cause is mundane, it may be because it is
+If a bottom-up cause is telluric, it may be because it is
 an Earley item,
 because it is a non-terminal symbol instance,
 or because it is a non-nullable terminal symbol instance.
@@ -1231,7 +1236,7 @@ We have already defined validity for Earley items.
 We now extend the concept of validity to other types of
 causes.
 An ethereal cause is always valid.
-If \Vsym{T} is a mundane terminal symbol,
+If \Vsym{T} is a telluric terminal symbol,
 \begin{equation*}
 [\var{i}]\, \Vsym{T} \,[\var{j}]
 \end{equation*}
@@ -1705,6 +1710,13 @@ there exists some input for which it is ambiguous.
 \end{proof}
 
 % TODO -- define cause stack
+
+Recall that dotted rule notions applied to EIMs
+refer to the dotted rule of the EIM.
+Therefore, a fleeting EIM is an EIM 
+with a nulling postdot symbol;
+and a lasting EIM is any EIM which is not
+a fleeting EIM.
 
 Let \var{stack} be a sequence
 of \var{n} items,
