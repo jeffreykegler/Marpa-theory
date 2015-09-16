@@ -54,7 +54,7 @@
 \newcommand{\decr}[1]{\ensuremath{#1 \subtract 1}}
 
 \newcommand{\var}[1]{\ensuremath{\texttt{#1}}}
-\newcommand{\Vdecr}[1]{\decr{var{#1}}}
+\newcommand{\Vdecr}[1]{\decr{\var{#1}}}
 
 \newcommand{\de}{\rightarrow}
 \newcommand{\derives}{\Rightarrow}
@@ -1694,14 +1694,43 @@ or more than one bottom-up cause,
 the grammar is ambiguous.
 \end{theorem}
 
-% TODO -- write a more careful proof
 \begin{proof}
+% TODO -- write a more careful proof
 This may be proved using the derivations in the definition
 of top-down and bottom-up cause.
 More than one cause means more than one derivation.
 Since every symbol in a Marpa grammar is production,
 if a grammar allows more than one derivation for any of its symbol,
 there exists some input for which it is ambiguous.
+\end{proof}
+
+% TODO -- define cause stack
+
+Let \var{stack} be a sequence
+of \var{n} items,
+numbered
+consecutively starting at zero.
+We call a sequence of items a \dfn{cause stack},
+if and only if
+\begin{itemize}
+\item
+its first item, $\var{stack}[0]$, is a terminal symbol instance;
+and
+\item
+For all $0 \le \var{i} < \Vdecr{n}$,
+$\var{stack}[\var{i}]$ is a bottom-up cause of $\var{stack}[\var{i}+1]$.
+\end{itemize}
+We call $\var{stack}[0]$ the \dfn{bottom} of the stack.
+We call $\var{stack}[\Vdecr{n}]$ the \dfn{top} of the stack.
+
+\begin{theorem}
+All the items of a cause stack have the same
+right location.
+\end{theorem}
+
+\begin{proof}
+Omitted.
+% TODO
 \end{proof}
 
 \section{Earley implementations}
