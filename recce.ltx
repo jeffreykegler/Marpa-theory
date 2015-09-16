@@ -3711,96 +3711,6 @@ stating complexity results in terms of \var{n},
 setting $\var{n} = \Vsize{\Cw}$,
 the length of the input.
 
-\begin{theorem}\label{t:eim-count}
-For a context-free grammar,
-\begin{equation*}
-\textup{
-    $\Rtablesize{\Marpa} = \order{\var{n}^2}$.
-}
-\end{equation*}
-\end{theorem}
-
-\begin{proof}
-By Theorem \ref{t:es-count},
-the size of the Earley set at \Vloc{i}
-is $\order{\var{i}}$.
-Summing over the length of the input,
-$\Vsize{\Cw} = \var{n}$,
-the number of EIM's in all of \Marpa's Earley sets
-is
-\begin{equation*}
-\sum\limits_{\Vloc{i}=0}^{\var{n}}{\order{\var{i}}}
-= \order{\var{n}^2}.\qedhere
-\end{equation*}
-\end{proof}
-
-\begin{theorem}\label{t:ambiguous-tries}
-For a context-free grammar,
-the number of attempts to add
-Earley items is $\order{\var{n}^3}$.
-\end{theorem}
-
-\begin{proof}
-Reexamining the proof of Theorem \ref{t:tries-O-eims},
-we see that the only bound that required
-the assumption that \Cg{} was unambiguous
-was \var{reduction-tries},
-the count of the number of attempts to
-add Earley reductions.
-Let \var{other-tries}
-be attempts to add EIM's other than
-as the result of Earley reductions.
-By Theorem \ref{t:eim-count},
-\begin{equation*}
-\Rtablesize{\Marpa} = \order{\var{n}^2},
-\end{equation*}
-and by Theorem \ref{t:tries-O-eims},
-\begin{equation*}
-\var{other-tries} \le \var{c} \times \Rtablesize{\Marpa},
-\end{equation*}
-so that
-$\var{other-tries} = \order{\var{n}^2}$.
-
-Looking again at \var{reduction-tries}
-for the case of ambiguous grammars,
-we need to look again at the triple
-\begin{equation*}
-[\Veim{down}, \Vsym{transition}, \Veim{component}].
-\end{equation*}
-We did not use the fact that the grammar was unambigous in counting
-the possibilities for \Vsym{transition} or \Veim{component}, but
-we did make use of it in determining the count of possibilities
-for \Veim{down}.
-We know still know that
-\begin{equation*}
-\Veim{down} \in \Ves{component-origin},
-\end{equation*}
-where
-\Vloc{component-origin} is the origin of \Veim{component}.
-Worst case, every EIM in \Ves{component-origin} is a possible
-match, so that
-the number of possibilities for \Veim{down} now grows to
-\size{\Ves{component-origin}}, and
-\begin{equation*}
-\var{reduction-tries} =
-\bigsize{\Ves{component-origin}} \times \Vsize{symbols} \times \bigsize{\Ves{j}}.
-\end{equation*}
-
-In the worst case $\var{component-origin} \simeq \var{j}$,
-so that by Theorem \ref{t:es-count},
-\begin{equation*}
-\size{\Ves{component-origin}} \times \size{\Ves{j}} = \order{\var{j}^2}.
-\end{equation*}
-Adding \var{other-tries}
-and summing over the Earley sets,
-we have
-\begin{equation*}
-\order{\var{n}^2} +
-\! \sum\limits_{\Vloc{j}=0}^{n}{\order{\var{j}^2}} = \order{\var{n}^3}.
-\qedhere
-\end{equation*}
-\end{proof}
-
 \begin{theorem}\label{t:leo-right-recursion}
 Either
 a right derivation has a step
@@ -3916,6 +3826,96 @@ grammars is
 \begin{equation*}
     \var{c2} \times \order{\var{n}}
     = \order{\var{n}}.\qedhere
+\end{equation*}
+\end{proof}
+
+\begin{theorem}\label{t:eim-count}
+For a context-free grammar,
+\begin{equation*}
+\textup{
+    $\Rtablesize{\Marpa} = \order{\var{n}^2}$.
+}
+\end{equation*}
+\end{theorem}
+
+\begin{proof}
+By Theorem \ref{t:es-count},
+the size of the Earley set at \Vloc{i}
+is $\order{\var{i}}$.
+Summing over the length of the input,
+$\Vsize{\Cw} = \var{n}$,
+the number of EIM's in all of \Marpa's Earley sets
+is
+\begin{equation*}
+\sum\limits_{\Vloc{i}=0}^{\var{n}}{\order{\var{i}}}
+= \order{\var{n}^2}.\qedhere
+\end{equation*}
+\end{proof}
+
+\begin{theorem}\label{t:ambiguous-tries}
+For a context-free grammar,
+the number of attempts to add
+Earley items is $\order{\var{n}^3}$.
+\end{theorem}
+
+\begin{proof}
+Reexamining the proof of Theorem \ref{t:tries-O-eims},
+we see that the only bound that required
+the assumption that \Cg{} was unambiguous
+was \var{reduction-tries},
+the count of the number of attempts to
+add Earley reductions.
+Let \var{other-tries}
+be attempts to add EIM's other than
+as the result of Earley reductions.
+By Theorem \ref{t:eim-count},
+\begin{equation*}
+\Rtablesize{\Marpa} = \order{\var{n}^2},
+\end{equation*}
+and by Theorem \ref{t:tries-O-eims},
+\begin{equation*}
+\var{other-tries} \le \var{c} \times \Rtablesize{\Marpa},
+\end{equation*}
+so that
+$\var{other-tries} = \order{\var{n}^2}$.
+
+Looking again at \var{reduction-tries}
+for the case of ambiguous grammars,
+we need to look again at the triple
+\begin{equation*}
+[\Veim{down}, \Vsym{transition}, \Veim{component}].
+\end{equation*}
+We did not use the fact that the grammar was unambigous in counting
+the possibilities for \Vsym{transition} or \Veim{component}, but
+we did make use of it in determining the count of possibilities
+for \Veim{down}.
+We know still know that
+\begin{equation*}
+\Veim{down} \in \Ves{component-origin},
+\end{equation*}
+where
+\Vloc{component-origin} is the origin of \Veim{component}.
+Worst case, every EIM in \Ves{component-origin} is a possible
+match, so that
+the number of possibilities for \Veim{down} now grows to
+\size{\Ves{component-origin}}, and
+\begin{equation*}
+\var{reduction-tries} =
+\bigsize{\Ves{component-origin}} \times \Vsize{symbols} \times \bigsize{\Ves{j}}.
+\end{equation*}
+
+In the worst case $\var{component-origin} \simeq \var{j}$,
+so that by Theorem \ref{t:es-count},
+\begin{equation*}
+\size{\Ves{component-origin}} \times \size{\Ves{j}} = \order{\var{j}^2}.
+\end{equation*}
+Adding \var{other-tries}
+and summing over the Earley sets,
+we have
+\begin{equation*}
+\order{\var{n}^2} +
+\! \sum\limits_{\Vloc{j}=0}^{n}{\order{\var{j}^2}} = \order{\var{n}^3}.
+\qedhere
 \end{equation*}
 \end{proof}
 
