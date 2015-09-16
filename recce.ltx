@@ -3752,10 +3752,6 @@ must be less than or equal to \var{c},
 unless at least one step of that derivation uses a right recursive rule.
 \end{proof}
 
-\subsection{The complexity results}
-We are now in a position to show
-specific time and space complexity results.
-
 \begin{theorem}
 For every LR-regular grammar,
 \Marpa{} runs in $\On{}$ time and space.
@@ -3828,6 +3824,9 @@ grammars is
     = \order{\var{n}}.\qedhere
 \end{equation*}
 \end{proof}
+
+\section{Other complexity results}
+\label{s:other-complexity}
 
 \begin{theorem}\label{t:eim-count}
 For a context-free grammar,
