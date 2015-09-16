@@ -3492,7 +3492,8 @@ That in turn would mean that
 the grammar is ambiguous,
 contrary to assumption.
 
-\begin{theorem}\label{t:tries-O-eims}
+\begin{theorem}
+\label{t:tries-O-eims}
 For an unambiguous grammar,
 the number of attempts to add
 Earley items will be less than or equal to
@@ -3506,13 +3507,164 @@ that depends on the grammar.
 \end{theorem}
 
 \begin{proof}
+The number of attempts to add items will be the number of attempts
+to add Leo items,
+the number of attempts to add telluric EIMs,
+plus the number of attemptsto add ethereal EIMs:
+\begin{multline}
+\label{eq:tries-O-eims-5}
+\var{tries} = \\
+\var{telluric-tries} + \var{ethereal-tries} + \var{leo-tries},
+\end{multline}
+
+We look at each of these for an Earley set \Vloc{i}.
+We consider first the telluric EIMs.
+The number of attempts to add telluric EIMs
+is the number of attempts to add read EIMs,
+the number of attemptsto add reduction EIMs,
+plus number of attemptsto add the start EIMs.
+\begin{multline}
+\label{eq:tries-O-eims-10}
+\var{telluric-tries} = \\
+\var{read-tries} + \var{reduction-tries} + \var{start-tries},
+\end{multline}
+
 Let \var{start-tries} be the number of attempts to add the initial item to
 the Earley sets.
 For Earley set 0, it is clear from the pseudocode
-that there will be no attempts to add duplicate EIM's:
+that there will be no attempts to add duplicate EIM's,
+so that for any Earley set:
 \begin{equation*}
-\var{start-tries} = 1
+\var{start-tries} \le 1
 \end{equation*}
+
+Let \var{read-tries} be the number of attempted read operations in
+Earley set \Vloc{j}.
+Marpa attempts a read operation,
+in the worst case,
+once for every EIM in the Earley set
+at $\Vloc{i} \subtract 1$.
+Therefore, the number of attempts
+to add read EIMs
+must be less than equal to \bigsize{\Etable{\var{i} \subtract 1}},
+the number
+of actual Earley items at
+$\Vloc{i} \subtract 1$.
+\begin{equation*}
+\var{read-tries} \le \bigsize{\Etable{\var{i} \subtract 1}}
+\end{equation*}
+
+The most complicated case is Earley reduction.
+Recall that \Ves{i} is the current Earley set.
+Consider the number of reductions attempted.
+\Marpa{} attempts to add an Earley reduction result
+once for every triple
+\begin{equation*}
+[\Veim{down}, \Vsym{transition}, \Veim{up}].
+\end{equation*}
+where
+\begin{equation*}
+\begin{split}
+& \Veim{up} = [ \Vdr{up}, \Vloc{up-origin}, \var{i} ]  \\
+ \land \quad & \Vsym{transition} = \LHS{\Vdr{up}}. \\
+\end{split}
+\end{equation*}
+
+We now put an upper bound on number of possible values of this triple.
+The number of possibilities for \Vsym{transition} is clearly at most
+\size{\var{symbols}},
+the number of symbols in \Cg{}.
+We have $\Veim{up} \in \Ves{i}$,
+and therefore there are at most
+$\bigsize{\Ves{i}}$ choices for \Veim{up}.
+
+Let the number of dotted rules be \Vsize{\Cdr}.
+We can show that the number of possible choices of
+\Veim{down} is at most \Vsize{\Cdr}, by a reductio.
+Suppose, for the reductio,
+there were more than \Vsize{dr} possible choices of \Veim{down}.
+Then there are two possible choices of \Veim{down} with
+the same dotted rule.
+Call these \Veim{choice1} and \Veim{choice2}.
+We know, by the definition of matching causes, that
+\begin{align*}
+ & \Veim{down} \in \Ves{up-origin}
+   \quad \text{and therefore we have} \\
+ & \Veim{choice1} \in \Ves{up-origin} \quad \text{and} \\
+ & \Veim{choice2} \in \Ves{up-origin}.
+\end{align*}
+Since all EIM's in an Earley set must differ,
+and
+\Veim{choice1} and \Veim{choice2} both share the same
+dotted rule,
+so they must differ in their origin.
+But two different origins would produce two different derivations for the
+reduction,
+and by
+Theorem \ref{eq:def-implementation-accepts},
+this would mean that the parse was ambiguous.
+This is contrary to the assumption for the theorem
+that the grammar is unambiguous.
+This shows the reductio
+and that the number of choices for \Veim{down},
+compatible with \Vorig{up}, is as most \Vsize{dr}.
+
+Collecting the results we see that the possibilities for
+each \Veim{component} are
+\begin{equation*}
+\begin{alignedat}{2}
+& \Vsize{\Cdr} &&
+\qquad \text{choices of \Veim{down}} \\
+\times \; & \Vsize{symbols} &&
+\qquad \text{choices of \Vsym{transition}} \\
+\times \; & \size{\Vtable{i}} &&
+\qquad \text{choices of \Veim{component}} \\
+\end{alignedat}
+\end{equation*}
+
+The number of reduction attempts will therefore be at most
+\begin{equation}
+\label{eq:reduction-tries}
+\var{reduction-tries} \leq \var{c1} \times \bigsize{\Ves{i}}, \\
+\end{equation}
+where $\var{c1} = \Vsize{\Cdr} \times \Vsize{symbols}$,
+so that \var{c1} is a constant which depends on \Cg{}.
+
+We have now set a limit on the number of attempts
+for all of the telluric EIMs.
+We return to
+\eqref{eq:tries-O-eims-10}:
+\begin{multline}
+\label{eq:tries-O-eims-30}
+\var{telluric-tries} = \\
+\var{read-tries} + \var{reduction-tries} + \var{start-tries},
+\end{multline}
+
+Using
+\ref{eq:start-tries},
+\ref{eq:read-tries}
+and \ref{eq:reduction-tries},
+we expand
+\eqref{eq:tries-O-eims-30} to
+\begin{multline}
+\label{eq:tries-O-eims-33}
+\var{telluric-tries} \le 1 +
+\var{c1} \times \bigsize{\Vtable{i}}
++ \bigsize{\Etable{\var{i} \subtract 1}}
+\end{multline}
+
+Summing \var{telluric-tries} for all the Earley sets:
+\begin{multline*}
+\var{all-telluric-tries} \le 1 + \\
+\sum\limits_{i=0}^{n}{\var{c1} \times \bigsize{\Vtable{i}}} 
++ \sum\limits_{i=1}^{n}{ \bigsize{\Etable{\var{i} \subtract 1}} }
+\end{multline*}
+and using the fact the every Early set contains at least one EIM
+\begin{equation*}
+\var{all-telluric-tries} \le (\var{c1} + 1) \times \sum\limits_{i=0}^{n}{\bigsize{\Vtable{i}}}
+\end{equation*}
+
+TODO: Revise from here.
 
 Let \var{leo-tries} be the number of attempted Leo reductions in
 Earley set \Vloc{j}.
@@ -3527,96 +3679,6 @@ each each dotted rule in the current Earley set,
 \begin{equation*}
 \var{leo-tries} \le \bigsize{\Vtable{j}}
 \end{equation*}
-
-Let \var{read-tries} be the number of attempted read operations in
-Earley set \Vloc{j}.
-Marpa attempts a read operation,
-in the worst case,
-once for every EIM in the Earley set
-at $\Vloc{j} \subtract 1$.
-Therefore, the number of attempts
-to add read EIMs
-must be less than equal to \bigsize{\Etable{\var{j} \subtract 1}},
-the number
-of actual Earley items at
-$\Vloc{j} \subtract 1$.
-\begin{equation*}
-\var{read-tries} \le \bigsize{\Etable{\var{j} \subtract 1}}
-\end{equation*}
-
-The most complicated case is Earley reduction.
-Recall that \Ves{j} is the current Earley set.
-Consider the number of reductions attempted.
-\Marpa{} attempts to add an Earley reduction result
-once for every triple
-\begin{equation*}
-[\Veim{down}, \Vsym{transition}, \Veim{component}].
-\end{equation*}
-where
-\begin{equation*}
-\begin{split}
-& \Veim{component} = [ \Vdr{component}, \Vloc{component-origin}, \var{j} ]  \\
- \land \quad & \Vsym{transition} = \LHS{\Vdr{component}}. \\
-\end{split}
-\end{equation*}
-
-We now put an upper bound on number of possible values of this triple.
-The number of possibilities for \Vsym{transition} is clearly at most
-\size{\var{symbols}},
-the number of symbols in \Cg{}.
-We have $\Veim{component} \in \Ves{j}$,
-and therefore there are at most
-$\bigsize{\Ves{j}}$ choices for \Veim{component}.
-
-Let the number of dotted rules be \Vsize{\Cdr}.
-We can show that the number of possible choices of
-\Veim{down} is at most \Vsize{\Cdr}, by a reductio.
-Suppose, for the reductio,
-there were more than \Vsize{dr} possible choices of \Veim{down}.
-Then there are two possible choices of \Veim{down} with
-the same dotted rule.
-Call these \Veim{choice1} and \Veim{choice2}.
-We know, by the definition of Earley reduction, that
-$\Veim{down} \in \Ves{j}$,
-and therefore we have
-$\Veim{choice1} \in \Ves{j}$ and
-$\Veim{choice2} \in \Ves{j}$.
-Since all EIM's in an Earley set must differ,
-and
-since \Veim{choice1} and \Veim{choice2} both share the same
-dotted rule,
-they must differ in their origin.
-But two different origins would produce two different derivations for the
-reduction,
-and by
-Theorem \ref{eq:def-implementation-accepts},
-this would mean that the parse was ambiguous.
-This is contrary to the assumption for the theorem
-that the grammar is unambiguous.
-This shows the reductio
-and that the number of choices for \Veim{down},
-compatible with \Vorig{component}, is as most \Vsize{dr}.
-
-Collecting the results we see that the possibilities for
-each \Veim{component} are
-\begin{equation*}
-\begin{alignedat}{2}
-& \Vsize{\Cdr} &&
-\qquad \text{choices of \Veim{down}} \\
-\times \; & \Vsize{symbols} &&
-\qquad \text{choices of \Vsym{transition}} \\
-\times \; & \size{\Vtable{j}} &&
-\qquad \text{choices of \Veim{component}} \\
-\end{alignedat}
-\end{equation*}
-
-The number of reduction attempts will therefore be at most
-\begin{multline}
-\label{eq:reduction-tries}
-\var{reduction-tries} \leq \var{c2} \times \bigsize{\Ves{j}}, \\
-\text{where $\var{c2} = \Vsize{\Cdr} \times \Vsize{symbols}$}.
-\end{multline}
-so that \var{c2} is a constant which depends on \Cg{}.
 
 Let \var{ethereal-tries} be the number of attempts to add ethereal
 items in
@@ -3636,16 +3698,15 @@ The number of predictions is limited by the number of rules
 in Cg{}, \Vsize{\Crules}.
 Therefore,
 \begin{alignat}{2}
-\label{eq:ethereal-tries},
-\var{ethereal-tries} & \le (\var{rhs-max} + \Vsize{Crules})  \times 
-( \var{start-tries} + \var{reduction-tries} + \var{read-tries} )
-\bigsize{\Vtable{var{j}}}
-& \le \var{c1} \times ( \var{start-tries} + \var{reduction-tries} + \var{read-tries} )
+\label{eq:ethereal-tries}
+\var{ethereal-tries} & \le (\var{rhs-max} + \Vsize{Crules})  \times \var{telluric-tries} \\
+& \le \var{c1} \times \var{telluric-tries}
 \end{alignat}
 where \var{c1} is a constant which depends on \Cg{}.
 
-Summing
+Summing all attempts to add EIMs,
 \begin{alignat*}{2}
+\label{eq:tries-O-eims-50}
 \var{tries} & =
 \var{read-tries} +
 \var{leo-tries} + \\
@@ -3654,23 +3715,20 @@ Summing
 \var{start-tries}.
 \end{alignat*}
 Setting
-\begin{equation}
-\var{telluric-tries} = \var{read-tries} + \var{reduction-tries} + \var{start-tries},
-\end{equation}
+\begin{multline}
+\var{telluric-tries} = \\
+\var{read-tries} + \var{reduction-tries} + \var{start-tries},
+\end{multline}
 and using
-\eqref{eq:ethereal-tries},
-we have
-\begin{equation}
-\var{ethereal-tries} = \var{c1} \times \var{telluric-tries},
-\end{equation}
-so that
+\eqref{eq:ethereal-tries}
+and \eqref{eq:tries-O-eims-50},
 \begin{alignat*}{2}
-\var{tries} & =
+\var{tries} & \le
 \var{telluric-tries} +
 \var{leo-tries} +
 \var{ethereal-tries} \\
 & 
-(\var{c1} + 1) \times \var{telluric-tries} + \var{leo-tries}
+\le (\var{c1} + 1) \times \var{telluric-tries} + \var{leo-tries}
 \end{alignat*}
 
 Let
