@@ -806,7 +806,31 @@ We also divide dotted rules into two disjoint classes
 based on their postdot symbol.
 A dotted rule with a null postdot symbol is called \dfn{fleeting}.
 Any other dotted rule is called \dfn{lasting}.
-A completions is always a lasting dotted rules.
+A completion is always a lasting dotted rule.
+
+Every dotted rule has a lasting equivalent.
+If the dotted rule is lasting, it is its own \dfn{lasting equvialent}.
+If the dotted rule is fleeting and quasi-incomplete,
+so that without loss of generality it is
+\begin{equation}
+[\Vsym{A} \de \Vstr{alpha} \mydot \Vstr{nulls} \cat \Vsym{B} \cat \Vstr{after} ]
+\end{equation}
+where $\Vstr{nulls} \destar \epsilon$,
+and $\Vsym{B}$ is a non-nullable symbol,
+then its \dfn{lasting equivalent} is
+\begin{equation}
+[\Vsym{A} \de \Vstr{alpha} \cat \Vstr{nulls} \mydot \Vsym{B} \cat \Vstr{after} ].
+\end{equation}
+If the dotted rule is fleeting and quasi-complete,
+so that without loss of generality it is
+\begin{equation}
+[\Vsym{A} \de \Vstr{alpha} \mydot \Vstr{nulls} ]
+\end{equation}
+where $\Vstr{nulls} \destar \epsilon$,
+then its \dfn{lasting equivalent} is
+\begin{equation}
+[\Vsym{A} \de \Vstr{alpha} \cat \Vstr{nulls} \mydot ].
+\end{equation}
 
 \subsection{The dotted rule transition function}
 
@@ -1124,11 +1148,11 @@ For example,
 a completion EIM is an EIM with a completion
 dotted rule,
 and a predicted EIM is an EIM with a predicted dotted rule.
-The completion EIM of a quasi-complete EIM
+The lasting completion EIM of a quasi-complete EIM
 If \Veim{quasi},
 $\Veim{quasi} = [ \Vdr{quasi}, \var{i}, \var{j} ],$
 is a quasi-complete EIM,
-then its completion EIM is
+then its lasting completion EIM is
 $[ \Vdr{complete}, \var{i}, \var{j} ]$,
 where \Vdr{complete} is the completion dotted
 rule of \Vdr{quasi}.
@@ -1320,11 +1344,14 @@ That is, if
 \begin{equation*}
 \Veim{up} = [ [ \Vsym{up} \de \Vstr{up-rhs} \mydot ], \var{i}, \var{j} ]
 \end{equation*}
-its \dfn{symbol equivalent} is
+its \dfn{symbolic equivalent} is
 \begin{equation}
 \label{eq:valid-eim-from-symbol-16}
-\,[\var{i}]\, \Vsym{up} \,[\var{j}]
+\var{inst} = \Vmkl{i} \Vsym{up} \Vmkr{j},
 \end{equation}
+We say that \Veim{up}
+is the \dfn{EIM equivalent} of 
+\var{inst}.
 
 \begin{theorem}
 \label{t:valid-symbolic-equivalent-valid}
@@ -1718,6 +1745,29 @@ with a nulling postdot symbol;
 and a lasting EIM is any EIM which is not
 a fleeting EIM.
 
+Let
+\begin{equation*}
+\var{eim1} = [ \Vdr{dr1}, \Vorig{i}, Vloc{j} ].
+\end{equation*}
+Let \Vdr{lasting1} be the lasting equivalent of \Vdr{dr1}.
+Then the lasting equivalent of \var{eim1}
+is
+\begin{equation*}
+[ \Vdr{lasting1}, \Vorig{i}, Vloc{j} ].
+\end{equation*}
+
+\begin{theorem}
+If an EIM is valid, so is its lasting equivalent.
+\end{theorem}
+
+\begin{proof}
+Omitted.
+% TODO
+\end{proof}
+
+We say that the \dfn{lasting effect} of a cause
+is the lasting equivalent of the effect of that cause.
+
 Let \var{stack} be a sequence
 of \var{n} items,
 numbered
@@ -1729,15 +1779,60 @@ if and only if
 its first item, $\var{stack}[0]$, is a terminal symbol instance;
 and
 \item
-For all $0 \le \var{i} < \Vdecr{n}$,
-$\var{stack}[\var{i}]$ is a bottom-up cause of $\var{stack}[\var{i}+1]$.
+For all $1 \le \var{i} \le \Vdecr{n}$,
+$\var{stack}[\var{i}]$ is the lasting effect of $\var{stack}[\Vdecr{i}]$.
 \end{itemize}
 We call $\var{stack}[0]$ the \dfn{bottom} of the stack.
 We call $\var{stack}[\Vdecr{n}]$ the \dfn{top} of the stack.
 
+Where $\var{stack}[\var{i}]$ is an item in a cause stack,
+we say that its stack index, \var{i},
+is its \dfn{absolute altitude} in that stack.
+We will often refer to an item's absolute altitude as,
+simply, it \dfn{altitude}.
+
+Where
+$\var{stack}[\var{i}]$
+and
+$\var{stack}[\var{j}]$
+are items in a cause stack,
+$\var{i} \le \var{j}$,
+we say that $\var{j} \subtract \var{i}$
+is the altitude of 
+$\var{stack}[\var{j}]$
+relative to
+$\var{stack}[\var{i}]$.
+Where a base \var{i} is understood in context,
+we say that
+is the altitude of 
+$\var{stack}[\var{j}]$
+relative to
+$\var{stack}[\var{i}]$
+is the \dfn{relative altitude}
+of $\var{stack}[\var{j}]$.
+The altitude of a stack item relative to
+$\var{stack}[0]$
+is the same as its absolute altitude.
+
+If EIM is a part of more than one cause stack,
+its stack index may take on different value.
+The altitude of the EIM will be the minimum of
+the values of its stack indexes.
+
 \begin{theorem}
 All the items of a cause stack have the same
 right location.
+\end{theorem}
+
+\begin{proof}
+Omitted.
+% TODO
+\end{proof}
+
+\begin{theorem}
+Let \Veim{top} be an completed EIM.
+Then it is in a cause stack,
+and it has a finite altitude.
 \end{theorem}
 
 \begin{proof}
@@ -3805,7 +3900,7 @@ a derivation step.
 (Since for the purposes of these
 complexity results we ignore nulling symbols,
 the rightmost symbol of a string will also be its rightmost
-non-nulling symbol.)
+non-nullable symbol.)
 So part of the rightmost derivation must take the form
 \begin{equation*}
 \Vstr{earlier-prefix} \cat \Vsym{A} \deplus \Vstr{later-prefix} \cat \Vsym{A}.
