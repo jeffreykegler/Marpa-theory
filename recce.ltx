@@ -61,6 +61,8 @@
 \newcommand{\nderives}{\not\Rightarrow}
 \newcommand{\destar}
     {\mathrel{\mbox{$\:\stackrel{\!{\ast}}{\Rightarrow\!}\:$}}}
+\newcommand{\ndestar}
+    {\mathrel{\mbox{$\:\stackrel{\!{\ast}}{\not\Rightarrow\!}\:$}}}
 \newcommand{\deplus}
     {\mathrel{\mbox{$\:\stackrel{\!{+}}{\Rightarrow\!}\:$}}}
 \newcommand{\derivg}[1]{\mathrel{\mbox{$\:\Rightarrow\:$}}}
@@ -186,6 +188,16 @@
 \hyphenation{oper-and oper-ands}
 \hyphenation{look-ahead}
 \hyphenation{memo-ization}
+\hyphenation{al-ti-tude}
+
+% I use parboxes in equations.  This sets a useful width for them.
+\newlength{\mathparwidth}
+\setlength{\mathparwidth}{0.7\textwidth}
+\newcommand{\myparbox}[1]{
+  \parbox{\mathparwidth}{ \begin{raggedright}
+#1 \par
+\end{raggedright} }
+}
 
 \begin{document}
 
@@ -460,7 +472,6 @@ As a special case,
 when \Vstr{z} is an empty string of symbols,
 we will say that $\Vstr{z} \derives \epsilon$.
 
-\Vsym{x} is \dfn{nonnull} if and only if it is not nullable.
 Following Aycock and Horspool\cite{AH2002},
 all nullable symbols in grammar \Cg{} are nulling -- every symbol
 which can derive the null string always derives the null string.
@@ -469,6 +480,23 @@ or the ability to efficiently evaluate a semantics that is
 defined in terms of an original grammar that includes symbols which
 are both nullable and non-nulling,
 empty rules, etc.
+
+Consider the derivation
+\begin{equation}
+\Vsym{A} \derives \Vstr{rhs} \destar \Vstr{left} \cat \Vsym{A} \cat \Vstr{right}
+\end{equation}
+We say that the rule $\Vsym{A} \de \Vstr{rhs}$
+and the symbol \Vsym{A} are
+\begin{center}
+\begin{tabular}{ll}
+\dfn{middle-recursive} & if and only if
+  $\Vstr{left} \ndestar \epsilon \land \Vstr{right} \ndestar \epsilon$ \\
+\dfn{left-recursive} &  if and only if $\Vstr{left} \destar \epsilon$ \\
+\dfn{right-recursive} &  if and only if $\Vstr{right} \destar \epsilon$ \\
+\dfn{cyclic} & if and only if
+  $\Vstr{left} \destar \epsilon \land \Vstr{right} \destar \epsilon$.
+\end{tabular}
+\end{center}
 
 Also without loss of generality,
 it is assumed
@@ -1473,7 +1501,7 @@ From the definition of validity for an Earley item:
 \Vsym{down} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{A} \cat \Vstr{post}
 \end{equation}
 
-We see taht the location markers in
+We see that the location markers in
 \eqref{eq:effect-from-symbolic-causes-6}
 and
 \eqref{eq:effect-from-symbolic-causes-20}
@@ -1505,7 +1533,7 @@ then
 \raggedright
 \item \Veim{effect} must have a valid symbolic bottom-up cause,
 \label{item:symbolic-causes-from-effect-3}
-\item \Veim{effect} must have a top-down cause, call it
+\item \Veim{effect} must have a valid top-down cause, call it
 $\Veim{down}$,
 \label{item:symbolic-causes-from-effect-6}
 \item the two causes must match,
@@ -1805,11 +1833,20 @@ $\var{stack}[\var{i}]$ is the lasting effect of $\var{stack}[\Vdecr{i}]$.
 We call $\var{stack}[0]$ the \dfn{bottom} of the stack.
 We call $\var{stack}[\Vdecr{n}]$ the \dfn{top} of the stack.
 
+\begin{definition}
+\label{s:def-altitude}
+
 Where $\var{stack}[\var{i}]$ is an item in a cause stack,
 we say that its stack index, \var{i},
 is its \dfn{absolute altitude} in that stack.
 We will often refer to an item's absolute altitude as,
 simply, it \dfn{altitude}.
+
+If EIM is a part of more than one cause stack,
+its stack index may take on different value.
+The altitude of the EIM will be the minimum of
+the values of its stack indexes.
+\end{definition}
 
 Where
 $\var{stack}[\var{i}]$
@@ -1833,11 +1870,6 @@ of $\var{stack}[\var{j}]$.
 The altitude of a stack item relative to
 $\var{stack}[0]$
 is the same as its absolute altitude.
-
-If EIM is a part of more than one cause stack,
-its stack index may take on different value.
-The altitude of the EIM will be the minimum of
-the values of its stack indexes.
 
 \begin{theorem}
 All the items of a cause stack have the same
@@ -2225,6 +2257,54 @@ TODO.
 \end{proof}
 
 \begin{theorem}
+\label{t:leo-telluric-base}
+If an EIM is memoized,
+its telluric base is also Leo-memoized.
+\end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
+
+\begin{theorem}
+\label{t:read-eim-not-leo}
+Read EIMs and the EIMs in the
+ethereal closure of a read EIM
+are never Leo-memoized.
+\end{theorem}
+
+\begin{proof}
+Assume for a reductio,
+that an EIM in the ethereal closure of a read EIM
+is memoized.
+Then, by Theorem \ref{t:leo-telluric-base},
+its telluric base must be memoized.
+This telluric base will be a read EIM.
+Call this EIM, \Veim{scanned}.
+
+By the definition of a read EIM,
+the predot symbol of \Veim{scanned}
+is a terminal.
+Since \Veim{scanned} is memoized,
+by Theorem \ref{t:leo-quasi-complete},
+it must be quasi-complete, so the predot
+symbol of \Veim{scanned} must also be its penult.
+Therefore the quasi-penult of \Veim{scanned} is
+a terminal.
+
+Only EIMs with right recursive rules are memoized.
+From the definition of right recursion,
+a right recursive rule must have a right recursive
+symbol as its quasi-penult.
+But a terminal cannot be recursive symbol.
+
+Therefore \Veim{scanned} cannot have a right recursive rule,
+and therefore \Veim{scanned} is not memoized,
+which is contrary to the assumption for the reductio.
+This shows the reduction and the theorem.
+\end{proof}
+
+\begin{theorem}
 \label{t:earley-set-0-is-Leo-free}
 No EIM in Earley set 0 is memoized.
 \end{theorem}
@@ -2565,6 +2645,8 @@ the EIMs read at \Vloc{i}.
 \end{theorem}
 
 \begin{proof}
+TODO -- redo the argument re Leo memoization.
+
 We first assure ourselves that Leo
 memoization has no effect on the read pass.
 The bottom-up causes,
@@ -2729,12 +2811,16 @@ EIMs at \Vloc{i}
 whose bottom-up cause is an EIM
 at \Vloc{i}
 the ``EIMs reduced at \Vloc{i}``.
-Let the Earley tables for all locations
-\Vloc{h},
-$\var{h} < \Vloc{i}$ be correct;
-and
-let the ethereal closure of
-the set of EIMs read at \Vloc{i} be correct.
+Assume that
+\begin{equation}
+\label{t:reduction-op-correct-5}
+\forall \Vloc{h} \quad \var{h} < \Vloc{i} \implies \text{$\Ves{h}$ is correct},
+\end{equation}
+and that
+\begin{equation}
+\label{t:reduction-op-correct-8}
+\myparbox{the ethereal closure of the set of EIMs read at \Vloc{i} is correct.}
+\end{equation}
 Then the reduction pass at \Vloc{i}
 adds all and only
 the ethereal closure of
@@ -2742,47 +2828,81 @@ the EIMs reduced at \Vloc{i}.
 \end{theorem}
 
 \begin{proof}
-We first assure ourselves that Leo
-memoization has no effect on the reduction pass.
-The top-down causes
-in Algorithm
-\ref{alg:reduction-pass}
-must be quasi-incomplete because they are the result
-of the \var{transitions} function,
-which only memoizes EIMs with a non-nullable postdot
-symbol --
-see line
-\ref{line:memoize-transitions-20}
-in Algorithm
-\ref{alg:memoize-transitions}.
-A quasi-complete EIM cannot have a
-non-nullable postdot symbol,
-so therefore
-\Veim{down} at line
-\ref{line:reduction-pass-20}
-must be quasi-incomplete.
-By Theorem
-\ref{t:leo-quasi-complete},
-no quasi-incomplete EIM
-is Leo-memoized.
-Therefore none of the EIMs used
-as top-down causes
-in Algorithm
-\ref{alg:memoize-transitions}
-will be overlooked because
-of Leo memoization.
 
-The bottom-up causes,
-in Algorithm
-\ref{alg:reduction-pass}
-must be complete EIMs.
-By Theorem
-ref{t:TODO-leo-top-unmemoized},
-the only unmemoized EIM with
-an memoized top
-is the Leo path top EIM.
+TODO: deal with Leo memoization at the end?
 
-TODO: Finish this line of reasoning.
+By its definition,
+a reduction is a confirmed EIM with a non-terminal
+predot symbol.
+By Theorem \ref{t:symbolic-causes-from-effect},
+every confirmed EIM must have a matching pair
+of causes: one top-down and one bottom-up.
+By Theorem \ref{t:valid-eim-from-symbol},
+without loss of generality,
+each bottom-up cause is
+\begin{equation*}
+\Veim{up} = [ [ \Vsym{up} \de \Vstr{rhs} \mydot ], \var{h}, \var{i} ]
+\end{equation*}
+and since in \Marpa{} rules are never nulling,
+we have
+\begin{equation}
+\label{t:reduction-op-correct-15}
+\var{h} < \var{i}.
+\end{equation}
+By Theorem
+\ref{t:symbolic-causes-from-effect},
+the right location of any matching top-down cause must be \Vloc{h}.
+Using \eqref{t:reduction-op-correct-15}
+and \eqref{t:reduction-op-correct-5},
+we know that the top-down causes of reductions at \Vloc{i}
+are correct.
+
+Showing that we have a correct set of bottom-up causes is
+more difficult.
+To do this, we define ``Leo-adjusted altitude''.
+This is altitude (see Definition \ref{s:def-altitude})
+except that memoized Leo EIMs are not counted in the
+indexing.
+Leo-adjusted altitude, therefore, is always less than
+or equal to altitude.
+
+We show that we have a complete set of bottom-up causes,
+by induction on Leo-adjusted altitude.
+As the basis of the induction,
+we note
+that
+the predot symbol of
+all read EIMs is a terminal symbol
+and that that terminal symbol instance
+is the bottom-up cause of the read EIM.
+Terminal symbol instances have,
+by the definition of altitude,
+an altitude of 0,
+so that
+\begin{equation}
+\label{t:reduction-op-correct-22}
+\myparbox{the bottom-up cause of all read EIMs has an altitude of 0. }
+\end{equation}
+
+
+By theorem \ref{t:read-eim-not-leo},
+no EIMs in the ethereal closure of a read EIMs
+are Leo-memoized.
+From this and 
+\eqref{t:reduction-op-correct-22},
+we know that
+\begin{equation}
+\label{t:reduction-op-correct-25}
+\myparbox{all read EIMs have an altitude of 1. }
+\end{equation}
+\eqref{t:reduction-op-correct-8}
+and
+\eqref{t:reduction-op-correct-25}
+give us the basis of our induction.
+
+For the step of the induction,
+
+TODO: Finish this.
 
 By Theorem
 \ref{t:TODO-FIND-ME},
@@ -3828,8 +3948,6 @@ This is contrary to the assumption for the theorem
 that the grammar is unambiguous.
 This shows the reductio
 and that
-\newlength{\mathparwidth}
-\setlength{\mathparwidth}{0.7\textwidth}
 \begin{equation}
 \label{eq:tries-25}
 \parbox{\mathparwidth}{
