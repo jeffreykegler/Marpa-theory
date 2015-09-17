@@ -2230,7 +2230,17 @@ No EIM in Earley set 0 is memoized.
 \end{theorem}
 
 \begin{proof}
-TODO: uses Theorem \ref{t:leo-quasi-complete}
+By definition,
+a quasi-complete EIM has at least one
+telluric predot symbol,
+so its current location cannot be location 0.
+Therefore no quasi-complete EIM occurs in
+Earley set 0.
+But,
+by Theorem \ref{t:leo-quasi-complete},
+only quasi-complete EIMs are memoized.
+Therefore no EIM in Earley set 0
+is memoized.
 \end{proof}
 
 \begin{theorem}
