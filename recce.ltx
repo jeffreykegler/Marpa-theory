@@ -891,7 +891,7 @@ $\Postdot{\Vdr{from}} \neq \Lambda$,
 we need to make some definitions,
 many of which will be useful later.
 
-Let \var{direct-scan} be the set of
+Let \var{direct-null-scan} be the set of
 pairs of dotted rules
 \begin{align*}
 & \begin{aligned}
@@ -927,31 +927,48 @@ but that that  \dfn{bottom-up cause} is ethereal.
 
 \begin{raggedright}
 We define the ``ethereal next'' relation
-to be the union of
-\var{direct-scan} and \var{direct-predict}.
+as the union of
+\var{direct-null-scan} and \var{direct-predict}.
 \begin{equation*}
-\var{ethereal-next} \defined \var{direct-scan} \cup \var{direct-predict}.
+\var{ethereal-next} \defined \var{direct-null-scan} \cup \var{direct-predict}.
 \end{equation*}
-We call the transitive closure of \var{ethereal-next},
-the \dfn{ethereal closure},
+We define
+the \dfn{ethereal closure} as
+We the transitive closure of \var{ethereal-next}.
 $$ \var{ethereal-closure} \defined \var{ethereal-next}^+ $$
 \end{raggedright}
 
 We are now in a position to define the ethereal transition of \GOTO{}
-from the dotted rule \Vdr{from},
+from the dotted rule \Vdr{base},
 when
-\Vdr{from} has a postdot symbol.
+\Vdr{base} has a postdot symbol.
 It is the ethereal closure
 over the singleton set containing the dotted rule argument of \GOTO{}.
-\begin{multline*}
-\Vsym{A} = \Postdot{\Vdr{from}} \land \Vsym{A} \neq \Lambda \implies \\
-\GOTO(\Vdr{from}, \Vsym{A}) =  \var{ethereal-closure}(\lbrace \Vdr{from} \rbrace)
-\end{multline*}
+\begin{multline}
+\label{eq:def-ethereal-closure}
+\Vsym{A} = \Postdot{\Vdr{base}} \land \Vsym{A} \neq \Lambda \implies \\
+\GOTO(\Vdr{base}, \Vsym{A}) =  \var{ethereal-closure}(\lbrace \Vdr{base} \rbrace)
+\end{multline}
 The ethereal closure for a dotted rule is the ethereal closure of the singleton
 set containing that dotted rule:
 \begin{multline*}
-\var{ethereal-closure}(\Vdr{from}) \defined  \var{ethereal-closure}(\lbrace \Vdr{from} \rbrace)
+\var{ethereal-closure}(\Vdr{base}) \defined  \var{ethereal-closure}(\lbrace \Vdr{base} \rbrace)
 \end{multline*}
+
+Let
+\begin{equation}
+\Vdrset{ec} = \var{ethereal-closure}(\lbrace \Vdr{base} \rbrace).
+\end{equation}
+We also call \Vdrset{ec} an \dfn{ethereal closure}
+and we say that \Vdr{base} is its \dfn{base}.
+If \Vdr{base} is telluric, we say that
+\Vdr{base} is its \dfn{telluric base}.
+We call \Vdr{tell} a telluric base
+of a dotted rule \Vdr{dr2} if and only if
+$$ \Vdr{dr2} \in \var{ethereal-closure}(\lbrace \Vdr{tell} \rbrace). $$
+Predicted dotted rules may have more than one telluric base,
+but for null-scan dotted rules the telluric base
+will be unique.
 
 The complexity of the ethereal closure is of interest:
 we may want to compute it on the fly,
@@ -959,14 +976,14 @@ and in any case,
 we certainly want to show that
 the ethereal closure has finite time complexity.
 \begin{algorithm}[!htp]
-\caption{Add one null transition generation}
-\label{alg:null-transition-generation}
+\caption{Add a new generation of dotted rules to the ethereal closure}
+\label{alg:ethereal-generation}
 \begin{algorithmic}[1]
-\Procedure{Add generation}{\Vdr{dr}, \Vdrset{results}}
-\If{\Vdr{dr} has no postdot symbol}
+\Procedure{Ethereal next}{\Vdr{base}, \Vdrset{results}}
+\If{\Vdr{base} has no postdot symbol}
 \State return
 \EndIf
-\State Here \Vdr{dr} is $[ \Vsym{lhs} \de \Vstr{before} \mydot \Vsym{A} \cat \Vstr{after} ]$
+\State Here \Vdr{base} is $[ \Vsym{lhs} \de \Vstr{before} \mydot \Vsym{A} \cat \Vstr{after} ]$
 \State \Comment We can state this without loss of generality
 \If{$\Vsym{A}$ is a nulling symbol}
 \State $\Vdr{new} \gets [ \Vsym{lhs} \de \Vstr{before} \cat \Vsym{A} \mydot \Vstr{after} ]$
@@ -994,46 +1011,51 @@ the ethereal closure has finite time complexity.
 \end{algorithm}
 
 \begin{algorithm}[!htp]
-\caption{Create null transition set}
-\label{alg:null-transition}
+\caption{Create ethereal closure}
+\label{alg:ethereral-closure}
 \begin{algorithmic}[1]
-\Function{Create null transition set}{\Vdr{base}}
-\State Initialize \Vdrset{result} to the empty set
-\State Initialize \Vdrset{work} to the emtpy set
-\State \Call{Add generation}{\Vdr{base}}
+\Function{Create ethereal closure}{\Vdr{base}}
+\State $\Vdrset{result} \gets \emptyset$
+\State $\Vdrset{work} \gets \emptyset$
+\State \Call{Ethereal next}{\Vdr{base}}
 \While{\Vdrset{work} is not empty}
 \State Remove a dotted rule from \Vdrset{work}, call it \Vdr{work}
-\State \Call{Add generation}{\Vdr{work}, \Vdrset{result}}
+\State \Call{Ethereal next}{\Vdr{work}, \Vdrset{result}}
 \EndWhile
 \State return \Vdrset{result}
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
 
-Algorithm \ref{alg:null-transition}
-is not that actually used by any
-of Marpa's versions,
-but is chosen for convenience in explaining the theory.
+Algorithm \ref{alg:ethereral-closure}
+is not actually used by any
+of Marpa's versions --
+it is chosen because it is
+convenient for exploring the theory.
 The current Marpa implementation handles
-transitions over ethereal symbols implicitly,
-but computes predictons at the end.
+null-scans and predictions with two completely different
+mechanisms.
+In the actual implementation,
+null-scans are dealt with implicitly,
+while predictions are explicitly computed after
+each Earley set is otherwise complete.
 
-\begin{theorem}\label{t:null-transition-Oc}
+\begin{theorem}\label{t:ethereal-closure-Oc}
 Ethereal closure has time complexity \Oc{}.
 \end{theorem}
 
 \begin{proof}
-We consider Algorithm \ref{alg:null-transition}.
+We consider Algorithm \ref{alg:ethereral-closure}.
 This clearly runs in \Oc{} time if there is a constant
 number of calls to
-Algorithm \ref{alg:null-transition-generation}.
+Algorithm \ref{alg:ethereal-generation}.
 
 To finish the proof, we need to show
 that
-Algorithm \ref{alg:null-transition-generation}.
+Algorithm \ref{alg:ethereal-generation}
 is called a constant number
 of times.
-Algorithm \ref{alg:null-transition-generation}
+Algorithm \ref{alg:ethereal-generation}
 is called
 once for the base dotted rule of the computation.
 It is called again for every dotted rule added to the working set
@@ -1041,34 +1063,34 @@ of dotted rules, \Vdrset{work}.
 We know that no dotted rule is added to
 \Vdrset{work} twice.
 Therefore
-Algorithm \ref{alg:null-transition-generation}
+Algorithm \ref{alg:ethereal-generation}
 is called
 at most once for each dotted rule.
 \Cg{} has a fixed number of dotted rules,
 so
-that Algorithm \ref{alg:null-transition-generation}
+that Algorithm \ref{alg:ethereal-generation}
 is called
 a most \Oc{} times.
 \end{proof}
 
-\begin{theorem}\label{t:null-transition-dr-correct}
-Algorithm \ref{alg:null-transition} is correct.
+\begin{theorem}\label{t:ethereal-closure-dr-correct}
+Algorithm \ref{alg:ethereral-closure} is correct.
 \end{theorem}
 
 \begin{proof}
 It is directly clear from examining
-Algorithm \ref{alg:null-transition}.
+Algorithm \ref{alg:ethereral-closure}
 that the null transitions
 for nulling postdot symbols are complete and consistent,
 and therefore correct.
 It remains to consider the null transitions for non-nullable
 postdot symbols -- predictions.
 
-Algorithm \ref{alg:null-transition}
+Algorithm \ref{alg:ethereral-closure}
 clearly adds all predictions derivable in a single step
 to its results.
 It also
-calls the ``Add generation'' function
+calls the ``Ethereal next'' function
 repeatedly, so that indirect predictions will be added.
 But it will refuse to
 add a dotted rule to its working set more than once.
@@ -1076,7 +1098,7 @@ It remains to consider whether this means some predictions
 will not be derived.
 
 Consider a prediction
-\begin{equation}\label{null-transition-correct-5}
+\begin{equation}\label{ethereal-closure-correct-5}
 \Vsym{postdot-penult} \de \mydot \Vsym{postdot-last} \cat \Vstr{after-last}
 \end{equation}
 which is derived through a chain
@@ -1097,8 +1119,8 @@ of derivations in which the same dotted rule occurs at least twice.
 \end{equation*}
 We can create a shorter derivation by removing the derivation from Step $i$ to Step $j$
 and replacing it with Step $i$.
-Algorithm \ref{alg:null-transition} will also follow this shorter derivation,
-and therefore will add \eqref{null-transition-correct-5}
+Algorithm \ref{alg:ethereral-closure} will also follow this shorter derivation,
+and therefore will add \eqref{ethereal-closure-correct-5}
 without needing to add
 $$ \Vsym{postdot-before-i} \de \mydot \Vsym{postdot-i} \cat \Vstr{after-i} $$
 to \Vdrset{work}
@@ -1106,7 +1128,7 @@ more than once.
 
 We can do this for to every postdot symbol which occurs twice.
 From this we see that
-Algorithm \ref{alg:null-transition}
+Algorithm \ref{alg:ethereral-closure}
 can derive a complete set of predictions
 without having to add any dotted rule
 to \Vdrset{work}
@@ -1736,8 +1758,6 @@ if a grammar allows more than one derivation for any of its symbol,
 there exists some input for which it is ambiguous.
 \end{proof}
 
-% TODO -- define cause stack
-
 Recall that dotted rule notions applied to EIMs
 refer to the dotted rule of the EIM.
 Therefore, a fleeting EIM is an EIM 
@@ -1830,9 +1850,21 @@ Omitted.
 \end{proof}
 
 \begin{theorem}
+\label{t:completion-cause-stack}
 Let \Veim{top} be an completed EIM.
 Then it is in a cause stack,
 and it has a finite altitude.
+\end{theorem}
+
+\begin{proof}
+Omitted.
+% TODO
+\end{proof}
+
+\begin{theorem}
+\label{t:quasi-completion-cause-stack}
+Let \Veim{top} be a quasi-completed EIM.
+Then its lasting effect is in a cause stack.
 \end{theorem}
 
 \begin{proof}
@@ -2059,6 +2091,8 @@ is \On{} for all LR-regular grammars.
 is infinite length, but restricted to
 distinguishing between regular expressions.)
 
+TODO -- define Leo altitude.
+
 Summarizing Leo's method,
 it consists of spotting potential right recursions
 and memoizing them.
@@ -2209,6 +2243,39 @@ Then \Veim{1} is Leo-memoized if and only if
 
 \begin{proof}
 TODO.
+\end{proof}
+
+\begin{proof}
+TODO: uses Theorem \ref{t:leo-quasi-complete}
+\end{proof}
+
+\begin{theorem}
+\label{t:memoized-effects}
+All effects of memoized causes are also
+memoized,
+with one exception.
+The top of a Leo stack has a memoized
+bottom-up cause.
+\end{theorem}
+
+\begin{proof}
+Omitted.
+% TODO.
+\end{proof}
+
+\begin{theorem}
+\label{t:memoized-causes}
+All causes of memoized effects are also
+memoized,
+with one exception.
+The bottom of a Leo stack is not memoized,
+but it is the bottom-up cause
+of the telluric effect at Leo altitude 1.
+\end{theorem}
+
+\begin{proof}
+Omitted.
+% TODO.
 \end{proof}
 
 \section{The Marpa Recognizer}
@@ -2982,7 +3049,7 @@ item.
 Inclusive time and space is charged to the
 calling procedure.
 
-By theorem \ref{t:null-transition-Oc},
+By theorem \ref{t:ethereal-closure-Oc},
 computing the ethereal closure is \Oc{}.
 We show that other time charged is also \Oc{}
 by singling out the two non-trivial cases:
@@ -3131,7 +3198,7 @@ and \ref{line:eim-set-40} are based on
 the dotted rules found
 at line
 \ref{line:eim-set-20}.
-By theorem \ref{t:null-transition-dr-correct},
+By theorem \ref{t:ethereal-closure-dr-correct},
 line \ref{line:eim-set-20} of
 Algorithm \ref{alg:eim-set} the
 transitive closure of null transitions from
