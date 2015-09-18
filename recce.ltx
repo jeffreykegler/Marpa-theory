@@ -2,6 +2,7 @@
 % This document is licensed under
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
 \documentclass[12pt]{amsart}
+\usepackage{hyperref}
 \usepackage{mathtools}
 \usepackage{amssymb}
 \usepackage{algorithm, algpseudocode}
@@ -78,6 +79,8 @@
 \newcommand{\eim}[1]{#1_{EIM}}
 \newcommand{\Veim}[1]{\ensuremath{\var{#1}_{EIM}}}
 \newcommand{\Veimset}[1]{\ensuremath{\var{#1}_{\set{EIM}}}}
+\newcommand{\leo}[1]{#1_{LEO}}
+\newcommand{\Vleo}[1]{\ensuremath{\var{#1}_{LEO}}}
 \newcommand{\Ees}[1]{\ensuremath{#1_{ES}}}
 \newcommand{\Vlim}[1]{\ensuremath{\var{#1}_{LIM}}}
 \newcommand{\loc}[1]{\ensuremath{{#1}_{LOC}}}
@@ -356,22 +359,21 @@ Section
 of this \doc.
 Section \ref{s:rewrite} deals with Marpa's
 grammar rewrites.
-Sections \ref{s:earley} and \ref{s:earley-ops}
-introduce Earley's algorithm.
+The next sections develop the ideas for Earley's algorithm.
+Section \ref{s:dotted} describes dotted rules.
+Section \ref{s:earley-item} describes Earley items.
+
 Section \ref{s:leo} describes Leo's modification
 to Earley's algorithm.
 Section \ref{s:pseudocode} presents the pseudocode
 for Marpa's recognizer.
 Section
-\ref{s:proof-preliminaries}
-describes notation and deals with other
-preliminaries
-to the theoretical results.
-Section
 \ref{s:correct}
-contain a proof of Marpa's correctness,
-while Section \ref{s:complexity} contains
-its complexity results.
+contain a proof of Marpa's correctness.
+Section \ref{s:linear} sets out our linear
+time and space complexity results.
+Section \ref{s:other-complexity} presents out
+other complexity results.
 
 \section{Preliminaries}
 \label{s:preliminaries}
@@ -1524,10 +1526,9 @@ which is what we needed to show for the theorem.
 
 \begin{theorem}
 \label{t:symbolic-causes-from-effect}
-If a confirmed EIM,
-call it
+If
 $$\Veim{effect} = [ \Vdr{effect}, \var{i}, \var{k} ],$$
-is valid,
+is a valid, confirmed EIM,
 then
 \begin{enumerate}
 \raggedright
@@ -1782,7 +1783,7 @@ This may be proved using the derivations in the definition
 of top-down and bottom-up cause.
 More than one cause means more than one derivation.
 Since every symbol in a Marpa grammar is production,
-if a grammar allows more than one derivation for any of its symbol,
+if a grammar allows more than one derivation for any of its symbols,
 there exists some input for which it is ambiguous.
 \end{proof}
 
@@ -1889,8 +1890,7 @@ and it has a finite altitude.
 \end{theorem}
 
 \begin{proof}
-Omitted.
-% TODO
+TODO: Is this theorem used?  If not, delete it.
 \end{proof}
 
 \begin{theorem}
@@ -1900,8 +1900,7 @@ Then its lasting effect is in a cause stack.
 \end{theorem}
 
 \begin{proof}
-Omitted.
-% TODO
+TODO: Is this theorem used?  If not, delete it.
 \end{proof}
 
 \section{Earley implementations}
@@ -2123,8 +2122,6 @@ is \On{} for all LR-regular grammars.
 is infinite length, but restricted to
 distinguishing between regular expressions.)
 
-TODO -- define Leo altitude.
-
 Summarizing Leo's method,
 it consists of spotting potential right recursions
 and memoizing them.
@@ -2246,6 +2243,63 @@ show that this change also leaves
 the complexity results of
 Leo\cite{Leo1991} intact.
 
+TODO: Can Leo altitude be simply ``altitude''?
+
+\begin{definition}
+\label{def:altitude}
+Intuitively,
+\dfn{Leo-adjusted altitude},
+or simply \dfn{Leo altitude},
+is altitude adjusted to reflect Leo memoization.
+More formally,
+\begin{itemize}
+\item The Leo altitude of a terminal symbol instance is 0.
+\item The Leo altitude of a prediction is not defined.
+\item The Leo altitude of the start rule is not defined.
+\item A possible Leo altitude of a Leo top EIM is the
+altitude of its Leo bottom-up cause, plus 1.
+\item The Leo altitude of null-scan EIM is that of
+its top-down cause.
+\item The Leo altitude of a read EIM is
+altitude of its bottom-up cause, plus 1.
+Since the bottom-up cause of a read EIM is always
+a terminal symbol instance, 
+its Leo altitude will always be 1.
+\item A possible Leo altitude of a reduction EIM is
+the Leo altitude of its bottom-up cause, plus 1.
+\item
+The Leo altitude of an EIM is the minimum of its possible
+values.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}
+\label{t:altitude-is-finite}
+If \Veim{effect} is a confirmed EIM,
+its Leo altitude is defined and finite.
+\end{theorem}
+
+\begin{proof}
+From Theorem \ref{t:symbolic-causes-from-effect},
+we know that every confirmed EIM has a bottom-up cause.
+
+Consider, \var{trail}, a sequence of EIMs and symbol instances,
+where $\var{trail}[\Vdecr{i}]$ is the bottom-up cause of
+$\var{trail}[\var{i}]$.
+Because every symbol in a \Marpa{} grammar is productive,
+we know that,
+where \Vsym{A} is the symbol of the bottom-up cause,
+that 
+$\Vsym{A} \destar \Vstr{before} \cat \Vsym{term}$
+where \Vsym{term} is a terminal symbol.
+
+By induction
+using Theorem \ref{t:symbolic-causes-from-effect},
+we see that \Veim{effect} is the end of a series
+
+TODO
+\end{proof}
+
 \begin{theorem}
 \label{t:leo-quasi-complete}
 Only quasi-complete EIMs are
@@ -2327,16 +2381,12 @@ is memoized.
 \label{t:ethereal-closure-is-Leo-disjoint}
 Let \Veim{eim2}
 be an EIM in the ethereal closure of \Veim{eim1}.
-Then \Veim{1} is Leo-memoized if and only if
+Then \Veim{eim1} is Leo-memoized if and only if
 \Veim{eim2} is Leo-memoized.
 \end{theorem}
 
 \begin{proof}
 TODO.
-\end{proof}
-
-\begin{proof}
-TODO: uses Theorem \ref{t:leo-quasi-complete}
 \end{proof}
 
 \begin{theorem}
@@ -2349,8 +2399,7 @@ bottom-up cause.
 \end{theorem}
 
 \begin{proof}
-Omitted.
-% TODO.
+TODO.
 \end{proof}
 
 \begin{theorem}
@@ -2364,8 +2413,34 @@ of the telluric effect at Leo altitude 1.
 \end{theorem}
 
 \begin{proof}
-Omitted.
-% TODO.
+TODO.
+\end{proof}
+
+\begin{theorem}
+\label{t:leo-top-from-memo}
+Let \Vleo{memo} be a Leo memo
+and \Veim{up} a matching EIM.
+The \Veim{effect} is valid.
+TODO: Finish statement of theorem
+\end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
+
+\begin{theorem}
+\label{t:leo-memo-from-top}
+Let \Veim{effect} be a Leo top EIM.
+whose direct non-Leo bottom-up cause
+(TODO: terminology?)
+is memoized.
+Then \Vleo{memo} and
+\Veim{up} are valid.
+TODO: Finish statement of theorem
+\end{theorem}
+
+\begin{proof}
+TODO.
 \end{proof}
 
 \section{The Marpa Recognizer}
@@ -2859,12 +2934,6 @@ are correct.
 
 Showing that we have a correct set of bottom-up causes is
 more difficult.
-To do this, we define ``Leo-adjusted altitude''.
-This is altitude (see Definition \ref{s:def-altitude})
-except that memoized Leo EIMs are not counted in the
-indexing.
-Leo-adjusted altitude, therefore, is always less than
-or equal to altitude.
 
 We show that we have a complete set of bottom-up causes,
 by induction on Leo-adjusted altitude.
@@ -2883,7 +2952,6 @@ so that
 \label{t:reduction-op-correct-22}
 \myparbox{the bottom-up cause of all read EIMs has an altitude of 0. }
 \end{equation}
-
 
 By theorem \ref{t:read-eim-not-leo},
 no EIMs in the ethereal closure of a read EIMs
