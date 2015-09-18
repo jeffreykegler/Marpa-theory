@@ -2271,6 +2271,8 @@ Intuitively,
 \dfn{Leo-adjusted altitude},
 or simply \dfn{Leo altitude},
 is altitude adjusted to reflect Leo memoization.
+
+\begin{raggedright}
 More formally,
 \begin{itemize}
 \item The Leo altitude of a terminal symbol instance is 0.
@@ -2291,6 +2293,12 @@ the Leo altitude of its bottom-up cause, plus 1.
 The Leo altitude of an EIM is the minimum of its possible
 values.
 \end{itemize}
+
+We write \Alt{\var{element}} for the Leo altitude of \var{element},
+where \var{element} may be an EIM or a symbol instance.
+
+\end{raggedright}
+
 \end{definition}
 
 \begin{theorem}
@@ -2346,7 +2354,8 @@ its Leo altitude is defined and finite.
 \end{theorem}
 
 \begin{proof}
-Without loss of generality, we let
+Using that fact that \Veim{effect} is a confirmed EIM,
+and without loss of generality, we let
 \begin{multline*}
 \Veim{effect} = [ [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{B} \cat \Vstr{nulls} \mydot \Vstr{post} ],
 \var{i}, \var{k}]
@@ -2356,13 +2365,79 @@ and $\Vstr{nulls} \destar \epsilon$.
 
 All symbols in a \Marpa{} grammar are productive,
 so that without loss of generality,
-we can let a rightmost derivation be
+we can let a derivation be
 \begin{alignat}{2}
 \label{t:altitude-is-finite-15}
-\Vsym{A} & \derives \Vmkl{i} \Vstr{pre} \cat \Vsym{A} \cat \Vstr{nulls} \Vmkm{k} \Vstr{post} \\
+\Vsym{effect} & \derives \Vmkl{i} \Vstr{pre} \cat \Vsym{A} \cat \Vstr{nulls} \Vmkm{k} \Vstr{post} \\
   & \derives \Vmkl{i} \Vstr{pre} \cat \Vstr{pre2} \cat \Vsym{term} \Vmkm{k} \Vstr{post}
 \end{alignat}
 where $\Vsym{term} = \CVw{\Vdecr{k}}$.
+
+Let us assume the derivation
+\eqref{t:altitude-is-finite-15} always expands
+the rightmost symbol before \Vloc{k}
+until it reaches \Vsym{term},
+at which point it stops.
+There are three cases:
+First, the symbol before \Vloc{k} may be telluric,
+in which case it must be reduced.
+Second, the symbol before \Vloc{k} may be nulling,
+it which case it must be discarded.
+Third, the symbol before \Vloc{k} may be \Vsym{term},
+in which case we are done.
+
+Let the steps of the derivation be numbered,
+with Step 0 being the step that contains \Vsym{term}.
+
+
+TODO: Revise from here
+
+Second, the symbol to 
+Then steps in the derivation
+\eqref{t:altitude-is-finite-15} will take two forms:
+\begin{equation}
+\label{t:altitude-is-finite-18}
+\Vmkl{j} \Vsym{B} \Vmkr{k} \derives \Vstr{B-rhs} \Vmkr{k},
+\end{equation}
+where $\Vsym{B} \de \Vstr{B-rhs}$ is a rule in \Cg{},
+and
+\begin{equation}
+\label{t:altitude-is-finite-21}
+\Vstr{pre} \Vsym{B} \Vmkr{k} \derives \Vstr{pre} \Vmkr{k},
+\end{equation}
+where $\Vsym{B}$ is a nulling symbol.
+\Marpa{} rules are never nullable, so that
+\eqref{t:altitude-is-finite-18}
+and
+\eqref{t:altitude-is-finite-21}
+are mutually exclusive.
+
+We deal with \eqref{t:altitude-is-finite-18}
+and \eqref{t:altitude-is-finite-21} by cases
+In the case of a telluric predot symbol,
+\eqref{t:altitude-is-finite-18},
+$$ \Vsym{B} \de \Vstr{B-rhs} ], \var{j}, \var{k} ]$$
+is a bottom-up cause,
+And if \eqref{t:altitude-is-finite-18} is
+not the first step of the derivation,
+it will have an effect as described in Theorem
+\ref{t:effect-from-symbolic-causes}.
+Its effect will be a reduced EIM,
+call it \Veim{reduced},
+and
+by Definition \ref{def:altitude},
+$$ \Alt{Veim{reduced}} = \Alt{Veim{up}} + 1. $$
+
+The other case
+that of \eqref{t:altitude-is-finite-21},
+is that of a nulling predot symbol,
+$$ \Vmkl{k} \Vsym{B} \Vmkr{k} $$
+will be the bottom-up cause,
+and its effect will be a null-scan EIM,
+call it \Veim{scan}.
+Its altitude will be that of its telluric base,
+
+TODO: Finish this.
 
 where $[\Vsym{B} \de \Vstr{before} \cat \Vsym{term} ]$ is a rule in \Cg{}.
 From Theorem \ref{t:symbolic-causes-from-effect},
