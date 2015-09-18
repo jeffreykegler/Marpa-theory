@@ -2,6 +2,7 @@
 % This document is licensed under
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
 \documentclass[12pt]{amsart}
+\usepackage{hyperref}
 \usepackage{mathtools}
 \usepackage{amssymb}
 \usepackage{algorithm, algpseudocode}
@@ -78,6 +79,8 @@
 \newcommand{\eim}[1]{#1_{EIM}}
 \newcommand{\Veim}[1]{\ensuremath{\var{#1}_{EIM}}}
 \newcommand{\Veimset}[1]{\ensuremath{\var{#1}_{\set{EIM}}}}
+\newcommand{\leo}[1]{#1_{LEO}}
+\newcommand{\Vleo}[1]{\ensuremath{\var{#1}_{LEO}}}
 \newcommand{\Ees}[1]{\ensuremath{#1_{ES}}}
 \newcommand{\Vlim}[1]{\ensuremath{\var{#1}_{LIM}}}
 \newcommand{\loc}[1]{\ensuremath{{#1}_{LOC}}}
@@ -117,6 +120,8 @@
 \newcommand{\Next}[1]{\mymathop{Next}(#1)}
 \newcommand{\Previous}[1]{\mymathop{Previous}(#1)}
 \newcommand{\Predict}[1]{\mymathop{Predict}(#1)}
+\newcommand{\Left}[1]{\ensuremath{\mymathop{Left}(#1)}}
+\newcommand{\Right}[1]{\ensuremath{\mymathop{Right}(#1)}}
 \newcommand{\Predot}[1]{\ensuremath{\mymathop{Predot}(#1)}}
 \newcommand{\Postdot}[1]{\ensuremath{\mymathop{Postdot}(#1)}}
 \newcommand{\Penult}[1]{\mymathop{Penult}(#1)}
@@ -356,22 +361,21 @@ Section
 of this \doc.
 Section \ref{s:rewrite} deals with Marpa's
 grammar rewrites.
-Sections \ref{s:earley} and \ref{s:earley-ops}
-introduce Earley's algorithm.
+The next sections develop the ideas for Earley's algorithm.
+Section \ref{s:dotted} describes dotted rules.
+Section \ref{s:earley-item} describes Earley items.
+
 Section \ref{s:leo} describes Leo's modification
 to Earley's algorithm.
 Section \ref{s:pseudocode} presents the pseudocode
 for Marpa's recognizer.
 Section
-\ref{s:proof-preliminaries}
-describes notation and deals with other
-preliminaries
-to the theoretical results.
-Section
 \ref{s:correct}
-contain a proof of Marpa's correctness,
-while Section \ref{s:complexity} contains
-its complexity results.
+contain a proof of Marpa's correctness.
+Section \ref{s:linear} sets out our linear
+time and space complexity results.
+Section \ref{s:other-complexity} presents out
+other complexity results.
 
 \section{Preliminaries}
 \label{s:preliminaries}
@@ -1234,8 +1238,8 @@ in the input or in the initial state of the parse,
 while
 ethereal dotted rules emerge out of an invisible realm.
 
-\subsection{Validity of Earley items}
-
+\begin{definition}
+\label{def:eim-valid}
 We say that
 an Earley item
 \begin{equation*}
@@ -1247,6 +1251,7 @@ if and only if
 \label{eq:eim-valid-def}
 \Vsym{A} \derives [\var{i}]\, \Vstr{predot} \,[\var{j}]\, \Vstr{postdot}.
 \end{equation}
+\end{definition}
 
 \subsection{Top-down and bottom-up causes}
 
@@ -1278,20 +1283,34 @@ of the leftmost terminal which it derives,
 and that its \dfn{right location} is the right location
 of the rightmost terminal which it derives.
 
-Consider an Earley item with a predot symbol instance.
-Without loss of generality, call it
+\begin{sloppypar}
+We write \Left{\var{element}} for the left location of \var{element}
+and \Right{\var{element}} for the right location of \var{element},
+where \var{element} may be an EIM or a symbol instance.
+\par\end{sloppypar}
+
+\begin{definition}
+\label{def:causes}
+Consider an Earley item,
+call it \Veim{effect},
+with a predot symbol instance.
+Without loss of generality, let the instance
+be $\Vmkl{j} \Vsym{up} \Vmkr{k}$
+and let
 \begin{equation*}
 \Veim{effect} = [ [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{up} \mydot \Vstr{suffix} ], \var{i}, \var{k} ]
 \end{equation*}
+where the instance
 Then we call
 \begin{equation*}
-\Veim{down} = [ [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{up} \cat \Vstr{suffix} ], \var{i}, \var{k} ]
+\Veim{down} = [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{up} \cat \Vstr{suffix} ], \var{i}, \var{j} ]
 \end{equation*}
 a \dfn{top-down cause} of \Veim{effect};
 we call \Vsym{up} a \dfn{bottom-up cause} of \Veim{effect};
 and we call \Veim{effect} the \dfn{effect} of \Veim{down} and \Vsym{up}.
 An effect is always an Earley item.
 A top-down cause is always an Earley item.
+\end{definition}
 
 A bottom-up cause may be ethereal or telluric.
 If a bottom-up cause is ethereal, it may be because the effect has no
@@ -1524,10 +1543,9 @@ which is what we needed to show for the theorem.
 
 \begin{theorem}
 \label{t:symbolic-causes-from-effect}
-If a confirmed EIM,
-call it
+If
 $$\Veim{effect} = [ \Vdr{effect}, \var{i}, \var{k} ],$$
-is valid,
+is a valid, confirmed EIM,
 then
 \begin{enumerate}
 \raggedright
@@ -1782,7 +1800,7 @@ This may be proved using the derivations in the definition
 of top-down and bottom-up cause.
 More than one cause means more than one derivation.
 Since every symbol in a Marpa grammar is production,
-if a grammar allows more than one derivation for any of its symbol,
+if a grammar allows more than one derivation for any of its symbols,
 there exists some input for which it is ambiguous.
 \end{proof}
 
@@ -1815,6 +1833,9 @@ Omitted.
 
 We say that the \dfn{lasting effect} of a cause
 is the lasting equivalent of the effect of that cause.
+
+TODO: Delete this definition of stack and altitude,
+in favor of the Leo ones?
 
 Let \var{stack} be a sequence
 of \var{n} items,
@@ -1889,8 +1910,7 @@ and it has a finite altitude.
 \end{theorem}
 
 \begin{proof}
-Omitted.
-% TODO
+TODO: Is this theorem used?  If not, delete it.
 \end{proof}
 
 \begin{theorem}
@@ -1900,8 +1920,7 @@ Then its lasting effect is in a cause stack.
 \end{theorem}
 
 \begin{proof}
-Omitted.
-% TODO
+TODO: Is this theorem used?  If not, delete it.
 \end{proof}
 
 \section{Earley implementations}
@@ -2123,8 +2142,6 @@ is \On{} for all LR-regular grammars.
 is infinite length, but restricted to
 distinguishing between regular expressions.)
 
-TODO -- define Leo altitude.
-
 Summarizing Leo's method,
 it consists of spotting potential right recursions
 and memoizing them.
@@ -2246,6 +2263,163 @@ show that this change also leaves
 the complexity results of
 Leo\cite{Leo1991} intact.
 
+TODO: Can Leo altitude be simply ``altitude''?
+
+\begin{definition}
+\label{def:altitude}
+Intuitively,
+\dfn{Leo-adjusted altitude},
+or simply \dfn{Leo altitude},
+is altitude adjusted to reflect Leo memoization.
+More formally,
+\begin{itemize}
+\item The Leo altitude of a terminal symbol instance is 0.
+\item The Leo altitude of a prediction is not defined.
+\item The Leo altitude of the start rule is not defined.
+\item A possible Leo altitude of a Leo top EIM is the
+altitude of its Leo bottom-up cause, plus 1.
+\item The Leo altitude of null-scan EIM is that of
+its top-down cause.
+\item The Leo altitude of a read EIM is
+altitude of its bottom-up cause, plus 1.
+Since the bottom-up cause of a read EIM is always
+a terminal symbol instance, 
+its Leo altitude will always be 1.
+\item A possible Leo altitude of a reduction EIM is
+the Leo altitude of its bottom-up cause, plus 1.
+\item
+The Leo altitude of an EIM is the minimum of its possible
+values.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}
+\label{altitude-from-telluric-base}
+The Leo altitude of a
+confirmed EIM is that of its telluric base.
+\end{theorem}
+
+\begin{proof}
+Let the EIM be
+\begin{equation*}
+\Veim{z} = [ \Vdr{z}, \Vorig{z}, \Vloc{z} ].
+\end{equation*}
+The proof is by induction on the dot position,
+moving the dot forward from the telluric base of \Veim{z}
+until we reach the dot position of \Veim{z}.
+Since \Veim{z} is a confirmed rule, we know that it
+has a telluric base.
+As the basis of the induction,
+we note
+that the theorem is obvious if \Veim{z} is its own telluric base.
+
+As the step of the induction,
+we assume that the Leo altitude of \Veim{x} is that of its
+telluric base,
+and we seek to show the the Leo altitude of 
+\begin{equation*}
+\Veim{y} = [ \Next{\Vdr{x}}, \Vorig{x}, \Vloc{y} ]
+\end{equation*}
+By the definition of telluric base,
+if \Veim{y} is not its own telluric base,
+it is a null-scan EIM,
+so that $\Vloc{y} = \Vloc{z}$.
+Using the of top-down cause,
+Definition \ref{def:causes},
+we see that \Veim{y} is the top-down cause
+of \Veim{z}.
+
+By the definition of Leo altitude,
+\ref{def:altitude},
+the Leo altitude of a null-scan EIM is
+that of its top-down cause.
+So the Leo altitude of \Veim{y} is the
+same as the Leo altitude of \Veim{x}.
+This shows the step, the induction,
+and the theorem.
+\end{proof}
+
+\begin{theorem}
+\label{t:altitude-is-finite}
+If \Veim{effect} is a valid, confirmed EIM,
+its Leo altitude is defined and finite.
+\end{theorem}
+
+\begin{proof}
+Without loss of generality, we let
+\begin{multline*}
+\Veim{effect} = [ [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{B} \cat \Vstr{nulls} \mydot \Vstr{post} ],
+\var{i}, \var{k}]
+\end{multline*}
+where \Vsym{B} is a telluric symbol,
+and $\Vstr{nulls} \destar \epsilon$.
+
+All symbols in a \Marpa{} grammar are productive,
+so that without loss of generality,
+we can let a rightmost derivation be
+\begin{alignat}{2}
+\label{t:altitude-is-finite-15}
+\Vsym{A} & \derives \Vmkl{i} \Vstr{pre} \cat \Vsym{A} \cat \Vstr{nulls} \Vmkm{k} \Vstr{post} \\
+  & \derives \Vmkl{i} \Vstr{pre} \cat \Vstr{pre2} \cat \Vsym{term} \Vmkm{k} \Vstr{post}
+\end{alignat}
+where $\Vsym{term} = \CVw{\Vdecr{k}}$.
+
+where $[\Vsym{B} \de \Vstr{before} \cat \Vsym{term} ]$ is a rule in \Cg{}.
+From Theorem \ref{t:symbolic-causes-from-effect},
+we know that every confirmed EIM
+has a symbolic bottom-up cause.
+By Theorem \ref{t:valid-eim-from-symbol},
+we know that a non-terminal symbol instance has
+a completed EIM as its EIM equivalent.
+All completed EIMs are confirmed EIMs,
+because \Marpa{} allows no nulling rules.
+So that, starting with effect,
+there is a chain of bottom-up causes, at least
+until a  terminal symbol instance is encountered.
+
+In fact,
+we know that terminal symbol instances have no bottom-up cause.
+Further, we know that every symbol in \Marpa{} productive,
+and that \Veim{effect} is valid,
+\begin{equation}
+\label{t:altitude-is-finite-10}
+\Vsym{A} \deplus \Vstr{str1} \cat \Vsym{term}
+\end{equation}
+where \Vsym{A} is the symbolic equivalent of \Veim{effect}.
+From \eqref{t:altitude-is-finite-10},
+$\Vsym{A} = \LHS{\Veim{effect}}$,
+and therefore $\Vsym{A} \neq \Vsym{term}$
+so we know that
+\begin{equation}
+\label{t:altitude-is-finite-25}
+\Vsym{A} \destar \Vstr{str1} \cat \Vsym{B} \derives \Vstr{str1} \cat \Vstr{before} \cat \Vsym{term}
+\end{equation}
+where $[\Vsym{B} \de \Vstr{before} \cat \Vsym{term} ]$ is a rule in \Cg{}.
+\eqref{t:altitude-is-finite-25} shows that there is a sequence of derivation steps
+extending back to \Vsym{term}, which was defined to have Leo altitude 0.
+
+We will call the step with
+\Vsym{term}, Step 0.
+We let the derivation step with which
+the derivation in
+\eqref{t:altitude-is-finite-25} starts,
+the step with $\LHS{\Veim{effect}} = \Vsym{A}$,
+be Step \var{n}.
+Without loss of generality,
+we let Step \var{i}, $\var{i} > 0$, be
+
+By the definition of validity for an Earley item,
+there is an Earley item for every derivation step of
+\eqref{t:altitude-is-finite-15}.
+
+TODO: Finish this.
+
+By induction
+using Theorem \ref{t:symbolic-causes-from-effect},
+we see that \Veim{effect} is the end of a series
+
+\end{proof}
+
 \begin{theorem}
 \label{t:leo-quasi-complete}
 Only quasi-complete EIMs are
@@ -2327,16 +2501,12 @@ is memoized.
 \label{t:ethereal-closure-is-Leo-disjoint}
 Let \Veim{eim2}
 be an EIM in the ethereal closure of \Veim{eim1}.
-Then \Veim{1} is Leo-memoized if and only if
+Then \Veim{eim1} is Leo-memoized if and only if
 \Veim{eim2} is Leo-memoized.
 \end{theorem}
 
 \begin{proof}
 TODO.
-\end{proof}
-
-\begin{proof}
-TODO: uses Theorem \ref{t:leo-quasi-complete}
 \end{proof}
 
 \begin{theorem}
@@ -2349,8 +2519,7 @@ bottom-up cause.
 \end{theorem}
 
 \begin{proof}
-Omitted.
-% TODO.
+TODO.
 \end{proof}
 
 \begin{theorem}
@@ -2364,8 +2533,34 @@ of the telluric effect at Leo altitude 1.
 \end{theorem}
 
 \begin{proof}
-Omitted.
-% TODO.
+TODO.
+\end{proof}
+
+\begin{theorem}
+\label{t:leo-top-from-memo}
+Let \Vleo{memo} be a Leo memo
+and \Veim{up} a matching EIM.
+The \Veim{effect} is valid.
+TODO: Finish statement of theorem
+\end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
+
+\begin{theorem}
+\label{t:leo-memo-from-top}
+Let \Veim{effect} be a Leo top EIM.
+whose direct non-Leo bottom-up cause
+(TODO: terminology?)
+is memoized.
+Then \Vleo{memo} and
+\Veim{up} are valid.
+TODO: Finish statement of theorem
+\end{theorem}
+
+\begin{proof}
+TODO.
 \end{proof}
 
 \section{The Marpa Recognizer}
@@ -2859,12 +3054,6 @@ are correct.
 
 Showing that we have a correct set of bottom-up causes is
 more difficult.
-To do this, we define ``Leo-adjusted altitude''.
-This is altitude (see Definition \ref{s:def-altitude})
-except that memoized Leo EIMs are not counted in the
-indexing.
-Leo-adjusted altitude, therefore, is always less than
-or equal to altitude.
 
 We show that we have a complete set of bottom-up causes,
 by induction on Leo-adjusted altitude.
@@ -2883,7 +3072,6 @@ so that
 \label{t:reduction-op-correct-22}
 \myparbox{the bottom-up cause of all read EIMs has an altitude of 0. }
 \end{equation}
-
 
 By theorem \ref{t:read-eim-not-leo},
 no EIMs in the ethereal closure of a read EIMs
