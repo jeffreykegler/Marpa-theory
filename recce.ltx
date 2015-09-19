@@ -81,6 +81,8 @@
 \newcommand{\Veimset}[1]{\ensuremath{\var{#1}_{\set{EIM}}}}
 \newcommand{\leo}[1]{#1_{LEO}}
 \newcommand{\Vleo}[1]{\ensuremath{\var{#1}_{LEO}}}
+\newcommand{\inst}[1]{#1_{INST}}
+\newcommand{\Vinst}[1]{\ensuremath{\var{#1}_{INST}}}
 \newcommand{\Ees}[1]{\ensuremath{#1_{ES}}}
 \newcommand{\Vlim}[1]{\ensuremath{\var{#1}_{LIM}}}
 \newcommand{\loc}[1]{\ensuremath{{#1}_{LOC}}}
@@ -1262,18 +1264,25 @@ if and only if
 \end{equation}
 \end{definition}
 
+\subsection{Parse instances}
+
+A \dfn{parse instance} is either a symbol instance or an EIM.
+Intuitively, a \dfn{symbol instance} is
+a symbol in the context of a parse.
+More formally, a symbol instance is a triple whose elements
+are a left location, a symbol name and a right location.
+We often represent symbol instances in the form
+$$\Vmkl{j} \Vsym{up} \Vmkr{k}.$$
+
+When it is clear in context, we will often say ``symbol''
+when we mean ``symbol instance''.
+A parse instance is often called simply an \dfn{instance}.
+
 \subsection{Top-down and bottom-up causes}
 
 We referred to top-down and bottom-up causes earlier,
 when introducing dotted rules.
 We now revisit these concepts in the context of Earley items.
-
-By symbol instance,
-we mean a symbol in the context of a parse,
-and therefore
-associated with a specific leftmost and rightmost input location.
-When it is clear in context, we will often say ``symbol''
-when we mean ``symbol instance''.
 
 When we speak of an Earley item,
 we say that its \dfn{left location} is its origin,
@@ -1293,9 +1302,8 @@ and that its \dfn{right location} is the right location
 of the rightmost terminal which it derives.
 
 \begin{sloppypar}
-We write \Left{\var{element}} for the left location of \var{element}
-and \Right{\var{element}} for the right location of \var{element},
-where \var{element} may be an EIM or a symbol instance.
+We write \Left{\Vinst{inst}} for the left location of \Vinst{inst}
+and \Right{\Vinst{inst}} for the right location of \Vinst{inst}.
 \par\end{sloppypar}
 
 \begin{definition}
@@ -1307,9 +1315,8 @@ Without loss of generality, let the instance
 be $\Vmkl{j} \Vsym{up} \Vmkr{k}$
 and let
 \begin{equation*}
-\Veim{effect} = [ [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{up} \mydot \Vstr{suffix} ], \var{i}, \var{k} ]
+\Veim{effect} = [ [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{up} \mydot \Vstr{suffix} ], \var{i}, \var{k} ].
 \end{equation*}
-where the instance
 Then we call
 \begin{equation*}
 \Veim{down} = [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{up} \cat \Vstr{suffix} ], \var{i}, \var{j} ]
@@ -2276,12 +2283,12 @@ TODO: Can Leo altitude be simply ``altitude''?
 
 \begin{definition}
 \label{def:altitude}
+\begin{raggedright}
 Intuitively,
 \dfn{Leo-adjusted altitude},
 or simply \dfn{Leo altitude},
 is altitude adjusted to reflect Leo memoization.
-
-\begin{raggedright}
+We write \Alt{\Vinst{inst}} for the Leo altitude of \Vinst{inst}.
 More formally,
 \begin{itemize}
 \item The Leo altitude of a terminal symbol instance is 0.
@@ -2312,10 +2319,7 @@ This is the case for Leo top items.
 The Leo altitude of an EIM is the minimum of its possible
 values.
 \end{itemize}
-
-We write \Alt{\var{element}} for the Leo altitude of \var{element},
-where \var{element} may be an EIM or a symbol instance.
-
+\par
 \end{raggedright}
 
 \end{definition}
@@ -2386,8 +2390,7 @@ and without loss of generality, we let
 where \Vsym{B} is a telluric symbol,
 and $\Vstr{nulls} \destar \epsilon$.
 
-All symbols in a \Marpa{} grammar are productive,
-so that,
+All symbols in a \Marpa{} grammar are productive so that,
 using the validity of 
 \eqref{t:altitude-is-finite-5}
 and without loss of generality,
@@ -2397,9 +2400,10 @@ we can let a rightmost derivation before \Vloc{k} be
 \label{t:altitude-is-finite-10}
 \derives \quad & \Vmkl{i} \Vstr{pre1} \cat \Vsym{B} \cat \Vstr{nulls} \Vmkm{k} \Vstr{post} \\
 \label{t:altitude-is-finite-12}
-\destar \quad & \Vmkl{i} \Vstr{pre1} \cat \Vstr{pre2} \cat \Vsym{term} \Vmkm{k} \Vstr{post}
+\destar \quad & \Vmkl{i} \Vstr{pre1} \cat \Vstr{pre2} \cat \Vsym{term} \Vmkm{k} \Vstr{post} \\
+\label{t:altitude-is-finite-13}
+& \qquad \text{where $\Vsym{term} = \CVw{\Vdecr{k}}$}.
 \end{alignat}
-where $\Vsym{term} = \CVw{\Vdecr{k}}$.
 
 By ``rightmost derivation before \Vloc{k}'',
 we mean 
@@ -2410,26 +2414,26 @@ Call the derivation step \eqref{t:altitude-is-finite-10}, Step \var{n},
 and the derivation step \eqref{t:altitude-is-finite-12}, Step 0.
 
 For every step except Step 0,
-we will distinguish a ``step EIM''.
-We will call the step EIM for step \var{m},
+we will distinguish a ``step instance''.
+We will call the step instance for step \var{m},
 $\eim{\var{step}[\var{m}]}$.
-By the validity of EIMs
+Let
 (Defintion \ref{def:eim-valid}),
 $$\eim{\var{step}[\var{n}]} = \Veim{effect}.$$
 
-For every step, \var{step}[\var{n}],
-let \var{up}[\var{n}] be its bottom-up cause,
+For every step, \var{step}[\var{i}],
+let \Vinst{up}[\var{i}] be its bottom-up cause,
 and let
-$\eim{\var{down}[\var{n}]}$ be its top-down cause.
-We define EIMs for steps 0 through \Vdecr{n} as follows:
+$\eim{\var{down}[\var{i}]}$ be its top-down cause.
+We define step instances for steps 0 through \Vdecr{n} as follows:
 \begin{multline}
 \label{t:altitude-is-finite-15}
 \forall \var{x}, \quad 0 \le \var{x} \le \Vdecr{n}, \\
 \var{step}[\var{x}] \defined
 \begin{cases}
 \begin{aligned}
-\eim{\var{down}[\var{x}+1]}, \quad & \text{if $\Predot{\eim{\var{step}[\var{x}+1]}} \destar \epsilon$} \\
-\eim{\var{up}[\var{x}+1]}, \quad & \text{otherwise.}
+\eim{\Veim{down}[\var{x}+1]}, \quad & \text{if $\Predot{\eim{\var{step}[\var{x}+1]}} \destar \epsilon$} \\
+\eim{\Vinst{up}[\var{x}+1]}, \quad & \text{otherwise.}
 \end{aligned}
 \end{cases}
 \end{multline}
@@ -2440,14 +2444,14 @@ is well-defined in
 we must show that,
 \begin{equation}
 \label{t:altitude-is-finite-20}
-\forall \var{i},  1 \le \var{i} \le \Vdecr{n} \implies
+\forall \var{i},  1 \le \var{i} \le \var{n} \implies
 \Predot{\eim{\var{step}[\var{i}]}} \neq \Lambda,
 \end{equation}
 and that
 \begin{multline}
 \label{t:altitude-is-finite-23}
-\forall \var{i}, \quad 1 \le \var{i} \le \Vdecr{n} \implies \\
-\shoveleft{\text{\Predot{\eim{\var{step}[\var{i}]}} is not a telluric terminal.}}
+\forall \var{i}, \quad 1 \le \var{i} \le \var{n} \implies \\
+\qquad \shoveleft{\text{\Predot{\eim{\var{step}[\var{i}]}} is not a telluric terminal.}}
 \end{multline}
 We can show
 \eqref{t:altitude-is-finite-23} directly:
@@ -2464,14 +2468,17 @@ To show
 we use an induction.
 As the induction hypothesis, we strengthen our condition
 to require that the EIM have a telluric symbol before the dot.
-The telluric symbol does not have to be the predot symbol --
-that is, it must be before the dot, but not immediately
+The telluric symbol before the dot
+does not have to be the predot symbol --
+that is, it must be before the dot, but it does
+not have to be immediately
 before the dot.
 
 We use a reverse induction,
 from Step \var{n} to Step 1.
 As the basis, Step \var{n} is \Veim{effect}
 which has a telluric symbol before the dot,
+\Vsym{B},
 as we see from
 \eqref{t:altitude-is-finite-5}.
 For the step of the induction,
@@ -2507,7 +2514,8 @@ we know that
 From \eqref{eq:altitude-is-finite-30}
 we see that there is exactly one less symbol before the dot.
 But the symbol past which we moved the dot,
-$\Postdot{\Vdr{y}}$ is nulling,
+$\Postdot{\Vdr{y}}$,
+is nulling,
 so that if there was a telluric symbol before the dot
 in \Vdr{x}, it remains before the dot
 in \Vdr{y}.
@@ -2550,12 +2558,23 @@ At this point we know that
 \end{equation*}
 
 We are now in a position to show that
-\begin{equation*}
+\begin{equation}
+\label{eq:altitude-is-finite-40}
 \forall \var{i}, 0 \le \var{i} \le \var{n} \implies
-\text{\Alt{\eim{\var{step}[\var{i}]}} is well-defined}.
-\end{equation*}
+\text{\Alt{\var{step}[\var{i}]} is defined and finite}.
+\end{equation}
 
-From
+To show \label{eq:altitude-is-finite-40},
+we use
+\begin{equation}
+\label{eq:altitude-is-finite-42}
+\text{\Alt{\var{step}[\var{i}]} is defined and finite}.
+\end{equation}
+as our induction hypothesis.
+
+As the basis of the induction we show
+\eqref{eq:altitude-is-finite-42}
+for Step 0.
 
 TODO: Finish from here
 
