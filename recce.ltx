@@ -1695,7 +1695,7 @@ it \Veim{down},
 $$\Veim{down} = [\Vdr{down}, \Vloc{i}, \Vloc{j}]$$
 \item
 \label{req:effect-from-symbol-4}
-and $\Vsym{A} = \Predot{\Vdr{down}}.$
+and $\Vsym{A} = \Postdot{\Vdr{down}}.$
 \end{enumerate}
 \end{theorem}
 
@@ -1713,7 +1713,7 @@ there is at least one derivation step before
 so that, without loss of generality, we may write
 \begin{equation}
 \label{eq:effect-from-symbol-9}
-\Vsym{down} \derives \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \Vstr{post}.
+\Vsym{down} \destar \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \Vstr{post}.
 \end{equation}
 By the definition of location markers there is
 some \Vstr{before}
@@ -1722,7 +1722,7 @@ such that
 \label{eq:effect-from-symbol-12}
 \Vsym{accept} \destar \Vstr{before} \cat \Vsym{down} \cat \Vstr{after} \\
 \label{eq:effect-from-symbol-13}
-\derives \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \Vstr{post} \cat \Vstr{after} \\
+\derives \Vstr{before} \cat \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \Vstr{post} \cat \Vstr{after} \\
 \label{eq:effect-from-symbol-14}
 \text{and} \qquad \Vstr{before} \cat \Vstr{pre} \destar \var{w}[0, \var{j} \subtract 1].
 \end{gather}
@@ -1739,22 +1739,24 @@ Simplifying
 we have
 \begin{equation}
 \label{eq:effect-from-symbol-25}
-\Vsym{down} \derives \Vmkm{i} \Vstr{pre} \cat \Vsym{A} \Vmkm{k} \Vstr{post}.
+\Vsym{down} \derives \Vmkm{i} \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \Vstr{post}.
 \end{equation}
 From
 \eqref{eq:effect-from-symbol-25},
-by the definition of validity for an Earley item,
+and the definition of validity for an Earley item,
 we know that
 \begin{equation}
 \label{eq:effect-from-symbol-28}
-\Veim{down} = \left[
-\begin{multlined}
-[ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \\
-\var{i}, \var{k} \shoveleft
-\end{multlined}
-\right]
+\Veim{down} = 
+[ [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j} ] \\
 \end{equation}
-is valid.
+and
+\begin{equation}
+\label{eq:effect-from-symbol-29}
+\Veim{effect} = 
+[ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ]
+\end{equation}
+are valid.
 \eqref{eq:effect-from-symbol-28}
 is requirement
 \ref{req:effect-from-symbol-1} to show the theorem.
@@ -2564,7 +2566,7 @@ We are now in a position to show that
 \text{\Alt{\var{step}[\var{i}]} is defined and finite}.
 \end{equation}
 
-To show \label{eq:altitude-is-finite-40},
+To show \eqref{eq:altitude-is-finite-40},
 we use
 \begin{equation}
 \label{eq:altitude-is-finite-42}
