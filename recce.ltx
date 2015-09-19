@@ -53,9 +53,9 @@
 % clearly distinguished by the typography
 \newcommand{\subtract}{\,-\,}
 \newcommand{\decr}[1]{\ensuremath{#1 \subtract 1}}
+\newcommand{\Vdecr}[1]{\decr{\var{#1}}}
 
 \newcommand{\var}[1]{\ensuremath{\texttt{#1}}}
-\newcommand{\Vdecr}[1]{\decr{\var{#1}}}
 
 \newcommand{\de}{\rightarrow}
 \newcommand{\derives}{\Rightarrow}
@@ -2343,10 +2343,11 @@ that the theorem is obvious if \Veim{z} is its own telluric base.
 As the step of the induction,
 we assume that the Leo altitude of \Veim{x} is that of its
 telluric base,
-and we seek to show the the Leo altitude of 
+and we seek to show that the Leo altitude of 
 \begin{equation*}
 \Veim{y} = [ \Next{\Vdr{x}}, \Vorig{x}, \Vloc{y} ]
 \end{equation*}
+is also that of its telluric base,
 By the definition of telluric base,
 if \Veim{y} is not its own telluric base,
 it is a null-scan EIM,
@@ -2412,24 +2413,26 @@ For every step except Step 0,
 we will distinguish a ``step EIM''.
 We will call the step EIM for step \var{m},
 $\eim{\var{step}[\var{m}]}$.
-Let
+By the validity of EIMs
+(Defintion \ref{def:eim-valid}),
 $$\eim{\var{step}[\var{n}]} = \Veim{effect}.$$
 
 For every step, \var{step}[\var{n}],
-Let \var{up}[\var{n}] be its bottom-up cause,
+let \var{up}[\var{n}] be its bottom-up cause,
 and let
 $\eim{\var{down}[\var{n}]}$ be its top-down cause.
-We define step EIMs for steps 1 through \Vdecr{n} as follows:
-\begin{equation*}
+We define EIMs for steps 0 through \Vdecr{n} as follows:
+\begin{multline}
 \label{t:altitude-is-finite-15}
-\var{step}[\Vdecr{x}] \defined
+\forall \var{x}, \quad 0 \le \var{x} \le \Vdecr{n}, \\
+\var{step}[\var{x}] \defined
 \begin{cases}
 \begin{aligned}
-\eim{\var{down}[\var{x}]}, \quad & \text{if $\Predot{\eim{\var{step}[\var{x}]}} \destar \epsilon$} \\
-\eim{\var{up}[\var{x}]}, \quad & \text{otherwise.}
+\eim{\var{down}[\var{x}+1]}, \quad & \text{if $\Predot{\eim{\var{step}[\var{x}+1]}} \destar \epsilon$} \\
+\eim{\var{up}[\var{x}+1]}, \quad & \text{otherwise.}
 \end{aligned}
 \end{cases}
-\end{equation*}
+\end{multline}
 
 To show that $\eim{\var{step}[\var{i}]}$
 is well-defined in 
@@ -2441,12 +2444,11 @@ we must show that,
 \Predot{\eim{\var{step}[\var{i}]}} \neq \Lambda,
 \end{equation}
 and that
-\begin{equation}
+\begin{multline}
 \label{t:altitude-is-finite-23}
-\forall \var{i},  1 \le \var{i} \le \Vdecr{n} \implies
-\text{\Predot{\eim{\var{step}[\var{i}]}} is not a telluric terminal.}
-\end{equation}
-for $1 \le \var{i} \le \Vdecr{n}$,
+\forall \var{i}, \quad 1 \le \var{i} \le \Vdecr{n} \implies \\
+\shoveleft{\text{\Predot{\eim{\var{step}[\var{i}]}} is not a telluric terminal.}}
+\end{multline}
 We can show
 \eqref{t:altitude-is-finite-23} directly:
 The derivation is rightmost and ends when the rightmost telluric terminal
