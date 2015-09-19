@@ -117,8 +117,9 @@
 \newcommand{\CVw}[1]{\ensuremath{\sym{\Cw[\var{#1}]}}}
 \newcommand{\Crules}{\var{rules}}
 \newcommand{\GOTO}{\ensuremath{\mymathop{GOTO}}}
+\newcommand{\Alt}[1]{\ensuremath{\mymathop{Alt}(#1)}}
 \newcommand{\Next}[1]{\mymathop{Next}(#1)}
-\newcommand{\Previous}[1]{\mymathop{Previous}(#1)}
+\newcommand{\Prev}[1]{\mymathop{Prev}(#1)}
 \newcommand{\Predict}[1]{\mymathop{Predict}(#1)}
 \newcommand{\Left}[1]{\ensuremath{\mymathop{Left}(#1)}}
 \newcommand{\Right}[1]{\ensuremath{\mymathop{Right}(#1)}}
@@ -502,6 +503,14 @@ and the symbol \Vsym{A} are
 \end{tabular}
 \end{center}
 
+We say that \Vstr{desc} is a direct descendant of \Vsym{A} if
+it is \Vstr{A-rhs} where $\Vsym{A} \de \Vstr{A-rhs}$ is a rule,
+or if it is the empty string where \Vsym{A} is a nulling terminal.
+We say that a derivation is \dfn{leftmost} if at each of its steps,
+its leftmost nonterminal is replaced by one of its direct descendants.
+We say that a derivation is \dfn{rightmost} if at each of its steps,
+its rightmost nonterminal is replaced by one of its direct descendants.
+
 Also without loss of generality,
 it is assumed
 that there is a dedicated acceptance rule, \Vrule{accept}
@@ -714,7 +723,7 @@ Let
 \Lambda, \quad \text{if $\Postdot{\Vdr{x}} = \Lambda$}
 \end{cases} \\
 %
-\Previous{\Vdr{x}} & \defined
+\Prev{\Vdr{x}} & \defined
 \begin{cases}
 [\var{A} \de \var{pre} \mydot \Vsym{B} \cat \var{post}],  \\
 \qquad \text{if $\Vdr{X} =
@@ -2278,17 +2287,27 @@ More formally,
 \item The Leo altitude of a terminal symbol instance is 0.
 \item The Leo altitude of a prediction is not defined.
 \item The Leo altitude of the start rule is not defined.
-\item A possible Leo altitude of a Leo top EIM is the
-altitude of its Leo bottom-up cause, plus 1.
-\item The Leo altitude of null-scan EIM is that of
-its top-down cause.
-\item The Leo altitude of a read EIM is
+\item
+The Leo altitude of a read EIM is
 altitude of its bottom-up cause, plus 1.
 Since the bottom-up cause of a read EIM is always
 a terminal symbol instance, 
 its Leo altitude will always be 1.
-\item A possible Leo altitude of a reduction EIM is
-the Leo altitude of its bottom-up cause, plus 1.
+\item The Leo altitude of null-scan EIM is that of
+its top-down cause.
+This case applies if the null-scan is memoized,
+its top-down cause is memoized,
+or both.
+\item A possible Leo altitude of an
+unmemoized reduction EIM with an unmemoized cause,
+is the Leo altitude of its bottom-up cause, plus 1.
+\item A possible Leo altitude of an
+memoized reduction EIM with a bottom-up memoized cause,
+is the Leo altitude of the bottom-up cause.
+\item A possible Leo altitude of an
+unmemoized reduction EIM with a bottom-up memoized cause,
+is the Leo altitude of its Leo bottom-up cause, plus 1.
+This is the case for Leo top items.
 \item
 The Leo altitude of an EIM is the minimum of its possible
 values.
@@ -2356,142 +2375,187 @@ its Leo altitude is defined and finite.
 \begin{proof}
 Using that fact that \Veim{effect} is a confirmed EIM,
 and without loss of generality, we let
-\begin{multline*}
-\Veim{effect} = [ [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{B} \cat \Vstr{nulls} \mydot \Vstr{post} ],
-\var{i}, \var{k}]
-\end{multline*}
+\begin{multline}
+\label{t:altitude-is-finite-5}
+\Veim{effect} = \\
+[
+  [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{B} \cat \Vstr{nulls} \mydot \Vstr{post} ],
+  \var{i}, \var{k} ]
+\end{multline}
 where \Vsym{B} is a telluric symbol,
 and $\Vstr{nulls} \destar \epsilon$.
 
 All symbols in a \Marpa{} grammar are productive,
-so that without loss of generality,
-we can let a derivation be
+so that,
+using the validity of 
+\eqref{t:altitude-is-finite-5}
+and without loss of generality,
+we can let a rightmost derivation before \Vloc{k} be
 \begin{alignat}{2}
-\label{t:altitude-is-finite-15}
-\Vsym{effect} & \derives \Vmkl{i} \Vstr{pre} \cat \Vsym{A} \cat \Vstr{nulls} \Vmkm{k} \Vstr{post} \\
-  & \derives \Vmkl{i} \Vstr{pre} \cat \Vstr{pre2} \cat \Vsym{term} \Vmkm{k} \Vstr{post}
+  & \Vsym{A} \\
+\label{t:altitude-is-finite-10}
+\derives \quad & \Vmkl{i} \Vstr{pre1} \cat \Vsym{B} \cat \Vstr{nulls} \Vmkm{k} \Vstr{post} \\
+\label{t:altitude-is-finite-12}
+\destar \quad & \Vmkl{i} \Vstr{pre1} \cat \Vstr{pre2} \cat \Vsym{term} \Vmkm{k} \Vstr{post}
 \end{alignat}
 where $\Vsym{term} = \CVw{\Vdecr{k}}$.
 
-Let us assume the derivation
-\eqref{t:altitude-is-finite-15} always expands
-the rightmost symbol before \Vloc{k}
-until it reaches \Vsym{term},
-at which point it stops.
-There are three cases:
-First, the symbol before \Vloc{k} may be telluric,
-in which case it must be reduced.
-Second, the symbol before \Vloc{k} may be nulling,
-it which case it must be discarded.
-Third, the symbol before \Vloc{k} may be \Vsym{term},
-in which case we are done.
+By ``rightmost derivation before \Vloc{k}'',
+we mean 
+the derivation that, at each of its steps,
+replaces its rightmost nonterminal before \Vloc{k}
+with one of its direct descendants.
+Call the derivation step \eqref{t:altitude-is-finite-10}, Step \var{n},
+and the derivation step \eqref{t:altitude-is-finite-12}, Step 0.
 
-Let the steps of the derivation be numbered,
-with Step 0 being the step that contains \Vsym{term}.
+For every step except Step 0,
+we will distinguish a ``step EIM''.
+We will call the step EIM for step \var{m},
+$\eim{\var{step}[\var{m}]}$.
+Let
+$$\eim{\var{step}[\var{n}]} = \Veim{effect}.$$
 
+For every step, \var{step}[\var{n}],
+Let \var{up}[\var{n}] be its bottom-up cause,
+and let
+$\eim{\var{down}[\var{n}]}$ be its top-down cause.
+We define step EIMs for steps 1 through \Vdecr{n} as follows:
+\begin{equation*}
+\label{t:altitude-is-finite-15}
+\var{step}[\Vdecr{x}] \defined
+\begin{cases}
+\begin{aligned}
+\eim{\var{down}[\var{x}]}, \quad & \text{if $\Predot{\eim{\var{step}[\var{x}]}} \destar \epsilon$} \\
+\eim{\var{up}[\var{x}]}, \quad & \text{otherwise.}
+\end{aligned}
+\end{cases}
+\end{equation*}
 
-TODO: Revise from here
-
-Second, the symbol to 
-Then steps in the derivation
-\eqref{t:altitude-is-finite-15} will take two forms:
+To show that $\eim{\var{step}[\var{i}]}$
+is well-defined in 
+\eqref{t:altitude-is-finite-15},
+we must show that,
 \begin{equation}
-\label{t:altitude-is-finite-18}
-\Vmkl{j} \Vsym{B} \Vmkr{k} \derives \Vstr{B-rhs} \Vmkr{k},
+\label{t:altitude-is-finite-20}
+\forall \var{i},  1 \le \var{i} \le \Vdecr{n} \implies
+\Predot{\eim{\var{step}[\var{i}]}} \neq \Lambda,
 \end{equation}
-where $\Vsym{B} \de \Vstr{B-rhs}$ is a rule in \Cg{},
-and
+and that
 \begin{equation}
-\label{t:altitude-is-finite-21}
-\Vstr{pre} \Vsym{B} \Vmkr{k} \derives \Vstr{pre} \Vmkr{k},
+\label{t:altitude-is-finite-23}
+\forall \var{i},  1 \le \var{i} \le \Vdecr{n} \implies
+\text{\Predot{\eim{\var{step}[\var{i}]}} is not a telluric terminal.}
 \end{equation}
-where $\Vsym{B}$ is a nulling symbol.
-\Marpa{} rules are never nullable, so that
-\eqref{t:altitude-is-finite-18}
-and
-\eqref{t:altitude-is-finite-21}
-are mutually exclusive.
+for $1 \le \var{i} \le \Vdecr{n}$,
+We can show
+\eqref{t:altitude-is-finite-23} directly:
+The derivation is rightmost and ends when the rightmost telluric terminal
+is encountered at Step 0.
+If a telluric terminal is predot in any derivation step
+before Step 0, it is to the right of the rightmost symbol,
+which is impossible.
+From this contradiction, 
+\eqref{t:altitude-is-finite-23} follows.
 
-We deal with \eqref{t:altitude-is-finite-18}
-and \eqref{t:altitude-is-finite-21} by cases
-In the case of a telluric predot symbol,
-\eqref{t:altitude-is-finite-18},
-$$ \Vsym{B} \de \Vstr{B-rhs} ], \var{j}, \var{k} ]$$
-is a bottom-up cause,
-And if \eqref{t:altitude-is-finite-18} is
-not the first step of the derivation,
-it will have an effect as described in Theorem
-\ref{t:effect-from-symbolic-causes}.
-Its effect will be a reduced EIM,
-call it \Veim{reduced},
-and
-by Definition \ref{def:altitude},
-$$ \Alt{Veim{reduced}} = \Alt{Veim{up}} + 1. $$
+To show
+\eqref{t:altitude-is-finite-20},
+we use an induction.
+As the induction hypothesis, we strengthen our condition
+to require that the EIM have a telluric symbol before the dot.
+The telluric symbol does not have to be the predot symbol --
+that is, it must be before the dot, but not immediately
+before the dot.
 
-The other case
-that of \eqref{t:altitude-is-finite-21},
-is that of a nulling predot symbol,
-$$ \Vmkl{k} \Vsym{B} \Vmkr{k} $$
-will be the bottom-up cause,
-and its effect will be a null-scan EIM,
-call it \Veim{scan}.
-Its altitude will be that of its telluric base,
-
-TODO: Finish this.
-
-where $[\Vsym{B} \de \Vstr{before} \cat \Vsym{term} ]$ is a rule in \Cg{}.
-From Theorem \ref{t:symbolic-causes-from-effect},
-we know that every confirmed EIM
-has a symbolic bottom-up cause.
-By Theorem \ref{t:valid-eim-from-symbol},
-we know that a non-terminal symbol instance has
-a completed EIM as its EIM equivalent.
-All completed EIMs are confirmed EIMs,
-because \Marpa{} allows no nulling rules.
-So that, starting with effect,
-there is a chain of bottom-up causes, at least
-until a  terminal symbol instance is encountered.
-
-In fact,
-we know that terminal symbol instances have no bottom-up cause.
-Further, we know that every symbol in \Marpa{} productive,
-and that \Veim{effect} is valid,
+We use a reverse induction,
+from Step \var{n} to Step 1.
+As the basis, Step \var{n} is \Veim{effect}
+which has a telluric symbol before the dot,
+as we see from
+\eqref{t:altitude-is-finite-5}.
+For the step of the induction,
+we assume that
 \begin{equation}
-\label{t:altitude-is-finite-10}
-\Vsym{A} \deplus \Vstr{str1} \cat \Vsym{term}
+\eim{\var{step}[\var{i+1}]} = \Veim{x} = [ \Vdr{x}, \Vorig{x}, \Vloc{x} ]
 \end{equation}
-where \Vsym{A} is the symbolic equivalent of \Veim{effect}.
-From \eqref{t:altitude-is-finite-10},
-$\Vsym{A} = \LHS{\Veim{effect}}$,
-and therefore $\Vsym{A} \neq \Vsym{term}$
-so we know that
+has a telluric symbol before the dot,
+and seek to show that
 \begin{equation}
-\label{t:altitude-is-finite-25}
-\Vsym{A} \destar \Vstr{str1} \cat \Vsym{B} \derives \Vstr{str1} \cat \Vstr{before} \cat \Vsym{term}
+\eim{\var{step}[\var{i}]} = \Veim{y} = [ \Vdr{y}, \Vorig{y}, \Vloc{y} ]
 \end{equation}
-where $[\Vsym{B} \de \Vstr{before} \cat \Vsym{term} ]$ is a rule in \Cg{}.
-\eqref{t:altitude-is-finite-25} shows that there is a sequence of derivation steps
-extending back to \Vsym{term}, which was defined to have Leo altitude 0.
+has a telluric symbol before the dot.
+By the induction hypothesis we know that
+\Predot{\Vdr{x}} is defined and by
+\eqref{t:altitude-is-finite-23} we know it is not a telluric terminal.
+Two cases remain:
+\Predot{\Vdr{x}} is a nulling terminal,
+or \Predot{\Vdr{x}} is a non-terminal.
 
-We will call the step with
-\Vsym{term}, Step 0.
-We let the derivation step with which
-the derivation in
-\eqref{t:altitude-is-finite-25} starts,
-the step with $\LHS{\Veim{effect}} = \Vsym{A}$,
-be Step \var{n}.
-Without loss of generality,
-we let Step \var{i}, $\var{i} > 0$, be
+If \Predot{\Vdr{x}} is a nulling terminal
+then from
+\eqref{t:altitude-is-finite-15}
+we know that
+\Veim{y} is the top-down cause of \Veim{x}.
+Using
+\eqref{t:symbolic-causes-from-effect},
+we know that
+\begin{equation}
+\label{eq:altitude-is-finite-30}
+\Vdr{y} = \Prev{\Vdr{x}}.
+\end{equation}
+From \eqref{eq:altitude-is-finite-30}
+we see that there is exactly one less symbol before the dot.
+But the symbol past which we moved the dot,
+$\Postdot{\Vdr{y}}$ is nulling,
+so that if there was a telluric symbol before the dot
+in \Vdr{x}, it remains before the dot
+in \Vdr{y}.
+By assumption for the case,
+there was a telluric symbol before the dot in \Vdr{x},
+so we have the case.
 
-By the definition of validity for an Earley item,
-there is an Earley item for every derivation step of
-\eqref{t:altitude-is-finite-15}.
+The other case is that
+\Predot{\Vdr{x}} is non-terminal.
+We know from
+\eqref{t:altitude-is-finite-15}
+that
+\Veim{y} is the bottom-up cause of \Veim{x}.
+Using
+\eqref{t:symbolic-causes-from-effect}
+and \eqref{t:valid-eim-from-symbol},
+we know that \Vdr{y} is a completion.
+Since no rule in \Marpa{} is nulling,
+every rule contains
+at least one telluric symbol on its RHS.
+In a completion,
+by its definition,
+all symbols are before the dot,
+so \Vdr{y} will have a telluric symbol before
+the dot.
+This shows the case.
 
-TODO: Finish this.
+We have both cases,
+and therefore we have shown that \Veim{y}
+has a telluric symbol before the dot.
+Since \Veim{y} has a telluric symbol before the
+dot, it must have a predot symbol.
+This shows
+\eqref{t:altitude-is-finite-20}.
 
-By induction
-using Theorem \ref{t:symbolic-causes-from-effect},
-we see that \Veim{effect} is the end of a series
+At this point we know that
+\begin{equation*}
+\forall \var{i}, 1 \le \var{i} \le \Vdecr{n} \implies
+\text{$\eim{\var{step}[\var{i}]}$ is well-defined}.
+\end{equation*}
+
+We are now in a position to show that
+\begin{equation*}
+\forall \var{i}, 0 \le \var{i} \le \var{n} \implies
+\text{\Alt{\eim{\var{step}[\var{i}]}} is well-defined}.
+\end{equation*}
+
+From
+
+TODO: Finish from here
 
 \end{proof}
 
