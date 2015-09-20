@@ -950,6 +950,19 @@ pairs of dotted rules
 We say that \Vdr{cause} is the \dfn{top-down cause} of \Vdr{effect},
 and that \Vsym{B} is the \dfn{bottom-up cause}.
 
+We can use \var{direct-null-scan} to define an equivalence relation.
+Intuitively, two dotted rules, \Vdr{dr1}
+and \Vdr{dr2} are \dfn{ethereally equivalent} if 
+\Vdr{dr1} can be changed into \Vdr{dr2} by a series of null-scans.
+More formally, we define \var{eth-eq} to be the reflexive, symmetric
+and transitive closure of 
+\var{direct-null-scan}.
+We say that \Vdr{dr1} is
+\dfn{ethereally equivalent} to \Vdr{dr2} if
+and only if
+\Vdr{dr1} is an element of the
+equivalence class of \var{eth-eq} under \Vdr{dr2}.
+
 Let \var{direct-predict} be the set of
 pairs of dotted rules
 \begin{align*}
@@ -1566,19 +1579,19 @@ then
 \begin{enumerate}
 \raggedright
 \item \Veim{effect} must have a valid symbolic bottom-up cause,
+call it $\Vinst{up}$,
 \label{item:symbolic-causes-from-effect-3}
-\item \Veim{effect} must have a valid top-down cause, call it
-$\Veim{down}$,
+\item \Veim{effect} must have a valid top-down cause,
+call it $\Veim{down}$,
 \label{item:symbolic-causes-from-effect-6}
-\item the two causes must match,
+\item \Vinst{up} and \Veim{down} must be matching causes,
 \label{item:symbolic-causes-from-effect-9}
-\item the right location of the bottom-up cause must be \Vloc{k},
+\item $\Right{\Vinst{up}}  = \Vloc{k}$,
 \label{item:symbolic-causes-from-effect-12}
-\item the left location of the top-down cause must be \Vloc{i},
+\item $\Left{\Veim{down}} = \Vloc{i}$,
 \label{item:symbolic-causes-from-effect-15}
 \item
-the cause symbol of the bottom-up cause must be
-\Predot{\Veim{effect}},
+the cause symbol of \Vinst{up} must be \Predot{\Veim{effect}},
 \label{item:symbolic-causes-from-effect-18}
 \item $\Predot{\Veim{effect}} = \Postdot{\Veim{down}}$, and
 \label{item:symbolic-causes-from-effect-19}
@@ -1695,7 +1708,7 @@ it \Veim{down},
 $$\Veim{down} = [\Vdr{down}, \Vloc{i}, \Vloc{j}]$$
 \item
 \label{req:effect-from-symbol-4}
-and $\Vsym{A} = \Postdot{\Vdr{down}}.$
+and $\Vsym{A} = \Postdot{\Veim{down}} = \Predot{\Veim{effect}}.$
 \end{enumerate}
 \end{theorem}
 
@@ -1769,6 +1782,76 @@ follow from
 Theorem
 \ref{t:symbolic-causes-from-effect}
 and \eqref{eq:effect-from-symbol-28}.
+\end{proof}
+
+\begin{theorem}
+\label{t:terminal-cause-unique}
+Let an instance of the terminal
+\Vsym{term} be the bottom-up cause of an effect,
+\Veim{effect}.
+Then that instance is the only
+bottom-up cause of \Veim{effect}.
+\end{theorem}
+
+\begin{proof}
+Since \Vsym{term} is a terminal
+it cannot appear on the LHS of a rule.
+Since \Vsym{term} cannot be the LHS of a rule,
+by the definition of EIM equivalent,
+\Vinst{inst} has no EIM equivalent.
+Let
+\begin{equation}
+\Vinst{inst1} = \Vmkm{l1} \Vsym{term} \Vmkm{r1}
+\end{equation}
+Assume for a reductio that
+\Vinst{inst2} is another
+another symbolic bottom-up cause of \Veim{effect},
+\begin{gather}
+\Vinst{inst2} = \Vmkm{l2} \Vsym{sym2} \Vmkm{r2} \\
+\label{t:terminal-cause-unique-5}
+\text{where $\var{l1} \neq \var{l2}$ or $\Vsym{term} \neq \Vsym{sym2}$ or $\var{r1} \neq \var{r2}.$}
+\end{gather}
+
+But by Theorem \ref{t:symbolic-causes-from-effect},
+the bottom-up cause symbol of \Veim{effect} must be
+\Predot{\Veim{effect}},
+so that
+\begin{equation}
+\label{t:terminal-cause-unique-10}
+\Vsym{term} = \Predot{\Veim{effect}} = \Vsym{sym2}.
+\end{equation}
+
+Also by Theorem \ref{t:symbolic-causes-from-effect},
+the right location of its bottom-up cause must be
+\Right{\Veim{effect}}, so that
+\begin{equation}
+\label{t:terminal-cause-unique-20}
+\var{r1} = \Right{\Veim{effect}} = \var{r2}.
+\end{equation}
+
+Finally,
+if \Vsym{term} is terminal,
+it must be telluric in which case its length is 1,
+or nulling, in which case its length is 0.
+In either case its length is fixed.
+Let $\Vsize{\Vsym{term}} = \var{len}$.
+Then
+\begin{equation}
+\label{t:terminal-cause-unique-30}
+\var{l1} = \Right{\Veim{effect}} \subtract \var{len} = \var{l2}.
+\end{equation}
+
+Gathering
+\eqref{t:terminal-cause-unique-10},
+\eqref{t:terminal-cause-unique-20}
+and
+\eqref{t:terminal-cause-unique-30},
+we see that
+\eqref{t:terminal-cause-unique-5} is false,
+which is contrary to the assumption for the reductio.
+So \Vinst{inst1} must be unique.
+Our choice of \Vinst{inst1} was without loss of generality,
+so this shows the theorem.
 \end{proof}
 
 \begin{theorem}\label{t:start-eim-is-valid}
