@@ -2484,6 +2484,7 @@ we mean whichever of its causes
 altitudes.
 
 \begin{theorem}
+\label{predot-therefore-altitude}
 If an EIM has a predot symbol, it 
 it has a defined altitude cause.
 If the predot symbol is null,
@@ -2544,6 +2545,18 @@ same as the Leo altitude of \Veim{x}.
 This shows the step, the induction,
 and the theorem.
 \end{proof}
+
+An altitude derivation of a telluric symbol,
+\Vsym{peak},
+is the rightmost derivation before \Vloc{k}
+\begin{multline*}
+\Vsym{peak} \Vmkr{k} \destar \Vstr{pre-tt} \Vsym{tt} \Vmkm{k} \Vstr{nulls}, \\
+\text{where \Vsym{tt} is a telluric terminal and $\Vstr{nulls} \destar \epsilon$} 
+\end{multline*}
+Because all Marpa symbols are productive,
+We know there is such a derivation,
+and that it has a finite length, which which we will call $\var{n}+1$.
+We also know that $\Vsym{tt} = \CVw{\Vdecr{k}}$.
 
 \begin{theorem}
 \label{t:altitude-is-finite}
