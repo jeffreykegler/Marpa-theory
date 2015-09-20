@@ -167,12 +167,13 @@
 \newtheorem{oldtheorem}{Theorem}[section]
 \newenvironment{theorem}
 {
-    \begin{oldtheorem}
+  \begin{oldtheorem}
 }
-{ \begin{center}
-  \vspace{-.4\baselineskip}
-  \rule{3em}{.5pt}
-  \end{center}
+{
+  % \begin{center}
+  % \vspace{-.4\baselineskip}
+  % \rule{3em}{.5pt}
+  % \end{center}
   \end{oldtheorem}
 }
 
@@ -1082,6 +1083,20 @@ by the definition of telluric base,
 
 We have shown that, in both cases,
 \Vdr{tell} is the telluric base of \Vdr{dr2}.
+\end{proof}
+
+\begin{theorem}
+\label{quasi-confirmed-unique-telluric-base}
+If a dotted rule is quasi-confirmed,
+its telluric base is unique.
+\end{theorem}
+
+\begin{proof}
+Let the dotted rule be \Vdr{df}.
+This theorem follows
+directly
+from Theorem \ref{eth-eq-share-telluric-base},
+if you set both of its dotted rules to \Vdr{dr}.
 \end{proof}
 
 The complexity of the ethereal closure is of interest:
@@ -2449,15 +2464,11 @@ This case applies if the null-scan is memoized,
 its top-down cause is memoized,
 or both.
 \item A possible Leo altitude of an
-unmemoized reduction EIM with an unmemoized cause,
+unmemoized reduction EIM
 is the Leo altitude of its bottom-up cause, plus 1.
 \item A possible Leo altitude of an
-memoized reduction EIM with a bottom-up memoized cause,
+memoized reduction EIM
 is the Leo altitude of the bottom-up cause.
-\item A possible Leo altitude of an
-unmemoized reduction EIM with a bottom-up memoized cause,
-is the Leo altitude of its Leo bottom-up cause, plus 1.
-This is the case for Leo top items.
 \item
 The Leo altitude of an EIM is the minimum of its possible
 values.
@@ -2466,6 +2477,26 @@ values.
 \end{raggedright}
 
 \end{definition}
+
+When we say \dfn{altitude cause},
+we mean whichever of its causes
+-- bottom-up or top-down is used to calculate its possible
+altitudes.
+
+\begin{theorem}
+If an EIM has a predot symbol, it 
+it has a defined altitude cause.
+If the predot symbol is null,
+the altitude cause is the top-down cause.
+If the predot symbol is telluric,
+the altitude cause is the bottom-up cause.
+\end{theorem}
+
+\begin{proof}
+The theorem can be proved by
+going through Definition \ref{def:altitude}
+case by case.
+\end{proof}
 
 \begin{theorem}
 \label{altitude-from-telluric-base}
