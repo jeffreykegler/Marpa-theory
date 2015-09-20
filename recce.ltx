@@ -820,6 +820,9 @@ A dotted rule which has only nulling symbols before the dot
 is a \dfn{quasi-prediction}.
 This definition may be vacuously true:
 all predictions are quasi-predictions.
+If a dotted rule is not a
+quasi-prediction,
+then it is a \dfn{quasi-confirmed}.
 
 \begin{theorem}
 \label{t:quasi-drs-disjoint}
@@ -991,7 +994,7 @@ as the union of
 We define
 the \dfn{ethereal closure} as
 We the transitive closure of \var{ethereal-next}.
-$$ \var{ethereal-closure} \defined \var{ethereal-next}^+ $$
+$$ \var{ethereal-closure} \defined \var{ethereal-next}^\ast $$
 \end{raggedright}
 
 We are now in a position to define the ethereal transition of \GOTO{}
@@ -1018,13 +1021,68 @@ Let
 We also call \Vdrset{ec} an \dfn{ethereal closure}
 and we say that \Vdr{base} is its \dfn{base}.
 If \Vdr{base} is telluric, we say that
-\Vdr{base} is its \dfn{telluric base}.
+\Vdr{base} is a \dfn{telluric base}.
 We call \Vdr{tell} a telluric base
 of a dotted rule \Vdr{dr2} if and only if
 $$ \Vdr{dr2} \in \var{ethereal-closure}(\lbrace \Vdr{tell} \rbrace). $$
+
 Predicted dotted rules may have more than one telluric base,
 but for null-scan dotted rules the telluric base
 will be unique.
+
+\begin{theorem}
+\label{eth-eq-share-telluric-base}
+If two dotted rules are ethereally equivalent,
+and one is quasi-confirmed,
+they have the same telluric base.
+\end{theorem}
+
+\begin{proof}
+Without loss of generality, let \Vdr{dr1} be the
+rule which is quasi-confirmed.
+In that case, \Vdr{dr1} is
+not a quasi-prediction,
+and therefore has a telluric symbol before
+the dot.
+\Vdr{dr1} therefore has a telluric base,
+as we know that,
+without loss of generality,
+\begin{equation}
+\Vdr{base} = [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{tell} \mydot \Vstr{nulls1} \cat \Vstr{post1} ]
+\end{equation}
+and
+\begin{equation}
+\Vdr{dr1} = [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{tell} \cat \Vstr{nulls1} \mydot \Vstr{post1} ].
+\end{equation}
+Where $\Vstr{nulls1} \destar \epsilon$.
+
+We now proceed by cases.
+In the first case,
+the dot in \Vdr{dr2} comes at or after the dot in \Vdr{dr1}.
+We may write
+\begin{equation}
+\Vdr{dr2} = [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{tell} \cat \Vstr{nulls1} \cat \Vstr{nulls2} \mydot \Vstr{post2} ].
+\end{equation}
+where $\Vstr{post1} = \Vstr{nulls2} \cat \Vstr{post2},$
+so that clearly
+$$ \Vdr{dr2} \in \var{ethereal-closure}(\lbrace \Vdr{tell} \rbrace),$$
+so that by the definition of telluric base,
+\Vdr{tell} is the telluric base of \Vdr{dr2}.
+
+In the second, overlapping, case
+the dot in \Vdr{dr2} comes at or before the dot in \Vdr{dr1}.
+We may write
+\begin{equation}
+\Vdr{dr2} = [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{tell} \cat \Vstr{nulls1a} \mydot \Vstr{nulls1b} \cat \Vstr{post1} ].
+\end{equation}
+where $\Vstr{nulls1} = \Vstr{nulls1a} \cat \Vstr{nulls1b}.$
+Again,
+by the definition of telluric base,
+\Vdr{tell} is the telluric base of \Vdr{dr2}.
+
+We have shown that, in both cases,
+\Vdr{tell} is the telluric base of \Vdr{dr2}.
+\end{proof}
 
 The complexity of the ethereal closure is of interest:
 we may want to compute it on the fly,
