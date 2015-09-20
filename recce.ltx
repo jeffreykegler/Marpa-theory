@@ -2546,17 +2546,23 @@ This shows the step, the induction,
 and the theorem.
 \end{proof}
 
-An altitude derivation of a telluric symbol,
+An \dfn{altitude derivation} of a telluric symbol,
 \Vsym{peak},
 is the rightmost derivation before \Vloc{k}
-\begin{multline*}
-\Vsym{peak} \Vmkr{k} \destar \Vstr{pre-tt} \Vsym{tt} \Vmkm{k} \Vstr{nulls}, \\
-\text{where \Vsym{tt} is a telluric terminal and $\Vstr{nulls} \destar \epsilon.$} 
-\end{multline*}
+\begin{align}
+\label{def:altitude-derivation-step-n}
+\Vmkl{i} \Vsym{peak} \Vmkr{k} & \\
+\label{def:altitude-derivation-step-0}
+  & \destar \Vmkl{i} \Vstr{pre-tt} \Vsym{tt} \Vmkm{k} \Vstr{nulls},
+\end{align}
+where \Vsym{tt} is a telluric terminal
+and $\Vstr{nulls} \destar \epsilon$. 
 Because all Marpa symbols are productive,
 we know there is such a derivation,
 and that it has a finite length, which which we will call $\var{n}+1$.
 We also know that $\Vsym{tt} = \CVw{\Vdecr{k}}$.
+We call \eqref{def:altitude-derivation-step-n}, Step \var{n},
+and we call \eqref{def:altitude-derivation-step-0}, Step 0.
 
 \begin{theorem}
 \label{t:altitude-is-finite}
