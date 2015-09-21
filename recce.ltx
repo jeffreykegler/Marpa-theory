@@ -2500,6 +2500,24 @@ case by case.
 \end{proof}
 
 \begin{theorem}
+\label{cause-therefore-altitude}
+Let \Vinst{i} be an instance.
+If \Vinst{i} has a defined altitude cause,
+call it \Vinst{cuz},
+and the altitude
+of \Vinst{cuz} is defined,
+then
+the altitude
+of \Vinst{i} is defined.
+\end{theorem}
+
+\begin{proof}
+The theorem can be proved by
+going through Definition \ref{def:altitude}
+case by case.
+\end{proof}
+
+\begin{theorem}
 \label{altitude-from-telluric-base}
 The Leo altitude of a
 confirmed EIM is that of its telluric base.
@@ -2614,15 +2632,38 @@ we say that
 \end{definition}
 
 \begin{theorem}
+\label{altitude-silo-causes}
 Definition \ref{def:altitude-silo} is well-formed
 and for every \var{i}, $1 \le \var{i} \le \var{n}$,
 \var{silo}[\Vdecr{i}] is the altitude cause of
 \var{silo}[\var{i}].
 \end{theorem}
 
+For writing rightmost derivations before \Vloc{k},
+there are two conventions for indicating that a derivation
+step has expanded a null symbol into its direct descendants.
+Usually we remove the symbol, on the idea that it
+has expanded into zero terminal symbols.
+
 \begin{proof}
-We first note that
-Definition \ref{def:altitude-silo} deal with three cases:
+In this proof,
+when we refer to the rightmost symbol,
+we will mean the rightmost symbol of a derivation
+step before \Vloc{k}.
+We will
+use the definition of validity of an EIM
+to go back and forth,
+between derivation steps,
+and the EIMs they validate.
+By the definition of validity of an EIM,
+if \Vsym{rm} is the rightmost symbol before \Vloc{k}
+in derivation Step \var{x},
+then \Vsym{rm} will be the predot symbol
+in any EIM validated by Step \var{x},
+and vice versa.
+
+We note that
+Definition \ref{def:altitude-silo} deals with three cases:
 Step 0, non-terminal rightmost symbols
 and nulling rightmost symbols.
 By the definition of the altitude derivation,
@@ -2644,7 +2685,7 @@ is Definition \ref{def:altitude-silo} for
 non-terminal predot symbols.
 For Step \var{i},
 this requires that there be a Step \Vdecr{i}.
-Since we do only examine Steps 1 and greater
+Since we only examine Steps 1 and greater
 for this first case,
 we know there is a Step \Vdecr{i}.
 Call the EIM in \eqref{eq:altitude-silo-20},
@@ -2659,6 +2700,7 @@ By
 \eqref{predot-therefore-altitude},
 we see that \Veim{up}
 is the altitude cause of any EIM with
+a non-terminal predot symbol.
 We note that its right location is \var{k}.
 
 \textbf{The second case}
@@ -2690,7 +2732,6 @@ derivation can have a telluric terminal
 as its rightmost symbol.
 We have noted above, that all the EIMs in \var{silo}
 has a right location of \var{k}.
-nulling predot symbols.
 We know from 
 \eqref{t:symbolic-causes-from-effect}
 that the bottom-up cause must have a right location
@@ -2711,212 +2752,68 @@ theorem.
 \end{proof}
 
 \begin{theorem}
-\label{t:altitude-is-finite}
-If \Veim{effect} is a valid, confirmed EIM,
+\label{t:base-altitude-is-finite}
+If \Veim{base} is a valid telluric base EIM,
 its Leo altitude is defined and finite.
 \end{theorem}
 
 \begin{proof}
-Using that fact that \Veim{effect} is a confirmed EIM,
-and without loss of generality, we let
-\begin{multline}
-\label{t:altitude-is-finite-5}
-\Veim{effect} = \\
-[
-  [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{B} \cat \Vstr{nulls} \mydot \Vstr{post} ],
-  \var{i}, \var{k} ]
-\end{multline}
-where \Vsym{B} is a telluric symbol,
-and $\Vstr{nulls} \destar \epsilon$.
+By the definition of altitude derivation,
+there is an altitude derivation for \Veim{base}.
+We use that altitude derivation as the basis of the
+altitude silo, \var{silo}.
 
-All symbols in a \Marpa{} grammar are productive so that,
-using the validity of
-\eqref{t:altitude-is-finite-5}
-and without loss of generality,
-we can let a rightmost derivation before \Vloc{k} be
-\begin{alignat}{2}
-  & \Vsym{A} \\
-\label{t:altitude-is-finite-10}
-\derives \quad & \Vmkl{i} \Vstr{pre1} \cat \Vsym{B} \cat \Vstr{nulls} \Vmkm{k} \Vstr{post} \\
-\label{t:altitude-is-finite-12}
-\destar \quad & \Vmkl{i} \Vstr{pre1} \cat \Vstr{pre2} \cat \Vsym{term} \Vmkm{k} \Vstr{post} \\
-\label{t:altitude-is-finite-13}
-& \qquad \text{where $\Vsym{term} = \CVw{\Vdecr{k}}$}.
-\end{alignat}
+From the Definition \ref{def:altitude-silo}, we know
+that $\Veim{base} = \var{silo}[\var{n}]$
+We show that the Leo altitude of \var{silo}[\var{n}]
+is defined and finite,
+by induction on \var{i}.
 
-By ``rightmost derivation before \Vloc{k}'',
-we mean
-the derivation that, at each of its steps,
-replaces its rightmost nonterminal before \Vloc{k}
-with one of its direct descendants.
-Call the derivation step \eqref{t:altitude-is-finite-10}, Step \var{n},
-and the derivation step \eqref{t:altitude-is-finite-12}, Step 0.
+Our induction hypothesis is
+$$ \text{\Alt{\var{silo}[\var{i}]} is defined and finite}. $$
+We take 0 as the basis of the induction.
+From Definition \ref{def:altitude-silo}, we know
+that \var{silo}[0] is a telluric terminal
+symbol instance, so that its Leo altitude is 0.
 
-For every step except Step 0,
-we will distinguish a ``step instance''.
-We will call the step instance for step \var{m},
-$\eim{\var{step}[\var{m}]}$.
-Let
-(Defintion \ref{def:eim-valid}),
-$$\eim{\var{step}[\var{n}]} = \Veim{effect}.$$
-
-For every step, \var{step}[\var{i}],
-let \Vinst{up}[\var{i}] be its bottom-up cause,
-and let
-$\eim{\var{down}[\var{i}]}$ be its top-down cause.
-We define step instances for steps 0 through \Vdecr{n} as follows:
-\begin{multline}
-\label{t:altitude-is-finite-15}
-\forall \var{x}, \quad 0 \le \var{x} \le \Vdecr{n}, \\
-\var{step}[\var{x}] \defined
-\begin{cases}
-\begin{aligned}
-\eim{\Veim{down}[\var{x}+1]}, \quad & \text{if $\Predot{\eim{\var{step}[\var{x}+1]}} \destar \epsilon$} \\
-\eim{\Vinst{up}[\var{x}+1]}, \quad & \text{otherwise.}
-\end{aligned}
-\end{cases}
-\end{multline}
-
-To show that $\eim{\var{step}[\var{i}]}$
-is well-defined in
-\eqref{t:altitude-is-finite-15},
-we must show that,
+As the step of the induction, we assume that
+$$ \text{\Alt{\var{silo}[\var{i}]} is defined and finite} $$
+to show that
 \begin{equation}
-\label{t:altitude-is-finite-20}
-\forall \var{i},  1 \le \var{i} \le \var{n} \implies
-\Predot{\eim{\var{step}[\var{i}]}} \neq \Lambda,
+\label{t:base-altitude-is-finite-30}
+\text{\Alt{\var{silo}[\var{i}+1]} is defined and finite}.
 \end{equation}
-and that
-\begin{multline}
-\label{t:altitude-is-finite-23}
-\forall \var{i}, \quad 1 \le \var{i} \le \var{n} \implies \\
-\qquad \shoveleft{\text{\Predot{\eim{\var{step}[\var{i}]}} is not a telluric terminal.}}
-\end{multline}
-We can show
-\eqref{t:altitude-is-finite-23} directly:
-The derivation is rightmost and ends when the rightmost telluric terminal
-is encountered at Step 0.
-If a telluric terminal is predot in any derivation step
-before Step 0, it is to the right of the rightmost symbol,
-which is impossible.
-From this contradiction,
-\eqref{t:altitude-is-finite-23} follows.
+Theorem \eqref{altitude-silo-causes} shows that
+$\var{silo}[\var{i}]$ is the altitude cause of
+$\var{silo}[\var{i}+1]$.
+Therefore,
+from Theorem
+\ref{cause-therefore-altitude}
+and the assumption for the induction step,
+therefore,
+we have
+\eqref{t:base-altitude-is-finite-30}.
+This shows the step, the induction
+and the theorem.
+\end{proof}
 
-To show
-\eqref{t:altitude-is-finite-20},
-we use an induction.
-As the induction hypothesis, we strengthen our condition
-to require that the EIM have a telluric symbol before the dot.
-The telluric symbol before the dot
-does not have to be the predot symbol --
-that is, it must be before the dot, but it does
-not have to be immediately
-before the dot.
+\begin{theorem}
+\label{t:altitude-is-finite}
+If \Veim{confirmed} is a valid, confirmed EIM,
+its Leo altitude is defined and finite.
+\end{theorem}
 
-We use a reverse induction,
-from Step \var{n} to Step 1.
-As the basis, Step \var{n} is \Veim{effect}
-which has a telluric symbol before the dot,
-\Vsym{B},
-as we see from
-\eqref{t:altitude-is-finite-5}.
-For the step of the induction,
-we assume that
-\begin{equation}
-\eim{\var{step}[\var{i+1}]} = \Veim{x} = [ \Vdr{x}, \Vorig{x}, \Vloc{x} ]
-\end{equation}
-has a telluric symbol before the dot,
-and seek to show that
-\begin{equation}
-\eim{\var{step}[\var{i}]} = \Veim{y} = [ \Vdr{y}, \Vorig{y}, \Vloc{y} ]
-\end{equation}
-has a telluric symbol before the dot.
-By the induction hypothesis we know that
-\Predot{\Vdr{x}} is defined and by
-\eqref{t:altitude-is-finite-23} we know it is not a telluric terminal.
-Two cases remain:
-\Predot{\Vdr{x}} is a nulling terminal,
-or \Predot{\Vdr{x}} is a non-terminal.
-
-If \Predot{\Vdr{x}} is a nulling terminal
-then from
-\eqref{t:altitude-is-finite-15}
-we know that
-\Veim{y} is the top-down cause of \Veim{x}.
-Using
-\eqref{t:symbolic-causes-from-effect},
-we know that
-\begin{equation}
-\label{eq:altitude-is-finite-30}
-\Vdr{y} = \Prev{\Vdr{x}}.
-\end{equation}
-From \eqref{eq:altitude-is-finite-30}
-we see that there is exactly one less symbol before the dot.
-But the symbol past which we moved the dot,
-$\Postdot{\Vdr{y}}$,
-is nulling,
-so that if there was a telluric symbol before the dot
-in \Vdr{x}, it remains before the dot
-in \Vdr{y}.
-By assumption for the case,
-there was a telluric symbol before the dot in \Vdr{x},
-so we have the case.
-
-The other case is that
-\Predot{\Vdr{x}} is non-terminal.
-We know from
-\eqref{t:altitude-is-finite-15}
-that
-\Veim{y} is the bottom-up cause of \Veim{x}.
-Using
-\eqref{t:symbolic-causes-from-effect}
-and \eqref{t:valid-eim-from-symbol},
-we know that \Vdr{y} is a completion.
-Since no rule in \Marpa{} is nulling,
-every rule contains
-at least one telluric symbol on its RHS.
-In a completion,
-by its definition,
-all symbols are before the dot,
-so \Vdr{y} will have a telluric symbol before
-the dot.
-This shows the case.
-
-We have both cases,
-and therefore we have shown that \Veim{y}
-has a telluric symbol before the dot.
-Since \Veim{y} has a telluric symbol before the
-dot, it must have a predot symbol.
-This shows
-\eqref{t:altitude-is-finite-20}.
-
-At this point we know that
-\begin{equation*}
-\forall \var{i}, 1 \le \var{i} \le \Vdecr{n} \implies
-\text{$\eim{\var{step}[\var{i}]}$ is well-defined}.
-\end{equation*}
-
-We are now in a position to show that
-\begin{equation}
-\label{eq:altitude-is-finite-40}
-\forall \var{i}, 0 \le \var{i} \le \var{n} \implies
-\text{\Alt{\var{step}[\var{i}]} is defined and finite}.
-\end{equation}
-
-To show \eqref{eq:altitude-is-finite-40},
-we use
-\begin{equation}
-\label{eq:altitude-is-finite-42}
-\text{\Alt{\var{step}[\var{i}]} is defined and finite}.
-\end{equation}
-as our induction hypothesis.
-
-As the basis of the induction we show
-\eqref{eq:altitude-is-finite-42}
-for Step 0.
-
-TODO: Finish from here
-
+\begin{proof}
+\Veim{confirmed} must have a telluric base.
+Call this \Veim{base}.
+By theorem \label{t:base-altitude-is-finite},
+the Leo altitude of \Veim{base}
+is defined and finite.
+By theorem
+\ref{altitude-from-telluric-base},
+$$\Alt{\Veim{base}} = \Alt{\Veim{confirmed}}.$$
+Therefore the altitude of 
+\Alt{\Veim{confirmed}} is defined and finite.
 \end{proof}
 
 \begin{theorem}
