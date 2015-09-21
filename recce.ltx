@@ -3413,13 +3413,24 @@ and that
 \label{t:reduction-op-correct-8}
 \myparbox{the ethereal closure of the set of EIMs read at \Vloc{i} is correct.}
 \end{equation}
-Then the reduction pass at \Vloc{i}
+Then
+Algorithm \ref{alg:reduction-pass}
+at \Vloc{i}
 adds all and only
 the ethereal closure of
 the EIMs reduced at \Vloc{i}.
 \end{theorem}
 
 \begin{proof}
+For the purposes of this proof we define the ``generation''
+of an EIM as follows:
+If the Leo altitude of an EIM is defined,
+its generation is its Leo altitude.
+The generation of a prediction is that of its telluric base.
+The start EIM cannot occur after Earley set 0,
+so that
+so we leave its generation undefined.
+
 EIMs added as a result of
 Algorithm \ref{alg:reduction-pass},
 are added by
