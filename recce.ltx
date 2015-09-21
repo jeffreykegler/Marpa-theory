@@ -956,10 +956,10 @@ and that \Vsym{B} is the \dfn{bottom-up cause}.
 
 We can use \var{direct-null-scan} to define an equivalence relation.
 Intuitively, two dotted rules, \Vdr{dr1}
-and \Vdr{dr2} are \dfn{ethereally equivalent} if 
+and \Vdr{dr2} are \dfn{ethereally equivalent} if
 \Vdr{dr1} can be changed into \Vdr{dr2} by a series of null-scans.
 More formally, we define \var{eth-eq} to be the reflexive, symmetric
-and transitive closure of 
+and transitive closure of
 \var{direct-null-scan}.
 We say that \Vdr{dr1} is
 \dfn{ethereally equivalent} to \Vdr{dr2} if
@@ -1521,7 +1521,7 @@ its \dfn{symbolic equivalent} is
 \var{inst} = \Vmkl{i} \Vsym{up} \Vmkr{j},
 \end{equation}
 We say that \Veim{up}
-is the \dfn{EIM equivalent} of 
+is the \dfn{EIM equivalent} of
 \var{inst}.
 
 \begin{theorem}
@@ -1567,7 +1567,7 @@ We say that a top-down cause
 and a symbolic bottom-up cause
 \dfn{match}
 if and only if
-the symbol of the bottom up cause is
+the symbol of the bottom-up cause is
 the postdot symbol of the top-down cause,
 and the left location of the bottom-up cause
 is the right location of the top-down cause.
@@ -1833,13 +1833,13 @@ and the definition of validity for an Earley item,
 we know that
 \begin{equation}
 \label{eq:effect-from-symbol-28}
-\Veim{down} = 
+\Veim{down} =
 [ [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j} ] \\
 \end{equation}
 and
 \begin{equation}
 \label{eq:effect-from-symbol-29}
-\Veim{effect} = 
+\Veim{effect} =
 [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ]
 \end{equation}
 are valid.
@@ -1980,7 +1980,7 @@ there exists some input for which it is ambiguous.
 
 Recall that dotted rule notions applied to EIMs
 refer to the dotted rule of the EIM.
-Therefore, a fleeting EIM is an EIM 
+Therefore, a fleeting EIM is an EIM
 with a nulling postdot symbol;
 and a lasting EIM is any EIM which is not
 a fleeting EIM.
@@ -2050,13 +2050,13 @@ $\var{stack}[\var{j}]$
 are items in a cause stack,
 $\var{i} \le \var{j}$,
 we say that $\var{j} \subtract \var{i}$
-is the altitude of 
+is the altitude of
 $\var{stack}[\var{j}]$
 relative to
 $\var{stack}[\var{i}]$.
 Where a base \var{i} is understood in context,
 we say that
-is the altitude of 
+is the altitude of
 $\var{stack}[\var{j}]$
 relative to
 $\var{stack}[\var{i}]$
@@ -2456,7 +2456,7 @@ More formally,
 The Leo altitude of a read EIM is
 altitude of its bottom-up cause, plus 1.
 Since the bottom-up cause of a read EIM is always
-a terminal symbol instance, 
+a terminal symbol instance,
 its Leo altitude will always be 1.
 \item The Leo altitude of null-scan EIM is that of
 its top-down cause.
@@ -2485,7 +2485,7 @@ altitudes.
 
 \begin{theorem}
 \label{predot-therefore-altitude}
-If an EIM has a predot symbol, it 
+If an EIM has a predot symbol, it
 it has a defined altitude cause.
 If the predot symbol is null,
 the altitude cause is the top-down cause.
@@ -2522,7 +2522,7 @@ that the theorem is obvious if \Veim{z} is its own telluric base.
 As the step of the induction,
 we assume that the Leo altitude of \Veim{x} is that of its
 telluric base,
-and we seek to show that the Leo altitude of 
+and we seek to show that the Leo altitude of
 \begin{equation*}
 \Veim{y} = [ \Next{\Vdr{x}}, \Vorig{x}, \Vloc{y} ]
 \end{equation*}
@@ -2546,23 +2546,169 @@ This shows the step, the induction,
 and the theorem.
 \end{proof}
 
-An \dfn{altitude derivation} of a telluric symbol,
-\Vsym{peak},
-is the rightmost derivation before \Vloc{k}
+We now define
+the altitude derivation of a telluric base.
+Let the telluric base be
+\begin{multline}
+\Veim{base} = \\
+[ [ \Vsym{base} \de \Vstr{pre} \cat \Vsym{tell} \mydot \Vstr{post} ], \Vloc{i}, \Vloc{k} ]
+\end{multline}
+We say the altitude derivation of \Veim{base} is
+its rightmost derivation before \Vloc{k},
 \begin{align}
 \label{def:altitude-derivation-step-n}
-\Vmkl{i} \Vsym{peak} \Vmkr{k} & \\
+& \Vmkl{i} \Vstr{pre} \cat \Vsym{tell} \Vmkr{k} \Vstr{post} \\
 \label{def:altitude-derivation-step-0}
-  & \destar \Vmkl{i} \Vstr{pre-tt} \Vsym{tt} \Vmkm{k} \Vstr{nulls},
+  \destar & \Vmkl{i} \Vstr{pre-tt} \Vsym{tt} \Vmkm{k} \Vstr{nulls} \cat \Vstr{post},
 \end{align}
 where \Vsym{tt} is a telluric terminal
-and $\Vstr{nulls} \destar \epsilon$. 
+and $\Vstr{nulls} \destar \epsilon$.
 Because all Marpa symbols are productive,
 we know there is such a derivation,
-and that it has a finite length, which which we will call $\var{n}+1$.
+and that it has a finite length.
 We also know that $\Vsym{tt} = \CVw{\Vdecr{k}}$.
+We will call the length $\var{n}+1$.
 We call \eqref{def:altitude-derivation-step-n}, Step \var{n},
 and we call \eqref{def:altitude-derivation-step-0}, Step 0.
+
+\begin{definition}
+\label{def:altitude-silo}
+The \dfn{altitude silo} is a sequence of parse instances,
+based on an altitude derivation.
+There is one element in the silo
+for each step of an altitude derivation.
+
+Call a silo, \var{silo}.
+We say that
+\begin{equation}
+\label{eq:altitude-silo-10}
+\var{silo}[0] = \mkl{\Vdecr{k}} \Vsym{term} \Vmkr{k}.
+\end{equation}
+where $\Vsym{term} = \Cw[\Vdecr{k}]$.
+
+Consider a step of the underlying
+altitude derivation.
+Let the rightmost symbol instance of Step \var{i} be
+$\Vmkl{j} \Vsym{A} \Vmkr{k}$.
+
+For Step \var{i}, $1 \le \var{i} \le \var{n}$,
+if \Vsym{A} is a non-terminal
+where $\Vmkl{j} \Vstr{A-rhs} \Vmkr{k}$
+are its direct descendants
+in Step \Vdecr{i},
+we say that
+\begin{equation}
+\label{eq:altitude-silo-20}
+\var{silo}[\var{i}] = [ [ \Vsym{A} \de \Vstr{A-rhs} \mydot ], \Vloc{j}, \Vloc{k} ].
+\end{equation}
+
+For Step \var{i}, $1 \le \var{i} \le \Vdecr{n}$,
+if \Vsym{A} is nulling
+wheer
+$\var{silo}[\var{i}+1] = [ \Vdr{above}, \Vloc{j}, \Vloc{k}]$,
+we say that
+\begin{equation}
+\label{eq:altitude-silo-30}
+\var{silo}[\var{i}] = [ \Prev{\Vdr{above}}, \Vloc{j}, \Vloc{k} ].
+\end{equation}
+\end{definition}
+
+\begin{theorem}
+Definition \ref{def:altitude-silo} is well-formed
+and for every \var{i}, $1 \le \var{i} \le \var{n}$,
+\var{silo}[\Vdecr{i}] is the altitude cause of
+\var{silo}[\var{i}].
+\end{theorem}
+
+\begin{proof}
+We first note that
+Definition \ref{def:altitude-silo} deal with three cases:
+Step 0, non-terminal rightmost symbols
+and nulling rightmost symbols.
+By the definition of the altitude derivation,
+it starts will a telluric base
+and stops when the rightmost symbol
+is a telluric terminal.
+The point at which it stops is Step 0
+by definition, so the case of telluric terminals
+is handled by explicitly specifying the behavior
+at Step 0.
+Since the altitude derivation starts with a
+telluric base and never discards or moves past
+a telluric terminal,
+it will always have a predot symbol.
+
+We now look at the three cases separately.
+\textbf{The first case}
+is Definition \ref{def:altitude-silo} for
+non-terminal predot symbols.
+For Step \var{i},
+this requires that there be a Step \Vdecr{i}.
+Since we do only examine Steps 1 and greater
+for this first case,
+we know there is a Step \Vdecr{i}.
+Call the EIM in \eqref{eq:altitude-silo-20},
+\Veim{up}.
+By
+\eqref{t:symbolic-causes-from-effect}
+and \eqref{t:valid-eim-from-symbol},
+we see that \Veim{up}
+is the bottom-up cause of any EIM with
+a non-terminal predot symbol.
+By
+\eqref{predot-therefore-altitude},
+we see that \Veim{up}
+is the altitude cause of any EIM with
+We note that its right location is \var{k}.
+
+\textbf{The second case}
+is Definition \ref{def:altitude-silo} for
+nulling predot symbols.
+For Step \var{i},
+this requires that there be a Step $\var{i}+1$.
+By the definition of an altitude derivation,
+Step \var{n} has a telluric predot symbol,
+so we know we have
+a Step $\var{i}+1$.
+Call the EIM in \eqref{eq:altitude-silo-20},
+\Veim{down}.
+By
+\eqref{t:symbolic-causes-from-effect},
+we know that \Veim{down} must be the top-down
+cause of $\var{silo}[\var{i}+1]$.
+By
+\eqref{predot-therefore-altitude},
+we see that \Veim{down}
+is the altitude cause of any EIM with
+a nulling predot symbol.
+We note that its right location is \var{k}.
+
+\textbf{The third case} is
+is Definition \ref{def:altitude-silo} for
+Step 0, the only place where the altitude
+derivation can have a telluric terminal
+as its rightmost symbol.
+We have noted above, that all the EIMs in \var{silo}
+has a right location of \var{k}.
+nulling predot symbols.
+We know from 
+\eqref{t:symbolic-causes-from-effect}
+that the bottom-up cause must have a right location
+of \var{k} if its effect does.
+We also know from
+\eqref{t:symbolic-causes-from-effect},
+that for a telluric terminal, this
+bottom-up cause must be
+that in
+\eqref{eq:altitude-silo-10}.
+By
+\eqref{predot-therefore-altitude}
+we know that the bottom-up is also the altitude
+cause of any EIM with a telluric terminal
+as its predot symbol.
+This concludes the three cases and shows the
+theorem.
+\end{proof}
 
 \begin{theorem}
 \label{t:altitude-is-finite}
@@ -2584,7 +2730,7 @@ where \Vsym{B} is a telluric symbol,
 and $\Vstr{nulls} \destar \epsilon$.
 
 All symbols in a \Marpa{} grammar are productive so that,
-using the validity of 
+using the validity of
 \eqref{t:altitude-is-finite-5}
 and without loss of generality,
 we can let a rightmost derivation before \Vloc{k} be
@@ -2599,7 +2745,7 @@ we can let a rightmost derivation before \Vloc{k} be
 \end{alignat}
 
 By ``rightmost derivation before \Vloc{k}'',
-we mean 
+we mean
 the derivation that, at each of its steps,
 replaces its rightmost nonterminal before \Vloc{k}
 with one of its direct descendants.
@@ -2632,7 +2778,7 @@ We define step instances for steps 0 through \Vdecr{n} as follows:
 \end{multline}
 
 To show that $\eim{\var{step}[\var{i}]}$
-is well-defined in 
+is well-defined in
 \eqref{t:altitude-is-finite-15},
 we must show that,
 \begin{equation}
@@ -2653,7 +2799,7 @@ is encountered at Step 0.
 If a telluric terminal is predot in any derivation step
 before Step 0, it is to the right of the rightmost symbol,
 which is impossible.
-From this contradiction, 
+From this contradiction,
 \eqref{t:altitude-is-finite-23} follows.
 
 To show
@@ -3429,7 +3575,7 @@ so that
 By theorem \ref{t:read-eim-not-leo},
 no EIMs in the ethereal closure of a read EIMs
 are Leo-memoized.
-From this and 
+From this and
 \eqref{t:reduction-op-correct-22},
 we know that
 \begin{equation}
@@ -3451,7 +3597,7 @@ for every bottom-up EIM cause
 there is a bottom-up symbol cause.
 Examination of the code at
 \ref{line:reduction-pass-TODO-FIND-ME},
-shows that this bottom up cause \ldots
+shows that this bottom-up cause \ldots
 
 TODO: Finish this line of reasoning.
 
