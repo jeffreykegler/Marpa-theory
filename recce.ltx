@@ -3229,15 +3229,15 @@ the ``EIMs read at \Vloc{i}``.
 Let the Earley tables for all locations
 \Vloc{h},
 $\var{h} < \Vloc{i}$ be correct.
-Then the read pass at \Vloc{i}
+Then
+Algorithm \ref{alg:read-pass}
+at \Vloc{i}
 adds all and only
 the ethereal closure of
 the EIMs read at \Vloc{i}.
 \end{theorem}
 
 \begin{proof}
-TODO -- redo the argument re Leo memoization.
-
 We first assure ourselves that Leo
 memoization has no effect on the read pass.
 The bottom-up causes,
@@ -3273,6 +3273,14 @@ in Algorithm
 \ref{alg:memoize-transitions}
 will be overlooked because
 of Leo memoization.
+
+By Theorem \ref{t:read-eim-not-leo},
+read EIMs are never Leo-memoized.
+We have now shown that none of the parse instances
+referenced in Algorithm \ref{alg:read-pass},
+are Leo-memoized.
+We will therefore ignore Leo memoization in the
+rest of this proof.
 
 By the definition of \Cw{},
 there is only one
@@ -3515,7 +3523,7 @@ is correct.
 \end{theorem}
 
 \begin{proof}
-TODO.
+TODO: Make sure this accounts for the correctness of Leo memos.
 \end{proof}
 
 \begin{algorithm}[h]
