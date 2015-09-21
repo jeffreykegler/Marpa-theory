@@ -367,14 +367,14 @@ Section \ref{s:rewrite} deals with Marpa's
 grammar rewrites.
 The next sections develop the ideas for Earley's algorithm.
 Section \ref{s:dotted} describes dotted rules.
-Section \ref{s:earley-item} describes Earley items.
+Section \ref{s:earley-items} describes Earley items.
 
 Section \ref{s:leo} describes Leo's modification
 to Earley's algorithm.
 Section \ref{s:pseudocode} presents the pseudocode
 for Marpa's recognizer.
 Section
-\ref{s:correct}
+\ref{s:correctness}
 contain a proof of Marpa's correctness.
 Section \ref{s:linear} sets out our linear
 time and space complexity results.
@@ -3292,7 +3292,7 @@ requires that \Veim{down} have a postdot symbol
 of \Vsym{up} and a right location of
 ${\var{i} \subtract 1}$.
 By theorem
-\ref{t:TODO-memoize-transitions-correct},
+\ref{t:memoize-transitions-correct},
 the \var{transitions} function returns all of these for
 use as the value of \Veim{down}
 in the loop at line
@@ -3352,6 +3352,7 @@ as required for the theorem.
 
 \begin{algorithm}[h]
 \caption{Reduction pass}
+\label{alg:reduction-pass}
 \begin{algorithmic}[1]
 \Procedure{Reduction pass}{\Vloc{i}}
 \State Note: \Vtable{i} may include EIM's added by
@@ -3419,160 +3420,17 @@ the EIMs reduced at \Vloc{i}.
 \end{theorem}
 
 \begin{proof}
-
-TODO: deal with Leo memoization at the end?
-
-By its definition,
-a reduction is a confirmed EIM with a non-terminal
-predot symbol.
-By Theorem \ref{t:symbolic-causes-from-effect},
-every confirmed EIM must have a matching pair
-of causes: one top-down and one bottom-up.
-By Theorem \ref{t:valid-eim-from-symbol},
-without loss of generality,
-each bottom-up cause is
-\begin{equation*}
-\Veim{up} = [ [ \Vsym{up} \de \Vstr{rhs} \mydot ], \var{h}, \var{i} ]
-\end{equation*}
-and since in \Marpa{} rules are never nulling,
-we have
-\begin{equation}
-\label{t:reduction-op-correct-15}
-\var{h} < \var{i}.
-\end{equation}
-By Theorem
-\ref{t:symbolic-causes-from-effect},
-the right location of any matching top-down cause must be \Vloc{h}.
-Using \eqref{t:reduction-op-correct-15}
-and \eqref{t:reduction-op-correct-5},
-we know that the top-down causes of reductions at \Vloc{i}
-are correct.
-
-Showing that we have a correct set of bottom-up causes is
-more difficult.
-
-We show that we have a complete set of bottom-up causes,
-by induction on Leo-adjusted altitude.
-As the basis of the induction,
-we note
-that
-the predot symbol of
-all read EIMs is a terminal symbol
-and that that terminal symbol instance
-is the bottom-up cause of the read EIM.
-Terminal symbol instances have,
-by the definition of altitude,
-an altitude of 0,
-so that
-\begin{equation}
-\label{t:reduction-op-correct-22}
-\myparbox{the bottom-up cause of all read EIMs has an altitude of 0. }
-\end{equation}
-
-By theorem \ref{t:read-eim-not-leo},
-no EIMs in the ethereal closure of a read EIMs
-are Leo-memoized.
-From this and
-\eqref{t:reduction-op-correct-22},
-we know that
-\begin{equation}
-\label{t:reduction-op-correct-25}
-\myparbox{all read EIMs have an altitude of 1. }
-\end{equation}
-\eqref{t:reduction-op-correct-8}
+EIMs added as a result of
+Algorithm \ref{alg:reduction-pass},
+are added by
+Algorithm \ref{alg:reduce-one-lhs}
+at lines
+\ref{line:reduce-one-lhs-30}
 and
-\eqref{t:reduction-op-correct-25}
-give us the basis of our induction.
+\ref{line:reduce-one-lhs-50}.
 
-For the step of the induction,
+TODO
 
-TODO: Finish this.
-
-By Theorem
-\ref{t:TODO-FIND-ME},
-for every bottom-up EIM cause
-there is a bottom-up symbol cause.
-Examination of the code at
-\ref{line:reduction-pass-TODO-FIND-ME},
-shows that this bottom-up cause \ldots
-
-TODO: Finish this line of reasoning.
-
-Without loss of generality,
-let an \Veim{up} be
-\begin{equation}
-\label{eq:reduction-op-correct-20}
-\bigl[ [ \Vsym{up} \de \Vstr{rhs} \mydot ], \Vorig{up}, \Vloc{match} \bigr].
-\end{equation}
-Then the symbolic equivalent of \Veim{up} is
-\begin{equation}
-\label{eq:reduction-op-correct-40}
-\Vmkl{match} \,\, \Vsym{up} \Vmkr{i}.
-\end{equation}
-
-The definition of matching top-down cause
-requires that \Veim{down} have a postdot symbol
-of \Vsym{up} and a right location of
-${\var{i} \subtract 1}$.
-By theorem
-\ref{t:TODO-memoize-transitions-correct},
-the \var{transitions} function returns all of these for
-use as the value of \Veim{down}
-in the loop at line
-\ref{line:reduction-pass-TODO}.
-
-TODO: Finish this line of reasoning.
-
-From this, we observe that
-all and only
-the matching pairs of causes
-for the EIMs reduced at \Vloc{i}
-are used to add EIMs
-in the loop at line
-\ref{line:reduction-pass-40}.
-Call this the ``cause-correctness'' observation.
-
-From the cause-correctness observation and
-Theorem
-\ref{t:effect-from-symbolic-causes}
-we know that the EIMs we attempt to add
-at line
-\ref{line:reduction-pass-40}
-are consistent.
-From the cause-correctness observation and
-Theorem
-\ref{t:symbolic-causes-from-effect}
-we know that the EIMs we attempt to add
-at line
-\ref{line:reduction-pass-40}
-are complete.
-
-Since the
-the EIMs we attempt to add
-at line
-\ref{line:reduction-pass-40}
-are consistent and complete,
-we know that,
-at line
-\ref{line:reduction-pass-40},
-we attempted to add EIMs from
-a correct set of causes
-for the EIMs reduced at \Vloc{i}.
-By Theorem
-\ref{t:ethereal-closure-op-correct}
-we know that the
-Algorithm
-\ref{alg:eim-set}
-used
-at line
-\ref{line:reduction-pass-40}
-adds the ethereal closure of
-the EIM that is its argument.
-Therefore, we did add
-all of, and only, the EIMs
-in the ethereal closure of the
-EIMs reduced at \Vloc{i},
-as required for the theorem.
 \end{proof}
 
 
@@ -3639,8 +3497,19 @@ including that for the creation of a LIM if necessary,
 will be \Oc{} time per EIM examined,
 and can be charged to EIM being examined.
 
+\begin{theorem}
+\label{t:memoize-transitions-correct}
+Algorithm \ref{alg:memoize-transitions}
+is correct.
+\end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
+
 \begin{algorithm}[h]
 \caption{Reduce one LHS symbol}
+\label{alg:reduce-one-lhs}
 \begin{algorithmic}[1]
 \Procedure{Reduce one LHS}{\Vloc{i}, \Vloc{origin}, \Vsym{lhs}}
 \State Note: Each pass through this loop is an EIM attempt
@@ -3648,9 +3517,11 @@ and can be charged to EIM being examined.
 \State \Comment \var{pim} is a ``postdot item'', either a LIM or an EIM
 \If{\var{pim} is a LIM, \Vlim{pim}}
 \State Perform a \Call{Leo reduction operation}{}
+\label{line:reduce-one-lhs-30}
 \State \hspace\algorithmicindent for operands \Vloc{i}, \Vlim{pim}
 \Else
 \State Perform a \Call{Earley reduction operation}{}
+\label{line:reduce-one-lhs-50}
 \State \hspace\algorithmicindent for operands \Vloc{i}, \Veim{pim}, \Vsym{lhs}
 \EndIf
 \EndFor
