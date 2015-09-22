@@ -3519,15 +3519,18 @@ valid EIMs,
 we proceed by induction on the sets in \var{iter}.
 Let the induction hypothesis be that
 \begin{equation}
+\label{t:reduction-op-correct-15}
 \myparbox{the EIMs in \var{iter}[\var{i}] are valid.}
 \end{equation}
+As the basis of the induction we show
+\eqref{t:reduction-op-correct-15} for $\var{i} = 0$.
 
 
 We proceed by induction on the sets
 The induction hypothesis is
 that
 \begin{equation}
-\label{t:reduction-op-correct-15}
+\label{t:reduction-op-correct-18}
 \myparbox{
 the EIMs in generation
 \var{i} are consistent and complete,
@@ -3535,7 +3538,7 @@ and therefore correct.}
 \end{equation}
 
 For the basis of the induction, we show the
-\eqref{t:reduction-op-correct-15}
+\eqref{t:reduction-op-correct-18}
 for generation 0.
 
 TODO
