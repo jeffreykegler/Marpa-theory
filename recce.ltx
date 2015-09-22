@@ -3454,12 +3454,12 @@ at \Vloc{i}
 the ``EIMs reduced at \Vloc{i}''.
 Assume that
 \begin{equation}
-\label{t:reduction-op-correct-5}
+\label{eq:reduction-op-correct-5}
 \forall \Vloc{h} \quad \var{h} < \Vloc{i} \implies \text{$\Ves{h}$ is correct},
 \end{equation}
 and that
 \begin{equation}
-\label{t:reduction-op-correct-8}
+\label{eq:reduction-op-correct-8}
 \myparbox{the ethereal closure of the set of EIMs read at \Vloc{i} is correct.}
 \end{equation}
 Then
@@ -3479,22 +3479,48 @@ or by Algorithm \ref{alg:leo-reduction-op}
 at line \ref{line:leo-reduction-op-20}.
 From Theorem
 \ref{t:effect-from-symbolic-causes}
-we know that the EIMs we attempt to add
+we know that the telluric base EIMs we attempt to add
 at line
 \ref{line:earley-reduction-op-20}
 of Algorithm \ref{alg:earley-reduction-op}
 are valid if their causes are valid.
 From Theorem
 \ref{t:leo-top-from-memo}
-we know that the EIMs we attempt to add
+we know that the telluric base EIMs we attempt to add
 at line
 \ref{line:leo-reduction-op-20}
 of Algorithm \ref{alg:leo-reduction-op}
 are valid if their causes are valid.
 Combining both cases, we know that
 every attempt to
-add an EIM by Algorithm \ref{alg:reduction-pass}
+add a telluric base EIM by Algorithm \ref{alg:reduction-pass}
 is valid if its causes are valid.
+
+By Theorem
+\ref{t:ethereal-closure-op-correct}
+we know that the
+Algorithm
+\ref{alg:eim-set}
+used
+at line
+\ref{line:earley-reduction-op-20}
+of Algorithm \ref{alg:earley-reduction-op}
+and
+at line
+\ref{line:leo-reduction-op-20}
+of Algorithm \ref{alg:leo-reduction-op}
+adds the ethereal closure of the telluric base EIMs
+added at those lines.
+From the above considerations, we conclude that
+\begin{equation}
+\label{t:reduction-op-correct-12}
+\myparbox{
+if the causes are valid, every attempt to
+by Algorithm \ref{alg:leo-reduction-op} to
+add their effect EIM adds that EIM
+and its ethereal closure.
+}
+\end{equation}
 
 For the purposes of this proof we divide the EIMs
 added by 
@@ -3525,7 +3551,7 @@ Let the induction hypothesis be that
 \label{t:reduction-op-correct-15}
 \myparbox{the EIMs in \var{iter}[\var{i}] are valid.}
 \end{equation}
-From \eqref{line:reduction-pass-20},
+From \eqref{eq:reduction-op-correct-8},
 which is an assumption for the theorem,
 we have
 \eqref{t:reduction-op-correct-15} for $\var{i} = 0$,
