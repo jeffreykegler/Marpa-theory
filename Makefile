@@ -24,7 +24,7 @@ ah2002_notes.pdf: ah2002_notes.ltx
 	pdflatex $?
 
 clean:
-	rm -f recce.aux recce.idx recce.ilg recce.ind recce.pdf recce.toc
+	rm -f recce.aux recce.idx recce.ilg recce.ind recce.pdf recce.toc recce.out
 
 # Requires these Debian packages (as of Thu Sep 17 10:11:18 PDT 2015)
 # ii  texlive-base                    2014.20141024-2      all                  TeX Live: Essential programs and files

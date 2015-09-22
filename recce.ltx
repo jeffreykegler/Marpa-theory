@@ -2187,26 +2187,30 @@ We say that
 \Veimset{x} is \dfn{complete} for a predicate \var{phi},
 if and only if,
 for all \Veim{eim},
-\begin{multline*}
-\Valid{\Veim{eim}} \land \var{phi}(\var{eim}) \land \neg \Memoized{\var{eim}} \\
-  \implies \Veim{eim} \in \Veimset{x}.
-\end{multline*}
+\begin{equation*}
+\begin{split}
+& \Valid{\Veim{eim}} \land \neg \Memoized{\var{eim}} \land \var{phi}(\var{eim}) \\
+& \qquad \qquad \implies \Veim{eim} \in \Veimset{x}.
+\end{split}
+\end{equation*}
 For example,
 the EIM set \Veimset{x} is complete
-for the function
-$$\var{phi}(\var{eim}) \equiv \Current{\var{eim}} = \Vloc{i}$$
+for the predicate
+$$\lambda \var{eim} . \Current{\var{eim}} = \Vloc{i}$$
 if and only if,
 for all \Veim{eim},
-\begin{multline}
+\begin{equation}
 \label{eq:def-complete-2}
-\Valid{\Veim{eim}} \land (\var{eim} \in \Ves{i}) \land \neg \Memoized{\var{eim}} \\
-  \implies \Veim{eim} \in \Veimset{x}.
-\end{multline}
+\begin{split}
+& \Valid{\Veim{eim}} \land \neg \Memoized{\var{eim}} \land \Current{\var{eim}} = \Vloc{i} \\
+& \qquad \qquad \implies \Veim{eim} \in \Veimset{x}.
+\end{split}
+\end{equation}
 We say that the Earley set \Ves{i} is \dfn{complete}
 if and only
 the EIM set \Ves{i} is complete
-for the function
-$$\var{phi}(\var{eim}) \equiv \Current{\var{eim}} = \Vloc{i}.$$
+for the predicate
+$$\lambda \var{eim} . \Current{\var{eim}} = \Vloc{i}.$$
 
 We say that
 \Veimset{x} is \dfn{correct} for a predicate \var{phi},
@@ -2230,9 +2234,8 @@ if and only if \Veim{accept} is in its Earley tables:
 \defined
 \Veim{accept} \in \Vtables{Impl}
 \end{equation}
-if and only if the accept EIM is in its Earley tables.
 We say that an Earley implementation is \dfn{correct} if and only
-if it the set of strings it accepts is exactly the set of
+if the set of strings it accepts is exactly the set of
 strings in the language of its grammar.
 
 \begin{theorem}\label{t:algorithm-correct}
@@ -5002,21 +5005,25 @@ the time and space complexity of \Marpa{}
 for unambiguous grammars is \order{\var{n}^2}.
 \end{proof}
 
+\begin{raggedright}
 \begin{theorem}
 For every context-free grammar,
 \Marpa{} runs in $\order{\var{n}^3}$ time.
 \end{theorem}
+\end{raggedright}
 
 \begin{proof}
 By Theorem \ref{t:O1-time-per-eim},
 and Theorem \ref{t:ambiguous-tries}.
 \end{proof}
 
+\begin{raggedright}
 \begin{theorem}\label{t:cfg-space}
 For every context-free grammar,
 \Marpa{} runs in $\order{\var{n}^2}$ space,
 if it does not track links.
 \end{theorem}
+\end{raggedright}
 
 \begin{proof}
 By Theorem \ref{t:O1-space-per-eim}
@@ -5034,11 +5041,13 @@ are typically used in anticipation
 of an evaluation phase,
 for which links are necessary.
 
+\begin{raggedright}
 \begin{theorem}
 For every context-free grammar,
 \Marpa{} runs in $\order{\var{n}^3}$ space,
 including the space for tracking links.
 \end{theorem}
+\end{raggedright}
 
 \begin{proof}
 By Theorem \ref{t:O1-links-per-eim},
