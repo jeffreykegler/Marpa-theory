@@ -130,7 +130,11 @@
 \newcommand{\Penult}[1]{\mymathop{Penult}(#1)}
 \newcommand{\LHS}[1]{\ensuremath{\mymathop{LHS}(#1)}}
 \newcommand{\RHS}[1]{\mymathop{RHS}(#1)}
-\newcommand{\LeoEligible}[1]{\mymathop{Leo-Eligible}(#1)}
+\newcommand{\Origin}[1]{\ensuremath{\mymathop{Origin}(#1)}}
+\newcommand{\DR}[1]{\ensuremath{\mymathop{DR}(#1)}}
+\newcommand{\Current}[1]{\ensuremath{\mymathop{Current}(#1)}}
+\newcommand{\Valid}[1]{\ensuremath{\mymathop{Valid}(#1)}}
+\newcommand{\Memoized}[1]{\ensuremath{\mymathop{Memoized}(#1)}}
 \newcommand{\LeoUnique}[1]{\mymathop{Leo-Unique}(#1)}
 \newcommand{\ID}[1]{\mymathop{ID}(#1)}
 \newcommand{\PSL}[2]{\mymathop{PSL}[#1][#2]}
@@ -1282,8 +1286,15 @@ The \dfn{current} or \dfn{dot location} is the location
 in \Cw{} of the dot position in \Vdr{dotted-rule}
 For convenience, the type \type{ORIG} will be a synonym
 for \type{LOC}, indicating that the variable designates
-the origin element of an Earley item.
-Tradtionally, an Earley item is shown as a duple,
+the origin element of an Earley item.  Where
+\begin{gather*}
+    \Veim{x} = [\Vdr{x}, \Vorig{x}, \Vloc{x} ] \\
+\text{we say that $\DR{\Veim{x}} = \Vdr{x}$,} \\
+\Origin{\Veim{x}} = \Vorig{x} \\
+\text{and $\Current{\Veim{x}} = \Vloc{x}$.}
+\end{gather*}
+
+Traditionally, an Earley item is shown as a duple,
 \[
     [\Vdr{dotted-rule}, \Vorig{x} ]
 \]
@@ -1350,6 +1361,7 @@ if and only if
 \label{eq:eim-valid-def}
 \Vsym{A} \derives [\var{i}]\, \Vstr{predot} \,[\var{j}]\, \Vstr{postdot}.
 \end{equation}
+If \Veim{x} is valid, we also say \Valid{\Veim{x}}.
 \end{definition}
 
 \subsection{Parse instances}
@@ -1435,19 +1447,14 @@ causes.
 An ethereal cause is always valid.
 If \Vsym{T} is a telluric terminal symbol,
 \begin{equation*}
-[\var{i}]\, \Vsym{T} \,[\var{j}]
-\end{equation*}
-is valid if and only if
-\begin{equation*}
+\Valid{[\var{i}]\, \Vsym{T} \,[\var{j}]} \quad \defined \quad
 \Vsym{A} = \CVw{i} \land \var{j} = \var{i} + 1.
 \end{equation*}
 If \Vsym{N} is a non-terminal symbol,
 \begin{equation*}
-[\var{i}]\, \Vsym{T} \,[\var{j}]
-\end{equation*}
-is valid if and only if
-\begin{equation*}
-\Vsym{T} \deplus \var{w}[\var{i}, (\var{j} \subtract 1)].
+\Valid{[\var{i}]\, \Vsym{N} \,[\var{j}]}
+\quad \defined \quad
+\Vsym{N} \deplus \var{w}[\var{i}, (\var{j} \subtract 1)].
 \end{equation*}
 
 \begin{theorem}
@@ -2156,10 +2163,55 @@ For example,
 of Earley items in all the Earley sets of
 a \Marpa{} parse.
 
-An Earley set is \dfn{consistent} if and only if all of its
-Earley items are valid.
-An Earley set is \dfn{complete} if and only if it contains
-all valid Earley items.
+An Earley item may be memoized.
+An Earley item is \dfn{memoized} if and if it is
+not kept in an Earley set,
+but is kept in a form from which it can be recovered.
+A later section will show one way in which Earley items
+can be memoized.
+To say that \Veim{x} is memoized,
+we also say \Memoized{\Veim{x}}.
+
+An set of EIMs (not necessary an Earley set)
+is \dfn{consistent} if and only if all of its
+EIMs are valid and unmemoized.
+For example,
+the Earley set \Ves{i}
+is \dfn{consistent} if and only if
+every EIM in the Earley set at \Vloc{i}
+is valid and unmemoized.
+
+Let \Veimset{x} be a set of EIMs.
+\Veimset{x} is not necessary an Earley set.
+We say that
+\Veimset{x} is \dfn{complete} for a predicate \var{phi},
+if and only if,
+for all \Veim{eim},
+\begin{multline*}
+\Valid{\Veim{eim}} \land \var{phi}(\var{eim}) \land \neg \Memoized{\var{eim}} \\
+  \implies \Veim{eim} \in \Veimset{x}.
+\end{multline*}
+For example,
+the EIM set \Veimset{x} is complete
+for the function
+$$\var{phi}(\var{eim}) \equiv \Current{\var{eim}} = \Vloc{i}$$
+if and only if,
+for all \Veim{eim},
+\begin{multline}
+\label{eq:def-complete-2}
+\Valid{\Veim{eim}} \land (\var{eim} \in \Ves{i}) \land \neg \Memoized{\var{eim}} \\
+  \implies \Veim{eim} \in \Veimset{x}.
+\end{multline}
+We say that the Earley set \Ves{i} is \dfn{complete}
+if and only
+the EIM set \Ves{i} is complete
+for the function
+$$\var{phi}(\var{eim}) \equiv \Current{\var{eim}} = \Vloc{i}.$$
+
+We say that
+\Veimset{x} is \dfn{correct} for a predicate \var{phi},
+if and only if it is consistent
+and complete for \var{phi}.
 An Earley set is \dfn{correct} if and only if it is
 consistent and complete.
 
@@ -2958,12 +3010,9 @@ TODO.
 
 \begin{theorem}
 \label{t:memoized-causes}
-All causes of memoized effects are also
-memoized,
-with one exception.
-The bottom of a Leo stack is not memoized,
-but it is the bottom-up cause
-of the telluric effect at Leo altitude 1.
+If an effect is memoized,
+either it has a Leo memo,
+or its bottom-up cause is memoized.
 \end{theorem}
 
 \begin{proof}
@@ -2996,6 +3045,11 @@ TODO: Finish statement of theorem
 \begin{proof}
 TODO.
 \end{proof}
+
+\begin{theorem}
+\label{t:accept-eim-not-memoized}
+The accept EIM is never memoized.
+\end{theorem}
 
 \section{The Marpa Recognizer}
 \label{s:recce}
@@ -3448,7 +3502,7 @@ Overhead may be charged to the Earley set at \Vloc{i}.
 \begin{theorem}
 \label{t:reduction-op-correct}
 Call the
-EIMs at \Vloc{i}
+unmemoized EIMs at \Vloc{i}
 whose bottom-up cause is an EIM
 at \Vloc{i}
 the ``EIMs reduced at \Vloc{i}''.
@@ -3462,12 +3516,13 @@ and that
 \label{eq:reduction-op-correct-8}
 \myparbox{the ethereal closure of the set of EIMs read at \Vloc{i} is correct.}
 \end{equation}
-Then
+Then, after
 Algorithm \ref{alg:reduction-pass}
-at \Vloc{i}
-adds all and only
-the ethereal closure of
-the EIMs reduced at \Vloc{i}.
+at \Vloc{i},
+the set of EIMs at \Vloc{i}
+is correct for the union
+of the ethereal closures
+of the reduced EIMs.
 \end{theorem}
 
 \begin{proof}
@@ -3564,6 +3619,7 @@ and we seek to show
 \label{t:reduction-op-correct-20}
 \myparbox{the EIMs in \var{iter}[\var{i}+1] are valid.}
 \end{equation}
+% TODO -- By Theorem \ref{t:memoized-causes},
 
 TODO
 
@@ -4232,6 +4288,8 @@ $\var{L}(\Cg)$, so that
 From \eqref{eq:def-implementation-accepts},
 we know that an algorithm accepts an input if
 and only if the accept EIM is in its tables.
+By Theorem \ref{t:accept-eim-not-memoized},
+we know that the accept EIM is not memoized.
 Using
 \eqref{eq:def-implementation-accepts} and
 \eqref{eq:marpa-is-correct-60}, we have
@@ -4990,6 +5048,7 @@ and Theorem \ref{t:ambiguous-tries}.
 \bibliographystyle{plain}
 
 \begin{thebibliography}{10}
+\raggedright
 
 \bibitem{AU1972}
 Alfred H.~Aho and Jeffrey D.~Ullman.
