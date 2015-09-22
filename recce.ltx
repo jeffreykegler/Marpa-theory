@@ -201,7 +201,9 @@
 
 % I use parboxes in equations.  This sets a useful width for them.
 \newlength{\mathparwidth}
-\setlength{\mathparwidth}{0.7\textwidth}
+\newlength{\longtagwidth}
+\settowidth{\longtagwidth}{(9999)\qquad}
+\setlength{\mathparwidth}{\dimexpr\textwidth-\longtagwidth}
 \newcommand{\myparbox}[1]{
   \parbox{\mathparwidth}{ \begin{raggedright}
 #1 \par
@@ -2518,6 +2520,42 @@ case by case.
 \end{proof}
 
 \begin{theorem}
+\label{t:leo-silo-altitude}
+The altitude of an unmemoized quasi-confirmed
+EIM is one plus that of the
+most recent unmemoized bottom-up cause in its silo.
+\end{theorem}
+
+\begin{proof}
+Let \var{silo} be an altitude silo
+Let $\Veim{top} = \var{silo}[\var{n}]$
+be an unmemoized reduction.
+Let $\Veim{bottom} = \var{silo}[\var{m}]$
+be its most recent unmemoized bottom-up cause.
+This is, $\var{m} < \var{n}$,
+and where
+$$\text{$\forall\;\var{i}, \var{m} < \var{i} < \var{n}$,
+$\var{silo}[\var{i}]$ is memoized.}$$
+
+By the definition of altitude
+(Definition \ref{def:altitude})
+for
+unmemoized reductions,
+$\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\Vdecr{n}]} + 1$.
+For $\var{silo}[\var{i}], \var{m} < \var{i} < \var{n}$,
+$\var{silo}[\var{i}]$ is either a reduction or a null-scan,
+and is memoized,
+so that by the Definition \ref{def:altitude},
+$\Alt{\var{silo}[\var{i}]} = \Alt{\var{silo}[\Vdecr{i}]}$.
+Therefore
+$$\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\var{m}]} + 1$$
+and
+\begin{equation*}
+\Alt{\Veim{top}} = \Alt{\Veim{bottom}} + 1.\qedhere
+\end{equation*}
+\end{proof}
+
+\begin{theorem}
 \label{altitude-from-telluric-base}
 The Leo altitude of a
 confirmed EIM is that of its telluric base.
@@ -3039,7 +3077,7 @@ a memoization of the Earley set's location as an integer,
 and a per-set-list.
 Per-set-lists will be described in Section \ref{s:per-set-lists}.
 
-\begin{algorithm}[h]
+\begin{algorithm}[th]
 \caption{Marpa Top-level}
 \label{alg:top}
 \begin{algorithmic}[1]
@@ -3088,7 +3126,7 @@ full information about the current state of the parse,
 including which tokens are acceptable during the scanning phase.
 
 
-\begin{algorithm}[h]
+\begin{algorithm}[th]
 \caption{Initialization}
 \label{alg:initial}
 \begin{algorithmic}[1]
@@ -3173,7 +3211,7 @@ in line
 of Algorithm \ref{alg:initial}.
 \end{proof}
 
-\begin{algorithm}[h]
+\begin{algorithm}[th]
 \caption{Marpa Read pass}
 \label{alg:read-pass}
 \begin{algorithmic}[1]
@@ -3240,7 +3278,7 @@ the EIMs read at \Vloc{i}.
 \begin{proof}
 We first assure ourselves that Leo
 memoization has no effect on the read pass.
-The bottom-up causes,
+The bottom-up causes
 in Algorithm
 \ref{alg:read-pass}
 are terminal symbol instances.
@@ -3358,7 +3396,7 @@ EIMs read at \Vloc{i},
 as required for the theorem.
 \end{proof}
 
-\begin{algorithm}[h]
+\begin{algorithm}[th]
 \caption{Reduction pass}
 \label{alg:reduction-pass}
 \begin{algorithmic}[1]
@@ -3366,11 +3404,14 @@ as required for the theorem.
 \State Note: \Vtable{i} may include EIM's added by
 \State \hspace{2.5em} by \Call{Reduce one LHS}{} and
 \State \hspace{2.5em} the loop must traverse these
+\label{line:reduction-pass-18}
 \For{each Earley item $\Veim{up} \in \Vtable{i}$}
+\label{line:reduction-pass-20}
 \State $[\Vdr{up}, \Vloc{origin}, \Vloc{dummy}] \gets \Veim{up}$
 \State \Comment It is always the case that $\Vloc{dummy} = \Vloc{i}$
 \State \Call{Reduce one LHS}{\Vloc{i}, \Vloc{origin}, \LHS{\Vdr{lhs}}}
 \EndFor
+\label{line:reduction-pass-50}
 \State \Call{Memoize transitions}{\Vloc{i}}
 \EndProcedure
 \end{algorithmic}
@@ -3430,30 +3471,79 @@ the EIMs reduced at \Vloc{i}.
 \end{theorem}
 
 \begin{proof}
-For the purposes of this proof we define the ``generation''
-of an EIM as follows:
-If the Leo altitude of an EIM is defined,
-its generation is its Leo altitude.
-The generation of a prediction is that of its telluric base.
-The start EIM cannot occur after Earley set 0,
-so that
-so we leave its generation undefined.
-
 EIMs added as a result of
 Algorithm \ref{alg:reduction-pass},
-are added by
-Algorithm \ref{alg:reduce-one-lhs}
-at lines
-\ref{line:reduce-one-lhs-30}
-and
-\ref{line:reduce-one-lhs-50}.
+are added by Algorithm \ref{alg:earley-reduction-op}
+at line \ref{line:earley-reduction-op-20};
+or by Algorithm \ref{alg:leo-reduction-op}
+at line \ref{line:leo-reduction-op-20}.
+From Theorem
+\ref{t:effect-from-symbolic-causes}
+we know that the EIMs we attempt to add
+at line
+\ref{line:earley-reduction-op-20}
+of Algorithm \ref{alg:earley-reduction-op}
+are valid if their causes are valid.
+From Theorem
+\ref{t:leo-top-from-memo}
+we know that the EIMs we attempt to add
+at line
+\ref{line:leo-reduction-op-20}
+of Algorithm \ref{alg:leo-reduction-op}
+are valid if their causes are valid.
+Combining both cases, we know that
+every attempt to
+add an EIM by Algorithm \ref{alg:reduction-pass}
+is valid if its causes are valid.
+
+For the purposes of this proof we divide the EIMs
+added by 
+Algorithm \ref{alg:reduction-pass} into a sequence
+of sets,
+$$\var{iter}[0], \var{iter}[1], \ldots \var{iter}[\var{n}].$$
+$\var{iter}[0]$ is the set of EIMs
+at line
+\ref{line:reduction-pass-18} of Algorithm \ref{alg:reduction-pass},
+before its main loop
+from line
+\ref{line:reduction-pass-20}
+to line \ref{line:reduction-pass-50}.
+$\var{iter}[\var{i}]$ is the set of EIMs
+added by the \var{i}'th iteration of the main loop
+of Algorithm \ref{alg:reduction-pass},
+where the \var{i}'th iteration is the first.
+
+To show that 
+Algorithm \ref{alg:reduction-pass} adds only
+valid EIMs,
+we proceed by induction on the sets in \var{iter}.
+Let the induction hypothesis be that
+\begin{equation}
+\myparbox{the EIMs in \var{iter}[\var{i}] are valid.}
+\end{equation}
+
+
+We proceed by induction on the sets
+The induction hypothesis is
+that
+\begin{equation}
+\label{t:reduction-op-correct-15}
+\myparbox{
+the EIMs in generation
+\var{i} are consistent and complete,
+and therefore correct.}
+\end{equation}
+
+For the basis of the induction, we show the
+\eqref{t:reduction-op-correct-15}
+for generation 0.
 
 TODO
 
 \end{proof}
 
 
-\begin{algorithm}[h]
+\begin{algorithm}[th]
 \caption{Memoize transitions}
 \label{alg:memoize-transitions}
 \begin{algorithmic}[1]
@@ -3526,7 +3616,7 @@ is correct.
 TODO: Make sure this accounts for the correctness of Leo memos.
 \end{proof}
 
-\begin{algorithm}[h]
+\begin{algorithm}[th]
 \caption{Reduce one LHS symbol}
 \label{alg:reduce-one-lhs}
 \begin{algorithmic}[1]
@@ -3573,13 +3663,15 @@ for the loop over the EIM attempts
 is charged to each EIM attempt.
 Overhead is \Oc{} and caller-included.
 
-\begin{algorithm}[h]
+\begin{algorithm}[th]
 \caption{Earley reduction operation}
+\label{alg:earley-reduction-op}
 \begin{algorithmic}[1]
 \Procedure{Earley reduction operation}{\Vloc{i}, \Veim{from}, \Vsym{trans}}
 \State $[\Vdr{from}, \Vloc{origin}] \gets \Veim{from}$
 \State $\Vdr{to} \gets \GOTO(\Vdr{from}, \Vsym{trans})$
 \State \Call{Add EIM set}{\Vdr{to}, \Vloc{origin}, Vloc{i}}
+\label{line:earley-reduction-op-20}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
@@ -3593,13 +3685,15 @@ called as part of an EIM attempt,
 and inclusive time and space is charged to the EIM
 attempt.
 
-\begin{algorithm}[h]
+\begin{algorithm}[th]
 \caption{Leo reduction operation}
+\label{alg:leo-reduction-op}
 \begin{algorithmic}[1]
 \Procedure{Leo reduction operation}{\Vloc{i}, \Vlim{from}}
 \State $[\Vdr{from}, \Vsym{trans}, \Vloc{origin}] \gets \Vlim{from}$
 \State $\Vdr{to} \gets \GOTO(\Vdr{from}, \Vsym{trans})$
 \State \Call{Add EIM set}{\Vdr{to}, \Vloc{origin}, \Vloc{i}}
+\label{line:leo-reduction-op-20}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
