@@ -3512,14 +3512,14 @@ the ``EIMs reduced at \Vloc{i}''.
 Assume that
 \begin{equation}
 \label{eq:reduction-op-correct-5}
-\forall \Vloc{h} \quad \var{h} < \Vloc{i} \implies \text{$\Ves{h}$ is correct},
+\forall \; \Vloc{h}, \quad \var{h} < \Vloc{i} \implies \text{$\Ves{h}$ is correct},
 \end{equation}
 and that
 \begin{equation}
 \label{eq:reduction-op-correct-8}
 \myparbox{the ethereal closure of the set of EIMs read at \Vloc{i} is correct.}
 \end{equation}
-Let \Veimset{reduced} be the
+Let \Veimset{reduced} be
 the ethereal closure
 of the EIMs
 reduced at \Vloc{i}.
@@ -3536,6 +3536,8 @@ are added by Algorithm \ref{alg:earley-reduction-op}
 at line \ref{line:earley-reduction-op-20};
 or by Algorithm \ref{alg:leo-reduction-op}
 at line \ref{line:leo-reduction-op-20}.
+
+\textbf{Effect correctness}:
 From Theorem
 \ref{t:effect-from-symbolic-causes}
 we know that the telluric base EIMs we attempt to add
@@ -3570,14 +3572,16 @@ at line
 of Algorithm \ref{alg:leo-reduction-op}
 adds the ethereal closure of the telluric base EIMs
 added at those lines.
-From the above considerations, we conclude that
+From the considerations in this section of the proof
+on \textbf{effect correctness},
+we conclude that
 \begin{equation}
 \label{t:reduction-op-correct-12}
 \myparbox{
 if the causes are valid, every attempt to
 by Algorithm \ref{alg:leo-reduction-op} to
-add their effect EIM adds that EIM
-and its ethereal closure.
+add their effect EIM adds
+the ethereal closure of the effect EIM.
 }
 \end{equation}
 
