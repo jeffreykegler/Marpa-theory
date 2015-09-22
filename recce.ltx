@@ -3451,7 +3451,7 @@ Call the
 EIMs at \Vloc{i}
 whose bottom-up cause is an EIM
 at \Vloc{i}
-the ``EIMs reduced at \Vloc{i}``.
+the ``EIMs reduced at \Vloc{i}''.
 Assume that
 \begin{equation}
 \label{t:reduction-op-correct-5}
@@ -3509,9 +3509,12 @@ from line
 \ref{line:reduction-pass-20}
 to line \ref{line:reduction-pass-50}.
 $\var{iter}[\var{i}]$ is the set of EIMs
-added by the \var{i}'th iteration of the main loop
-of Algorithm \ref{alg:reduction-pass},
-where the \var{i}'th iteration is the first.
+after the \var{i}'th iteration of the main loop
+of Algorithm \ref{alg:reduction-pass}.
+Iterations are numbered starting with 1,
+so that
+$\var{iter}[1]$ is the set of EIMs
+after the first iteration of the main loop.
 
 To show that 
 Algorithm \ref{alg:reduction-pass} adds only
@@ -3522,24 +3525,19 @@ Let the induction hypothesis be that
 \label{t:reduction-op-correct-15}
 \myparbox{the EIMs in \var{iter}[\var{i}] are valid.}
 \end{equation}
-As the basis of the induction we show
-\eqref{t:reduction-op-correct-15} for $\var{i} = 0$.
+From \eqref{line:reduction-pass-20},
+which is an assumption for the theorem,
+we have
+\eqref{t:reduction-op-correct-15} for $\var{i} = 0$,
+and this is the basis of our induction.
 
-
-We proceed by induction on the sets
-The induction hypothesis is
-that
+For the step, we assume
+\eqref{t:reduction-op-correct-15}
+and we seek to show
 \begin{equation}
-\label{t:reduction-op-correct-18}
-\myparbox{
-the EIMs in generation
-\var{i} are consistent and complete,
-and therefore correct.}
+\label{t:reduction-op-correct-20}
+\myparbox{the EIMs in \var{iter}[\var{i}+1] are valid.}
 \end{equation}
-
-For the basis of the induction, we show the
-\eqref{t:reduction-op-correct-18}
-for generation 0.
 
 TODO
 
