@@ -1409,10 +1409,11 @@ and \Right{\Vinst{inst}} for the right location of \Vinst{inst}.
 
 \begin{definition}
 \label{def:causes}
-Consider an Earley item,
-call it \Veim{effect},
+We first consider an Earley item
 with a predot symbol instance.
-Without loss of generality, let the instance
+Without loss of generality,
+call it \Veim{effect},
+let the instance
 be $\Vmkl{j} \Vsym{up} \Vmkr{k}$
 and let
 \begin{equation*}
@@ -1420,11 +1421,29 @@ and let
 \end{equation*}
 Then we call
 \begin{equation*}
-\Veim{down} = [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{up} \cat \Vstr{suffix} ], \var{i}, \var{j} ]
+\Veim{down} = [ [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{up} \cat \Vstr{suffix} ], \var{i}, \var{j} ]
 \end{equation*}
 a \dfn{top-down cause} of \Veim{effect};
 we call \Vsym{up} a \dfn{bottom-up cause} of \Veim{effect};
 and we call \Veim{effect} the \dfn{effect} of \Veim{down} and \Vsym{up}.
+
+We now consider an Earley item
+with no predot symbol instance.
+Without loss of generality,
+call it \Veim{effect},
+and let
+\begin{gather*}
+\Vdr{effect} = [ \Vsym{A} \de \mydot \Vstr{rhs} ], \\
+\Veim{effect} = [ \Vdr{effect}, \var{k}, \var{k} ] \quad \text{and} \\
+\Veim{down} = [ \Vdr{down}, \var{i}, \var{k} ]
+\end{gather*}
+where \Vdr{down}
+is any top-down dotted rule cause of \Vdr{effect}.
+Then we call \Veim{down}
+a \dfn{top-down cause} of \Veim{effect};
+and we say that the \dfn{bottom-up cause} of \Veim{effect} is ethereal.
+We call \Veim{effect} the \dfn{effect} of \Veim{down}.
+
 An effect is always an Earley item.
 A top-down cause is always an Earley item.
 \end{definition}
@@ -2931,8 +2950,8 @@ and the theorem.
 \end{proof}
 
 \begin{theorem}
-\label{t:altitude-is-finite}
-If \Veim{confirmed} is a valid, confirmed EIM,
+\label{t:quasi-confirmed-altitude-is-finite}
+If \Veim{confirmed} is a valid, quasi-confirmed EIM,
 its Leo altitude is defined and finite.
 \end{theorem}
 
@@ -2947,6 +2966,25 @@ By theorem
 $$\Alt{\Veim{base}} = \Alt{\Veim{confirmed}}.$$
 Therefore the altitude of 
 \Alt{\Veim{confirmed}} is defined and finite.
+\end{proof}
+
+\begin{theorem}
+\label{t:altitude-is-finite}
+If \Veim{eim} is an EIM,
+its Leo altitude is defined and finite.
+\end{theorem}
+
+\begin{proof}
+If \Veim{eim} is quasi-confirmed,
+then this theorem follows from
+Theorem \ref{t:quasi-confirmed-altitude-is-finite}.
+If \Veim{eim} is the start EIM,
+this theorem follows from
+the definition of Leo altitude,
+\ref{def:altitude}.
+
+Also by Definition \ref{def:altitude},
+a prediction's altitude is that of its top-down cause.
 \end{proof}
 
 \begin{theorem}
