@@ -2706,7 +2706,7 @@ and the theorem.
 \end{proof}
 
 \begin{theorem}
-\label{ethereal-altitude}
+\label{t:ethereal-altitude}
 All the EIMs in an etheral closure have the same
 altitude.
 \end{theorem}
@@ -2970,7 +2970,7 @@ Therefore the altitude of
 
 \begin{theorem}
 \label{t:altitude-is-finite}
-If \Veim{eim} is an EIM,
+If \Veim{eim} is a valid EIM,
 its Leo altitude is defined and finite.
 \end{theorem}
 
@@ -2983,8 +2983,51 @@ this theorem follows from
 the definition of Leo altitude,
 \ref{def:altitude}.
 
+It remains to show the theorem for predictions.
 Also by Definition \ref{def:altitude},
 a prediction's altitude is that of its top-down cause.
+The top-down cause of a prediction may be another prediction.
+Let, without loss of generality,
+\Veim{pred} be a prediction EIM.
+By the definition of EIM validity, \Veim{pred}
+is ultimately derived from the start EIM.
+And by the definition of top-down causes, there is a top-down
+cause for every EIM except the start EIM,
+so there is a chain of top-down causes from the start EIM to 
+\Veim{pred}
+\begin{equation}
+ \var{chain}[0] \ldots \var{chain}[\var{n}]
+\end{equation}
+where $\var{chain}[0]$ is the start EIM and
+$\var{chain}[\var{n}] = \Veim{pred}$.
+In this chain, there will be at least one top-down cause which
+is not a prediction, call it $\var{chain}{\var{last-confirmed}}$.
+Every EIM in the chain $\var{chain}[\var{i}]$
+such that $\var{last-confirmed}} < \var{i} \le \var{n}$,
+is a prediction,
+so that,
+by the definition of Leo altitude for predictions,
+we know that
+$$ \Alt{\var{chain}[\Vdecr{i}]} = \Alt{\var{chain}[\var{i}]}.$$
+From this, it is easy to show by induction that
+$$ \Alt{\var{chain}[\var{last-confirmed}]} = \Alt{\var{chain}[\var{n}]} =
+= \Alt{\Veim{pred}}.
+$$
+Therefore, 
+\Alt{\Veim{pred}} is finite and defined.
+This shows the theorem for predictions.
+
+It remains to show the theorem for quasi-predictions.
+Any quasi-prediction, by the definition of ethereal closure,
+is in the ethereal closure of a prediction.
+By Theorem \ref{t:ethereal-altitude}, therefore,
+the altitude of quasi-predictions is defined and finite.
+
+We have shown the theorem for the case of a valid start EIM,
+for valid quasi-predictions,
+and for valid quasi-completions.
+Therefore we have shown it
+for all valid EIMs.
 \end{proof}
 
 \begin{theorem}
@@ -3754,7 +3797,7 @@ we know that
 the EIMs in \var{iter}[0] are valid and unmemoized.
 By Definition \ref{def:altitude},
 read EIMs have altitude 1.
-Using theorem \ref{ethereal-altitude},
+Using Theorem \ref{t:ethereal-altitude},
 we see that
 all EIMs in the ethereal closure of read EIMs
 have altitude 1.
