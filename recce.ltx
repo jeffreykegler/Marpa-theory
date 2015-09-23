@@ -3587,14 +3587,14 @@ at line \ref{line:leo-reduction-op-20}.
 
 \textbf{Effect validity}:
 From Theorem
-\ref{t:effect-from-symbolic-causes}
+\ref{t:effect-from-symbolic-causes},
 we know that the telluric base EIMs we attempt to add
 at line
 \ref{line:earley-reduction-op-20}
 of Algorithm \ref{alg:earley-reduction-op}
 are valid if their causes are valid.
 From Theorem
-\ref{t:leo-top-from-memo}
+\ref{t:leo-top-from-memo},
 we know that the telluric base EIMs we attempt to add
 at line
 \ref{line:leo-reduction-op-20}
@@ -3688,12 +3688,12 @@ from line
 \ref{line:reduction-pass-20}
 to line \ref{line:reduction-pass-50}.
 $\var{iter}[\var{i}]$ is the set of EIMs
-after the \var{i}'th iteration of the main loop
+added during the \var{i}'th iteration of the main loop
 of Algorithm \ref{alg:reduction-pass}.
 Iterations are numbered starting with 1,
 so that
 $\var{iter}[1]$ is the set of EIMs
-after the first iteration of the main loop.
+added during the first iteration of the main loop.
 
 \textbf{Consistency and altitude}:
 To show that 
@@ -3706,14 +3706,14 @@ Let the induction hypothesis be that
 \myparbox{the EIMs in \var{iter}[\var{i}] are valid, unmemoized
 and at altitude \var{i}.}
 \end{equation}
+At line
+\ref{line:reduction-pass-18} of Algorithm \ref{alg:reduction-pass},
+\Ves{i} contains only read EIMs and their
+ethereal closure.
 From \eqref{eq:reduction-op-correct-8},
 an assumption for the theorem,
 we know that
 the EIMs in \var{iter}[0] are valid and unmemoized.
-At line
-\ref{line:reduction-pass-18} of Algorithm \ref{alg:reduction-pass},
-the \Ves{\var{i}} contains only read EIMs and their
-ethereal closure.
 By Definition \ref{def:altitude},
 read EIMs have altitude 1.
 Using theorem \ref{ethereal-altitude},
@@ -3726,7 +3726,7 @@ which is the basis of our induction.
 
 For the step, we assume
 \eqref{eq:reduction-op-correct-21b}
-and we seek to show
+and we seek to show that
 \begin{equation}
 \label{eq:reduction-op-correct-21c}
 \myparbox{the EIMs in \var{iter}[\var{i}+1] are valid, unmemoized
@@ -3759,7 +3759,7 @@ the induction step,
 and \eqref{eq:reduction-op-correct-12},
 we see that all of the causes
 of EIMs in
-$\var{iter}[\var{i}+1]$ are unmemoized.
+$\var{iter}[\var{i}]$ are unmemoized.
 We need to show that all of the EIMs in
 $\var{iter}[\var{i}+1]$ are unmemoized.
 By Theorem \ref{t:memoized-causes},
@@ -3767,15 +3767,15 @@ every memoized
 effect either has a memoized cause,
 or else has a Leo memo.
 So if $\Veim{x} \in \var{iter}[\var{i}+1]$ is
-memoized, it must have a Leo memo.
-And from line
+memoized,
+\Veim{x} must have a Leo memo.
+From line
 \ref{line:reduce-one-up-cause-25}
 of Algorithm
-\ref{alg:reduce-one-up-cause},
-we see that if \Veim{x} has a Leo memo,
-And from Theorem
+\ref{alg:reduce-one-up-cause}
+and from Theorem
 \ref{t:leo-top-from-memo},
-we see that
+we see that if \Veim{x} has a Leo memo,
 line \ref{line:reduce-one-up-cause-30}
 of Algorithm
 \ref{alg:reduce-one-up-cause},
@@ -3803,34 +3803,22 @@ of Algorithm \ref{alg:leo-reduction-op}.
 For the first case,
 the EIMs added by Algorithm \ref{alg:earley-reduction-op}
 are
-\begin{equation}
-\label{eq:reduction-op-correct-27}
-\myparbox{
 the ethereal closure of
 the reduced EIMs whose bottom-up cause
 is in $\var{iter}[\var{i}]$.
-}
-\end{equation}
 By Definition \ref{def:altitude}
 and Theorem \ref{ethereal-altitude},
-these have altitude $\var{i}+1$.
-
+the EIMs of the first case have altitude $\var{i}+1$.
 For the second case,
 by Algorithm \ref{alg:leo-reduction-op}
 are
-\begin{equation}
-\label{eq:reduction-op-correct-28}
-\myparbox{
 the ethereal closure of
 the Leo reduced EIMs whose bottom-up cause
 is in $\var{iter}[\var{i}]$.
-}
-\end{equation}
 By Theorems
 \ref{t:leo-top-from-memo}
-\ref{ethereal-altitude},
-these have altitude $\var{i}+1$.
-
+and \ref{ethereal-altitude},
+the EIMs of the second case have altitude $\var{i}+1$.
 In both cases, the EIMs added all
 have altitude $\var{i}+1$,
 and therefore
@@ -3856,13 +3844,13 @@ From this we conclude that
 \begin{equation}
 \label{eq:reduction-op-correct-30}
 \forall \;
-  \var{i}, \text{$\var{iter}[\var{i}+1]$ is consistent.}
+  \var{i}, \text{$\var{iter}[\var{i}]$ is consistent.}
 \end{equation}
 and
 \begin{equation}
 \label{eq:reduction-op-correct-31}
 \forall \;
-  \var{i}, \Alt{\var{iter}[\var{i}+1]} = \var{i} + 1.
+  \var{i}, \Alt{\var{iter}[\var{i}} = \var{i}.
 \end{equation}
 
 \textbf{Completeness of the iteration sets}:
@@ -3928,7 +3916,9 @@ By Theorem
 \ref{t:memoized-effects},
 all valid unmemoized items have valid unmemoized causes except
 for non-trivial Leo top items.
-Call this \Veim{top}.
+Without loss of generality,
+let a non-trivial Leo top items be
+\Veim{top}.
 In the case of \Veim{top},
 by Theorem \ref{t:leo-memo-from-top},
 there will be an valid unmemoized bottom-up cause
@@ -3938,9 +3928,12 @@ line \ref{line:reduce-one-up-cause-30}
 of Algorithm
 \ref{alg:reduce-one-up-cause}
 will add the ethereal closure of \Veim{top}.
+Therefore all unmemoized, valid EIMs are added
+to
+$\var{iter}[\var{i}+1]$.
 
 This shows
-\eqref{eq:reduction-op-correct-40}
+\eqref{eq:reduction-op-correct-40},
 the step of the induction,
 and the induction.
 From this we conclude that
@@ -3957,8 +3950,12 @@ The theorem requires that we show
 completeness for \Ves{current} for the predicate \var{phi},
 where \var{phi} is
 \begin{equation}
-\lambda \Veim{x} . \text{\Veim{x} is a reduction.}
+\lambda \Veim{x} . \text{\Veim{x} is in
+the ethereal closure of a reduction.}
 \end{equation}
+By Theorem
+\ref{t:base-altitude-is-finite}
+we know that every
 
 TODO: Finish this
 
