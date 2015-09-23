@@ -2171,14 +2171,18 @@ can be memoized.
 To say that \Veim{x} is memoized,
 we also say \Memoized{\Veim{x}}.
 
-An set of EIMs (not necessary an Earley set)
+An set of EIMs (not necessarily an Earley set)
 is \dfn{consistent} if and only if all of its
 EIMs are valid and unmemoized.
 For example,
 the Earley set \Ves{i}
 is \dfn{consistent} if and only if
 every EIM in the Earley set at \Vloc{i}
-is valid and unmemoized.
+is valid and unmemoized:
+\begin{equation}
+\label{eq:def-complete-1}
+\Veim{eim} \in \Veimset{x} \implies \Valid{\Veim{eim}} \land \neg \Memoized{\var{eim}}
+\end{equation}
 
 Let \Veimset{x} be a set of EIMs.
 \Veimset{x} is not necessary an Earley set.
@@ -2186,13 +2190,13 @@ We say that
 \Veimset{x} is \dfn{complete} for a predicate \var{phi},
 if and only if,
 for all \Veim{eim},
-\begin{equation*}
+\begin{equation}
 \label{eq:def-complete-2}
 \begin{split}
 & \Valid{\Veim{eim}} \land \neg \Memoized{\var{eim}} \land \var{phi}(\var{eim}) \\
 & \qquad \qquad \implies \Veim{eim} \in \Veimset{x}.
 \end{split}
-\end{equation*}
+\end{equation}
 If we say that an EIM set, \Veimset{x},
 is \dfn{self-complete},
 then \var{phi} is membership in \Veimset{x}:
@@ -3021,13 +3025,16 @@ Then \Veim{eim1} is Leo-memoized if and only if
 TODO.
 \end{proof}
 
+A \dfn{non-trivial Leo top item} is
+is an unmemoized item with a memoized bottom-up
+cause.
+
 \begin{theorem}
 \label{t:memoized-effects}
-All effects of memoized causes are also
-memoized,
-with one possible exception.
-The top of a Leo stack may have a memoized
-bottom-up cause.
+If an effect is unmemoized,
+all of its causes are unmemoized,
+with one possible exception:
+a non-trivial Leo top item.
 \end{theorem}
 
 \begin{proof}
@@ -3058,13 +3065,10 @@ TODO.
 
 \begin{theorem}
 \label{t:leo-memo-from-top}
-Let \Veim{effect} be a Leo top EIM.
-whose direct non-Leo bottom-up cause
-(TODO: terminology?)
-is memoized.
-Then \Vleo{memo} and
-\Veim{up} are valid.
-TODO: Finish statement of theorem
+Let \Veim{top} be a valid non-trivial Leo top item.
+Then it will have a valid Leo memo,
+then a bottom-up cause which matches the Leo memo
+will be valid and unmemoized.
 \end{theorem}
 
 \begin{proof}
@@ -3544,7 +3548,9 @@ Also assume that
 Let \Veimset{reduced-base} be
 the set of
 unmemoized EIMs at \Vloc{current}
-whose bottom-up cause is an EIM.
+which are reductions --
+that is,
+EIMs whose bottom-up cause is an EIM.
 We will also call \Veimset{reduced-base},
 the ``EIMs reduced at \Vloc{current}''.
 Let \Veimset{reduced-closure} be
@@ -3784,6 +3790,70 @@ the top-down causes are complete by
 \eqref{eq:reduction-op-correct-21}
 and the bottom-up causes are complete by the assumption for the
 induction step.
+So we have complete sets of unmemoized, valid causes for
+both bottom-up causes and top-down causes.
+
+We now show that
+Algorithm \ref{alg:reduction-pass}
+pairs every bottom-up cause with
+all of its matching top-down cause.
+From line 
+\ref{line:reduction-pass-20}
+of Algorithm
+\ref{alg:reduction-pass}
+we see that all valid unmemoized bottom-up causes
+are used in an outer loop.
+From Theorem
+\ref{t:memoize-transitions-correct}
+and
+line
+\ref{line:reduce-one-up-cause-20}
+of Algorithm
+\ref{alg:reduce-one-up-cause},
+we see that each 
+of these unmemoized bottom-up causes
+is paired with the matching set of valid top-down causes.
+
+It remains to show that
+no unmemoized, valid EIMs are omitted
+from $\var{iter}[\var{i}+1]$
+because their causes
+are memoized.
+By Theorem
+\ref{t:memoized-effects},
+all valid unmemoized items have valid unmemoized causes except
+for non-trivial Leo top items.
+Call this \Veim{top}.
+In the case of \Veim{top},
+by Theorem \ref{t:leo-memo-from-top},
+there will be an valid unmemoized bottom-up cause
+which matches the Leo memo,
+so that
+line \ref{line:reduce-one-up-cause-30}
+of Algorithm
+\ref{alg:reduce-one-up-cause}
+will add the ethereal closure of \Veim{top}.
+
+This shows
+\eqref{eq:reduction-op-correct-40}
+the step of the induction,
+and the induction.
+From this we conclude that
+\begin{equation}
+\label{eq:reduction-op-correct-50}
+\forall \;
+  \var{i}, \text{$\var{iter}[\var{i}+1]$ is complete.}
+\end{equation}
+
+\textbf{Completeness}:
+We have shown completeness for all of the Earley sets in
+\eqref{eq:reduction-op-correct-50}.
+The theorem requires that we show
+completeness for \Ves{current} for the predicate \var{phi},
+where \var{phi} is
+\begin{equation}
+\lambda \Veim{x} . \text{\Veim{x} is a reduction.}
+\end{equation}
 
 TODO: Finish this
 
@@ -3861,6 +3931,7 @@ is correct.
 
 \begin{proof}
 TODO: Make sure this accounts for the correctness of Leo memos.
+TODO: Make sure this accounts for the completeness of all top-down causes.
 \end{proof}
 
 \begin{algorithm}[th]
@@ -3873,6 +3944,7 @@ TODO: Make sure this accounts for the correctness of Leo memos.
 \State $\Vsym{lhs} \gets \LHS{\Veim{up}}$
 \State $\Vloc{current} \gets \Current{\Veim{up}}$
 \For{each $\var{down} \in \var{transitions}(\var{orig},\var{lhs})$}
+\label{line:reduce-one-up-cause-20}
 \State \Comment \var{down} is a ``postdot item'', either a Leo memo or an EIM
 \If{\var{down} is a Leo memo}
 \label{line:reduce-one-up-cause-25}
