@@ -40,7 +40,8 @@
 \newcommand{\dfn}[1]{{\bf #1}}
 \newcommand{\sep}{\,\mid\,}
 \newcommand{\mydot}{\raisebox{.05em}{$\,\bullet\,$}}
-\newcommand{\cat}{\,.\,}
+\newcommand{\cat}{}
+\newcommand{\Cat}{\,.\,}
 \newcommand{\size}[1]{\ensuremath{\left | {#1} \right |}}
 \newcommand{\bigsize}[1]{\ensuremath{\bigl| {#1} \bigr|}}
 \newcommand{\order}[1]{\ensuremath{{\mathcal O}(#1)}}
@@ -90,15 +91,16 @@
 \newcommand{\Vrule}[1]{\ensuremath{\var{#1}_{RULE}}}
 \newcommand{\Vruleset}[1]{\ensuremath{\var{#1}_{\set{RULE}}}}
 \newcommand{\Vsize}[1]{\ensuremath{\size{\var{#1}}}}
-\newcommand{\Vstr}[1]{\ensuremath{\var{#1}_{STR}}}
+\newcommand{\Vstr}[1]{\ensuremath{\langle\langle\var{#1}\rangle\rangle}}
 \newcommand{\sym}[1]{#1_{SYM}}
-\newcommand{\Vsym}[1]{\ensuremath{\var{#1}_{SYM}}}
+\newcommand{\Vsym}[1]{\ensuremath{\langle\var{#1}\rangle}}
 \newcommand{\Vorig}[1]{\ensuremath{\var{#1}_{ORIG}}}
 \newcommand{\symset}[1]{#1_{\lbrace SYM \rbrace} }
 \newcommand{\Vsymset}[1]{\ensuremath{\var{#1}_{\set{SYM}}}}
 \newcommand{\term}[1]{#1_{TERM}}
 \newcommand{\mk}[1]{\lfloor#1\rceil}
-\newcommand{\mkdelim}{\,\,}
+% \newcommand{\mkdelim}{\,\,}
+\newcommand{\mkdelim}{}
 \newcommand{\mkr}[1]{\mkdelim \mk{#1}}
 \newcommand{\mkl}[1]{\mk{#1} \mkdelim}
 \newcommand{\mkm}[1]{\mkdelim \mk{#1} \mkdelim}
