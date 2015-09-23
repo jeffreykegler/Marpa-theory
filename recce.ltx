@@ -84,7 +84,6 @@
 \newcommand{\inst}[1]{#1_{INST}}
 \newcommand{\Vinst}[1]{\ensuremath{\var{#1}_{INST}}}
 \newcommand{\Ees}[1]{\ensuremath{#1_{ES}}}
-\newcommand{\Vlim}[1]{\ensuremath{\var{#1}_{LIM}}}
 \newcommand{\loc}[1]{\ensuremath{{#1}_{LOC}}}
 \newcommand{\Vloc}[1]{\loc{\var{#1}}}
 \newcommand{\Ves}[1]{\Ees{\var{#1}}}
@@ -1594,7 +1593,7 @@ their effect is valid.
 Without loss of generality,
 let the top-down cause be
 \begin{equation}
-\label{t:effect-from-symbolic-causes-3}
+\label{eq:effect-from-symbolic-causes-3}
 \begin{split}
 & \Veim{down} =  \\
 & \qquad \qquad [ [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j} ].
@@ -1608,7 +1607,7 @@ and let the symbolic equivalent of the bottom-up cause be
 
 To show the theorem, we must show that
 \begin{equation}
-\label{t:effect-from-symbolic-causes-9}
+\label{eq:effect-from-symbolic-causes-9}
 \begin{split}
 & \Veim{effect} =  \\
 & \qquad \qquad [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
@@ -1623,7 +1622,7 @@ we will have shown this if we can show that
 \end{equation}
 
 By assumption,
-\eqref{t:effect-from-symbolic-causes-3}
+\eqref{eq:effect-from-symbolic-causes-3}
 is valid.
 From the definition of validity for an Earley item:
 \begin{equation}
@@ -1686,76 +1685,76 @@ the cause symbol of \Vinst{up} must be \Predot{\Veim{effect}},
 Without loss of generality,
 let \Veim{effect} be
 \begin{equation}
-\label{t:symbolic-causes-from-effect-20}
+\label{eq:symbolic-causes-from-effect-20}
 \begin{split}
 & \Veim{effect} =  \\
 & \qquad \qquad [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
 \end{split}
 \end{equation}
 By assumption,
-\eqref{t:symbolic-causes-from-effect-20}
+\eqref{eq:symbolic-causes-from-effect-20}
 is valid, so that
 \begin{equation}
-\label{t:symbolic-causes-from-effect-23}
+\label{eq:symbolic-causes-from-effect-23}
 \Vsym{down} \derives \Vmkm{i} \Vstr{pre} \cat \Vstr{A} \Vmkm{k} \Vstr{post}.
 \end{equation}
 Using
-\eqref{t:symbolic-causes-from-effect-23},
+\eqref{eq:symbolic-causes-from-effect-23},
 and the definition of location markers,
 we have
 \begin{equation}
-\label{t:symbolic-causes-from-effect-29}
+\label{eq:symbolic-causes-from-effect-29}
 \Vstr{pre} \cat \Vstr{A} \destar \var{w}[\var{i}, (\var{k} \subtract 1)],
 \end{equation}
 so that there must be some \Vloc{j}, $\Vloc{i} \le \Vloc{j} \le \Vloc{k}$,
 such that
 \begin{equation}
-\label{t:symbolic-causes-from-effect-32}
+\label{eq:symbolic-causes-from-effect-32}
 \Vsym{down} \derives \Vmkl{i} \Vstr{pre} \Vmkm{j} \Vstr{A} \Vmkm{k} \Vstr{post}.
 \end{equation}
 Simplifying
-\eqref{t:symbolic-causes-from-effect-32},
+\eqref{eq:symbolic-causes-from-effect-32},
 we have
 \begin{equation}
-\label{t:symbolic-causes-from-effect-35}
+\label{eq:symbolic-causes-from-effect-35}
 \Vmkl{j} \Vstr{A} \Vmkr{k}
 \end{equation}
 A different simplification of
-\eqref{t:symbolic-causes-from-effect-32}
+\eqref{eq:symbolic-causes-from-effect-32}
 produces
 \begin{equation}
-\label{t:symbolic-causes-from-effect-38}
+\label{eq:symbolic-causes-from-effect-38}
 \Vsym{down} \derives \Vmkl{i} \Vstr{pre} \Vmkm{j} \Vstr{A} \cat \Vstr{post}.
 \end{equation}
 and
 from
-\eqref{t:symbolic-causes-from-effect-38},
+\eqref{eq:symbolic-causes-from-effect-38},
 by the definition of EIM validity,
 \begin{equation}
-\label{t:symbolic-causes-from-effect-41}
+\label{eq:symbolic-causes-from-effect-41}
 \Veim{down} = [ [ \Vsym{down} \derives \Vstr{pre} \cat \Vstr{A} \mydot \Vstr{post} ], \var{i}, \var{j} ]
 \end{equation}
 
 To show requirement \ref{item:symbolic-causes-from-effect-3},
 we say that
-\eqref{t:symbolic-causes-from-effect-35}
+\eqref{eq:symbolic-causes-from-effect-35}
 is our bottom-up
 cause.
 To show requirement \ref{item:symbolic-causes-from-effect-6},
 we say that
-\eqref{t:symbolic-causes-from-effect-41} is our top-down
+\eqref{eq:symbolic-causes-from-effect-41} is our top-down
 cause.
 To fulfill requirement \ref{item:symbolic-causes-from-effect-9},
 we note that they match,
 because \Postdot{\Veim{down}} = \Vsym{A},
 and because the left position of
-\eqref{t:symbolic-causes-from-effect-35}
+\eqref{eq:symbolic-causes-from-effect-35}
 is the right position of \Veim{down}.
 Examination of
-\eqref{t:symbolic-causes-from-effect-20},
-\eqref{t:symbolic-causes-from-effect-35},
+\eqref{eq:symbolic-causes-from-effect-20},
+\eqref{eq:symbolic-causes-from-effect-35},
 and
-\eqref{t:symbolic-causes-from-effect-41}
+\eqref{eq:symbolic-causes-from-effect-41}
 shows that requirements
 \ref{item:symbolic-causes-from-effect-12},
 \ref{item:symbolic-causes-from-effect-15},
@@ -1890,7 +1889,7 @@ Assume for a reductio that
 another symbolic bottom-up cause of \Veim{effect},
 \begin{gather}
 \Vinst{inst2} = \Vmkm{l2} \Vsym{sym2} \Vmkm{r2} \\
-\label{t:terminal-cause-unique-5}
+\label{eq:terminal-cause-unique-5}
 \text{where $\var{l1} \neq \var{l2}$ or $\Vsym{term} \neq \Vsym{sym2}$ or $\var{r1} \neq \var{r2}.$}
 \end{gather}
 
@@ -1899,7 +1898,7 @@ the bottom-up cause symbol of \Veim{effect} must be
 \Predot{\Veim{effect}},
 so that
 \begin{equation}
-\label{t:terminal-cause-unique-10}
+\label{eq:terminal-cause-unique-10}
 \Vsym{term} = \Predot{\Veim{effect}} = \Vsym{sym2}.
 \end{equation}
 
@@ -1907,7 +1906,7 @@ Also by Theorem \ref{t:symbolic-causes-from-effect},
 the right location of its bottom-up cause must be
 \Right{\Veim{effect}}, so that
 \begin{equation}
-\label{t:terminal-cause-unique-20}
+\label{eq:terminal-cause-unique-20}
 \var{r1} = \Right{\Veim{effect}} = \var{r2}.
 \end{equation}
 
@@ -1919,17 +1918,17 @@ In either case its length is fixed.
 Let $\Vsize{\Vsym{term}} = \var{len}$.
 Then
 \begin{equation}
-\label{t:terminal-cause-unique-30}
+\label{eq:terminal-cause-unique-30}
 \var{l1} = \Right{\Veim{effect}} \subtract \var{len} = \var{l2}.
 \end{equation}
 
 Gathering
-\eqref{t:terminal-cause-unique-10},
-\eqref{t:terminal-cause-unique-20}
+\eqref{eq:terminal-cause-unique-10},
+\eqref{eq:terminal-cause-unique-20}
 and
-\eqref{t:terminal-cause-unique-30},
+\eqref{eq:terminal-cause-unique-30},
 we see that
-\eqref{t:terminal-cause-unique-5} is false,
+\eqref{eq:terminal-cause-unique-5} is false,
 which is contrary to the assumption for the reductio.
 So \Vinst{inst1} must be unique.
 Our choice of \Vinst{inst1} was without loss of generality,
@@ -2188,36 +2187,60 @@ We say that
 if and only if,
 for all \Veim{eim},
 \begin{equation*}
+\label{eq:def-complete-2}
 \begin{split}
 & \Valid{\Veim{eim}} \land \neg \Memoized{\var{eim}} \land \var{phi}(\var{eim}) \\
 & \qquad \qquad \implies \Veim{eim} \in \Veimset{x}.
 \end{split}
 \end{equation*}
+If we say that an EIM set, \Veimset{x},
+is \dfn{self-complete},
+then \var{phi} is membership in \Veimset{x}:
+$$ \lambda \Veim{eim} . \var{eim} \in \Veimset{x}, $$
+so that 
+\eqref{eq:def-complete-2} simplifies to
+\begin{equation}
+\label{eq:def-complete-4}
+\begin{split}
+& \Valid{\Veim{eim}} \land \neg \Memoized{\var{eim}} \\
+& \qquad \qquad \implies \Veim{eim} \in \Veimset{x}.
+\end{split}
+\end{equation}
+
 For example,
 the EIM set \Veimset{x} is complete
 for the predicate
-$$\lambda \var{eim} . \Current{\var{eim}} = \Vloc{i}$$
+\begin{equation}
+\label{eq:def-complete-6}
+\lambda \var{eim} . \Current{\var{eim}} = \Vloc{i}
+\end{equation}
 if and only if,
 for all \Veim{eim},
-\begin{equation}
-\label{eq:def-complete-2}
+\begin{equation*}
 \begin{split}
 & \Valid{\Veim{eim}} \land \neg \Memoized{\var{eim}} \land \Current{\var{eim}} = \Vloc{i} \\
 & \qquad \qquad \implies \Veim{eim} \in \Veimset{x}.
 \end{split}
-\end{equation}
-We say that the Earley set \Ves{i} is \dfn{complete}
-if and only
-the EIM set \Ves{i} is complete
-for the predicate
-$$\lambda \var{eim} . \Current{\var{eim}} = \Vloc{i}.$$
+\end{equation*}
+If $\Veimset{x} = \Ves{i}$, then
+saying that \Ves{i} is complete for 
+\eqref{eq:def-complete-6}
+is the same as saying that
+\Ves{i} is self-complete.
 
 We say that
 \Veimset{x} is \dfn{correct} for a predicate \var{phi},
 if and only if it is consistent
-and complete for \var{phi}.
-An Earley set is \dfn{correct} if and only if it is
-consistent and complete.
+and complete for a predicate \var{phi}.
+We say that
+\Veimset{x} is \dfn{self-correct},
+if and only if it is consistent
+and self-complete.
+
+We often say that an EIM set is complete or correct,
+in a context where no predicate is specified.
+In that case,
+we mean that the EIM set is self-complete or self-correct.
 
 We call
 \begin{equation}
@@ -2784,8 +2807,8 @@ we know there is a Step \Vdecr{i}.
 Call the EIM in \eqref{eq:altitude-silo-20},
 \Veim{up}.
 By
-\eqref{t:symbolic-causes-from-effect}
-and \eqref{t:valid-eim-from-symbol},
+Theorem \ref{t:symbolic-causes-from-effect}
+and Theorem \ref{t:valid-eim-from-symbol},
 we see that \Veim{up}
 is the bottom-up cause of any EIM with
 a non-terminal predot symbol.
@@ -2808,7 +2831,7 @@ a Step $\var{i}+1$.
 Call the EIM in \eqref{eq:altitude-silo-20},
 \Veim{down}.
 By
-\eqref{t:symbolic-causes-from-effect},
+Theorem \ref{t:symbolic-causes-from-effect},
 we know that \Veim{down} must be the top-down
 cause of $\var{silo}[\var{i}+1]$.
 By
@@ -2826,11 +2849,11 @@ as its rightmost symbol.
 We have noted above, that all the EIMs in \var{silo}
 has a right location of \var{k}.
 We know from 
-\eqref{t:symbolic-causes-from-effect}
+Theorem \ref{t:symbolic-causes-from-effect}
 that the bottom-up cause must have a right location
 of \var{k} if its effect does.
 We also know from
-\eqref{t:symbolic-causes-from-effect},
+Theorem \ref{t:symbolic-causes-from-effect},
 that for a telluric terminal, this
 bottom-up cause must be
 that in
@@ -2873,7 +2896,7 @@ As the step of the induction, we assume that
 $$ \text{\Alt{\var{silo}[\var{i}]} is defined and finite} $$
 to show that
 \begin{equation}
-\label{t:base-altitude-is-finite-30}
+\label{eq:base-altitude-is-finite-30}
 \text{\Alt{\var{silo}[\var{i}+1]} is defined and finite}.
 \end{equation}
 Theorem \eqref{altitude-silo-causes} shows that
@@ -2885,7 +2908,7 @@ from Theorem
 and the assumption for the induction step,
 therefore,
 we have
-\eqref{t:base-altitude-is-finite-30}.
+\eqref{eq:base-altitude-is-finite-30}.
 This shows the step, the induction
 and the theorem.
 \end{proof}
@@ -3002,8 +3025,8 @@ TODO.
 \label{t:memoized-effects}
 All effects of memoized causes are also
 memoized,
-with one exception.
-The top of a Leo stack has a memoized
+with one possible exception.
+The top of a Leo stack may have a memoized
 bottom-up cause.
 \end{theorem}
 
@@ -3026,8 +3049,7 @@ TODO.
 \label{t:leo-top-from-memo}
 Let \Vleo{memo} be a Leo memo
 and \Veim{up} a matching EIM.
-The \Veim{effect} is valid.
-TODO: Finish statement of theorem
+Their \Veim{effect} is valid and unmemoized.
 \end{theorem}
 
 \begin{proof}
@@ -3459,14 +3481,14 @@ as required for the theorem.
 \begin{algorithmic}[1]
 \Procedure{Reduction pass}{\Vloc{i}}
 \State Note: \Vtable{i} may include EIM's added by
-\State \hspace{2.5em} by \Call{Reduce one LHS}{} and
+\State \hspace{2.5em} by \Call{Reduce one up-cause}{} and
 \State \hspace{2.5em} the loop must traverse these
 \label{line:reduction-pass-18}
-\For{each Earley item $\Veim{up} \in \Vtable{i}$}
+\For{each completed Earley item $\Veim{up} \in \Vtable{i}$}
 \label{line:reduction-pass-20}
 \State $[\Vdr{up}, \Vloc{origin}, \Vloc{dummy}] \gets \Veim{up}$
 \State \Comment It is always the case that $\Vloc{dummy} = \Vloc{i}$
-\State \Call{Reduce one LHS}{\Vloc{i}, \Vloc{origin}, \LHS{\Vdr{lhs}}}
+\State \Call{Reduce one up-cause}{\Vloc{i}, \Vloc{origin}, \LHS{\Vdr{lhs}}}
 \EndFor
 \label{line:reduction-pass-50}
 \State \Call{Memoize transitions}{\Vloc{i}}
@@ -3480,7 +3502,7 @@ as required for the theorem.
 \label{p:reduction-op-complexity}
 
 The loop over \Vtable{i} must also include
-any items added by \call{Reduce one LHS}{}.
+any items added by \call{Reduce one up-cause}{}.
 This can be done by implementing \Vtable{i} as an ordered
 set and adding new items at the end.
 
@@ -3489,14 +3511,14 @@ Exclusive time is clearly \Oc{} per
 and is charged to the \Veim{work}.
 Additionally,
 some of the time required by
-\call{Reduce one LHS}{} is caller-included,
+\call{Reduce one up-cause}{} is caller-included,
 and therefore charged to this procedure.
-Inclusive time from \call{Reduce one LHS}{}
+Inclusive time from \call{Reduce one up-cause}{}
 is \Oc{} per call,
-as will be seen in section \ref{p:reduce-one-lhs},
+as will be seen in section \ref{p:reduce-one-up-cause},
 and is charged to the \Veim{work}
 that is current
-during that call to \call{Reduce one LHS}{}.
+during that call to \call{Reduce one up-cause}{}.
 Overhead may be charged to the Earley set at \Vloc{i}.
 
 \subsubsection{Reduction pass correctness}
@@ -3504,40 +3526,46 @@ Overhead may be charged to the Earley set at \Vloc{i}.
 
 \begin{theorem}
 \label{t:reduction-op-correct}
-Call the
-unmemoized EIMs at \Vloc{i}
-whose bottom-up cause is an EIM
-at \Vloc{i}
-the ``EIMs reduced at \Vloc{i}''.
 Assume that
 \begin{equation}
 \label{eq:reduction-op-correct-5}
-\forall \; \Vloc{h}, \quad \var{h} < \Vloc{i} \implies \text{$\Ves{h}$ is correct},
+\myparbox{
+for all locations \Vloc{h},
+and all symbols in \Cg{}, \Vsym{sym},
+ if $\var{h} < \Vloc{current}$, then \Ves{h} is correct
+and $\var{transitions}(\var{h}, \Vsym{sym})$ is correct.
+}
 \end{equation}
-and that
+Also assume that
 \begin{equation}
 \label{eq:reduction-op-correct-8}
-\myparbox{the ethereal closure of the set of EIMs read at \Vloc{i} is correct.}
+\myparbox{the ethereal closure of the set of EIMs read at \Vloc{current} is correct.}
 \end{equation}
-Let \Veimset{reduced} be
-the ethereal closure
-of the EIMs
-reduced at \Vloc{i}.
-Then, after
-Algorithm \ref{alg:reduction-pass}
-the set of EIMs at \Vloc{i}
-is correct for membership in \Veimset{reduced}.
+Let \Veimset{reduced-base} be
+the set of
+unmemoized EIMs at \Vloc{current}
+whose bottom-up cause is an EIM.
+We will also call \Veimset{reduced-base},
+the ``EIMs reduced at \Vloc{current}''.
+Let \Veimset{reduced-closure} be
+the ethereal closure of \Veimset{reduced}.
+If \eqref{eq:reduction-op-correct-5}
+and \eqref{eq:reduction-op-correct-8},
+then after Algorithm \ref{alg:reduction-pass}
+runs,
+the set of EIMs at \Vloc{current}
+is correct for membership in \Veimset{reduced-closure}.
 \end{theorem}
 
 \begin{proof}
 EIMs added as a result of
-Algorithm \ref{alg:reduction-pass},
+Algorithm \ref{alg:reduction-pass}
 are added by Algorithm \ref{alg:earley-reduction-op}
 at line \ref{line:earley-reduction-op-20};
 or by Algorithm \ref{alg:leo-reduction-op}
 at line \ref{line:leo-reduction-op-20}.
 
-\textbf{Effect correctness}:
+\textbf{Effect validity}:
 From Theorem
 \ref{t:effect-from-symbolic-causes}
 we know that the telluric base EIMs we attempt to add
@@ -3572,11 +3600,11 @@ at line
 of Algorithm \ref{alg:leo-reduction-op}
 adds the ethereal closure of the telluric base EIMs
 added at those lines.
-From the considerations in this section of the proof
-on \textbf{effect correctness},
-we conclude that
+Based what we have laid in this part of the proof
+on \textbf{effect validity},
+we can state that
 \begin{equation}
-\label{t:reduction-op-correct-12}
+\label{eq:reduction-op-correct-12}
 \myparbox{
 if the causes are valid, every attempt to
 by Algorithm \ref{alg:leo-reduction-op} to
@@ -3585,6 +3613,48 @@ the ethereal closure of the effect EIM.
 }
 \end{equation}
 
+\textbf{Top-down correctness}:
+Consider an arbitrary top-down cause of
+a reduced EIM at \Vloc{current}.
+Call this EIM, \Veim{down}.
+From line \ref{line:reduction-pass-20}
+of Algorithm \ref{alg:reduction-pass},
+we see that \Veim{up},
+the bottom-up cause of a reduced EIM,
+must be a completed EIM.
+Call the length of \Veim{up}, \var{len}.
+Since all EIMs are telluric,
+\begin{equation}
+\label{eq:reduction-op-correct-10}
+\var{len} \ge 1.
+\end{equation}
+Using Theorem
+\ref{t:symbolic-causes-from-effect},
+we see that the right location of top-down cause must be
+\begin{align}
+\label{eq:reduction-op-correct-18}
+& \Right{\Veim{down}} = \var{current} \subtract \var{len} & \\
+\therefore \quad &
+\Right{\Veim{down}} = \var{current} \subtract 1 \qquad & \text{using \eqref{eq:reduction-op-correct-10}} \\
+\therefore \quad & \Right{\Veim{down}} < \var{current}, &
+\end{align}
+and from
+\ref{eq:reduction-op-correct-5},
+an assumption for the theorem,
+we see that \Veim{down} is correct.
+Since the choice of \Veim{down} as a top-down cause at
+\Vloc{current} was without loss of generality,
+we can state that
+\begin{equation}
+\label{eq:reduction-op-correct-21}
+\myparbox{
+All of the top-down causes used
+by Algorithm \ref{alg:leo-reduction-op} are
+correct.
+}
+\end{equation}
+
+\textbf{Iteration sets}:
 For the purposes of this proof we divide the EIMs
 added by 
 Algorithm \ref{alg:reduction-pass} into a sequence
@@ -3605,31 +3675,117 @@ so that
 $\var{iter}[1]$ is the set of EIMs
 after the first iteration of the main loop.
 
+\textbf{Consistency}:
 To show that 
 Algorithm \ref{alg:reduction-pass} adds only
 valid EIMs,
 we proceed by induction on the sets in \var{iter}.
 Let the induction hypothesis be that
 \begin{equation}
-\label{t:reduction-op-correct-15}
-\myparbox{the EIMs in \var{iter}[\var{i}] are valid.}
+\label{eq:reduction-op-correct-15}
+\myparbox{the EIMs in \var{iter}[\var{i}] are valid and unmemoized.}
 \end{equation}
 From \eqref{eq:reduction-op-correct-8},
-which is an assumption for the theorem,
+an assumption for the theorem,
 we have
-\eqref{t:reduction-op-correct-15} for $\var{i} = 0$,
+\eqref{eq:reduction-op-correct-15} for $\var{i} = 0$,
 and this is the basis of our induction.
 
 For the step, we assume
-\eqref{t:reduction-op-correct-15}
+\eqref{eq:reduction-op-correct-15}
 and we seek to show
 \begin{equation}
-\label{t:reduction-op-correct-20}
-\myparbox{the EIMs in \var{iter}[\var{i}+1] are valid.}
+\label{eq:reduction-op-correct-20}
+\myparbox{the EIMs in \var{iter}[\var{i}+1] are valid and unmemoized.}
 \end{equation}
-% TODO -- By Theorem \ref{t:memoized-causes},
+For the EIMs in
+$\var{iter}[\var{i}+1]$,
+the top-down causes are valid by
+\eqref{eq:reduction-op-correct-21}
+and the bottom-up causes are valid by the assumption for the
+induction step,
+so that using effect-correctness,
+\eqref{eq:reduction-op-correct-12},
+we see that
+all EIMs in
+$\var{iter}[\var{i}+1]$ are valid.
+It remains to show that they are unmemoized.
 
-TODO
+Again using
+\eqref{eq:reduction-op-correct-21},
+the induction step,
+and \eqref{eq:reduction-op-correct-12},
+we see that all of the causes
+of EIMs in
+$\var{iter}[\var{i}+1]$ are unmemoized.
+We need to show that all of the EIMs in
+$\var{iter}[\var{i}+1]$ are unmemoized.
+By Theorem \ref{t:memoized-causes},
+every memoized
+effect either has a memoized cause,
+or else has a Leo memo.
+So if $\Veim{x} \in \var{iter}[\var{i}+1]$ is
+memoized, it must have a Leo memo.
+And from line
+\ref{line:reduce-one-up-cause-25}
+of Algorithm
+\ref{alg:reduce-one-up-cause},
+we see that if \Veim{x} has a Leo memo,
+And from Theorem
+\ref{t:leo-top-from-memo},
+we see that
+line \ref{line:reduce-one-up-cause-30}
+of Algorithm
+\ref{alg:reduce-one-up-cause},
+will add a valid, ummemoized EIM.
+So every $\Veim{x} \in \var{iter}[\var{i}+1]$ is
+unmemoized.
+
+This shows that the set
+$\var{iter}[\var{i}+1]$,
+which shows
+\eqref{eq:reduction-op-correct-20},
+the step of the induction,
+and the induction.
+From this we conclude that
+\begin{equation}
+\label{eq:reduction-op-correct-30}
+\forall \;
+  \var{i}, \text{$\var{iter}[\var{i}+1]$ is consistent.}
+\end{equation}
+
+\textbf{Completeness of the iteration sets}:
+To show that 
+after
+Algorithm \ref{alg:reduction-pass} every set of
+\var{iter} is complete.
+we proceed by induction on the sets in \var{iter}.
+Let the induction hypothesis be that
+\begin{equation}
+\label{eq:reduction-op-correct-35}
+\myparbox{the EIMs in \var{iter}[\var{i}] are complete.}
+\end{equation}
+From \eqref{eq:reduction-op-correct-8},
+an assumption for the theorem,
+we have
+\eqref{eq:reduction-op-correct-15} for $\var{i} = 0$,
+and this is the basis of our induction.
+
+For the step, we assume
+\eqref{eq:reduction-op-correct-35}
+and we seek to show
+\begin{equation}
+\label{eq:reduction-op-correct-40}
+\myparbox{the EIMs in \var{iter}[\var{i}+1] are complete.}
+\end{equation}
+For the EIMs in
+$\var{iter}[\var{i}+1]$,
+the top-down causes are complete by
+\eqref{eq:reduction-op-correct-21}
+and the bottom-up causes are complete by the assumption for the
+induction step.
+
+TODO: Finish this
 
 \end{proof}
 
@@ -3708,29 +3864,33 @@ TODO: Make sure this accounts for the correctness of Leo memos.
 \end{proof}
 
 \begin{algorithm}[th]
-\caption{Reduce one LHS symbol}
-\label{alg:reduce-one-lhs}
+\caption{Reduce one up-cause}
+\label{alg:reduce-one-up-cause}
 \begin{algorithmic}[1]
-\Procedure{Reduce one LHS}{\Vloc{i}, \Vloc{origin}, \Vsym{lhs}}
+\Procedure{Reduce one up-cause}{\Veim{up}}
 \State Note: Each pass through this loop is an EIM attempt
-\For{each $\var{pim} \in \var{transitions}(\Vloc{origin},\Vsym{lhs})$}
-\State \Comment \var{pim} is a ``postdot item'', either a LIM or an EIM
-\If{\var{pim} is a LIM, \Vlim{pim}}
+\State $\Vloc{orig} \gets \Origin{\Veim{up}}$
+\State $\Vsym{lhs} \gets \LHS{\Veim{up}}$
+\State $\Vloc{current} \gets \Current{\Veim{up}}$
+\For{each $\var{down} \in \var{transitions}(\var{orig},\var{lhs})$}
+\State \Comment \var{down} is a ``postdot item'', either a Leo memo or an EIM
+\If{\var{down} is a Leo memo}
+\label{line:reduce-one-up-cause-25}
 \State Perform a \Call{Leo reduction operation}{}
-\label{line:reduce-one-lhs-30}
-\State \hspace\algorithmicindent for operands \Vloc{i}, \Vlim{pim}
+\label{line:reduce-one-up-cause-30}
+\State \hspace\algorithmicindent for operands \var{current}, \Vleo{down}
 \Else
 \State Perform a \Call{Earley reduction operation}{}
-\label{line:reduce-one-lhs-50}
-\State \hspace\algorithmicindent for operands \Vloc{i}, \Veim{pim}, \Vsym{lhs}
+\label{line:reduce-one-up-cause-50}
+\State \hspace\algorithmicindent for operands \var{current}, \Veim{down}, \var{lhs}
 \EndIf
 \EndFor
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Reduce one LHS}
-\label{p:reduce-one-lhs}
+\subsection{Reduce one up-cause}
+\label{p:reduce-one-up-cause}
 
 To show that
 \begin{equation*}
@@ -3758,10 +3918,9 @@ Overhead is \Oc{} and caller-included.
 \caption{Earley reduction operation}
 \label{alg:earley-reduction-op}
 \begin{algorithmic}[1]
-\Procedure{Earley reduction operation}{\Vloc{i}, \Veim{from}, \Vsym{trans}}
-\State $[\Vdr{from}, \Vloc{origin}] \gets \Veim{from}$
-\State $\Vdr{to} \gets \GOTO(\Vdr{from}, \Vsym{trans})$
-\State \Call{Add EIM set}{\Vdr{to}, \Vloc{origin}, Vloc{i}}
+\Procedure{Earley reduction operation}{\Vloc{current}, \Veim{down}, \Vsym{up}}
+\State $\Vdr{effect} \gets \GOTO(\DR{\Veim{down}}, \Vsym{up})$
+\State \Call{Add EIM set}{\Vdr{effect}, \Origin{\Veim{down}}, \var{current}}
 \label{line:earley-reduction-op-20}
 \EndProcedure
 \end{algorithmic}
@@ -3780,10 +3939,10 @@ attempt.
 \caption{Leo reduction operation}
 \label{alg:leo-reduction-op}
 \begin{algorithmic}[1]
-\Procedure{Leo reduction operation}{\Vloc{i}, \Vlim{from}}
-\State $[\Vdr{from}, \Vsym{trans}, \Vloc{origin}] \gets \Vlim{from}$
-\State $\Vdr{to} \gets \GOTO(\Vdr{from}, \Vsym{trans})$
-\State \Call{Add EIM set}{\Vdr{to}, \Vloc{origin}, \Vloc{i}}
+\Procedure{Leo reduction operation}{\Vloc{current}, \Vleo{down}}
+\State $[\Vdr{down}, \Vsym{up}, \Vloc{origin}] \gets \Vleo{down}$
+\State $\Vdr{effect} \gets \GOTO(\DR{\Vdr{down}}, \Vsym{up})$
+\State \Call{Add EIM set}{\Vdr{effect}, \Vloc{origin}, \var{current}}
 \label{line:leo-reduction-op-20}
 \EndProcedure
 \end{algorithmic}
@@ -4696,7 +4855,7 @@ Earley set \Vloc{j}.
 For Leo reduction,
 we note that by its definition,
 duplicate attempts at Leo reduction cannot occur.
-From the pseudo-code of Sections \ref{p:reduce-one-lhs}
+From the pseudo-code of Sections \ref{p:reduce-one-up-cause}
 and \ref{p:leo-op},
 we know there will be at most one Leo reduction for
 every Earley item in the Earley tables,
@@ -4949,7 +5108,7 @@ it now becomes
 \var{reduction-tries} = \sum\limits_{i=0}^{n}{\bigsize{\Vtable{up-origin}} \times \bigsize{\Vtable{i}}}.
 \end{equation}
 Our best bound for the size of the Earley sets involved comes from
-\eqref{t:es-count}, and is
+Theorem \ref{t:es-count}, and is
 $\Vsize{\Cw} = \var{n}$,
 so that
 \eqref{eq:ambiguous-tries-28}
@@ -4970,7 +5129,7 @@ plus any counts that needed to be revised
 when the assumption is relaxed.
 The count assuming unambiguity was
 $\order{\var{z}}$,
-and from \eqref{t:es-count} we know
+and from Theorem \ref{t:es-count} we know
 that
 \begin{equation}
 \label{eq:ambiguous-tries-36}
