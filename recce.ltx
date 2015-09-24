@@ -424,7 +424,6 @@ other complexity results.
 
 \section{Preliminaries}
 \label{s:preliminaries}
-\label{s:start-prelim}
 
 We assume familiarity with the theory of parsing,
 as well as Earley's algorithm.
@@ -924,39 +923,48 @@ Let
 
 The \dfn{start dotted rule} is
 \begin{equation}
-\label{eq:start-eim-def}
+\label{eq:start-rule-def}
 \Vdr{start} = [\Vsym{accept} \de \mydot \Vsym{start} ].
 \end{equation}
 The \dfn{accept dotted rule} is
 \begin{equation*}
-\label{eq:accept-eim-def}
+\label{eq:accept-rule-def}
 \Vdr{accept} = [\Vsym{accept} \de \Vsym{start} \mydot ].
 \end{equation*}
 
-We divide all dotted rules into four disjoint types:
-\begin{enumerate}
-\item
+We divide all dotted rules into five disjoint types:
+start, prediction, null-scan, read and reduction.
+
+\begin{baredefinition}
 \label{def:start-dr}
 If an dotted rule does not have a predot symbol and it is the start dotted rule
-its type is \dfn{start} dotted rule as defined above \eqref{eq:start-eim-def}.
-\item
+its type is \dfn{start} dotted rule as defined above \eqref{eq:start-rule-def}.
+\end{baredefinition}
+
+\begin{baredefinition}
 \label{def:prediction-dr}
 If it does not have a predot symbol and it is not the start dotted rule,
 it is a \dfn{prediction} dotted rule.
-\item
+\end{baredefinition}
+
+\begin{baredefinition}
 \label{def:null-scan-dr}
 If it does have a predot symbol and that symbol is a nulling terminal,
 it is an \dfn{null-scan} dotted rule.
-\item
+\end{baredefinition}
+
+\begin{baredefinition}
 \label{def:read-dr}
 If it does have a predot symbol and that symbol is a telluric terminal,
 it is an \dfn{read} dotted rule.
 Note that in \Marpa{} all terminals are either nulling or telluric.
-\item
+\end{baredefinition}
+
+\begin{definition}
 \label{def:reduction-dr}
 If it does have a predot symbol and that symbol is a non-terminal
 it is an \dfn{reduction} dotted rule.
-\end{enumerate}
+\end{definition}
 
 Prediction and null-scan dotted rules are called \dfn{ethereal} dotted rules.
 All other dotted rules are called \dfn{telluric} dotted rules.
@@ -1324,7 +1332,7 @@ the ethereal closure has finite time complexity.
 \State $\Vdrset{result} \gets \emptyset$
 \State $\Vdrset{work} \gets \emptyset$
 \State \Call{Ethereal next}{\Vdr{base}}
-\While{\Vdrset{work} is not empty}
+\While{$\Vdrset{work} \neq \emptyset$}
 \State Remove a dotted rule from \Vdrset{work}, call it \Vdr{work}
 \State \Call{Ethereal next}{\Vdr{work}, \Vdrset{result}}
 \EndWhile
@@ -1524,7 +1532,7 @@ The \dfn{origin} is the location where recognition of the rule
 started.
 (It is sometimes called the ``parent''.)
 The \dfn{current} or \dfn{dot location} is the location
-in \Cw{} of the dot position in \Vdr{dotted-rule}
+in the input, \Cw{}, of the dot position in \Vdr{dotted-rule}.
 For convenience, the type \type{ORIG} will be a synonym
 for \type{LOC}, indicating that the variable designates
 the origin element of an Earley item.  Where
@@ -1546,21 +1554,30 @@ either explicitly or implicitly.
 This paper will use Earley items
 in both the duple and triple forms.
 
-An EIM has the same type as its dotted rule.
 Whenever a dotted rule notion is applied to an EIM,
 it refers to the dotted rule of the EIM.
 For example,
 a completion EIM is an EIM with a completion
 dotted rule,
 and a predicted EIM is an EIM with a predicted dotted rule.
-The lasting completion EIM of a quasi-complete EIM
-If \Veim{quasi},
-$\Veim{quasi} = [ \Vdr{quasi}, \var{i}, \var{j} ],$
+If
+$$\Veim{quasi} = [ \Vdr{quasi}, \var{i}, \var{j} ]$$
 is a quasi-complete EIM,
 then its lasting completion EIM is
-$[ \Vdr{complete}, \var{i}, \var{j} ]$,
+$$[ \Vdr{complete}, \var{i}, \var{j} ],$$
 where \Vdr{complete} is the completion dotted
 rule of \Vdr{quasi}.
+
+The \dfn{start EIM} is
+\begin{equation}
+\label{eq:start-eim-def}
+\Veim{start} = [ [\Vsym{accept} \de \mydot \Vsym{start} ], 0, 0 ].
+\end{equation}
+The \dfn{accept EIM} is
+\begin{equation}
+\label{eq:accept-eim-def}
+\Vdr{accept} = [ [\Vsym{accept} \de \Vsym{start} \mydot ], 0, \Vsize{\Cw} ].
+\end{equation}
 
 \begin{theorem}
 \label{eim-types-correct}
@@ -1572,16 +1589,16 @@ start, prediction, read, null-scan and reduction.
 \begin{proof}
 Recall that EIMs take their type from their dotted rule.
 The proof then follows directly from definitions
-\eqref{def:start-dr},
-\eqref{def:prediction-dr},
-\eqref{def:null-scan-dr},
-\eqref{def:read-dr}
-and \eqref{def:reduction-dr}
+\ref{def:start-dr},
+\ref{def:prediction-dr},
+\ref{def:null-scan-dr},
+\ref{def:read-dr}
+and \ref{def:reduction-dr}
 above.
 \end{proof}
 
 Following the convention for dotted rules,
-EIMs are telluric is they are the start EIM,
+EIMs are telluric if they are the start EIM,
 a read EIM or a reduction EIM.
 An EIM is ethereal if it is not telluric.
 The idea is that telluric dotted rules are ``grounded'' either
