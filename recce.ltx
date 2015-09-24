@@ -492,8 +492,6 @@ where \Cg{} is the 4-tuple
 \Vsymset{nt} is a set of symbols called non-terminals,
 and \Vsymset{term} is a set of symbols called terminals.
 Here $\Vsym{accept} \in \var{nt}$.
-Call the language of \var{g}, $\myL{\Cg}$,
-where $\myL{\Cg} \subseteq \var{term}^\ast$.
 The vocabulary of the the grammar is the union of
 the sets of terminals and non-terminals:
 $$ \Vsymset{vocab} = \Vsymset{nt} \cup \Vsymset{term}. $$
@@ -534,6 +532,15 @@ $\Vstr{x} \destar \Vstr{y}$ &
 states that \Vstr{x} derives \Vstr{y} in zero or more steps.
 \end{tabular}
 \end{center}
+
+
+The language of \var{g} is $\myL{\Cg}$, where
+\begin{equation}
+\label{eq:def-L-g}
+\myL{\Cg} \defined \left\lbrace
+\Vstr{z} \mid \Vstr{z} \in \var{term}^\ast \land \Vsym{accept} \destar \Vstr{z}
+\right\rbrace
+\end{equation}
 
 We say that symbol \Vsym{x} is \dfn{nullable} if and only if
 $\Vsym{x} \destar \epsilon$.
@@ -608,7 +615,7 @@ We assume that every symbol is accessible --
 that is, that it is derivable from the start symbol.
 
 Let the input to
-the parse be \Cw{} such that $\Cw \in \var{term}^+$.
+the parse be \Cw{} such that $\Cw \in \myL{\Cg}$.
 Locations in the input will be of type \type{LOC}.
 Let \Vsize{w} be the length of the input, counted in symbols.
 When we state our complexity results later,
@@ -1622,6 +1629,65 @@ if and only if
 If \Veim{x} is valid, we also say \Valid{\Veim{x}}.
 \end{definition}
 
+\begin{theorem}\label{t:start-eim-is-valid}
+The start Earley item is valid.
+\end{theorem}
+
+\begin{proof}
+By the definition of EIM validity,
+to show that the start EIM
+\eqref{eq:start-eim-def}
+is valid,
+we need to show
+that
+\begin{equation}
+\label{eq:start-eim-is-valid-15}
+\Vsym{accept} \derives \mk{0}\; \Vsym{start} \\
+\end{equation}
+By the definition of \Vsym{accept},
+it is on the LHS of only one rule,
+\eqref{eq:accept-rule-def}.
+All symbols in \Cg{} are productive,
+so that
+\begin{equation}
+\label{eq:start-eim-is-valid-15}
+\Vsym{accept} \derives \Vsym{start} \destar \Vstr{sent}
+\end{equation}
+where \Vstr{sent} is a sentence.
+Since \Vstr{sent} is a sentence,
+using \eqref{eq:def-L-g},
+we have that
+\begin{equation}
+\label{eq:start-eim-is-valid-18}
+\Vstr{sent} \in \myL{\Cg}.
+\end{equation}
+Our convention is that \Cw{}
+is the input, or sentence, of interest in
+context, so here we assume that,
+without loss of generalization,
+\begin{equation}
+\label{eq:start-eim-is-valid-18}
+\Vstr{sent} = \Cw = \Cw[0, \Vdecr{\Vsize{\Cw}}].
+\end{equation}
+From
+\eqref{eq:start-eim-is-valid-15}
+and
+\eqref{eq:start-eim-is-valid-18},
+we have
+\begin{align}
+& \Vsym{accept} \derives \Vstr{start} \destar \Cw[0, \Vdecr{\Vsize{\Cw}}] \notag\\
+\therefore \quad & \Vsym{accept} \derives \Vstr{start} \destar \mk{0} \; \Cw[0, \Vdecr{\Vsize{\Cw}}] \notag\\
+\therefore \quad & \Vsym{accept} \derives \mk{0} \Vstr{start} \destar \mk{0} \; \Cw[0, \Vdecr{\Vsize{\Cw}}] \notag\\
+\label{eq:start-eim-is-valid-25}
+\therefore \quad & \Vsym{accept} \derives \mk{0} \Vstr{start}
+\end{align}
+Where 
+\eqref{eq:start-eim-is-valid-25}
+is
+\eqref{eq:start-eim-is-valid-15},
+which is what we needed to show for the theorem.
+\end{proof}
+
 \subsection{Parse instances}
 
 A \dfn{parse instance} is either a symbol instance or an EIM.
@@ -2211,41 +2277,6 @@ which is contrary to the assumption for the reductio.
 So \Vinst{inst1} must be unique.
 Our choice of \Vinst{inst1} was without loss of generality,
 so this shows the theorem.
-\end{proof}
-
-\begin{theorem}\label{t:start-eim-is-valid}
-The start Earley item is valid.
-\end{theorem}
-
-\begin{proof}
-Let
-\begin{equation}
-\label{eq:start-eim-is-valid-5}
-\Vsym{accept} \de \Vsym{start}
-\end{equation}
-be the accept rule,
-and let
-\begin{equation}
-\label{eq:start-eim-is-valid-10}
-[ [\Vsym{accept} \de \mydot \Vsym{start} ], 0, 0]
-\end{equation}
-be the start EIM.
-
-By the definition of EIM validity,
-to show that
-\eqref{eq:start-eim-is-valid-10}
-is valid,
-we need to show
-that
-\begin{multline}
-\label{eq:start-eim-is-valid-15}
-\Vsym{accept} \derives [0]\, \Vstr{predot} \,[0]\, \Vstr{postdot}\\
-\text{where} \qquad \Vstr{predot} \cat \Vstr{postdot} = \Vsym{start}.
-\end{multline}
-If w set $\Vstr{predot} = \epsilon$
-and $\Vstr{postdot} = \Vstr{start}$,
-\eqref{eq:start-eim-is-valid-15}
-follows directly from the definition of EIM validity.
 \end{proof}
 
 \begin{theorem}\label{t:multi-cause-eq-ambiguous-g}
