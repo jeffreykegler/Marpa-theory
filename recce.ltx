@@ -1708,47 +1708,44 @@ We referred to top-down and bottom-up causes earlier,
 when introducing dotted rules.
 We now revisit these concepts in the context of Earley items.
 
-When we speak of an Earley item,
-we say that its \dfn{left location} is its origin,
-and its \dfn{right location} is its dot, or current, location.
-When we speak of a telluric terminal symbol instance in a parse,
-call it \CVw{i},
-we say that its \dfn{left location} is \var{i}
-and its \dfn{right location} is $\var{i}+1$.
-When we speak of a nulling terminal symbol instance in a parse,
-again call it \CVw{i},
-we say that its \dfn{left location} is \var{i}
-and its \dfn{right location} is \var{i}.
-When we speak of a non-terminal symbol instance in a parse,
-we say that its \dfn{left location} is the left location
-of the leftmost terminal which it derives,
-and that its \dfn{right location} is the right location
-of the rightmost terminal which it derives.
-
 \begin{sloppypar}
 We write \Left{\Vinst{inst}} for the left location of \Vinst{inst}
 and \Right{\Vinst{inst}} for the right location of \Vinst{inst}.
-\par\end{sloppypar}
+If \var{inst} is an Earley item,
+call it \Veim{inst}, then
+\begin{gather*}
+\Left{\Veim{inst}} = \Origin{\Veim{inst}} \\
+\text{and} \quad \Right{\Veim{inst}} = \Current{\Veim{inst}}.
+\end{gather*}
+If \var{inst} is a symbol instance,
+call it,
+without loss of generality,
+\begin{gather*}
+\Vinst{inst} = \Vmk{i} \Vsym{A} \Vmk{j}, \\
+\text{then} \quad \Left{\Veim{inst}} = \Vloc{i} \\
+\text{and} \quad \Right{\Veim{inst}} = \Vloc{j}.
+\end{gather*}
+
+\end{sloppypar}
 
 \begin{definition}
 \label{def:causes}
 We first consider an Earley item
 with a predot symbol instance.
 Without loss of generality,
-call it \Veim{effect},
-let the instance
-be $\Vmkl{j} \Vsym{up} \Vmkr{k}$
-and let
+let the Earley item be
 \begin{equation*}
 \Veim{effect} = [ [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{up} \mydot \Vstr{suffix} ], \var{i}, \var{k} ].
 \end{equation*}
-Then we call
+and let the instance be
+$$\Vmkl{j} \Vsym{up} \Vmkr{k}.$$
+Then we say that
 \begin{equation*}
 \Veim{down} = [ [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{up} \cat \Vstr{suffix} ], \var{i}, \var{j} ]
 \end{equation*}
-a \dfn{top-down cause} of \Veim{effect};
-we call \Vsym{up} a \dfn{bottom-up cause} of \Veim{effect};
-and we call \Veim{effect} the \dfn{effect} of \Veim{down} and \Vsym{up}.
+is a \dfn{top-down cause} of \Veim{effect};
+we say that \Vsym{up} is a \dfn{bottom-up cause} of \Veim{effect};
+and we say that \Veim{effect} is the \dfn{effect} of \Veim{down} and \Vsym{up}.
 
 We now consider an Earley item
 with no predot symbol instance.
@@ -1767,9 +1764,10 @@ a \dfn{top-down cause} of \Veim{effect};
 and we say that the \dfn{bottom-up cause} of \Veim{effect} is ethereal.
 We call \Veim{effect} the \dfn{effect} of \Veim{down}.
 
+\end{definition}
+
 An effect is always an Earley item.
 A top-down cause is always an Earley item.
-\end{definition}
 
 A bottom-up cause may be ethereal or telluric.
 If a bottom-up cause is ethereal, it may be because the effect has no
@@ -1791,7 +1789,7 @@ An ethereal cause is always valid.
 If \Vsym{T} is a telluric terminal symbol,
 \begin{equation*}
 \Valid{[\var{i}]\, \Vsym{T} \,[\var{j}]} \quad \defined \quad
-\Vsym{A} = \CVw{i} \land \var{j} = \var{i} + 1.
+\Vsym{A} = \CVw{i} \; \land \; \var{j} = \var{i} + 1.
 \end{equation*}
 If \Vsym{N} is a non-terminal symbol,
 \begin{equation*}
