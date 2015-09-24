@@ -719,7 +719,7 @@ when parsing \Cg{}.
 We have already noted
 that no rules of \Cg{}
 have a zero-length RHS,
-and that all symbols must be either nulling or non-nullable.
+and that all symbols must be either nulling or telluric.
 These restrictions follow Aycock and Horspool\cite{AH2002}.
 The elimination of empty rules and proper nullables
 is done by rewriting the grammar.
@@ -763,7 +763,7 @@ up so that no rule has more than two proper nullables.
 This is similar to a rewrite into Chomsky form.
 
 The proper nullable symbol is then cloned into two others:
-one nulling and the non-nullable, or ``telluric'' as we shall call it.
+one nulling and one telluric.
 All occurrences of the original proper nullable symbol are then replaced
 with one of the two new symbols,
 and new rules are created as necessary to ensure that all possible combinations
@@ -949,9 +949,9 @@ If it does have a predot symbol and that symbol is a nulling terminal,
 it is an \dfn{null-scan} dotted rule.
 \item
 \label{def:read-dr}
-If it does have a predot symbol and that symbol is a non-nullable terminal,
+If it does have a predot symbol and that symbol is a telluric terminal,
 it is an \dfn{read} dotted rule.
-Note that in \Marpa{} all terminals are either nulling or non-nullable.
+Note that in \Marpa{} all terminals are either nulling or telluric.
 \item
 \label{def:reduction-dr}
 If it does have a predot symbol and that symbol is a non-terminal
@@ -1047,7 +1047,7 @@ so that without loss of generality it is
 [\Vsym{A} \de \Vstr{alpha} \mydot \Vstr{nulls} \cat \Vsym{B} \cat \Vstr{after} ]
 \end{equation}
 where $\Vstr{nulls} \destar \epsilon$,
-and $\Vsym{B}$ is a non-nullable symbol,
+and $\Vsym{B}$ is a telluric symbol,
 then its \dfn{lasting equivalent} is
 \begin{equation}
 [\Vsym{A} \de \Vstr{alpha} \cat \Vstr{nulls} \mydot \Vsym{B} \cat \Vstr{after} ].
@@ -1266,7 +1266,7 @@ its telluric base is unique.
 \end{theorem}
 
 \begin{proof}
-Let the dotted rule be \Vdr{df}.
+Let the dotted rule be \Vdr{dr}.
 This theorem follows
 directly
 from Theorem \ref{eth-eq-share-telluric-base},
@@ -1287,6 +1287,7 @@ the ethereal closure has finite time complexity.
 \State return
 \EndIf
 \State Here \Vdr{base} is $[ \Vsym{lhs} \de \Vstr{before} \mydot \Vsym{A} \cat \Vstr{after} ]$
+\label{line:ethereal-generation-20}
 \State \Comment We can state this without loss of generality
 \If{$\Vsym{A}$ is a nulling symbol}
 \State $\Vdr{new} \gets [ \Vsym{lhs} \de \Vstr{before} \cat \Vsym{A} \mydot \Vstr{after} ]$
@@ -1296,7 +1297,8 @@ the ethereal closure has finite time complexity.
 \State $\qquad$ but only if it has never been added before
 \State return
 \EndIf
-\State Here \Vsym{A} must be a non-nullable symbol
+\label{line:ethereal-generation-40}
+\State Here \Vsym{A} must be a telluric symbol
 \For{ each \Vrule{r} in \Cg{}}
 \If{ $\LHS{\Vrule{r}} = \Vsym{A}$ }
 \State Here \Vrule{r} is $[ \Vsym{A} \de \Vstr{rhs} ]$
@@ -1381,12 +1383,17 @@ Algorithm \ref{alg:ethereral-closure} is correct.
 \end{theorem}
 
 \begin{proof}
-It is directly clear from examining
-Algorithm \ref{alg:ethereral-closure}
-that the null transitions
+From examining
+Algorithm \ref{alg:ethereral-closure},
+in particular 
+lines
+\ref{line:ethereal-generation-20}-\ref{line:ethereal-generation-40}
+of
+Algorithm \ref{alg:ethereal-generation},
+we see that the null transitions
 for nulling postdot symbols are complete and consistent,
 and therefore correct.
-It remains to consider the null transitions for non-nullable
+It remains to consider the null transitions for telluric
 postdot symbols -- predictions.
 
 Algorithm \ref{alg:ethereral-closure}
@@ -1555,7 +1562,7 @@ We now revisit these concepts in the context of Earley items.
 When we speak of an Earley item,
 we say that its \dfn{left location} is its origin,
 and its \dfn{right location} is its dot, or current, location.
-When we speak of a non-nullable terminal symbol instance in a parse,
+When we speak of a telluric terminal symbol instance in a parse,
 call it \CVw{i},
 we say that its \dfn{left location} is \var{i}
 and its \dfn{right location} is $\var{i}+1$.
@@ -1622,7 +1629,7 @@ or because the bottom-up cause is a nulling terminal symbol instance.
 If a bottom-up cause is telluric, it may be because it is
 an Earley item,
 because it is a non-terminal symbol instance,
-or because it is a non-nullable terminal symbol instance.
+or because it is a telluric terminal symbol instance.
 Recall that rules in \Marpa{} cannot be
 nulling,
 and therefore Earley items
@@ -3638,14 +3645,14 @@ in Algorithm
 \ref{alg:read-pass}
 must be quasi-incomplete because it is the result
 of the \var{transitions} function,
-which only memoizes EIMs with a non-nullable postdot
+which only memoizes EIMs with a telluric postdot
 symbol --
 see line
 \ref{line:memoize-transitions-20}
 in Algorithm
 \ref{alg:memoize-transitions}.
 A quasi-complete EIM cannot have a
-non-nullable postdot symbol,
+telluric postdot symbol,
 so therefore
 \Veim{down} at line
 \ref{line:read-pass-20}
@@ -4312,7 +4319,7 @@ is correct for \Veimset{reduced-closure}.
 \label{alg:memoize-transitions}
 \begin{algorithmic}[1]
 \Procedure{Memoize transitions}{\Vloc{i}}
-\For{every \Vsym{postdot}, a non-nullable postdot symbol of $\Ves{i}$}
+\For{every \Vsym{postdot}, a telluric postdot symbol of $\Ves{i}$}
 \label{line:memoize-transitions-20}
 \State Note: \Vsym{postdot} is ``Leo eligible" if it is
 \State \hspace\algorithmicindent  Leo unique and its rule is right recursive
@@ -5432,7 +5439,7 @@ a derivation step.
 (Since for the purposes of these
 complexity results we ignore nulling symbols,
 the rightmost symbol of a string will also be its rightmost
-non-nullable symbol.)
+telluric symbol.)
 So part of the rightmost derivation must take the form
 \begin{equation*}
 \Vstr{earlier-prefix} \cat \Vsym{A} \deplus \Vstr{later-prefix} \cat \Vsym{A}.
