@@ -537,6 +537,9 @@ states that \Vstr{x} derives \Vstr{y} in zero or more steps.
 
 We say that symbol \Vsym{x} is \dfn{nullable} if and only if
 $\Vsym{x} \destar \epsilon$.
+We say that symbol \Vsym{x} is \dfn{nulling} if and only if
+$$\forall \Vstr{y} \mid \Vsym{x} \destar \Vstr{y}
+  \implies \Vstr{y} = \epsilon $$.
 This implies that $\Vstr{y} \derives \epsilon$ if and only
 if all of the symbols in \Vstr{y} are nullable.
 As a special case,
@@ -548,7 +551,18 @@ all nullable symbols in grammar \Cg{} are nulling -- every symbol
 which can derive the null string always derives the null string.
 This restriction applies only to Marpa's internal grammar.
 As explained in Section \ref{s:rewrite},
-it is invisible to Marpa's users.
+this is invisible to Marpa's users.
+
+If a symbol is not nullable, we say that is
+\dfn{non-nullable}.
+In this paper, non-nullable is usually an antonym
+of nulling, which is not the case in traditional
+parsing theory.
+To prevent this confusion,
+and as a better fit to terminology yet to be
+introduced,
+we more often say that a non-nullable symbol
+is \dfn{telluric}.
 
 Consider the derivation
 \begin{equation}
@@ -867,30 +881,38 @@ Let
 %
 \Postdot{\Vdr{x}} & \defined
 \begin{cases}
-\Vsym{B}, \quad \text{if $\var{x} = [\var{A} \de \var{pre} \mydot \var{B} \cat \var{post}]$} \\
-\Lambda, \quad \text{if $\var{x} = [\var{A} \de \var{pre} \cat \var{B} \cat \var{post} \mydot]$}
+\begin{aligned}
+& \Vsym{B}, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{pre} \mydot \Vsym{B} \cat \Vstr{post}]$} \\
+& \Lambda, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{rhs} \mydot]$}
+\end{aligned}
 \end{cases} \\
 %
 \Predot{\Vdr{x}} & \defined
 \begin{cases}
-\Vsym{B}, \quad \text{if $\var{x} = [\var{A} \de \var{pre} \cat \var{B} \mydot \var{post}]$} \\
-\Lambda, \quad \text{if $\var{x} = [\var{A} \de \var{pre} \cat \var{B} \cat \var{post} \mydot]$}
+\begin{aligned}
+& \Vsym{B}, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{pre} \cat \Vsym{B} \mydot \Vstr{post}]$} \\
+& \Lambda, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \mydot \Vstr{rhs} ]$}
+\end{aligned}
 \end{cases} \\
 %
 \Next{\Vdr{x}} & \defined
 \begin{cases}
-[\var{A} \de \var{pre} \cat \Vsym{B} \mydot \var{post}],  \\
-\qquad \text{if $\Vdr{X} =
-[\var{A} \de \var{pre} \mydot \var{B} \cat \var{post}]$} \\
-\Lambda, \quad \text{if $\Postdot{\Vdr{x}} = \Lambda$}
+[\Vsym{A} \de \Vstr{pre} \cat \Vsym{B} \mydot \Vstr{post}],  \\
+\begin{aligned}
+& \qquad && \text{if $\Vdr{X} =
+[\Vsym{A} \de \Vstr{pre} \mydot \Vsym{B} \cat \Vstr{post}]$} \\
+& \Lambda, && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{rhs} \mydot]$}
+\end{aligned}
 \end{cases} \\
 %
 \Prev{\Vdr{x}} & \defined
 \begin{cases}
-[\var{A} \de \var{pre} \mydot \Vsym{B} \cat \var{post}],  \\
-\qquad \text{if $\Vdr{X} =
-[\var{A} \de \var{pre} \cat \var{B} \mydot \var{post}]$} \\
-\Lambda, \quad \text{if $\Predot{\Vdr{x}} = \Lambda$}
+[\Vsym{A} \de \Vstr{pre} \mydot \Vsym{B} \cat \Vstr{post}],  \\
+\begin{aligned}
+& \qquad && \text{if $\Vdr{X} =
+[\Vsym{A} \de \Vstr{pre} \cat \Vsym{B} \mydot \Vstr{post}]$} \\
+& \Lambda, && \text{if $\Vdr{x} = [\Vsym{A} \de \mydot \Vstr{rhs} ]$}
+\end{aligned}
 \end{cases} \\
 %
 \end{align*}
@@ -919,7 +941,7 @@ it is a \dfn{prediction} dotted rule.
 \item
 \label{def:null-scan-dr}
 If it does have a predot symbol and that symbol is a nulling terminal,
-it is an \dfn{null-scanned} dotted rule.
+it is an \dfn{null-scan} dotted rule.
 \item
 \label{def:read-dr}
 If it does have a predot symbol and that symbol is a non-nullable terminal,
