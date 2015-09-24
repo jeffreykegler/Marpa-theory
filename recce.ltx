@@ -91,8 +91,9 @@
 \newcommand{\Vrule}[1]{\ensuremath{\var{#1}_{RULE}}}
 \newcommand{\Vruleset}[1]{\ensuremath{\var{#1}_{\set{RULE}}}}
 \newcommand{\Vsize}[1]{\ensuremath{\size{\var{#1}}}}
+\newcommand{\str}[1]{\ensuremath{#1_{STR}}}
 \newcommand{\Vstr}[1]{\ensuremath{\langle\langle\var{#1}\rangle\rangle}}
-\newcommand{\sym}[1]{#1_{SYM}}
+\newcommand{\sym}[1]{\ensuremath{#1_{SYM}}}
 \newcommand{\Vsym}[1]{\ensuremath{\langle\var{#1}\rangle}}
 \newcommand{\Vorig}[1]{\ensuremath{\var{#1}_{ORIG}}}
 \newcommand{\symset}[1]{#1_{\lbrace SYM \rbrace} }
@@ -248,9 +249,9 @@ allows the user to alternate
 between Earley-style syntax-driven parsing,
 and procedural parsing of the type available
 with recursive descent.
-Marpa is left-eidetic, so that,
-unlike in recursive descent,
-the procedural logic has available
+Marpa is left-eidetic so that,
+unlike recursive descent,
+Marpa's procedural logic has available
 full information about
 the state of the parse so far.
 The Marpa recognizer described
@@ -293,56 +294,85 @@ will change dramatically.
 
 \section{Introduction}
 
-Despite the promise of general context-free parsing,
-and the strong academic literature behind it,
-it has never been incorporated into a highly available tool
-like those that exist for LALR\cite{Johnson} or
+The first stable version of Marpa was uploaded to
+a public archive on Solstice Day 2011.
+Prior to this,
+general context-free parsing
+had never incorporated in a practical, highly available tool
+like those that had long existed
+for LALR\cite{Johnson} and
 regular expressions.
+This was in spite of the strong academic literature behind
+general context-free parsers.
+
 The Marpa project was intended
 to take the best results from the literature
 on Earley parsing off the pages
 of the journals and bring them
 to a wider audience.
 This paper describes the algorithm used
-in the most recent version of Marpa::R2\cite{Marpa-R2}.
-It is a simplification of the one presented in an earlier paper\cite{Marpa-2013}.
+in the most recent version of Marpa,
+Marpa::R2\cite{Marpa-R2}.
+It is a simplification of the one presented
+in our earlier paper\cite{Marpa-2013}.
 
 As implemented,
-Marpa parses,
-without exception,
-all context-free grammars.
+Marpa parses
+all context-free grammars
+which are free of cycles,
+unproductive symbols,
+and 
+inaccessible symbols.
 Time bounds are the best of Leo\cite{Leo1991}
 and Earley\cite{Earley1970}.
 The Leo bound,
 \On{} for LR-regular grammars,
 is especially relevant to
-Marpa's goal of being a practical parser:
-If a grammar is in a class of grammar currently in practical use,
+Marpa's goal of being a practical parser.
+It includes all of the deterministic context-free grammars:
+If a grammar is in a class currently in practical use,
 Marpa parses it in linear time.
 
-Error-detection properties,
-extremely important,
+Error-detection properties
 have been overlooked in the past.
-Marpa breaks new ground in this respect.
+They are, in fact, extremely important.
+In many parsing applications,
+such as compilers,
+the quality of the error messages is nearly
+as important as the quality of the output
+on success.
 Marpa has the immediate error detection property,
-but goes well beyond that:
-it is fully aware of the state of the parse,
-and can report this to the user while tokens are
-being scanned.
+but it goes well beyond that:
+Marpa is left-eidetic.
 
-Marpa allows the lexer to check its list
-of acceptable tokens before a token is scanned.
-Because rejection of tokens is easily and
-efficiently recoverable,
-the lexer is also free to take an event-driven
-approach.
-Error detection is no longer
-an act of desperation,
-but a parsing technique in its own right.
+As a parser in the Earley lineage,
+Marpa has available in its tables,
+full information 
+about partial and full rule instances recognized.
+Marpa's parse engine is arranged to make this
+information available at every parse location,
+before any symbols are scanned.
+
+As one example,
+left-eideticsim allows the lexer to check its list
+of acceptable tokens before any token is scanned.
+Marpa's most popular implementation uses this information
+to implement a event-driven approach.
+This is possible because
+rejection of tokens is easily and
+efficiently recoverable in Marpa.
+
+In traditional parser practice,
+error detection is an act of desperation:
+a technique not to be used unless necessary.
+With left-eideticism and trouble-free recovery
+from token rejection,
+error detection becomes
+a parsing technique in its own right.
 If a token is rejected,
 the lexer is free to create a new token
 in the light of the parser's expectations.
-This approach can be described
+This approach can be seen
 as making the parser's
 ``wishes'' come true,
 and we have called this
@@ -361,7 +391,7 @@ Such an HTML grammar is too simple even to describe perfectly
 standard-conformant HTML,
 but the lexical analyzer is
 programmed to supply start and end tags as requested by the parser.
-The result is a very simply and cleanly designed parser
+The result is a simple and cleanly designed parser
 that parses very liberal HTML
 and accepts all input files,
 in the worst case
@@ -375,6 +405,9 @@ grammar rewrites.
 The next sections develop the ideas for Earley's algorithm.
 Section \ref{s:dotted} describes dotted rules.
 Section \ref{s:earley-items} describes Earley items.
+Section \ref{s:earley-implementation} describes Earley sets
+and
+develops the rest of the basic ideas behind Earley implementations.
 
 Section \ref{s:leo} describes Leo's modification
 to Earley's algorithm.
@@ -401,23 +434,37 @@ use subscripts to indicate commonly occurring types.
 $\var{X}_T$ & The variable \var{X} of type $T$ \\
 $\var{set-one}_\set{T}$ & The variable \var{set-one} of type set of $T$ \\
 $SYM$ & The type for a symbol \\
-\Vsym{a} & The variable \var{a} of type $SYM$ \\
-\Vsymset{set-two} & The variable \var{set-two}, a set of symbols \\
+$STR$ & The type for a string \\
+$EIM$ & The type for an Earley item \\
+\sym{\var{a}} & A variable \var{a} of type $SYM$ \\
+\str{\var{a}} & A variable \var{a} of type $STR$ \\
+\Veim{\var{a}} & A variable \var{a} of type $EIM$ \\
+\Vsymset{set-two} & The variable \var{set-two}, a set of strings \\
+\Veimset{set-two} & The variable \var{set-two}, a set of Earley items
+\end{tabular}
+\end{center}
+Strings and symbols occur so frequently that they have a special
+notation:
+\begin{center}
+\begin{tabular}{ll}
+\Vsym{a} & \var{a}, a symbol variable \\
+\Vstr{a} & \var{a}, a string variable
 \end{tabular}
 \end{center}
 Subscripts may be omitted when the type
 is obvious from the context.
 The notation for
 constants is the same as that for variables.
-Multi-character variable names will be common,
-and operations will never be implicit.
+Multi-character variable names will be common.
 \begin{center}
 \begin{tabular}{ll}
 Multiplication &  $\var{a} \times \var{b}$ \\
-Concatenation & $\var{a} \cat \var{b}$ \\
+Concatenation & $\var{a} \Cat \var{b}$ \\
 Subtraction & $\var{symbol-count} \subtract \var{terminal-count}$ \\
 \end{tabular}
 \end{center}
+Operations are never implicit, with the exception of concatenation.
+Concatenation is not shown when its use is obvious.
 Type names are often used in the text
 as a convenient way to refer to
 their type.
@@ -431,7 +478,7 @@ let \size{\Vstr{s}} be its length, counted in symbols.
 Let $\var{syms}^+$ be
 \begin{equation*}
 \bigl\{ \Vstr{x}
-\bigm| \Vstr{x} \in \var{syms}* \land \Vsize{\Vstr{x}} > 0
+\bigm| \Vstr{x} \in \var{syms}* \;\; \land \;\; \Vsize{\Vstr{x}} > 0
 \bigr\}.
 \end{equation*}
 
@@ -470,14 +517,23 @@ referred to as
 $\LHS{\Vrule{r}}$ and $\RHS{\Vrule{r}}$, respectively.
 This definition follows \cite{AH2002},
 which departs from tradition by disallowing an empty RHS.
+This restriction applies only to Marpa's internal grammar.
+As explained in Section \ref{s:rewrite},
+it is invisible to Marpa's users.
 
 The rules imply the traditional rewriting system,
-in which $\Vstr{x} \derives \Vstr{y}$
-states that \Vstr{x} derives \Vstr{y} in exactly one step;
-$\Vstr{x} \deplus \Vstr{y}$
+in which
+\begin{center}
+\begin{tabular}{lp{.6\textwidth}}
+$\Vstr{x} \derives \Vstr{y}$ &
+states that \Vstr{x} derives \Vstr{y} in exactly one step; \\
+$\Vstr{x} \deplus \Vstr{y}$ &
 states that \Vstr{x} derives \Vstr{y} in one or more steps;
-and $\Vstr{x} \destar \Vstr{y}$
+and \\
+$\Vstr{x} \destar \Vstr{y}$ &
 states that \Vstr{x} derives \Vstr{y} in zero or more steps.
+\end{tabular}
+\end{center}
 
 We say that symbol \Vsym{x} is \dfn{nullable} if and only if
 $\Vsym{x} \destar \epsilon$.
@@ -490,11 +546,9 @@ we will say that $\Vstr{z} \derives \epsilon$.
 Following Aycock and Horspool\cite{AH2002},
 all nullable symbols in grammar \Cg{} are nulling -- every symbol
 which can derive the null string always derives the null string.
-It is shown in \cite{AH2002} how to do this without losing generality
-or the ability to efficiently evaluate a semantics that is
-defined in terms of an original grammar that includes symbols which
-are both nullable and non-nulling,
-empty rules, etc.
+This restriction applies only to Marpa's internal grammar.
+As explained in Section \ref{s:rewrite},
+it is invisible to Marpa's users.
 
 Consider the derivation
 \begin{equation}
@@ -512,6 +566,8 @@ and the symbol \Vsym{A} are
   $\Vstr{left} \destar \epsilon \land \Vstr{right} \destar \epsilon$.
 \end{tabular}
 \end{center}
+We assume that a Marpa grammar is cycle-free --
+that none of its rules are cyclic.
 
 We say that \Vstr{desc} is a direct descendant of \Vsym{A} if
 it is \Vstr{A-rhs} where $\Vsym{A} \de \Vstr{A-rhs}$ is a rule,
@@ -527,14 +583,15 @@ that there is a dedicated acceptance rule, \Vrule{accept}
 and a dedicated acceptance symbol, $\Vsym{accept} = \LHS{\Vrule{accept}}$,
 such that
 for all \Vrule{x},
-\begin{equation*}
-\begin{split}
-& \Vsym{accept} \notin \RHS{\Vrule{x}} \\
-\land \quad & (\Vsym{accept} = \LHS{\Vrule{x}} \implies \Vrule{accept} = \Vrule{x}).
-\end{split}
-\end{equation*}
-We further assume that every symbol is productive --
+\begin{multline*}
+\Vsym{accept} \notin \RHS{\Vrule{x}} \land \\
+\Vsym{accept} = \LHS{\Vrule{x}} \implies \Vrule{accept} = \Vrule{x}.
+\end{multline*}
+
+We assume that every symbol is productive --
 that is, that it derives a sentence.
+We assume that every symbol is accessible --
+that is, that it is derivable from the start symbol.
 
 Let the input to
 the parse be \Cw{} such that $\Cw \in \var{term}^+$.
@@ -559,14 +616,14 @@ $$ \bigsize{\var{w}[\var{a}, \var{b}]} = (\var{b} \subtract \var{a}) + 1. $$
 The alert reader may have noticed that the previous definition
 of \Cw{} did not allow zero-length inputs.
 To simplify the mathematics, we exclude null parses
-and trivial grammars from consideration.
+and nulling grammars from consideration.
+(Nulling grammars are those that recognize only the null string.)
 In its implementations,
 the Marpa parser
-deals with null parses and trivial grammars as special cases.
-(Trivial grammars are those that recognize only the null string.)
+deals with null parses and nulling grammars as special cases.
 
 In the context of a grammar \Cg{} and an input \Cw{},
-we will often use location-marked derivations and derivation steps.
+we will often use location-marked derivations.
 Location-marked derivation steps are like the derivation steps
 of the traditional rewriting system except that they also contain
 location markers of the form $\mk{x}$, where \var{x} is a
@@ -579,16 +636,16 @@ It means
 \label{eq:location-marker-def}
 \begin{split}
 &  \Vsym{accept} \destar \Vstr{before} \cat \Vstr{pre} \cat \Vstr{post} \cat \Vstr{after} \\
-&  \land \Vstr{before} \cat \Vstr{pre} \destar \var{w}[0, (\Vdecr{x})] \\
-&  \land \Vstr{post} \cat \Vstr{after} \destar \var{w}[\var{x}, (\Vsize{\Cw} \subtract 1)]
+&  \land \quad \Vstr{before} \cat \Vstr{pre} \destar \var{w}[0, (\Vdecr{x})] \\
+&  \land \quad \Vstr{post} \cat \Vstr{after} \destar \var{w}[\var{x}, (\Vsize{\Cw} \subtract 1)]
 \end{split}
 \end{equation}
 
 Derivations may have many location markers.
 The meaning of a derivation with \var{j} different location markers,
-$$ \var{m}[1], \var{m}[2] \ldots \var{m}[j], $$
+$$ \var{m}[1], \var{m}[2] \ldots \var{m}[\var{j}], $$
 is the same as the meaning of the conjunction of a ordered set of \var{j} derivations,
-where the \var{i}'th member has all the markers removed except for $\var{m}[i]$.
+where the \var{i}'th member has all the markers removed except for $\var{m}[\var{i}]$.
 For example,
 \begin{equation}\label{eq:location-marker-definition-1}
 \begin{split}
@@ -2127,6 +2184,7 @@ TODO: Is this theorem used?  If not, delete it.
 \end{proof}
 
 \section{Earley implementations}
+\label{s:earley-implementation}
 
 In the context of a specific \Cg{},
 a specific \Cw{},
