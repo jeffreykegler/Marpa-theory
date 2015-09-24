@@ -641,7 +641,11 @@ we will often use location-marked derivations.
 Location-marked derivation steps are like the derivation steps
 of the traditional rewriting system except that they also contain
 location markers of the form $\mk{x}$, where \var{x} is a
-location in \Cw{}.
+location in \Cw{}.\footnote{
+\cite{Wich2005} shows the importance of new notation
+for investigators of Earley's algorithm.
+Our use of the location marker notation
+was inspired by him.}
 In its most general form,
 a derivation step with a single location marker is
 $$ \Vstr{pre} \Vmkm{x} \Vstr{post}. $$
@@ -1085,7 +1089,6 @@ A telluric transition set is always the empty set
 or a singleton set.
 Only ethereal transition sets have
 with cardinalities greater than one.
-
 The dotted rules in the set that results from an ethereal transition
 will be either predictions or confirmed rules with
 a nulling predot symbol.
@@ -1097,7 +1100,6 @@ the behavior of \GOTO{} is straightforward:
 \GOTO(\Vdr{from}, \Vsym{A}) =
 \begin{cases}
 \begin{aligned}
-& \emptyset, \quad && \text{if $\Vsym{A} = \Lambda$}, \\
 & \rlap{$\left\lbrace \Next{\Vdr{from}} \right\rbrace,$} && \\
 & && \text{if $\Vsym{A} = \Postdot{\Vdr{from}}$,} \\
 & \emptyset, && \text{if $\Vsym{A} \ne \Postdot{\Vdr{from}}$},
@@ -5794,6 +5796,12 @@ J.~M. I.~M. Leo.
 \newblock A general context-free parsing algorithm running in linear time on
   every {LR($k$)} grammar without using lookahead.
 \newblock {\em Theoretical Computer Science}, 82:165--176, 1991.
+
+\bibitem{Wich2005}
+Klaus Wich.
+\newblock Ambiguity functions of context-free grammars and languages.
+\newblock Ph.D. Thesis, Universität Stuttgart, 2005.
+\newblock \url{http://elib.uni-stuttgart.de/opus/volltexte/2005/2282}
 
 \end{thebibliography}
 
