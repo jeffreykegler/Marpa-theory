@@ -3,6 +3,7 @@
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
 \documentclass[12pt]{amsart}
 \usepackage{hyperref}
+\usepackage{ragged2e}
 \usepackage{mathtools}
 \usepackage{amssymb}
 \usepackage{algorithm, algpseudocode}
@@ -211,9 +212,9 @@
 \settowidth{\longtagwidth}{(999)\qquad}
 \setlength{\mathparwidth}{\dimexpr\textwidth-\longtagwidth}
 \newcommand{\myparbox}[1]{
-  \parbox{\mathparwidth}{ \begin{raggedright}
+  \parbox{\mathparwidth}{ \begin{RaggedRight}
 #1 \par
-\end{raggedright} }
+\end{RaggedRight} }
 }
 
 \begin{document}
@@ -1119,65 +1120,47 @@ $\Postdot{\Vdr{from}} \neq \Lambda$,
 we need to make some definitions,
 many of which will be useful later.
 
-Let \var{direct-null-scan} be the set of
+Let \var{null-scan-one} be the set of
 pairs of dotted rules
-\begin{align*}
-& \begin{aligned}
-& \quad \left\lbrace \Vdr{cause}, \Vdr{effect} \right\rbrace \,\, \text{such that}
-\end{aligned} \\
-& \begin{aligned}
-& \quad \Vdr{cause} \in \Cdr \quad \text{and} \quad \Vdr{effect} \in \Cdr \\
-\text{and} & \quad \Vdr{cause} = [ \Vsym{A} \de \Vstr{before-B} \mydot \Vsym{B} \cat \Vstr{after-B} ] \\
-\text{and} & \quad \Vdr{effect} = [ \Vsym{A} \de \Vstr{before-B} \cat \Vsym{B} \mydot \Vstr{after-B} ] \\
-\text{and} & \quad \Vsym{B} \derives \epsilon.
-\end{aligned}
-\end{align*}
+\begin{gather*}
+\left\lbrace \Vdr{cause}, \Vdr{effect} \right\rbrace \quad \text{such that} \\
+\Vdr{cause} = [ \Vsym{A} \de \Vstr{before-B} \mydot \Vsym{B} \cat \Vstr{after-B} ] \quad \text{and} \\
+\Vdr{effect} = [ \Vsym{A} \de \Vstr{before-B} \cat \Vsym{B} \mydot \Vstr{after-B} ] \quad \text{and} \\
+\Vsym{B} \derives \epsilon.
+\end{gather*}
 We say that \Vdr{cause} is the \dfn{top-down cause} of \Vdr{effect},
 and that \Vsym{B} is the \dfn{bottom-up cause}.
 
-We can use \var{direct-null-scan} to define an equivalence relation.
+We can use \var{null-scan-one} to define an equivalence relation.
 Intuitively, two dotted rules, \Vdr{dr1}
 and \Vdr{dr2} are \dfn{ethereally equivalent} if
 \Vdr{dr1} can be changed into \Vdr{dr2} by a series of null-scans.
 More formally, we define \var{eth-eq} to be the reflexive, symmetric
 and transitive closure of
-\var{direct-null-scan}.
+\var{null-scan-one}.
 We say that \Vdr{dr1} is
 \dfn{ethereally equivalent} to \Vdr{dr2} if
 and only if
 \Vdr{dr1} is an element of the
 equivalence class of \var{eth-eq} under \Vdr{dr2}.
 
-Let \var{direct-predict} be the set of
+Let \var{predict-one} be the set of
 pairs of dotted rules
-\begin{align*}
-& \begin{aligned}
-& \quad \left\lbrace \Vdr{cause}, \Vdr{effect} \right\rbrace \,\, \text{such that}
-\end{aligned} \\
-& \begin{aligned}
-& \quad \Vdr{cause} \in \Cdr \quad \text{and} \quad \Vdr{effect} \in \Cdr \\
-\text{and} & \quad \Vdr{effect} \in \Cdr \\
-\text{and} & \quad \Vdr{cause} = [ \Vsym{A} \de \Vstr{before-B} \mydot \Vsym{B} \cat \Vstr{after-B} ] \\
-\text{and} & \quad \Vdr{effect} = [ \Vsym{B} \de \mydot \Vsym{C} \cat \Vstr{after-C} ]
-\end{aligned}
-\end{align*}
+\begin{gather*}
+\quad \left\lbrace \Vdr{cause}, \Vdr{effect} \right\rbrace \,\, \text{such that} \\
+ \quad \Vdr{cause} = [ \Vsym{A} \de \Vstr{before-B} \mydot \Vsym{B} \cat \Vstr{after-B} ] \quad \text{and} \\
+ \quad \Vdr{effect} = [ \Vsym{B} \de \mydot \Vsym{C} \cat \Vstr{after-C} ]
+\end{gather*}
 We say that \Vdr{cause} is the \dfn{top-down cause} of \Vdr{effect}.
 For symmetry, we say that \Vdr{cause}
 has a bottom-up cause,
-but that that  \dfn{bottom-up cause} is ethereal.
+but that the \dfn{bottom-up cause} is ethereal.
 
-\begin{raggedright}
-We define the ``ethereal next'' relation
-as the union of
-\var{direct-null-scan} and \var{direct-predict}.
-\begin{equation*}
-\var{ethereal-next} \defined \var{direct-null-scan} \cup \var{direct-predict}.
-\end{equation*}
-We define
-the \dfn{ethereal closure} as
-We the transitive closure of \var{ethereal-next}.
-$$ \var{ethereal-closure} \defined \var{ethereal-next}^\ast $$
-\end{raggedright}
+The
+\dfn{ethereal closure}
+is the closure of union
+\var{null-scan-one} and \var{predict-one}.
+$$\var{ethereal-closure} \defined (\var{null-scan-one} \cup \var{predict-one})^\ast.$$
 
 We are now in a position to define the ethereal transition of \GOTO{}
 from the dotted rule \Vdr{base},
@@ -1853,7 +1836,7 @@ $$\Veim{effect} = [ \Vdr{effect}, \var{i}, \var{k} ],$$
 is a valid, confirmed EIM,
 then
 \begin{enumerate}
-\raggedright
+\RaggedRight
 \item \Veim{effect} must have a valid symbolic bottom-up cause,
 call it $\Vinst{up}$,
 \label{item:symbolic-causes-from-effect-3}
@@ -2721,7 +2704,7 @@ TODO: Can Leo altitude be simply ``altitude''?
 
 \begin{definition}
 \label{def:altitude}
-\begin{raggedright}
+\begin{RaggedRight}
 Intuitively,
 \dfn{Leo-adjusted altitude},
 or simply \dfn{Leo altitude},
@@ -2754,7 +2737,7 @@ The Leo altitude of an EIM is the minimum of its possible
 values.
 \end{itemize}
 \par
-\end{raggedright}
+\end{RaggedRight}
 
 \end{definition}
 
@@ -5296,11 +5279,9 @@ This shows the reductio
 and that
 \begin{equation}
 \label{eq:tries-25}
-\parbox{\mathparwidth}{
-\begin{raggedright}
+\myparbox{
 the number of choices for \Veim{down},
 compatible with \Vorig{up}, is as most \Vsize{dr}.
-\end{raggedright}
 }
 \end{equation}
 
@@ -5695,25 +5676,25 @@ the time and space complexity of \Marpa{}
 for unambiguous grammars is \order{\var{n}^2}.
 \end{proof}
 
-\begin{raggedright}
+\begin{RaggedRight}
 \begin{theorem}
 For every context-free grammar,
 \Marpa{} runs in $\order{\var{n}^3}$ time.
 \end{theorem}
-\end{raggedright}
+\end{RaggedRight}
 
 \begin{proof}
 By Theorem \ref{t:O1-time-per-eim},
 and Theorem \ref{t:ambiguous-tries}.
 \end{proof}
 
-\begin{raggedright}
+\begin{RaggedRight}
 \begin{theorem}\label{t:cfg-space}
 For every context-free grammar,
 \Marpa{} runs in $\order{\var{n}^2}$ space,
 if it does not track links.
 \end{theorem}
-\end{raggedright}
+\end{RaggedRight}
 
 \begin{proof}
 By Theorem \ref{t:O1-space-per-eim}
@@ -5731,13 +5712,13 @@ are typically used in anticipation
 of an evaluation phase,
 for which links are necessary.
 
-\begin{raggedright}
+\begin{RaggedRight}
 \begin{theorem}
 For every context-free grammar,
 \Marpa{} runs in $\order{\var{n}^3}$ space,
 including the space for tracking links.
 \end{theorem}
-\end{raggedright}
+\end{RaggedRight}
 
 \begin{proof}
 By Theorem \ref{t:O1-links-per-eim},
@@ -5747,7 +5728,7 @@ and Theorem \ref{t:ambiguous-tries}.
 \bibliographystyle{plain}
 
 \begin{thebibliography}{10}
-\raggedright
+\RaggedRight
 
 \bibitem{AU1972}
 Alfred H.~Aho and Jeffrey D.~Ullman.
