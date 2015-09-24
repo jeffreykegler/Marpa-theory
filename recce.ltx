@@ -1307,6 +1307,7 @@ the ethereal closure has finite time complexity.
 \State Add \Vdr{new} to \Vdrset{results} \ldots
 \State $\qquad$ but only if it has never been added before
 \State Add \Vdr{new} to \Vdrset{work} \dots
+\label{line:ethereal-generation-60}
 \State $\qquad$ but only if it has never been added before
 \EndIf
 \EndFor
@@ -1390,12 +1391,36 @@ lines
 \ref{line:ethereal-generation-20}-\ref{line:ethereal-generation-40}
 of
 Algorithm \ref{alg:ethereal-generation},
-we see that the null transitions
+we see that
+\begin{equation}
+\label{ethereal-closure-correct-2}
+\myparbox{
+the null transitions
 for nulling postdot symbols are complete and consistent,
 and therefore correct.
+}
+\end{equation}
 It remains to consider the null transitions for telluric
 postdot symbols -- predictions.
 
+Similarly, from examining
+Algorithm \ref{alg:ethereral-closure},
+in particular 
+lines
+\ref{line:ethereal-generation-20}-\ref{line:ethereal-generation-40}
+of
+Algorithm \ref{alg:ethereal-generation},
+we see that the null transitions for predictions are
+properly made,
+so that
+\begin{equation}
+\label{ethereal-closure-correct-3}
+\myparbox{
+the set of predictions is consistent.
+}
+\end{equation}
+
+It remain to show that the set of predictions is complete.
 Algorithm \ref{alg:ethereral-closure}
 clearly adds all predictions derivable in a single step
 to its results.
@@ -1404,45 +1429,88 @@ calls the ``Ethereal next'' function
 repeatedly, so that indirect predictions will be added.
 But it will refuse to
 add a dotted rule to its working set more than once.
-It remains to consider whether this means some predictions
+We need to consider whether this means some predictions
 will not be derived.
 
 Consider a prediction
-\begin{equation}\label{ethereal-closure-correct-5}
-\Vsym{postdot-penult} \de \mydot \Vsym{postdot-last} \cat \Vstr{after-last}
+\begin{equation}
+\label{ethereal-closure-correct-5}
+\Vsym{lhs-pred} \de \mydot \Vsym{pred-rhs}
 \end{equation}
-which is derived through a chain
-of derivations in which the same dotted rule occurs at least twice.
-\begin{equation*}
-\begin{split}
-& [ \Vsym{lhs-a} \mydot \Vsym{postdot-0} \cat \Vstr{after} ] \qquad \text{Step 0} \\
-& \derives [ \mydot \Vsym{postdot-1} \cat \Vstr{after-1} ] \qquad \text{Step 0} \\
-& \ldots \\
-& \derives [ \mydot \Vsym{postdot--before-i} \cat \Vstr{after-i} ] \qquad \text{Step $i-1$} \\
-& \derives [ \mydot \Vsym{postdot-i} \cat \Vstr{after-i} ] \qquad \text{Step $i$} \\
-& \ldots \\
-& \derives [ \mydot \Vsym{postdot-i} \cat \Vstr{after-i} ] \qquad \text{Step $j$}\\
-& \ldots \\
-& \derives [ \mydot \Vsym{postdot-penult} \cat \Vstr{after-penult} ] \\
-& \derives [ \mydot \Vsym{postdot-last} \cat \Vstr{after-last} ]
-\end{split}
-\end{equation*}
-We can create a shorter derivation by removing the derivation from Step $i$ to Step $j$
-and replacing it with Step $i$.
-Algorithm \ref{alg:ethereral-closure} will also follow this shorter derivation,
-and therefore will add \eqref{ethereal-closure-correct-5}
-without needing to add
-$$ \Vsym{postdot-before-i} \de \mydot \Vsym{postdot-i} \cat \Vstr{after-i} $$
-to \Vdrset{work}
-more than once.
+which is derived through a series of dotted rule predictions
+added to the work list at line
+\ref{line:ethereal-generation-60}
+of Algorithm \ref{alg:ethereal-generation}.
+For a reductio,
+assume that one prediction,
+call it
+\begin{equation}
+\label{ethereal-closure-correct-15}
+[ \Vsym{lhs-dup} \de \mydot \Vsym{rhs-dup} ],
+\end{equation}
+occurs twice.
+Without loss of generality, let that chain be
+\begin{align*}
+& [ \Vsym{lhs0} \de \mydot \Vsym{rhs0} ] && \text{Step 0} \\
+& [ \Vsym{lhs1} \de \mydot \Vsym{rhs1} ] && \text{Step 1} \\
+& \ldots && \\ 
+& [ \Vsym{lhs-predup} \de \mydot \Vsym{lhs-dup} \cat \Vstr{after-predup} ] && \text{Step \Vdecr{i}} \\
+& [ \Vsym{lhs-dup} \de \mydot \Vsym{rhs-dup} ] && \text{Step \var{i}} \\
+& \ldots && \\
+& [ \Vsym{lhs-predup2} \de \mydot \Vsym{lhs-dup} \cat \Vstr{after-predup2} ] && \text{Step \Vdecr{j}} \\
+& [ \Vsym{lhs-dup} \de \mydot \Vsym{rhs-dup} ] && \text{Step \var{j}}\\
+& \ldots && \\
+& [ \Vsym{lhs-penult} \de \mydot \Vsym{rhs-penult} ] && \\
+& [ \Vsym{lhs-last} \de \mydot \Vsym{rhs-last} ]
+\end{align*}
+where Step \var{i} is the first occurrence of 
+\eqref{ethereal-closure-correct-15},
+and Step \var{j} is the last.
+We can create a shorter chain of predictions by removing the steps in
+the chain from Step $\var{i}+1$ to Step \var{j}.
+Call this process of removing steps, ``pruning duplicates''.
 
-We can do this for to every postdot symbol which occurs twice.
-From this we see that
-Algorithm \ref{alg:ethereral-closure}
-can derive a complete set of predictions
-without having to add any dotted rule
-to \Vdrset{work}
-more than once.
+By pruning duplicates for every prediction which occurs twice in
+the chain,
+we see that we can create a chain that results in
+\eqref{ethereal-closure-correct-5},
+but which does not contain any prediction more than once.
+We can also see that, since
+Algorithm \ref{alg:ethereral-closure} follows all chains
+that contain no duplicate steps,
+that 
+Algorithm \ref{alg:ethereral-closure} will add
+\eqref{ethereal-closure-correct-5} to its result.
+
+Since
+\eqref{ethereal-closure-correct-5} was chosen without loss
+of generality,
+we see that every prediction can be reached by following
+a chain of predictions with no duplicate steps,
+and that therefore
+\begin{equation}
+\label{ethereal-closure-correct-40}
+\myparbox{
+Algorithm \ref{alg:ethereral-closure} adds a complete
+set of predictions.
+}
+\end{equation}
+
+We now summarize our results.
+By definition, the ethereal closure is the
+transitive closure of the union
+of predictions and null-scans.
+In \eqref{ethereal-closure-correct-2}
+we showed that the sets of
+null-scans added is correct.
+In \eqref{ethereal-closure-correct-3}
+that the set of predictions added is consistent.
+In
+\eqref{ethereal-closure-correct-40}
+we showed
+that the set of predictions
+added is complete.
+This shows the theorem.
 \end{proof}
 
 \section{Earley items}
