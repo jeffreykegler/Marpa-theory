@@ -653,20 +653,20 @@ For example,
 &  \qquad \derives \Vstr{before} \Vmkm{i} \Vstr{predot} \Vmkm{j} \Vstr{postdot} \cat \Vstr{after}.
 \end{split}
 \end{equation}
-is the equivalent of the logical conjunction of the two derivations:
-\begin{equation}\label{eq:location-marker-definition-2}
+is the equivalent of the logical conjunction of two derivations:
+\begin{gather}
+\label{eq:location-marker-definition-2}
 \begin{split}
 &  \Vsym{accept} \destar \Vstr{before} \,[\var{i}]\, \Vsym{A} \cat \Vstr{after} \\
 &  \qquad \derives \Vstr{before} \,[\var{i}]\, \Vstr{predot} \Vstr{postdot} \cat \Vstr{after}
-\end{split}
-\end{equation}
-and
-\begin{equation}\label{eq:location-marker-definition-3}
+\end{split} \\
+\intertext{and}
+\label{eq:location-marker-definition-3}
 \begin{split}
 &  \Vsym{accept} \destar \Vstr{before} \cat \Vsym{A} \cat \Vstr{after} \\
 &  \qquad \derives \Vstr{before} \cat \Vstr{predot} \,[\var{j}]\, \Vstr{postdot} \cat \Vstr{after}.
 \end{split}
-\end{equation}
+\end{gather}
 In this example,
 \eqref{eq:location-marker-definition-2} and
 \eqref{eq:location-marker-definition-3}
@@ -713,16 +713,6 @@ that all grammar rewrites in this \doc{}
 are done in such a way that the semantics
 of the original grammar can be reconstructed
 simply and efficiently at evaluation time.
-As one example,
-when a rewrite involves the introduction of new rule,
-semantics for the new rule can be defined to pass its operands
-up to a parent rule as a list.
-Where needed, the original semantics
-of a pre-existing parent rule can
-be ``wrapped'' to reassemble these lists
-into operands that are properly formed
-for that original semantics.
-
 As implemented,
 the Marpa parser allows users to associate
 semantics with an original grammar
@@ -743,6 +733,111 @@ the ``free-form'' of his grammar is the
 one being used for the parse,
 and the one to which
 his semantics are applied.
+
+The rewrite currently used by Marpa is an improvement over
+that of \cite{AH2002}.
+Rules with proper nullables are identified
+and a new grammar is created
+in which the external grammar's rules are divided
+up so that no rule has more than two proper nullables.
+(A ``proper nullable'' is a nullable symbol which is not nulling.)
+This is similar to a rewrite into Chomsky form.
+
+The proper nullable symbol is then cloned into two others:
+one nulling and the non-nullable, or ``telluric'' as we shall call it.
+All occurrences of the original proper nullable symbol are then replaced
+with one of the two new symbols,
+and new rules are created as necessary to ensure that all possible combinations
+of nulling and telluric symbols are accounted for.
+
+The rewrite in \cite{AH2002} was similar, but did not do the Chomsky-style
+rewrite before replacing the proper nullables.
+As a result the number of rules in the internal grammar could be
+an exponential function of numbers in the external grammar.
+In our version, the worst case growth in the number of rules in linear.
+
+This rewrite can be undone easily.
+In fact,
+in the current implementation of Marpa,
+the reverse rewrite,
+from internal to external,
+is often done ``on the fly'',
+as the parse proceeds.
+Marpa allows the user to use Marpa's left-eideticism
+to define events.
+Events can trigger when rules are complete,
+when rules are predicted,
+or when symbols are nulled.
+The user, of course, needs to define events,
+and receive notice of them,
+in terms of his external symbols.
+In Marpa::R2\cite{Marpa-R2},
+this translation back and forth
+between internal and external can be accomplished
+quickly.
+
+Future plans for Marpa include more aggressive use
+of rewrites.
+It should be possible, not only to eliminate proper
+nullables from the internal grammar,
+but also nulling symbols.
+We conjecture that elimination of nulling symbols
+from the internal grammar will greatly simplify the implementation.
+The reader of this paper may note that it would be
+simpler and shorter if it did not have to deal with nulling
+symbols.
+
+Not all rewrites lend themselves to easy translation
+and reversal.
+As a future direction, we will look at a general schema
+for ``safe'' grammar rewrites.
+In this schema, Marpa's internal grammar will have
+``brick'' and ``mortar'' symbols.
+Internal brick symbols correspond, many-to-one, to
+external symbols.
+Internal mortar symbols exist entirely for the purposes
+of the internal grammar.
+Only brick symbols have semantics attached to them.
+
+Assume that we have a parse, using internal symbols.
+We define a ``brick traversal'' from a ``root'' brick non-terminal instance.
+(A symbol instance is an instance of a symbol in a parse tree,
+with is right and left locations specified.)
+The ``brick traversal'' is pre-order
+and stops traversing any path when it hits
+a brick symbol instance other than the ``brick root''.
+In this way, it traces a subtree of the parse,
+where the root of the subtree is the brick root symbol instance,
+and the leaves of the subtree is a sequence of other brick
+symbol instances.
+The leaves of the subtree, as encountered in pre-order,
+constitute its ``brick frontier''.
+Mortar symbols will only occur in the interior of this ``brick'' subtree,
+never as its root or its leaf.
+
+For a rewrite to be ``safe'':
+\begin{itemize}
+\item Every brick symbol must translate to exactly one
+external symbol
+\item Every terminal symbol instance must be a brick symbol,
+and the input in terms of internal terminal instances must translate
+exactly to external terminal instances.
+\item Every brick traveral must translate to an external rule
+instance, as follows:
+\begin{itemize}
+\item The brick root symbol must translate to
+the LHS of the rule,
+and the brick frontier to the RHS of the rule.
+In the case of the frontier-to-RHS translation,
+the two sequences must match exactly,
+symbol-for-symbol,
+preserving the order of the symbols.
+\item The brick root symbol instance must translate
+exactly to an instance of the LHS of the rule.
+\item Each of the brick frontier symbol instances
+must translate exactly to an external symbol instance.
+\end{itemize}
+\end{itemize}
 
 \section{Dotted rules}
 \label{s:dotted}
