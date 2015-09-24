@@ -1198,49 +1198,58 @@ will be unique.
 
 \begin{theorem}
 \label{eth-eq-share-telluric-base}
-If two dotted rules are ethereally equivalent,
-and one is quasi-confirmed,
-they have the same telluric base.
+If the dotted rules \Vdr{dr1}
+and \Vdr{dr2} are ethereally equivalent,
+and \Vdr{dr1} is quasi-confirmed,
+then both \Vdr{dr1}
+and \Vdr{dr2} have the same telluric base.
 \end{theorem}
 
 \begin{proof}
-Without loss of generality, let \Vdr{dr1} be the
-rule which is quasi-confirmed.
-In that case, \Vdr{dr1} is
-not a quasi-prediction,
-and therefore has a telluric symbol before
+By assumption for the theorem,
+\Vdr{dr1} is quasi-confirmed,
+so that
+by Theorem \ref{t:quasi-drs-disjoint},
+\Vdr{dr1}
+is not a quasi-prediction.
+Therefore, \Vdr{dr1} has a telluric symbol before
 the dot.
-\Vdr{dr1} therefore has a telluric base,
-as we know that,
-without loss of generality,
+Therefore,
+\Vdr{dr1} has a telluric base.
+Without loss of generality,
+we let
 \begin{equation}
-\Vdr{base} = [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{tell} \mydot \Vstr{nulls1} \cat \Vstr{post1} ]
+\Vdr{dr1} = [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{tell} \cat \Vstr{nulls1} \mydot \Vstr{post1} ],
 \end{equation}
-and
+and let the telluric base be
 \begin{equation}
-\Vdr{dr1} = [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{tell} \cat \Vstr{nulls1} \mydot \Vstr{post1} ].
+\label{eq:eth-eq-share-telluric-base-20}
+\Vdr{tell} = [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{tell} \mydot \Vstr{nulls1} \cat \Vstr{post1} ],
 \end{equation}
-Where $\Vstr{nulls1} \destar \epsilon$.
+where $\Vstr{nulls1} \destar \epsilon$.
 
-We now proceed by cases.
+We now proceed by overlapping cases.
 In the first case,
 the dot in \Vdr{dr2} comes at or after the dot in \Vdr{dr1}.
 We may write
-\begin{equation}
-\Vdr{dr2} = [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{tell} \cat \Vstr{nulls1} \cat \Vstr{nulls2} \mydot \Vstr{post2} ].
-\end{equation}
+\begin{multline*}
+\Vdr{dr2} =
+  [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{tell} \cat \Vstr{nulls1} \cat \Vstr{nulls2} \mydot \Vstr{post2} ],
+\end{multline*}
 where $\Vstr{post1} = \Vstr{nulls2} \cat \Vstr{post2},$
-so that clearly
-$$ \Vdr{dr2} \in \var{ethereal-closure}(\lbrace \Vdr{tell} \rbrace),$$
-so that by the definition of telluric base,
+so that
+by \eqref{eq:eth-eq-share-telluric-base-20}
+and the definition of ethereal closure,
+$$ \Vdr{dr2} \in \var{ethereal-closure}(\lbrace \Vdr{tell} \rbrace).$$
+By the definition of telluric base,
 \Vdr{tell} is the telluric base of \Vdr{dr2}.
 
-In the second, overlapping, case
+In the second case
 the dot in \Vdr{dr2} comes at or before the dot in \Vdr{dr1}.
 We may write
-\begin{equation}
-\Vdr{dr2} = [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{tell} \cat \Vstr{nulls1a} \mydot \Vstr{nulls1b} \cat \Vstr{post1} ].
-\end{equation}
+\begin{equation*}
+\Vdr{dr2} = [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{tell} \cat \Vstr{nulls1a} \mydot \Vstr{nulls1b} \cat \Vstr{post1} ],
+\end{equation*}
 where $\Vstr{nulls1} = \Vstr{nulls1a} \cat \Vstr{nulls1b}.$
 Again,
 by the definition of telluric base,
