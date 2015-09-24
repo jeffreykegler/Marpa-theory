@@ -3001,16 +3001,18 @@ so there is a chain of top-down causes from the start EIM to
 where $\var{chain}[0]$ is the start EIM and
 $\var{chain}[\var{n}] = \Veim{pred}$.
 In this chain, there will be at least one top-down cause which
-is not a prediction, call it $\var{chain}{\var{last-confirmed}}$.
-Every EIM in the chain $\var{chain}[\var{i}]$
-such that $\var{last-confirmed}} < \var{i} \le \var{n}$,
+is not a prediction.
+Call the last confirmed EIM in \var{chain},
+$\var{chain}[\var{last-confirmed}]$.
+Every EIM in the chain $\var{chain}[\var{i}]$,
+such that $\var{last-confirmed} < \var{i} \le \var{n}$,
 is a prediction,
 so that,
 by the definition of Leo altitude for predictions,
 we know that
 $$ \Alt{\var{chain}[\Vdecr{i}]} = \Alt{\var{chain}[\var{i}]}.$$
 From this, it is easy to show by induction that
-$$ \Alt{\var{chain}[\var{last-confirmed}]} = \Alt{\var{chain}[\var{n}]} =
+$$ \Alt{\var{chain}[\var{last-confirmed}]} = \Alt{\var{chain}[\var{n}]}
 = \Alt{\Veim{pred}}.
 $$
 Therefore, 
@@ -3888,7 +3890,7 @@ the ethereal closure of
 the reduced EIMs whose bottom-up cause
 is in $\var{iter}[\var{i}]$.
 By Definition \ref{def:altitude}
-and Theorem \ref{ethereal-altitude},
+and Theorem \ref{t:ethereal-altitude},
 the EIMs of the first case have altitude $\var{i}+1$.
 For the second case,
 by Algorithm \ref{alg:leo-reduction-op}
@@ -3898,7 +3900,7 @@ the Leo reduced EIMs whose bottom-up cause
 is in $\var{iter}[\var{i}]$.
 By Theorems
 \ref{t:leo-top-from-memo}
-and \ref{ethereal-altitude},
+and \ref{t:ethereal-altitude},
 the EIMs of the second case have altitude $\var{i}+1$.
 In both cases, the EIMs added all
 have altitude $\var{i}+1$,
@@ -4029,14 +4031,43 @@ We have shown completeness for all of the Earley sets in
 \eqref{eq:reduction-op-correct-50}.
 The theorem requires that we show
 completeness for \Ves{current} for the predicate \var{phi},
-where \var{phi} is
+where
 \begin{equation}
-\lambda \Veim{x} . \text{\Veim{x} is in
+\var{phi} = \lambda \Veim{x} . \text{\Veim{x} is in
 the ethereal closure of a reduction.}
 \end{equation}
+From
+Theorems \ref{eq:reduction-op-correct-30},
+and \ref{eq:reduction-op-correct-50},
+we know that every iteration set is correct for \var{phi} --
+contains all and only the valid EIMs.
 By Theorem
-\ref{t:base-altitude-is-finite}
-we know that every
+\ref{t:altitude-is-finite}
+we know that every valid EIM has a defined,
+finite altitude,
+and by
+Theorem \ref{eq:reduction-op-correct-31},
+we know every valid EIM is in the
+iterations set numbered the same
+as its altitude.
+
+It remains to show that the iteration sets
+produced by
+by Algorithm
+\ref{alg:reduction-pass} capture all of the
+reductions necessary.
+The loop starting a line
+\ref{line:reduction-pass-20}
+of Algorithm
+\ref{alg:reduction-pass} stops at the first
+empty iteration set.
+This is adequate if there all iteration sets after
+the first empty iteration set are also empty:
+\begin{equation}
+\label{eq:reduction-op-correct-60}
+\var{iter}[\var{i}] = \emptyset \land \var{i} \le \var{j}
+    \implies \var{iter}[\var{j}] = \emptyset.
+\end{equation}
 
 TODO: Finish this
 
