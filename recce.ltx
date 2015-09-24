@@ -207,7 +207,7 @@
 % I use parboxes in equations.  This sets a useful width for them.
 \newlength{\mathparwidth}
 \newlength{\longtagwidth}
-\settowidth{\longtagwidth}{(9999)\qquad}
+\settowidth{\longtagwidth}{(999)\qquad}
 \setlength{\mathparwidth}{\dimexpr\textwidth-\longtagwidth}
 \newcommand{\myparbox}[1]{
   \parbox{\mathparwidth}{ \begin{raggedright}
@@ -3648,8 +3648,6 @@ unmemoized EIMs at \Vloc{current}
 which are reductions --
 that is,
 EIMs whose bottom-up cause is an EIM.
-We will also call \Veimset{reduced-base},
-the ``EIMs reduced at \Vloc{current}''.
 Let \Veimset{reduced-closure} be
 the ethereal closure of \Veimset{reduced}.
 If \eqref{eq:reduction-op-correct-5}
@@ -3742,7 +3740,7 @@ we see that the right location of top-down cause must be
 \therefore \quad & \Right{\Veim{down}} < \var{current}, &
 \end{align}
 and from
-\ref{eq:reduction-op-correct-5},
+\eqref{eq:reduction-op-correct-5},
 an assumption for the theorem,
 we see that \Veim{down} is correct.
 Since the choice of \Veim{down} as a top-down cause at
@@ -3820,9 +3818,8 @@ $\var{iter}[\var{i}+1]$,
 the top-down causes are valid by
 \eqref{eq:reduction-op-correct-21}
 and the bottom-up causes are valid by the assumption for the
-induction step,
-so that using effect-correctness,
-\eqref{eq:reduction-op-correct-12},
+induction step so that,
+using effect-correctness \eqref{eq:reduction-op-correct-12},
 we see that
 \begin{equation}
 \label{eq:reduction-op-correct-23}
@@ -3876,33 +3873,43 @@ To determine their altitude, we look at
 the EIMs added
 to $\var{iter}[\var{i}+1]$ by cases.
 There are two cases:
+\begin{enumerate}
+\item
+\label{case:reduction-op-correct-24}
+Case \ref{case:reduction-op-correct-24}:
 Those added at
 line \ref{line:earley-reduction-op-20}
-of Algorithm \ref{alg:earley-reduction-op};
-and those added
+of Algorithm \ref{alg:earley-reduction-op}; and
+\item
+\label{case:reduction-op-correct-25}
+Case \ref{case:reduction-op-correct-25}:
+those added
 at line \ref{line:leo-reduction-op-20}
 of Algorithm \ref{alg:leo-reduction-op}.
+\end{enumerate}
 
-For the first case,
-the EIMs added by Algorithm \ref{alg:earley-reduction-op}
-are
+For Case \ref{case:reduction-op-correct-24},
+the EIMs added are
 the ethereal closure of
 the reduced EIMs whose bottom-up cause
 is in $\var{iter}[\var{i}]$.
 By Definition \ref{def:altitude}
 and Theorem \ref{t:ethereal-altitude},
-the EIMs of the first case have altitude $\var{i}+1$.
-For the second case,
-by Algorithm \ref{alg:leo-reduction-op}
-are
+the EIMs of
+Case \ref{case:reduction-op-correct-24}
+have altitude $\var{i}+1$.
+For Case \ref{case:reduction-op-correct-25},
+the EIMs added are
 the ethereal closure of
 the Leo reduced EIMs whose bottom-up cause
 is in $\var{iter}[\var{i}]$.
 By Theorems
 \ref{t:leo-top-from-memo}
 and \ref{t:ethereal-altitude},
-the EIMs of the second case have altitude $\var{i}+1$.
-In both cases, the EIMs added all
+the EIMs of
+Case \ref{case:reduction-op-correct-24}
+have altitude $\var{i}+1$.
+In both cases, the EIMs added
 have altitude $\var{i}+1$,
 and therefore
 \begin{equation}
@@ -3940,7 +3947,7 @@ and
 To show that 
 after
 Algorithm \ref{alg:reduction-pass} every set of
-\var{iter} is complete.
+\var{iter} is complete,
 we proceed by induction on the sets in \var{iter}.
 Let the induction hypothesis be that
 \begin{equation}
@@ -3972,7 +3979,7 @@ both bottom-up causes and top-down causes.
 We now show that
 Algorithm \ref{alg:reduction-pass}
 pairs every bottom-up cause with
-all of its matching top-down cause.
+all of its matching top-down causes.
 From line 
 \ref{line:reduction-pass-20}
 of Algorithm
@@ -4000,7 +4007,7 @@ By Theorem
 all valid unmemoized items have valid unmemoized causes except
 for non-trivial Leo top items.
 Without loss of generality,
-let a non-trivial Leo top items be
+let a non-trivial Leo top item be
 \Veim{top}.
 In the case of \Veim{top},
 by Theorem \ref{t:leo-memo-from-top},
@@ -4030,16 +4037,13 @@ From this we conclude that
 We have shown completeness for all of the Earley sets in
 \eqref{eq:reduction-op-correct-50}.
 The theorem requires that we show
-completeness for \Ves{current} for the predicate \var{phi},
-where
-\begin{equation}
-\var{phi} = \lambda \Veim{x} . \text{\Veim{x} is in
-the ethereal closure of a reduction.}
-\end{equation}
+completeness for \Ves{current} for
+membership in \var{reduced-closure}
 From
 Theorems \ref{eq:reduction-op-correct-30},
 and \ref{eq:reduction-op-correct-50},
-we know that every iteration set is correct for \var{phi} --
+we know that every iteration set is correct for
+membership in \var{reduced-closure} --
 contains all and only the valid EIMs.
 By Theorem
 \ref{t:altitude-is-finite}
@@ -4048,8 +4052,8 @@ finite altitude,
 and by
 Theorem \ref{eq:reduction-op-correct-31},
 we know every valid EIM is in the
-iterations set numbered the same
-as its altitude.
+iterations set whose index is the same
+as the EIM's altitude.
 
 It remains to show that the iteration sets
 produced by
@@ -4061,18 +4065,79 @@ The loop starting a line
 of Algorithm
 \ref{alg:reduction-pass} stops at the first
 empty iteration set.
-This is adequate if there all iteration sets after
+This is adequate if all iteration sets after
 the first empty iteration set are also empty:
 \begin{equation}
 \label{eq:reduction-op-correct-60}
 \var{iter}[\var{i}] = \emptyset \land \var{i} \le \var{j}
     \implies \var{iter}[\var{j}] = \emptyset.
 \end{equation}
+Showing \eqref{eq:reduction-op-correct-60} is the same
+as showing that
+\begin{equation}
+\label{eq:reduction-op-correct-63}
+\nexists \, \var{x}, 
+    \var{iter}[\var{x}] = \emptyset \land
+    \var{iter}[\var{x}+1] \neq \emptyset
+\end{equation}
+Suppose, for a reductio, that there was a
+\var{x} that did not satisfy
+\eqref{eq:reduction-op-correct-63}.
+All EIMs in
+$\var{iter}[\var{x}+1]$ will have altitude
+$\var{x}+1$
+and will be
+\begin{enumerate}
+\item
+\label{case:reduction-op-correct-66}
+Case \ref{case:reduction-op-correct-66}:
+in the ethereal closure added
+by Algorithm \ref{alg:earley-reduction-op}
+at line \ref{line:earley-reduction-op-20}; or
+\item
+\label{case:reduction-op-correct-70}
+Case \ref{case:reduction-op-correct-70}:
+in the ethereal closure added
+by Algorithm \ref{alg:leo-reduction-op}
+at line \ref{line:leo-reduction-op-20}.
+\end{enumerate}
+In Case \ref{case:reduction-op-correct-66},
+by Definition \ref{def:altitude},
+they will require a bottom-up cause with
+altitude \var{x}.
+In Case \ref{case:reduction-op-correct-70},
+also by Definition \ref{def:altitude},
+they will again require a bottom-up cause with
+altitude \var{x}.
+But $\var{iter}[\var{x}] = \emptyset$ by assumption
+for the reductio.
+So there is no bottom-up cause that can create
+the EIM's in either
+Case \ref{case:reduction-op-correct-66}
+or Case \ref{case:reduction-op-correct-70}.
+This shows the reductio,
+\eqref{eq:reduction-op-correct-63},
+and therefore 
+\eqref{eq:reduction-op-correct-60}.
 
-TODO: Finish this
+\begin{sloppypar}
+\textbf{Correctness}:
+Let
+$$ \var{reduction-pass-eims} = \bigcup_\var{i} \var{iter}[\var{i}]. $$
+From the considerations in the part on \textbf{Completeness}
+we conclude that
+\var{reduction-pass-eims}
+is complete for \Veimset{reduced-closure}.
+From
+\eqref{eq:reduction-op-correct-30},
+we know that
+\var{reduction-pass-eims} is consistent.
+Therefore,
+\var{reduction-pass-eims}
+is correct for \Veimset{reduced-closure}.
 
+\end{sloppypar}
 \end{proof}
-
 
 \begin{algorithm}[th]
 \caption{Memoize transitions}
