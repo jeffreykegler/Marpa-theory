@@ -995,8 +995,6 @@ If in a pair of dotted rules,
 where \Vstr{nulls} is a string composed entirely of nullable symbols
 we say that \Vdr{completion} is the \dfn{completion dotted rule}
 of the quasi-completion \Vdr{quasi}.
-\begin{equation*}
-\end{equation*}
 
 A dotted rule which has only nulling symbols before the dot
 is a \dfn{quasi-prediction}.
@@ -1016,16 +1014,16 @@ no quasi-completion is a quasi-prediction.
 The rewrite of
 Marpa grammars
 eliminates all nullable rules.
-So every rule must have a non-nullable symbol.
+So every rule must have a telluric symbol.
 In a dotted rule, therefore,
 there must be
-at least one non-nullable symbol
+at least one telluric symbol
 and it must come either before the dot
 or after it.
-If a non-nullable symbol comes before the dot,
+If a telluric symbol comes before the dot,
 the dotted rule might be a quasi-completion,
 but it cannot be a quasi-prediction.
-If a non-nullable symbol comes after the dot,
+If a telluric symbol comes after the dot,
 the dotted rule might be a quasi-prediction,
 but it cannot be a quasi-completion.
 \end{proof}
@@ -1094,21 +1092,21 @@ a nulling predot symbol.
 
 Where the transition is over a symbol,
 call it \Vsym{A},
-the behavior of \GOTO is straightforward:
+the behavior of \GOTO{} is straightforward:
 \begin{equation*}
 \GOTO(\Vdr{from}, \Vsym{A}) =
 \begin{cases}
-\text{$\emptyset$, if $\Vsym{A} = \Lambda$},
-\\
-\left\lbrace \Next{\Vdr{from}} \right\rbrace, \\
-\qquad \text{if $\Vsym{A} = \Postdot{\Vdr{from}}$}, \\
-\text{$\emptyset$, if $\Vsym{A} \ne \Postdot{\Vdr{from}}$},
-\\
+\begin{aligned}
+& \emptyset, \quad && \text{if $\Vsym{A} = \Lambda$}, \\
+& \rlap{$\left\lbrace \Next{\Vdr{from}} \right\rbrace,$} && \\
+& && \text{if $\Vsym{A} = \Postdot{\Vdr{from}}$,} \\
+& \emptyset, && \text{if $\Vsym{A} \ne \Postdot{\Vdr{from}}$},
+\end{aligned}
 \end{cases}
 \end{equation*}
 
 Ethereal transitions are more complicated.
-The result of \GOTO is always the empty set
+The result of \GOTO{} is always the empty set
 if there is
 no postdot symbol:
 \begin{equation*}
