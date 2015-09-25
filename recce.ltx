@@ -338,7 +338,7 @@ Marpa parses
 all context-free grammars
 which are free of cycles,
 unproductive symbols,
-and 
+and
 inaccessible symbols.
 Time bounds are the best of Leo\cite{Leo1991}
 and Earley\cite{Earley1970}.
@@ -363,8 +363,8 @@ but it goes well beyond that:
 Marpa is left-eidetic.
 
 As a parser in the Earley lineage,
-Marpa has complete information about 
-partial and full 
+Marpa has complete information about
+partial and fully
 recognized rule instances in its tables.
 Marpa's parse engine is arranged to make this
 information available at every parse location,
@@ -1417,7 +1417,7 @@ Algorithm \ref{alg:ethereal-closure} is correct.
 \begin{proof}
 From examining
 Algorithm \ref{alg:ethereal-closure},
-in particular 
+in particular
 lines
 \ref{line:ethereal-generation-20}-\ref{line:ethereal-generation-40}
 of
@@ -1434,7 +1434,7 @@ and therefore correct.
 
 From examining
 Algorithm \ref{alg:ethereal-closure},
-in particular 
+in particular
 lines
 \ref{line:ethereal-generation-20}-\ref{line:ethereal-generation-40}
 of
@@ -1482,7 +1482,7 @@ Without loss of generality, let that chain be
 \begin{align*}
 & [ \Vsym{lhs0} \de \mydot \Vsym{rhs0} ] && \text{Step 0} \\
 & [ \Vsym{lhs1} \de \mydot \Vsym{rhs1} ] && \text{Step 1} \\
-& \ldots && \\ 
+& \ldots && \\
 & [ \Vsym{lhs-predup} \de \mydot \Vsym{lhs-dup} \cat \Vstr{after-predup} ] && \text{Step \Vdecr{i}} \\
 & [ \Vsym{lhs-dup} \de \mydot \Vsym{rhs-dup} ] && \text{Step \var{i}} \\
 & \ldots && \\
@@ -1492,7 +1492,7 @@ Without loss of generality, let that chain be
 & [ \Vsym{lhs-penult} \de \mydot \Vsym{rhs-penult} ] && \\
 & [ \Vsym{lhs-last} \de \mydot \Vsym{rhs-last} ]
 \end{align*}
-where Step \var{i} is the first occurrence of 
+where Step \var{i} is the first occurrence of
 \eqref{ethereal-closure-correct-15},
 and Step \var{j} is the last.
 We can create a shorter chain of predictions by removing the steps in
@@ -1507,7 +1507,7 @@ but which does not contain any prediction more than once.
 We can also see that, since
 Algorithm \ref{alg:ethereal-closure} follows all chains
 that contain no duplicate steps,
-that 
+that
 Algorithm \ref{alg:ethereal-closure} will add
 \eqref{ethereal-closure-correct-5} to its result.
 
@@ -1696,7 +1696,7 @@ we have
 \label{eq:start-eim-is-valid-25}
 \therefore \quad & \Vsym{accept} \derives \mk{0} \Vstr{start}
 \end{align}
-Where 
+Where
 \eqref{eq:start-eim-is-valid-25}
 is
 \eqref{eq:start-eim-is-valid-15},
@@ -2057,7 +2057,7 @@ Without loss of generality,
 let \Veim{effect} be
 \begin{equation}
 \label{eq:symbolic-causes-from-effect-20}
-\Veim{effect} =  
+\Veim{effect} =
 [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
 \end{equation}
 so that by
@@ -2109,7 +2109,7 @@ from
 by the definition of EIM validity,
 we have
 \eqref{eq:symbolic-causes-from-effect-30}.
-This shows 
+This shows
 requirement \ref{item:symbolic-causes-from-effect-6}
 of this theorem.
 
@@ -2326,7 +2326,7 @@ Without loss of generality,
 let \Veim{effect} be
 \begin{equation}
 \label{eq:multi-down-cause-ambiguous-20}
-\Veim{effect} =  
+\Veim{effect} =
 [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
 \end{equation}
 By the Definition \ref{def:causes},
@@ -2363,7 +2363,7 @@ Without loss of generality,
 let \Veim{effect} be
 \begin{equation}
 \label{eq:multi-up-cause-ambiguous-20}
-\Veim{effect} =  
+\Veim{effect} =
 [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ]
 \end{equation}
 and call the two differing up-causes, \Vinst{up1}
@@ -2485,7 +2485,7 @@ Without loss of generality,
 let the EIM be
 \begin{equation}
 \label{eq:lasting-valid-if-fleeting-valid-10}
-\Veim{fleet} =  
+\Veim{fleet} =
 [ [ \Vsym{fleet} \de \Vstr{pre} \mydot \Vstr{nulls} \Vstr{post} ], \var{i}, \var{k} ]
 \end{equation}
 By \eqref{eq:lasting-valid-if-fleeting-valid-10}
@@ -2505,7 +2505,7 @@ using the definition of EIM validity in the opposite direction,
 we know that
 \begin{equation}
 \label{eq:lasting-valid-if-fleeting-valid-25}
-\Veim{lasting} =  
+\Veim{lasting} =
 [ [ \Vsym{fleet} \de \Vstr{pre} \Vstr{nulls} \mydot \Vstr{post} ], \var{i}, \var{k} ]
 \end{equation}
 is valid.
@@ -2525,10 +2525,10 @@ and a specific Earley implementation,
 an Earley parser builds a table of Earley sets,
 \Ctables.
 Let \alg{Impl} be an Earley implementation.
-When we wish to make clear that
-we speak of the tables of the \alg{Impl},
-its tables are
-\Vtables{Impl}.
+In contexts where it is not clear
+which implementation is being referred to,
+we say \Vtables{Impl}
+when we are referring to the tables of \alg{Impl}.
 For example, the tables for the Marpa
 are \Vtables{Marpa}.
 
@@ -2615,7 +2615,7 @@ If we say that an EIM set, \Veimset{x},
 is \dfn{self-complete},
 then \var{phi} is membership in \Veimset{x}:
 $$ \lambda \Veim{eim} . \var{eim} \in \Veimset{x}, $$
-so that 
+so that
 \eqref{eq:def-complete-2} simplifies to
 \begin{equation}
 \label{eq:def-complete-4}
@@ -2641,7 +2641,7 @@ for all \Veim{eim},
 \end{split}
 \end{equation*}
 If $\Veimset{x} = \Ves{i}$, then
-saying that \Ves{i} is complete for 
+saying that \Ves{i} is complete for
 \eqref{eq:def-complete-6}
 is the same as saying that
 \Ves{i} is self-complete.
@@ -3267,7 +3267,7 @@ derivation can have a telluric terminal
 as its rightmost symbol.
 We have noted above, that all the EIMs in \var{silo}
 has a right location of \var{k}.
-We know from 
+We know from
 Theorem \ref{t:symbolic-causes-from-effect}
 that the bottom-up cause must have a right location
 of \var{k} if its effect does.
@@ -3347,7 +3347,7 @@ is defined and finite.
 By theorem
 \ref{altitude-from-telluric-base},
 $$\Alt{\Veim{base}} = \Alt{\Veim{confirmed}}.$$
-Therefore the altitude of 
+Therefore the altitude of
 \Alt{\Veim{confirmed}} is defined and finite.
 \end{proof}
 
@@ -3376,7 +3376,7 @@ By the definition of EIM validity, \Veim{pred}
 is ultimately derived from the start EIM.
 And by the definition of top-down causes, there is a top-down
 cause for every EIM except the start EIM,
-so there is a chain of top-down causes from the start EIM to 
+so there is a chain of top-down causes from the start EIM to
 \Veim{pred}
 \begin{equation}
  \var{chain}[0] \ldots \var{chain}[\var{n}]
@@ -3398,7 +3398,7 @@ From this, it is easy to show by induction that
 $$ \Alt{\var{chain}[\var{last-confirmed}]} = \Alt{\var{chain}[\var{n}]}
 = \Alt{\Veim{pred}}.
 $$
-Therefore, 
+Therefore,
 \Alt{\Veim{pred}} is finite and defined.
 This shows the theorem for predictions.
 
@@ -4139,7 +4139,7 @@ correct.
 
 \textbf{Iteration sets}:
 For the purposes of this proof we divide the EIMs
-added by 
+added by
 Algorithm \ref{alg:reduction-pass} into a sequence
 of sets,
 $$\var{iter}[0], \var{iter}[1], \ldots \var{iter}[\var{n}].$$
@@ -4159,7 +4159,7 @@ $\var{iter}[1]$ is the set of EIMs
 added during the first iteration of the main loop.
 
 \textbf{Consistency and altitude}:
-To show that 
+To show that
 Algorithm \ref{alg:reduction-pass} adds only
 valid EIMs,
 we proceed by induction on the sets in \var{iter}.
@@ -4303,7 +4303,7 @@ have altitude $\var{i}+1$.
 }
 \end{equation}
 
-Using 
+Using
 \eqref{eq:reduction-op-correct-23},
 \eqref{eq:reduction-op-correct-24}
 and
@@ -4326,7 +4326,7 @@ and
 \end{equation}
 
 \textbf{Completeness of the iteration sets}:
-To show that 
+To show that
 after
 Algorithm \ref{alg:reduction-pass} every set of
 \var{iter} is complete,
@@ -4362,7 +4362,7 @@ We now show that
 Algorithm \ref{alg:reduction-pass}
 pairs every bottom-up cause with
 all of its matching top-down causes.
-From line 
+From line
 \ref{line:reduction-pass-20}
 of Algorithm
 \ref{alg:reduction-pass}
@@ -4375,7 +4375,7 @@ line
 \ref{line:reduce-one-up-cause-20}
 of Algorithm
 \ref{alg:reduce-one-up-cause},
-we see that each 
+we see that each
 of these unmemoized bottom-up causes
 is paired with the matching set of valid top-down causes.
 
@@ -4458,7 +4458,7 @@ Showing \eqref{eq:reduction-op-correct-60} is the same
 as showing that
 \begin{equation}
 \label{eq:reduction-op-correct-63}
-\nexists \, \var{x}, 
+\nexists \, \var{x},
     \var{iter}[\var{x}] = \emptyset \land
     \var{iter}[\var{x}+1] \neq \emptyset
 \end{equation}
@@ -4499,7 +4499,7 @@ Case \ref{case:reduction-op-correct-66}
 or Case \ref{case:reduction-op-correct-70}.
 This shows the reductio,
 \eqref{eq:reduction-op-correct-63},
-and therefore 
+and therefore
 \eqref{eq:reduction-op-correct-60}.
 
 \begin{sloppypar}
