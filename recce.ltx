@@ -1919,14 +1919,23 @@ and are not therefore not symbolic.
 All other bottom-up causes are symbolic.
 
 \begin{definition}
-We say that a top-down cause
-and a symbolic bottom-up cause
-\dfn{match}
+\label{def:matching-causes}
+Let \Veim{down},
+be a top-down cause and
+let \Vinst{up}
+be a symbolic bottom-up cause.
+We say that \Veim{down} and \Vinst{up}
+are
+\dfn{matching causes}
 if and only if
-the symbol of the bottom-up cause is
-the postdot symbol of the top-down cause,
-and the left location of the bottom-up cause
-is the right location of the top-down cause.
+\begin{gather*}
+\Symbol{\Veim{down}} = \Symbol{\Vinst{up}}, \\
+\Left{\Veim{down}} = \Left{\Vinst{up}} \quad \text{and} \\
+\Right{\Veim{down}} = \Right{\Vinst{up}}.
+\end{gather*}
+When \Veim{down} and \Vinst{up} are matching causes,
+we also say that
+\Veim{down} and \Vinst{up} \dfn{match}.
 \end{definition}
 
 \begin{theorem}
