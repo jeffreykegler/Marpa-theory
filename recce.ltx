@@ -2028,8 +2028,7 @@ call it $\Veim{down}$,
 \label{item:symbolic-causes-from-effect-12}
 \item $\Left{\Veim{down}} = \Vloc{i}$,
 \label{item:symbolic-causes-from-effect-15}
-\item
-the cause symbol of \Vinst{up} must be \Predot{\Veim{effect}},
+\item $\Symbol{\Vinst{up}} = \Predot{\Veim{effect}}$,
 \label{item:symbolic-causes-from-effect-18}
 \item $\Predot{\Veim{effect}} = \Postdot{\Veim{down}}$, and
 \label{item:symbolic-causes-from-effect-19}
@@ -2043,27 +2042,32 @@ Without loss of generality,
 let \Veim{effect} be
 \begin{equation}
 \label{eq:symbolic-causes-from-effect-20}
-\begin{split}
-& \Veim{effect} =  \\
-& \qquad \qquad [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
-\end{split}
+\Veim{effect} =  
+[ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
 \end{equation}
-By assumption,
-\eqref{eq:symbolic-causes-from-effect-20}
-is valid, so that
+so that by
+Definition \ref{def:causes},
+the definition of causes,
+the bottom-up cause is
 \begin{equation}
-\label{eq:symbolic-causes-from-effect-23}
-\Vsym{down} \derives \Vmkm{i} \Vstr{pre} \cat \Vstr{A} \Vmkm{k} \Vstr{post}.
+\label{eq:symbolic-causes-from-effect-25}
+\Vmkl{j} \Vstr{A} \Vmkr{k},
 \end{equation}
+and the top-down cause is
+\begin{equation}
+\label{eq:symbolic-causes-from-effect-30}
+\Veim{down} = [ [ \Vsym{down} \derives \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j} ].
+\end{equation}
+
 Using
-\eqref{eq:symbolic-causes-from-effect-23},
+\eqref{eq:symbolic-causes-from-effect-20},
 and the definition of location markers,
 we have
 \begin{equation}
 \label{eq:symbolic-causes-from-effect-29}
 \Vstr{pre} \cat \Vstr{A} \destar \var{w}[\var{i}, (\var{k} \subtract 1)],
 \end{equation}
-so that there must be some \Vloc{j}, $\Vloc{i} \le \Vloc{j} \le \Vloc{k}$,
+so that there must be some \Vloc{j}, $\var{i} \le \var{j} \le \var{k}$,
 such that
 \begin{equation}
 \label{eq:symbolic-causes-from-effect-32}
@@ -2072,10 +2076,11 @@ such that
 Simplifying
 \eqref{eq:symbolic-causes-from-effect-32},
 we have
-\begin{equation}
-\label{eq:symbolic-causes-from-effect-35}
-\Vmkl{j} \Vstr{A} \Vmkr{k}
-\end{equation}
+\eqref{eq:symbolic-causes-from-effect-25},
+our bottom-up cause.
+This shows requirement \ref{item:symbolic-causes-from-effect-3}
+of this theorem.
+
 A different simplification of
 \eqref{eq:symbolic-causes-from-effect-32}
 produces
@@ -2087,31 +2092,23 @@ and
 from
 \eqref{eq:symbolic-causes-from-effect-38},
 by the definition of EIM validity,
-\begin{equation}
-\label{eq:symbolic-causes-from-effect-41}
-\Veim{down} = [ [ \Vsym{down} \derives \Vstr{pre} \cat \Vstr{A} \mydot \Vstr{post} ], \var{i}, \var{j} ]
-\end{equation}
+we have
+\eqref{eq:symbolic-causes-from-effect-30}.
+This shows 
+requirement \ref{item:symbolic-causes-from-effect-6}
+of this theorem.
 
-To show requirement \ref{item:symbolic-causes-from-effect-3},
-we say that
-\eqref{eq:symbolic-causes-from-effect-35}
-is our bottom-up
-cause.
-To show requirement \ref{item:symbolic-causes-from-effect-6},
-we say that
-\eqref{eq:symbolic-causes-from-effect-41} is our top-down
-cause.
-To fulfill requirement \ref{item:symbolic-causes-from-effect-9},
-we note that they match,
-because \Postdot{\Veim{down}} = \Vsym{A},
-and because the left position of
-\eqref{eq:symbolic-causes-from-effect-35}
-is the right position of \Veim{down}.
+Using
+Definition \ref{def:matching-causes},
+the definition of matching causes,
+shows
+requirement \ref{item:symbolic-causes-from-effect-9}
+of this theorem.
 Examination of
 \eqref{eq:symbolic-causes-from-effect-20},
-\eqref{eq:symbolic-causes-from-effect-35},
+\eqref{eq:symbolic-causes-from-effect-25},
 and
-\eqref{eq:symbolic-causes-from-effect-41}
+\eqref{eq:symbolic-causes-from-effect-30}
 shows that requirements
 \ref{item:symbolic-causes-from-effect-12},
 \ref{item:symbolic-causes-from-effect-15},
