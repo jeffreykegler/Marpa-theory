@@ -1111,7 +1111,7 @@ so we more often call the null transition
 an \dfn{ethereal transition}
 and the null transition set
 an \dfn{ethereal transition set}.
-If a transition is not an ethereral transition,
+If a transition is not an ethereal transition,
 it is a \dfn{telluric transition},
 and if a transition set
 is not an ethereal transition set,
@@ -1349,7 +1349,7 @@ the ethereal closure has finite time complexity.
 
 \begin{algorithm}[!htp]
 \caption{Create ethereal closure}
-\label{alg:ethereral-closure}
+\label{alg:ethereal-closure}
 \begin{algorithmic}[1]
 \Function{Create ethereal closure}{\Vdr{base}}
 \State $\Vdrset{result} \gets \emptyset$
@@ -1364,7 +1364,7 @@ the ethereal closure has finite time complexity.
 \end{algorithmic}
 \end{algorithm}
 
-Algorithm \ref{alg:ethereral-closure}
+Algorithm \ref{alg:ethereal-closure}
 is not actually used by any
 of Marpa's versions --
 it is chosen because it is
@@ -1382,7 +1382,7 @@ Ethereal closure has time complexity \Oc{}.
 \end{theorem}
 
 \begin{proof}
-We consider Algorithm \ref{alg:ethereral-closure}.
+We consider Algorithm \ref{alg:ethereal-closure}.
 This clearly runs in \Oc{} time if there is a constant
 number of calls to
 Algorithm \ref{alg:ethereal-generation}.
@@ -1411,12 +1411,12 @@ a most \Oc{} times.
 \end{proof}
 
 \begin{theorem}\label{t:ethereal-closure-dr-correct}
-Algorithm \ref{alg:ethereral-closure} is correct.
+Algorithm \ref{alg:ethereal-closure} is correct.
 \end{theorem}
 
 \begin{proof}
 From examining
-Algorithm \ref{alg:ethereral-closure},
+Algorithm \ref{alg:ethereal-closure},
 in particular 
 lines
 \ref{line:ethereal-generation-20}-\ref{line:ethereal-generation-40}
@@ -1433,7 +1433,7 @@ and therefore correct.
 \end{equation}
 
 From examining
-Algorithm \ref{alg:ethereral-closure},
+Algorithm \ref{alg:ethereal-closure},
 in particular 
 lines
 \ref{line:ethereal-generation-20}-\ref{line:ethereal-generation-40}
@@ -1450,7 +1450,7 @@ the set of predictions is consistent.
 \end{equation}
 
 It remains to show that the set of predictions is complete.
-Algorithm \ref{alg:ethereral-closure}
+Algorithm \ref{alg:ethereal-closure}
 clearly adds all predictions derivable in a single step
 to its results.
 It also
@@ -1505,10 +1505,10 @@ we see that we can create a chain that results in
 \eqref{ethereal-closure-correct-5},
 but which does not contain any prediction more than once.
 We can also see that, since
-Algorithm \ref{alg:ethereral-closure} follows all chains
+Algorithm \ref{alg:ethereal-closure} follows all chains
 that contain no duplicate steps,
 that 
-Algorithm \ref{alg:ethereral-closure} will add
+Algorithm \ref{alg:ethereal-closure} will add
 \eqref{ethereal-closure-correct-5} to its result.
 
 Since
@@ -1520,7 +1520,7 @@ and that therefore
 \begin{equation}
 \label{ethereal-closure-correct-40}
 \myparbox{
-Algorithm \ref{alg:ethereral-closure} adds a complete
+Algorithm \ref{alg:ethereal-closure} adds a complete
 set of predictions.
 }
 \end{equation}
