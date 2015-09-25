@@ -1578,12 +1578,12 @@ rule of \Vdr{quasi}.
 
 The \dfn{start EIM} is
 \begin{equation}
-\label{eq:start-eim-def}
+\label{eq:def-start-eim}
 \Veim{start} = [ [\Vsym{accept} \de \mydot \Vsym{start} ], 0, 0 ].
 \end{equation}
 The \dfn{accept EIM} is
 \begin{equation}
-\label{eq:accept-eim-def}
+\label{eq:def-accept-eim}
 \Vdr{accept} = [ [\Vsym{accept} \de \Vsym{start} \mydot ], 0, \Vsize{\Cw} ].
 \end{equation}
 
@@ -1637,7 +1637,7 @@ The start Earley item is valid.
 \begin{proof}
 By the definition of EIM validity,
 to show that the start EIM
-\eqref{eq:start-eim-def}
+\eqref{eq:def-start-eim}
 is valid,
 we need to show
 that
@@ -2665,13 +2665,17 @@ if the set of strings it accepts is exactly the set of
 strings in the language of its grammar.
 
 \begin{theorem}\label{t:algorithm-correct}
-If an Earley implementation creates a correct Earley set
-at location \Vsize{\Cw}, then
+If, for a given Earley implementation,
+\begin{equation}
+\label{eq:algorithm-correct-1}
+\text{\Ves{\Vsize{\Cw}} is correct,}
+\end{equation}
+then
 that implementation accepts all and only the
 correct inputs:
 \begin{equation}
 \label{eq:algorithm-correct-2}
-[\Vdr{accept}, 0] \in \bigEtable{\Vsize{\Cw}} \equiv \Cw \in \var{L}(\Cg).
+[\Vdr{accept}, 0] \in \bigEtable{\Vsize{\Cw}} \; \equiv \; \Cw \in \var{L}(\Cg).
 \end{equation}
 \end{theorem}
 
@@ -2682,36 +2686,20 @@ We assume that
 \label{eq:algorithm-correct-3}
 [\Vdr{accept}, 0] \in \bigEtable{\Vsize{\Cw}}.
 \end{equation}
-Since the algorithm is correct by assumption for the theorem,
-we have, by \eqref{eq:algorithm-correct-3}
-and by the definition of valid for an Earley item,
+By \eqref{eq:algorithm-correct-1},
+\Ves{\Vsize{\Cw}} is correct.
+Therefore,
+by \eqref{eq:algorithm-correct-3},
+the definition of validity for an Earley item,
+and the definition of the accept rule \eqref{eq:accept-rule-def},
 \begin{equation}
 \label{eq:algorithm-correct-6}
 \begin{split}
-& \Vsym{accept} \destar \Vstr{before} \,[0]\, \Vstr{predot} \,[\Vsize{\Cw}]\, \Vstr{postdot} \cat \Vstr{after}
+& \Vsym{accept} \destar \mk{0} \Vsym{start} \mk{\Vsize{\Cw}}
 \end{split}
 \end{equation}
-where the accept dotted rule is
-\begin{equation}
-\label{eq:algorithm-correct-9}
-\Vsym{accept} \de \cat \Vstr{predot} \mydot \Vstr{postdot}.
-\end{equation}
-Since no terminals can come before location 0 or after
-location \Vsize{\Cw},
-we see from
+By the definition of the location markers,
 \eqref{eq:algorithm-correct-6}
-that
-\begin{equation}
-\Vstr{before} = \Vstr{postdot} = \Vstr{after} = \epsilon.
-\end{equation}
-so that
-\eqref{eq:algorithm-correct-6}
-simplifies to
-\begin{equation}
-\label{eq:algorithm-correct-12}
-\Vsym{accept} \destar [0]\, \Vstr{predot} \,[\Vsize{\Cw}]
-\end{equation}
-which, by the definition of the location markers
 means that
 \begin{equation}
 \label{eq:algorithm-correct-15}
@@ -2719,7 +2707,7 @@ means that
 \end{equation}
 From
 \eqref{eq:algorithm-correct-15},
-by the definition of $\var{L}(\Cg)$,
+by the definition of \Cw{},
 we have that
 \begin{equation}
 \label{eq:algorithm-correct-27}
@@ -2735,17 +2723,17 @@ and the definition of $\var{L}(\Cg)$,
 we have
 \eqref{eq:algorithm-correct-15}.
 By the definition of the \Vsym{accept} symbol,
-it is only on the LHS of the rule
-\eqref{eq:algorithm-correct-12},
+it is only on the LHS of the accept rule,
 so that we have
 \begin{equation}
 \label{eq:algorithm-correct-40}
-\Vsym{accept} \derives [0]\, \Vstr{predot} \,[\Vsize{\Cw}] \destar \Cw.
+\Vsym{accept} \derives [0]\, \Vsym{start} \,[\Vsize{\Cw}] \destar \Cw.
 \end{equation}
 By assumption for the theorem, the Earley set at
 \Vsize{\Cw} is correct and therefore complete.
 If the Earley set at \Vsize{\Cw} is complete,
-by \eqref{eq:algorithm-correct-40},
+by \eqref{eq:algorithm-correct-40}
+and the definition of validity for Earley items,
 we have
 \begin{equation}
 \label{eq:algorithm-correct-46}
