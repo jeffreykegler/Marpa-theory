@@ -138,6 +138,7 @@
 \newcommand{\Current}[1]{\ensuremath{\mymathop{Current}(#1)}}
 \newcommand{\Valid}[1]{\ensuremath{\mymathop{Valid}(#1)}}
 \newcommand{\Memoized}[1]{\ensuremath{\mymathop{Memoized}(#1)}}
+\newcommand{\Symbol}[1]{\ensuremath{\mymathop{Symbol}(#1)}}
 \newcommand{\LeoUnique}[1]{\mymathop{Leo-Unique}(#1)}
 \newcommand{\ID}[1]{\mymathop{ID}(#1)}
 \newcommand{\PSL}[2]{\mymathop{PSL}[#1][#2]}
@@ -1650,17 +1651,16 @@ it is on the LHS of only one rule,
 All symbols in \Cg{} are productive,
 so that
 \begin{equation}
-\label{eq:start-eim-is-valid-15}
+\label{eq:start-eim-is-valid-16}
 \Vsym{accept} \derives \Vsym{start} \destar \Vstr{sent}
 \end{equation}
 where \Vstr{sent} is a sentence.
 Since \Vstr{sent} is a sentence,
 using \eqref{eq:def-L-g},
 we have that
-\begin{equation}
-\label{eq:start-eim-is-valid-18}
+\begin{equation*}
 \Vstr{sent} \in \myL{\Cg}.
-\end{equation}
+\end{equation*}
 Our convention is that \Cw{}
 is the input, or sentence, of interest in
 context, so here we assume that,
@@ -1670,7 +1670,7 @@ without loss of generalization,
 \Vstr{sent} = \Cw = \Cw[0, \Vdecr{\Vsize{\Cw}}].
 \end{equation}
 From
-\eqref{eq:start-eim-is-valid-15}
+\eqref{eq:start-eim-is-valid-16}
 and
 \eqref{eq:start-eim-is-valid-18},
 we have
@@ -1842,33 +1842,39 @@ we have
 \therefore \quad & \Vsym{up} && \derives
 [\var{i}]\, \Vstr{rhs} \,[\var{j}]
 \end{alignat*}
-If in the definition of EIM validity
+If,
+in the definition of EIM validity
 \eqref{eq:eim-valid-def},
-we set
-$\Vstr{predot} = \Vstr{rhs}$
-and
-$\Vstr{postdot} = \epsilon$,
+we set the predot string to
+\Vstr{rhs},
+the postdot string to $\epsilon$,
+and the LHS to \Vsym{up},
 we see that \Veim{up} in
 \eqref{eq:valid-eim-from-symbol-6} is valid.
 \end{proof}
 
-For every bottom-up causes that is a symbol
-and an EIM, its ``symbolic equivalent'' is defined.
-If the bottom-up cause is a symbol,
+For every bottom-up cause that is a symbol
+or an EIM,
+its ``symbolic equivalent'' is defined.
+We write the symbolic equivalent of \Vinst{x}
+as \Symbol{\var{x}}.
+If the bottom-up cause is a symbol instance,
 it is its own \dfn{symbolic equivalent}.
 If the bottom-up cause is an EIM,
 its symbolic equivalent is the instance
 of its LHS symbol
 with the same left and right locations
 as the EIM.
-That is, if
-\begin{equation*}
-\Veim{up} = [ [ \Vsym{up} \de \Vstr{up-rhs} \mydot ], \var{i}, \var{j} ]
-\end{equation*}
-its \dfn{symbolic equivalent} is
+That is, letting the bottom-up cause EIM be,
+without loss of generality,
 \begin{equation}
-\label{eq:valid-eim-from-symbol-16}
-\var{inst} = \Vmkl{i} \Vsym{up} \Vmkr{j},
+\label{eq:def-symbolic-equivalent-10}
+\Veim{up} = [ [ \Vsym{up} \de \Vstr{up-rhs} \mydot ], \var{i}, \var{j} ]
+\end{equation}
+then
+\begin{equation}
+\label{eq:def-symbolic-equivalent-20}
+\Symbol{\Veim{up}} = \Vmkl{i} \Vsym{up} \Vmkr{j}.
 \end{equation}
 We say that \Veim{up}
 is the \dfn{EIM equivalent} of
@@ -1884,10 +1890,10 @@ A bottom-up cause must be a completion.
 We may therefore,
 without loss of generality,
 let the bottom-up EIM be
-\eqref{eq:valid-eim-from-symbol-3}
+\eqref{eq:def-symbolic-equivalent-10}
 and its symbolic equivalent is therefore
-\eqref{eq:valid-eim-from-symbol-6}.
-\eqref{eq:valid-eim-from-symbol-3}
+\eqref{eq:def-symbolic-equivalent-20}.
+\eqref{eq:def-symbolic-equivalent-10}
 is valid by assumption for the theorem,
 so we have
 \begin{alignat}{3}
@@ -1901,7 +1907,7 @@ so we have
 & [\var{i}]\, \Vsym{up} \,[\var{j}] &&
 \end{alignat}
 \eqref{eq:valid-eim-from-symbol-20} is
-\eqref{eq:valid-eim-from-symbol-6},
+\eqref{eq:def-symbolic-equivalent-10},
 which shows the theorem.
 \end{proof}
 
