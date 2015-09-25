@@ -2298,20 +2298,143 @@ Our choice of \Vinst{inst1} was without loss of generality,
 so this shows the theorem.
 \end{proof}
 
-\begin{theorem}\label{t:multi-cause-eq-ambiguous-g}
+\begin{theorem}
+\label{t:multi-down-cause-ambiguous}
 If any Earley item has more than one top-down cause,
-or more than one bottom-up cause,
 the grammar is ambiguous.
 \end{theorem}
 
 \begin{proof}
-% TODO -- write a more careful proof
-This may be proved using the derivations in the definition
-of top-down and bottom-up cause.
-More than one cause means more than one derivation.
-Since every symbol in a Marpa grammar is production,
-if a grammar allows more than one derivation for any of its symbols,
-there exists some input for which it is ambiguous.
+Assume for a reductio, that \Veim{effect} has more than one top-down cause
+but that \Cg{} is not ambiguous.
+Without loss of generality,
+let \Veim{effect} be
+\begin{equation}
+\label{eq:multi-down-cause-ambiguous-20}
+\Veim{effect} =  
+[ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
+\end{equation}
+By the Definition \ref{def:causes},
+the dotted rule and origin of a top-down cause is determined by its effect,
+so that the two down-causes can differ only in their current position.
+Let the two top-down causes be
+\begin{gather*}
+\Veim{down1} = [ [ \Vsym{down} \derives \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j1} ] \\
+\Veim{down2} = [ [ \Vsym{down} \derives \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j2} ]
+\end{gather*}
+From these we get the two derivations:
+\begin{gather*}
+\Vsym{down} \derives \Vmk{i} \Vstr{pre} \Vmk{j1} \Vsym{A} \Vstr{post} \\
+\Vsym{down} \derives \Vmk{i} \Vstr{pre} \Vmk{j2} \Vsym{A} \Vstr{post}
+\end{gather*}
+These will be different factorings of the input if $\var{j1} \neq \var{j2}$.
+By assumption for the reductio, \Cg{} is not ambiguous,
+and therefore no derivation step can allow two different factorings of the input.
+So $\var{j1} = \var{j2}$.
+But then $\Veim{down1} = \Veim{down2}$, which is contrary to assumption
+for the reductio.
+\end{proof}
+
+\begin{theorem}
+\label{t:multi-up-cause-ambiguous}
+If any Earley item has more than one bottom-up cause,
+the grammar is ambiguous.
+\end{theorem}
+
+\begin{proof}
+Assume for a reductio, that \Veim{effect} has more than one bottom-up cause
+but that \Cg{} is not ambiguous.
+Without loss of generality,
+let \Veim{effect} be
+\begin{equation}
+\label{eq:multi-up-cause-ambiguous-20}
+\Veim{effect} =  
+[ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ]
+\end{equation}
+and call the two differing up-causes, \Vinst{up1}
+and \Vinst{up2}.
+By the Definition \ref{def:causes},
+the symbol and right location of a bottom-up cause are determined by its effect,
+so that
+\begin{gather}
+\label{eq:multi-up-cause-ambiguous-25}
+\Right{\var{up1}} = \Right{\var{up2}} \\
+\label{eq:multi-up-cause-ambiguous-26}
+\Symbol{\var{up1}} = \Symbol{\var{up2}}
+\end{gather}
+Therefore
+\Vinst{up1} and \Vinst{up2}
+can differ only in their left location, or in their EIM equivalent.
+
+By Theorem \ref{t:symbolic-causes-from-effect},
+up-causes must have matching down causes.
+By the definition of matching causes,
+if two up-causes differ in their left location,
+their matching down causes will differ in their right location.
+But by Theorem
+\ref{t:multi-down-cause-ambiguous},
+if an Earley item has more than one top-down cause,
+\Cg{} is ambiguous.
+This is contrary to assumption for the reductio.
+So we know that
+\begin{equation}
+\label{eq:multi-up-cause-ambiguous-28}
+\Left{\var{up1}} = \Left{\var{up2}}
+\end{equation}
+
+Since
+$\Symbol{\var{up1}} = \Symbol{\var{up2}}$,
+and every symbol is either a terminal or a non-terminal,
+two up-causes cannot differ in whether they have an EIM equivalent.
+If \var{up1} has no EIM equivalent,
+then \var{up2} has no EIM equivalent.
+But if both
+\var{up1} and
+\var{up2} are symbolic instances,
+by
+\eqref{eq:multi-up-cause-ambiguous-25},
+\eqref{eq:multi-up-cause-ambiguous-26}
+and
+\eqref{eq:multi-up-cause-ambiguous-28},
+they are identical.
+So both
+\var{up1} and
+\var{up2} must have EIM equivalents
+and the
+EIM equivalents must differ.
+
+It remains to examine the case where up-causes differ in their EIM equivalent.
+By
+\eqref{eq:multi-up-cause-ambiguous-25}
+and \eqref{eq:multi-up-cause-ambiguous-26}
+the symbol and right location of the two up-causes must be the same.
+By the Definition \ref{def:causes},
+an EIM bottom-up cause must be a completion.
+By \eqref{eq:multi-up-cause-ambiguous-28}
+their left locations must be identical.
+So the two up-causes can differ only in the RHS of their dotted rule.
+
+\begin{sloppypar}
+Without loss of generalization,
+let the two differing up causes be
+\begin{gather*}
+\Veim{up1} = [ [ \Vsym{up} \derives \Vstr{up-rhs1} \mydot ], \var{j}, \var{k} ] \\
+\Veim{up2} = [ [ \Vsym{up} \derives \Vstr{up-rhs2} \mydot ], \var{j}, \var{k} ]
+\end{gather*}
+From these we get the two derivations:
+\begin{gather*}
+\Vsym{up1} \derives \Vmk{j} \Vstr{up-rhs1} \Vmk{k} \\
+\Vsym{up1} \derives \Vmk{j} \Vstr{up-rhs2} \Vmk{k}
+\end{gather*}
+These will be different derivations of the input if
+$\Vstr{up-rhs1} \neq \Vstr{up-rhs2}.$
+By assumption for the reductio, \Cg{} is not ambiguous,
+and therefore no derivation step can allow two different sentential forms
+derivation
+So $\Vstr{up-rhs1} = \Vstr{up-rhs2}.$
+But then $\Veim{up1} = \Veim{up2}$, which is contrary to assumption
+for the reductio.
+\end{sloppypar}
 \end{proof}
 
 Recall that dotted rule notions applied to EIMs
@@ -2321,116 +2444,61 @@ with a nulling postdot symbol;
 and a lasting EIM is any EIM which is not
 a fleeting EIM.
 
+\begin{definition}
+\label{def:lasting-equivalent-eim}
 Let
 \begin{equation*}
-\var{eim1} = [ \Vdr{dr1}, \Vorig{i}, Vloc{j} ].
+\var{eim1} = [ \Vdr{dr1}, \Vorig{i}, \Vloc{j} ].
 \end{equation*}
 Let \Vdr{lasting1} be the lasting equivalent of \Vdr{dr1}.
 Then the lasting equivalent of \var{eim1}
 is
 \begin{equation*}
-[ \Vdr{lasting1}, \Vorig{i}, Vloc{j} ].
+[ \Vdr{lasting1}, \Vorig{i}, \Vloc{j} ].
 \end{equation*}
+We say that the \dfn{lasting effect} of a cause
+is the lasting equivalent of the effect of that cause.
+\end{definition}
 
 \begin{theorem}
+\label{t:lasting-valid-if-fleeting-valid}
 If an EIM is valid, so is its lasting equivalent.
 \end{theorem}
 
 \begin{proof}
-Omitted.
-% TODO
-\end{proof}
-
-We say that the \dfn{lasting effect} of a cause
-is the lasting equivalent of the effect of that cause.
-
-TODO: Delete this definition of stack and altitude,
-in favor of the Leo ones?
-
-Let \var{stack} be a sequence
-of \var{n} items,
-numbered
-consecutively starting at zero.
-We call a sequence of items a \dfn{cause stack},
-if and only if
-\begin{itemize}
-\item
-its first item, $\var{stack}[0]$, is a terminal symbol instance;
-and
-\item
-For all $1 \le \var{i} \le \Vdecr{n}$,
-$\var{stack}[\var{i}]$ is the lasting effect of $\var{stack}[\Vdecr{i}]$.
-\end{itemize}
-We call $\var{stack}[0]$ the \dfn{bottom} of the stack.
-We call $\var{stack}[\Vdecr{n}]$ the \dfn{top} of the stack.
-
-\begin{definition}
-\label{s:def-altitude}
-
-Where $\var{stack}[\var{i}]$ is an item in a cause stack,
-we say that its stack index, \var{i},
-is its \dfn{absolute altitude} in that stack.
-We will often refer to an item's absolute altitude as,
-simply, it \dfn{altitude}.
-
-If EIM is a part of more than one cause stack,
-its stack index may take on different value.
-The altitude of the EIM will be the minimum of
-the values of its stack indexes.
-\end{definition}
-
-Where
-$\var{stack}[\var{i}]$
-and
-$\var{stack}[\var{j}]$
-are items in a cause stack,
-$\var{i} \le \var{j}$,
-we say that $\var{j} \subtract \var{i}$
-is the altitude of
-$\var{stack}[\var{j}]$
-relative to
-$\var{stack}[\var{i}]$.
-Where a base \var{i} is understood in context,
-we say that
-is the altitude of
-$\var{stack}[\var{j}]$
-relative to
-$\var{stack}[\var{i}]$
-is the \dfn{relative altitude}
-of $\var{stack}[\var{j}]$.
-The altitude of a stack item relative to
-$\var{stack}[0]$
-is the same as its absolute altitude.
-
-\begin{theorem}
-All the items of a cause stack have the same
-right location.
-\end{theorem}
-
-\begin{proof}
-Omitted.
-% TODO
-\end{proof}
-
-\begin{theorem}
-\label{t:completion-cause-stack}
-Let \Veim{top} be an completed EIM.
-Then it is in a cause stack,
-and it has a finite altitude.
-\end{theorem}
-
-\begin{proof}
-TODO: Is this theorem used?  If not, delete it.
-\end{proof}
-
-\begin{theorem}
-\label{t:quasi-completion-cause-stack}
-Let \Veim{top} be a quasi-completed EIM.
-Then its lasting effect is in a cause stack.
-\end{theorem}
-
-\begin{proof}
-TODO: Is this theorem used?  If not, delete it.
+Without loss of generality,
+let the EIM be
+\begin{equation}
+\label{eq:lasting-valid-if-fleeting-valid-10}
+\Veim{fleet} =  
+[ [ \Vsym{fleet} \de \Vstr{pre} \mydot \Vstr{nulls} \Vstr{post} ], \var{i}, \var{k} ]
+\end{equation}
+By \eqref{eq:lasting-valid-if-fleeting-valid-10}
+and the definition of EIM validity,
+\begin{multline}
+\label{eq:lasting-valid-if-fleeting-valid-20}
+\Vsym{fleet} \derives \Vmk{i} \Vstr{pre} \Vmk{k} \Vstr{nulls} \Vstr{post} \\
+\shoveleft{\qquad \text{where $\Vstr{nulls} \derives \epsilon$.}}
+\end{multline}
+From
+\eqref{eq:lasting-valid-if-fleeting-valid-20}, we know that
+\begin{equation*}
+\Vsym{fleet} \derives \Vmk{i} \Vstr{pre} \Vmk{k} \Vstr{nulls} \Vmk{k} \Vstr{post}
+\end{equation*}
+so that
+using the definition of EIM validity in the opposite direction,
+we know that
+\begin{equation}
+\label{eq:lasting-valid-if-fleeting-valid-25}
+\Veim{lasting} =  
+[ [ \Vsym{fleet} \de \Vstr{pre} \Vstr{nulls} \mydot \Vstr{post} ], \var{i}, \var{k} ]
+\end{equation}
+is valid.
+By the definition of lasting equivalent EIMs,
+Definition \ref{def:lasting-equivalent-eim},
+\eqref{eq:lasting-valid-if-fleeting-valid-25} is
+the lasting equivalent of
+\eqref{eq:lasting-valid-if-fleeting-valid-10}.
 \end{proof}
 
 \section{Earley implementations}
