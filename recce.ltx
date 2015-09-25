@@ -2140,10 +2140,10 @@ it \Veim{down},
 \item
 \label{req:effect-from-symbol-3}
 \Vloc{j} is such that for some \Vloc{i}, \Vdr{down},
-$$\Veim{down} = [\Vdr{down}, \Vloc{i}, \Vloc{j}]$$
+$$\Veim{down} = [\Vdr{down}, \Vloc{i}, \Vloc{j}] \quad \text{and}$$
 \item
 \label{req:effect-from-symbol-4}
-and $\Vsym{A} = \Postdot{\Veim{down}} = \Predot{\Veim{effect}}.$
+$\Vsym{A} = \Postdot{\Veim{down}} = \Predot{\Veim{effect}}.$
 \end{enumerate}
 \end{theorem}
 
@@ -2164,19 +2164,22 @@ so that, without loss of generality, we may write
 \Vsym{down} \destar \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \Vstr{post}.
 \end{equation}
 By the definition of location markers there is
-some \Vstr{before}
+some \Vstr{before} and \Vstr{after},
 such that
 \begin{gather}
 \label{eq:effect-from-symbol-12}
 \Vsym{accept} \destar \Vstr{before} \cat \Vsym{down} \cat \Vstr{after} \\
 \label{eq:effect-from-symbol-13}
-\derives \Vstr{before} \cat \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \Vstr{post} \cat \Vstr{after} \\
+\derives \Vstr{before} \cat \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \Vstr{post} \cat \Vstr{after}
+\notag\\
 \label{eq:effect-from-symbol-14}
 \text{and} \qquad \Vstr{before} \cat \Vstr{pre} \destar \var{w}[0, \var{j} \subtract 1].
 \end{gather}
 From \eqref{eq:effect-from-symbol-14} we know there must be some \Vloc{i},
 $0 \le \var{i} < \Vloc{j}$,
 such that
+\eqref{eq:effect-from-symbol-12}
+can be rewritten as
 \begin{multline}
 \label{eq:effect-from-symbol-22}
 \Vsym{accept} \destar \Vstr{before} \cat \Vsym{down} \cat \Vstr{after} \\
@@ -2205,18 +2208,24 @@ and
 [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ]
 \end{equation}
 are valid.
+
+\eqref{eq:effect-from-symbol-29}
+and Definition \ref{def:causes},
+the definition of causes,
+shows requirement
+\ref{req:effect-from-symbol-1} of this theorem.
 \eqref{eq:effect-from-symbol-28}
-is requirement
-\ref{req:effect-from-symbol-1} to show the theorem.
-Requirements
-\ref{req:effect-from-symbol-2},
-\ref{req:effect-from-symbol-3},
+and Definition \ref{def:causes},
+the definition of causes,
+shows requirement
+\ref{req:effect-from-symbol-2} of this theorem.
+\eqref{eq:effect-from-symbol-28} shows
+requirement \ref{req:effect-from-symbol-3}.
+And requirement \ref{req:effect-from-symbol-4}
+follows from
+\eqref{eq:effect-from-symbol-28}
 and
-\ref{req:effect-from-symbol-4}
-follow from
-Theorem
-\ref{t:symbolic-causes-from-effect}
-and \eqref{eq:effect-from-symbol-28}.
+\eqref{eq:effect-from-symbol-29}.
 \end{proof}
 
 \begin{theorem}
