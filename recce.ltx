@@ -2560,10 +2560,12 @@ of Earley items in all the Earley sets of
 a \Marpa{} parse.
 
 An Earley item may be memoized.
-An Earley item is \dfn{memoized} if and if it is
+An Earley item is \dfn{memoized}
+if and only if it is
 not kept in an Earley set,
 but is kept in a form from which it can be recovered.
-A later section will show one way in which Earley items
+Section \ref{s:leo}
+will show one way in which Earley items
 can be memoized.
 To say that \Veim{x} is memoized,
 we also say \Memoized{\Veim{x}}.
@@ -2613,7 +2615,7 @@ the EIM set \Veimset{x} is complete
 for the predicate
 \begin{equation}
 \label{eq:def-complete-6}
-\lambda \var{eim} . \Current{\var{eim}} = \Vloc{i}
+\lambda \var{eim} . \Current{\Veim{eim}} = \Vloc{i}
 \end{equation}
 if and only if,
 for all \Veim{eim},
