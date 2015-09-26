@@ -2,6 +2,7 @@
 % This document is licensed under
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
 \documentclass[12pt]{amsart}
+\RequirePackage[l2tabu, orthodox]{nag}
 \usepackage{hyperref}
 \usepackage{ragged2e}
 \usepackage{mathtools}
@@ -31,14 +32,14 @@
 % This command will make any such change easier.
 \newcommand{\doc}{paper}
 
-\newcommand{\todo}[1]{\par{\large\bf Todo: #1}\par}
+\newcommand{\todo}[1]{\par{\large\textbf Todo: #1}\par}
 \newcommand{\mymathop}[1]{\mathop{\texttt{#1}}}
 
 % For a type name, when it occurs in text
 \newcommand{\type}[1]{\ensuremath{#1}}
 
 \newcommand{\defined}{\underset{\text{def}}{\equiv}}
-\newcommand{\dfn}[1]{{\bf #1}}
+\newcommand{\dfn}[1]{{\textbf #1}}
 \newcommand{\sep}{\,\mid\,}
 \newcommand{\mydot}{\raisebox{.05em}{$\,\bullet\,$}}
 \newcommand{\cat}{}
@@ -214,9 +215,9 @@
 \settowidth{\longtagwidth}{(999)\qquad}
 \setlength{\mathparwidth}{\dimexpr\textwidth-\longtagwidth}
 \newcommand{\myparbox}[1]{
-  \parbox{\mathparwidth}{ \begin{RaggedRight}
+  \parbox{\mathparwidth}{ \begin{FlushLeft}
 #1 \par
-\end{RaggedRight} }
+\end{FlushLeft} }
 }
 
 \begin{document}
@@ -235,7 +236,7 @@ a Creative Commons Attribution-NoDerivs 3.0 United States License.
 }
 
 \begin{abstract}
-{\bf
+{\textbf
 This is a draft.
 }
 Marpa is
@@ -511,7 +512,7 @@ and \Vsymset{term} is a set of symbols called terminals.
 Here $\Vsym{accept} \in \var{nt}$.
 The vocabulary of the grammar is the union of
 the sets of terminals and non-terminals:
-$$ \Vsymset{vocab} = \Vsymset{nt} \cup \Vsymset{term}. $$
+\[ \Vsymset{vocab} = \Vsymset{nt} \cup \Vsymset{term}. \]
 If a string of symbols contains only terminal symbols,
 that string is called a \dfn{sentence}.
 
@@ -562,8 +563,8 @@ The language of \var{g} is $\myL{\Cg}$, where
 We say that symbol \Vsym{x} is \dfn{nullable} if and only if
 $\Vsym{x} \destar \epsilon$.
 We say that symbol \Vsym{x} is \dfn{nulling} if and only if
-$$\forall \Vstr{y} \mid \Vsym{x} \destar \Vstr{y}
-  \implies \Vstr{y} = \epsilon $$.
+\[\forall \Vstr{y} \mid \Vsym{x} \destar \Vstr{y}
+  \implies \Vstr{y} = \epsilon \].
 This implies that $\Vstr{y} \derives \epsilon$ if and only
 if all of the symbols in \Vstr{y} are nullable.
 As a special case,
@@ -649,7 +650,7 @@ be the contiguous substring
 from position \var{a} to
 position \var{b}, inclusive,
 so that
-$$ \bigsize{\var{w}[\var{a}, \var{b}]} = (\var{b} \subtract \var{a}) + 1. $$
+\[ \bigsize{\var{w}[\var{a}, \var{b}]} = (\var{b} \subtract \var{a}) + 1. \]
 
 The alert reader may have noticed that the previous definition
 of \Cw{} did not allow zero-length inputs.
@@ -672,7 +673,7 @@ Our use of the location marker notation
 was inspired by him.}
 In its most general form,
 a derivation step with a single location marker is
-$$ \Vstr{pre} \Vmkm{x} \Vstr{post}. $$
+\[ \Vstr{pre} \Vmkm{x} \Vstr{post}. \]
 It means
 \begin{equation}
 \label{eq:location-marker-def}
@@ -685,7 +686,7 @@ It means
 
 Derivations may have many location markers.
 The meaning of a derivation with \var{j} different location markers,
-$$ \var{m}[1], \var{m}[2] \ldots \var{m}[\var{j}], $$
+\[ \var{m}[1], \var{m}[2] \ldots \var{m}[\var{j}], \]
 is the same as the meaning of the conjunction of an ordered set of \var{j} derivations,
 where the \var{i}'th member has all the markers removed except for $\var{m}[\var{i}]$.
 For example,
@@ -1192,7 +1193,7 @@ The
 \dfn{ethereal closure}
 is the closure of union
 \var{null-scan-one} and \var{predict-one}.
-$$\var{ethereal-closure} \defined (\var{null-scan-one} \cup \var{predict-one})^\ast.$$
+\[\var{ethereal-closure} \defined (\var{null-scan-one} \cup \var{predict-one})^\ast.\]
 
 We are now in a position to define the ethereal transition of \GOTO{}
 from the dotted rule \Vdr{base},
@@ -1222,7 +1223,7 @@ If \Vdr{base} is telluric, we say that
 \Vdr{base} is a \dfn{telluric base}.
 We call \Vdr{tell} a telluric base
 of a dotted rule \Vdr{dr2} if and only if
-$$ \Vdr{dr2} \in \var{ethereal-closure}(\lbrace \Vdr{tell} \rbrace). $$
+\[ \Vdr{dr2} \in \var{ethereal-closure}(\lbrace \Vdr{tell} \rbrace). \]
 
 Predicted dotted rules may have more than one telluric base,
 but for null-scan dotted rules the telluric base
@@ -1272,7 +1273,7 @@ where $\Vstr{post1} = \Vstr{nulls2} \cat \Vstr{post2},$
 so that
 by \eqref{eq:eth-eq-share-telluric-base-20}
 and the definition of ethereal closure,
-$$ \Vdr{dr2} \in \var{ethereal-closure}(\lbrace \Vdr{tell} \rbrace).$$
+\[ \Vdr{dr2} \in \var{ethereal-closure}(\lbrace \Vdr{tell} \rbrace).\]
 By the definition of telluric base,
 \Vdr{tell} is the telluric base of \Vdr{dr2}.
 
@@ -1585,10 +1586,10 @@ a completion EIM is an EIM with a completion
 dotted rule,
 and a predicted EIM is an EIM with a predicted dotted rule.
 If
-$$\Veim{quasi} = [ \Vdr{quasi}, \var{i}, \var{j} ]$$
+\[\Veim{quasi} = [ \Vdr{quasi}, \var{i}, \var{j} ]\]
 is a quasi-complete EIM,
 then its lasting completion EIM is
-$$[ \Vdr{complete}, \var{i}, \var{j} ],$$
+\[[ \Vdr{complete}, \var{i}, \var{j} ],\]
 where \Vdr{complete} is the completion dotted
 rule of \Vdr{quasi}.
 
@@ -1712,7 +1713,7 @@ a symbol in the context of a parse.
 More formally, a symbol instance is a triple whose elements
 are a left location, a symbol name and a right location.
 We often represent symbol instances in the form
-$$\Vmkl{j} \Vsym{up} \Vmkr{k}.$$
+\[\Vmkl{j} \Vsym{up} \Vmkr{k}.\]
 
 When it is clear in context, we will often say ``symbol''
 when we mean ``symbol instance''.
@@ -1754,7 +1755,7 @@ let the Earley item be
 \Veim{effect} = [ [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{up} \mydot \Vstr{suffix} ], \var{i}, \var{k} ].
 \end{equation*}
 and let the instance be
-$$\Vmkl{j} \Vsym{up} \Vmkr{k}.$$
+\[\Vmkl{j} \Vsym{up} \Vmkr{k}.\]
 Then we say that
 \begin{equation*}
 \Veim{down} = [ [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{up} \cat \Vstr{suffix} ], \var{i}, \var{j} ]
@@ -2027,7 +2028,7 @@ which is what we needed to show for the theorem.
 \begin{theorem}
 \label{t:symbolic-causes-from-effect}
 If
-$$\Veim{effect} = [ \Vdr{effect}, \var{i}, \var{k} ],$$
+\[\Veim{effect} = [ \Vdr{effect}, \var{i}, \var{k} ],\]
 is a valid, confirmed EIM,
 then
 \begin{enumerate}
@@ -2156,7 +2157,7 @@ it \Veim{down},
 \item
 \label{req:effect-from-symbol-3}
 \Vloc{j} is such that for some \Vloc{i}, \Vdr{down},
-$$\Veim{down} = [\Vdr{down}, \Vloc{i}, \Vloc{j}] \quad \text{and}$$
+\[\Veim{down} = [\Vdr{down}, \Vloc{i}, \Vloc{j}] \quad \text{and}\]
 \item
 \label{req:effect-from-symbol-4}
 $\Vsym{A} = \Postdot{\Veim{down}} = \Predot{\Veim{effect}}.$
@@ -2615,7 +2616,7 @@ for all \Veim{eim},
 If we say that an EIM set, \Veimset{x},
 is \dfn{self-complete},
 then \var{phi} is membership in \Veimset{x}:
-$$ \lambda \Veim{eim} . \var{eim} \in \Veimset{x}, $$
+\[ \lambda \Veim{eim} . \var{eim} \in \Veimset{x}, \]
 so that
 \eqref{eq:def-complete-2} simplifies to
 \begin{equation}
@@ -2831,7 +2832,7 @@ recursion is $n$, then $n$ EIMs are needed to
 represent the right recursion.
 The total number of EIMs needed for a right recursion of
 length $n$ is
-$$\sum_{1 \le \var{i} \le \var{n}} \var{i} = \order{\var{n}^2}.$$
+\[\sum_{1 \le \var{i} \le \var{n}} \var{i} = \order{\var{n}^2}.\]
 Of these EIMs, only $n$ will actually be needed --
 the rest are useless.
 
@@ -2898,7 +2899,7 @@ the concept of parse instance
 
 \begin{definition}
 \label{def:altitude}
-\begin{RaggedRight}
+\begin{FlushLeft}
 Intuitively,
 We write \Alt{\Vinst{inst}} for the altitude of \Vinst{inst}.
 \begin{itemize}
@@ -2927,7 +2928,7 @@ The altitude of an EIM is the minimum of its possible
 values.
 \end{itemize}
 \par
-\end{RaggedRight}
+\end{FlushLeft}
 
 \end{definition}
 
@@ -2985,8 +2986,8 @@ Let $\Veim{bottom} = \var{silo}[\var{m}]$
 be its most recent unmemoized bottom-up cause.
 This is, $\var{m} < \var{n}$,
 and where
-$$\text{$\forall\;\var{i}, \var{m} < \var{i} < \var{n}$,
-$\var{silo}[\var{i}]$ is memoized.}$$
+\[\text{$\forall\;\var{i}, \var{m} < \var{i} < \var{n}$,
+$\var{silo}[\var{i}]$ is memoized.}\]
 
 By the definition of altitude
 (Definition \ref{def:altitude})
@@ -2999,7 +3000,7 @@ and is memoized,
 so that by the Definition \ref{def:altitude},
 $\Alt{\var{silo}[\var{i}]} = \Alt{\var{silo}[\Vdecr{i}]}$.
 Therefore
-$$\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\var{m}]} + 1$$
+\[\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\var{m}]} + 1\]
 and
 \begin{equation*}
 \Alt{\Veim{top}} = \Alt{\Veim{bottom}} + 1.\qedhere
@@ -3270,14 +3271,14 @@ is defined and finite,
 by induction on \var{i}.
 
 Our induction hypothesis is
-$$ \text{\Alt{\var{silo}[\var{i}]} is defined and finite}. $$
+\[ \text{\Alt{\var{silo}[\var{i}]} is defined and finite}. \]
 We take 0 as the basis of the induction.
 From Definition \ref{def:altitude-silo}, we know
 that \var{silo}[0] is a telluric terminal
 symbol instance, so that its altitude is 0.
 
 As the step of the induction, we assume that
-$$ \text{\Alt{\var{silo}[\var{i}]} is defined and finite} $$
+\[ \text{\Alt{\var{silo}[\var{i}]} is defined and finite} \]
 to show that
 \begin{equation}
 \label{eq:base-altitude-is-finite-30}
@@ -3311,7 +3312,7 @@ the altitude of \Veim{base}
 is defined and finite.
 By theorem
 \ref{altitude-from-telluric-base},
-$$\Alt{\Veim{base}} = \Alt{\Veim{confirmed}}.$$
+\[\Alt{\Veim{base}} = \Alt{\Veim{confirmed}}.\]
 Therefore the altitude of
 \Alt{\Veim{confirmed}} is defined and finite.
 \end{proof}
@@ -3358,11 +3359,11 @@ is a prediction,
 so that,
 by the definition of altitude for predictions,
 we know that
-$$ \Alt{\var{chain}[\Vdecr{i}]} = \Alt{\var{chain}[\var{i}]}.$$
+\[ \Alt{\var{chain}[\Vdecr{i}]} = \Alt{\var{chain}[\var{i}]}.\]
 From this, it is easy to show by induction that
-$$ \Alt{\var{chain}[\var{last-confirmed}]} = \Alt{\var{chain}[\var{n}]}
+\[ \Alt{\var{chain}[\var{last-confirmed}]} = \Alt{\var{chain}[\var{n}]}
 = \Alt{\Veim{pred}}.
-$$
+\]
 Therefore,
 \Alt{\Veim{pred}} is finite and defined.
 This shows the theorem for predictions.
@@ -4211,7 +4212,7 @@ For the purposes of this proof we divide the EIMs
 added by
 Algorithm \ref{alg:reduction-pass} into a sequence
 of sets,
-$$\var{iter}[0], \var{iter}[1], \ldots \var{iter}[\var{n}].$$
+\[\var{iter}[0], \var{iter}[1], \ldots \var{iter}[\var{n}].\]
 $\var{iter}[0]$ is the set of EIMs
 at line
 \ref{line:reduction-pass-18} of Algorithm \ref{alg:reduction-pass},
@@ -4574,7 +4575,7 @@ and therefore
 \begin{sloppypar}
 \textbf{Correctness}:
 Let
-$$ \var{reduction-pass-eims} = \bigcup_\var{i} \var{iter}[\var{i}]. $$
+\[ \var{reduction-pass-eims} = \bigcup_\var{i} \var{iter}[\var{i}]. \]
 From the considerations in the part on \textbf{Completeness}
 we conclude that
 \var{reduction-pass-eims}
@@ -5459,7 +5460,7 @@ in all the Marpa tables,
 and let \var{tries} be the
 number of attempts to add
 Leo memos and Earley items.
-Then $$\var{tries} = \order{\var{z}}.$$
+Then \[\var{tries} = \order{\var{z}}.\]
 \end{theorem}
 
 \begin{proof}
@@ -5969,25 +5970,25 @@ the time and space complexity of \Marpa{}
 for unambiguous grammars is \order{\var{n}^2}.
 \end{proof}
 
-\begin{RaggedRight}
+\begin{FlushLeft}
 \begin{theorem}
 For every context-free grammar,
 \Marpa{} runs in $\order{\var{n}^3}$ time.
 \end{theorem}
-\end{RaggedRight}
+\end{FlushLeft}
 
 \begin{proof}
 By Theorem \ref{t:O1-time-per-eim},
 and Theorem \ref{t:ambiguous-tries}.
 \end{proof}
 
-\begin{RaggedRight}
+\begin{FlushLeft}
 \begin{theorem}\label{t:cfg-space}
 For every context-free grammar,
 \Marpa{} runs in $\order{\var{n}^2}$ space,
 if it does not track links.
 \end{theorem}
-\end{RaggedRight}
+\end{FlushLeft}
 
 \begin{proof}
 By Theorem \ref{t:O1-space-per-eim}
@@ -6005,13 +6006,13 @@ are typically used in anticipation
 of an evaluation phase,
 for which links are necessary.
 
-\begin{RaggedRight}
+\begin{FlushLeft}
 \begin{theorem}
 For every context-free grammar,
 \Marpa{} runs in $\order{\var{n}^3}$ space,
 including the space for tracking links.
 \end{theorem}
-\end{RaggedRight}
+\end{FlushLeft}
 
 \begin{proof}
 By Theorem \ref{t:O1-links-per-eim},
