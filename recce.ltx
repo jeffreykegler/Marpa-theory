@@ -2869,15 +2869,38 @@ his title.
 
 \subsection{Silos}
 
+With right recursions in mind,
+we return to some concepts
+from Section \ref{s:earley-items}.
+In \Earley,
+a long right recursion
+created long sequences of Earley items
+at many of its parse locations.
+In these sequences,
+each EIM was the cause of the next one.
+
+We need to investigate
+cause-and-effect sequences within the EIMs
+of a single parse location.
+From Section \ref{s:earley-items},
+we recall the idea of
+top-down and bottom-up causes.
+We note that every
+bottom-up cause has the same
+right location as its effect.
+In addition, null-scan EIMs
+have the same right location as
+their top-down causes.
+
+We will begin our investigation by defining
+the concept of parse instance
+``altitude'' in terms of EIM causes and effects.
+
 \begin{definition}
 \label{def:altitude}
 \begin{RaggedRight}
 Intuitively,
-\dfn{Leo-adjusted altitude},
-or simply \dfn{altitude},
-is altitude adjusted to reflect Leo memoization.
 We write \Alt{\Vinst{inst}} for the altitude of \Vinst{inst}.
-More formally,
 \begin{itemize}
 \item The altitude of a terminal symbol instance is 0.
 \item The altitude of a prediction is the altitude of its top-down cause.
@@ -3358,7 +3381,6 @@ for all valid EIMs.
 \end{proof}
 
 \subsection{Leo memos}
-
 TODO: Finish this section 
 
 Summarizing Leo's method,
