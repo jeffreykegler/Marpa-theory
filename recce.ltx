@@ -12,7 +12,13 @@
 \usepackage{float}
 \usepackage{hyperref}
 \usepackage{algorithm}
-\makeindex
+
+\makeatletter
+\def\listofalgorithms{\@starttoc{loa}\listalgorithmname}
+\def\l@algorithm{\@tocline{0}{3pt plus2pt}{0pt}{1.9em}{}}
+\renewcommand{\ALG@name}{Algorithm}
+\renewcommand{\listalgorithmname}{List of \ALG@name s}
+\makeatother
 
 % This is used to find the font size if need be
 % its uses are usually commented out
@@ -6109,5 +6115,7 @@ Klaus Wich.
 
 \clearpage
 \tableofcontents
+\clearpage
+\listofalgorithms
 
 \end{document}
