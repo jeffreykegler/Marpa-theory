@@ -2867,107 +2867,7 @@ which is why Leo only claims
 the weaker \LRk{} bound in
 his title.
 
-TODO: Finish this section 
-
-Summarizing Leo's method,
-it consists of spotting potential right recursions
-and memoizing them.
-Leo restricts the memoization to situations where
-the right recursion is unambiguous.
-Potential right recursions are memoized by
-Earley set, using what Leo called
-``transitive items''.
-In this \doc{} Leo's ``transitive items''
-will be called Leo items.
-Leo items of the form used in Leo's paper\cite{Leo1991},
-will be type \type{LIM}.
-
-In each Earley set, there is at most one Leo item per symbol.
-A Leo item (LIM) is the triple
-\begin{equation*}
-[ \Vdr{top}, \Vsym{transition}, \Vorig{top} ]
-\end{equation*}
-where \Vsym{transition} is the transition symbol,
-and
-\begin{equation*}
-\Veim{top} = [\Vdr{top}, \Vorig{top}]
-\end{equation*}
-is the Earley item to be added on reductions over
-\Vsym{transition}.
-
-Leo items memoize what would otherwise be sequences
-of Earley items.
-Leo items only memoize unambiguous (or
-deterministic) sequences,
-so that the top of the sequence can represent
-the entire sequence --
-the only role the other EIM's in the sequence
-play in the parse is to derive the top EIM.
-We will call these memoized sequences, Leo sequences.
-
-To guarantee that a Leo sequence is deterministic,
-\Leo{} enforced \dfn{Leo uniqueness}.
-We say that \Vdr{q} is a \dfn{quasi-penult}
-if and only if it is
-\begin{equation*}
-\begin{split}
-& \Vdr{q} = [ \Vsym{A} \de \Vstr{before} \mydot \Vsym{B} \cat \Vstr{after} ] \\
-& \qquad \text{for some $[ \Vsym{A} \de \Vstr{before} \cat \Vsym{B} \cat \Vstr{after} ] \in \Crules$} \\
-& \qquad \qquad \text{such that $\Vstr{after} \derives \epsilon \land \Vstr{B} \nderives \epsilon$}.
-\end{split}
-\end{equation*}
-We say that \Veim{x} is \dfn{Leo unique}
-if and only if it is
-\begin{equation*}
-\begin{split}
-& \Veim{x} = [ \Vdr{x},  \Vorig{x}, \Vloc{x} ] \\
-& \qquad \text{for some \Vdr{x}, \Vorig{x}, \Vloc{x}} \\
-& \qquad \text{such that for all $\Veim{y} = [ \Vdr{y},  \Vorig{y}, \Vloc{x} ]$} \\
-& \qquad \qquad \Postdot{\Vdr{x}} = \Postdot{\Vdr{y}} \implies \Veim{x} = \Veim{y} .
-\end{split}
-\end{equation*}
-
-If \Veim{x} is Leo unique, then the symbol \Vdr{x}
-and $\Postdot{\Vdr{x}}$ are
-also said to be \dfn{Leo unique} in Earley set \Vloc{x}.
-In the definition
-it is important to emphasize that \Veim{y} ranges over all the dotted
-rules of Earley set \Ves{x},
-even those which are ineligible for Leo memoization.
-
-In Leo's original algorithm, any penult
-was treated as a potential right-recursion.
-\Marpa{} applies the Leo memoizations in more restricted circumstances.
-For \Marpa{} to consider a dotted rule
-\begin{equation*}
-\Vdr{candidate} = [\Vrule{candidate}, \var{i}]
-\end{equation*}
-for Leo memoization,
-\Vdr{candidate} must be a penult and
-\Vrule{candidate} must be right-recursive.
-
-By restricting Leo memoization to right-recursive rules,
-\Marpa{} incurs the cost of Leo memoization only in cases
-where Leo sequences could be infinitely
-long.
-This more careful targeting of the memoization is for efficiency reasons.
-If all penults are memoized,
-many memoizations will be performed where
-the longest potential Leo sequence is short,
-and the payoff is therefore very limited.
-One future extension might be to identify
-non-right-recursive rules
-which generate Leo sequences long enough to
-justify inclusion in the Leo memoizations.
-Such cases are unusual, but may occur.
-
-Omission of a memoization does not affect correctness,
-so \Marpa{}'s restriction of Leo memoization
-preserves the correctness as shown in Leo\cite{Leo1991}.
-Later in this \doc{} we will
-show that this change also leaves
-the complexity results of
-Leo\cite{Leo1991} intact.
+\subsection{Silos}
 
 TODO: Can Leo altitude be simply ``altitude''?
 
@@ -3458,6 +3358,111 @@ and for valid quasi-completions.
 Therefore we have shown it
 for all valid EIMs.
 \end{proof}
+
+\subsection{Leo memos}
+
+TODO: Finish this section 
+
+Summarizing Leo's method,
+it consists of spotting potential right recursions
+and memoizing them.
+Leo restricts the memoization to situations where
+the right recursion is unambiguous.
+Potential right recursions are memoized by
+Earley set, using what Leo called
+``transitive items''.
+In this \doc{} Leo's ``transitive items''
+will be called Leo items.
+Leo items of the form used in Leo's paper\cite{Leo1991},
+will be type \type{LIM}.
+
+In each Earley set, there is at most one Leo item per symbol.
+A Leo item (LIM) is the triple
+\begin{equation*}
+[ \Vdr{top}, \Vsym{transition}, \Vorig{top} ]
+\end{equation*}
+where \Vsym{transition} is the transition symbol,
+and
+\begin{equation*}
+\Veim{top} = [\Vdr{top}, \Vorig{top}]
+\end{equation*}
+is the Earley item to be added on reductions over
+\Vsym{transition}.
+
+Leo items memoize what would otherwise be sequences
+of Earley items.
+Leo items only memoize unambiguous (or
+deterministic) sequences,
+so that the top of the sequence can represent
+the entire sequence --
+the only role the other EIM's in the sequence
+play in the parse is to derive the top EIM.
+We will call these memoized sequences, Leo sequences.
+
+To guarantee that a Leo sequence is deterministic,
+\Leo{} enforced \dfn{Leo uniqueness}.
+We say that \Vdr{q} is a \dfn{quasi-penult}
+if and only if it is
+\begin{equation*}
+\begin{split}
+& \Vdr{q} = [ \Vsym{A} \de \Vstr{before} \mydot \Vsym{B} \cat \Vstr{after} ] \\
+& \qquad \text{for some $[ \Vsym{A} \de \Vstr{before} \cat \Vsym{B} \cat \Vstr{after} ] \in \Crules$} \\
+& \qquad \qquad \text{such that $\Vstr{after} \derives \epsilon \land \Vstr{B} \nderives \epsilon$}.
+\end{split}
+\end{equation*}
+We say that \Veim{x} is \dfn{Leo unique}
+if and only if it is
+\begin{equation*}
+\begin{split}
+& \Veim{x} = [ \Vdr{x},  \Vorig{x}, \Vloc{x} ] \\
+& \qquad \text{for some \Vdr{x}, \Vorig{x}, \Vloc{x}} \\
+& \qquad \text{such that for all $\Veim{y} = [ \Vdr{y},  \Vorig{y}, \Vloc{x} ]$} \\
+& \qquad \qquad \Postdot{\Vdr{x}} = \Postdot{\Vdr{y}} \implies \Veim{x} = \Veim{y} .
+\end{split}
+\end{equation*}
+
+If \Veim{x} is Leo unique, then the symbol \Vdr{x}
+and $\Postdot{\Vdr{x}}$ are
+also said to be \dfn{Leo unique} in Earley set \Vloc{x}.
+In the definition
+it is important to emphasize that \Veim{y} ranges over all the dotted
+rules of Earley set \Ves{x},
+even those which are ineligible for Leo memoization.
+
+In Leo's original algorithm, any penult
+was treated as a potential right-recursion.
+\Marpa{} applies the Leo memoizations in more restricted circumstances.
+For \Marpa{} to consider a dotted rule
+\begin{equation*}
+\Vdr{candidate} = [\Vrule{candidate}, \var{i}]
+\end{equation*}
+for Leo memoization,
+\Vdr{candidate} must be a penult and
+\Vrule{candidate} must be right-recursive.
+
+By restricting Leo memoization to right-recursive rules,
+\Marpa{} incurs the cost of Leo memoization only in cases
+where Leo sequences could be infinitely
+long.
+This more careful targeting of the memoization is for efficiency reasons.
+If all penults are memoized,
+many memoizations will be performed where
+the longest potential Leo sequence is short,
+and the payoff is therefore very limited.
+One future extension might be to identify
+non-right-recursive rules
+which generate Leo sequences long enough to
+justify inclusion in the Leo memoizations.
+Such cases are unusual, but may occur.
+
+Omission of a memoization does not affect correctness,
+so \Marpa{}'s restriction of Leo memoization
+preserves the correctness as shown in Leo\cite{Leo1991}.
+Later in this \doc{} we will
+show that this change also leaves
+the complexity results of
+Leo\cite{Leo1991} intact.
+
 
 \begin{theorem}
 \label{t:leo-quasi-complete}
