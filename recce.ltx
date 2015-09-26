@@ -2941,7 +2941,8 @@ values.
 
 When we say \dfn{altitude cause},
 we mean whichever of its causes
--- bottom-up or top-down is used to calculate its possible
+-- bottom-up or top-down --
+is used to calculate its possible
 altitudes.
 
 \begin{theorem}
@@ -3477,11 +3478,6 @@ If all penults are memoized,
 many memoizations will be performed where
 the longest potential Leo sequence is short,
 and the payoff is therefore very limited.
-One future extension might be to identify
-non-right-recursive rules
-which generate Leo sequences long enough to
-justify inclusion in the Leo memoizations.
-Such cases are unusual, but may occur.
 
 Omission of a memoization does not affect correctness,
 so \Marpa{}'s restriction of Leo memoization
