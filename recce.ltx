@@ -48,6 +48,7 @@
 \newcommand{\order}[1]{\ensuremath{{\mathcal O}(#1)}}
 \newcommand{\Oc}{\order{1}}
 \newcommand{\On}{\order{\var{n}}}
+\newcommand{\LRk}{\ensuremath{\var{LR}(\var{k})}}
 \newcommand{\inference}[2]{\genfrac{}{}{1pt}{}{#1}{#2}}
 
 % I use hyphens in variable names,
@@ -2795,14 +2796,78 @@ the maximum size of Earley set \Vloc{i} is therefore
 \section{The Leo algorithm}
 \label{s:leo}
 
-In \cite{Leo1991}, Joop Leo presented a method for
-dealing with right recursion in \On{} time.
-Leo shows that,
+\subsection{The history of a conjecture}
+
+On page 60 of his
+first publication on his new algorithm\cite{Earley1968},
+Jay Earley conjectured that his algorithm could be
+modified to be \On{} for all deterministic context-free grammars.
+(The deterministic context-free grammars (DCFG's) are the union of the
+\LRk{} grammars for all $k$.)
+He gave no details of the method he had in mind.
+Earley left the field shortly thereafter --
+by 1973 he has earned a second Ph.D. and
+was a practicing psychotherapist in California.
+
+In the late 1980's, Joop Leo also conjectured that
+Earley's algorithm could be modified to be linear for all
+DCFG's.
+Leo was unaware of Earley's earlier conjecture --
+he discovered it in the course of writing up his
+discovery.
+Leo published his method in
+\cite{Leo1991}.
+
+The problem both invesigators noticed was that,
+while the algorithm of \cite{Earley1970} is \On{},
+and in fact very efficient,
+for left recursion,
+it is $\order{\var{n}^2}$ for right recursion.
+This is because all the EIMs necessary for a right
+recursion are created at every parse location
+where the right recursion might end.
+At each parse location, if the length of the right
+recursion is $n$, then $n$ EIMs are needed to
+represent the right recursion.
+The total number of EIMs needed for a right recursion of
+length $n$ is
+$$\sum_{1 \le \var{i} \le \var{n}} \var{i} = \order{\var{n}^2}.$$
+Of these EIMs, only $n$ will actually be needed --
+the rest are useless.
+
+Leo's idea was to memoize the right recursions.
+With Leo memoization, each sequence is represented by
+a pair of EIMs and a memo.
+There are \Oc{} Leo items per Earley set,
+so the cost of the sequence is \Oc{} per Earley set,
+or \On{} for the entire sequence.
+
+If, at evaluation time,
+it is desirable to expand the Leo sequence,
+only those items actually involved in the parse
+need to be expanded.
+All the EIM's of a potential right-recursion
+will be in one Earley set and the number of EIM's
+will be \On{},
+so that even including expansion of the Leo sequence
+for evaluation, the time and space complexity of
+the sequence remains \On{}.
+
+Joop Leo showed that,
 with his modification, Earley's algorithm
 is \On{} for all LR-regular grammars.
-(LR-regular is LR where lookahead
+LR-regular is LR where lookahead
 is infinite length, but restricted to
-distinguishing between regular expressions.)
+distinguishing between regular expressions.
+Earley did not claim \On{} for LR-regular
+because LR-regular was not introduced
+to the literature until 1973\cite{Culik1973}.
+Even in 1991, LR-regular was not well-known,
+which is why Leo only claims
+the weaker \LRk{} bound in
+his title.
+
+TODO: Finish this section 
 
 Summarizing Leo's method,
 it consists of spotting potential right recursions
@@ -2869,27 +2934,6 @@ In the definition
 it is important to emphasize that \Veim{y} ranges over all the dotted
 rules of Earley set \Ves{x},
 even those which are ineligible for Leo memoization.
-
-Let \var{n} be the length of a Leo sequence.
-In \Earley, each such sequence would be expanded in every
-Earley set that is the origin of an EIM included in the
-sequence, and the total number of EIM's would be
-\order{\var{n}^2}.
-
-With Leo memoization, a single EIM stands in for the sequence.
-There are \Oc{} Leo items per Earley set,
-so the cost of the sequence is \Oc{} per Earley set,
-or \On{} for the entire sequence.
-If, at evaluation time,
-it is desirable to expand the Leo sequence,
-only those items actually involved in the parse
-need to be expanded.
-All the EIM's of a potential right-recursion
-will be in one Earley set and the number of EIM's
-will be \On{},
-so that even including expansion of the Leo sequence
-for evaluation, the time and space complexity of
-the sequence remains \On{}.
 
 In Leo's original algorithm, any penult
 was treated as a potential right-recursion.
@@ -5977,7 +6021,19 @@ Alfred H.~Aho and Jeffrey D.~Ullman.
 John~Aycock and R.~Nigel~Horspool.
 \newblock Practical Earley Parsing
 \newblock {\em The Computer Journal},
-    Vol. 45, No. 6, 2002, pp. 620-630.
+    Vol. 45, No. 6, 2002, pp. 620--630.
+
+\bibitem{Culik1973}
+{\v{C}}ulik, Karel and Cohen, Rina.
+\newblock LR-Regular grammars—an extension of LR (k) grammars.
+\newblock {\em Journal of Computer and System Sciences},
+  Vol. 7, No. 1, 1973,
+  pp. 66--96.
+
+\bibitem{Earley1968}
+J.~Earley.
+\newblock An Efficient Context-Free Parsing Algorithm.
+\newblock Ph.D. Thesis, Carnegie Mellon University, 1968
 
 \bibitem{Earley1970}
 J.~Earley.
@@ -5994,7 +6050,7 @@ Dirk~Grune and Ceriel~J.H Jacobs.
 Edgar~T.~Irons.
 \newblock A syntax-directed compiler for ALGOL 60.
 \newblock {\em Communications of the Association for Computing Machinery},
- 4(1):51-55, Jan. 1961
+ 4(1):51--55, Jan. 1961
 
 \bibitem{Johnson}
 Stephen~C. Johnson.
