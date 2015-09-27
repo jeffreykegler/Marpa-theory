@@ -47,7 +47,7 @@
 \newcommand{\type}[1]{\ensuremath{#1}}
 
 \newcommand{\defined}{\underset{\text{def}}{\equiv}}
-\newcommand{\dfn}[1]{{\textbf #1}}
+\newcommand{\dfn}[1]{{\textbf{#1}}}
 \newcommand{\sep}{\,\mid\,}
 \newcommand{\mydot}{\raisebox{.05em}{$\,\bullet\,$}}
 \newcommand{\cat}{}
@@ -1233,10 +1233,6 @@ We call \Vdr{tell} a telluric base
 of a dotted rule \Vdr{dr2} if and only if
 \[ \Vdr{dr2} \in \var{ethereal-closure}(\lbrace \Vdr{tell} \rbrace). \]
 
-Predicted dotted rules may have more than one telluric base,
-but for null-scan dotted rules the telluric base
-will be unique.
-
 \begin{theorem}
 \label{eth-eq-share-telluric-base}
 If the dotted rules \Vdr{dr1}
@@ -1299,6 +1295,10 @@ by the definition of telluric base,
 We have shown that, in both cases,
 \Vdr{tell} is the telluric base of \Vdr{dr2}.
 \end{proof}
+
+Predicted dotted rules may have more than one telluric base,
+but for null-scan dotted rules the telluric base
+will be unique.
 
 \begin{theorem}
 \label{quasi-confirmed-unique-telluric-base}
@@ -2807,11 +2807,12 @@ the maximum size of Earley set \Vloc{i} is therefore
 
 \subsection{The history of a conjecture}
 
-On page 60 of his
-first publication on his new algorithm\cite{Earley1968},
-Jay Earley conjectured that his algorithm could be
-modified to be \On{} for all deterministic context-free grammars.
-(The deterministic context-free grammars (DCFG's) are the union of the
+On page 60 in the
+first publication describing his new algorithm\cite{Earley1968},
+Jay Earley conjectured that the algorithm could be
+modified to be \On{} for
+all deterministic context-free grammars (DCFG's).
+(The DCFG's are the union of the
 \LRk{} grammars for all $k$.)
 He gave no details of the method he had in mind.
 Earley left the field shortly thereafter --
@@ -2828,9 +2829,9 @@ Leo published his method in
 \cite{Leo1991}.
 
 The problem both invesigators noticed was that,
-while the algorithm of \cite{Earley1970} is \On{},
-and in fact very efficient,
+while the algorithm of \cite{Earley1970} is \On{}
 for left recursion,
+and in fact very efficient,
 it is $\order{\var{n}^2}$ for right recursion.
 This is because all the EIMs necessary for a right
 recursion are created at every parse location
@@ -2853,9 +2854,9 @@ or \On{} for the entire sequence.
 
 If, at evaluation time,
 it is desirable to expand the Leo sequence,
-only those items actually involved in the parse
+only those items actually used in the parse
 need to be expanded.
-All the EIM's of a potential right-recursion
+All these actually-used EIM's
 will be in one Earley set and the number of EIM's
 will be \On{},
 so that even including expansion of the Leo sequence
@@ -2876,7 +2877,7 @@ which is why Leo only claims
 the weaker \LRk{} bound in
 his title.
 
-\subsection{Silos}
+\subsection{Altitude}
 
 With right recursions in mind,
 we return to some concepts
@@ -2909,37 +2910,61 @@ the concept of parse instance
 \label{def:altitude}
 We write \Alt{\Vinst{inst}} for the altitude of \Vinst{inst}.
 \begin{FlushLeft}
-\begin{itemize}
-\item The altitude of a terminal symbol instance is 0.
-\item The altitude of a prediction is the altitude of its top-down cause.
-\item The altitude of the start rule is 1.
+\begin{enumerate}
 \item
+\label{case:def-altitude-terminal}
+Case \ref{case:def-altitude-terminal}:
+The altitude of a terminal symbol instance is 0.
+\item
+\label{case:def-altitude-start}
+Case \ref{case:def-altitude-start}:
+The altitude of the start rule is 1.
+\item
+\label{case:def-altitude-prediction}
+Case \ref{case:def-altitude-prediction}:
+The altitude of a prediction is the altitude of its top-down cause.
+\item
+\label{case:def-altitude-read}
+Case \ref{case:def-altitude-read}:
 The altitude of a read EIM is
 altitude of its bottom-up cause, plus 1.
 Since the bottom-up cause of a read EIM is always
 a terminal symbol instance,
 its altitude will always be 1.
-\item The altitude of null-scan EIM is that of
+\item
+\label{case:def-altitude-unmemoized}
+Case \ref{case:def-altitude-unmemoized}:
+A possible altitude of an
+unmemoized reduction EIM
+is the altitude of its bottom-up cause, plus 1.
+\item
+\label{case:def-altitude-memoized}
+Case \ref{case:def-altitude-memoized}:
+A possible altitude of an
+memoized reduction EIM
+is the altitude of the bottom-up cause.
+\item
+\label{case:def-altitude-null-scan}
+Case \ref{case:def-altitude-null-scan}:
+The altitude of null-scan EIM is that of
 its top-down cause.
 This case applies if the null-scan is memoized,
 its top-down cause is memoized,
 or both.
-\item A possible altitude of an
-unmemoized reduction EIM
-is the altitude of its bottom-up cause, plus 1.
-\item A possible altitude of an
-memoized reduction EIM
-is the altitude of the bottom-up cause.
 \item
-The altitude of an EIM is the minimum of its possible
-values.
-\end{itemize}
+\label{case:def-altitude-mininum}
+Case \ref{case:def-altitude-mininum}:
+If an EIM has several possible values,
+the altitude of that EIM
+is the minimum of its possible values.
+\end{enumerate}
 \par
 \end{FlushLeft}
 
 \end{definition}
 
-When we say \dfn{altitude cause},
+When we speak of
+the \dfn{altitude cause} of an EIM,
 we mean whichever of its causes
 -- bottom-up or top-down --
 is used to calculate its possible
@@ -2967,52 +2992,16 @@ Let \Vinst{i} be an instance.
 If \Vinst{i} has a defined altitude cause,
 call it \Vinst{cuz},
 and the altitude
-of \Vinst{cuz} is defined,
+of \Vinst{cuz} is defined and finite,
 then
 the altitude
-of \Vinst{i} is defined.
+of \Vinst{i} is defined and finite.
 \end{theorem}
 
 \begin{proof}
 The theorem can be proved by
 going through Definition \ref{def:altitude}
 case by case.
-\end{proof}
-
-\begin{theorem}
-\label{t:leo-silo-altitude}
-The altitude of an unmemoized quasi-confirmed
-EIM is one plus that of the
-most recent unmemoized bottom-up cause in its silo.
-\end{theorem}
-
-\begin{proof}
-Let \var{silo} be an altitude silo
-Let $\Veim{top} = \var{silo}[\var{n}]$
-be an unmemoized reduction.
-Let $\Veim{bottom} = \var{silo}[\var{m}]$
-be its most recent unmemoized bottom-up cause.
-This is, $\var{m} < \var{n}$,
-and where
-\[\text{$\forall\;\var{i}, \var{m} < \var{i} < \var{n}$,
-$\var{silo}[\var{i}]$ is memoized.}\]
-
-By the definition of altitude
-(Definition \ref{def:altitude})
-for
-unmemoized reductions,
-$\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\Vdecr{n}]} + 1$.
-For $\var{silo}[\var{i}], \var{m} < \var{i} < \var{n}$,
-$\var{silo}[\var{i}]$ is either a reduction or a null-scan,
-and is memoized,
-so that by the Definition \ref{def:altitude},
-$\Alt{\var{silo}[\var{i}]} = \Alt{\var{silo}[\Vdecr{i}]}$.
-Therefore
-\[\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\var{m}]} + 1\]
-and
-\begin{equation*}
-\Alt{\Veim{top}} = \Alt{\Veim{bottom}} + 1.\qedhere
-\end{equation*}
 \end{proof}
 
 \begin{theorem}
@@ -3069,6 +3058,9 @@ altitude.
 \end{theorem}
 
 \begin{proof}
+TODO: This is wrong -- not fully worked out.
+Merge this with another proof?
+
 This follows directly from
 Theorem \ref{altitude-from-telluric-base}.
 \end{proof}
@@ -3097,6 +3089,12 @@ We also know that $\Vsym{tt} = \CVw{\Vdecr{k}}$.
 We will call the length $\var{n}+1$.
 We call \eqref{def:altitude-derivation-step-n}, Step \var{n},
 and we call \eqref{def:altitude-derivation-step-0}, Step 0.
+
+For writing rightmost derivations before \Vloc{k},
+there are two conventions for indicating that a derivation
+step has expanded a null symbol into its direct descendants.
+Usually we remove the symbol, on the idea that it
+has expanded into zero terminal symbols.
 
 \begin{definition}
 \label{def:altitude-silo}
@@ -3131,7 +3129,7 @@ we say that
 
 For Step \var{i}, $1 \le \var{i} \le \Vdecr{n}$,
 if \Vsym{A} is nulling
-wheer
+where
 $\var{silo}[\var{i}+1] = [ \Vdr{above}, \Vloc{j}, \Vloc{k}]$,
 we say that
 \begin{equation}
@@ -3148,12 +3146,6 @@ and for every \var{i}, $1 \le \var{i} \le \var{n}$,
 \var{silo}[\var{i}].
 \end{theorem}
 
-For writing rightmost derivations before \Vloc{k},
-there are two conventions for indicating that a derivation
-step has expanded a null symbol into its direct descendants.
-Usually we remove the symbol, on the idea that it
-has expanded into zero terminal symbols.
-
 \begin{proof}
 In this proof,
 when we refer to the rightmost symbol,
@@ -3161,22 +3153,39 @@ we will mean the rightmost symbol of a derivation
 step before \Vloc{k}.
 We will
 use the definition of validity of an EIM
-to go back and forth,
+to go back and forth
 between derivation steps,
 and the EIMs they validate.
-By the definition of validity of an EIM,
-if \Vsym{rm} is the rightmost symbol before \Vloc{k}
-in derivation Step \var{x},
-then \Vsym{rm} will be the predot symbol
-in any EIM validated by Step \var{x},
-and vice versa.
+
+Let \Vsym{rm} be the rightmost symbol before \Vloc{k}
+in derivation Step \var{x}.
+Let \Veim{valid-at-k} be an EIM
+that is validated by Step \var{x},
+and whose current location is \var{k}.
+Then,
+by the definition of validity of an EIM,
+the predot symbol of \Veim{valid-at-k} will be \Vsym{rm}.
+
+The converse is also true:
+Let
+\[ \Veim{valid-at-k} = [ \Vdr{v}, \Vorig{v}, \Vloc{k} ] \]
+be a valid EIM;
+let Step \var{x} is validation step which validates
+it according to
+the definition of validity of an EIM;
+and
+let
+\Vsym{rm} be the rightmost symbol before \Vloc{k}
+in derivation Step \var{x}.
+Then
+\[ \Predot{\Vdr{v}} = \Vsym{rm}. \]
 
 We note that
 Definition \ref{def:altitude-silo} deals with three cases:
 Step 0, non-terminal rightmost symbols
 and nulling rightmost symbols.
 By the definition of the altitude derivation,
-it starts will a telluric base
+an altitude derivation starts with a telluric base
 and stops when the rightmost symbol
 is a telluric terminal.
 The point at which it stops is Step 0
@@ -3184,9 +3193,11 @@ by definition, so the case of telluric terminals
 is handled by explicitly specifying the behavior
 at Step 0.
 Since the altitude derivation starts with a
-telluric base and never discards or moves past
+telluric base and never
+move the dot past
 a telluric terminal,
-it will always have a predot symbol.
+every step of the altitude derivation
+will have a predot symbol.
 
 We now look at the three cases separately.
 \textbf{The first case}
@@ -3246,14 +3257,14 @@ Theorem \ref{t:symbolic-causes-from-effect}
 that the bottom-up cause must have a right location
 of \var{k} if its effect does.
 We also know from
-Theorem \ref{t:symbolic-causes-from-effect},
-that for a telluric terminal, this
-bottom-up cause must be
+Theorem \ref{t:symbolic-causes-from-effect}, that,
+for a telluric terminal,
+this bottom-up cause must be
 that in
 \eqref{eq:altitude-silo-10}.
 By
 \eqref{predot-therefore-altitude}
-we know that the bottom-up is also the altitude
+we know that the bottom-up cause is also the altitude
 cause of any EIM with a telluric terminal
 as its predot symbol.
 This concludes the three cases and shows the
@@ -3389,6 +3400,42 @@ Therefore we have shown it
 for all valid EIMs.
 \end{proof}
 
+\begin{theorem}
+\label{t:leo-silo-altitude}
+The altitude of an unmemoized quasi-confirmed
+EIM is one plus that of the
+most recent unmemoized bottom-up cause in its silo.
+\end{theorem}
+
+\begin{proof}
+Let \var{silo} be an altitude silo
+Let $\Veim{top} = \var{silo}[\var{n}]$
+be an unmemoized reduction.
+Let $\Veim{bottom} = \var{silo}[\var{m}]$
+be its most recent unmemoized bottom-up cause.
+This is, $\var{m} < \var{n}$,
+and where
+\[\text{$\forall\;\var{i}, \var{m} < \var{i} < \var{n}$,
+$\var{silo}[\var{i}]$ is memoized.}\]
+
+By the definition of altitude
+(Definition \ref{def:altitude})
+for
+unmemoized reductions,
+$\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\Vdecr{n}]} + 1$.
+For $\var{silo}[\var{i}], \var{m} < \var{i} < \var{n}$,
+$\var{silo}[\var{i}]$ is either a reduction or a null-scan,
+and is memoized,
+so that by the Definition \ref{def:altitude},
+$\Alt{\var{silo}[\var{i}]} = \Alt{\var{silo}[\Vdecr{i}]}$.
+Therefore
+\[\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\var{m}]} + 1\]
+and
+\begin{equation*}
+\Alt{\Veim{top}} = \Alt{\Veim{bottom}} + 1.\qedhere
+\end{equation*}
+\end{proof}
+
 \subsection{Leo memos}
 TODO: Finish this section 
 
@@ -3403,10 +3450,10 @@ Earley set, using what Leo called
 In this \doc{} Leo's ``transitive items''
 will be called Leo items.
 Leo items of the form used in Leo's paper\cite{Leo1991},
-will be type \type{LIM}.
+will be type \type{LEO}.
 
 In each Earley set, there is at most one Leo item per symbol.
-A Leo item (LIM) is the triple
+A Leo item (LEO) is the triple
 \begin{equation*}
 [ \Vdr{top}, \Vsym{transition}, \Vorig{top} ]
 \end{equation*}
@@ -3632,6 +3679,19 @@ TODO.
 \label{t:accept-eim-not-memoized}
 The accept EIM is never memoized.
 \end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
+
+\begin{theorem}
+\label{t:memo-omission}
+Omission of a Leo memo adds at most one EIM per parse location.
+\end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
 
 \section{The Marpa Recognizer}
 \label{s:recce}
@@ -4605,7 +4665,7 @@ is correct for \Veimset{reduced-closure}.
 \State \hspace\algorithmicindent  Leo unique and its rule is right recursive
 \If{\Vsym{postdot} is Leo eligible}
 \State Set $\var{transitions}(\Vloc{i},\Vsym{postdot})$
-\State \hspace\algorithmicindent to a LIM
+\State \hspace\algorithmicindent to a LEO
 \Else
 \State Set $\var{transitions}(\Vloc{i},\Vsym{postdot})$
 \State \hspace\algorithmicindent to the set of EIM's at \Vloc{i} that have
