@@ -2254,6 +2254,85 @@ and
 \end{proof}
 
 \begin{theorem}
+\label{t:prediction-from-cause}
+If the top-down cause of a prediction EIM is
+valid, then the prediction EIM is valid.
+\end{theorem}
+
+\begin{proof}
+Without loss of generality,
+let the top-down cause be
+\begin{equation}
+\label{eq:prediction-from-cause-3}
+\Veim{down} = \left[
+  [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j}
+\right].
+\end{equation}
+and let
+\begin{equation}
+\label{eq:prediction-from-cause-6}
+[ \Vsym{A} \de \Vstr{A-rhs} ]
+\end{equation}
+be a rule in \Cg{}.
+
+To show the theorem, we must show that
+\begin{equation}
+\label{eq:prediction-from-cause-9}
+\Veim{prediction} = \left[ [ \Vsym{A} \de \mydot \Vstr{A-rhs} ], \var{j}, \var{j}
+\right].
+\end{equation}
+is valid.
+By the definition of validity for an Earley item,
+we will have shown this if we can show that
+\begin{equation}
+\label{eq:prediction-from-cause-12}
+\Vsym{A} \derives [\var{j}] \Vstr{A-rhs}.
+\end{equation}
+
+By assumption,
+\eqref{eq:prediction-from-cause-3}
+is valid.
+From the definition of validity for an Earley item:
+\begin{equation}
+\label{eq:prediction-from-cause-20}
+\Vsym{down} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{A} \cat \Vstr{post}
+\end{equation}
+Using 
+\eqref{eq:prediction-from-cause-6}
+and
+\eqref{eq:prediction-from-cause-20}
+to expand \Vsym{A} into its
+direct descendants,
+we have
+\begin{equation}
+\label{eq:prediction-from-cause-25}
+\begin{split}
+\Vsym{down} \; & \derives \; \Vmk{i} \Vstr{pre} \Vmk{j} \Vsym{A} \Vstr{post} \\
+    & \derives \; \Vmk{i} \Vstr{pre} \Vmk{j} \Vsym{A-rhs} \Vstr{post}.
+\end{split}
+\end{equation}
+\eqref{eq:prediction-from-cause-25}
+simplifies to
+\eqref{eq:prediction-from-cause-12},
+which is what we needed to show for the theorem.
+\end{proof}
+
+We say the \dfn{ethereal closure} of an EIM, \Veim{base},
+is the set of EIM's 
+\begin{equation*}
+    \left\lbrace \Veim{effect}
+    \; \middle| \;
+    \begin{split}
+        & \Current{\var{effect}} = \Current{\var{base}} \\
+      & \land \; \DR{\var{effect}} \in \\
+      & \qquad \var{ethereal-closure}(\DR{\var{base}})
+    \end{split}
+    \right\rbrace
+\end{equation*}
+
+TODO: Add stuff about ethereal closure
+
+\begin{theorem}
 \label{t:terminal-cause-unique}
 Let an instance of the terminal
 \Vsym{term} be the bottom-up cause of an effect,
