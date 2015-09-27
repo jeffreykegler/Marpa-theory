@@ -168,6 +168,9 @@
 % I want to use 'call' outside of pseudocode
 \newcommand\call[2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}}%
 
+% My macro for theorem titles.
+\newcommand\ttitle[1]{\textbf{#1}:}
+
 % I don't like to put whole paragraphs in italics,
 % so I make this simple variation on the "plain" theoremstyle
 \newtheoremstyle{myplain}
@@ -1789,6 +1792,15 @@ a \dfn{top-down cause} of \Veim{effect};
 and we say that the \dfn{bottom-up cause} of \Veim{effect} is ethereal.
 We call \Veim{effect} the \dfn{effect} of \Veim{down}.
 
+We say that \Veim{anc} is the \dfn{top-down ancestor}
+of \Veim{desc},
+if \Veim{anc} is a top-down cause of \Veim{desc},
+or if \Veim{anc} is the top-down cause of an ancestor of \Veim{desc}.
+If \Veim{anc} is a top-down ancestor of \Veim{desc},
+then we say the
+\Veim{desc}
+is a \dfn{top-down descendant} of \Veim{anc}.
+
 \end{definition}
 
 An effect is always an Earley item.
@@ -2254,41 +2266,32 @@ and
 \end{proof}
 
 \begin{theorem}
+\ttitle{Prediction from top-down cause}
 \label{t:prediction-from-cause}
-If the top-down cause of a prediction EIM is
-valid, then the prediction EIM is valid.
-\end{theorem}
-
-\begin{proof}
-Without loss of generality,
-let the top-down cause be
+Let
 \begin{equation}
 \label{eq:prediction-from-cause-3}
 \Veim{down} = \left[
   [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j}
-\right].
+\right]
 \end{equation}
+be a valid EIM,
 and let
 \begin{equation}
 \label{eq:prediction-from-cause-6}
 [ \Vsym{A} \de \Vstr{A-rhs} ]
 \end{equation}
 be a rule in \Cg{}.
-
-To show the theorem, we must show that
+Then
 \begin{equation}
 \label{eq:prediction-from-cause-9}
 \Veim{prediction} = \left[ [ \Vsym{A} \de \mydot \Vstr{A-rhs} ], \var{j}, \var{j}
-\right].
+\right]
 \end{equation}
 is valid.
-By the definition of validity for an Earley item,
-we will have shown this if we can show that
-\begin{equation}
-\label{eq:prediction-from-cause-12}
-\Vsym{A} \derives [\var{j}] \Vstr{A-rhs}.
-\end{equation}
+\end{theorem}
 
+\begin{proof}
 By assumption,
 \eqref{eq:prediction-from-cause-3}
 is valid.
@@ -2300,8 +2303,8 @@ From the definition of validity for an Earley item:
 Using 
 \eqref{eq:prediction-from-cause-6}
 and
-\eqref{eq:prediction-from-cause-20}
-to expand \Vsym{A} into its
+\eqref{eq:prediction-from-cause-20},
+and expanding \Vsym{A} into its
 direct descendants,
 we have
 \begin{equation}
@@ -2311,10 +2314,83 @@ we have
     & \derives \; \Vmk{i} \Vstr{pre} \Vmk{j} \Vsym{A-rhs} \Vstr{post}.
 \end{split}
 \end{equation}
-\eqref{eq:prediction-from-cause-25}
-simplifies to
-\eqref{eq:prediction-from-cause-12},
-which is what we needed to show for the theorem.
+
+Simplifying
+\eqref{eq:prediction-from-cause-25},
+we have
+\begin{equation}
+\label{eq:prediction-from-cause-12}
+\Vsym{A} \derives [\var{j}] \Vstr{A-rhs}.
+\end{equation}
+By the definition of validity for an Earley item,
+this shows
+\eqref{eq:prediction-from-cause-9},
+and therefore the theorem.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Top-down cause from prediction}
+\label{t:cause-from-prediction}
+Let
+\begin{equation}
+\label{eq:cause-from-prediction-1}
+\Veim{prediction} = \left[ [ \Vsym{A} \de \mydot \Vstr{A-rhs} ], \var{j}, \var{j}
+\right]
+\end{equation}
+be a valid EIM,
+where $\Vsym{A} \neq \Vsym{accept}$.
+Then there is a rule,
+\begin{equation}
+\label{eq:cause-from-prediction-2}
+  [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ] \in \Crules
+\end{equation}
+and some \Vloc{i} such that
+\Vstr{pre}, \Vstr{post},
+\begin{equation}
+\label{eq:cause-from-prediction-3}
+\Veim{down} = \left[
+  [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j}
+\right]
+\end{equation}
+is valid.
+\end{theorem}
+
+\begin{proof}
+Since
+\eqref{eq:cause-from-prediction-1} is valid,
+we have
+\begin{equation}
+\label{eq:cause-from-prediction-12}
+\Vsym{A} \derives [\var{j}] \Vstr{A-rhs}.
+\end{equation}
+All symbols in Marpa grammars are accessible,
+and \Vsym{A} is not \Vsym{accept}.
+so we can expand 
+\eqref{eq:cause-from-prediction-12}
+to
+\begin{equation}
+\label{eq:cause-from-prediction-25}
+\begin{split}
+\Vsym{accept} \; & \destar \; \Vstr{pre2} \Vsym{down} \Vstr{post2} \\
+    & \derives \; \Vstr{pre2} \Vstr{pre} \Vmk{j} \Vsym{A} \Vstr{post} \Vstr{post2} \\
+    & \derives \; \Vstr{pre2} \Vstr{pre} \Vmk{j} \Vsym{A-rhs} \Vstr{post} \Vstr{post2}.
+\end{split}
+\end{equation}
+which simplifies to
+\begin{equation}
+\label{eq:cause-from-prediction-30}
+\Vsym{down} \derives \Vmk{i} \Vstr{pre} \Vmk{j} \Vsym{A} \Vstr{post},
+\end{equation}
+for some \Vloc{i}.
+From \eqref{eq:cause-from-prediction-30},
+for the definition of EIM validity,
+we have 
+\eqref{eq:cause-from-prediction-3}.
+\eqref{eq:cause-from-prediction-3},
+in turn,
+shows
+\eqref{eq:cause-from-prediction-2}
+and the theorem.
 \end{proof}
 
 We say the \dfn{ethereal closure} of an EIM, \Veim{base},
@@ -2322,15 +2398,48 @@ is the set of EIM's
 \begin{equation*}
     \left\lbrace \Veim{effect}
     \; \middle| \;
-    \begin{split}
+    \begin{aligned}
         & \Current{\var{effect}} = \Current{\var{base}} \\
       & \land \; \DR{\var{effect}} \in \\
       & \qquad \var{ethereal-closure}(\DR{\var{base}})
-    \end{split}
+    \end{aligned}
     \right\rbrace
 \end{equation*}
 
-TODO: Add stuff about ethereal closure
+\begin{theorem}
+\label{t:ethereal-closure}
+\ttitle{Ethereal closure properties}
+Let \Veim{base} be
+\begin{equation}
+\Veim{base} = [ \Vdr{base}, \Vloc{i}, \Vloc{j} ].
+\end{equation}
+\begin{FlushLeft}
+Then for every
+$\Vdr{desc} \in \var{ethereal-closure}(\Vdr{base})$,
+there is a valid
+$\Veim{desc} \in \var{ethereal-closure}(\Veim{base})$,
+such that
+\begin{enumerate}
+\item
+\label{req:ethereal-closure-5}
+$\Vloc{j}= \Current{\var{desc}}$,
+\item
+\label{req:ethereal-closure-8}
+if \Veim{desc} is a quasi-prediction,
+then $\Origin{\var{desc}} = \Vloc{j}$,
+and
+\item
+\label{req:ethereal-closure-12}
+if \Veim{desc} is a quasi-incompletion,
+then
+$\Origin{\var{desc}} = \Vloc{i}$.
+\end{enumerate}
+\end{FlushLeft}
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
 
 \begin{theorem}
 \label{t:terminal-cause-unique}
