@@ -13,12 +13,12 @@
 \usepackage{hyperref}
 \usepackage{algorithm}
 
-\makeatletter
-\def\listofalgorithms{\@starttoc{loa}\listalgorithmname}
-\def\l@algorithm{\@tocline{0}{3pt plus2pt}{0pt}{1.9em}{}}
-\renewcommand{\ALG@name}{Algorithm}
-\renewcommand{\listalgorithmname}{List of \ALG@name s}
-\makeatother
+% \makeatletter
+% \def\listofalgorithms{\@starttoc{loa}\listalgorithmname}
+% \def\l@algorithm{\@tocline{0}{3pt plus2pt}{0pt}{1.9em}{}}
+% \renewcommand{\ALG@name}{Algorithm}
+% \renewcommand{\listalgorithmname}{List of \ALG@name s}
+% \makeatother
 
 % This is used to find the font size if need be
 % its uses are usually commented out
@@ -2417,12 +2417,12 @@ Let \Veim{base} be
 Then for every
 $\Vdr{desc} \in \var{ethereal-closure}(\Vdr{base})$,
 there is a valid
-$\Veim{desc} \in \var{ethereal-closure}(\Veim{base})$,
+\Veim{desc}
 such that
 \begin{enumerate}
 \item
 \label{req:ethereal-closure-5}
-$\Vloc{j}= \Current{\var{desc}}$,
+$\Veim{desc} \in \var{ethereal-closure}(\Veim{base})$,
 \item
 \label{req:ethereal-closure-8}
 if \Veim{desc} is a quasi-prediction,
@@ -2438,7 +2438,85 @@ $\Origin{\var{desc}} = \Vloc{i}$.
 \end{theorem}
 
 \begin{proof}
-TODO
+Recall that, for dotted rules, the ethereal closure 
+was the transitive closure under two operations:
+null-scan and prediction.
+For the purposes of this proof,
+we will call the union of these operations,
+the \var{epsilon-op}.
+Our proof will be by induction on the number of
+\var{epsilon-op} applications.
+Call the set of EIM's after 
+\var{i} applications of \var{epsilon-op},
+\begin{equation}
+\var{eims}[\var{i}] = \left(\var{epsilon-op}^{(\var{i}+1)}\right)(\Vdr{base})
+\end{equation}
+We take as our induction hypothesis:
+\begin{equation}
+\label{req:ethereal-closure-15}
+\myparbox{
+We take as our induction hypothesis:
+The EIMS in $\var{eims}[\var{i}]$
+obey requirements 
+\ref{req:ethereal-closure-5},
+\ref{req:ethereal-closure-8}
+and
+\ref{req:ethereal-closure-12}
+in the statement of the theorem.
+}
+\end{equation}
+
+As the basis of the induction, we show 
+\eqref{req:ethereal-closure-15} for the
+singleton set
+$\var{eims}[0] = \lbrace \Veim{base} \rbrace.$
+Trivially, \Veim{base} is in the singleton set
+containing itself, and its current location
+is self-identical.
+This shows requirement \ref{req:ethereal-closure-5}.
+The origin of \Veim{base} is also self-identical,
+which shows requirement \ref{req:ethereal-closure-12}.
+If \Veim{base} is a quasi-prediction,
+then
+\[
+\Current{\Veim{base}} = \Origin{\Veim{base}},
+\]
+which shows requirement \ref{req:ethereal-closure-8},
+and the basis of the induction.
+
+For the step of the induction, we assume 
+\eqref{req:ethereal-closure-15} for the set of EIMs
+after \var{i} applications of \var{epsilon-op},
+to show that
+\begin{equation}
+\label{req:ethereal-closure-20}
+\myparbox{
+The EIMS in $\var{eims}[\var{i}+1]$
+obey requirements 
+\ref{req:ethereal-closure-5},
+\ref{req:ethereal-closure-8}
+and
+\ref{req:ethereal-closure-12}
+in the statement of the theorem.
+}
+\end{equation}
+
+We consider, without loss of generality,
+just one of the EIM's in $\var{eims}[\var{i}+1]$.
+Call it \Veim{wlog}.
+By definition,
+\begin{equation}
+\label{req:ethereal-closure-23}
+\left(\var{epsilon-op}^{(\var{i}+1)} \right)(\Vdr{base})
+  \subseteq \var{ethereal-closure}(\Vdr{base})
+\end{equation}
+so that
+\begin{equation}
+\label{req:ethereal-closure-27}
+\Veim{wlog} \in \var{ethereal-closure}(\Vdr{base}).
+\end{equation}
+
+TODO: Finish
 \end{proof}
 
 \begin{theorem}
@@ -6360,6 +6438,5 @@ Klaus Wich.
 \clearpage
 \tableofcontents
 \clearpage
-\listofalgorithms
 
 \end{document}
