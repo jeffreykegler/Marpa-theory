@@ -2046,6 +2046,7 @@ which is what we needed to show for the theorem.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Causes of confirmed effect}
 \label{t:symbolic-causes-from-effect}
 If
 \[\Veim{effect} = [ \Vdr{effect}, \var{i}, \var{k} ],\]
@@ -2157,6 +2158,7 @@ are also met.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Effect from symbol instance}
 \label{t:effect-from-symbol}
 Let
 \begin{equation}
@@ -2393,6 +2395,107 @@ shows
 and the theorem.
 \end{proof}
 
+\begin{theorem}
+\ttitle{Right location of top-down cause}
+\label{t:right-location-of-top-down-cause}
+Let \Veim{effect} be a valid EIM other than
+the start EIM.
+Then it has a top down cause,
+that cause is an EIM, call it \Veim{down},
+and
+\begin{align}
+\label{req:right-location-of-top-down-cause-3}
+& \rlap{$\Right{\Veim{down}} = \Right{\Veim{effect}}$} & \\
+& \qquad \qquad \text{if \Veim{effect} is a prediction,} & \notag \\
+\label{req:right-location-of-top-down-cause-4}
+& \rlap{$\Right{\Veim{down}} = \Right{\Veim{effect}}$} & \\
+& \qquad \qquad \text{if \Veim{effect} is a null-scan,} & \notag\\
+\label{req:right-location-of-top-down-cause-6}
+& \rlap{$\Right{\Veim{down}} = \decr{\Right{\Veim{effect}}}$} & \\
+& \qquad \qquad \text{if \Veim{effect} is read.} & \notag\\
+\label{req:right-location-of-top-down-cause-9}
+& \rlap{$\Right{\Veim{down}} < \Right{\Veim{effect}}$} & \\
+& \qquad \qquad \text{if \Veim{effect} is a reduction.} & \notag
+\end{align}
+\end{theorem}
+
+\begin{proof}
+If \Veim{effect} is a prediction,
+this theorem follows from
+Theorem \ref{t:prediction-from-cause}.
+This shows requirement
+\ref{req:right-location-of-top-down-cause-3}.
+
+For the remaining cases,
+we will
+use Theorem \ref{t:symbolic-causes-from-effect} 
+to show that \Veim{down} is the matching
+cause of a symbolic instance.
+Call that instance, \Vinst{up},
+and let its length be
+\begin{equation}
+\label{eq:right-location-of-top-down-cause-12}
+\Vsize{\Vinst{up}} =
+(\Right{\Vinst{up}} \subtract \Left{\Vinst{up}}).
+\end{equation}
+From Theorem \ref{t:symbolic-causes-from-effect},
+we know that
+\begin{equation}
+\label{eq:right-location-of-top-down-cause-15}
+\Right{\Vinst{up}} = \Right{\Veim{effect}}
+\end{equation}
+From the definition of matching causes,
+\begin{equation}
+\label{eq:right-location-of-top-down-cause-18}
+\Right{\Veim{down}} = \Left{\Vinst{up}}.
+\end{equation}
+Using
+\eqref{eq:right-location-of-top-down-cause-12},
+\eqref{eq:right-location-of-top-down-cause-15}
+and
+\eqref{eq:right-location-of-top-down-cause-18}
+we see that
+\begin{equation}
+\label{eq:right-location-of-top-down-cause-21}
+\Right{\Veim{effect}} = \Right{\Veim{down}} + \Vsize{\Vinst{up}}.
+\end{equation}
+
+If \Veim{effect} is a null scan, \Vinst{up} is
+a nulling symbol instance,
+$\Vsize{\Vinst{up}} = 0$.
+Using
+\eqref{eq:right-location-of-top-down-cause-21},
+we have
+\[
+  \Right{\Veim{down}} = \Right{\Veim{effect}},
+\]
+which is requirement
+\ref{req:right-location-of-top-down-cause-4}.
+
+If \Veim{effect} is a read, \Vinst{up} is
+a terminal symbol instance,
+$\Vsize{\Vinst{up}} = 1$.
+Using
+\eqref{eq:right-location-of-top-down-cause-21}
+\[
+  \Right{\Veim{down}} = \Right{\Veim{down}} \subtract 1,
+\]
+which is requirement
+\ref{req:right-location-of-top-down-cause-6}.
+
+If \Veim{effect} is a reduction, \Vinst{up} is
+a non-terminal symbol instance,
+$\Vsize{\Vinst{up}} \ge 1$.
+Using
+\eqref{eq:right-location-of-top-down-cause-21}
+\[
+  \Right{\Veim{down}} < \Right{\Veim{effect}},
+\]
+which is requirement
+\ref{req:right-location-of-top-down-cause-9}.
+
+\end{proof}
+
 We say the \dfn{ethereal closure} of an EIM, \Veim{base},
 is the set of EIM's 
 \begin{equation*}
@@ -2515,6 +2618,11 @@ so that
 \label{req:ethereal-closure-27}
 \Veim{wlog} \in \var{ethereal-closure}(\Vdr{base}).
 \end{equation}
+
+TODO: Finish this.
+
+We now consider the case of null-scans.
+Using Theorem \ref{t:symbolic-causes-from-effect} \ldots
 
 TODO: Finish
 \end{proof}
