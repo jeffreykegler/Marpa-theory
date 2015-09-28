@@ -2496,18 +2496,44 @@ which is requirement
 
 \end{proof}
 
-We say the \dfn{ethereal closure} of an EIM, \Veim{base},
-is the set of EIM's 
-\begin{equation*}
-    \left\lbrace \Veim{effect}
-    \; \middle| \;
-    \begin{aligned}
-        & \Current{\var{effect}} = \Current{\var{base}} \\
-      & \land \; \DR{\var{effect}} \in \\
-      & \qquad \var{ethereal-closure}(\DR{\var{base}})
-    \end{aligned}
-    \right\rbrace
-\end{equation*}
+In the following definitions,
+$\langle \Veim{down}, \Veim{effect} \rangle$
+is a duple,
+where \Veim{down} is a top-down cause
+of \Veim{effect}:
+\begin{align*}
+\var{predict-op} \; & \defined \left\lbrace \;
+  \langle \var{down}, \var{effect} \rangle
+  \; \middle| \;
+  \text{\var{effect} is a prediction}
+\; \right\rbrace ,
+\\
+\var{null-scan-op} \; & \defined \left\lbrace \;
+  \langle \var{down}, \var{effect} \rangle
+  \; \middle| \;
+  \text{\var{effect} is a null-scan}
+\; \right\rbrace ,
+\\
+\var{read-op} \; & \defined \left\lbrace \;
+  \langle \var{down}, \var{effect} \rangle
+  \; \middle| \;
+  \text{\var{effect} is a read}
+\; \right\rbrace ,
+\\
+\var{reduction-op} \; & \defined \left\lbrace \;
+  \langle \var{down}, \var{effect} \rangle
+  \; \middle| \;
+  \text{\var{effect} is a reduction}
+\; \right\rbrace ,
+\\
+\var{epsilon-op} \; & \defined \var{predict-op} \cup \var{null-scan-op}
+, \; \text{and} \\
+\var{ethereal-closure} \; & \defined \var{epsilon-op}^\ast.
+\end{align*}
+Note that the \var{ethereal-closure} relation
+just defined is for EIM's,
+and overloads a previous definiton of
+\var{ethereal-closure} for dotted rules.
 
 \begin{theorem}
 \label{t:ethereal-closure}
@@ -2549,17 +2575,18 @@ we will call the union of these operations,
 the \var{epsilon-op}.
 Our proof will be by induction on the number of
 \var{epsilon-op} applications.
-Call the set of EIM's after 
+Call the set of dotted rules after 
 \var{i} applications of \var{epsilon-op},
 \begin{equation}
-\var{eims}[\var{i}] = \left(\var{epsilon-op}^{(\var{i}+1)}\right)(\Vdr{base})
+\var{drs}[\var{i}] = \left(\var{epsilon-op}^{(\var{i}+1)}\right)(\Vdr{base})
 \end{equation}
+
 We take as our induction hypothesis:
 \begin{equation}
 \label{req:ethereal-closure-15}
 \myparbox{
 We take as our induction hypothesis:
-The EIMS in $\var{eims}[\var{i}]$
+The EIMS in $\var{drs}[\var{i}]$
 obey requirements 
 \ref{req:ethereal-closure-5},
 \ref{req:ethereal-closure-8}
@@ -2605,7 +2632,7 @@ in the statement of the theorem.
 \end{equation}
 
 We consider, without loss of generality,
-just one of the EIM's in $\var{eims}[\var{i}+1]$.
+just one of the dotted rules in $\var{eims}[\var{i}+1]$.
 Call it \Veim{wlog}.
 By definition,
 \begin{equation}
