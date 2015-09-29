@@ -2565,7 +2565,7 @@ $\Origin{\Veim{desc}} = \Current{\Veim{base}}$
 and
 \item
 \label{req:ethereal-closure-15}
-if \Veim{desc} is a quasi-incompletion,
+if \Veim{desc} is quasi-confirmed,
 then
 $\Origin{\Veim{desc}} = \Origin{\Veim{base}}.$
 \end{enumerate}
@@ -2586,7 +2586,6 @@ We take as our induction hypothesis:
 \begin{equation}
 \label{eq:ethereal-closure-18}
 \myparbox{
-We take as our induction hypothesis:
 The EIMS in $\var{eims}[\var{i}]$
 obey requirements 
 \ref{req:ethereal-closure-5},
@@ -2602,27 +2601,26 @@ We will call $\var{Dot}(\Vdr{dr})$,
 the numeric dot position within
 the RHS of a dotted rule,
 so that
-where $\var{dot} = \var{Dot}(\Vdr{dr})$,
-\begin{gather*}
-\text{for every location in \RHS{\var{dr}},} \\
-\text{$\var{i} < \var{dot}$ means that $\var{RHS}(\Vdr{dr}, \var{i})$ is before the dot, and} \\
-\text{$\var{i} \ge \var{dot}$ means that $\var{RHS}(\Vdr{dr}, \var{i})$ is after the dot.}
-\end{gather*}
+for every location, \var{i},
+$0 \le \var{i} < \Vsize{\RHS{\Vdr{dr}}}$,
+\begin{equation*}
+\text{
+$\var{i} < \var{Dot}(\Vdr{dr})$
+if and only if $\var{RHS}(\Vdr{dr}, \var{i})$ is before the dot}
+\end{equation*}
 
-Let \Veim{quasi} be a quasi-prediction.
-Noting that when we apply dotted rule notion to
-an EIM like \Veim{quasi},
-we refer to its dotted rule.
-Then we recall that
+When we apply dotted rule notion to
+an EIM, we refer to its dotted rule.
+By the definition of a quasi-prediction,
 \begin{gather}
-\var{i} < \var{Dot}(\Veim{quasi}) \implies \RHS{\Veim{dr}, \var{i}} \derives \epsilon \quad \text{and that} \\
+\text{if \Veim{qpred} is a quasi-prediction, then} \notag \\
+\var{i} < \var{Dot}(\Veim{qpred}) \implies \RHS{\Veim{dr}, \var{i}} \derives \epsilon \quad \text{and} \notag \\
 \label{req:ethereal-closure-20}
-\Current{\Veim{quasi}} =
-\Origin{\Veim{quasi}}.
+\text{\Current{\Veim{qpred}} = \Origin{\Veim{qpred}}}.
 \end{gather}
 
 As the basis of the induction, we show 
-\eqref{req:ethereal-closure-15} for the
+\eqref{eq:ethereal-closure-18} for the
 singleton set
 $\var{eims}[0] = \lbrace \Veim{base} \rbrace.$
 Trivially, \DR{\Veim{base}} is in its own ethereal closure.
