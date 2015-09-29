@@ -2615,7 +2615,7 @@ By the definition of a quasi-prediction,
 \begin{gather}
 \text{if \Veim{qpred} is a quasi-prediction, then} \notag \\
 \var{i} < \var{Dot}(\Veim{qpred}) \implies \RHS{\Veim{dr}, \var{i}} \derives \epsilon \quad \text{and} \notag \\
-\label{req:ethereal-closure-20}
+\label{eq:ethereal-closure-20}
 \text{\Current{\Veim{qpred}} = \Origin{\Veim{qpred}}}.
 \end{gather}
 
@@ -2633,7 +2633,7 @@ then
 we have 
 requirement \ref{req:ethereal-closure-12},
 by self-identity and 
-\eqref{req:ethereal-closure-20}.
+\eqref{eq:ethereal-closure-20}.
 If \Veim{base} is quasi-confirmed, we
 have 
 requirement \ref{req:ethereal-closure-12}
@@ -2655,12 +2655,7 @@ For the step of the induction, we assume
 \eqref{eq:ethereal-closure-18} for the set of EIMs
 after \var{i} applications of \var{epsilon-op},
 to show 
-\begin{equation}
-\label{req:ethereal-closure-23}
-\myparbox{
-\eqref{eq:ethereal-closure-18} for $\var{eims}[\var{i}+1]$
-}
-\end{equation}
+\eqref{eq:ethereal-closure-18} for $\var{eims}[\var{i}+1]$.
 
 We consider, without loss of generality,
 just one of the dotted rules in $\var{eims}[\var{i}+1]$.
@@ -2668,7 +2663,7 @@ Call it \Veim{wlog2}.
 By assumption for the step,
 \Veim{wlog2} is not in $\var{eims}[0]$,
 so that it has a top-down
-cause in the previous generation,
+cause,
 $\var{eims}[\var{i}]$.
 Call this top-down cause, \Veim{wlog1}.
 By definition of \var{ethereal-closure} for EIM's,
@@ -2678,24 +2673,24 @@ dotted rules,
 so that if
 \begin{gather}
 \text{if $\langle \Veim{wlog1}, \Veim{wlog2} \rangle \in \var{epsilon-op},$} \\
-\label{req:ethereal-closure-27}
+\label{eq:ethereal-closure-27}
 \text{then} \quad \big\langle \DR{\Veim{wlog1}}, \DR{\Veim{wlog2}} \big\rangle \in \var{epsilon-dr-op}.
 \end{gather}
-By the definition of the ethereal closure,
+By the definition of the ethereal closure for dotted rules,
 \begin{gather}
-\label{req:ethereal-closure-30}
+\label{eq:ethereal-closure-30}
 \var{ethereal-dr-closure} = \var{epsilon-dr-op}^\ast
 \end{gather}
 and by assumption for the step
 \begin{equation}
-\label{req:ethereal-closure-33}
+\label{eq:ethereal-closure-33}
 \DR{\Veim{wlog1}} \in \var{ethereal-dr-closure}(\DR{\Veim{base}})
 \end{equation}
 Using
-\eqref{req:ethereal-closure-27}
-\eqref{req:ethereal-closure-30}
+\eqref{eq:ethereal-closure-27}
+\eqref{eq:ethereal-closure-30}
 and
-\eqref{req:ethereal-closure-33},
+\eqref{eq:ethereal-closure-33},
 we have
 \begin{equation*}
 \DR{\Veim{wlog2}} \in \var{ethereal-dr-closure}(\DR{\Veim{base}}),
@@ -2704,11 +2699,11 @@ which is requirement \ref{req:ethereal-closure-5}
 for the step.
 
 If \Veim{wlog2} is a prediction,
-we know from Theorem \ref{t:prediction-from-cause},
+we know from Theorem \ref{t:prediction-from-cause}
 that
 \begin{equation}
-\label{req:ethereal-closure-36}
-\Current{\Veim{wlog1}} = \Current{\Veim{wlog2}} = \Origin{\Veim{wlog2}}
+\label{eq:ethereal-closure-36}
+\Current{\Veim{wlog1}} = \Current{\Veim{wlog2}}
 \end{equation}
 
 If \Veim{wlog2} is a null-scan,
@@ -2717,50 +2712,51 @@ that
 \begin{align}
 \Right{\Veim{wlog1}} & = \Right{\Veim{wlog2}}
 \intertext{and since the right location of an EIM is also its current location,}
-\label{req:ethereal-closure-39}
+\label{eq:ethereal-closure-39}
 \Current{\Veim{wlog1}} & = \Current{\Veim{wlog2}}
 \end{align}
-Also, for null-scan2, we know from
+Also, for null-scans, we know from
 Theorem
 \ref{t:effect-from-symbolic-causes}
 that
 \begin{equation}
-\label{req:ethereal-closure-42}
+\label{eq:ethereal-closure-42}
 \Origin{\Veim{wlog1}} = \Origin{\Veim{wlog2}}.
 \end{equation}
 
 If \Veim{wlog2} is a quasi-prediction, we know from
+\eqref{eq:ethereal-closure-20} that
 \begin{equation}
-\label{req:ethereal-closure-45}
+\label{eq:ethereal-closure-45}
 \Current{\Veim{wlog2}} = \Origin{\Veim{wlog2}}.
 \end{equation}
 
 We have
 \begin{equation}
-\label{req:ethereal-closure-48}
+\label{eq:ethereal-closure-48}
 \Current{\Veim{wlog1}} = \Current{\Veim{wlog2}}
 \end{equation}
 from
-\eqref{req:ethereal-closure-36}
+\eqref{eq:ethereal-closure-36}
 for predictions and from
-\eqref{req:ethereal-closure-42}
+\eqref{eq:ethereal-closure-39}
 for null-scans.
 Either way, we have 
 requirement
 \ref{req:ethereal-closure-8} for
 the step of the induction.
 
-We have requirement
+We have
 requirement \ref{req:ethereal-closure-12}
 from
-\eqref{req:ethereal-closure-20} and
-\eqref{req:ethereal-closure-48}
+\eqref{eq:ethereal-closure-20} and
+\eqref{eq:ethereal-closure-48}
 for quasi-predictions;
 and vacuously for quasi-confirmed EIM's.
 
 We have
 requirement \ref{req:ethereal-closure-15}
-from \eqref{req:ethereal-closure-42} for
+from \eqref{eq:ethereal-closure-42} for
 quasi-confirmed EIM's,
 and vacuously for quasi-predictions.
 
@@ -2768,7 +2764,7 @@ This show all four requirements and,
 since the choice of \Veim{wlog2} was
 without loss of generality,
 we have shown
-\eqref{req:ethereal-closure-23}.
+\eqref{eq:ethereal-closure-18} for $\var{eims}[\var{i}+1]$.
 With this,
 we have the step of the induction,
 the induction,
