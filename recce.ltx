@@ -2628,7 +2628,7 @@ $\var{eims}[0] = \lbrace \Veim{base} \rbrace.$
 Trivially, \DR{\Veim{base}} is in its own ethereal closure.
 This shows requirement \ref{req:ethereal-closure-5}.
 Also trivially, its current location is self-identical,
-which show requirement \ref{req:ethereal-closure-8}.
+which shows requirement \ref{req:ethereal-closure-8}.
 
 If \Veim{base} is a quasi-prediction,
 then
@@ -2651,7 +2651,7 @@ If \Veim{base} is quasi-confirmed, we
 have 
 requirement \ref{req:ethereal-closure-15}
 by self-identity.
-This shows all the requirement for the basis of the induction.
+This shows all the requirements for the basis of the induction.
 
 For the step of the induction, we assume 
 \eqref{eq:ethereal-closure-18} for the set of EIMs
@@ -2679,9 +2679,9 @@ The EIM types are defined in terms of the types of their
 dotted rules,
 so that if
 \begin{gather}
-\text{if $\langle \Veim{wlog1}, \Veim{wlog2} \rangle \in \epsilon-op,$} \\
+\text{if $\langle \Veim{wlog1}, \Veim{wlog2} \rangle \in \var{epsilon-op},$} \\
 \label{req:ethereal-closure-27}
-\text{then $\langle \DR{\Veim{wlog1}}, \DR{Veim{wlog2}} \rangle \in \epsilon-dr-op.$}
+\text{then} \quad \big\langle \DR{\Veim{wlog1}}, \DR{\Veim{wlog2}} \big\rangle \in \var{epsilon-dr-op}.
 \end{gather}
 By the definition of the ethereal closure,
 \begin{gather}
@@ -2691,7 +2691,7 @@ By the definition of the ethereal closure,
 and by assumption for the step
 \begin{equation}
 \label{req:ethereal-closure-33}
-\DR{Veim{wlog1}} \in \var{ethereal-dr-op}(\DR{\Veim{base}})
+\DR{\Veim{wlog1}} \in \var{ethereal-dr-closure}(\DR{\Veim{base}})
 \end{equation}
 Using
 \eqref{req:ethereal-closure-27}
@@ -2700,25 +2700,81 @@ and
 \eqref{req:ethereal-closure-33},
 we have
 \begin{equation*}
-\DR{Veim{wlog2}} \in \var{ethereal-dr-op}(\DR{\Veim{base}})
+\DR{\Veim{wlog2}} \in \var{ethereal-dr-closure}(\DR{\Veim{base}}),
 \end{equation*}
-
-By definition,
-\begin{equation}
-\label{req:ethereal-closure-35}
-\left(\var{epsilon-op}^{(\var{i}+1)} \right)(\Vdr{base})
-  \subseteq \var{ethereal-closure}(\Vdr{base})
-\end{equation}
-so that
-\begin{equation}
-\label{req:ethereal-closure-37}
-\Veim{wlog} \in \var{ethereal-closure}(\Vdr{base}).
-\end{equation}
-shows requirement \ref{req:ethereal-closure-8}
+which is requirement \ref{req:ethereal-closure-5}
 for the step.
 
-TODO: Finish this.
+If \Veim{wlog2} is a prediction,
+we know from Theorem \ref{t:prediction-from-cause},
+that
+\begin{equation}
+\label{req:ethereal-closure-36}
+\Current{\Veim{wlog1}} = \Current{\Veim{wlog2}} = \Origin{\Veim{wlog2}}
+\end{equation}
 
+If \Veim{wlog2} is a null-scan,
+we know from Theorem \ref{t:right-location-of-top-down-cause}
+that
+\begin{align}
+\Right{\Veim{wlog1}} & = \Right{\Veim{wlog2}}
+\intertext{and since the right location of an EIM is also its current location,}
+\label{req:ethereal-closure-39}
+\Current{\Veim{wlog1}} & = \Current{\Veim{wlog2}}
+\end{align}
+Also, for null-scan2, we know from
+Theorem
+\ref{t:effect-from-symbolic-causes}
+that
+\begin{equation}
+\label{req:ethereal-closure-42}
+\Origin{\Veim{wlog1}} = \Origin{\Veim{wlog2}}.
+\end{equation}
+
+If \Veim{wlog2} is a quasi-prediction, we know from
+\begin{equation}
+\label{req:ethereal-closure-45}
+\Current{\Veim{wlog2}} = \Origin{\Veim{wlog2}}.
+\end{equation}
+
+We have
+\begin{equation}
+\label{req:ethereal-closure-48}
+\Current{\Veim{wlog1}} = \Current{\Veim{wlog2}}
+\end{equation}
+from
+\eqref{req:ethereal-closure-36}
+for predictions and from
+\eqref{req:ethereal-closure-42}
+for null-scans.
+Either way, we have 
+requirement
+\ref{req:ethereal-closure-8} for
+the step of the induction.
+
+We have requirement
+requirement \ref{req:ethereal-closure-12}
+from
+\eqref{req:ethereal-closure-20} and
+\eqref{req:ethereal-closure-48}
+for quasi-predictions;
+and vacuously for quasi-confirmed EIM's.
+
+We have
+requirement \ref{req:ethereal-closure-15}
+from \eqref{req:ethereal-closure-42} for
+quasi-confirmed EIM's,
+and vacuously for quasi-predictions.
+
+This show all four requirements and,
+since the choice of \Veim{wlog2} was
+without loss of generality,
+we have shown
+\eqref{req:ethereal-closure-23}.
+With this,
+we have the step of the induction,
+the induction,
+and the theorem.
 \end{proof}
 
 \begin{theorem}
