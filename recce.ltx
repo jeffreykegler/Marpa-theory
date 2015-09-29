@@ -3392,15 +3392,22 @@ so the cost of the sequence is \Oc{} per Earley set,
 or \On{} for the entire sequence.
 
 If, at evaluation time,
-it is desirable to expand the Leo sequence,
-only those items actually used in the parse
+it is desirable to expand the Leo memoizations,
+only those memoized items actually used in the parse
 need to be expanded.
-All these actually-used EIM's
-will be in one Earley set and the number of EIM's
+All of the EIM's actually used in the right recursion
+will be in a single Earley set.
+The number of memoized
+EIM's that need to be expanded
 will be \On{},
-so that even including expansion of the Leo sequence
-for evaluation, the time and space complexity of
-the sequence remains \On{}.
+where \var{n} is the length of the recursion.
+As a result,
+even if the time and space
+required to expand Leo memoization
+during evaluation
+is taken into account,
+the time and space complexity of
+the right recursive sequence remains \On{}.
 
 Joop Leo showed that,
 with his modification, Earley's algorithm
@@ -3448,58 +3455,68 @@ the concept of parse instance
 \begin{definition}
 \label{def:altitude}
 We write \Alt{\Vinst{inst}} for the altitude of \Vinst{inst}.
+\begin{sloppypar}
 \begin{FlushLeft}
 \begin{enumerate}
 \item
 \label{case:def-altitude-terminal}
-Case \ref{case:def-altitude-terminal}:
 The altitude of a terminal symbol instance is 0.
 \item
 \label{case:def-altitude-start}
-Case \ref{case:def-altitude-start}:
 The altitude of the start rule is 1.
 \item
 \label{case:def-altitude-prediction}
-Case \ref{case:def-altitude-prediction}:
-The altitude of a prediction is the altitude of its top-down cause.
+The altitude of a prediction, \Veim{pred},
+is
+\begin{equation*}
+\big\lfloor \Veim{top}
+  \; \big| \; \text{\var{top} is a top-down cause of \Veim{pred}}
+\big\rfloor .
+\end{equation*}
 \item
 \label{case:def-altitude-read}
-Case \ref{case:def-altitude-read}:
-The altitude of a read EIM is
-altitude of its bottom-up cause, plus 1.
+The altitude of a read EIM, \Veim{read}, is
+$\Vinst{up}+1$, where
+\Vinst{up} is the bottom-up cause of \Veim{read}.
 Since the bottom-up cause of a read EIM is always
 a terminal symbol instance,
-its altitude will always be 1.
+the altitude of a read EIM will always be 1.
 \item
 \label{case:def-altitude-unmemoized}
-Case \ref{case:def-altitude-unmemoized}:
-A possible altitude of an
-unmemoized reduction EIM
-is the altitude of its bottom-up cause, plus 1.
+The altitude of an unmemoized reduction EIM, \Veim{unmemo}
+is
+\begin{equation*}
+\big\lfloor \Veim{up}+1
+  \; \big| \; \text{\var{up} is a bottom-up cause of \Veim{unmemo}}
+\big\rfloor .
+\end{equation*}
 \item
 \label{case:def-altitude-memoized}
-Case \ref{case:def-altitude-memoized}:
-A possible altitude of an
-memoized reduction EIM
-is the altitude of the bottom-up cause.
+The altitude of an memoized reduction EIM, \Veim{memo}
+is
+\begin{equation*}
+\big\lfloor \Veim{up}
+  \; \big| \; \text{\var{up} is a bottom-up cause of \Veim{memo}}
+\big\rfloor .
+\end{equation*}
 \item
 \label{case:def-altitude-null-scan}
-Case \ref{case:def-altitude-null-scan}:
-The altitude of null-scan EIM is that of
-its top-down cause.
-This case applies if the null-scan is memoized,
-its top-down cause is memoized,
-or both.
-\item
-\label{case:def-altitude-mininum}
-Case \ref{case:def-altitude-mininum}:
-If an EIM has several possible values,
-the altitude of that EIM
-is the minimum of its possible values.
+The altitude of a null-scan EIM, \Veim{ns},
+is
+\begin{equation*}
+\big\lfloor \Veim{top}
+  \; \big| \; \text{\var{top} is a top-down cause of \Veim{ns}}
+\big\rfloor .
+\end{equation*}
+This case applies if \Veim{ns} is memoized,
+if \Veim{top} is memoized, or if both
+\Veim{ns} and \Veim{top}
+are memoized.
 \end{enumerate}
 \par
 \end{FlushLeft}
 
+\end{sloppypar}
 \end{definition}
 
 When we speak of
