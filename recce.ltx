@@ -142,7 +142,7 @@
 \newcommand{\Postdot}[1]{\ensuremath{\mymathop{Postdot}(#1)}}
 \newcommand{\Penult}[1]{\mymathop{Penult}(#1)}
 \newcommand{\LHS}[1]{\ensuremath{\mymathop{LHS}(#1)}}
-\newcommand{\RHS}[1]{\mymathop{RHS}(#1)}
+\newcommand{\RHS}[1]{\ensuremath{\mymathop{RHS}(#1)}}
 \newcommand{\Origin}[1]{\ensuremath{\mymathop{Origin}(#1)}}
 \newcommand{\DR}[1]{\ensuremath{\mymathop{DR}(#1)}}
 \newcommand{\Current}[1]{\ensuremath{\mymathop{Current}(#1)}}
@@ -547,6 +547,12 @@ which departs from tradition by disallowing an empty RHS.
 This restriction applies only to Marpa's internal grammar.
 As explained in Section \ref{s:rewrite},
 it is invisible to Marpa's users.
+
+Occasionaly, we will need to look at the RHS of a rule
+symbol by symbol.
+$\var{RHS}(\Vdr{dr}, \var{i})$
+is the \var{i}'th symbol on the RHS,
+where the numbering is zero-based.
 
 The rules imply the traditional rewriting system,
 in which
@@ -1164,7 +1170,7 @@ $\Postdot{\Vdr{from}} \neq \Lambda$,
 we need to make some definitions,
 many of which will be useful later.
 
-Let \var{null-scan-one} be the set of
+Let \var{null-scan-dr-op} be the set of
 pairs of dotted rules
 \begin{gather*}
 \left\lbrace \Vdr{cause}, \Vdr{effect} \right\rbrace \quad \text{such that} \\
@@ -1175,20 +1181,20 @@ pairs of dotted rules
 We say that \Vdr{cause} is the \dfn{top-down cause} of \Vdr{effect},
 and that \Vsym{B} is the \dfn{bottom-up cause}.
 
-We can use \var{null-scan-one} to define an equivalence relation.
+We can use \var{null-scan-dr-op} to define an equivalence relation.
 Intuitively, two dotted rules, \Vdr{dr1}
 and \Vdr{dr2} are \dfn{ethereally equivalent} if
 \Vdr{dr1} can be changed into \Vdr{dr2} by a series of null-scans.
 More formally, we define \var{eth-eq} to be the reflexive, symmetric
 and transitive closure of
-\var{null-scan-one}.
+\var{null-scan-dr-op}.
 We say that \Vdr{dr1} is
 \dfn{ethereally equivalent} to \Vdr{dr2} if
 and only if
 \Vdr{dr1} is an element of the
 equivalence class of \var{eth-eq} under \Vdr{dr2}.
 
-Let \var{predict-one} be the set of
+Let \var{predict-dr-op} be the set of
 pairs of dotted rules
 \begin{gather*}
 \quad \left\lbrace \Vdr{cause}, \Vdr{effect} \right\rbrace \,\, \text{such that} \\
@@ -1200,11 +1206,15 @@ For symmetry, we say that \Vdr{cause}
 has a bottom-up cause,
 but that the \dfn{bottom-up cause} is ethereal.
 
-The
+Let 
+\begin{equation}
+\var{epsilon-dr-op} = \var{null-scan-dr-op} \cup \var{predict-dr-op}.
+\end{equation}
+Then
 \dfn{ethereal closure}
-is the closure of union
-\var{null-scan-one} and \var{predict-one}.
-\[\var{ethereal-closure} \defined (\var{null-scan-one} \cup \var{predict-one})^\ast.\]
+is
+\var{null-scan-dr-op} and \var{predict-dr-op}.
+\[\var{ethereal-dr-closure} \defined \var{epsilon-dr-op}^\ast.\]
 
 We are now in a position to define the ethereal transition of \GOTO{}
 from the dotted rule \Vdr{base},
@@ -1213,20 +1223,20 @@ when
 It is the ethereal closure
 over the singleton set containing the dotted rule argument of \GOTO{}.
 \begin{multline}
-\label{eq:def-ethereal-closure}
+\label{eq:def-ethereal-dr-closure}
 \Vsym{A} = \Postdot{\Vdr{base}} \land \Vsym{A} \neq \Lambda \implies \\
-\GOTO(\Vdr{base}, \Vsym{A}) =  \var{ethereal-closure}(\lbrace \Vdr{base} \rbrace)
+\GOTO(\Vdr{base}, \Vsym{A}) =  \var{ethereal-dr-closure}(\lbrace \Vdr{base} \rbrace)
 \end{multline}
 We say that
 the ethereal closure for a dotted rule is the ethereal closure of the singleton
 set containing that dotted rule:
 \begin{multline*}
-\var{ethereal-closure}(\Vdr{base}) \defined  \var{ethereal-closure}(\lbrace \Vdr{base} \rbrace)
+\var{ethereal-dr-closure}(\Vdr{base}) \defined  \var{ethereal-dr-closure}(\lbrace \Vdr{base} \rbrace)
 \end{multline*}
 
 Let
 \begin{equation}
-\Vdrset{ec} = \var{ethereal-closure}(\lbrace \Vdr{base} \rbrace).
+\Vdrset{ec} = \var{ethereal-dr-closure}(\lbrace \Vdr{base} \rbrace).
 \end{equation}
 We also call \Vdrset{ec} an \dfn{ethereal closure}
 and we say that \Vdr{base} is its \dfn{base}.
@@ -1234,7 +1244,7 @@ If \Vdr{base} is telluric, we say that
 \Vdr{base} is a \dfn{telluric base}.
 We call \Vdr{tell} a telluric base
 of a dotted rule \Vdr{dr2} if and only if
-\[ \Vdr{dr2} \in \var{ethereal-closure}(\lbrace \Vdr{tell} \rbrace). \]
+\[ \Vdr{dr2} \in \var{ethereal-dr-closure}(\lbrace \Vdr{tell} \rbrace). \]
 
 \begin{theorem}
 \label{eth-eq-share-telluric-base}
@@ -1280,7 +1290,7 @@ where $\Vstr{post1} = \Vstr{nulls2} \cat \Vstr{post2},$
 so that
 by \eqref{eq:eth-eq-share-telluric-base-20}
 and the definition of ethereal closure,
-\[ \Vdr{dr2} \in \var{ethereal-closure}(\lbrace \Vdr{tell} \rbrace).\]
+\[ \Vdr{dr2} \in \var{ethereal-dr-closure}(\lbrace \Vdr{tell} \rbrace).\]
 By the definition of telluric base,
 \Vdr{tell} is the telluric base of \Vdr{dr2}.
 
@@ -2530,128 +2540,185 @@ of \Veim{effect}:
 , \; \text{and} \\
 \var{ethereal-closure} \; & \defined \var{epsilon-op}^\ast.
 \end{align*}
-Note that the \var{ethereal-closure} relation
-just defined is for EIM's,
-and overloads a previous definiton of
-\var{ethereal-closure} for dotted rules.
 
 \begin{theorem}
 \label{t:ethereal-closure}
 \ttitle{Ethereal closure properties}
-Let \Veim{base} be
+Let \Veim{desc}, \Veim{base} be valid
+EIM's such that
 \begin{equation}
-\Veim{base} = [ \Vdr{base}, \Vloc{i}, \Vloc{j} ].
+\Veim{desc} \in \var{ethereal-closure}(\Veim{base}).
 \end{equation}
 \begin{FlushLeft}
-Then for every
-$\Vdr{desc} \in \var{ethereal-closure}(\Vdr{base})$,
-there is a valid
-\Veim{desc}
-such that
+Then
 \begin{enumerate}
 \item
 \label{req:ethereal-closure-5}
-$\Veim{desc} \in \var{ethereal-closure}(\Veim{base})$,
+$\DR{\Veim{desc}} \in \var{ethereal-dr-closure}(\DR{\Veim{base}})$,
 \item
 \label{req:ethereal-closure-8}
-if \Veim{desc} is a quasi-prediction,
-then $\Origin{\var{desc}} = \Vloc{j}$,
-and
+$\Current{\Veim{desc}} = \Current{\Veim{base}},$
 \item
 \label{req:ethereal-closure-12}
+if \Veim{desc} is a quasi-prediction,
+$\Origin{\Veim{desc}} = \Current{\Veim{base}}$
+and
+\item
+\label{req:ethereal-closure-15}
 if \Veim{desc} is a quasi-incompletion,
 then
-$\Origin{\var{desc}} = \Vloc{i}$.
+$\Origin{\Veim{desc}} = \Origin{\Veim{base}}.$
 \end{enumerate}
 \end{FlushLeft}
 \end{theorem}
 
 \begin{proof}
-Recall that, for dotted rules, the ethereal closure 
-was the transitive closure under two operations:
-null-scan and prediction.
-For the purposes of this proof,
-we will call the union of these operations,
-the \var{epsilon-op}.
 Our proof will be by induction on the number of
-\var{epsilon-op} applications.
-Call the set of dotted rules after 
+applications of 
+\var{epsilon-op}.
+Call the set of EIM's after 
 \var{i} applications of \var{epsilon-op},
 \begin{equation}
-\var{drs}[\var{i}] = \left(\var{epsilon-op}^{(\var{i}+1)}\right)(\Vdr{base})
+\var{eims}[\var{i}] = \left(\var{epsilon-op}^{\displaystyle \var{i}}\right)(\Veim{base})
 \end{equation}
 
 We take as our induction hypothesis:
 \begin{equation}
-\label{req:ethereal-closure-15}
+\label{eq:ethereal-closure-18}
 \myparbox{
 We take as our induction hypothesis:
-The EIMS in $\var{drs}[\var{i}]$
+The EIMS in $\var{eims}[\var{i}]$
 obey requirements 
 \ref{req:ethereal-closure-5},
-\ref{req:ethereal-closure-8}
-and
+\ref{req:ethereal-closure-8},
 \ref{req:ethereal-closure-12}
+and
+\ref{req:ethereal-closure-15}
 in the statement of the theorem.
 }
 \end{equation}
+
+We will call $\var{Dot}(\Vdr{dr})$,
+the numeric dot position within
+the RHS of a dotted rule,
+so that
+where $\var{dot} = \var{Dot}(\Vdr{dr})$,
+\begin{gather*}
+\text{for every location in \RHS{\var{dr}},} \\
+\text{$\var{i} < \var{dot}$ means that $\var{RHS}(\Vdr{dr}, \var{i})$ is before the dot, and} \\
+\text{$\var{i} \ge \var{dot}$ means that $\var{RHS}(\Vdr{dr}, \var{i})$ is after the dot.}
+\end{gather*}
+
+Let \Veim{quasi} be a quasi-prediction.
+Noting that when we apply dotted rule notion to
+an EIM like \Veim{quasi},
+we refer to its dotted rule.
+Then we recall that
+\begin{gather}
+\var{i} < \var{Dot}(\Veim{quasi}) \implies \RHS{\Veim{dr}, \var{i}} \derives \epsilon \quad \text{and that} \\
+\label{req:ethereal-closure-20}
+\Current{\Veim{quasi}} =
+\Origin{\Veim{quasi}}.
+\end{gather}
 
 As the basis of the induction, we show 
 \eqref{req:ethereal-closure-15} for the
 singleton set
 $\var{eims}[0] = \lbrace \Veim{base} \rbrace.$
-Trivially, \Veim{base} is in the singleton set
-containing itself, and its current location
-is self-identical.
+Trivially, \DR{\Veim{base}} is in its own ethereal closure.
 This shows requirement \ref{req:ethereal-closure-5}.
-The origin of \Veim{base} is also self-identical,
-which shows requirement \ref{req:ethereal-closure-12}.
+Also trivially, its current location is self-identical.
+which show requirement \ref{req:ethereal-closure-8}.
+
 If \Veim{base} is a quasi-prediction,
 then
-\[
-\Current{\Veim{base}} = \Origin{\Veim{base}},
-\]
-which shows requirement \ref{req:ethereal-closure-8},
-and the basis of the induction.
+we have 
+requirement \ref{req:ethereal-closure-12},
+by self-identity and 
+\eqref{req:ethereal-closure-20}.
+If \Veim{base} is quasi-confirmed, we
+have 
+requirement \ref{req:ethereal-closure-12}
+vacuously.
+
+If \Veim{base} is quasi-prediction,
+then
+we have 
+requirement \ref{req:ethereal-closure-15}
+vacuously.
+If
+If \Veim{base} is quasi-confirmed, we
+have 
+requirement \ref{req:ethereal-closure-15}
+by self-identity.
+This shows all the requirement for the basis of the induction.
 
 For the step of the induction, we assume 
-\eqref{req:ethereal-closure-15} for the set of EIMs
+\eqref{eq:ethereal-closure-18} for the set of EIMs
 after \var{i} applications of \var{epsilon-op},
-to show that
+to show 
 \begin{equation}
-\label{req:ethereal-closure-20}
+\label{req:ethereal-closure-23}
 \myparbox{
-The EIMS in $\var{eims}[\var{i}+1]$
-obey requirements 
-\ref{req:ethereal-closure-5},
-\ref{req:ethereal-closure-8}
-and
-\ref{req:ethereal-closure-12}
-in the statement of the theorem.
+\eqref{eq:ethereal-closure-18} for $\var{eims}[\var{i}+1]$
 }
 \end{equation}
 
 We consider, without loss of generality,
 just one of the dotted rules in $\var{eims}[\var{i}+1]$.
-Call it \Veim{wlog}.
+Call it \Veim{wlog2}.
+By assumption for the step,
+\Veim{wlog2} is not in $\var{eims}[0]$,
+so that it has a top-down
+cause in the previous generation,
+$\var{eims}[\var{i}]$.
+Call this top-down cause, \Veim{wlog1}.
+By definition of \var{ethereal-closure} for EIM's,
+\Veim{wlog2} is a null-scan or a prediction.
+The EIM types are defined in terms of the types of their
+dotted rules,
+so that if
+\begin{gather}
+\text{if $\langle \Veim{wlog1}, \Veim{wlog2} \rangle \in \epsilon-op,$} \\
+\label{req:ethereal-closure-27}
+\text{then $\langle \DR{\Veim{wlog1}}, \DR{Veim{wlog2}} \rangle \in \epsilon-dr-op.$}
+\end{gather}
+By the definition of the ethereal closure,
+\begin{gather}
+\label{req:ethereal-closure-30}
+\var{ethereal-dr-closure} = \var{epsilon-dr-op}^\ast
+\end{gather}
+and by assumption for the step
+\begin{equation}
+\label{req:ethereal-closure-33}
+\DR{Veim{wlog1}} \in \var{ethereal-dr-op}(\DR{\Veim{base}})
+\end{equation}
+Using
+\eqref{req:ethereal-closure-27}
+\eqref{req:ethereal-closure-30}
+and
+\eqref{req:ethereal-closure-33},
+we have
+\begin{equation*}
+\DR{Veim{wlog2}} \in \var{ethereal-dr-op}(\DR{\Veim{base}})
+\end{equation*}
+
 By definition,
 \begin{equation}
-\label{req:ethereal-closure-23}
+\label{req:ethereal-closure-35}
 \left(\var{epsilon-op}^{(\var{i}+1)} \right)(\Vdr{base})
   \subseteq \var{ethereal-closure}(\Vdr{base})
 \end{equation}
 so that
 \begin{equation}
-\label{req:ethereal-closure-27}
+\label{req:ethereal-closure-37}
 \Veim{wlog} \in \var{ethereal-closure}(\Vdr{base}).
 \end{equation}
+shows requirement \ref{req:ethereal-closure-8}
+for the step.
 
 TODO: Finish this.
 
-We now consider the case of null-scans.
-Using Theorem \ref{t:symbolic-causes-from-effect} \ldots
-
-TODO: Finish
 \end{proof}
 
 \begin{theorem}
