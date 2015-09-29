@@ -3469,14 +3469,17 @@ The altitude of the start rule is 1.
 The altitude of a prediction, \Veim{pred},
 is
 \begin{equation*}
-\big\lfloor \Veim{top}
-  \; \big| \; \text{\var{top} is a top-down cause of \Veim{pred}}
-\big\rfloor .
+\Big\lfloor \Alt{\Veim{top}}
+  \; \Big| \; \text{\var{top} is a top-down cause of \Veim{pred}}
+\Big\rfloor .
 \end{equation*}
 \item
 \label{case:def-altitude-read}
 The altitude of a read EIM, \Veim{read}, is
-$\Vinst{up}+1$, where
+\begin{equation*}
+\Alt{\Vinst{up}}+1, 
+\end{equation*}
+where
 \Vinst{up} is the bottom-up cause of \Veim{read}.
 Since the bottom-up cause of a read EIM is always
 a terminal symbol instance,
@@ -3486,27 +3489,27 @@ the altitude of a read EIM will always be 1.
 The altitude of an unmemoized reduction EIM, \Veim{unmemo}
 is
 \begin{equation*}
-\big\lfloor \Veim{up}+1
-  \; \big| \; \text{\var{up} is a bottom-up cause of \Veim{unmemo}}
-\big\rfloor .
+\Big\lfloor \Alt{\Veim{up}}+1
+  \; \Big| \; \text{\var{up} is a bottom-up cause of \Veim{unmemo}}
+\Big\rfloor .
 \end{equation*}
 \item
 \label{case:def-altitude-memoized}
 The altitude of an memoized reduction EIM, \Veim{memo}
 is
 \begin{equation*}
-\big\lfloor \Veim{up}
-  \; \big| \; \text{\var{up} is a bottom-up cause of \Veim{memo}}
-\big\rfloor .
+\Big\lfloor \Alt{\Veim{up}}
+  \; \Big| \; \text{\var{up} is a bottom-up cause of \Veim{memo}}
+\Big\rfloor .
 \end{equation*}
 \item
 \label{case:def-altitude-null-scan}
 The altitude of a null-scan EIM, \Veim{ns},
 is
 \begin{equation*}
-\big\lfloor \Veim{top}
-  \; \big| \; \text{\var{top} is a top-down cause of \Veim{ns}}
-\big\rfloor .
+\Big\lfloor \Alt{\Veim{top}}
+  \; \Big| \; \text{\var{top} is a top-down cause of \Veim{ns}}
+\Big\rfloor .
 \end{equation*}
 This case applies if \Veim{ns} is memoized,
 if \Veim{top} is memoized, or if both
