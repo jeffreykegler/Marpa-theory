@@ -168,7 +168,8 @@
 % I want to use 'call' outside of pseudocode
 \newcommand\call[2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}}%
 
-% My macro for theorem titles.
+% My macros for definition & theorem titles.
+\newcommand\dtitle[1]{\textbf{#1}:}
 \newcommand\ttitle[1]{\textbf{#1}:}
 
 % I don't like to put whole paragraphs in italics,
@@ -3565,11 +3566,14 @@ case by case.
 
 \begin{theorem}
 \label{altitude-from-telluric-base}
-The altitude of a
-confirmed EIM is that of its telluric base.
+The altitude of
+an EIM is that of its telluric base.
 \end{theorem}
 
 \begin{proof}
+
+TODO: Revisit.  Induction on ethereal closure?
+
 Let the EIM be
 \begin{equation*}
 \Veim{z} = [ \Vdr{z}, \Vorig{z}, \Vloc{z} ].
@@ -3617,21 +3621,19 @@ altitude.
 \end{theorem}
 
 \begin{proof}
-TODO: This is wrong -- not fully worked out.
-Merge this with another proof?
-
 This follows directly from
 Theorem \ref{altitude-from-telluric-base}.
 \end{proof}
 
-We now define
-the altitude derivation of a telluric base.
+\begin{definition}
+\dtitle{Altitude derivation of a telluric base}
 Let the telluric base be
 \begin{multline}
 \Veim{base} = \\
 [ [ \Vsym{base} \de \Vstr{pre} \cat \Vsym{tell} \mydot \Vstr{post} ], \Vloc{i}, \Vloc{k} ]
 \end{multline}
-We say the altitude derivation of \Veim{base} is
+We say the
+\dfn{altitude derivation} of \Veim{base} is
 its rightmost derivation before \Vloc{k},
 \begin{align}
 \label{def:altitude-derivation-step-n}
@@ -3645,15 +3647,21 @@ Because all Marpa symbols are productive,
 we know there is such a derivation,
 and that it has a finite length.
 We also know that $\Vsym{tt} = \CVw{\Vdecr{k}}$.
-We will call the length $\var{n}+1$.
 We call \eqref{def:altitude-derivation-step-n}, Step \var{n},
-and we call \eqref{def:altitude-derivation-step-0}, Step 0.
+and we call \eqref{def:altitude-derivation-step-0}, Step 0,
+so that
+the length of the derivation is $\var{n}+1$.
+\end{definition}
 
 For writing rightmost derivations before \Vloc{k},
 there are two conventions for indicating that a derivation
 step has expanded a null symbol into its direct descendants.
-Usually we remove the symbol, on the idea that it
+Often we remove the symbol, on the idea that it
 has expanded into zero terminal symbols.
+In other cases, it can be useful for the notation
+to indicate that a nulling symbols was recently expanded,
+so that we move that symbol to the right of the location
+marker.
 
 \begin{definition}
 \label{def:altitude-silo}
