@@ -2169,6 +2169,86 @@ are also met.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Top-down cause of confirmed effect}
+\label{t:down-cause-from-effect}
+Let
+\begin{equation*}
+\Veim{effect} = [ \Vdr{effect}, \var{i}, \var{k} ]
+\end{equation*}
+b3 a valid, confirmed EIM,
+then \Veim{down} is a valid, top-down cause,
+such that
+\begin{align}
+\label{eq:down-cause-from-effect-10}
+\Veim{down} & = \big[ \Prev{\Vdr{effect}}, \var{i}, \var{k} ] \\
+& \qquad \text{if \Veim{effect} is a null-scan EIM,} \notag\\
+\label{eq:down-cause-from-effect-13}
+\Veim{down} & = \big[ \Prev{\Vdr{effect}}, \var{i}, \Vdecr{k} ] \\
+& \qquad \text{if \Veim{effect} is a read EIM, and} \notag\\
+\label{eq:down-cause-from-effect-16}
+\Veim{down} & = \big[ \Prev{\Vdr{effect}}, \var{i}, \var{j} ] \\
+& \qquad \text{where $\var{j} < \var{k}$, if \Veim{effect} is a telluric EIM.} \notag
+\end{align}
+\end{theorem}
+
+\begin{proof}
+The proof follows from
+Theorem \ref{t:symbolic-causes-from-effect},
+noting in particular the requirement that
+\Veim{effect} must have both
+a top-down cause, \Veim{down},
+and \Vinst{up},
+and that they must match.
+By the definition of matching causes,
+\begin{equation}
+\label{eq:down-cause-from-effect-20}
+\Right{\Veim{down}} = \Left{\Vinst{up}}.
+\end{equation}
+By the definition of left and right location,
+\begin{equation}
+\label{eq:down-cause-from-effect-23}
+\Right{\Vinst{up}} = \Left{\Vinst{up}} + \Vsize{\Vinst{up}}.
+\end{equation}
+Using
+Theorem \ref{t:symbolic-causes-from-effect},
+\begin{equation}
+\label{eq:down-cause-from-effect-26}
+\Right{\Veim{up}} = \Right{\Veim{effect}} = \Vloc{k}.
+\end{equation}
+
+Combining
+\eqref{eq:down-cause-from-effect-20},
+\eqref{eq:down-cause-from-effect-23} and
+\eqref{eq:down-cause-from-effect-26},
+we have
+\begin{equation}
+\label{eq:down-cause-from-effect-29}
+\Right{\Veim{down}} = \Right{\Veim{effect}} \subtract \Vsize{\Vinst{up}} = \Vloc{k} \subtract \Vsize{\Vinst{up}}.
+\end{equation}
+
+If \Veim{effect} is a null-scan, then
+\Vinst{up} is a nulling symbol instance,
+and 
+$\Vsize{\Vinst{up}} = 0$,
+so that we have
+\eqref{eq:down-cause-from-effect-10}.
+
+If \Veim{effect} is a null-scan, then
+\Vinst{up} is a non-nulling terminal symbol instance,
+and 
+$\Vsize{\Vinst{up}} = 1$,
+so that we have
+\eqref{eq:down-cause-from-effect-13}.
+
+If \Veim{effect} is telluric, then
+\Vinst{up} is a telluric symbol instance,
+and 
+$\Vsize{\Vinst{up}} > 1$,
+so that we have
+\eqref{eq:down-cause-from-effect-16}.
+\end{proof}
+
+\begin{theorem}
 \ttitle{Effect from symbol instance}
 \label{t:effect-from-symbol}
 Let
@@ -3685,10 +3765,13 @@ for each step of an altitude derivation.
 Call a silo, \var{silo},
 so that \var{silo}[\var{i}] is \dfn{layer}
 \var{i} of the silo.
-Consider a step of the underlying
-altitude derivation.
-Let the rightmost symbol instance of Step \var{i} be
-$\Vmkl{j} \Vsym{A} \Vmkr{k}$.
+Let the underlying derivation be of the
+telluric EIM \Veim{base},
+where
+\begin{gather*}
+\Current{\Veim{base}} = \Vloc{k} \\
+\text{and \Predot{\Veim{base}} = \Vsym{A}.}
+\end{gather*}
 
 \begin{enumerate}
 \item
@@ -3702,8 +3785,7 @@ We say that
 where $\Vsym{term} = \Cw[\Vdecr{k}]$.
 \item
 \label{def:silo-layer-non-terminal}
-For Step \var{i}, $0 < \var{i} \le \var{n}$,
-if \Vsym{A} is a non-terminal
+If \Vsym{A} is a non-terminal
 where $\Vmkl{j} \Vstr{A-rhs} \Vmkr{k}$
 are its direct descendants
 in Step \Vdecr{i},
@@ -3714,8 +3796,7 @@ we say that
 \end{equation*}
 \item
 \label{def:silo-layer-nulling}
-For Step \var{i}, $1 \le \var{i} < \var{n}$,
-if \Vsym{A} is nulling
+If \Vsym{A} is nulling
 where
 $\var{silo}[\var{i}+1] = [ \Vdr{above}, \Vloc{j}, \Vloc{k}]$,
 we say that
@@ -3727,19 +3808,158 @@ we say that
 \end{definition}
 
 \begin{theorem}
-\label{t:silo-will-formed}
+\label{t:silo-well-formed}
 Definition \ref{def:altitude-silo}
 is well-formed.
 \end{theorem}
 
 \begin{proof}
-We proceed by examining
-Definition \ref{def:altitude-silo},
-identifying potential inconsistences,
-and showing that these are not actual
-inconsistencies.
+We proceed by cases,
+where the cases are
+potential inconsistences in
+Definition \ref{def:altitude-silo}.
 
-TODO
+\textbf{Predot symbol}:
+Definition \ref{def:altitude-silo} assumes that every
+derivation step has a predot symbol.
+We show this as follows:
+
+By the definition of the altitude derivation, an altitude deriva-
+tion starts with a telluric base and stops when the rightmost symbol is
+a telluric terminal. The point at which it stops is Step 0 by definition,
+so the case of telluric terminals is handled by explicitly specifying the
+behavior at Step 0. Since the altitude derivation starts with a telluric
+base and never moves the dot past a telluric terminal, every step of the
+altitude derivation will have a predot symbol.
+
+\textbf{Terminal symbol at location \var{k}}:
+Case \ref{def:silo-layer-0}
+of Definition \ref{def:altitude-silo} assumes that
+there is a terminal
+symbol \Vsym{term}, such that
+\begin{equation}
+\label{eq:silo-well-formed-8}
+\Vsym{term} = \CVw{\Vdecr{k}}.
+\end{equation}
+By assumption for the definition, the telluric base of the underlying
+definition, call it \Veim{base} is valid and such that
+\begin{equation}
+\label{eq:silo-well-formed-10}
+\Current{\Veim{base}} = \Vloc{k}.
+\end{equation}
+Let $\Vsym{tell} = \Predot{\Veim{base}}$.
+We know that \Vsym{tell} exists and is telluric,
+because \Veim{base} is a telluric base.
+From this and 
+\eqref{eq:silo-well-formed-10},
+we know that
+\begin{equation}
+\label{eq:silo-well-formed-12}
+\Vsym{tell} \Vmk{k} \destar \Vstr{pre-term} \Vsym{term} \Vmk{k}
+\end{equation}
+and from
+\eqref{eq:silo-well-formed-12}
+we know
+\eqref{eq:silo-well-formed-8},
+which shows the case.
+
+\textbf{Layer below non-terminal}:
+Case \ref{def:silo-layer-non-terminal}
+of Definition \ref{def:altitude-silo} assumes that,
+if \Vsym{A}, the predot symbol of layer \var{i},
+is a non-terminal,
+there is a step \Vdecr{i} in the underlying derivation.
+It also assumes that step \Vdecr{i}
+ends in
+$\Vstr{A-rhs} \Vmkr{k}$.
+By definition, the underlying altitude derivation does not stop
+until the rightmost symbol is a terminal,
+so that there is always a silo layer below a
+derivation step whose rightmost symbol is a non-terminal.
+By definition of a rightmost derivation before \Vloc{k},
+if derivation step $\var{i}+1$ ends in
+$\Vsym{A} \Vmk{k}$, then 
+derivation step \var{i} ends in
+$\Vsym{A-rhs} \Vmk{k}$,
+where $[ \Vsym{A} \de \Vstr{A-rhs} ] \in \Crules$.
+
+\textbf{Layer above nulling terminal}:
+Case \ref{def:silo-layer-nulling}
+of Definition \ref{def:altitude-silo} assumes that,
+if the predot symbol of layer \var{i} is a nulling terminal,
+there is a layer $\var{i}+1$,
+and that
+$\var{silo}[\var{i}+1]$ is an EIM
+whose current location is \var{k}.
+
+Every layer except for layer \var{n} has a layer above it,
+and layer \var{n} is a telluric base, so that we know that
+$\Predot{\var{silo}[\var{n}]}$ is not nulliing.
+Further, we see by examining
+Definition \ref{def:altitude-silo} that all silo layers
+are EIM's, except for layer 0.
+Layer 0, by definition is not above any other layer,
+and therefore if a silo layer is above another layer,
+it is an EIM.
+We show that 
+\begin{equation}
+\label{eq:silo-well-formed-15}
+\Current{\var{silo}[\var{i}+1]} = \Vloc{k}
+\end{equation}
+in our next case.
+
+\textbf{Right location of silo instances is \Vloc{k}}:
+For Definition \ref{def:altitude-silo} to be well-formed,
+we need to show
+\begin{equation}
+\label{eq:silo-well-formed-17}
+\forall \, \var{i}, 0 \le \var{i} \le \var{n}
+\; \implies \; \Right{\var{silo}[\var{i}]} = \Vloc{k}.
+\end{equation}
+We proceed by induction on the silo layers, from \var{n}
+to 0.
+We take as the the induction hypothesis that
+\begin{equation}
+\label{eq:silo-well-formed-18}
+\Right{\var{silo}[\var{i}]} = \Vloc{k}.
+\end{equation}
+For the basis we note that Case
+\ref{def:silo-layer-non-terminal}
+of
+Definition \ref{def:altitude-silo} applies
+for silo layer \var{n},
+because, by definition of the altitude derivation,
+the rightmost symbol of its step \var{n} must be a non-terminal.
+Case \ref{def:silo-layer-non-terminal}
+quarantees \eqref{eq:silo-well-formed-18}.
+For the step of the induction, we assume
+\eqref{eq:silo-well-formed-18} for silo layer $\var{i}+1$,
+and seek to show 
+\eqref{eq:silo-well-formed-18} for silo layer \var{i}.
+We have
+\eqref{eq:silo-well-formed-18} for silo layer \var{i}.
+in Cases \ref{def:silo-layer-0}
+and \ref{def:silo-layer-non-terminal}
+of
+Definition \ref{def:altitude-silo} directly.
+For Case \ref{def:silo-layer-0},
+\eqref{eq:silo-well-formed-18} for silo layer \var{i}
+follows from
+\eqref{eq:silo-well-formed-18} for silo layer $\var{i}+1$,
+which was the assumption for the step.
+This shows the step of the induction for all three cases
+of Definition \ref{def:altitude-silo},
+and the induction.
+
+With this
+we have
+\eqref{eq:silo-well-formed-17}, which was the last case
+of a potential inconsistency in 
+Definition \ref{def:altitude-silo}.
+Having shown all our cases,
+we claim our proof that
+Definition \ref{def:altitude-silo}
+is well-formed.
 \end{proof}
 
 \begin{theorem}
