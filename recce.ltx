@@ -3663,6 +3663,12 @@ to indicate that a nulling symbols was recently expanded,
 so that we move that symbol to the right of the location
 marker.
 
+We are now in a position to define an altitude silo.
+Intuitively, an altitude silo is a sequence of EIMs,
+all of them at a single parse location,
+where each layer in the silo is the altitude cause
+of the next layer.
+
 \begin{definition}
 \label{def:altitude-silo}
 The \dfn{altitude silo} is a sequence of parse instances,
@@ -3670,39 +3676,48 @@ based on an altitude derivation.
 There is one element in the silo
 for each step of an altitude derivation.
 
-Call a silo, \var{silo}.
-We say that
-\begin{equation}
-\label{eq:altitude-silo-10}
-\var{silo}[0] = \mkl{\Vdecr{k}} \Vsym{term} \Vmkr{k}.
-\end{equation}
-where $\Vsym{term} = \Cw[\Vdecr{k}]$.
-
+Call a silo, \var{silo},
+so that \var{silo}[\var{i}] is \dfn{layer}
+\var{i} of the silo.
 Consider a step of the underlying
 altitude derivation.
 Let the rightmost symbol instance of Step \var{i} be
 $\Vmkl{j} \Vsym{A} \Vmkr{k}$.
 
+\begin{enumerate}
+\item
+\label{def:silo-layer-0}
+For silo layer 0,
+We say that
+\begin{equation*}
+\label{eq:altitude-silo-10}
+\var{silo}[0] = \mkl{\Vdecr{k}} \Vsym{term} \Vmkr{k}.
+\end{equation*}
+where $\Vsym{term} = \Cw[\Vdecr{k}]$.
+\item
+\label{def:silo-layer-non-terminal}
 For Step \var{i}, $1 \le \var{i} \le \var{n}$,
 if \Vsym{A} is a non-terminal
 where $\Vmkl{j} \Vstr{A-rhs} \Vmkr{k}$
 are its direct descendants
 in Step \Vdecr{i},
 we say that
-\begin{equation}
+\begin{equation*}
 \label{eq:altitude-silo-20}
 \var{silo}[\var{i}] = [ [ \Vsym{A} \de \Vstr{A-rhs} \mydot ], \Vloc{j}, \Vloc{k} ].
-\end{equation}
-
+\end{equation*}
+\item
+\label{def:silo-layer-nulling}
 For Step \var{i}, $1 \le \var{i} \le \Vdecr{n}$,
 if \Vsym{A} is nulling
 where
 $\var{silo}[\var{i}+1] = [ \Vdr{above}, \Vloc{j}, \Vloc{k}]$,
 we say that
-\begin{equation}
+\begin{equation*}
 \label{eq:altitude-silo-30}
 \var{silo}[\var{i}] = [ \Prev{\Vdr{above}}, \Vloc{j}, \Vloc{k} ].
-\end{equation}
+\end{equation*}
+\end{enumerate}
 \end{definition}
 
 \begin{theorem}
@@ -3726,7 +3741,9 @@ and the EIMs they validate.
 
 Let \Vsym{rm} be the rightmost symbol before \Vloc{k}
 in derivation Step \var{x}.
-Let \Veim{valid-at-k} be an EIM
+Let \Veim{valid-at-k} be an
+read or reduction EIM
+at location \var{k}
 that is validated by Step \var{x},
 and whose current location is \var{k}.
 Then,
@@ -3736,9 +3753,10 @@ the predot symbol of \Veim{valid-at-k} will be \Vsym{rm}.
 The converse is also true:
 Let
 \[ \Veim{valid-at-k} = [ \Vdr{v}, \Vorig{v}, \Vloc{k} ] \]
-be a valid EIM;
-let Step \var{x} is validation step which validates
-it according to
+be a valid EIM,
+where \Vdr{v} is a read or a reduction;
+let Step \var{x} be the derivation step which validates
+\Veim{valid-at-k} according to
 the definition of validity of an EIM;
 and
 let
@@ -3747,10 +3765,6 @@ in derivation Step \var{x}.
 Then
 \[ \Predot{\Vdr{v}} = \Vsym{rm}. \]
 
-We note that
-Definition \ref{def:altitude-silo} deals with three cases:
-Step 0, non-terminal rightmost symbols
-and nulling rightmost symbols.
 By the definition of the altitude derivation,
 an altitude derivation starts with a telluric base
 and stops when the rightmost symbol
@@ -3761,13 +3775,17 @@ is handled by explicitly specifying the behavior
 at Step 0.
 Since the altitude derivation starts with a
 telluric base and never
-move the dot past
+moves the dot past
 a telluric terminal,
 every step of the altitude derivation
 will have a predot symbol.
 
-We now look at the three cases separately.
-\textbf{The first case}
+We now look at the three cases
+of Definition \ref{def:altitude-silo} separately.
+It is convenient to take them out of order.
+
+\textbf{Non-terminal predot}:
+Case \ref{def:silo-layer-non-terminal}
 is Definition \ref{def:altitude-silo} for
 non-terminal predot symbols.
 For Step \var{i},
@@ -3790,7 +3808,8 @@ is the altitude cause of any EIM with
 a non-terminal predot symbol.
 We note that its right location is \var{k}.
 
-\textbf{The second case}
+\textbf{Nulling predot}:
+Case \ref{def:silo-layer-nulling}
 is Definition \ref{def:altitude-silo} for
 nulling predot symbols.
 For Step \var{i},
@@ -3812,7 +3831,8 @@ is the altitude cause of any EIM with
 a nulling predot symbol.
 We note that its right location is \var{k}.
 
-\textbf{The third case} is
+\textbf{Layer 0}:
+Case \ref{def:silo-layer-0}
 is Definition \ref{def:altitude-silo} for
 Step 0, the only place where the altitude
 derivation can have a telluric terminal
@@ -3885,86 +3905,22 @@ and the theorem.
 \end{proof}
 
 \begin{theorem}
-\label{t:quasi-confirmed-altitude-is-finite}
-If \Veim{confirmed} is a valid, quasi-confirmed EIM,
-its altitude is defined and finite.
-\end{theorem}
-
-\begin{proof}
-\Veim{confirmed} must have a telluric base.
-Call this \Veim{base}.
-By theorem \ref{t:base-altitude-is-finite},
-the altitude of \Veim{base}
-is defined and finite.
-By theorem
-\ref{altitude-from-telluric-base},
-\[\Alt{\Veim{base}} = \Alt{\Veim{confirmed}}.\]
-Therefore the altitude of
-\Alt{\Veim{confirmed}} is defined and finite.
-\end{proof}
-
-\begin{theorem}
 \label{t:altitude-is-finite}
 If \Veim{eim} is a valid EIM,
 its altitude is defined and finite.
 \end{theorem}
 
 \begin{proof}
-If \Veim{eim} is quasi-confirmed,
-then this theorem follows from
-Theorem \ref{t:quasi-confirmed-altitude-is-finite}.
-If \Veim{eim} is the start EIM,
-this theorem follows from
-the definition of altitude,
-\ref{def:altitude}.
-
-It remains to show the theorem for predictions.
-Also by Definition \ref{def:altitude},
-a prediction's altitude is that of its top-down cause.
-The top-down cause of a prediction may be another prediction.
-Let, without loss of generality,
-\Veim{pred} be a prediction EIM.
-By the definition of EIM validity, \Veim{pred}
-is ultimately derived from the start EIM.
-And by the definition of top-down causes, there is a top-down
-cause for every EIM except the start EIM,
-so there is a chain of top-down causes from the start EIM to
-\Veim{pred}
-\begin{equation}
- \var{chain}[0] \ldots \var{chain}[\var{n}]
-\end{equation}
-where $\var{chain}[0]$ is the start EIM and
-$\var{chain}[\var{n}] = \Veim{pred}$.
-In this chain, there will be at least one top-down cause which
-is not a prediction.
-Call the last confirmed EIM in \var{chain},
-$\var{chain}[\var{last-confirmed}]$.
-Every EIM in the chain $\var{chain}[\var{i}]$,
-such that $\var{last-confirmed} < \var{i} \le \var{n}$,
-is a prediction,
-so that,
-by the definition of altitude for predictions,
-we know that
-\[ \Alt{\var{chain}[\Vdecr{i}]} = \Alt{\var{chain}[\var{i}]}.\]
-From this, it is easy to show by induction that
-\[ \Alt{\var{chain}[\var{last-confirmed}]} = \Alt{\var{chain}[\var{n}]}
-= \Alt{\Veim{pred}}.
-\]
-Therefore,
-\Alt{\Veim{pred}} is finite and defined.
-This shows the theorem for predictions.
-
-It remains to show the theorem for quasi-predictions.
-Any quasi-prediction, by the definition of ethereal closure,
-is in the ethereal closure of a prediction.
-By Theorem \ref{t:ethereal-altitude}, therefore,
-the altitude of quasi-predictions is defined and finite.
-
-We have shown the theorem for the case of a valid start EIM,
-for valid quasi-predictions,
-and for valid quasi-completions.
-Therefore we have shown it
-for all valid EIMs.
+\Veim{eim} must have a telluric base.
+Call this \Veim{base}.
+By theorem \ref{t:base-altitude-is-finite},
+the altitude of \Veim{base}
+is defined and finite.
+By theorem
+\ref{altitude-from-telluric-base},
+\[\Alt{\Veim{base}} = \Alt{\Veim{eim}}.\]
+Therefore the altitude of
+\Alt{\Veim{eim}} is defined and finite.
 \end{proof}
 
 \begin{theorem}
