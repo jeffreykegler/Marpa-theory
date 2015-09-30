@@ -2185,7 +2185,7 @@ then
 it \Veim{effect}
 \item
 \label{req:effect-from-symbol-2}
-\var{A-inst} has a matching top-down cause, call it
+\var{A-inst} has a matching valid top-down cause, call it
 it \Veim{down},
 \item
 \label{req:effect-from-symbol-3}
@@ -3531,7 +3531,7 @@ is used to calculate its possible
 altitudes.
 
 \begin{theorem}
-\label{predot-therefore-altitude}
+\label{t:predot-therefore-altitude}
 If an EIM has a predot symbol, it
 it has a defined altitude cause.
 If the predot symbol is null,
@@ -3664,10 +3664,16 @@ so that we move that symbol to the right of the location
 marker.
 
 We are now in a position to define an altitude silo.
-Intuitively, an altitude silo is a sequence of EIMs,
-all of them at a single parse location,
-where each layer in the silo is the altitude cause
-of the next layer.
+Intuitively, an altitude silo is a sequence of parse instances,
+called ``layers''.
+All of the layers are at a single parse location,
+and each layer in the silo is the altitude cause
+of the layer just above it.
+A altitude silo corresponds to,
+and is based on,
+an altitude derivation.
+Layer \var{i} of the silo is the altitude cause
+of Step \var{i} of the altitude derivation.
 
 \begin{definition}
 \label{def:altitude-silo}
@@ -3721,50 +3727,52 @@ we say that
 \end{definition}
 
 \begin{theorem}
-\label{altitude-silo-causes}
-Definition \ref{def:altitude-silo} is well-formed
-and for every \var{i}, $1 \le \var{i} \le \var{n}$,
-\var{silo}[\Vdecr{i}] is the altitude cause of
-\var{silo}[\var{i}].
+\label{t:silo-will-formed}
+Definition \ref{def:altitude-silo}
+is well-formed.
 \end{theorem}
 
 \begin{proof}
-In this proof,
-when we refer to the rightmost symbol,
-we will mean the rightmost symbol of a derivation
-step before \Vloc{k}.
-We will
-use the definition of validity of an EIM
-to go back and forth
-between derivation steps,
-and the EIMs they validate.
+We proceed by examining
+Definition \ref{def:altitude-silo},
+identifying potential inconsistences,
+and showing that these are not actual
+inconsistencies.
 
-Let \Vsym{rm} be the rightmost symbol before \Vloc{k}
-in derivation Step \var{x}.
-Let \Veim{valid-at-k} be an
-read or reduction EIM
-at location \var{k}
-that is validated by Step \var{x},
-and whose current location is \var{k}.
-Then,
-by the definition of validity of an EIM,
-the predot symbol of \Veim{valid-at-k} will be \Vsym{rm}.
+TODO
+\end{proof}
 
-The converse is also true:
-Let
-\[ \Veim{valid-at-k} = [ \Vdr{v}, \Vorig{v}, \Vloc{k} ] \]
-be a valid EIM,
-where \Vdr{v} is a read or a reduction;
-let Step \var{x} be the derivation step which validates
-\Veim{valid-at-k} according to
-the definition of validity of an EIM;
-and
-let
-\Vsym{rm} be the rightmost symbol before \Vloc{k}
-in derivation Step \var{x}.
-Then
-\[ \Predot{\Vdr{v}} = \Vsym{rm}. \]
+\begin{theorem}
+\label{t:silo-valid}
+Every instance of a silo is a valid EIM,
+except for \var{silo}[0],
+which is a valid symbol instance,
+\end{theorem}
 
+\begin{proof}
+TODO
+\end{proof}
+
+\begin{theorem}
+\label{t:silo-base-cause}
+Let \Veim{base} be the telluric base
+of the underlying derivation of \var{silo}.
+Then \var{silo}[\var{n}] is the bottom-up cause of
+\Veim{base}.
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
+\begin{theorem}
+\label{t:silo-causes}
+For every \var{i}, $0 \le \var{i} < \var{n}$,
+\var{silo}[\var{i}] is the altitude cause of
+\var{silo}[\var{i}+1].
+\end{theorem}
+
+\begin{proof}
 By the definition of the altitude derivation,
 an altitude derivation starts with a telluric base
 and stops when the rightmost symbol
@@ -3780,32 +3788,50 @@ a telluric terminal,
 every step of the altitude derivation
 will have a predot symbol.
 
+Let \Vsym{A} be the rightmost symbol before \Vloc{k}
+in derivation Step \var{i},
+as in Definition \ref{def:altitude-silo}.
+Because all symbols are productive,
+we know there is
+some \Vloc{j} such that
+\begin{equation}
+\label{eq:altitude-silo-causes-10}
+\Vmk{j} \Vsym{A} \Vmk{k}
+\end{equation}
+is a valid symbol instance.
+
 We now look at the three cases
 of Definition \ref{def:altitude-silo} separately.
 It is convenient to take them out of order.
 
 \textbf{Non-terminal predot}:
 Case \ref{def:silo-layer-non-terminal}
-is Definition \ref{def:altitude-silo} for
-non-terminal predot symbols.
+is Definition \ref{def:altitude-silo},
+where \Vsym{A} is a non-terminal.
+Case \ref{def:silo-layer-non-terminal}
 For Step \var{i},
-this requires that there be a Step \Vdecr{i}.
+Case \ref{def:silo-layer-non-terminal}
+requires that there be a Step \Vdecr{i}.
 Since we only examine Steps 1 and greater
-for this first case,
+for 
+Case \ref{def:silo-layer-non-terminal},
 we know there is a Step \Vdecr{i}.
-Call the EIM in \eqref{eq:altitude-silo-20},
-\Veim{up}.
+
+Call \eqref{eq:altitude-silo-20},
+\Vinst{up}.
 By
-Theorem \ref{t:symbolic-causes-from-effect}
-and Theorem \ref{t:valid-eim-from-symbol},
-we see that \Veim{up}
-is the bottom-up cause of any EIM with
-a non-terminal predot symbol.
+Theorem \ref{t:symbolic-causes-from-effect},
+we see that
+\Vinst{up} is the bottom-up cause of
+\var{silo}[\var{i}],
+and from Theorem \ref{t:valid-eim-from-symbol},
+we see that \Vinst{up} has at least one EIM equivalent,
+call it \Veim{up}.
 By
-\eqref{predot-therefore-altitude},
+Theorem \ref{t:predot-therefore-altitude},
 we see that \Veim{up}
-is the altitude cause of any EIM with
-a non-terminal predot symbol.
+is the altitude cause of
+\var{silo}[\var{i}].
 We note that its right location is \var{k}.
 
 \textbf{Nulling predot}:
@@ -3825,11 +3851,13 @@ Theorem \ref{t:symbolic-causes-from-effect},
 we know that \Veim{down} must be the top-down
 cause of $\var{silo}[\var{i}+1]$.
 By
-\eqref{predot-therefore-altitude},
+Theorem \ref{t:predot-therefore-altitude},
 we see that \Veim{down}
 is the altitude cause of any EIM with
 a nulling predot symbol.
 We note that its right location is \var{k}.
+
+TODO: Fix this.  Add a case for layer 1.
 
 \textbf{Layer 0}:
 Case \ref{def:silo-layer-0}
@@ -3837,8 +3865,17 @@ is Definition \ref{def:altitude-silo} for
 Step 0, the only place where the altitude
 derivation can have a telluric terminal
 as its rightmost symbol.
-We have noted above, that all the EIMs in \var{silo}
-has a right location of \var{k}.
+We have noted above, that the EIMs in \var{silo}
+for Cases
+\ref{def:silo-layer-non-terminal}
+and
+\ref{def:silo-layer-nulling}
+have a right location of \var{k}.
+This means that
+\begin{multline}
+\forall \; \var{x}, 1 \le \var{x} \le \var{n} \implies \Right{\var{silo}[\var{x}]} = \Vloc{k} \\
+\text{and therefore $\Right{\var{silo}[1]} = \Vloc{k}$}
+\end{multline}
 We know from
 Theorem \ref{t:symbolic-causes-from-effect}
 that the bottom-up cause must have a right location
@@ -3850,7 +3887,7 @@ this bottom-up cause must be
 that in
 \eqref{eq:altitude-silo-10}.
 By
-\eqref{predot-therefore-altitude}
+Theorem \ref{t:predot-therefore-altitude},
 we know that the bottom-up cause is also the altitude
 cause of any EIM with a telluric terminal
 as its predot symbol.
@@ -3890,7 +3927,7 @@ to show that
 \label{eq:base-altitude-is-finite-30}
 \text{\Alt{\var{silo}[\var{i}+1]} is defined and finite}.
 \end{equation}
-Theorem \eqref{altitude-silo-causes} shows that
+Theorem \ref{t:silo-causes} shows that
 $\var{silo}[\var{i}]$ is the altitude cause of
 $\var{silo}[\var{i}+1]$.
 Therefore,
