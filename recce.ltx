@@ -3702,7 +3702,7 @@ We say that
 where $\Vsym{term} = \Cw[\Vdecr{k}]$.
 \item
 \label{def:silo-layer-non-terminal}
-For Step \var{i}, $1 \le \var{i} \le \var{n}$,
+For Step \var{i}, $0 < \var{i} \le \var{n}$,
 if \Vsym{A} is a non-terminal
 where $\Vmkl{j} \Vstr{A-rhs} \Vmkr{k}$
 are its direct descendants
@@ -3710,11 +3710,11 @@ in Step \Vdecr{i},
 we say that
 \begin{equation*}
 \label{eq:altitude-silo-20}
-\var{silo}[\var{i}] = [ [ \Vsym{A} \de \Vstr{A-rhs} \mydot ], \Vloc{j}, \Vloc{k} ].
+\var{silo}[\var{i}] = \big[ [ \Vsym{A} \de \Vstr{A-rhs} \mydot ], \Vloc{j}, \Vloc{k} \big].
 \end{equation*}
 \item
 \label{def:silo-layer-nulling}
-For Step \var{i}, $1 \le \var{i} \le \Vdecr{n}$,
+For Step \var{i}, $1 \le \var{i} < \var{n}$,
 if \Vsym{A} is nulling
 where
 $\var{silo}[\var{i}+1] = [ \Vdr{above}, \Vloc{j}, \Vloc{k}]$,
