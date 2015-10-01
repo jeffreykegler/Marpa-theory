@@ -3421,9 +3421,9 @@ the maximum size of Earley set \Vloc{i} is therefore
 
 \subsection{The history of a conjecture}
 
-On page 60 in the
+On page 60 of the
 first publication describing his new algorithm\cite{Earley1968},
-Jay Earley conjectured that the algorithm could be
+Jay Earley conjectured that \Earley{} could be
 modified to be \On{} for
 all deterministic context-free grammars (DCFG's).
 (The DCFG's are the union of the
@@ -3450,28 +3450,43 @@ it is $\order{\var{n}^2}$ for right recursion.
 This is because all the EIM's necessary for a right
 recursion are created at every parse location
 where the right recursion might end.
-At each parse location, if the length of the right
-recursion is $n$, then $n$ EIM's are needed to
-represent the right recursion.
-The total number of EIM's needed for a right recursion of
-length $n$ is
+
+For simplicity,
+in the discussion of this subsection,
+we will assume that the grammar is unambiguous,
+or at least that it is not ambiguous in a way that affects
+the right recursion we are discussing.
+We will call each potential end location of a right recursion,
+an \dfn{EORR},
+and will will call
+the EIM's needed to represent the right recursion
+at an EORR, an \dfn{EORR set}.
+
+In \Earley,
+if the length of the right
+recursion at an EORR is $n$, then the EORR set contains $n$ EIM's.
+The total number of EIM's in the EORR sets
+needed for a right recursion of length $n$ is
 \[\sum_{1 \le \var{i} \le \var{n}} \var{i} = \order{\var{n}^2}.\]
 Of these EIM's, only $n$ will actually be needed --
 the rest are useless.
 
 Leo's idea was to memoize the right recursions.
-With Leo memoization, each sequence is represented by
+With Leo memoization, each EORR set is represented by
 a pair of EIM's and a memo.
 There are \Oc{} Leo items per Earley set,
-so the cost of the sequence is \Oc{} per Earley set,
-or \On{} for the entire sequence.
+so the time and space complexity
+of an EORR set is \Oc{}.
+The time and space complexity of
+a right recursion of length \var{n} will
+be \On{}.
 
 If, at evaluation time,
 it is desirable to expand the Leo memoizations,
-only those memoized items actually used in the parse
-need to be expanded.
-All of the EIM's actually used in the right recursion
-will be in a single Earley set.
+only the EORR set actually used in the parse
+needs to be expanded.
+All of the EIM's actually used in a right recursion
+will be in a single EORR set.
 The number of memoized
 EIM's that need to be expanded
 will be \On{},
@@ -3482,7 +3497,7 @@ required to expand Leo memoization
 during evaluation
 is taken into account,
 the time and space complexity of
-the right recursive sequence remains \On{}.
+a right recursion remains \On{}.
 
 Joop Leo showed that,
 with his modification, Earley's algorithm
@@ -3505,14 +3520,14 @@ we return to some concepts
 from Section \ref{s:earley-items}.
 In \Earley,
 a long right recursion
-created long sequences of Earley items
-at many of its parse locations.
-In these sequences,
-each EIM was the cause of the next one.
+created sequences of Earley items
+at every EORR.
+The EIM's in each EORR set formed a chain.
+Within these chains, each EIM caused the next one.
 
-We need to investigate
-cause-and-effect sequences within the EIM's
-of a single parse location.
+We will now investigate, in some detail,
+the cause-and-effect relationships of EIM's
+at a single parse location.
 From Section \ref{s:earley-items},
 we recall the idea of
 top-down and bottom-up causes.
@@ -3594,21 +3609,27 @@ are memoized.
 \par
 \end{FlushLeft}
 
-\end{sloppypar}
-\end{definition}
-
 When we speak of
 the \dfn{altitude cause} of an EIM,
 we mean whichever of its causes
--- bottom-up or top-down --
+--- bottom-up or top-down ---
 is used to calculate its possible
 altitudes.
+\end{sloppypar}
+\end{definition}
+
+Note our use of the floor notation in
+Definition \ref{def:altitude}.
+EIM's can have multiple top-down causes,
+and multiple bottom-up causes.
+Where this is a choice of altitudes,
+the alititude is always the minimum of the choices.
 
 \begin{theorem}
 \label{t:predot-therefore-altitude}
-If an EIM has a predot symbol, it
-it has a defined altitude cause.
-If the predot symbol is null,
+Every EIM except the start EIM has a defined altitude cause.
+If the EIM has no predot symbol,
+or if the predot symbol is null,
 the altitude cause is the top-down cause.
 If the predot symbol is telluric,
 the altitude cause is the bottom-up cause.
