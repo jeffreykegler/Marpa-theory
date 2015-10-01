@@ -186,7 +186,8 @@
 
 \theoremstyle{myplain}
 
-\newtheorem{oldtheorem}{Theorem}[section]
+% \newtheorem{oldtheorem}{Theorem}[section]
+\newtheorem{oldtheorem}{Theorem}
 \newenvironment{theorem}
 {
   \begin{oldtheorem}
@@ -3707,6 +3708,7 @@ Theorem \ref{altitude-from-telluric-base}.
 
 \begin{definition}
 \dtitle{Altitude derivation of a telluric base}
+\label{def:altitude-derivation}
 Let the telluric base be
 \begin{multline}
 \Veim{base} = \\
@@ -3756,7 +3758,7 @@ Layer \var{i} of the silo is the altitude cause
 of Step \var{i} of the altitude derivation.
 
 \begin{definition}
-\label{def:altitude-silo}
+\label{def:silo}
 The \dfn{altitude silo} is a sequence of parse instances,
 based on an altitude derivation.
 There is one element in the silo
@@ -3768,10 +3770,9 @@ so that \var{silo}[\var{i}] is \dfn{layer}
 Let the underlying derivation be of the
 telluric EIM \Veim{base},
 where
-\begin{gather*}
-\Current{\Veim{base}} = \Vloc{k} \\
-\text{and \Predot{\Veim{base}} = \Vsym{A}.}
-\end{gather*}
+$\Current{\Veim{base}} = \Vloc{k}$
+and let the rightmost symbol of derivation step \var{k}
+at \Vloc{k} be \Vsym{A}.
 
 \begin{enumerate}
 \item
@@ -3809,7 +3810,7 @@ we say that
 
 \begin{theorem}
 \label{t:silo-well-formed}
-Definition \ref{def:altitude-silo}
+Definition \ref{def:silo}
 is well-formed.
 \end{theorem}
 
@@ -3817,24 +3818,83 @@ is well-formed.
 We proceed by cases,
 where the cases are
 potential inconsistences in
-Definition \ref{def:altitude-silo}.
+Definition \ref{def:silo}.
 
 \textbf{Predot symbol}:
-Definition \ref{def:altitude-silo} assumes that every
-derivation step has a predot symbol.
-We show this as follows:
+Definition \ref{def:silo} assumes that
+\begin{equation}
+\label{eq:silo-well-formed-4}
+\myparbox{
+every
+derivation step has a rightmost symbol before \Vloc{k}.
+}
+\end{equation}
 
-By the definition of the altitude derivation, an altitude deriva-
-tion starts with a telluric base and stops when the rightmost symbol is
-a telluric terminal. The point at which it stops is Step 0 by definition,
-so the case of telluric terminals is handled by explicitly specifying the
-behavior at Step 0. Since the altitude derivation starts with a telluric
-base and never moves the dot past a telluric terminal, every step of the
-altitude derivation will have a predot symbol.
+We show this by an induction on the steps of the altitude
+derivation, starting with Step \var{n}.
+We take as the induction hypothesis that
+\begin{equation}
+\label{eq:silo-well-formed-5}
+\myparbox{
+derivation step \var{i}
+contains a telluric symbol somewhere before \Vloc{k}.
+}
+\end{equation}
+As the basis of the induction, we take Step \var{n}.
+In the definition of an altitude derivation,
+Step \var{n} is derived from a telluric base EIM,
+and therefore Step \var{n}
+has a telluric symbol immediately before
+\Vloc{k}.
+
+For the step of the induction, we assume that
+Step $\var{i}+1$ has a telluric symbol somewhere before
+\Vloc{k}.
+At each derivation step, the rightmost symbol,
+call it \Vsym{rm},
+is expanded
+into zero or more direct descendants.
+Let this derivation be
+\begin{align}
+& \Vstr{pre-rm} \Vsym{rm} \Vmk{k} && \text{Step $\var{i}+1$} \notag \\
+\label{eq:silo-well-formed-7}
+& \derives \Vstr{pre-rm} \Vstr{rm-dds} \Vmk{k}. && \text{Step \var{i}}
+\end{align}
+If $\Vstr{rm-dds} = \epsilon$, then
+\Vsym{rm} was not telluric, so the telluric symbol to
+the left of \Vloc{k} must be in \Vstr{pre-rm}.
+If the telluric symbol was in \Vstr{pre-rm} in
+Step $\var{i}+1$, it is still in \Vstr{pre-rm}
+in Step \var{i},
+so that Step \var{i} has a telluric symbol before \Vloc{k}
+in Step \var{i}.
+This shows 
+\eqref{eq:silo-well-formed-5} for Step \var{i}
+when $\Vstr{rm-dds} = \epsilon$.
+
+The other case is when
+$\Vstr{rm-dds} \neq \epsilon$.
+In this case,
+$[\Vsym{rm} \de \Vsym{rm-rhs} ]$
+must be a rule in \Cg{}.
+No rules in Marpa are nulling, so that
+at least one of the
+symbols in \Vsym{rm-rhs} must be telluric.
+So clearly there is still a telluric symbol before
+\Vloc{k} in \Vstr{rm-dds} in
+\eqref{eq:silo-well-formed-7}.
+This shows 
+\eqref{eq:silo-well-formed-5} for Step \var{i}
+when $\Vstr{rm-dds} \neq \epsilon$.
+
+We have show both cases of the step of the induction,
+so we have the induction,
+and we conclude
+\eqref{eq:silo-well-formed-4}.
 
 \textbf{Terminal symbol at location \var{k}}:
 Case \ref{def:silo-layer-0}
-of Definition \ref{def:altitude-silo} assumes that
+of Definition \ref{def:silo} assumes that
 there is a terminal
 symbol \Vsym{term}, such that
 \begin{equation}
@@ -3850,14 +3910,17 @@ definition, call it \Veim{base} is valid and such that
 Let $\Vsym{tell} = \Predot{\Veim{base}}$.
 We know that \Vsym{tell} exists and is telluric,
 because \Veim{base} is a telluric base.
-From this and 
+From this,
+the fact that every Marpa symbol is productive,
+and 
 \eqref{eq:silo-well-formed-10},
 we know that
 \begin{equation}
 \label{eq:silo-well-formed-12}
 \Vsym{tell} \Vmk{k} \destar \Vstr{pre-term} \Vsym{term} \Vmk{k}
 \end{equation}
-and from
+for some \Vstr{pre-term}.
+From
 \eqref{eq:silo-well-formed-12}
 we know
 \eqref{eq:silo-well-formed-8},
@@ -3865,7 +3928,7 @@ which shows the case.
 
 \textbf{Layer below non-terminal}:
 Case \ref{def:silo-layer-non-terminal}
-of Definition \ref{def:altitude-silo} assumes that,
+of Definition \ref{def:silo} assumes that,
 if \Vsym{A}, the predot symbol of layer \var{i},
 is a non-terminal,
 there is a step \Vdecr{i} in the underlying derivation.
@@ -3885,7 +3948,7 @@ where $[ \Vsym{A} \de \Vstr{A-rhs} ] \in \Crules$.
 
 \textbf{Layer above nulling terminal}:
 Case \ref{def:silo-layer-nulling}
-of Definition \ref{def:altitude-silo} assumes that,
+of Definition \ref{def:silo} assumes that,
 if the predot symbol of layer \var{i} is a nulling terminal,
 there is a layer $\var{i}+1$,
 and that
@@ -3894,12 +3957,12 @@ whose current location is \var{k}.
 
 Every layer except for layer \var{n} has a layer above it,
 and layer \var{n} is a telluric base, so that we know that
-$\Predot{\var{silo}[\var{n}]}$ is not nulliing.
+$\Predot{\var{silo}[\var{n}]}$ is not nulling.
 Further, we see by examining
-Definition \ref{def:altitude-silo} that all silo layers
+Definition \ref{def:silo} that all silo layers
 are EIM's, except for layer 0.
-Layer 0, by definition is not above any other layer,
-and therefore if a silo layer is above another layer,
+Layer 0, by definition, is not above any other layer.
+Therefore if a silo layer is above another layer,
 it is an EIM.
 We show that 
 \begin{equation}
@@ -3909,7 +3972,7 @@ We show that
 in our next case.
 
 \textbf{Right location of silo instances is \Vloc{k}}:
-For Definition \ref{def:altitude-silo} to be well-formed,
+For Definition \ref{def:silo} to be well-formed,
 we need to show
 \begin{equation}
 \label{eq:silo-well-formed-17}
@@ -3926,39 +3989,38 @@ We take as the the induction hypothesis that
 For the basis we note that Case
 \ref{def:silo-layer-non-terminal}
 of
-Definition \ref{def:altitude-silo} applies
+Definition \ref{def:silo} applies
 for silo layer \var{n},
 because, by definition of the altitude derivation,
 the rightmost symbol of its step \var{n} must be a non-terminal.
-Case \ref{def:silo-layer-non-terminal}
-quarantees \eqref{eq:silo-well-formed-18}.
+
 For the step of the induction, we assume
 \eqref{eq:silo-well-formed-18} for silo layer $\var{i}+1$,
 and seek to show 
 \eqref{eq:silo-well-formed-18} for silo layer \var{i}.
 We have
-\eqref{eq:silo-well-formed-18} for silo layer \var{i}.
+\eqref{eq:silo-well-formed-18} for silo layer \var{i}
 in Cases \ref{def:silo-layer-0}
 and \ref{def:silo-layer-non-terminal}
 of
-Definition \ref{def:altitude-silo} directly.
-For Case \ref{def:silo-layer-0},
+Definition \ref{def:silo} directly.
+For Case \ref{def:silo-layer-nulling},
 \eqref{eq:silo-well-formed-18} for silo layer \var{i}
 follows from
 \eqref{eq:silo-well-formed-18} for silo layer $\var{i}+1$,
 which was the assumption for the step.
 This shows the step of the induction for all three cases
-of Definition \ref{def:altitude-silo},
+of Definition \ref{def:silo},
 and the induction.
 
 With this
 we have
 \eqref{eq:silo-well-formed-17}, which was the last case
 of a potential inconsistency in 
-Definition \ref{def:altitude-silo}.
+Definition \ref{def:silo}.
 Having shown all our cases,
-we claim our proof that
-Definition \ref{def:altitude-silo}
+we conclude that
+Definition \ref{def:silo}
 is well-formed.
 \end{proof}
 
@@ -3970,19 +4032,100 @@ which is a valid symbol instance,
 \end{theorem}
 
 \begin{proof}
-TODO
+The follows from
+Definition \ref{def:silo} (``altitude silo'')
+and from the proof that
+that
+Definition \ref{def:silo}
+is well-formed
+in Theorem 
+\ref{t:silo-well-formed}.
 \end{proof}
 
 \begin{theorem}
 \label{t:silo-base-cause}
 Let \Veim{base} be the telluric base
 of the underlying derivation of \var{silo}.
-Then \var{silo}[\var{n}] is the bottom-up cause of
+Then \var{silo}[\var{n}] is valid
+and the altitude cause of
 \Veim{base}.
 \end{theorem}
 
 \begin{proof}
-TODO
+Let
+\begin{equation}
+\Veim{base} = \big[
+  [ \Vsym{base} \de \Vstr{pre} \cat \Vsym{tell} \mydot \Vstr{post} ], \Vloc{i}, \Vloc{k}
+\big]
+\end{equation}
+be the telluric base of an altitude derivation.
+Then, by Definition \ref{def:altitude-derivation}
+(``altitude derivation''),
+the rightsymbol symbol of Step \var{n} of
+the derivation is \Vsym{tell}.
+We proceed by cases
+
+\textbf{Nulling}:
+\Veim{base} is telluric, so \Vsym{tell} cannot be nulling.
+
+\textbf{Terminal}:
+If \Vsym{tell} is a terminal,
+by Definition \ref{def:altitude-derivation},
+there is only one step, so that $\var{n} = 0$.
+By Case \ref{def:silo-layer-0}
+of Definition \ref{def:silo}
+(``altitude silo'')
+\begin{equation}
+\label{eq:silo-base-cause-10}
+\text{$\var{silo}[0] = \mk{\Vdecr{k}} \Vsym{tell} \Vmk{k},$ where $\Vsym{tell} = \Cw[\Vdecr{k}].$}
+\end{equation}
+\eqref{eq:silo-base-cause-10} is
+valid
+by the definition of validity for a symbol instance,
+and the definition of \Cw{}.
+By Theorem
+\ref{t:symbolic-causes-from-effect},
+\eqref{eq:silo-base-cause-10} is a bottom-up cause
+of \Veim{base}.
+Because \Veim{base} is telluric,
+\Predot{\Veim{base}} is telluric,
+so that by
+Theorem
+\ref{t:predot-therefore-altitude},
+\eqref{eq:silo-base-cause-10}
+is the altitude cause of
+\Veim{base}.
+This shows the theorem for the case where \Vsym{tell} is a terminal.
+
+\textbf{Non-terminal}:
+It remains to show the theorem
+where \Vsym{tell} is a non-terminal.
+Case \ref{def:silo-layer-non-terminal}
+of Definition \ref{def:silo} applies,
+so that
+\begin{gather}
+\label{eq:silo-base-cause-20}
+\var{silo}[\var{n}] = \big[ [ \Vsym{tell} \de \Vstr{tell-rhs} \mydot ], \Vloc{j}, \Vloc{k} \big] \\
+\label{eq:silo-base-cause-22}
+\text{and} \qquad
+\Vsym{tell} \derives \Vmk{j} \Vstr{tell-rhs} \Vmk{k}.
+\end{gather}
+From \eqref{eq:silo-base-cause-22},
+by the definition of EIM validity,
+\eqref{eq:silo-base-cause-20} is valid.
+By Theorem
+\ref{t:symbolic-causes-from-effect},
+\eqref{eq:silo-base-cause-20} is a bottom-up cause of
+of \Veim{base}.
+\Predot{\Veim{base}} is telluric,
+so that by
+Theorem
+\ref{t:predot-therefore-altitude},
+\eqref{eq:silo-base-cause-10}
+is the altitude cause of
+\Veim{base}.
+This shows the theorem for the case where \Vsym{tell} is a non-terminal.
+We now have both cases and therefore the theorem.
 \end{proof}
 
 \begin{theorem}
@@ -3993,126 +4136,133 @@ For every \var{i}, $0 \le \var{i} < \var{n}$,
 \end{theorem}
 
 \begin{proof}
-By the definition of the altitude derivation,
-an altitude derivation starts with a telluric base
-and stops when the rightmost symbol
-is a telluric terminal.
-The point at which it stops is Step 0
-by definition, so the case of telluric terminals
-is handled by explicitly specifying the behavior
-at Step 0.
-Since the altitude derivation starts with a
-telluric base and never
-moves the dot past
-a telluric terminal,
-every step of the altitude derivation
-will have a predot symbol.
 
-Let \Vsym{A} be the rightmost symbol before \Vloc{k}
-in derivation Step \var{i},
-as in Definition \ref{def:altitude-silo}.
-Because all symbols are productive,
-we know there is
-some \Vloc{j} such that
+TODO Needs to be revised
+
+Let
 \begin{equation}
-\label{eq:altitude-silo-causes-10}
-\Vmk{j} \Vsym{A} \Vmk{k}
+\label{eq:silo-causes-10}
+\var{silo}[\var{i}] = \Veim{hi} = \big[
+  [ \Vsym{hi} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \Vloc{i}, \Vloc{k}
+\big]
 \end{equation}
-is a valid symbol instance.
+be silo layer $\var{i}+1$.
+We know that it is an EIM, because by assumption
+for the theorem, $\var{i}+1 > 0$,
+and by Theorem \ref{t:silo-valid},
+every silo layer above 0 is an EIM.
 
-We now look at the three cases
-of Definition \ref{def:altitude-silo} separately.
-It is convenient to take them out of order.
+We proceed by cases,
+looking at $\var{silo}[i]$.
 
-\textbf{Non-terminal predot}:
-Case \ref{def:silo-layer-non-terminal}
-is Definition \ref{def:altitude-silo},
-where \Vsym{A} is a non-terminal.
-Case \ref{def:silo-layer-non-terminal}
-For Step \var{i},
-Case \ref{def:silo-layer-non-terminal}
-requires that there be a Step \Vdecr{i}.
-Since we only examine Steps 1 and greater
-for 
-Case \ref{def:silo-layer-non-terminal},
-we know there is a Step \Vdecr{i}.
-
-Call \eqref{eq:altitude-silo-20},
-\Vinst{up}.
-By
-Theorem \ref{t:symbolic-causes-from-effect},
-we see that
-\Vinst{up} is the bottom-up cause of
-\var{silo}[\var{i}],
-and from Theorem \ref{t:valid-eim-from-symbol},
-we see that \Vinst{up} has at least one EIM equivalent,
-call it \Veim{up}.
-By
-Theorem \ref{t:predot-therefore-altitude},
-we see that \Veim{up}
-is the altitude cause of
-\var{silo}[\var{i}].
-We note that its right location is \var{k}.
-
-\textbf{Nulling predot}:
+\textbf{Incomplete EIM}:
+If $\var{silo}[i]$ is an incomplete EIM.
+we know that it comes from
 Case \ref{def:silo-layer-nulling}
-is Definition \ref{def:altitude-silo} for
-nulling predot symbols.
-For Step \var{i},
-this requires that there be a Step $\var{i}+1$.
-By the definition of an altitude derivation,
-Step \var{n} has a telluric predot symbol,
-so we know we have
-a Step $\var{i}+1$.
-Call the EIM in \eqref{eq:altitude-silo-20},
-\Veim{down}.
-By
-Theorem \ref{t:symbolic-causes-from-effect},
-we know that \Veim{down} must be the top-down
-cause of $\var{silo}[\var{i}+1]$.
-By
-Theorem \ref{t:predot-therefore-altitude},
-we see that \Veim{down}
-is the altitude cause of any EIM with
-a nulling predot symbol.
-We note that its right location is \var{k}.
+of Definition \ref{def:silo},
+that it is of the form
+\begin{equation}
+\label{eq:silo-causes-15}
+\var{silo}[\var{i}] = 
+  [ \Vsym{hi} \de \Vstr{pre} \mydot \Vsym{A} \Vstr{post} ], \Vloc{i}, \Vloc{k}
+\end{equation}
+and that
+\begin{equation}
+\label{eq:silo-causes-15}
+\var{silo}[\var{i}+1] = 
+  [ \Vsym{hi} \de \Vstr{pre} \Vsym{A} \mydot \Vstr{post} ], \Vloc{i}, \Vloc{k}
+\end{equation}
+By Theorem
+\ref{t:symbolic-causes-from-effect},
+\eqref{eq:silo-causes-15} is valid
+and the top-down cause of 
+\eqref{eq:silo-causes-10}.
+\Predot{\Veim{hi}} is nulling,
+so that by
+Theorem
+\ref{t:predot-therefore-altitude},
+\eqref{eq:silo-causes-15}
+is the altitude cause of
+\eqref{eq:silo-causes-10}.
+This shows the case where \Vsym{A} is nulling.
 
-TODO: Fix this.  Add a case for layer 1.
+TODO: A real mess.  Need to think this over.
 
-\textbf{Layer 0}:
-Case \ref{def:silo-layer-0}
-is Definition \ref{def:altitude-silo} for
-Step 0, the only place where the altitude
-derivation can have a telluric terminal
-as its rightmost symbol.
-We have noted above, that the EIMs in \var{silo}
-for Cases
-\ref{def:silo-layer-non-terminal}
-and
-\ref{def:silo-layer-nulling}
-have a right location of \var{k}.
-This means that
-\begin{multline}
-\forall \; \var{x}, 1 \le \var{x} \le \var{n} \implies \Right{\var{silo}[\var{x}]} = \Vloc{k} \\
-\text{and therefore $\Right{\var{silo}[1]} = \Vloc{k}$}
-\end{multline}
-We know from
-Theorem \ref{t:symbolic-causes-from-effect}
-that the bottom-up cause must have a right location
-of \var{k} if its effect does.
-We also know from
-Theorem \ref{t:symbolic-causes-from-effect}, that,
-for a telluric terminal,
-this bottom-up cause must be
-that in
-\eqref{eq:altitude-silo-10}.
-By
-Theorem \ref{t:predot-therefore-altitude},
-we know that the bottom-up cause is also the altitude
-cause of any EIM with a telluric terminal
-as its predot symbol.
-This concludes the three cases and shows the
-theorem.
+\textbf{Complete EIM}:
+If $\var{silo}[i]$ is an complete EIM,
+we know that it comes from
+Case \ref{def:silo-layer-nulling},
+and that the rightmost symbol
+of step \var{i} of the altitude derivation is
+$\var{B} = \LHS{\var{silo}[\var{i}]}$.
+Therefore the relevant part of the altitude derivation is
+\begin{align}
+  & \Vsym{C} \Vmk{k} && \text{Step $\var{i}+1$}
+\destar \; &\Vstr{pre-B} \Vsym{B} \Vmk{k} \Vstr{post-B} && \text{Step \var{i}}
+\end{align}
+where $[ \Vsym{C} \de \Vstr{pre-B} \Vsym{B} \Vstr{post-B} ] \in \Crules$
+
+If \Vsym{tell} is a telluric terminal,
+by Definition \ref{def:altitude-derivation},
+$\var{i} = 0$.
+
+TODO: Why?  This proof needs fixing.
+
+By Case \ref{def:silo-layer-0}
+of Definition \ref{def:silo}
+(``altitude silo'')
+\begin{equation}
+\label{eq:silo-causes-13}
+\text{$\var{silo}[0] = \mk{\Vdecr{k}} \Vsym{A} \Vmk{k},$ where $\Vsym{A} = \Cw[\Vdecr{k}].$}
+\end{equation}
+\eqref{eq:silo-causes-13} is
+valid
+by the definition of validity for a symbol instance,
+and the definition of \Cw{}.
+By Theorem
+\ref{t:symbolic-causes-from-effect},
+\eqref{eq:silo-causes-13} is a bottom-up cause
+of \Veim{base}.
+Because \Veim{base} is telluric,
+\Predot{\Veim{base}} is telluric,
+so that by
+Theorem
+\ref{t:predot-therefore-altitude},
+\eqref{eq:silo-causes-13}
+is the altitude cause of
+\Veim{base}.
+This shows the theorem for the case where \Vsym{A} is a terminal.
+
+\textbf{Non-terminal}:
+If
+\Vsym{A} is a non-terminal,
+Case \ref{def:silo-layer-non-terminal}
+of Definition \ref{def:silo} applies.
+Therefore
+\begin{gather}
+\label{eq:silo-causes-20}
+\var{silo}[\var{n}] = \big[ [ \Vsym{A} \de \Vstr{A-rhs} \mydot ], \Vloc{j}, \Vloc{k} \big] \\
+\label{eq:silo-causes-22}
+\text{and} \qquad
+\Vsym{A} \derives \Vmk{j} \Vstr{A-rhs} \Vmk{k}.
+\end{gather}
+From \eqref{eq:silo-causes-22},
+by the definition of EIM validity,
+\eqref{eq:silo-causes-20} is valid.
+By Theorem
+\ref{t:symbolic-causes-from-effect},
+\eqref{eq:silo-causes-20} is a bottom-up cause of
+of \Veim{base}.
+\Predot{\Veim{base}} is telluric,
+so that by
+Theorem
+\ref{t:predot-therefore-altitude},
+\eqref{eq:silo-causes-10}
+is the altitude cause of
+\Veim{base}.
+This shows the theorem for the case where \Vsym{A} is a non-terminal.
+
+We now have all three cases and therefore the theorem.
 \end{proof}
 
 \begin{theorem}
@@ -4127,7 +4277,7 @@ there is an altitude derivation for \Veim{base}.
 We use that altitude derivation as the basis of the
 altitude silo, \var{silo}.
 
-From the Definition \ref{def:altitude-silo}, we know
+From the Definition \ref{def:silo}, we know
 that $\Veim{base} = \var{silo}[\var{n}]$
 We show that the altitude of \var{silo}[\var{n}]
 is defined and finite,
@@ -4136,7 +4286,7 @@ by induction on \var{i}.
 Our induction hypothesis is
 \[ \text{\Alt{\var{silo}[\var{i}]} is defined and finite}. \]
 We take 0 as the basis of the induction.
-From Definition \ref{def:altitude-silo}, we know
+From Definition \ref{def:silo}, we know
 that \var{silo}[0] is a telluric terminal
 symbol instance, so that its altitude is 0.
 
