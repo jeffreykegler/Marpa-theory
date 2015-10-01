@@ -2176,7 +2176,7 @@ Let
 \begin{equation*}
 \Veim{effect} = [ \Vdr{effect}, \var{i}, \var{k} ]
 \end{equation*}
-b3 a valid, confirmed EIM,
+be a valid, confirmed EIM,
 then \Veim{down} is a valid, top-down cause,
 such that
 \begin{align}
@@ -4025,28 +4025,11 @@ is well-formed.
 \end{proof}
 
 \begin{theorem}
-\label{t:silo-valid}
-Every instance of a silo is a valid EIM,
-except for \var{silo}[0],
-which is a valid symbol instance,
-\end{theorem}
-
-\begin{proof}
-The follows from
-Definition \ref{def:silo} (``altitude silo'')
-and from the proof that
-that
-Definition \ref{def:silo}
-is well-formed
-in Theorem 
-\ref{t:silo-well-formed}.
-\end{proof}
-
-\begin{theorem}
 \label{t:silo-base-cause}
 Let \Veim{base} be the telluric base
 of the underlying derivation of \var{silo}.
-Then \var{silo}[\var{n}] is valid
+If \Veim{base} is valid,
+then \var{silo}[\var{n}] is valid
 and the altitude cause of
 \Veim{base}.
 \end{theorem}
@@ -4129,6 +4112,96 @@ We now have both cases and therefore the theorem.
 \end{proof}
 
 \begin{theorem}
+\label{t:silo-valid}
+If the telluric base of a silo is valid,
+all instances in the silo are valid.
+\end{theorem}
+
+\begin{proof}
+The proof is by induction.
+The induction hypothesis is that
+\begin{equation}
+\label{eq:silo-valid-10}
+\text{$\var{silo}[\var{i}]$ is valid.}
+\end{equation}
+As the basis of the induction,
+because the telluric base is valid
+by assumption for the theorem,
+and from
+Theorem \ref{t:silo-base-cause},
+we know that
+$\var{silo}[\var{n}]$ is valid.
+
+For the step, we assume that
+$\var{silo}[\var{i}+1]$,
+and seek to show that,
+if $\var{i} \ge 0$,
+$\var{silo}[\var{i}]$ is valid.
+
+Within the step, we proceed by the cases
+of Definition \ref{def:silo}
+(``altitude silo'').
+For Case \ref{def:silo-layer-0} (Step 0),
+\begin{equation}
+\label{eq:silo-valid-13}
+\text{$\var{silo}[\var{i}] = \mk{\Vdecr{k}} \Vsym{A} \Vmk{k},$ where $\Vsym{A} = \Cw[\Vdecr{k}],$}.
+\end{equation}
+We know that \eqref{eq:silo-valid-13} is valid
+by the definition of validity for a symbol instance,
+and the definition of \Cw{}.
+Not that, for this case,
+we do not use the assumption for the step,
+or the fact that \var{i} is always zero.
+
+For Case \ref{def:silo-layer-non-terminal} (Non-terminals)
+of Definition \ref{def:silo},
+\begin{equation}
+\label{eq:silo-valid-20}
+\var{silo}[\var{i}] = \big[ [ \Vsym{A} \de \Vstr{A-rhs} \mydot ], \Vloc{j}, \Vloc{k} \big].
+\end{equation}
+We also know from
+Case \ref{def:silo-layer-non-terminal}
+of Definition \ref{def:silo}
+that
+\begin{equation}
+\label{eq:silo-valid-22}
+\Vmk{j} \Vsym{A} \Vmk{k} \derives \Vmk{j} \Vstr{A-rhs} \Vmk{k}.
+\end{equation}
+The validity of
+\eqref{eq:silo-valid-22} follows from
+\eqref{eq:silo-valid-20}
+by the definition of EIM validity.
+Once again, note
+that we do not use the assumption for the step.
+
+For Case \ref{def:silo-layer-nulling} (Non-terminals)
+we have, using the assumption for the step,
+we have
+\begin{equation*}
+\label{eq:silo-valid-28}
+\var{silo}[\var{i}+1] = [ \Vdr{above}, \Vloc{j}, \Vloc{k}].
+\end{equation*}
+We seek to show that
+\begin{equation*}
+\label{eq:silo-valid-30}
+\var{silo}[\var{i}] = [ \Prev{\Vdr{above}}, \Vloc{j}, \Vloc{k} ].
+\end{equation*}
+We know that
+\eqref{eq:silo-valid-28}
+is nulling, so that,
+using Theorem
+\ref{t:down-cause-from-effect},
+we see that
+\eqref{eq:silo-valid-30}, its top-down cause,
+is valid.
+This shows the last of the three cases.
+
+We have shown all three cases for the step.
+This shows the step of the induction,
+and therefore the induction and the theorem.
+\end{proof}
+
+\begin{theorem}
 \label{t:silo-causes}
 For every \var{i}, $0 \le \var{i} < \var{n}$,
 \var{silo}[\var{i}] is the altitude cause of
@@ -4161,11 +4234,10 @@ we know that it comes from
 Case \ref{def:silo-layer-nulling}
 of Definition \ref{def:silo},
 that it is of the form
-\begin{equation}
-\label{eq:silo-causes-15}
+\begin{equation*}
 \var{silo}[\var{i}] = 
   [ \Vsym{hi} \de \Vstr{pre} \mydot \Vsym{A} \Vstr{post} ], \Vloc{i}, \Vloc{k}
-\end{equation}
+\end{equation*}
 and that
 \begin{equation}
 \label{eq:silo-causes-15}
