@@ -13,13 +13,6 @@
 \usepackage{hyperref}
 \usepackage{algorithm}
 
-% \makeatletter
-% \def\listofalgorithms{\@starttoc{loa}\listalgorithmname}
-% \def\l@algorithm{\@tocline{0}{3pt plus2pt}{0pt}{1.9em}{}}
-% \renewcommand{\ALG@name}{Algorithm}
-% \renewcommand{\listalgorithmname}{List of \ALG@name s}
-% \makeatother
-
 % This is used to find the font size if need be
 % its uses are usually commented out
 \makeatletter
@@ -1208,7 +1201,7 @@ For symmetry, we say that \Vdr{cause}
 has a bottom-up cause,
 but that the \dfn{bottom-up cause} is ethereal.
 
-Let 
+Let
 \begin{equation}
 \var{epsilon-dr-op} = \var{null-scan-dr-op} \cup \var{predict-dr-op}.
 \end{equation}
@@ -1635,7 +1628,7 @@ start, prediction, read, null-scan and reduction.
 \end{theorem}
 
 \begin{proof}
-Recall that EIMs take their type from their dotted rule.
+Recall that EIM's take their type from their dotted rule.
 The proof then follows directly from definitions
 \ref{def:start-dr},
 \ref{def:prediction-dr},
@@ -1646,7 +1639,7 @@ above.
 \end{proof}
 
 Following the convention for dotted rules,
-EIMs are telluric if they are the start EIM,
+EIM's are telluric if they are the start EIM,
 a read EIM or a reduction EIM.
 An EIM is ethereal if it is not telluric.
 The idea is that telluric dotted rules are ``grounded'' either
@@ -2229,21 +2222,21 @@ we have
 
 If \Veim{effect} is a null-scan, then
 \Vinst{up} is a nulling symbol instance,
-and 
+and
 $\Vsize{\Vinst{up}} = 0$,
 so that we have
 \eqref{eq:down-cause-from-effect-10}.
 
 If \Veim{effect} is a null-scan, then
 \Vinst{up} is a non-nulling terminal symbol instance,
-and 
+and
 $\Vsize{\Vinst{up}} = 1$,
 so that we have
 \eqref{eq:down-cause-from-effect-13}.
 
 If \Veim{effect} is telluric, then
 \Vinst{up} is a telluric symbol instance,
-and 
+and
 $\Vsize{\Vinst{up}} > 1$,
 so that we have
 \eqref{eq:down-cause-from-effect-16}.
@@ -2394,7 +2387,7 @@ From the definition of validity for an Earley item:
 \label{eq:prediction-from-cause-20}
 \Vsym{down} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{A} \cat \Vstr{post}
 \end{equation}
-Using 
+Using
 \eqref{eq:prediction-from-cause-6}
 and
 \eqref{eq:prediction-from-cause-20},
@@ -2459,7 +2452,7 @@ we have
 \end{equation}
 All symbols in Marpa grammars are accessible,
 and \Vsym{A} is not \Vsym{accept}.
-so we can expand 
+so we can expand
 \eqref{eq:cause-from-prediction-12}
 to
 \begin{equation}
@@ -2478,7 +2471,7 @@ which simplifies to
 for some \Vloc{i}.
 From \eqref{eq:cause-from-prediction-30},
 for the definition of EIM validity,
-we have 
+we have
 \eqref{eq:cause-from-prediction-3}.
 \eqref{eq:cause-from-prediction-3},
 in turn,
@@ -2520,7 +2513,7 @@ This shows requirement
 
 For the remaining cases,
 we will
-use Theorem \ref{t:symbolic-causes-from-effect} 
+use Theorem \ref{t:symbolic-causes-from-effect}
 to show that \Veim{down} is the matching
 cause of a symbolic instance.
 Call that instance, \Vinst{up},
@@ -2656,9 +2649,9 @@ $\Origin{\Veim{desc}} = \Origin{\Veim{base}}.$
 
 \begin{proof}
 Our proof will be by induction on the number of
-applications of 
+applications of
 \var{epsilon-op}.
-Call the set of EIM's after 
+Call the set of EIM's after
 \var{i} applications of \var{epsilon-op},
 \begin{equation}
 \var{eims}[\var{i}] = \left(\var{epsilon-op}^{\displaystyle \var{i}}\right)(\Veim{base})
@@ -2669,7 +2662,7 @@ We take as our induction hypothesis:
 \label{eq:ethereal-closure-18}
 \myparbox{
 The EIMS in $\var{eims}[\var{i}]$
-obey requirements 
+obey requirements
 \ref{req:ethereal-closure-5},
 \ref{req:ethereal-closure-8},
 \ref{req:ethereal-closure-12}
@@ -2701,7 +2694,7 @@ By the definition of a quasi-prediction,
 \text{\Current{\Veim{qpred}} = \Origin{\Veim{qpred}}}.
 \end{gather}
 
-As the basis of the induction, we show 
+As the basis of the induction, we show
 \eqref{eq:ethereal-closure-18} for the
 singleton set
 $\var{eims}[0] = \lbrace \Veim{base} \rbrace.$
@@ -2712,31 +2705,31 @@ which shows requirement \ref{req:ethereal-closure-8}.
 
 If \Veim{base} is a quasi-prediction,
 then
-we have 
+we have
 requirement \ref{req:ethereal-closure-12},
-by self-identity and 
+by self-identity and
 \eqref{eq:ethereal-closure-20}.
 If \Veim{base} is quasi-confirmed, we
-have 
+have
 requirement \ref{req:ethereal-closure-12}
 vacuously.
 
 If \Veim{base} is quasi-prediction,
 then
-we have 
+we have
 requirement \ref{req:ethereal-closure-15}
 vacuously.
 If
 If \Veim{base} is quasi-confirmed, we
-have 
+have
 requirement \ref{req:ethereal-closure-15}
 by self-identity.
 This shows all the requirements for the basis of the induction.
 
-For the step of the induction, we assume 
-\eqref{eq:ethereal-closure-18} for the set of EIMs
+For the step of the induction, we assume
+\eqref{eq:ethereal-closure-18} for the set of EIM's
 after \var{i} applications of \var{epsilon-op},
-to show 
+to show
 \eqref{eq:ethereal-closure-18} for $\var{eims}[\var{i}+1]$.
 
 We consider, without loss of generality,
@@ -2823,7 +2816,7 @@ from
 for predictions and from
 \eqref{eq:ethereal-closure-39}
 for null-scans.
-Either way, we have 
+Either way, we have
 requirement
 \ref{req:ethereal-closure-8} for
 the step of the induction.
@@ -3083,7 +3076,7 @@ for the reductio.
 \end{sloppypar}
 \end{proof}
 
-Recall that dotted rule notions applied to EIMs
+Recall that dotted rule notions applied to EIM's
 refer to the dotted rule of the EIM.
 Therefore, a fleeting EIM is an EIM
 with a nulling postdot symbol;
@@ -3140,7 +3133,7 @@ we know that
 [ [ \Vsym{fleet} \de \Vstr{pre} \Vstr{nulls} \mydot \Vstr{post} ], \var{i}, \var{k} ]
 \end{equation}
 is valid.
-By the definition of lasting equivalent EIMs,
+By the definition of lasting equivalent EIM's,
 Definition \ref{def:lasting-equivalent-eim},
 \eqref{eq:lasting-valid-if-fleeting-valid-25} is
 the lasting equivalent of
@@ -3216,9 +3209,9 @@ can be memoized.
 To say that \Veim{x} is memoized,
 we also say \Memoized{\Veim{x}}.
 
-An set of EIMs (not necessarily an Earley set)
+An set of EIM's (not necessarily an Earley set)
 is \dfn{consistent} if and only if all of its
-EIMs are valid and unmemoized.
+EIM's are valid and unmemoized.
 For example,
 the Earley set \Ves{i}
 is \dfn{consistent} if and only if
@@ -3229,7 +3222,7 @@ is valid and unmemoized:
 \Veim{eim} \in \Veimset{x} \implies \Valid{\Veim{eim}} \land \neg \Memoized{\var{eim}}
 \end{equation}
 
-Let \Veimset{x} be a set of EIMs.
+Let \Veimset{x} be a set of EIM's.
 \Veimset{x} is not necessary an Earley set.
 We say that
 \Veimset{x} is \dfn{complete} for a predicate \var{phi},
@@ -3454,21 +3447,21 @@ while the algorithm of \cite{Earley1970} is \On{}
 for left recursion,
 and in fact very efficient,
 it is $\order{\var{n}^2}$ for right recursion.
-This is because all the EIMs necessary for a right
+This is because all the EIM's necessary for a right
 recursion are created at every parse location
 where the right recursion might end.
 At each parse location, if the length of the right
-recursion is $n$, then $n$ EIMs are needed to
+recursion is $n$, then $n$ EIM's are needed to
 represent the right recursion.
-The total number of EIMs needed for a right recursion of
+The total number of EIM's needed for a right recursion of
 length $n$ is
 \[\sum_{1 \le \var{i} \le \var{n}} \var{i} = \order{\var{n}^2}.\]
-Of these EIMs, only $n$ will actually be needed --
+Of these EIM's, only $n$ will actually be needed --
 the rest are useless.
 
 Leo's idea was to memoize the right recursions.
 With Leo memoization, each sequence is represented by
-a pair of EIMs and a memo.
+a pair of EIM's and a memo.
 There are \Oc{} Leo items per Earley set,
 so the cost of the sequence is \Oc{} per Earley set,
 or \On{} for the entire sequence.
@@ -3518,7 +3511,7 @@ In these sequences,
 each EIM was the cause of the next one.
 
 We need to investigate
-cause-and-effect sequences within the EIMs
+cause-and-effect sequences within the EIM's
 of a single parse location.
 From Section \ref{s:earley-items},
 we recall the idea of
@@ -3526,7 +3519,7 @@ top-down and bottom-up causes.
 We note that every
 bottom-up cause has the same
 right location as its effect.
-In addition, null-scan EIMs
+In addition, null-scan EIM's
 have the same right location as
 their top-down causes.
 
@@ -3559,7 +3552,7 @@ is
 \label{case:def-altitude-read}
 The altitude of a read EIM, \Veim{read}, is
 \begin{equation*}
-\Alt{\Vinst{up}}+1, 
+\Alt{\Vinst{up}}+1,
 \end{equation*}
 where
 \Vinst{up} is the bottom-up cause of \Veim{read}.
@@ -3697,7 +3690,7 @@ and the theorem.
 
 \begin{theorem}
 \label{t:ethereal-altitude}
-All the EIMs in an etheral closure have the same
+All the EIM's in an etheral closure have the same
 altitude.
 \end{theorem}
 
@@ -3868,7 +3861,7 @@ Step $\var{i}+1$, it is still in \Vstr{pre-rm}
 in Step \var{i},
 so that Step \var{i} has a telluric symbol before \Vloc{k}
 in Step \var{i}.
-This shows 
+This shows
 \eqref{eq:silo-well-formed-5} for Step \var{i}
 when $\Vstr{rm-dds} = \epsilon$.
 
@@ -3883,7 +3876,7 @@ symbols in \Vsym{rm-rhs} must be telluric.
 So clearly there is still a telluric symbol before
 \Vloc{k} in \Vstr{rm-dds} in
 \eqref{eq:silo-well-formed-7}.
-This shows 
+This shows
 \eqref{eq:silo-well-formed-5} for Step \var{i}
 when $\Vstr{rm-dds} \neq \epsilon$.
 
@@ -3912,7 +3905,7 @@ We know that \Vsym{tell} exists and is telluric,
 because \Veim{base} is a telluric base.
 From this,
 the fact that every Marpa symbol is productive,
-and 
+and
 \eqref{eq:silo-well-formed-10},
 we know that
 \begin{equation}
@@ -3941,7 +3934,7 @@ so that there is always a silo layer below a
 derivation step whose rightmost symbol is a non-terminal.
 By definition of a rightmost derivation before \Vloc{k},
 if derivation step $\var{i}+1$ ends in
-$\Vsym{A} \Vmk{k}$, then 
+$\Vsym{A} \Vmk{k}$, then
 derivation step \var{i} ends in
 $\Vsym{A-rhs} \Vmk{k}$,
 where $[ \Vsym{A} \de \Vstr{A-rhs} ] \in \Crules$.
@@ -3964,7 +3957,7 @@ are EIM's, except for layer 0.
 Layer 0, by definition, is not above any other layer.
 Therefore if a silo layer is above another layer,
 it is an EIM.
-We show that 
+We show that
 \begin{equation}
 \label{eq:silo-well-formed-15}
 \Current{\var{silo}[\var{i}+1]} = \Vloc{k}
@@ -3996,7 +3989,7 @@ the rightmost symbol of its step \var{n} must be a non-terminal.
 
 For the step of the induction, we assume
 \eqref{eq:silo-well-formed-18} for silo layer $\var{i}+1$,
-and seek to show 
+and seek to show
 \eqref{eq:silo-well-formed-18} for silo layer \var{i}.
 We have
 \eqref{eq:silo-well-formed-18} for silo layer \var{i}
@@ -4016,7 +4009,7 @@ and the induction.
 With this
 we have
 \eqref{eq:silo-well-formed-17}, which was the last case
-of a potential inconsistency in 
+of a potential inconsistency in
 Definition \ref{def:silo}.
 Having shown all our cases,
 we conclude that
@@ -4235,19 +4228,19 @@ Case \ref{def:silo-layer-nulling}
 of Definition \ref{def:silo},
 that it is of the form
 \begin{equation*}
-\var{silo}[\var{i}] = 
+\var{silo}[\var{i}] =
   [ \Vsym{hi} \de \Vstr{pre} \mydot \Vsym{A} \Vstr{post} ], \Vloc{i}, \Vloc{k}
 \end{equation*}
 and that
 \begin{equation}
 \label{eq:silo-causes-15}
-\var{silo}[\var{i}+1] = 
+\var{silo}[\var{i}+1] =
   [ \Vsym{hi} \de \Vstr{pre} \Vsym{A} \mydot \Vstr{post} ], \Vloc{i}, \Vloc{k}
 \end{equation}
 By Theorem
 \ref{t:symbolic-causes-from-effect},
 \eqref{eq:silo-causes-15} is valid
-and the top-down cause of 
+and the top-down cause of
 \eqref{eq:silo-causes-10}.
 \Predot{\Veim{hi}} is nulling,
 so that by
@@ -4439,7 +4432,7 @@ and
 \end{proof}
 
 \subsection{Leo memos}
-TODO: Finish this section 
+TODO: Finish this section
 
 Summarizing Leo's method,
 it consists of spotting potential right recursions
@@ -4539,7 +4532,7 @@ Leo\cite{Leo1991} intact.
 
 \begin{theorem}
 \label{t:leo-quasi-complete}
-Only quasi-complete EIMs are
+Only quasi-complete EIM's are
 Leo-memoized.
 \end{theorem}
 
@@ -4559,7 +4552,7 @@ TODO.
 
 \begin{theorem}
 \label{t:read-eim-not-leo}
-Read EIMs and the EIMs in the
+Read EIM's and the EIM's in the
 ethereal closure of a read EIM
 are never Leo-memoized.
 \end{theorem}
@@ -4583,7 +4576,7 @@ symbol of \Veim{scanned} must also be its penult.
 Therefore the quasi-penult of \Veim{scanned} is
 a terminal.
 
-Only EIMs with right recursive rules are memoized.
+Only EIM's with right recursive rules are memoized.
 From the definition of right recursion,
 a right recursive rule must have a right recursive
 symbol as its quasi-penult.
@@ -4609,7 +4602,7 @@ Therefore no quasi-complete EIM occurs in
 Earley set 0.
 But,
 by Theorem \ref{t:leo-quasi-complete},
-only quasi-complete EIMs are memoized.
+only quasi-complete EIM's are memoized.
 Therefore no EIM in Earley set 0
 is memoized.
 \end{proof}
@@ -4856,13 +4849,13 @@ From Theorem
 \ref{t:earley-set-0-is-Leo-free},
 we know that Leo memoization has
 no effect on the set of
-EIMs in Earley set 0.
+EIM's in Earley set 0.
 
 Since the bottom-up causes of both
 reads and reductions
 has an input length of greater than 0,
-these EIMs cannot appear in Earley set 0.
-All EIMs in Earley set 0 are therefore
+these EIM's cannot appear in Earley set 0.
+All EIM's in Earley set 0 are therefore
 \begin{itemize}
 \item the start Earley item,
 \item predictions, or
@@ -4878,7 +4871,7 @@ add to Earley set 0 is the singleton set
 We first show that this set is correct.
 It is consistent by theorem \ref{t:start-eim-is-valid}.
 It is complete because the start rule is by definition unique.
-Therefore the set of start EIMs
+Therefore the set of start EIM's
 added by
 Algorithm \ref{alg:initial} to Earley set 0
 is correct.
@@ -4889,21 +4882,21 @@ The predictions and null-scans
 must have a top-down cause in the same
 Earley set.
 Together, the predictions and null-scans
-are exactly the EIMs with null transitions.
-So null transition EIMs
+are exactly the EIM's with null transitions.
+So null transition EIM's
 must have some other EIM in Earley set 0
 as either a direct or an indirect cause.
 The start Earley item is
 the only remaining possibility,
 and it is in Earley set 0.
 Therefore the start Earley item is the direct
-or indirect cause of all other EIMs in Earley set 0.
+or indirect cause of all other EIM's in Earley set 0.
 
 From these considerations, we see that Earley 0
 consists of the start Earley item and the transitive
 closure of null transition from it.
 By Theorem \ref{t:ethereal-closure-op-correct},
-this is exactly the set of EIMs added to Earley set 0
+this is exactly the set of EIM's added to Earley set 0
 in line
 \ref{line:initial-10}
 of Algorithm \ref{alg:initial}.
@@ -4958,10 +4951,10 @@ Overhead is charged to the Earley set at \Vloc{i}.
 \begin{theorem}
 \label{t:read-op-correct}
 Call the
-EIMs at \Vloc{i}
+EIM's at \Vloc{i}
 whose bottom-up cause is a terminal
 symbol instance,
-the ``EIMs read at \Vloc{i}``.
+the ``EIM's read at \Vloc{i}``.
 Let the Earley tables for all locations
 \Vloc{h},
 $\var{h} < \Vloc{i}$ be correct.
@@ -4970,7 +4963,7 @@ Algorithm \ref{alg:read-pass}
 at \Vloc{i}
 adds all and only
 the ethereal closure of
-the EIMs read at \Vloc{i}.
+the EIM's read at \Vloc{i}.
 \end{theorem}
 
 \begin{proof}
@@ -4980,7 +4973,7 @@ The bottom-up causes
 in Algorithm
 \ref{alg:read-pass}
 are terminal symbol instances.
-Leo memoizations are of EIMs --
+Leo memoizations are of EIM's --
 terminal instances are not Leo-memoized.
 
 The top-down causes
@@ -4988,7 +4981,7 @@ in Algorithm
 \ref{alg:read-pass}
 must be quasi-incomplete because it is the result
 of the \var{transitions} function,
-which only memoizes EIMs with a telluric postdot
+which only memoizes EIM's with a telluric postdot
 symbol --
 see line
 \ref{line:memoize-transitions-20}
@@ -5004,14 +4997,14 @@ By Theorem
 \ref{t:leo-quasi-complete},
 no quasi-incomplete EIM
 is Leo-memoized.
-Therefore none of the EIMs used
+Therefore none of the EIM's used
 in Algorithm
 \ref{alg:memoize-transitions}
 will be overlooked because
 of Leo memoization.
 
 By Theorem \ref{t:read-eim-not-leo},
-read EIMs are never Leo-memoized.
+read EIM's are never Leo-memoized.
 We have now shown that none of the parse instances
 referenced in Algorithm \ref{alg:read-pass},
 are Leo-memoized.
@@ -5027,8 +5020,8 @@ Without loss of generality, let this instance be
 \label{eq:read-op-correct-40}
 \mkl{\var{i} \subtract 1} \,\, \Vsym{up} \Vmkr{i}
 \end{equation}
-The EIMs read at \Vloc{i}.
-are the EIMs whose bottom-up cause
+The EIM's read at \Vloc{i}.
+are the EIM's whose bottom-up cause
 is \eqref{eq:read-op-correct-40}.
 
 The definition of matching top-down cause
@@ -5045,8 +5038,8 @@ in the loop at line
 From this, we observe that
 all and only
 the matching pairs of causes
-for the EIMs read at \Vloc{i}
-are used to add EIMs
+for the EIM's read at \Vloc{i}
+are used to add EIM's
 in the loop at line
 \ref{line:read-pass-40}.
 Call this the ``cause-correctness'' observation.
@@ -5054,28 +5047,28 @@ Call this the ``cause-correctness'' observation.
 From the cause-correctness observation and
 Theorem
 \ref{t:effect-from-symbolic-causes}
-we know that the EIMs we attempt to add
+we know that the EIM's we attempt to add
 at line
 \ref{line:read-pass-40}
 are consistent.
 From the cause-correctness observation and
 Theorem
 \ref{t:symbolic-causes-from-effect}
-we know that the EIMs we attempt to add
+we know that the EIM's we attempt to add
 at line
 \ref{line:read-pass-40}
 are complete.
 
-Since the EIMs we attempt to add
+Since the EIM's we attempt to add
 at line
 \ref{line:read-pass-40}
 are consistent and complete,
 we know that,
 at line
 \ref{line:read-pass-40},
-we attempted to add EIMs from
+we attempted to add EIM's from
 a correct set of causes
-for the EIMs read at \Vloc{i}.
+for the EIM's read at \Vloc{i}.
 By Theorem
 \ref{t:ethereal-closure-op-correct}
 we know that the
@@ -5087,9 +5080,9 @@ at line
 adds the ethereal closure of
 the EIM that is its argument.
 Therefore, we did add
-all of, and only, the EIMs
+all of, and only, the EIM's
 in the ethereal closure of the
-EIMs read at \Vloc{i},
+EIM's read at \Vloc{i},
 as required for the theorem.
 \end{proof}
 
@@ -5157,26 +5150,26 @@ and $\var{transitions}(\var{h}, \Vsym{sym})$ is correct.
 Also assume that
 \begin{equation}
 \label{eq:reduction-op-correct-8}
-\myparbox{the ethereal closure of the set of EIMs read at \Vloc{current} is correct.}
+\myparbox{the ethereal closure of the set of EIM's read at \Vloc{current} is correct.}
 \end{equation}
 Let \Veimset{reduced-base} be
 the set of
-unmemoized EIMs at \Vloc{current}
+unmemoized EIM's at \Vloc{current}
 which are reductions --
 that is,
-EIMs whose bottom-up cause is an EIM.
+EIM's whose bottom-up cause is an EIM.
 Let \Veimset{reduced-closure} be
 the ethereal closure of \Veimset{reduced}.
 If \eqref{eq:reduction-op-correct-5}
 and \eqref{eq:reduction-op-correct-8},
 then after Algorithm \ref{alg:reduction-pass}
 runs,
-the set of EIMs at \Vloc{current}
+the set of EIM's at \Vloc{current}
 is correct for membership in \Veimset{reduced-closure}.
 \end{theorem}
 
 \begin{proof}
-EIMs added as a result of
+EIM's added as a result of
 Algorithm \ref{alg:reduction-pass}
 are added by Algorithm \ref{alg:earley-reduction-op}
 at line \ref{line:earley-reduction-op-20};
@@ -5186,14 +5179,14 @@ at line \ref{line:leo-reduction-op-20}.
 \textbf{Effect validity}:
 From Theorem
 \ref{t:effect-from-symbolic-causes},
-we know that the telluric base EIMs we attempt to add
+we know that the telluric base EIM's we attempt to add
 at line
 \ref{line:earley-reduction-op-20}
 of Algorithm \ref{alg:earley-reduction-op}
 are valid if their causes are valid.
 From Theorem
 \ref{t:leo-top-from-memo},
-we know that the telluric base EIMs we attempt to add
+we know that the telluric base EIM's we attempt to add
 at line
 \ref{line:leo-reduction-op-20}
 of Algorithm \ref{alg:leo-reduction-op}
@@ -5216,7 +5209,7 @@ and
 at line
 \ref{line:leo-reduction-op-20}
 of Algorithm \ref{alg:leo-reduction-op}
-adds the ethereal closure of the telluric base EIMs
+adds the ethereal closure of the telluric base EIM's
 added at those lines.
 Based what we have laid in this part of the proof
 on \textbf{effect validity},
@@ -5241,7 +5234,7 @@ we see that \Veim{up},
 the bottom-up cause of a reduced EIM,
 must be a completed EIM.
 Call the length of \Veim{up}, \var{len}.
-Since all EIMs are telluric,
+Since all EIM's are telluric,
 \begin{equation}
 \label{eq:reduction-op-correct-15}
 \var{len} \ge 1.
@@ -5273,52 +5266,52 @@ correct.
 \end{equation}
 
 \textbf{Iteration sets}:
-For the purposes of this proof we divide the EIMs
+For the purposes of this proof we divide the EIM's
 added by
 Algorithm \ref{alg:reduction-pass} into a sequence
 of sets,
 \[\var{iter}[0], \var{iter}[1], \ldots \var{iter}[\var{n}].\]
-$\var{iter}[0]$ is the set of EIMs
+$\var{iter}[0]$ is the set of EIM's
 at line
 \ref{line:reduction-pass-18} of Algorithm \ref{alg:reduction-pass},
 before its main loop
 from line
 \ref{line:reduction-pass-20}
 to line \ref{line:reduction-pass-50}.
-$\var{iter}[\var{i}]$ is the set of EIMs
+$\var{iter}[\var{i}]$ is the set of EIM's
 added during the \var{i}'th iteration of the main loop
 of Algorithm \ref{alg:reduction-pass}.
 Iterations are numbered starting with 1,
 so that
-$\var{iter}[1]$ is the set of EIMs
+$\var{iter}[1]$ is the set of EIM's
 added during the first iteration of the main loop.
 
 \textbf{Consistency and altitude}:
 To show that
 Algorithm \ref{alg:reduction-pass} adds only
-valid EIMs,
+valid EIM's,
 we proceed by induction on the sets in \var{iter}.
 Let the induction hypothesis be that
 \begin{equation}
 \label{eq:reduction-op-correct-21b}
-\myparbox{the EIMs in \var{iter}[\var{i}] are valid, unmemoized
+\myparbox{the EIM's in \var{iter}[\var{i}] are valid, unmemoized
 and at altitude \var{i}.}
 \end{equation}
 At line
 \ref{line:reduction-pass-18} of Algorithm \ref{alg:reduction-pass},
-\Ves{i} contains only read EIMs and their
+\Ves{i} contains only read EIM's and their
 ethereal closure.
 From \eqref{eq:reduction-op-correct-8},
 an assumption for the theorem,
 we know that
-the EIMs in \var{iter}[0] are valid and unmemoized.
+the EIM's in \var{iter}[0] are valid and unmemoized.
 By Definition \ref{def:altitude},
-read EIMs have altitude 1.
+read EIM's have altitude 1.
 Using Theorem \ref{t:ethereal-altitude},
 we see that
-all EIMs in the ethereal closure of read EIMs
+all EIM's in the ethereal closure of read EIM's
 have altitude 1.
-So all EIMs in \var{iter}[0] have altitude 1.
+So all EIM's in \var{iter}[0] have altitude 1.
 This shows \eqref{eq:reduction-op-correct-21b} for $\var{i} = 0$,
 which is the basis of our induction.
 
@@ -5327,10 +5320,10 @@ For the step, we assume
 and we seek to show that
 \begin{equation}
 \label{eq:reduction-op-correct-21c}
-\myparbox{the EIMs in \var{iter}[\var{i}+1] are valid, unmemoized
+\myparbox{the EIM's in \var{iter}[\var{i}+1] are valid, unmemoized
 and at altitude \var{i}+1.}
 \end{equation}
-For the EIMs in
+For the EIM's in
 $\var{iter}[\var{i}+1]$,
 the top-down causes are valid by
 \eqref{eq:reduction-op-correct-21}
@@ -5341,13 +5334,13 @@ we see that
 \begin{equation}
 \label{eq:reduction-op-correct-23}
 \myparbox{
-all EIMs in
+all EIM's in
 $\var{iter}[\var{i}+1]$ are valid.
 }
 \end{equation}
 
 We next show that
-all EIMs in
+all EIM's in
 $\var{iter}[\var{i}+1]$
 are unmemoized.
 Again using
@@ -5355,9 +5348,9 @@ Again using
 the induction step,
 and \eqref{eq:reduction-op-correct-12},
 we see that all of the causes
-of EIMs in
+of EIM's in
 $\var{iter}[\var{i}]$ are unmemoized.
-We need to show that all of the EIMs in
+We need to show that all of the EIM's in
 $\var{iter}[\var{i}+1]$ are unmemoized.
 By Theorem \ref{t:memoized-causes},
 every memoized
@@ -5387,7 +5380,7 @@ unmemoized.
 \end{equation}
 
 To determine their altitude, we look at
-the EIMs added
+the EIM's added
 to $\var{iter}[\var{i}+1]$ by cases.
 There are two cases:
 \begin{enumerate}
@@ -5406,33 +5399,33 @@ of Algorithm \ref{alg:leo-reduction-op}.
 \end{enumerate}
 
 For Case \ref{case:reduction-op-correct-24},
-the EIMs added are
+the EIM's added are
 the ethereal closure of
-the reduced EIMs whose bottom-up cause
+the reduced EIM's whose bottom-up cause
 is in $\var{iter}[\var{i}]$.
 By Definition \ref{def:altitude}
 and Theorem \ref{t:ethereal-altitude},
-the EIMs of
+the EIM's of
 Case \ref{case:reduction-op-correct-24}
 have altitude $\var{i}+1$.
 For Case \ref{case:reduction-op-correct-25},
-the EIMs added are
+the EIM's added are
 the ethereal closure of
-the Leo reduced EIMs whose bottom-up cause
+the Leo reduced EIM's whose bottom-up cause
 is in $\var{iter}[\var{i}]$.
 By Theorems
 \ref{t:leo-top-from-memo}
 and \ref{t:ethereal-altitude},
-the EIMs of
+the EIM's of
 Case \ref{case:reduction-op-correct-24}
 have altitude $\var{i}+1$.
-In both cases, the EIMs added
+In both cases, the EIM's added
 have altitude $\var{i}+1$,
 and therefore
 \begin{equation}
 \label{eq:reduction-op-correct-29}
 \myparbox{
-all EIMs in
+all EIM's in
 $\var{iter}[\var{i}+1]$
 have altitude $\var{i}+1$.
 }
@@ -5469,7 +5462,7 @@ we proceed by induction on the sets in \var{iter}.
 Let the induction hypothesis be that
 \begin{equation}
 \label{eq:reduction-op-correct-35}
-\myparbox{the EIMs in \var{iter}[\var{i}] are complete.}
+\myparbox{the EIM's in \var{iter}[\var{i}] are complete.}
 \end{equation}
 From \eqref{eq:reduction-op-correct-8},
 an assumption for the theorem,
@@ -5482,9 +5475,9 @@ For the step, we assume
 and we seek to show
 \begin{equation}
 \label{eq:reduction-op-correct-40}
-\myparbox{the EIMs in \var{iter}[\var{i}+1] are complete.}
+\myparbox{the EIM's in \var{iter}[\var{i}+1] are complete.}
 \end{equation}
-For the EIMs in
+For the EIM's in
 $\var{iter}[\var{i}+1]$,
 the top-down causes are complete by
 \eqref{eq:reduction-op-correct-21}
@@ -5515,7 +5508,7 @@ of these unmemoized bottom-up causes
 is paired with the matching set of valid top-down causes.
 
 It remains to show that
-no unmemoized, valid EIMs are omitted
+no unmemoized, valid EIM's are omitted
 from $\var{iter}[\var{i}+1]$
 because their causes
 are memoized.
@@ -5535,7 +5528,7 @@ line \ref{line:reduce-one-up-cause-30}
 of Algorithm
 \ref{alg:reduce-one-up-cause}
 will add the ethereal closure of \Veim{top}.
-Therefore all unmemoized, valid EIMs are added
+Therefore all unmemoized, valid EIM's are added
 to
 $\var{iter}[\var{i}+1]$.
 
@@ -5561,7 +5554,7 @@ Theorems \ref{eq:reduction-op-correct-30},
 and \ref{eq:reduction-op-correct-50},
 we know that every iteration set is correct for
 membership in \var{reduced-closure} --
-contains all and only the valid EIMs.
+contains all and only the valid EIM's.
 By Theorem
 \ref{t:altitude-is-finite}
 we know that every valid EIM has a defined,
@@ -5600,7 +5593,7 @@ as showing that
 Suppose, for a reductio, that there was a
 \var{x} that did not satisfy
 \eqref{eq:reduction-op-correct-63}.
-All EIMs in
+All EIM's in
 $\var{iter}[\var{x}+1]$ will have altitude
 $\var{x}+1$
 and will be
@@ -5681,7 +5674,7 @@ is correct for \Veimset{reduced-closure}.
 \subsection{Memoize transitions}
 
 The \var{transitions} table for \Ves{i}
-is built once all EIMs have been
+is built once all EIM's have been
 added to \Ves{i}.
 We first look at the resource,
 excluding the processing of Leo items.
@@ -5885,13 +5878,13 @@ for the \Vdr{base},
 one for every transition over a null postdot symbol,
 and
 one for every prediction.
-The number of EIMs that result from
+The number of EIM's that result from
 transitions over null postdot symbols is limited
 by the maximum length of the RHS of a rule,
 which is constant for a given \Cg{}.
 At any \Vloc{i}, the number of predictions is
 at most the number of rules in \Cg{}.
-The number of EIMs that result from
+The number of EIM's that result from
 predictions
 is therefore constant for a given \Cg{}.
 Summing the space, we see that all space
@@ -5916,7 +5909,7 @@ remains \Oc.
 
 \begin{theorem}
 \label{t:ethereal-closure-op-correct}
-Algorithm \ref{alg:eim-set} adds all and only the EIMs
+Algorithm \ref{alg:eim-set} adds all and only the EIM's
 for the ethereal closure of \Veim{base}.
 \end{theorem}
 
@@ -5929,7 +5922,7 @@ Algorithm \ref{alg:eim-set} is only called when
 \Veim{base} is not Leo memoized.
 By Theorem \ref{t:ethereal-closure-is-Leo-disjoint},
 we see that if \Veim{base} is not Leo memoized,
-none of the other EIMs in its ethereal closure
+none of the other EIM's in its ethereal closure
 will be Leo memoized.
 Therefore,
 we may ignore Leo memoization in what follows.
@@ -5949,7 +5942,7 @@ inspection of
 the pseudo-code.
 
 Other than \Veim{base} itself,
-all EIMs in the ethereal closure of
+all EIM's in the ethereal closure of
 \Veim{base} are the product of
 a series of null scans
 and predictions.
@@ -5991,7 +5984,7 @@ used by Algorithm \ref{alg:eim-set}
 in lines
 \ref{line:eim-set-25}
 and \ref{line:eim-set-35}.
-Therefore the set of correct EIMs corresponds
+Therefore the set of correct EIM's corresponds
 one-to-one
 with the dotted rules
 and, from inspection of
@@ -6003,12 +5996,12 @@ at lines
 and \ref{line:eim-set-40}.
 
 It remains to show that the set of dotted rules on
-which the EIMs added
+which the EIM's added
 at lines \ref{line:eim-set-30}
 and \ref{line:eim-set-40}
 are based
 is correct.
-The EIMs added at lines
+The EIM's added at lines
 \ref{line:eim-set-30}
 and \ref{line:eim-set-40} are based on
 the dotted rules found
@@ -6045,7 +6038,7 @@ from theorem \ref{t:ethereal-closure-op-correct}.
 If Algorithm \ref{alg:eim-set} adds \Veim{base},
 it also adds all predictions which are null transitions
 from it,
-including the valid quasi-prediction EIMs.
+including the valid quasi-prediction EIM's.
 \end{theorem}
 
 \begin{proof}
@@ -6260,7 +6253,7 @@ of line
 \ref{line:top-33},
 \begin{equation}
 \label{eq:marpa-is-correct-40}
-\text{the ethereal closure of the read EIMs at \Vloc{i} is correct.}
+\text{the ethereal closure of the read EIM's at \Vloc{i} is correct.}
 \end{equation}
 
 Next,
@@ -6277,7 +6270,7 @@ of line
 \ref{line:top-40},
 \begin{equation}
 \label{eq:marpa-is-correct-50}
-\text{the ethereal closure of the reduced EIMs at \Vloc{i} is correct.}
+\text{the ethereal closure of the reduced EIM's at \Vloc{i} is correct.}
 \end{equation}
 
 By assumption for the step,
@@ -6285,7 +6278,7 @@ Earley set \Vloc{i} cannot be Earley set 0,
 so we know vacously that
 \begin{equation}
 \label{eq:marpa-is-correct-53}
-\text{the ethereal closure of start EIMs at \Vloc{i} is correct.}
+\text{the ethereal closure of start EIM's at \Vloc{i} is correct.}
 \end{equation}
 From
 \eqref{eq:marpa-is-correct-40},
@@ -6293,10 +6286,10 @@ From
 and
 \eqref{eq:marpa-is-correct-53}
 we see that the ethereal closure of
-the set of telluric EIMs at \Vloc{i} is correct.
+the set of telluric EIM's at \Vloc{i} is correct.
 By theorem
 \ref{t:ethereal-closure-op-correct}
-we know that the set of ethereal EIMs at \Vloc{i}
+we know that the set of ethereal EIM's at \Vloc{i}
 is correct.
 Since every EIM is either telluric or ethereal,
 we know that Earley set \Vloc{i} is correct.
@@ -6517,7 +6510,7 @@ contrary to assumption.
 \begin{theorem}
 \label{t:tries}
 For an unambiguous grammar,
-let \var{z} be the number of EIMs
+let \var{z} be the number of EIM's
 in all the Marpa tables,
 \begin{equation*}
     \var{z} = \Rtablesize{\Marpa}.
@@ -6531,9 +6524,9 @@ Then \[\var{tries} = \order{\var{z}}.\]
 \begin{proof}
 Let
 \var{leo-tries} be the number of attempt to add Leo memos,
-\var{telluric-tries} be the number of attempts to add telluric EIMs,
+\var{telluric-tries} be the number of attempts to add telluric EIM's,
 and \var{ethereal-tries}
-be the number of attempts to add ethereal EIMs.
+be the number of attempts to add ethereal EIM's.
 Then
 \begin{multline}
 \label{eq:tries-5}
@@ -6541,11 +6534,11 @@ Then
 \var{telluric-tries} + \var{ethereal-tries} + \var{leo-tries}.
 \end{multline}
 
-We consider first the telluric EIMs.
+We consider first the telluric EIM's.
 Let
 \var{start-tries} be the number of attempts to add the start EIM,
-\var{read-tries} be the number of attempts to add read EIMs,
-and \var{reduction-tries} be the number of attempts to add reduction EIMs.
+\var{read-tries} be the number of attempts to add read EIM's,
+and \var{reduction-tries} be the number of attempts to add reduction EIM's.
 \begin{multline}
 \label{eq:tries-10}
 \var{telluric-tries} = \\
@@ -6569,7 +6562,7 @@ in the worst case,
 once for every EIM in the Earley set
 at $\Vloc{i} \subtract 1$.
 Therefore, the number of attempts
-to add read EIMs at Earley set \Vloc{i}
+to add read EIM's at Earley set \Vloc{i}
 must be less than equal to \bigsize{\Etable{\var{i} \subtract 1}},
 and
 the number
@@ -6665,7 +6658,7 @@ Since \Vsize{\Cdr} is a constant that depends on \Cg{},
 \end{align}
 
 We have now set a limit on the number of attempts
-for all of the telluric EIMs.
+for all of the telluric EIM's.
 We return to
 \eqref{eq:tries-10}.
 Using
@@ -6687,11 +6680,11 @@ items in
 Earley set \Vloc{j}.
 \Marpa{} includes ethereal closure
 in its read and reduction operations.
-Ethereal EIMs are only added if their telluric base EIM
+Ethereal EIM's are only added if their telluric base EIM
 is new,
 so that there will never be duplicate attempts
-to add ethereal EIMs for the same telluric base EIM.
-The ethereal EIMs which might be added for a given
+to add ethereal EIM's for the same telluric base EIM.
+The ethereal EIM's which might be added for a given
 telluric base are predictions and null-scans.
 The number of null-scans is limited by the RHS length,
 call it \var{rhs-max},
