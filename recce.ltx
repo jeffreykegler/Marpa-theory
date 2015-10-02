@@ -4050,10 +4050,13 @@ is well-formed.
 \begin{theorem}
 \label{t:silo-base-cause}
 Let \Veim{base} be the telluric base
-of the underlying derivation of \var{silo}.
+derivation of a silo whose height is $\var{n}+1$.
+Call the silo, \var{silo}.
 If \Veim{base} is valid,
 then \var{silo}[\var{n}] is valid
-and the altitude cause of
+and
+\var{silo}[\var{n}] is
+the altitude cause of
 \Veim{base}.
 \end{theorem}
 
@@ -4069,7 +4072,7 @@ Then, by Definition \ref{def:altitude-derivation}
 (``altitude derivation''),
 the rightsymbol symbol of Step \var{n} of
 the derivation is \Vsym{tell}.
-We proceed by cases
+We proceed by cases.
 
 \textbf{Nulling}:
 \Veim{base} is telluric, so \Vsym{tell} cannot be nulling.
@@ -4172,7 +4175,7 @@ For Case \ref{def:silo-layer-0} (Step 0),
 We know that \eqref{eq:silo-valid-13} is valid
 by the definition of validity for a symbol instance,
 and the definition of \Cw{}.
-Not that, for this case,
+Note that, for this case,
 we do not use the assumption for the step,
 or the fact that \var{i} is always zero.
 
@@ -4197,21 +4200,20 @@ by the definition of EIM validity.
 Once again, note
 that we do not use the assumption for the step.
 
-For Case \ref{def:silo-layer-nulling} (Non-terminals)
+For Case \ref{def:silo-layer-nulling} (Nulling)
 we have, using the assumption for the step,
-we have
-\begin{equation*}
+\begin{equation}
 \label{eq:silo-valid-28}
-\var{silo}[\var{i}+1] = [ \Vdr{above}, \Vloc{j}, \Vloc{k}].
-\end{equation*}
+\text{$\var{silo}[\var{i}+1] = [ \Vdr{above}, \Vloc{j}, \Vloc{k}]$ is valid.}
+\end{equation}
 We seek to show that
-\begin{equation*}
+\begin{equation}
 \label{eq:silo-valid-30}
-\var{silo}[\var{i}] = [ \Prev{\Vdr{above}}, \Vloc{j}, \Vloc{k} ].
-\end{equation*}
+\text{$\var{silo}[\var{i}] = [ \Prev{\Vdr{above}}, \Vloc{j}, \Vloc{k} ]$ is valid.}
+\end{equation}
 We know that
 \eqref{eq:silo-valid-28}
-is nulling, so that,
+is nulling so that,
 using Theorem
 \ref{t:down-cause-from-effect},
 we see that
@@ -4691,8 +4693,7 @@ TODO.
 \begin{theorem}
 \label{t:leo-memo-from-top}
 Let \Veim{top} be a valid non-trivial Leo top item.
-Then it will have a valid Leo memo,
-then a bottom-up cause which matches the Leo memo
+Then a bottom-up cause which matches its Leo memo
 will be valid and unmemoized.
 \end{theorem}
 
