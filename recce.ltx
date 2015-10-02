@@ -3435,7 +3435,7 @@ all deterministic context-free grammars (DCFG's).
 \LRk{} grammars for all $k$.)
 He gave no details of the method he had in mind.
 Earley left the field shortly thereafter --
-by 1973 he has earned a second Ph.D. and
+by 1973 he had earned a second Ph.D. and
 was a practicing psychotherapist in California.
 
 In the late 1980's, Joop Leo also conjectured that
@@ -3527,7 +3527,7 @@ In \Earley,
 a long right recursion
 created sequences of Earley items
 at every EORR.
-The EIM's in each EORR set formed a chain.
+The EIM's in each EORR set formed chains.
 Within these chains, each EIM caused the next one.
 
 We will now investigate, in some detail,
@@ -3615,11 +3615,10 @@ are memoized.
 \end{FlushLeft}
 
 When we speak of
-the \dfn{altitude cause} of an EIM,
-we mean whichever of its causes
---- bottom-up or top-down ---
-is used to calculate its possible
-altitudes.
+an \dfn{altitude cause} of an EIM,
+we mean a cause that
+was used to calculate the
+altitude of the EIM.
 \end{sloppypar}
 \end{definition}
 
@@ -3627,7 +3626,7 @@ Note our use of the floor notation in
 Definition \ref{def:altitude}.
 EIM's can have multiple top-down causes,
 and multiple bottom-up causes.
-Where this is a choice of altitudes,
+Where results in a choice of altitudes,
 the alititude is always the minimum of the choices.
 
 \begin{theorem}
@@ -3665,53 +3664,58 @@ case by case.
 \end{proof}
 
 \begin{theorem}
-\label{altitude-from-telluric-base}
+\label{t:altitude-from-telluric-base}
 The altitude of
-an EIM is that of its telluric base.
+a valid EIM is that of the telluric base
+of its ethereal closure.
 \end{theorem}
 
 \begin{proof}
+An ethereal closure is the transitive closure of the
+the \var{predict-op} and \var{null-scan-op}
+relations.
+Call the telluric base of the ethereal closure, \Veim{base}.
+Our proof will be by induction on the number of
+applications of
+\var{epsilon-op}, where
+\begin{equation}
+\var{epsilon-op} \defined \var{predict-op} \cup \var{null-scan-op}.
+\end{equation}
+By Definition \ref{def:altitude} (``altitude'') for
+predictions and null-scans,
+we know that
+\begin{equation}
+\label{eq:altitude-from-telluric-base-5}
+\Alt{\var{epsilon-op}(\var{desc})} = \Alt{\var{desc}}.
+\end{equation}
 
-TODO: Revisit.  Induction on ethereal closure?
+Our induction hypothesis is that
+\begin{equation}
+\label{eq:altitude-from-telluric-base-10}
+\tag{HYP}
+\forall \, \Veim{eim}, \var{eim} \in \Vel{eims}{i} \implies \Alt{\var{eim}} = \Alt{\Veim{base}}
+\end{equation}
+As the basis of the induction, we note that the altitude of \Veim{base} is self-identical
+to show
+\eqref{eq:altitude-from-telluric-base-10} for $\var{i} = 0$.
 
-Let the EIM be
-\begin{equation*}
-\Veim{z} = [ \Vdr{z}, \Vorig{z}, \Vloc{z} ].
-\end{equation*}
-The proof is by induction on the dot position,
-moving the dot forward from the telluric base of \Veim{z}
-until we reach the dot position of \Veim{z}.
-Since \Veim{z} is a confirmed rule, we know that it
-has a telluric base.
-As the basis of the induction,
-we note
-that the theorem is obvious if \Veim{z} is its own telluric base.
-
-As the step of the induction,
-we assume that the altitude of \Veim{x} is that of its
-telluric base,
-and we seek to show that the altitude of
-\begin{equation*}
-\Veim{y} = [ \Next{\Vdr{x}}, \Vorig{x}, \Vloc{y} ]
-\end{equation*}
-is also that of its telluric base,
-By the definition of telluric base,
-if \Veim{y} is not its own telluric base,
-it is a null-scan EIM,
-so that $\Vloc{y} = \Vloc{z}$.
-Using the of top-down cause,
-Definition \ref{def:causes},
-we see that \Veim{y} is the top-down cause
-of \Veim{z}.
-
-By the definition of altitude,
-\ref{def:altitude},
-the altitude of a null-scan EIM is
-that of its top-down cause.
-So the altitude of \Veim{y} is the
-same as the altitude of \Veim{x}.
-This shows the step, the induction,
-and the theorem.
+For the step of the induction, we assume
+\eqref{eq:altitude-from-telluric-base-10} for \var{i}
+to show
+\eqref{eq:altitude-from-telluric-base-10} for $\var{i}+1$.
+We note that
+\begin{equation}
+\Veim{desc2} \in \el{eims}{\var{i}+1} \implies
+\label{eq:altitude-from-telluric-base-20}
+\exists \, \var{desc1} \in \Vel{eims}{i} \land \var{desc2} = \var{epsilon-op}(\var{desc1})
+\end{equation}
+\eqref{eq:altitude-from-telluric-base-10} for $\var{i}+1$.
+The step for the induction,
+\eqref{eq:altitude-from-telluric-base-10} for $\var{i}+1$, follows from
+\eqref{eq:altitude-from-telluric-base-5}
+and
+\eqref{eq:altitude-from-telluric-base-20}.
+This shows the induction and the theorem.
 \end{proof}
 
 \begin{theorem}
@@ -3722,7 +3726,7 @@ altitude.
 
 \begin{proof}
 This follows directly from
-Theorem \ref{altitude-from-telluric-base}.
+Theorem \ref{t:altitude-from-telluric-base}.
 \end{proof}
 
 \begin{definition}
@@ -4633,7 +4637,7 @@ By theorem \ref{t:base-altitude-is-finite},
 the altitude of \Veim{base}
 is defined and finite.
 By theorem
-\ref{altitude-from-telluric-base},
+\ref{t:altitude-from-telluric-base},
 \[\Alt{\Veim{base}} = \Alt{\Veim{eim}}.\]
 Therefore the altitude of
 \Alt{\Veim{eim}} is defined and finite.
