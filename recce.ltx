@@ -3637,7 +3637,7 @@ the altitude cause is the bottom-up cause.
 
 \begin{proof}
 The theorem can be proved by
-going through Definition \ref{def:altitude}
+going through Definition \ref{def:altitude},
 case by case.
 \end{proof}
 
@@ -3655,7 +3655,7 @@ of \Vinst{i} is defined and finite.
 
 \begin{proof}
 The theorem can be proved by
-going through Definition \ref{def:altitude}
+going through Definition \ref{def:altitude},
 case by case.
 \end{proof}
 
@@ -3724,10 +3724,16 @@ Theorem \ref{altitude-from-telluric-base}.
 \dtitle{Altitude derivation of a telluric base}
 \label{def:altitude-derivation}
 Let the telluric base be
-\begin{multline}
-\Veim{base} = \\
-[ [ \Vsym{base} \de \Vstr{pre} \cat \Vsym{tell} \mydot \Vstr{post} ], \Vloc{i}, \Vloc{k} ]
-\end{multline}
+\begin{equation*}
+\Veim{base} = 
+\left[
+\begin{gathered}
+[ \Vsym{base} \de \Vstr{pre} \cat \Vsym{tell} \mydot \Vstr{post}
+], \\
+\Vloc{i}, \quad \Vloc{k}
+\end{gathered}
+\right]
+\end{equation*}
 We say the
 \dfn{altitude derivation} of \Veim{base} is
 its rightmost derivation before \Vloc{k},
@@ -3735,10 +3741,17 @@ its rightmost derivation before \Vloc{k},
 \label{def:altitude-derivation-step-n}
 & \Vmkl{i} \Vstr{pre} \cat \Vsym{tell} \Vmkr{k} \Vstr{post} \\
 \label{def:altitude-derivation-step-0}
-  \destar & \Vmkl{i} \Vstr{pre-tt} \Vsym{tt} \Vmkm{k} \Vstr{nulls} \cat \Vstr{post},
+  \destar & \Vmkl{i} \Vstr{pre-tt} \Vsym{tt} \Vmkm{k} \cat \Vstr{post},
 \end{align}
-where \Vsym{tt} is a telluric terminal
-and $\Vstr{nulls} \destar \epsilon$.
+where \Vsym{tt} is a telluric terminal.
+Note that the steps before
+\eqref{def:altitude-derivation-step-0}
+may have had symbols after \Vsym{tt}, but before \Vstr{post}.
+These nulling symbols were ``expanded'' into the zero length
+string
+before \eqref{def:altitude-derivation-step-0},
+and therefore are not shown.
+
 Because all Marpa symbols are productive,
 we know there is such a derivation,
 and that it has a finite length.
@@ -3749,25 +3762,16 @@ so that
 the length of the derivation is $\var{n}+1$.
 \end{definition}
 
-For writing rightmost derivations before \Vloc{k},
-there are two conventions for indicating that a derivation
-step has expanded a null symbol into its direct descendants.
-Often we remove the symbol, on the idea that it
-has expanded into zero terminal symbols.
-In other cases, it can be useful for the notation
-to indicate that a nulling symbols was recently expanded,
-so that we move that symbol to the right of the location
-marker.
-
 We are now in a position to define an altitude silo.
 Intuitively, an altitude silo is a sequence of parse instances,
 called ``layers''.
 All of the layers are at a single parse location,
-and each layer in the silo is the altitude cause
+and we will show that
+each layer in the silo is the altitude cause
 of the layer just above it.
-A altitude silo corresponds to,
+An altitude silo corresponds to,
 and is based on,
-an altitude derivation.
+an altitude derivation:
 Layer \var{i} of the silo is the altitude cause
 of Step \var{i} of the altitude derivation.
 
@@ -3795,9 +3799,9 @@ For silo layer 0,
 We say that
 \begin{equation*}
 \label{eq:altitude-silo-10}
-\var{silo}[0] = \mkl{\Vdecr{k}} \Vsym{term} \Vmkr{k}.
+\var{silo}[0] = \mkl{\Vdecr{k}} \Vsym{A} \Vmkr{k}.
 \end{equation*}
-where $\Vsym{term} = \Cw[\Vdecr{k}]$.
+where $\Vsym{A} = \Cw[\Vdecr{k}]$.
 \item
 \label{def:silo-layer-non-terminal}
 If \Vsym{A} is a non-terminal
@@ -3886,7 +3890,8 @@ This shows
 \eqref{eq:silo-well-formed-5} for Step \var{i}
 when $\Vstr{rm-dds} = \epsilon$.
 
-The other case is when
+It remains to show the step of the induction,
+when
 $\Vstr{rm-dds} \neq \epsilon$.
 In this case,
 $[\Vsym{rm} \de \Vsym{rm-rhs} ]$
@@ -3901,7 +3906,7 @@ This shows
 \eqref{eq:silo-well-formed-5} for Step \var{i}
 when $\Vstr{rm-dds} \neq \epsilon$.
 
-We have show both cases of the step of the induction,
+We have shown the step of the induction,
 so we have the induction,
 and we conclude
 \eqref{eq:silo-well-formed-4}.
@@ -3953,12 +3958,16 @@ By definition, the underlying altitude derivation does not stop
 until the rightmost symbol is a terminal,
 so that there is always a silo layer below a
 derivation step whose rightmost symbol is a non-terminal.
+
+If \Vsym{A} is a non-terminal,
+by definition there is some \Vstr{A-rhs} such
+that $[ \Vsym{A} \de \Vstr{A-rhs} ] \in \Crules$.
 By definition of a rightmost derivation before \Vloc{k},
 if derivation step $\var{i}+1$ ends in
-$\Vsym{A} \Vmk{k}$, then
-derivation step \var{i} ends in
-$\Vsym{A-rhs} \Vmk{k}$,
-where $[ \Vsym{A} \de \Vstr{A-rhs} ] \in \Crules$.
+$\Vsym{A} \Vmk{k}$, then the next derivation step
+expands \Vsym{A} into its direct descendants,
+so that derivation step \var{i} ends in
+$\Vsym{A-rhs} \Vmk{k}$.
 
 \textbf{Layer above nulling terminal}:
 Case \ref{def:silo-layer-nulling}
