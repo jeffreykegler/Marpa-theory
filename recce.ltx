@@ -35,6 +35,9 @@
 
 \newcommand{\todo}[1]{\par{\large\textbf Todo: #1}\par}
 \newcommand{\mymathop}[1]{\mathop{\texttt{#1}}}
+% definitions for "elements"
+\newcommand{\el}[2]{\ensuremath{\mathop{\texttt{#1}}[#2]}}
+\newcommand{\Vel}[2]{\el{#1}{\var{#2}}}
 
 % For a type name, when it occurs in text
 \newcommand{\type}[1]{\ensuremath{#1}}
@@ -194,7 +197,6 @@
 }
 
 \newtheorem{lemma}[oldtheorem]{Lemma}
-\index{Lemmas|see{Theorems}}
 
 \newtheorem{baredefinition}[oldtheorem]{Definition}
 \newenvironment{definition}{ \begin{baredefinition}
@@ -1895,18 +1897,21 @@ we see that \Veim{up} in
 \eqref{eq:valid-eim-from-symbol-6} is valid.
 \end{proof}
 
-For every bottom-up cause that is a symbol
-or an EIM,
+If a parse instance is a symbol instance or
+a complete EIM,
 its ``symbolic equivalent'' is defined.
 We write the symbolic equivalent of \Vinst{x}
 as \Symbol{\var{x}}.
-If the bottom-up cause is a symbol instance,
+If the parse instance is a symbol instance,
 it is its own \dfn{symbolic equivalent}.
-If the bottom-up cause is an EIM,
-its symbolic equivalent is the instance
+If the parse instance is a complete EIM,
+its \dfn{symbolic equivalent} is the instance
 of its LHS symbol
 with the same left and right locations
 as the EIM.
+
+If a bottom-up cause is not ethereal,
+it has a symbolic equivalent.
 That is, letting the bottom-up cause EIM be,
 without loss of generality,
 \begin{equation}
@@ -3826,6 +3831,12 @@ we say that
 \end{enumerate}
 \end{definition}
 
+The height of a silo is the same as the length of its underlying derviation.
+We sometimes write the height of the silo, \var{s}, as \Vsize{\var{s}}.
+This means that the
+silo layers are the \var{i}
+such that $0 \le \var{i} < \Vsize{\var{s}}$.
+
 \begin{theorem}
 \label{t:silo-well-formed}
 Definition \ref{def:silo}
@@ -4050,8 +4061,9 @@ is well-formed.
 \begin{theorem}
 \label{t:silo-base-cause}
 Let \Veim{base} be the telluric base
-derivation of a silo whose height is $\var{n}+1$.
-Call the silo, \var{silo}.
+derivation of a silo.
+Call the silo, \var{silo},
+and let $\Vsize{\var{silo}} = \var{n}+1$.
 If \Veim{base} is valid,
 then \var{silo}[\var{n}] is valid
 and
@@ -4224,6 +4236,206 @@ This shows the last of the three cases.
 We have shown all three cases for the step.
 This shows the step of the induction,
 and therefore the induction and the theorem.
+\end{proof}
+
+\begin{lemma}
+\label{lem:silo-rightmost}
+In a silo,
+the rightmost symbol of each derivation step is
+\begin{align}
+\label{eq:silo-rightmost-5}
+\Symbol{\Vel{silo}{i}} & \text{if \Vel{silo}{i} has a symbolic equivalent}, \\
+\label{eq:silo-rightmost-8}
+\Postdot{\Vel{silo}{i}} & otherwise
+\end{align}
+\end{lemma}
+
+\begin{proof}
+We first note that
+Definition \ref{def:silo} (``Silo''),
+gives us,
+directly from the definitions,
+\begin{equation}
+\tag{TELLURIC}
+\label{eq:silo-rightmost-10}
+\eqref{eq:silo-rightmost-5}
+for Cases
+\ref{def:silo-layer-0} (Step 0)
+and \ref{def:silo-layer-non-terminal} (not-terminals).
+of Definition \ref{def:silo}
+\end{equation}
+In Case \ref{def:silo-layer-non-terminal}
+of Definition \ref{def:silo}
+the silo layer will not
+have a symbolic equivalent.
+
+We show
+\eqref{eq:silo-rightmost-8}
+for Case \ref{def:silo-layer-non-terminal} 
+using an induction on the silo layers.
+We take as our induction hypothesis that
+\begin{equation}
+\tag{HYP}
+\label{eq:silo-rightmost-12}
+\eqref{eq:silo-rightmost-5}
+and \eqref{eq:silo-rightmost-8}
+hold for silo layer \Vel{silo}{i}.
+\end{equation}
+
+Let $\var{n} = \Vdecr{\Vsize{silo}}$.
+We take as the basis of the induction
+\eqref{eq:silo-rightmost-12} for
+layer \var{n}.
+Here we know, by the definition of
+the altitude derivation,
+that the rightmost symbol is telluric,
+so that one of
+Cases
+\ref{def:silo-layer-0} (Step 0)
+and \ref{def:silo-layer-non-terminal}
+of Definition \ref{def:silo}
+apply.
+Either way, 
+\eqref{eq:silo-rightmost-5} follows directly
+from \eqref{eq:silo-rightmost-10}.
+
+For the step of the induction we assume
+\eqref{eq:silo-rightmost-12} for
+\el{silo}{\var{i}+1} to show
+\begin{equation}
+\label{eq:silo-rightmost-15}
+\tag{STEP}
+\eqref{eq:silo-rightmost-12} for
+\Vel{silo}{i}.
+\end{equation}
+For Cases
+\ref{def:silo-layer-0}
+and \ref{def:silo-layer-non-terminal}
+of Definition \ref{def:silo},
+we have
+\eqref{eq:silo-rightmost-12} for \Vel{silo}{i}
+from \eqref{eq:silo-rightmost-10},
+without using the assumption for the step.
+
+It remains to show the step of the induction for
+Case
+\ref{def:silo-layer-nulling}
+of Definition \ref{def:silo}.
+From
+Definition \ref{def:silo} we know that
+\begin{gather}
+\text{$\var{silo}[\var{i}+1] = [ \Vdr{above}, \Vloc{j}, \Vloc{k}]$} \\
+\text{and $\var{silo}[\var{i}] = [ \Prev{\Vdr{above}}, \Vloc{j}, \Vloc{k} ]$ is valid.}
+\end{gather}
+For derivation step \var{i} we have $\Vsym{pre-A} \Vsym{A} \Vmk{k}$,
+where \Vsym{A} is nulling by assumption for the case.
+Within the induction step,
+we proceed by cases.
+
+\textbf{Silo layer \var{i}+1 has a symbolic equivalent}:
+$\var{silo}[\var{i}+1]$ must be an EIM so that
+if it has symbolic equivalent,
+by 
+Case \ref{def:silo-layer-non-terminal}
+of Definition \ref{def:silo},
+the derivation steps $\var{i}+1$ and \var{i}
+are $\Vsym{B} \Vmk{k} \derives \Vsym{pre-A} \Vsym{A} \Vmk{k}$,
+where $[\Vsym{B} \de \Vsym{pre-A} \Vsym{A}]$ is a rule in \Cg{}.
+and
+\begin{equation}
+\Vdr{above} = [\Vsym{B} \de \Vsym{pre-A} \Vsym{A} \mydot]
+\end{equation}
+so that
+\begin{equation}
+\label{eq:silo-rightmost-30}
+\Postdot{\Prev{\Vdr{above}}} = \Vsym{A}.
+\end{equation}
+If we recall that \Vsym{A} was the rightmost symbol of derivation step \var{i},
+we see that we have shown
+\eqref{eq:silo-rightmost-15}
+for the case where
+$\var{silo}[\var{i}+1]$ has a symbolic equivalent.
+
+\textbf{Silo layer \var{i}+1 does not have a symbolic equivalent}:
+Again we note that
+$\var{silo}[\var{i}+1]$ must be an EIM so that
+if it has no symbolic equivalent,
+Case \ref{def:silo-layer-nulling}
+of Definition \ref{def:silo} must apply.
+Without loss of generalization,
+the derivation steps $\var{i}+1$ and \var{i}
+are $\Vsym{B} \Vsym{null} \Vmk{k} \derives \Vsym{B} \Vmk{k}$.
+
+TODO: Finish this.
+\end{proof}
+
+\begin{lemma}
+\label{lem:silo-predot}
+If a silo EIM has a symbolic equivalent,
+then its symbol
+is the predot symbol of the layer immediately above it,
+if that layer exists.
+That is,
+\begin{multline}
+\label{eq:silo-predot-5}
+0 \le \var{i} \le (\Vsize{\var{silo}} \subtract 2) \\
+  \implies \Predot{\var{silo}[\var{i}+1]} = \Symbol{\var{silo}[\var{i}]}
+\end{multline}
+\end{lemma}
+
+\begin{proof}
+TODO: Revise
+
+We will consider,
+without loss of generalization, the silo layer \var{i},
+such that
+\begin{equation}
+\label{eq:silo-predot-10}
+0 \le \var{i} \le (\Vsize{\var{silo}} \subtract 2).
+\end{equation}
+In Definition \ref{def:silo} (``Silo''),
+in the Case \ref{def:silo-layer-nulling} (Nulling),
+the silo layer does not have a symbolic equivalent.
+In the other two cases it does,
+and examination of their definitions shows the rightmost
+symbol of derivation step \var{i} is \Symbol{\Vel{silo}{i}}.
+
+We now look at how step \var{i} is derived
+from step $\var{i}+1$.
+We know from 
+\eqref{eq:silo-predot-10}
+that there is a step $\var{i}+1$.
+There are two ways in which a symbol \Vsym{A} could have
+become the rightmost symbol in
+step \var{i}.
+First, a nulling symbol to its right
+in step $\var{i}+1$
+might have been ``expanded''
+in its zero direct descendants, and therefore disappeared without a trace.
+Second, another, telluric, symbol
+was rightmost in step $\var{i}+1$,
+and was expanded into its
+with one or more direct descendants,
+of which \Vsym{A} is the rightmost.
+We now consider each of these cases.
+
+\textbf{Expansion of a nulling symbol}:
+Without loss of generalization, we write the expansion/elimination of
+a rightmost nulling symbol as:
+\begin{equation}
+\Vsym{A} \Vsym{null} \Vmk{k} \derives \Vsym{A} \Vmk{k}
+\end{equation}
+Here Case \ref{def:silo-layer-nulling} (Nulling) of
+Definition \ref{def:silo} applies so that
+\begin{gather}
+\label{eq:silo-predot-30}
+\var{silo}[\var{i}+1] = [ \Prev{\Vdr{above}}, \Vloc{j}, \Vloc{k} ] \\
+\text{and} \quad
+\var{silo}[\var{i}+2] = [ \Vdr{above}, \Vloc{j}, \Vloc{k}]
+\end{gather}
+
+TODO: Finish this.
+
 \end{proof}
 
 \begin{theorem}
