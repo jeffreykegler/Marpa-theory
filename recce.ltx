@@ -3575,6 +3575,49 @@ We will begin our investigation by defining
 the concept of parse instance
 ``altitude'' in terms of EIM causes and effects.
 
+\begin{definition}
+\label{def:altitude}
+\dtitle{Altitude}
+For the purposes of this definition,
+the ``cause set'' of an EIM is its set
+of possible causes.
+We say that \dfn{altitude}
+\begin{itemize}
+\item
+of a symbolic terminal parse instance is 0;
+\item
+of an ethereal cause is 0;
+\item
+of the start EIM is 1;
+\item
+of a pair of matching causes
+(top-down and bottom-up)
+is the
+maximum of the altitudes of the pair;
+\item
+of a cause set is
+minimum of the altitudes of
+the cause set's element;
+\item
+of an null-scan or prediction EIM is the altitude of
+its cause set; and
+\item
+of an read or reduced EIM is one plus
+the altitude of its cause set.
+\end{itemize}
+\end{definition}
+
+TODO: Do I need the concept of altitude cause?
+
+The implications of this definition will be clearer
+from Theorem \ref{t:def-altitude}.
+Note our use of the floor notation in
+Theorem \ref{t:def-altitude}.
+EIM's can have multiple top-down causes,
+and multiple bottom-up causes.
+Where this results in a choice of altitudes,
+the alititude is always the minimum of the choices.
+
 \begin{theorem}
 \label{t:def-altitude}
 We write \Alt{\Vinst{inst}} for the altitude of \Vinst{inst}.
@@ -3582,8 +3625,12 @@ We write \Alt{\Vinst{inst}} for the altitude of \Vinst{inst}.
 \begin{FlushLeft}
 \begin{enumerate}
 \item
+\label{case:def-altitude-ethereal}
+The altitude of an ethereal cause is 0.
+\item
 \label{case:def-altitude-terminal}
 The altitude of a terminal symbol instance is 0.
+This is the case whether it is nulling or telluric.
 \item
 \label{case:def-altitude-start}
 The altitude of the start rule is 1.
@@ -3654,12 +3701,6 @@ altitude of the EIM.
 TODO.
 \end{proof}
 
-Note our use of the floor notation in
-Theorem \ref{t:def-altitude}.
-EIM's can have multiple top-down causes,
-and multiple bottom-up causes.
-Where results in a choice of altitudes,
-the alititude is always the minimum of the choices.
 
 \begin{theorem}
 \label{t:predot-therefore-altitude}
