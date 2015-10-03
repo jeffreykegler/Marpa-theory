@@ -3941,6 +3941,7 @@ silo layers are the \var{i}
 such that $0 \le \var{i} < \Vsize{\var{s}}$.
 
 \begin{lemma}
+\label{lem:silo-0-valid}
 If a telluric base is valid,
 Step 0 of its silo is valid.
 \end{lemma}
@@ -3987,14 +3988,56 @@ of Definition \ref{def:silo} we see that
 of the silo.
 \end{proof}
 
-\begin{theorem}
+\begin{lemma}
+\label{lem:silo-non-terminal-valid}
 If, in a silo, step \var{i} of its underlying derivation
 ends in a non-terminal,
 layer \var{i} of the silo is well-formed and valid.
-\end{theorem}
+\end{lemma}
 
 \begin{proof}
-TODO
+\textbf{Layer below non-terminal}:
+By definition, the underlying altitude derivation does not stop
+until the rightmost symbol of the derivation step is a terminal.
+By assumption for the theorem,
+the rightmost symbol of derivation step \var{i}
+is a non-terminal,
+so $\var{i} \neq 0$.
+Therefore, there is a derivation step \Vdecr{i}.
+
+Let the rightmost symbol of 
+derivation step \var{i} be \Vsym{A}.
+By definition of a rightmost derivation before \Vloc{k},
+if derivation step \var{i} ends in
+$\Vmk{j} \Vsym{A} \Vmk{k}$ for some \Vloc{j},
+then the next derivation step
+expands \Vsym{A} into its direct descendants,
+so that derivation step \Vdecr{i} ends in
+$\Vmk{j} \Vstr{A-rhs} \Vmk{k}$,
+where \Vstr{A-rhs} is the RHS of a rule in \Cg{}.
+Because \Vsym{A} is a non-terminal, it must be the
+LHS of at least one such rule.
+So we have
+\begin{equation}
+\label{eq:silo-non-terminal-valid-20}
+\Vmk{j} \Vsym{A} \Vmk{k} \derives \Vmk{j} \Vstr{A-rhs} \Vmk{k}.
+\end{equation}
+From 
+\eqref{eq:silo-non-terminal-valid-20}
+and the definition of EIM validity,
+we know that
+\begin{equation}
+\label{eq:silo-non-terminal-valid-30}
+\text{
+$\big[ [ \Vsym{A} \de \Vstr{A-rhs} \mydot ], \Vmk{j}, \Vmk{k} \big]$
+is valid.}
+\end{equation}
+From
+Case \ref{def:silo-layer-non-terminal}
+of
+Definition \ref{def:silo}, we know that
+\eqref{eq:silo-non-terminal-valid-30}
+is layer \var{i} of the silo.
 \end{proof}
 
 \begin{theorem}
@@ -4010,103 +4053,6 @@ We proceed by cases,
 where the cases are
 potential inconsistences in
 Definition \ref{def:silo}.
-
-\textbf{Predot symbol}:
-Definition \ref{def:silo} assumes that
-\begin{equation}
-\label{eq:silo-well-formed-4}
-\myparbox{
-every
-derivation step has a rightmost symbol before \Vloc{k}.
-}
-\end{equation}
-
-We show this by an induction on the steps of the altitude
-derivation, starting with Step \var{n}.
-We take as the induction hypothesis that
-\begin{equation}
-\label{eq:silo-well-formed-5}
-\myparbox{
-derivation step \var{i}
-contains a telluric symbol somewhere before \Vloc{k}.
-}
-\end{equation}
-As the basis of the induction, we take Step \var{n}.
-In the definition of an altitude derivation,
-Step \var{n} is derived from a telluric base EIM,
-and therefore Step \var{n}
-has a telluric symbol immediately before
-\Vloc{k}.
-
-For the step of the induction, we assume that
-Step $\var{i}+1$ has a telluric symbol somewhere before
-\Vloc{k}.
-At each derivation step, the rightmost symbol,
-call it \Vsym{rm},
-is expanded
-into zero or more direct descendants.
-Let this derivation be
-\begin{align}
-& \Vstr{pre-rm} \Vsym{rm} \Vmk{k} && \text{Step $\var{i}+1$} \notag \\
-\label{eq:silo-well-formed-7}
-& \derives \Vstr{pre-rm} \Vstr{rm-dds} \Vmk{k}. && \text{Step \var{i}}
-\end{align}
-If $\Vstr{rm-dds} = \epsilon$, then
-\Vsym{rm} was not telluric, so the telluric symbol to
-the left of \Vloc{k} must be in \Vstr{pre-rm}.
-If the telluric symbol was in \Vstr{pre-rm} in
-Step $\var{i}+1$, it is still in \Vstr{pre-rm}
-in Step \var{i},
-so that Step \var{i} has a telluric symbol before \Vloc{k}
-in Step \var{i}.
-This shows
-\eqref{eq:silo-well-formed-5} for Step \var{i}
-when $\Vstr{rm-dds} = \epsilon$.
-
-It remains to show the step of the induction,
-when
-$\Vstr{rm-dds} \neq \epsilon$.
-In this case,
-$[\Vsym{rm} \de \Vsym{rm-rhs} ]$
-must be a rule in \Cg{}.
-No rules in Marpa are nulling, so that
-at least one of the
-symbols in \Vsym{rm-rhs} must be telluric.
-So clearly there is still a telluric symbol before
-\Vloc{k} in \Vstr{rm-dds} in
-\eqref{eq:silo-well-formed-7}.
-This shows
-\eqref{eq:silo-well-formed-5} for Step \var{i}
-when $\Vstr{rm-dds} \neq \epsilon$.
-
-We have shown the step of the induction,
-so we have the induction,
-and we conclude
-\eqref{eq:silo-well-formed-4}.
-
-\textbf{Layer below non-terminal}:
-Case \ref{def:silo-layer-non-terminal}
-of Definition \ref{def:silo} assumes that,
-if \Vsym{A}, the predot symbol of layer \var{i},
-is a non-terminal,
-there is a step \Vdecr{i} in the underlying derivation.
-It also assumes that step \Vdecr{i}
-ends in
-$\Vstr{A-rhs} \Vmkr{k}$.
-By definition, the underlying altitude derivation does not stop
-until the rightmost symbol is a terminal,
-so that there is always a silo layer below a
-derivation step whose rightmost symbol is a non-terminal.
-
-If \Vsym{A} is a non-terminal,
-by definition there is some \Vstr{A-rhs} such
-that $[ \Vsym{A} \de \Vstr{A-rhs} ] \in \Crules$.
-By definition of a rightmost derivation before \Vloc{k},
-if derivation step $\var{i}+1$ ends in
-$\Vsym{A} \Vmk{k}$, then the next derivation step
-expands \Vsym{A} into its direct descendants,
-so that derivation step \var{i} ends in
-$\Vsym{A-rhs} \Vmk{k}$.
 
 \textbf{Layer above nulling terminal}:
 Case \ref{def:silo-layer-nulling}
@@ -4372,9 +4318,9 @@ In a silo,
 the rightmost symbol of each derivation step is
 \begin{align}
 \label{eq:silo-rightmost-5}
-\Symbol{\Vel{silo}{i}} & \text{if \Vel{silo}{i} has a symbolic equivalent}, \\
+& \text{\Symbol{\Vel{silo}{i}}, if \Vel{silo}{i} has a symbolic equivalent}, \\
 \label{eq:silo-rightmost-8}
-\Postdot{\Vel{silo}{i}} & otherwise
+& \text{\Postdot{\Vel{silo}{i}}, otherwise}
 \end{align}
 \end{lemma}
 
