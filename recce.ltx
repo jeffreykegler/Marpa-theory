@@ -6,11 +6,11 @@
 \usepackage{ragged2e}
 \usepackage{mathtools}
 \usepackage{amssymb}
-\usepackage{algpseudocode}
 \usepackage{url}
 \usepackage{amsfonts}% to get the \mathbb alphabet
 \usepackage{float}
-\usepackage{hyperref}
+\usepackage[pdfpagelabels]{hyperref}
+\usepackage{algpseudocode}
 \usepackage{algorithm}
 
 % This is used to find the font size if need be
@@ -960,6 +960,16 @@ Let
 %
 \end{align*}
 
+In addition, if a dotted rule is 
+\[
+[\Vsym{A} \de \Vstr{prefix} \mydot \Vstr{suffix}]
+\]
+we say that \Vstr{prefix} is the
+\dfn{dot prefix},
+and that
+we say that \Vstr{suffix} is the
+\dfn{dot suffix}.
+
 The \dfn{start dotted rule} is
 \begin{equation}
 \label{eq:start-rule-def}
@@ -1831,16 +1841,18 @@ We now extend the concept of validity to other types of
 causes.
 An ethereal cause is always valid.
 If \Vsym{T} is a telluric terminal symbol,
-\begin{equation*}
+\begin{equation}
+\label{eq:def-terminal-validity}
 \Valid{[\var{i}]\, \Vsym{T} \,[\var{j}]} \quad \defined \quad
-\Vsym{A} = \CVw{i} \; \land \; \var{j} = \var{i} + 1.
-\end{equation*}
+\Vsym{T} = \CVw{i} \; \land \; \var{j} = \var{i} + 1.
+\end{equation}
 If \Vsym{N} is a non-terminal symbol,
-\begin{equation*}
+\begin{equation}
+\label{eq:def-non-terminal-validity}
 \Valid{[\var{i}]\, \Vsym{N} \,[\var{j}]}
 \quad \defined \quad
 \Vsym{N} \deplus \var{w}[\var{i}, (\var{j} \subtract 1)].
-\end{equation*}
+\end{equation}
 
 \begin{theorem}
 \label{t:valid-eim-from-symbol}
@@ -3730,8 +3742,13 @@ We note that
 \begin{multline}
 \label{eq:altitude-from-telluric-base-20}
 \Veim{desc2} \in \el{eims}{\var{i}+1} \\
-\implies
-\exists \, \var{desc1} \in \Vel{eims}{i} \; \land \; \var{desc2} = \var{epsilon-op}(\var{desc1}).
+\text{$\implies \exists \, \Veim{desc1}$ such that} \\
+\left(
+\begin{multlined}
+\var{desc1} \in \Vel{eims}{i}  \\
+\text{and $\var{desc2} = \var{epsilon-op}(\var{desc1})$}
+\end{multlined}
+\right).
 \end{multline}
 The step for the induction,
 \eqref{eq:altitude-from-telluric-base-10} for $\var{i}+1$, follows from
@@ -3794,11 +3811,68 @@ so that
 the length of the derivation is $\var{n}+1$.
 \end{definition}
 
+\begin{theorem}
+\label{t:no-altitude-derivation-at-0}
+There are no altitude derivations at location 0.
+\end{theorem}
+
+\begin{proof}
+An altitude derivation at location \Vloc{k} is of a telluric base,
+so there must be a telluric symbol before \Vloc{k},
+such that
+\begin{equation}
+\label{eq:no-altitude-derivation-at-0-10}
+\text{$\mk{0} \Vstr{pre-tell} \Vsym{tell} \Vmk{k}$, where $\Vsize{\Vsym{tell}} \ge 1$.}
+\end{equation}
+By
+\eqref{eq:no-altitude-derivation-at-0-10}
+and the definition of location markers
+\[
+  0 + \Vsize{\Vsym{tell}} < 1 \le \var{k}.
+\]
+\end{proof}
+
+\begin{theorem}
+\label{t:altitude-derivation-telluric-prefix}
+Every step of an altitude derivation at \Vloc{k} has a telluric symbol before
+\Vloc{k}.
+\end{theorem}
+
+\begin{proof}
+By Theorem
+\ref{t:no-altitude-derivation-at-0},
+$\Vloc{k} > 0$,
+so that any derivation step must be,
+$\mk{0} \Vstr{pre-k} \Vmk{k}$.
+Therefore
+\begin{align*}
+\label{eq:altitude-derivation-predot-10}
+\mk{0} \Vstr{pre-k} \Vmk{k} & \destar \Cw[0, \Vdecr{k}]
+\intertext{where $\big|\Cw[0, \Vdecr{k}]\big| \ge 1$, so that}
+\Vstr{pre-k} & \ndestar \epsilon
+\end{align*}
+Since $\Vstr{pre-k} \ndestar \epsilon$,
+\Vstr{pre-k} must contain at least one symbol that does not
+derive the empty string.
+\end{proof}
+
+\begin{theorem}
+\label{t:altitude-derivation-predot}
+Every step of an altitude derivation at \Vloc{k} has a symbol before
+\Vloc{k}.
+\end{theorem}
+
+\begin{proof}
+This theorem follows
+directly from Theorem
+\ref{t:altitude-derivation-telluric-prefix}.
+\end{proof}
+
 We are now in a position to define an altitude silo.
 Intuitively, an altitude silo is a sequence of parse instances,
 called ``layers''.
-All of the layers are at a single parse location,
-and we will show that
+Every layer in a silo has the same right location.
+We will show that
 each layer in the silo is the altitude cause
 of the layer just above it.
 An altitude silo corresponds to,
@@ -3806,23 +3880,24 @@ and is based on,
 an altitude derivation:
 Layer \var{i} of the silo is the altitude cause
 of Step \var{i} of the altitude derivation.
+We now define an altitude silo more formally.
 
 \begin{definition}
 \label{def:silo}
 The \dfn{altitude silo} is a sequence of parse instances,
-based on an altitude derivation.
-There is one element in the silo
-for each step of an altitude derivation.
+based on the altitude derivation of a telluric base at some
+location.
+Call the telluric base, \Veim{base},
+and the location, \Vloc{k}.
+There is one parse instance in the silo
+for each step of the altitude derivation.
 
-Call a silo, \var{silo},
+Call the silo, \var{silo},
 so that \var{silo}[\var{i}] is \dfn{layer}
 \var{i} of the silo.
-Let the underlying derivation be of the
-telluric EIM \Veim{base},
-where
-$\Current{\Veim{base}} = \Vloc{k}$
-and let the rightmost symbol of derivation step \var{k}
-at \Vloc{k} be \Vsym{A}.
+In the following definitions,
+let the rightmost symbol of derivation step \var{k}
+at \Vloc{k} be \Vsym{rm}.
 
 \begin{enumerate}
 \item
@@ -3831,23 +3906,23 @@ For silo layer 0,
 We say that
 \begin{equation*}
 \label{eq:altitude-silo-10}
-\var{silo}[0] = \mkl{\Vdecr{k}} \Vsym{A} \Vmkr{k}.
+\var{silo}[0] = \mkl{\Vdecr{k}} \Vsym{rm} \Vmkr{k}.
 \end{equation*}
-where $\Vsym{A} = \Cw[\Vdecr{k}]$.
+where $\Vsym{rm} = \Cw[\Vdecr{k}]$.
 \item
 \label{def:silo-layer-non-terminal}
-If \Vsym{A} is a non-terminal
-where $\Vmkl{j} \Vstr{A-rhs} \Vmkr{k}$
+If \Vsym{rm} is a non-terminal
+where $\Vmkl{j} \Vstr{rm-rhs} \Vmkr{k}$
 are its direct descendants
 in Step \Vdecr{i},
 we say that
 \begin{equation*}
 \label{eq:altitude-silo-20}
-\var{silo}[\var{i}] = \big[ [ \Vsym{A} \de \Vstr{A-rhs} \mydot ], \Vloc{j}, \Vloc{k} \big].
+\var{silo}[\var{i}] = \big[ [ \Vsym{rm} \de \Vstr{rm-rhs} \mydot ], \Vloc{j}, \Vloc{k} \big].
 \end{equation*}
 \item
 \label{def:silo-layer-nulling}
-If \Vsym{A} is nulling
+If \Vsym{rm} is nulling
 where
 $\var{silo}[\var{i}+1] = [ \Vdr{above}, \Vloc{j}, \Vloc{k}]$,
 we say that
@@ -3856,6 +3931,7 @@ we say that
 \var{silo}[\var{i}] = [ \Prev{\Vdr{above}}, \Vloc{j}, \Vloc{k} ].
 \end{equation*}
 \end{enumerate}
+
 \end{definition}
 
 The height of a silo is the same as the length of its underlying derviation.
@@ -3864,10 +3940,69 @@ This means that the
 silo layers are the \var{i}
 such that $0 \le \var{i} < \Vsize{\var{s}}$.
 
+\begin{lemma}
+If a telluric base is valid,
+Step 0 of its silo is valid.
+\end{lemma}
+
+\begin{proof}
+Call the telluric base, \Veim{base}.
+By assumption for the theorem,
+\Veim{base} is valid.
+Let
+\begin{align}
+\label{eq:silo-well-formed-10}
+\Current{\Veim{base}} & = \Vloc{k} \\
+\text{and} \quad \Vsym{tell} & = \Predot{\Veim{base}}.
+\end{align}
+We know that \Vsym{tell} exists and is telluric,
+because \Veim{base} is a telluric base.
+From this,
+the fact that every Marpa symbol is productive,
+and
+\eqref{eq:silo-well-formed-10},
+we know that
+\begin{align}
+\label{eq:silo-well-formed-12}
+&
+\begin{multlined}
+\Vsym{tell} \Vmk{k} \destar \Vstr{pre-term} \Vsym{term} \Vmk{k} \\
+  \text{for some \Vstr{pre-term}.}
+\end{multlined}
+\\
+\label{eq:silo-well-formed-14}
+\therefore \quad &
+\text{
+$\mk{\Vdecr{k}} \Vsym{term} \Vmk{k}$
+  where $\var{term} = \Cw[\Vdecr{k}]$
+}
+\end{align}
+By \eqref{eq:def-terminal-validity},
+which defines validity for terminals,
+\eqref{eq:silo-well-formed-14} is valid
+and from
+Case \ref{def:silo-layer-0}
+of Definition \ref{def:silo} we see that
+\eqref{eq:silo-well-formed-14} is layer 0
+of the silo.
+\end{proof}
+
+\begin{theorem}
+If, in a silo, step \var{i} of its underlying derivation
+ends in a non-terminal,
+layer \var{i} of the silo is well-formed and valid.
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
 \begin{theorem}
 \label{t:silo-well-formed}
-Definition \ref{def:silo}
-is well-formed.
+If a telluric base is valid,
+its silo is well-formed.
+Specifically, every layer in the silo
+exists and is valid.
 \end{theorem}
 
 \begin{proof}
@@ -3948,40 +4083,6 @@ We have shown the step of the induction,
 so we have the induction,
 and we conclude
 \eqref{eq:silo-well-formed-4}.
-
-\textbf{Terminal symbol at location \var{k}}:
-Case \ref{def:silo-layer-0}
-of Definition \ref{def:silo} assumes that
-there is a terminal
-symbol \Vsym{term}, such that
-\begin{equation}
-\label{eq:silo-well-formed-8}
-\Vsym{term} = \CVw{\Vdecr{k}}.
-\end{equation}
-By assumption for the definition, the telluric base of the underlying
-definition, call it \Veim{base} is valid and such that
-\begin{equation}
-\label{eq:silo-well-formed-10}
-\Current{\Veim{base}} = \Vloc{k}.
-\end{equation}
-Let $\Vsym{tell} = \Predot{\Veim{base}}$.
-We know that \Vsym{tell} exists and is telluric,
-because \Veim{base} is a telluric base.
-From this,
-the fact that every Marpa symbol is productive,
-and
-\eqref{eq:silo-well-formed-10},
-we know that
-\begin{equation}
-\label{eq:silo-well-formed-12}
-\Vsym{tell} \Vmk{k} \destar \Vstr{pre-term} \Vsym{term} \Vmk{k}
-\end{equation}
-for some \Vstr{pre-term}.
-From
-\eqref{eq:silo-well-formed-12}
-we know
-\eqref{eq:silo-well-formed-8},
-which shows the case.
 
 \textbf{Layer below non-terminal}:
 Case \ref{def:silo-layer-non-terminal}
@@ -4369,9 +4470,9 @@ the derivation steps $\var{i}+1$ and \var{i}
 are $\Vsym{B} \Vmk{k} \derives \Vsym{pre-A} \Vsym{A} \Vmk{k}$,
 where $[\Vsym{B} \de \Vsym{pre-A} \Vsym{A}]$ is a rule in \Cg{}.
 and
-\begin{equation}
+\begin{equation*}
 \Vdr{above} = [\Vsym{B} \de \Vsym{pre-A} \Vsym{A} \mydot]
-\end{equation}
+\end{equation*}
 so that
 \begin{equation}
 \label{eq:silo-rightmost-30}
