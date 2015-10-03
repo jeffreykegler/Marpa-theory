@@ -3575,8 +3575,8 @@ We will begin our investigation by defining
 the concept of parse instance
 ``altitude'' in terms of EIM causes and effects.
 
-\begin{definition}
-\label{def:altitude}
+\begin{theorem}
+\label{t:def-altitude}
 We write \Alt{\Vinst{inst}} for the altitude of \Vinst{inst}.
 \begin{sloppypar}
 \begin{FlushLeft}
@@ -3648,10 +3648,14 @@ we mean a cause that
 was used to calculate the
 altitude of the EIM.
 \end{sloppypar}
-\end{definition}
+\end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
 
 Note our use of the floor notation in
-Definition \ref{def:altitude}.
+Theorem \ref{t:def-altitude}.
 EIM's can have multiple top-down causes,
 and multiple bottom-up causes.
 Where results in a choice of altitudes,
@@ -3669,7 +3673,7 @@ the altitude cause is the bottom-up cause.
 
 \begin{proof}
 The theorem can be proved by
-going through Definition \ref{def:altitude},
+going through Theorem \ref{t:def-altitude},
 case by case.
 \end{proof}
 
@@ -3687,7 +3691,7 @@ of \Vinst{i} is defined and finite.
 
 \begin{proof}
 The theorem can be proved by
-going through Definition \ref{def:altitude},
+going through Theorem \ref{t:def-altitude},
 case by case.
 \end{proof}
 
@@ -3716,7 +3720,8 @@ By Theorem
 \ref{t:ethereal-closure},
 we know that
 \Valid{\var{epsilon-op}(\var{desc})}.
-By Definition \ref{def:altitude} (``altitude'') for
+By Theorem \ref{t:def-altitude} for
+the altitude of
 predictions and null-scans,
 we know that
 \begin{equation}
@@ -3880,14 +3885,14 @@ and where
 $\var{silo}[\var{i}]$ is memoized.}\]
 
 By the definition of altitude
-(Definition \ref{def:altitude})
+(Theorem \ref{t:def-altitude})
 for
 unmemoized reductions,
 $\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\Vdecr{n}]} + 1$.
 For $\var{silo}[\var{i}], \var{m} < \var{i} < \var{n}$,
 $\var{silo}[\var{i}]$ is either a reduction or a null-scan,
 and is memoized,
-so that by the Definition \ref{def:altitude},
+so that by the Theorem \ref{t:def-altitude},
 $\Alt{\var{silo}[\var{i}]} = \Alt{\var{silo}[\Vdecr{i}]}$.
 Therefore
 \[\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\var{m}]} + 1\]
@@ -4770,7 +4775,7 @@ From \eqref{eq:reduction-op-correct-8},
 an assumption for the theorem,
 we know that
 the EIM's in \var{iter}[0] are valid and unmemoized.
-By Definition \ref{def:altitude},
+By Theorem \ref{t:def-altitude},
 read EIM's have altitude 1.
 Using Theorem \ref{t:ethereal-altitude},
 we see that
@@ -4868,8 +4873,8 @@ the EIM's added are
 the ethereal closure of
 the reduced EIM's whose bottom-up cause
 is in $\var{iter}[\var{i}]$.
-By Definition \ref{def:altitude}
-and Theorem \ref{t:ethereal-altitude},
+By Theorems \ref{t:def-altitude}
+and \ref{t:ethereal-altitude},
 the EIM's of
 Case \ref{case:reduction-op-correct-24}
 have altitude $\var{i}+1$.
@@ -5077,11 +5082,11 @@ by Algorithm \ref{alg:leo-reduction-op}
 at line \ref{line:leo-reduction-op-20}.
 \end{enumerate}
 In Case \ref{case:reduction-op-correct-66},
-by Definition \ref{def:altitude},
+by Theorem \ref{t:def-altitude},
 they will require a bottom-up cause with
 altitude \var{x}.
 In Case \ref{case:reduction-op-correct-70},
-also by Definition \ref{def:altitude},
+also by Theorem \ref{t:def-altitude},
 they will again require a bottom-up cause with
 altitude \var{x}.
 But $\var{iter}[\var{x}] = \emptyset$ by assumption
