@@ -3833,43 +3833,26 @@ Theorem \ref{t:ethereal-altitude}.
 \begin{definition}
 \dtitle{Silo}
 \label{def:silo}
-Let the telluric base be
-\begin{equation*}
-\Veim{base} = 
-\left[
-\begin{gathered}
-[ \Vsym{base} \de \Vstr{pre} \cat \Vsym{tell} \mydot \Vstr{post}
-], \\
-\Vloc{i}, \quad \Vloc{k}
-\end{gathered}
-\right]
-\end{equation*}
-
-TODO: Finish this.
+A \dfn{silo}, call it \var{silo},
+is a sequence of EIMs.
+It is at one of the parse locations,
+which is called the \dfn{silo location}.
+Call the silo location \Vloc{k}.
+Each element of the silo is called a \dfn{layer}.
+All layers in the silo must be quasi-complete EIMs
+and their right locations be equal to \Vloc{k}.
+\el{silo}{\var{i}+1} must be the
+silo cause of
+\Vel{silo}{i}.
+A \dfn{silo cause} is a top-down or a bottom-up cause.
 \end{definition}
 
-\begin{theorem}
-\label{t:no-silo-at-0}
-There are no silos at location 0.
-\end{theorem}
-
-\begin{proof}
-TODO: Revise for silos
-
-An altitude derivation at location \Vloc{k} is of a telluric base,
-so there must be a telluric symbol before \Vloc{k},
-such that
-\begin{equation}
-\label{eq:no-silo-at-0-10}
-\text{$\mk{0} \Vstr{pre-tell} \Vsym{tell} \Vmk{k}$, where $\Vsize{\Vsym{tell}} \ge 1$.}
-\end{equation}
-By
-\eqref{eq:no-silo-at-0-10}
-and the definition of location markers
-\[
-  0 + \Vsize{\Vsym{tell}} < 1 \le \var{k}.
-\]
-\end{proof}
+Note that, from 
+Definition \ref{def:silo},
+that a silo cause must be a parse instance
+with an EIM equivalent.
+A silo cause cannot be ethereal,
+or a terminal symbol parse instance.
 
 \begin{theorem}
 \label{t:silo-telluric-prefix}
@@ -3878,29 +3861,63 @@ Every layer of a silo at \Vloc{k} has a telluric symbol before
 \end{theorem}
 
 \begin{proof}
-TODO: Revise for silos
+A silo layer must be quasi-complete,
+so that there must be a telluric symbol before \Vloc{k}.
+\end{proof}
 
-By Theorem
-\ref{t:no-silo-at-0},
-$\Vloc{k} > 0$,
-so that any derivation step must be,
-$\mk{0} \Vstr{pre-k} \Vmk{k}$.
-Therefore
-\begin{align*}
-\label{eq:silo-predot-10}
-\mk{0} \Vstr{pre-k} \Vmk{k} & \destar \Cw[0, \Vdecr{k}]
-\intertext{where $\big|\Cw[0, \Vdecr{k}]\big| \ge 1$, so that}
-\Vstr{pre-k} & \ndestar \epsilon
-\end{align*}
-Since $\Vstr{pre-k} \ndestar \epsilon$,
-\Vstr{pre-k} must contain at least one symbol that does not
-derive the empty string.
+\begin{theorem}
+\label{t:no-silo-at-0}
+There are no silos at location 0.
+\end{theorem}
+
+\begin{proof}
+Let the 
+From theorem \ref{t:silo-telluric-prefix},
+there must be a telluric symbol before \Vloc{k}.
+Therefore, without loss of generality, a silo layer is
+\begin{equation}
+\label{eq:no-silo-at-0-10}
+\big[ [ \Vsym{A} \de \Vstr{pre} \Vsym{tell} \mydot \Vstr{nulls} ], \Vloc{i}, \Vloc{k} \big] \\
+\end{equation}
+for some \Vloc{i},
+and some rule
+\[
+  [ \Vsym{A} \de \Vstr{pre} \Vsym{tell} \Vstr{nulls} ] \in \Crules
+\]
+where \Vsym{tell} is telluric and $\Vsym{nulls} \destar \epsilon$.
+By the definition of EIM validity, we know that
+\begin{align}
+\label{eq:no-silo-at-0-15}
+& \Vmk{i} \Vstr{pre} \Vsym{tell} \Vmk{k} &&
+  \text{\eqref{eq:no-silo-at-0-10}}
+\\
+\therefore \quad & \Vsize{\Vsym{tell}} \ge 1 &&
+\text{\Vsym{tell} is telluric}
+\notag
+\\
+\label{eq:no-silo-at-0-18}
+\therefore \quad & \var{k} \ge \var{i} + \Vsize{\Vsym{tell}} &&
+\text{\eqref{eq:no-silo-at-0-15}}
+\intertext{and because every parse location must be non-negative,}
+& \var{i} > 0  &&
+\notag
+\\
+\therefore \quad & \var{k} \ge 0 + 1 &&
+\text{\eqref{eq:no-silo-at-0-18}}
+\notag
+\\
+\label{eq:no-silo-at-0-27}
+\therefore \quad & \var{k} \ge 1 &&
+\end{align}
+\eqref{eq:no-silo-at-0-10} was stated without loss of generality,
+so that
+\eqref{eq:no-silo-at-0-27} shows the theorem.
 \end{proof}
 
 \begin{theorem}
 \label{t:silo-predot}
-Every step of an altitude derivation at \Vloc{k} has a symbol before
-\Vloc{k}.
+Let \Vloc{k} be the location of a silo.
+Every layer of the silo has a symbol before \Vloc{k}.
 \end{theorem}
 
 \begin{proof}
@@ -3917,6 +3934,8 @@ most recent unmemoized bottom-up cause in its silo.
 \end{theorem}
 
 \begin{proof}
+TODO: Do I need to revise this?
+
 Let \var{silo} be an altitude silo
 Let $\Veim{top} = \var{silo}[\var{n}]$
 be an unmemoized reduction.
