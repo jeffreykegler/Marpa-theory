@@ -2434,7 +2434,7 @@ where $\Vsym{A} \neq \Vsym{accept}$.
 Then there is a rule,
 \begin{equation}
 \label{eq:cause-from-prediction-2}
-  [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ] \in \Crules
+  [ \Vsym{down} \de \Vstr{pre} \Vsym{A} \Vstr{post} ] \in \Crules
 \end{equation}
 and some \Vloc{i} such that
 \Vstr{pre}, \Vstr{post},
@@ -2624,14 +2624,17 @@ of \Veim{effect}:
 \begin{theorem}
 \label{t:ethereal-closure}
 \ttitle{Ethereal closure properties}
-Let \Veim{desc}, \Veim{base} be valid
-EIM's such that
+Let \Veim{base} be a valid
+EIM such that
 \begin{equation}
 \Veim{desc} \in \var{ethereal-closure}(\Veim{base}).
 \end{equation}
 \begin{FlushLeft}
 Then
 \begin{enumerate}
+\item
+\label{req:ethereal-closure-3}
+$\Valid{\Veim{desc}}$
 \item
 \label{req:ethereal-closure-5}
 $\DR{\Veim{desc}} \in \var{ethereal-dr-closure}(\DR{\Veim{base}})$,
@@ -2668,6 +2671,7 @@ We take as our induction hypothesis:
 \myparbox{
 The EIMS in $\var{eims}[\var{i}]$
 obey requirements
+\eqref{req:ethereal-closure-3},
 \ref{req:ethereal-closure-5},
 \ref{req:ethereal-closure-8},
 \ref{req:ethereal-closure-12}
@@ -2703,6 +2707,8 @@ As the basis of the induction, we show
 \eqref{eq:ethereal-closure-18} for the
 singleton set
 $\var{eims}[0] = \lbrace \Veim{base} \rbrace.$
+By assumption for the theorem, \Veim{base} is valid.
+This shows requirement \ref{req:ethereal-closure-3}.
 Trivially, \DR{\Veim{base}} is in its own ethereal closure.
 This shows requirement \ref{req:ethereal-closure-5}.
 Also trivially, its current location is self-identical,
@@ -2746,8 +2752,17 @@ so that it has a top-down
 cause,
 $\var{eims}[\var{i}]$.
 Call this top-down cause, \Veim{wlog1}.
+
 By definition of \var{ethereal-closure} for EIM's,
 \Veim{wlog2} is a null-scan or a prediction.
+If \Veim{wlog2} is a prediction, it is valid by
+Theorem \ref{t:prediction-from-cause}.
+If \Veim{wlog2} is a null-scan, it is valid by
+Theorem \ref{t:down-cause-from-effect}.
+This shows 
+requirement \ref{req:ethereal-closure-3}
+for the step.
+
 The EIM types are defined in terms of the types of their
 dotted rules,
 so that if
@@ -2861,9 +2876,10 @@ TODO
 \end{proof}
 
 \begin{theorem}
+\label{t:eim-has-telluric-base}
 Let \Veim{desc} be a valid EIM at location
 \Vloc{i}.
-Then there \Veim{desc} has a telluric base,
+Then \Veim{desc} has a telluric base,
 \Veim{base}, such that
 $\Current{\Veim{base}} = \Vloc{i}$.
 \end{theorem}
@@ -3671,16 +3687,23 @@ of its ethereal closure.
 \end{theorem}
 
 \begin{proof}
+By Theorem \ref{t:eim-has-telluric-base}
+we know that a valid EIM has a valid telluric base.
+Call the telluric base of the ethereal closure, \Veim{base}.
+
 An ethereal closure is the transitive closure of the
 the \var{predict-op} and \var{null-scan-op}
 relations.
-Call the telluric base of the ethereal closure, \Veim{base}.
 Our proof will be by induction on the number of
 applications of
 \var{epsilon-op}, where
 \begin{equation}
 \var{epsilon-op} \defined \var{predict-op} \cup \var{null-scan-op}.
 \end{equation}
+By Theorem
+\ref{t:ethereal-closure},
+we know that
+\Valid{\var{epsilon-op}(\var{desc})}.
 By Definition \ref{def:altitude} (``altitude'') for
 predictions and null-scans,
 we know that
@@ -3704,12 +3727,12 @@ For the step of the induction, we assume
 to show
 \eqref{eq:altitude-from-telluric-base-10} for $\var{i}+1$.
 We note that
-\begin{equation}
-\Veim{desc2} \in \el{eims}{\var{i}+1} \implies
+\begin{multline}
 \label{eq:altitude-from-telluric-base-20}
-\exists \, \var{desc1} \in \Vel{eims}{i} \land \var{desc2} = \var{epsilon-op}(\var{desc1})
-\end{equation}
-\eqref{eq:altitude-from-telluric-base-10} for $\var{i}+1$.
+\Veim{desc2} \in \el{eims}{\var{i}+1} \\
+\implies
+\exists \, \var{desc1} \in \Vel{eims}{i} \; \land \; \var{desc2} = \var{epsilon-op}(\var{desc1}).
+\end{multline}
 The step for the induction,
 \eqref{eq:altitude-from-telluric-base-10} for $\var{i}+1$, follows from
 \eqref{eq:altitude-from-telluric-base-5}
