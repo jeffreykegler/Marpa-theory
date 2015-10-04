@@ -62,6 +62,8 @@
 \newcommand{\subtract}{\,-\,}
 \newcommand{\decr}[1]{\ensuremath{#1 \subtract 1}}
 \newcommand{\Vdecr}[1]{\decr{\var{#1}}}
+\newcommand{\incr}[1]{\ensuremath{#1 + 1}}
+\newcommand{\Vincr}[1]{\incr{\var{#1}}}
 
 \newcommand{\var}[1]{\ensuremath{\texttt{#1}}}
 
@@ -591,6 +593,21 @@ so that
 with \Vstr{x} as its left side,
 and
 \Vstr{y} as its right side.
+
+Let \var{d} be a derivation, such that
+\[
+  \el{d}{0} \derives \el{d}{1} \ldots \derives \Vel{d}{n}.
+\]
+If \var{x} is a move
+such that
+$\var{x} = \Vel{d}{i} \derives \el{d}{\Vincr{i}}$,
+\begin{alignat*}{2}
+\text{then} \quad && \Vincr{x} & \; \defined \; \el{d}{\Vincr{i}} \derives \el{d}{\var{i}+2}
+\\
+\text{and} \quad && \Vdecr{x} & \; \defined \; \el{d}{\Vdecr{i}} \derives \Vel{d}{i}.
+\end{alignat*}
+\Vincr{x} is called the \dfn{next move} of \var{x},
+and \Vdecr{x} is called the \dfn{previous move} of \var{x}.
 
 The language of \var{g} is $\myL{\Cg}$, where
 \begin{equation}
@@ -3816,19 +3833,31 @@ Theorem \ref{t:ethereal-altitude}.
 \begin{definition}
 \dtitle{Silo}
 \label{def:silo}
-A \dfn{silo}, call it \var{silo},
-is a sequence of EIMs.
-It is at one of the parse locations,
-which is called the \dfn{silo location}.
-Call the silo location \Vloc{k}.
-Each element of the silo is called a \dfn{layer}.
-All layers in the silo must be quasi-complete EIMs
-and their right locations be equal to \Vloc{k}.
-\el{silo}{\var{i}+1} must be the
-silo cause of
+An Earley item
+is \dfn{silo eligible} at \Vloc{k} if and only
+if it is quasi-complete and
+its right location is \Vloc{k}.
+We may say simply that an EIM is ``silo eligible'',
+if it is clear from context which \Vloc{k} is
+intended.
+
+We say that an EIM, call it \Veim{cuz}
+is the \dfn{silo cause} of another EIM,
+call it \Veim{effect},
+if and only if both are silo eligible at the
+same location,
+and \Veim{cuz} is a top-down or bottom-up cause
+of \Veim{effect}.
+
+A \dfn{silo} at \Vloc{k},
+call it \var{silo},
+is a sequence of EIMs that are silo-eligible at \Vloc{k},
+where
+\el{silo}{\var{i}+1} is the silo cause of
 \Vel{silo}{i}.
-A \dfn{silo cause} is a top-down or a bottom-up cause.
-\end{definition}
+\Vloc{k} is
+called the \dfn{silo location} of \var{silo}.
+\end{definition}.
 
 Note that, from 
 Definition \ref{def:silo},
@@ -3836,6 +3865,24 @@ that a silo cause must be a parse instance
 with an EIM equivalent.
 A silo cause cannot be ethereal,
 or a terminal symbol parse instance.
+
+\begin{theorem}
+Every silo layer
+\begin{itemize}
+\item
+is a read EIM and has no silo causes; or
+\item
+has at least one top-down silo cause
+and no bottom-up silo causes; or
+\item
+has at least one bottom-up silo cause
+and no top-down silo causes.
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
 
 \begin{theorem}
 \label{t:silo-telluric-prefix}
@@ -3934,6 +3981,9 @@ so that
 \eqref{eq:def-nulling-dot-convention-5}
 is equivalent to
 \eqref{eq:def-nulling-dot-convention-3}.
+The ``vanished'' nulling symbols are kept as reminder of the rules used,
+so their inclusion in a derivation step is optional ---
+a matter of presentation.
 
 \begin{definition}
 \label{def:silo-layer-equivalent}
