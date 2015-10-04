@@ -3860,7 +3860,7 @@ there must be a telluric symbol before \Vloc{k}.
 Therefore, without loss of generality, a silo layer is
 \begin{equation}
 \label{eq:no-silo-at-0-10}
-\big[ [ \Vsym{A} \de \Vstr{pre} \Vsym{tell} \mydot \Vstr{nulls} ], \Vloc{i}, \Vloc{k} \big] \\
+\big[ [ \Vsym{A} \de \Vstr{pre} \Vsym{tell} \mydot \Vstr{nulls} ], \Vloc{i}, \Vloc{k} \big]
 \end{equation}
 for some \Vloc{i},
 and some rule
@@ -3935,9 +3935,65 @@ so that
 is equivalent to
 \eqref{eq:def-nulling-dot-convention-3}.
 
-To do this, it is convenient to add a new element
-to our location marker notation.
-We 
+\begin{definition}
+\label{def:silo-layer-equivalent}
+\dtitle{Silo layer and derivation move equivalents}
+We now define the \dfn{silo layer equivalent} of a derivation move,
+and the \dfn{derivation move equivalent} of a silo layer.
+For the purposes of this definition,
+We will call the symbol before the dot in a derivation step,
+its predot symbol.
+The predot symbol of a derivation step is closely related to
+the predot symbol of a silo layer.
+Call the predot symbol, \Vsym{A}.
+In order for these definitions to be without loss of generality,
+we \Vstr{nulls} be a
+strings of nulls before \Vloc{k},
+so that
+$\Vstr{nulls} \destar \epsilon$.
+
+If \Vsym{A} is nulling,
+and a derivation move is
+\begin{equation}
+\label{eq:silo-layer-equivalent-15}
+\Vmk{i} \Vstr{pre-A} \Vsym{A} \mydot \Vstr{nulls} \Vmk{k}
+\derives \Vmk{i} \Vstr{pre-A} \mydot \Vsym{A} \Vstr{nulls} \Vmk{k}
+\end{equation}
+then its silo layer equivalent is
+\begin{equation}
+\label{eq:silo-layer-equivalent-18}
+\big[ [ \Vsym{A} \de \Vstr{pre-A} \mydot \Vsym{A} \Vstr{nulls} ], \Vloc{i}, \Vloc{k} \big]
+\end{equation}
+Conversely,
+if a silo layer is
+\eqref{eq:silo-layer-equivalent-18},
+then its derivation move equivalent is
+\eqref{eq:silo-layer-equivalent-15}.
+
+If \Vsym{A} is telluric,
+and a derivation move is
+\begin{equation}
+\label{eq:silo-layer-equivalent-5}
+\Vmk{i} \Vsym{A} \mydot \Vstr{nulls} \Vmk{k} \derives \Vmk{i} \Vstr{A-rhs} \mydot \Vmk{k}
+\end{equation}
+then its silo layer equivalent is
+\begin{equation}
+\label{eq:silo-layer-equivalent-8}
+\big[ [ \Vsym{A} \de \Vstr{A-rhs} \mydot ], \Vloc{i}, \Vloc{k} \big]
+\end{equation}
+Conversely,
+if a silo layer is
+\eqref{eq:silo-layer-equivalent-8},
+then its derivation move equivalent is
+\eqref{eq:silo-layer-equivalent-5}.
+Note that on the right side of
+\eqref{eq:silo-layer-equivalent-5} we
+drop \Vstr{nulls}.
+We only are interested in one rule at a time,
+and $[ \Vsym{A} \de \Vstr{A-rhs} ]$ becomes the
+rule of interest after the derivation move of
+\eqref{eq:silo-layer-equivalent-5}.
+\end{definition}
 
 TODO: Adding more silo stuff here
 
