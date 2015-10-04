@@ -3941,7 +3941,7 @@ is equivalent to
 We now define the \dfn{silo layer equivalent} of a derivation move,
 and the \dfn{derivation move equivalent} of a silo layer.
 For the purposes of this definition,
-We will call the symbol before the dot in a derivation step,
+we will call the symbol before the dot in a derivation step,
 its predot symbol.
 The predot symbol of a derivation step is closely related to
 the predot symbol of a silo layer.
@@ -3973,27 +3973,47 @@ then its derivation move equivalent is
 If \Vsym{A} is telluric,
 and a derivation move is
 \begin{equation}
-\label{eq:silo-layer-equivalent-5}
+\label{eq:silo-layer-equivalent-25}
 \Vmk{i} \Vsym{A} \mydot \Vstr{nulls} \Vmk{k} \derives \Vmk{i} \Vstr{A-rhs} \mydot \Vmk{k}
 \end{equation}
 then its silo layer equivalent is
 \begin{equation}
-\label{eq:silo-layer-equivalent-8}
+\label{eq:silo-layer-equivalent-28}
 \big[ [ \Vsym{A} \de \Vstr{A-rhs} \mydot ], \Vloc{i}, \Vloc{k} \big]
 \end{equation}
 Conversely,
 if a silo layer is
-\eqref{eq:silo-layer-equivalent-8},
-then its derivation move equivalent is
-\eqref{eq:silo-layer-equivalent-5}.
+\eqref{eq:silo-layer-equivalent-28},
+then its derivation move equivalent is,
+for some appropriate choice of \Vstr{nulls},
+\eqref{eq:silo-layer-equivalent-25}.
 Note that on the right side of
-\eqref{eq:silo-layer-equivalent-5} we
+\eqref{eq:silo-layer-equivalent-25} we
 drop \Vstr{nulls}.
 We only are interested in one rule at a time,
 and $[ \Vsym{A} \de \Vstr{A-rhs} ]$ becomes the
 rule of interest after the derivation move of
-\eqref{eq:silo-layer-equivalent-5}.
+\eqref{eq:silo-layer-equivalent-25}.
 \end{definition}
+
+\begin{theorem}
+Definition 
+\ref{def:silo-layer-equivalent} provides
+a correct derivation for every valid silo layer.
+\begin{theorem}
+
+\begin{proof}
+Silo layers must be quasi-complete EIMs,
+and examination of
+Definition 
+\ref{def:silo-layer-equivalent} shows that
+if provides a derivation move equivalent for
+every possible quasi-complete EIM whose
+right location is \Vloc{k}.
+By the definition of EIM validity,
+the derivation move will be correct if
+the silo layer is valid.
+\end{proof}
 
 TODO: Adding more silo stuff here
 
