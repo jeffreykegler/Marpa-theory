@@ -314,7 +314,7 @@ are in \dfn{early draft} stage.
 ``Early draft'' means that the author's thoughts are not well settled,
 and the sections are likely to contain inconsistencies and errors.
 Comments and corrections on early draft
-sections are not encouraged --
+sections are not encouraged ---
 the material may be already be slated for deletion,
 rewriting or rethinking.
 
@@ -565,6 +565,32 @@ states that \Vstr{x} derives \Vstr{y} in zero or more steps.
 \end{tabular}
 \end{center}
 
+The literature does not always distinguish between two
+meanings of the term ``derivation step''.
+It can sometimes means a single string in a derivation,
+and at others times means the action of one string
+deriving another.
+In this paper, we will say ``step'' to mean a single
+string in a derivation,
+and we will call the transition from one string to another,
+a \dfn{derivation move} or, when it is clear in context,
+a \dfn{move}.
+For example,
+\begin{equation}
+\label{eq:def-move-1}
+   \Vstr{x} \derives \Vstr{y},
+\end{equation}
+By ``step'' we mean
+\Vstr{x} and \Vstr{y} considered separately,
+so that there are two steps in
+\eqref{eq:def-move-1}.
+By ``move''
+we mean \eqref{eq:def-move-1} considered as a whole,
+so that
+\eqref{eq:def-move-1} is a single ``move'',
+with \Vstr{x} as its left side,
+and
+\Vstr{y} as its right side.
 
 The language of \var{g} is $\myL{\Cg}$, where
 \begin{equation}
@@ -586,7 +612,7 @@ when \Vstr{z} is an empty string of symbols,
 we will say that $\Vstr{z} \derives \epsilon$.
 
 Following Aycock and Horspool\cite{AH2002},
-all nullable symbols in grammar \Cg{} are nulling -- every symbol
+all nullable symbols in grammar \Cg{} are nulling ---
 which can derive the null string always derives the null string.
 This restriction applies only to Marpa's internal grammar.
 As explained in Section \ref{s:rewrite},
@@ -619,7 +645,7 @@ and the symbol \Vsym{A} are
   $\Vstr{left} \destar \epsilon \land \Vstr{right} \destar \epsilon$.
 \end{tabular}
 \end{center}
-We assume that a Marpa grammar is cycle-free --
+We assume that a Marpa grammar is cycle-free ---
 that none of its rules are cyclic.
 
 We say that \Vstr{desc} is a direct descendant of \Vsym{A} if
@@ -641,9 +667,9 @@ for all \Vrule{x},
 \Vsym{accept} = \LHS{\Vrule{x}} \implies \Vrule{accept} = \Vrule{x}.
 \end{multline*}
 
-We assume that every symbol is productive --
+We assume that every symbol is productive ---
 that is, that it derives a sentence.
-We assume that every symbol is accessible --
+We assume that every symbol is accessible ---
 that is, that it is derivable from the start symbol.
 
 Let the input to
@@ -1396,7 +1422,7 @@ the ethereal closure has finite time complexity.
 
 Algorithm \ref{alg:ethereal-closure}
 is not actually used by any
-of Marpa's versions --
+of Marpa's versions ---
 it is chosen because it is
 convenient for exploring the theory.
 The current Marpa implementation handles
@@ -3462,14 +3488,14 @@ all deterministic context-free grammars (DCFG's).
 (The DCFG's are the union of the
 \LRk{} grammars for all $k$.)
 He gave no details of the method he had in mind.
-Earley left the field shortly thereafter --
+Earley left the field shortly thereafter ---
 by 1973 he had earned a second Ph.D. and
 was a practicing psychotherapist in California.
 
 In the late 1980's, Joop Leo also conjectured that
 Earley's algorithm could be modified to be linear for all
 DCFG's.
-Leo was unaware of Earley's earlier conjecture --
+Leo was unaware of Earley's earlier conjecture ---
 he discovered it in the course of writing up his
 discovery.
 Leo published his method in
@@ -3501,7 +3527,7 @@ recursion at an EORR is $n$, then the EORR set contains $n$ EIM's.
 The total number of EIM's in the EORR sets
 needed for a right recursion of length $n$ is
 \[\sum_{1 \le \var{i} \le \var{n}} \var{i} = \order{\var{n}^2}.\]
-Of these EIM's, only $n$ will actually be needed --
+Of these EIM's, only $n$ will actually be needed ---
 the rest are useless.
 
 Leo's idea was to memoize the right recursions.
@@ -3883,6 +3909,38 @@ directly from Theorem
 \ref{t:silo-telluric-prefix}.
 \end{proof}
 
+We will want to translate back and forth
+between parse derivations and silo layers.
+Usually, in representing a derivation move that expands
+a nulling symbol into the empty string,
+the nulling string disappears:
+\begin{equation}
+\label{eq:def-nulling-dot-convention-3}
+    \Vmk{i} \Vstr{pre} \Vsym{null} \Vmk{k} \derives \Vmk{i} \Vsym{pre} \Vmk{k}.
+\end{equation}
+This very sensible convention is, however,
+confusing when we are trying to keep track of rules ---
+it can make the RHS hard to recognize.
+To allow us to see where the ``vanished'' nulling symbols
+were,
+we shall use a large dot:
+\begin{equation}
+\label{eq:def-nulling-dot-convention-5}
+    \Vmk{i} \Vstr{pre} \Vsym{null} \mydot \Vmk{k} \derives \Vmk{i} \Vsym{pre} \mydot \Vsym{null} \Vmk{k}.
+\end{equation}
+Symbols after the dot, but before the $\Vmk{k}$,
+have been expanded into the empty string,
+so that
+\eqref{eq:def-nulling-dot-convention-5}
+is equivalent to
+\eqref{eq:def-nulling-dot-convention-3}.
+
+To do this, it is convenient to add a new element
+to our location marker notation.
+We 
+
+TODO: Adding more silo stuff here
+
 \begin{theorem}
 \label{t:leo-silo-altitude}
 The altitude of an unmemoized quasi-confirmed
@@ -3955,7 +4013,7 @@ of Earley items.
 Leo items only memoize unambiguous (or
 deterministic) sequences,
 so that the top of the sequence can represent
-the entire sequence --
+the entire sequence ---
 the only role the other EIM's in the sequence
 play in the parse is to derive the top EIM.
 We will call these memoized sequences, Leo sequences.
@@ -4462,7 +4520,7 @@ The bottom-up causes
 in Algorithm
 \ref{alg:read-pass}
 are terminal symbol instances.
-Leo memoizations are of EIM's --
+Leo memoizations are of EIM's ---
 terminal instances are not Leo-memoized.
 
 The top-down causes
@@ -4471,7 +4529,7 @@ in Algorithm
 must be quasi-incomplete because it is the result
 of the \var{transitions} function,
 which only memoizes EIM's with a telluric postdot
-symbol --
+symbol ---
 see line
 \ref{line:memoize-transitions-20}
 in Algorithm
@@ -4644,7 +4702,7 @@ Also assume that
 Let \Veimset{reduced-base} be
 the set of
 unmemoized EIM's at \Vloc{current}
-which are reductions --
+which are reductions ---
 that is,
 EIM's whose bottom-up cause is an EIM.
 Let \Veimset{reduced-closure} be
@@ -5042,7 +5100,7 @@ From
 Theorems \ref{eq:reduction-op-correct-30},
 and \ref{eq:reduction-op-correct-50},
 we know that every iteration set is correct for
-membership in \var{reduced-closure} --
+membership in \var{reduced-closure} ---
 contains all and only the valid EIM's.
 By Theorem
 \ref{t:altitude-is-finite}
@@ -5435,12 +5493,12 @@ all EIM's in the ethereal closure of
 \Veim{base} are the product of
 a series of null scans
 and predictions.
-These operations never change the current location --
+These operations never change the current location ---
 it will always be that of \Veim{base}.
-The origin only changes if the operation is a prediction --
+The origin only changes if the operation is a prediction ---
 the origin of a predictions is the same as its current
 location.
-This remains true for the null scan of a predictions --
+This remains true for the null scan of a predictions ---
 its origin is that of its top-down cause, but since
 that top-down cause is a prediction,
 the origin is the same as if it was a prediction.
@@ -5985,7 +6043,7 @@ In other words, there will be no attempts to
 add duplicate Earley items.
 Earley's proof shows that for each attempt
 to add a duplicate,
-the causation must be different --
+the causation must be different ---
 that the EIM's causing the attempt
 differ in either their dotted
 rules or their origin.
