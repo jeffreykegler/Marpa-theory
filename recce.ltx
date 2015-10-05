@@ -151,6 +151,8 @@
 \newcommand{\ID}[1]{\mymathop{ID}(#1)}
 \newcommand{\PSL}[2]{\mymathop{PSL}[#1][#2]}
 \newcommand{\myL}[1]{\mymathop{L}(#1)}
+\newcommand{\Move}[1]{\ensuremath{\mymathop{Move}(#1)}}
+\newcommand{\Layer}[1]{\ensuremath{\mymathop{Layer}(#1)}}
 
 \newcommand\Ctables{\var{tables}}
 \newcommand\Vtables[1]{\Ctables[\alg{#1}]}
@@ -593,21 +595,6 @@ so that
 with \Vstr{x} as its left side,
 and
 \Vstr{y} as its right side.
-
-Let \var{d} be a derivation, such that
-\[
-  \el{d}{0} \derives \el{d}{1} \ldots \derives \Vel{d}{n}.
-\]
-If \var{x} is a move
-such that
-$\var{x} = \Vel{d}{i} \derives \el{d}{\Vincr{i}}$,
-\begin{alignat*}{2}
-\text{then} \quad && \Vincr{x} & \; \defined \; \el{d}{\Vincr{i}} \derives \el{d}{\var{i}+2}
-\\
-\text{and} \quad && \Vdecr{x} & \; \defined \; \el{d}{\Vdecr{i}} \derives \Vel{d}{i}.
-\end{alignat*}
-\Vincr{x} is called the \dfn{next move} of \var{x},
-and \Vdecr{x} is called the \dfn{previous move} of \var{x}.
 
 The language of \var{g} is $\myL{\Cg}$, where
 \begin{equation}
@@ -3872,9 +3859,11 @@ Every silo layer
 \item
 is a read EIM and has no silo causes; or
 \item
+is a null-scan EIM and
 has at least one top-down silo cause
 and no bottom-up silo causes; or
 \item
+is a reduction EIM and
 has at least one bottom-up silo cause
 and no top-down silo causes.
 \end{itemize}
@@ -3990,6 +3979,10 @@ a matter of presentation.
 \dtitle{Silo layer and derivation move equivalents}
 We now define the \dfn{silo layer equivalent} of a derivation move,
 and the \dfn{derivation move equivalent} of a silo layer.
+If \Veim{eim} is a silo layer,
+and \var{m} is a derivation move,
+we write \Move{eim} for the derivation move equivalent of \Veim{eim},
+and \Layer{m} for the silo layer equivalent of \var{m}.
 For the purposes of this definition,
 we will call the symbol before the dot in a derivation step,
 its predot symbol.
@@ -4044,6 +4037,15 @@ We only are interested in one rule at a time,
 and $[ \Vsym{A} \de \Vstr{A-rhs} ]$ becomes the
 rule of interest after the derivation move of
 \eqref{eq:silo-layer-equivalent-25}.
+
+In the context of a discussion of silos layers
+and their derivation move equivalents,
+a move of the form
+\eqref{eq:silo-layer-equivalent-15} is called an \dfn{ethereal move}
+and
+a move of the form
+\eqref{eq:silo-layer-equivalent-25}
+is called a \dfn{telluric move}.
 \end{definition}
 
 \begin{theorem}
@@ -4063,6 +4065,91 @@ right location is \Vloc{k}.
 By the definition of EIM validity,
 the derivation move will be correct if
 the silo layer is valid.
+\end{proof}
+
+In a context where the choice of \Vloc{k} is either clear
+or made explicit,
+let \var{d} be a rightmost derivation before \Vloc{k}, such that
+\[
+  \el{d}{0} \derives \el{d}{1} \ldots \derives \Vel{d}{n}.
+\]
+If \var{x} is a move
+such that
+$\var{x} = \Vel{d}{i} \derives \el{d}{\Vincr{i}}$,
+\begin{alignat*}{2}
+\text{then} \quad && \Vincr{x} & \; \defined \; \el{d}{\Vincr{i}} \derives \el{d}{\var{i}+2}
+\\
+\text{and} \quad && \Vdecr{x} & \; \defined \; \el{d}{\Vdecr{i}} \derives \Vel{d}{i}.
+\end{alignat*}
+\Vincr{x} is called the \dfn{next move} of \var{x},
+and \Vdecr{x} is called the \dfn{previous move} of \var{x}.
+
+For a silo we define a \dfn{move} as two consecutive layers:
+that is
+$ \big\langle \el{silo}{\Vdecr{i}}, \Vel{silo}{i} \big\rangle$,
+where \var{silo} is a silo such that
+$\Vsize{silo} > \var{i}$.
+The implied direction of a silo move is from the layer with the
+higher index to the layer with the lower index.
+We next show that
+every move in a silo
+at \Vloc{k}
+is reflected in an
+move in an equvalent rightmost derivation
+before \Vloc{k}.
+
+\begin{theorem}
+\label{t:silo-reflection}
+Let \var{silo} be a silo at location \Vloc{k}.
+Then, if $1 \le \var{i} < \Vsize{silo}$,
+\begin{equation}
+\Move{\Vel{silo}{i}} + 1 = \Move{\el{silo}{\Vdecr{i}}},
+\end{equation}
+where \Move{x} is the derivation move equivalent of silo
+layer \Veim{x} in a rightmost derivation before \Vloc{k}.
+\end{theorem}
+
+\begin{proof}
+We will look at pairs of derivation moves linked together,
+so that the right step of the first derivation move is the
+left step of the second derivation move.
+We'll call the first derivation move, the ``higher move'',
+and the second derivation move, the ``lower move''.
+
+We will consider telluric and ethereal moves separately,
+we means we will need to proceed by cases:
+\begin{itemize}
+\item a telluric higher move linked to a telluric lower move;
+\item a telluric higher move linked to an ethereal lower move;
+\item an ethereal higher move linked to a telluric lower move; and
+\item an ethereal higher move linked to an ethereal lower move.
+\end{itemize}
+
+\textbf{Telluric higher, telluric lower}:
+If both moves are telluric we write them,
+without loss of generality, as
+\begin{align}
+\label{eq:silo-reflection-10}
+  & \Vmk{i} \Vsym{A} \mydot \Vstr{nulls} \Vmk{k}
+\\
+\label{eq:silo-reflection-13}
+\derives & \Vmk{i} \Vstr{A-pre} \Vmk{j} \Vsym{B} \mydot \Vstr{nulls} \Vmk{k}
+\\
+\label{eq:silo-reflection-16}
+\derives & \Vmk{i} \Vstr{A-pre} \Vmk{j} \Vsym{B-rhs} \mydot \Vstr{nulls} \Vmk{k}, \\
+\rlap{where $\Vsym{A} \ndestar \epsilon$,
+$\Vsym{B} \ndestar \epsilon$
+and $\Vstr{nulls} \destar \epsilon$} 
+\qquad  &
+\notag
+\end{align}
+The \Vstr{nulls} in
+\eqref{eq:silo-reflection-10}
+guarantees generality ---
+the silo layer equivalent of 
+\eqref{eq:silo-reflection-10}
+must be quasi-complete but is not necessarily a completion.
+
 \end{proof}
 
 TODO: Adding more silo stuff here
