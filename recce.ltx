@@ -3527,22 +3527,28 @@ at an EORR, an \dfn{EORR set}.
 
 In \Earley,
 if the length of the right
-recursion at an EORR is $n$, then the EORR set contains $n$ EIM's.
+recursion at an EORR is \var{n}, then the EORR set contains \var{n} EIM's.
 The total number of EIM's in the EORR sets
-needed for a right recursion of length $n$ is
-\[\sum_{1 \le \var{i} \le \var{n}} \var{i} = \order{\var{n}^2}.\]
-Of these EIM's, only $n$ will actually be needed ---
+needed for a right recursion of length \var{n} is
+\[
+  \sum_{\var{i} = 1}^\var{n} \var{i} = \order{\var{n}^2}.
+\]
+Of these EIM's, only \var{n} will actually be needed ---
 the rest are useless.
 
 Leo's idea was to memoize the right recursions.
 With Leo memoization, each EORR set is represented by
 a pair of EIM's and a memo.
-There are \Oc{} Leo items per Earley set,
+There are \Oc{} Leo memos per Earley set,
 so the time and space complexity
 of an EORR set is \Oc{}.
-The time and space complexity of
+The time and space complexity of all the EORR
+sets in
 a right recursion of length \var{n} will
-be \On{}.
+be
+\[
+  \sum_{\var{i} = 1}^\var{n} 1 = \On.
+\]
 
 If, at evaluation time,
 it is desirable to expand the Leo memoizations,
@@ -3560,7 +3566,8 @@ required to expand Leo memoization
 during evaluation
 is taken into account,
 the time and space complexity of
-a right recursion remains \On{}.
+a right recursion become
+$\On{} = \On{} + \On{}$.
 
 Joop Leo showed that,
 with his modification, Earley's algorithm
@@ -3578,9 +3585,6 @@ his title.
 
 \subsection{Altitude}
 
-With right recursions in mind,
-we return to some concepts
-from Section \ref{s:earley-items}.
 In \Earley,
 a long right recursion
 created sequences of Earley items
@@ -3619,9 +3623,11 @@ We write \Alt{\Vinst{inst}} for the altitude of \Vinst{inst}.
 \label{case:def-altitude-ethereal}
 The altitude of an ethereal cause is 0.
 \item
+\label{case:def-altitude-nulling}
+The altitude of a nulling terminal symbol instance is 0.
+\item
 \label{case:def-altitude-terminal}
-The altitude of a terminal symbol instance is 0.
-This is the case whether it is nulling or telluric.
+The altitude of a telluric terminal symbol instance is 0.
 \item
 \label{case:def-altitude-start}
 The altitude of the start rule is 1.
@@ -3808,6 +3814,8 @@ Theorem \ref{t:altitude-from-telluric-base}.
 \label{t:altitude-is-finite}
 If \Veim{eim} is a valid EIM,
 its altitude is defined and finite.
+
+TODO: Redo to cover valid parse instance?
 \end{theorem}
 
 \begin{proof}
@@ -3816,6 +3824,8 @@ if only the singleton that includes itself.
 So this theorem follows from
 Theorem \ref{t:ethereal-altitude}.
 \end{proof}
+
+\subsection{Silos}
 
 \begin{definition}
 \dtitle{Silo}
