@@ -15,10 +15,13 @@
 
 # See below for the list Debian packages required to 'make' this
 
+.phony: all clean
+
 all: ah2002_notes.pdf recce.pdf
 
 recce.pdf: recce.ltx
 	pdflatex $?
+	makeindex recce.idx
 
 ah2002_notes.pdf: ah2002_notes.ltx
 	pdflatex $?

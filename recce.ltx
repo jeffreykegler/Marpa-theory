@@ -1,7 +1,7 @@
 % Copyright 2015 Jeffrey Kegler
 % This document is licensed under
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
-\documentclass[12pt]{amsbook}
+\documentclass[12pt]{amsart}
 \RequirePackage[l2tabu, orthodox]{nag}
 \usepackage{ragged2e}
 \usepackage{mathtools}
@@ -151,7 +151,7 @@
 \newcommand{\ID}[1]{\mymathop{ID}(#1)}
 \newcommand{\PSL}[2]{\mymathop{PSL}[#1][#2]}
 \newcommand{\myL}[1]{\mymathop{L}(#1)}
-\newcommand{\Move}[1]{\ensuremath{\mymathop{Move}(#1)}}
+\newcommand{\Deriv}[1]{\ensuremath{\mymathop{Deriv}(#1)}}
 \newcommand{\Layer}[1]{\ensuremath{\mymathop{Layer}(#1)}}
 
 \newcommand\Ctables{\var{tables}}
@@ -169,8 +169,8 @@
 \newcommand\call[2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}}%
 
 % My macros for definition & theorem titles.
-\newcommand\dtitle[1]{\textbf{#1}:}
-\newcommand\ttitle[1]{\textbf{#1}:}
+\newcommand\dtitle[1]{\textbf{#1}:\index{definition!#1}}
+\newcommand\ttitle[1]{\textbf{#1}:\index{theorem!#1}}
 
 % I don't like to put whole paragraphs in italics,
 % so I make this simple variation on the "plain" theoremstyle
@@ -232,6 +232,7 @@
 \end{FlushLeft} }
 }
 
+\makeindex
 \begin{document}
 
 \date{\today}
@@ -1021,18 +1022,21 @@ its type is \dfn{start} dotted rule as defined above \eqref{eq:start-rule-def}.
 \end{baredefinition}
 
 \begin{baredefinition}
+\dtitle{Prediction dotted rule}
 \label{def:prediction-dr}
 If it does not have a predot symbol and it is not the start dotted rule,
 it is a \dfn{prediction} dotted rule.
 \end{baredefinition}
 
 \begin{baredefinition}
+\dtitle{Null-scan dotted rule}
 \label{def:null-scan-dr}
 If it does have a predot symbol and that symbol is a nulling terminal,
 it is a \dfn{null-scan} dotted rule.
 \end{baredefinition}
 
 \begin{baredefinition}
+\dtitle{Read dotted rule}
 \label{def:read-dr}
 If it does have a predot symbol and that symbol is a telluric terminal,
 it is a \dfn{read} dotted rule.
@@ -1040,6 +1044,7 @@ Note that in \Marpa{} all terminals are either nulling or telluric.
 \end{baredefinition}
 
 \begin{definition}
+\dtitle{Reduction dotted rule}
 \label{def:reduction-dr}
 If it does have a predot symbol and that symbol is a non-terminal
 it is a \dfn{reduction} dotted rule.
@@ -1097,6 +1102,7 @@ quasi-prediction,
 then it is a \dfn{quasi-confirmed}.
 
 \begin{theorem}
+\title{Quasi-predictions and quasi-completions are disjoint}
 \label{t:quasi-drs-disjoint}
 In Marpa grammars,
 no quasi-completion is a quasi-prediction.
@@ -1284,6 +1290,7 @@ of a dotted rule \Vdr{dr2} if and only if
 \[ \Vdr{dr2} \in \var{ethereal-dr-closure}(\lbrace \Vdr{tell} \rbrace). \]
 
 \begin{theorem}
+\ttitle{Ethereally equivalents have same telluric base}
 \label{eth-eq-share-telluric-base}
 If the dotted rules \Vdr{dr1}
 and \Vdr{dr2} are ethereally equivalent,
@@ -1351,6 +1358,7 @@ but for null-scan dotted rules the telluric base
 will be unique.
 
 \begin{theorem}
+\ttitle{Telluric base of a quasi-confirmed dotted rule is unique}
 \label{quasi-confirmed-unique-telluric-base}
 If a dotted rule is quasi-confirmed,
 its telluric base is unique.
@@ -1438,6 +1446,7 @@ while predictions are explicitly computed after
 each Earley set is otherwise complete.
 
 \begin{theorem}\label{t:ethereal-closure-Oc}
+\ttitle{Ethereal closure is constant time}
 Ethereal closure has time complexity \Oc{}.
 \end{theorem}
 
@@ -1471,6 +1480,7 @@ at most \Oc{} times.
 \end{proof}
 
 \begin{theorem}\label{t:ethereal-closure-dr-correct}
+\ttitle{Ethereal closure algorithm is correct}
 Algorithm \ref{alg:ethereal-closure} is correct.
 \end{theorem}
 
@@ -1663,6 +1673,7 @@ The \dfn{accept EIM} is
 \end{equation}
 
 \begin{theorem}
+\ttitle{Earley item types}
 \label{eim-types-correct}
 Every EIM falls into one of these
 five disjoint types:
@@ -1691,6 +1702,7 @@ ethereal dotted rules emerge out of an invisible realm.
 
 \begin{definition}
 \label{def:eim-valid}
+\dtitle{EIM Validity}
 We say that
 an Earley item
 \begin{equation*}
@@ -1706,6 +1718,7 @@ If \Veim{x} is valid, we also say \Valid{\Veim{x}}.
 \end{definition}
 
 \begin{theorem}\label{t:start-eim-is-valid}
+\ttitle{Start Earley item is valid}
 The start Earley item is valid.
 \end{theorem}
 
@@ -1804,6 +1817,7 @@ without loss of generality,
 \end{sloppypar}
 
 \begin{definition}
+\dtitle{Causes}
 \label{def:causes}
 We first consider an Earley item
 with a predot symbol instance.
@@ -1885,6 +1899,7 @@ If \Vsym{N} is a non-terminal symbol,
 \end{equation}
 
 \begin{theorem}
+\ttitle{Valid Earley item from non-terminal}
 \label{t:valid-eim-from-symbol}
 Let the non-terminal symbol instance
 \begin{equation}
@@ -1970,6 +1985,7 @@ is the \dfn{EIM equivalent} of
 \var{inst}.
 
 \begin{theorem}
+\ttitle{Symbolic equivalent from bottom-up Earley item}
 \label{t:valid-symbolic-equivalent-valid}
 If a bottom-up EIM cause is valid, its symbolic equivalent is valid.
 \end{theorem}
@@ -2008,6 +2024,7 @@ and are therefore not symbolic.
 All other bottom-up causes are symbolic.
 
 \begin{definition}
+\dtitle{Matching causes}
 \label{def:matching-causes}
 Let \Veim{down},
 be a top-down cause and
@@ -2028,6 +2045,7 @@ we also say that
 \end{definition}
 
 \begin{theorem}
+\ttitle{Effect from symbolic causes}
 \label{t:effect-from-symbolic-causes}
 If a symbolic bottom-up cause
 and a top-down cause match
@@ -2664,8 +2682,8 @@ of \Veim{effect}:
 \end{align*}
 
 \begin{theorem}
-\label{t:ethereal-closure}
 \ttitle{Ethereal closure properties}
+\label{t:ethereal-closure}
 Let \Veim{base} be a valid
 EIM such that
 \begin{equation}
@@ -2909,6 +2927,7 @@ and the theorem.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Location 0 Earley items}
 A EIM is valid at location 0 if and only if it
 is in the ethereal closure of the start EIM.
 \end{theorem}
@@ -2918,6 +2937,7 @@ TODO
 \end{proof}
 
 \begin{theorem}
+\ttitle{Earley item has telluric base at same location}
 \label{t:eim-has-telluric-base}
 Let \Veim{desc} be a valid EIM at location
 \Vloc{i}.
@@ -2931,6 +2951,7 @@ TODO
 \end{proof}
 
 \begin{theorem}
+\ttitle{Terminal bottom-up causes are unique}
 \label{t:terminal-cause-unique}
 Let an instance of the terminal
 \Vsym{term} be the bottom-up cause of an effect,
@@ -3001,6 +3022,7 @@ so this shows the theorem.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Multiple top-down causes make a grammar ambiguous}
 \label{t:multi-down-cause-ambiguous}
 If any Earley item has more than one top-down cause,
 the grammar is ambiguous.
@@ -3038,6 +3060,7 @@ for the reductio.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Multiple bottom-up causes make a grammar ambiguous}
 \label{t:multi-up-cause-ambiguous}
 If any Earley item has more than one bottom-up cause,
 the grammar is ambiguous.
@@ -3147,6 +3170,7 @@ and a lasting EIM is any EIM which is not
 a fleeting EIM.
 
 \begin{definition}
+\dtitle{Lasting equivalent}
 \label{def:lasting-equivalent-eim}
 Let
 \begin{equation*}
@@ -3163,6 +3187,7 @@ is the lasting equivalent of the effect of that cause.
 \end{definition}
 
 \begin{theorem}
+\ttitle{Valid EIMs have valid lasting equivalents}
 \label{t:lasting-valid-if-fleeting-valid}
 If an EIM is valid, so is its lasting equivalent.
 \end{theorem}
@@ -3367,6 +3392,7 @@ if the set of strings it accepts is exactly the set of
 strings in the language of its grammar.
 
 \begin{theorem}\label{t:algorithm-correct}
+\ttitle{Earley implementation correctness}
 If, for a given Earley implementation,
 \begin{equation}
 \label{eq:algorithm-correct-1}
@@ -3447,6 +3473,7 @@ and therefore the theorem.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Earley set size}
 \label{t:es-count}
 The size of the Earley set at \Vloc{i} is,
 worst case, $\order{\var{i}}$:
@@ -3583,6 +3610,393 @@ which is why Leo only claims
 the weaker \LRk{} bound in
 his title.
 
+\subsection{Silos}
+
+\begin{definition}
+\dtitle{Silo}
+\label{def:silo}
+An Earley item
+is \dfn{silo eligible} at \Vloc{k} if and only
+if it is quasi-complete and
+its right location is \Vloc{k}.
+We may say simply that an EIM is ``silo eligible'',
+if it is clear from context which \Vloc{k} is
+intended.
+
+We say that an EIM, call it \Veim{cuz}
+is the \dfn{silo cause} of another EIM,
+call it \Veim{effect},
+if and only if both are silo eligible at the
+same location,
+and \Veim{cuz} is a top-down or bottom-up cause
+of \Veim{effect}.
+
+A \dfn{silo} at \Vloc{k},
+call it \var{silo},
+is a sequence of EIMs that are silo-eligible at \Vloc{k},
+where
+\el{silo}{\var{i}+1} is the silo cause of
+\Vel{silo}{i}.
+\Vloc{k} is
+called the \dfn{silo location} of \var{silo}.
+\end{definition}.
+
+Note that, from 
+Definition \ref{def:silo},
+that a silo cause must be a telluric parse instance.
+A silo cause cannot be ethereal,
+or a nulling symbol parse instance.
+
+\begin{theorem}
+Every silo layer
+\begin{itemize}
+\item
+is a read EIM and
+has one bottom-up silo cause
+and no top-down silo causes; or
+\item
+is a null-scan EIM and
+has at least one top-down silo cause
+and no bottom-up silo causes; or
+\item
+is a reduction EIM and
+has at least one bottom-up silo cause
+and no top-down silo causes.
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
+\begin{theorem}
+\label{t:silo-telluric-prefix}
+Every layer of a silo at \Vloc{k} has a telluric symbol before
+\Vloc{k}.
+\end{theorem}
+
+\begin{proof}
+A silo layer must be quasi-complete,
+so that there must be a telluric symbol before \Vloc{k}.
+\end{proof}
+
+\begin{theorem}
+\label{t:no-silo-at-0}
+There are no silos at location 0.
+\end{theorem}
+
+\begin{proof}
+From theorem \ref{t:silo-telluric-prefix},
+there must be a telluric symbol before \Vloc{k}.
+Therefore, without loss of generality, a silo layer is
+\begin{equation}
+\label{eq:no-silo-at-0-10}
+\big[ [ \Vsym{A} \de \Vstr{pre} \Vsym{tell} \mydot \Vstr{nulls} ], \Vloc{i}, \Vloc{k} \big]
+\end{equation}
+for some \Vloc{i},
+and some rule
+\[
+  [ \Vsym{A} \de \Vstr{pre} \Vsym{tell} \Vstr{nulls} ] \in \Crules
+\]
+where \Vsym{tell} is telluric and $\Vsym{nulls} \destar \epsilon$.
+By the definition of EIM validity, we know that
+\begin{align}
+& \Vmk{i} \Vstr{pre} \Vsym{tell} \Vmk{k} &&
+  \text{\eqref{eq:no-silo-at-0-10}}
+\notag
+\\
+\label{eq:no-silo-at-0-16}
+\therefore \quad & \var{k} \ge \var{i} + \Vsize{\Vsym{tell}} &&
+\\
+\label{eq:no-silo-at-0-17}
+  & \Vsize{\Vsym{tell}} \ge 1 &&
+\text{\Vsym{tell} is telluric}
+\intertext{and because every parse location must be non-negative,}
+& \var{i} > 0  &&
+\notag
+\\
+\therefore \quad & \var{k} \ge 0 + \Vsize{\Vsym{tell}} &&
+\text{\eqref{eq:no-silo-at-0-16}}
+\notag
+\\
+\therefore \quad & \var{k} \ge 0 + 1 &&
+\text{\eqref{eq:no-silo-at-0-17}}
+\notag
+\\
+\label{eq:no-silo-at-0-27}
+\therefore \quad & \var{k} \ge 1 &&
+\end{align}
+\eqref{eq:no-silo-at-0-10} was stated without loss of generality,
+so that
+\eqref{eq:no-silo-at-0-27} shows the theorem.
+\end{proof}
+
+\begin{theorem}
+\label{t:silo-predot}
+Let \Vloc{k} be the location of a silo.
+Every layer of the silo has a symbol before \Vloc{k}.
+\end{theorem}
+
+\begin{proof}
+This theorem follows
+directly from Theorem
+\ref{t:silo-telluric-prefix}.
+\end{proof}
+
+We will want to translate back and forth
+between parse derivations and silo layers.
+Usually, in representing a derivation move that expands
+a nulling symbol into the empty string,
+the convention is that
+the nulling string disappears:
+\begin{equation}
+\label{eq:def-nulling-dot-convention-3}
+    \Vmk{i} \Vstr{pre} \Vsym{null} \Vmk{k} \derives \Vmk{i} \Vsym{pre} \Vmk{k}.
+\end{equation}
+This very straightforward and sensible convention is, however,
+confusing when we are trying to keep track of rules ---
+it can make the RHS of the rule of current interest
+hard to recognize.
+To allow us to see where the ``vanished'' nulling symbols
+were,
+we shall use a large dot:
+\begin{equation}
+\label{eq:def-nulling-dot-convention-5}
+    \Vmk{i} \Vstr{pre} \Vsym{null} \mydot \Vmk{k} \derives \Vmk{i} \Vsym{pre} \mydot \Vsym{null} \Vmk{k}.
+\end{equation}
+Symbols after the dot, but before the $\Vmk{k}$,
+have been expanded into the empty string,
+so that
+\eqref{eq:def-nulling-dot-convention-5}
+is equivalent to
+\eqref{eq:def-nulling-dot-convention-3}.
+The ``vanished'' nulling symbols are kept as reminder of the rules used,
+so their inclusion in a derivation step is always optional ---
+a matter of presentation.
+
+\begin{definition}
+\dtitle{Silo--derivation equivalence}
+\label{def:silo-layer-equivalent}
+\dtitle{Silo layer and derivation move equivalents}
+We now define the \dfn{silo layer equivalent} of a derivation move,
+and the \dfn{derivation move equivalent} of a silo layer.
+If \Veim{eim} is a silo layer,
+and \var{m} is a derivation move,
+we write \Deriv{\var{eim}} for the derivation move equivalent of \Veim{eim},
+and \Layer{\var{m}} for the silo layer equivalent of \var{m}.
+For the purposes of this definition,
+we will call the symbol before the dot in a derivation step,
+its predot symbol.
+The predot symbol of a derivation step is closely related to
+the predot symbol of a silo layer.
+Call the predot symbol, \Vsym{B}.
+In order for these definitions to be without loss of generality,
+we \Vstr{nulls} be a
+strings of nulls before \Vloc{k},
+so that
+$\Vstr{nulls} \destar \epsilon$.
+
+If \Vsym{A} is nulling,
+without loss of generality,
+an derivation move is
+\begin{equation}
+\label{eq:silo-layer-equivalent-15}
+\Vmk{i} \Vstr{pre-A} \Vsym{A} \mydot \Vstr{nulls} \Vmk{k}
+\derives \Vmk{i} \Vstr{pre-A} \mydot \Vsym{A} \Vstr{nulls} \Vmk{k}
+\end{equation}
+The silo layer equivalent is
+\begin{equation}
+\label{eq:silo-layer-equivalent-18}
+\big[ [ \Vsym{A} \de \Vstr{pre-A} \mydot \Vsym{A} \Vstr{nulls} ], \Vloc{i}, \Vloc{k} \big]
+\end{equation}
+Conversely,
+if a silo layer is
+\eqref{eq:silo-layer-equivalent-18},
+then its derivation move equivalent is
+\eqref{eq:silo-layer-equivalent-15}.
+
+If \Vsym{A} is telluric,
+and a derivation move is
+\begin{equation}
+\label{eq:silo-layer-equivalent-25}
+\Vmk{i} \Vsym{A} \mydot \Vstr{nulls} \Vmk{k} \derives \Vmk{i} \Vstr{A-rhs} \mydot \Vmk{k}
+\end{equation}
+then its silo layer equivalent is
+\begin{equation}
+\label{eq:silo-layer-equivalent-28}
+\big[ [ \Vsym{A} \de \Vstr{A-rhs} \mydot ], \Vloc{i}, \Vloc{k} \big]
+\end{equation}
+Conversely,
+if a silo layer is
+\eqref{eq:silo-layer-equivalent-28},
+then its derivation move equivalent is,
+for some appropriate choice of \Vstr{nulls},
+\eqref{eq:silo-layer-equivalent-25}.
+Note that on the right side of
+\eqref{eq:silo-layer-equivalent-25} we
+choose to drop \Vstr{nulls}.
+We only are interested in one rule at a time,
+and $[ \Vsym{A} \de \Vstr{A-rhs} ]$ becomes the
+rule of interest after the derivation move of
+\eqref{eq:silo-layer-equivalent-25}.
+
+In the context of a discussion of silos layers
+and their derivation move equivalents,
+a move of the form
+\eqref{eq:silo-layer-equivalent-15} is called an \dfn{ethereal move}
+and
+a move of the form
+\eqref{eq:silo-layer-equivalent-25}
+is called a \dfn{telluric move}.
+\end{definition}
+
+\begin{theorem}
+In Definition 
+\ref{def:silo-layer-equivalent},
+the derivation equivalent is correct
+for every valid silo layer.
+\end{theorem}
+
+\begin{proof}
+Silo layers must be quasi-complete EIMs,
+or telluric symbol instances.
+Examination of
+Definition 
+\ref{def:silo-layer-equivalent} shows that
+if provides a derivation move equivalent for
+every possible quasi-complete EIM whose
+right location is \Vloc{k},
+according to the definition of EIM validity.
+
+TODO: Can be more than one equivalent derivation ---
+theorem and proof must be for mutual implication.
+\end{proof}
+
+In a context where the choice of \Vloc{k} is either clear
+or made explicit,
+let \var{d} be a rightmost derivation before \Vloc{k}, such that
+\[
+  \el{d}{0} \derives \el{d}{1} \ldots \derives \Vel{d}{n}.
+\]
+If \var{x} is a move
+such that
+$\var{x} = \Vel{d}{i} \derives \el{d}{\Vincr{i}}$,
+\begin{alignat*}{2}
+\text{then} \quad && \Vincr{x} & \; \defined \; \el{d}{\Vincr{i}} \derives \el{d}{\var{i}+2}
+\\
+\text{and} \quad && \Vdecr{x} & \; \defined \; \el{d}{\Vdecr{i}} \derives \Vel{d}{i}.
+\end{alignat*}
+\Vincr{x} is called the \dfn{next move} of \var{x},
+and \Vdecr{x} is called the \dfn{previous move} of \var{x}.
+
+For a silo we define a \dfn{move} as two consecutive layers:
+that is
+$ \big\langle \el{silo}{\Vdecr{i}}, \Vel{silo}{i} \big\rangle$,
+where \var{silo} is a silo such that
+$\Vsize{silo} > \var{i}$.
+The implied direction of a silo move is from the layer with the
+higher index to the layer with the lower index.
+We next show that
+every move in a silo
+at \Vloc{k}
+is reflected in an
+move in an equvalent rightmost derivation
+before \Vloc{k}.
+
+\begin{theorem}
+\label{t:silo-reflection}
+Let \var{silo} be a silo at location \Vloc{k}.
+Then, if $1 \le \var{i} < \Vsize{silo}$,
+\begin{equation}
+\Deriv{\Vel{silo}{i}} + 1 = \Deriv{\el{silo}{\Vdecr{i}}},
+\end{equation}
+where \Deriv{\var{x}} is the derivation move equivalent of silo
+layer \Veim{x} in a rightmost derivation before \Vloc{k}.
+\end{theorem}
+
+\begin{proof}
+We will look at pairs of derivation moves linked together,
+so that the right step of the first derivation move is the
+left step of the second derivation move.
+We'll call the first derivation move, the ``higher move'',
+and the second derivation move, the ``lower move''.
+
+We will consider telluric and ethereal moves separately,
+we means we will need to proceed by cases:
+\begin{itemize}
+\item a telluric higher move linked to a telluric lower move;
+\item a telluric higher move linked to an ethereal lower move;
+\item an ethereal higher move linked to a telluric lower move; and
+\item an ethereal higher move linked to an ethereal lower move.
+\end{itemize}
+
+\textbf{Telluric higher, telluric lower}:
+If both moves are telluric we write them,
+without loss of generality, as
+\begin{align}
+\label{eq:silo-reflection-10}
+  & \Vmk{i} \Vsym{A} \mydot \Vstr{nulls} \Vmk{k}
+\\
+\label{eq:silo-reflection-13}
+\derives & \Vmk{i} \Vstr{A-pre} \Vmk{j} \Vsym{B} \mydot \Vstr{nulls} \Vmk{k}
+\\
+\label{eq:silo-reflection-16}
+\derives & \Vmk{i} \Vstr{A-pre} \Vmk{j} \Vsym{B-rhs} \mydot \Vstr{nulls} \Vmk{k}, \\
+\rlap{where $\Vsym{A} \ndestar \epsilon$,
+$\Vsym{B} \ndestar \epsilon$
+and $\Vstr{nulls} \destar \epsilon$} 
+\qquad  &
+\notag
+\end{align}
+The \Vstr{nulls} in
+\eqref{eq:silo-reflection-10}
+guarantees generality ---
+the silo layer equivalent of 
+\eqref{eq:silo-reflection-10}
+must be quasi-complete but is not necessarily a completion.
+
+\end{proof}
+
+TODO: Adding more silo stuff here
+
+\begin{theorem}
+\label{t:leo-silo-altitude}
+The altitude of an unmemoized quasi-confirmed
+EIM is one plus that of the
+most recent unmemoized bottom-up cause in its silo.
+\end{theorem}
+
+\begin{proof}
+TODO: Do I need to revise this?
+
+Let \var{silo} be an altitude silo
+Let $\Veim{top} = \var{silo}[\var{n}]$
+be an unmemoized reduction.
+Let $\Veim{bottom} = \var{silo}[\var{m}]$
+be its most recent unmemoized bottom-up cause.
+This is, $\var{m} < \var{n}$,
+and where
+\[\text{$\forall\;\var{i}, \var{m} < \var{i} < \var{n}$,
+$\var{silo}[\var{i}]$ is memoized.}\]
+
+By the
+Definition \ref{def:altitude} (``altitude'')
+for
+unmemoized reductions,
+$\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\Vdecr{n}]} + 1$.
+For $\var{silo}[\var{i}], \var{m} < \var{i} < \var{n}$,
+$\var{silo}[\var{i}]$ is either a reduction or a null-scan,
+and is memoized,
+so that by the Definition \ref{def:altitude},
+$\Alt{\var{silo}[\var{i}]} = \Alt{\var{silo}[\Vdecr{i}]}$.
+Therefore
+\[\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\var{m}]} + 1\]
+and
+\begin{equation*}
+\Alt{\Veim{top}} = \Alt{\Veim{bottom}} + 1.\qedhere
+\end{equation*}
+\end{proof}
+
 \subsection{Altitude}
 
 In \Earley,
@@ -3614,6 +4028,7 @@ Note there is a definitional issue when more than one
 cause has the minimum altitude.
 
 \begin{definition}
+\dtitle{Altitude}
 \label{def:altitude}
 We write \Alt{\Vinst{inst}} for the altitude of \Vinst{inst}.
 \begin{sloppypar}
@@ -3823,383 +4238,6 @@ Every EIM is in an ethereal closure,
 if only the singleton that includes itself.
 So this theorem follows from
 Theorem \ref{t:ethereal-altitude}.
-\end{proof}
-
-\subsection{Silos}
-
-\begin{definition}
-\dtitle{Silo}
-\label{def:silo}
-An Earley item
-is \dfn{silo eligible} at \Vloc{k} if and only
-if it is quasi-complete and
-its right location is \Vloc{k}.
-We may say simply that an EIM is ``silo eligible'',
-if it is clear from context which \Vloc{k} is
-intended.
-
-We say that an EIM, call it \Veim{cuz}
-is the \dfn{silo cause} of another EIM,
-call it \Veim{effect},
-if and only if both are silo eligible at the
-same location,
-and \Veim{cuz} is a top-down or bottom-up cause
-of \Veim{effect}.
-
-A \dfn{silo} at \Vloc{k},
-call it \var{silo},
-is a sequence of EIMs that are silo-eligible at \Vloc{k},
-where
-\el{silo}{\var{i}+1} is the silo cause of
-\Vel{silo}{i}.
-\Vloc{k} is
-called the \dfn{silo location} of \var{silo}.
-\end{definition}.
-
-Note that, from 
-Definition \ref{def:silo},
-that a silo cause must be a parse instance
-with an EIM equivalent.
-A silo cause cannot be ethereal,
-or a terminal symbol parse instance.
-
-\begin{theorem}
-Every silo layer
-\begin{itemize}
-\item
-is a read EIM and has no silo causes; or
-\item
-is a null-scan EIM and
-has at least one top-down silo cause
-and no bottom-up silo causes; or
-\item
-is a reduction EIM and
-has at least one bottom-up silo cause
-and no top-down silo causes.
-\end{itemize}
-\end{theorem}
-
-\begin{proof}
-TODO
-\end{proof}
-
-\begin{theorem}
-\label{t:silo-telluric-prefix}
-Every layer of a silo at \Vloc{k} has a telluric symbol before
-\Vloc{k}.
-\end{theorem}
-
-\begin{proof}
-A silo layer must be quasi-complete,
-so that there must be a telluric symbol before \Vloc{k}.
-\end{proof}
-
-\begin{theorem}
-\label{t:no-silo-at-0}
-There are no silos at location 0.
-\end{theorem}
-
-\begin{proof}
-Let the 
-From theorem \ref{t:silo-telluric-prefix},
-there must be a telluric symbol before \Vloc{k}.
-Therefore, without loss of generality, a silo layer is
-\begin{equation}
-\label{eq:no-silo-at-0-10}
-\big[ [ \Vsym{A} \de \Vstr{pre} \Vsym{tell} \mydot \Vstr{nulls} ], \Vloc{i}, \Vloc{k} \big]
-\end{equation}
-for some \Vloc{i},
-and some rule
-\[
-  [ \Vsym{A} \de \Vstr{pre} \Vsym{tell} \Vstr{nulls} ] \in \Crules
-\]
-where \Vsym{tell} is telluric and $\Vsym{nulls} \destar \epsilon$.
-By the definition of EIM validity, we know that
-\begin{align}
-\label{eq:no-silo-at-0-15}
-& \Vmk{i} \Vstr{pre} \Vsym{tell} \Vmk{k} &&
-  \text{\eqref{eq:no-silo-at-0-10}}
-\\
-\therefore \quad & \Vsize{\Vsym{tell}} \ge 1 &&
-\text{\Vsym{tell} is telluric}
-\notag
-\\
-\label{eq:no-silo-at-0-18}
-\therefore \quad & \var{k} \ge \var{i} + \Vsize{\Vsym{tell}} &&
-\text{\eqref{eq:no-silo-at-0-15}}
-\intertext{and because every parse location must be non-negative,}
-& \var{i} > 0  &&
-\notag
-\\
-\therefore \quad & \var{k} \ge 0 + 1 &&
-\text{\eqref{eq:no-silo-at-0-18}}
-\notag
-\\
-\label{eq:no-silo-at-0-27}
-\therefore \quad & \var{k} \ge 1 &&
-\end{align}
-\eqref{eq:no-silo-at-0-10} was stated without loss of generality,
-so that
-\eqref{eq:no-silo-at-0-27} shows the theorem.
-\end{proof}
-
-\begin{theorem}
-\label{t:silo-predot}
-Let \Vloc{k} be the location of a silo.
-Every layer of the silo has a symbol before \Vloc{k}.
-\end{theorem}
-
-\begin{proof}
-This theorem follows
-directly from Theorem
-\ref{t:silo-telluric-prefix}.
-\end{proof}
-
-We will want to translate back and forth
-between parse derivations and silo layers.
-Usually, in representing a derivation move that expands
-a nulling symbol into the empty string,
-the nulling string disappears:
-\begin{equation}
-\label{eq:def-nulling-dot-convention-3}
-    \Vmk{i} \Vstr{pre} \Vsym{null} \Vmk{k} \derives \Vmk{i} \Vsym{pre} \Vmk{k}.
-\end{equation}
-This very sensible convention is, however,
-confusing when we are trying to keep track of rules ---
-it can make the RHS hard to recognize.
-To allow us to see where the ``vanished'' nulling symbols
-were,
-we shall use a large dot:
-\begin{equation}
-\label{eq:def-nulling-dot-convention-5}
-    \Vmk{i} \Vstr{pre} \Vsym{null} \mydot \Vmk{k} \derives \Vmk{i} \Vsym{pre} \mydot \Vsym{null} \Vmk{k}.
-\end{equation}
-Symbols after the dot, but before the $\Vmk{k}$,
-have been expanded into the empty string,
-so that
-\eqref{eq:def-nulling-dot-convention-5}
-is equivalent to
-\eqref{eq:def-nulling-dot-convention-3}.
-The ``vanished'' nulling symbols are kept as reminder of the rules used,
-so their inclusion in a derivation step is optional ---
-a matter of presentation.
-
-\begin{definition}
-\label{def:silo-layer-equivalent}
-\dtitle{Silo layer and derivation move equivalents}
-We now define the \dfn{silo layer equivalent} of a derivation move,
-and the \dfn{derivation move equivalent} of a silo layer.
-If \Veim{eim} is a silo layer,
-and \var{m} is a derivation move,
-we write \Move{eim} for the derivation move equivalent of \Veim{eim},
-and \Layer{m} for the silo layer equivalent of \var{m}.
-For the purposes of this definition,
-we will call the symbol before the dot in a derivation step,
-its predot symbol.
-The predot symbol of a derivation step is closely related to
-the predot symbol of a silo layer.
-Call the predot symbol, \Vsym{A}.
-In order for these definitions to be without loss of generality,
-we \Vstr{nulls} be a
-strings of nulls before \Vloc{k},
-so that
-$\Vstr{nulls} \destar \epsilon$.
-
-If \Vsym{A} is nulling,
-and a derivation move is
-\begin{equation}
-\label{eq:silo-layer-equivalent-15}
-\Vmk{i} \Vstr{pre-A} \Vsym{A} \mydot \Vstr{nulls} \Vmk{k}
-\derives \Vmk{i} \Vstr{pre-A} \mydot \Vsym{A} \Vstr{nulls} \Vmk{k}
-\end{equation}
-then its silo layer equivalent is
-\begin{equation}
-\label{eq:silo-layer-equivalent-18}
-\big[ [ \Vsym{A} \de \Vstr{pre-A} \mydot \Vsym{A} \Vstr{nulls} ], \Vloc{i}, \Vloc{k} \big]
-\end{equation}
-Conversely,
-if a silo layer is
-\eqref{eq:silo-layer-equivalent-18},
-then its derivation move equivalent is
-\eqref{eq:silo-layer-equivalent-15}.
-
-If \Vsym{A} is telluric,
-and a derivation move is
-\begin{equation}
-\label{eq:silo-layer-equivalent-25}
-\Vmk{i} \Vsym{A} \mydot \Vstr{nulls} \Vmk{k} \derives \Vmk{i} \Vstr{A-rhs} \mydot \Vmk{k}
-\end{equation}
-then its silo layer equivalent is
-\begin{equation}
-\label{eq:silo-layer-equivalent-28}
-\big[ [ \Vsym{A} \de \Vstr{A-rhs} \mydot ], \Vloc{i}, \Vloc{k} \big]
-\end{equation}
-Conversely,
-if a silo layer is
-\eqref{eq:silo-layer-equivalent-28},
-then its derivation move equivalent is,
-for some appropriate choice of \Vstr{nulls},
-\eqref{eq:silo-layer-equivalent-25}.
-Note that on the right side of
-\eqref{eq:silo-layer-equivalent-25} we
-choose to drop \Vstr{nulls}.
-We only are interested in one rule at a time,
-and $[ \Vsym{A} \de \Vstr{A-rhs} ]$ becomes the
-rule of interest after the derivation move of
-\eqref{eq:silo-layer-equivalent-25}.
-
-In the context of a discussion of silos layers
-and their derivation move equivalents,
-a move of the form
-\eqref{eq:silo-layer-equivalent-15} is called an \dfn{ethereal move}
-and
-a move of the form
-\eqref{eq:silo-layer-equivalent-25}
-is called a \dfn{telluric move}.
-\end{definition}
-
-\begin{theorem}
-Definition 
-\ref{def:silo-layer-equivalent} provides
-a correct derivation for every valid silo layer.
-\end{theorem}
-
-\begin{proof}
-Silo layers must be quasi-complete EIMs,
-and examination of
-Definition 
-\ref{def:silo-layer-equivalent} shows that
-if provides a derivation move equivalent for
-every possible quasi-complete EIM whose
-right location is \Vloc{k}.
-By the definition of EIM validity,
-the derivation move will be correct if
-the silo layer is valid.
-\end{proof}
-
-In a context where the choice of \Vloc{k} is either clear
-or made explicit,
-let \var{d} be a rightmost derivation before \Vloc{k}, such that
-\[
-  \el{d}{0} \derives \el{d}{1} \ldots \derives \Vel{d}{n}.
-\]
-If \var{x} is a move
-such that
-$\var{x} = \Vel{d}{i} \derives \el{d}{\Vincr{i}}$,
-\begin{alignat*}{2}
-\text{then} \quad && \Vincr{x} & \; \defined \; \el{d}{\Vincr{i}} \derives \el{d}{\var{i}+2}
-\\
-\text{and} \quad && \Vdecr{x} & \; \defined \; \el{d}{\Vdecr{i}} \derives \Vel{d}{i}.
-\end{alignat*}
-\Vincr{x} is called the \dfn{next move} of \var{x},
-and \Vdecr{x} is called the \dfn{previous move} of \var{x}.
-
-For a silo we define a \dfn{move} as two consecutive layers:
-that is
-$ \big\langle \el{silo}{\Vdecr{i}}, \Vel{silo}{i} \big\rangle$,
-where \var{silo} is a silo such that
-$\Vsize{silo} > \var{i}$.
-The implied direction of a silo move is from the layer with the
-higher index to the layer with the lower index.
-We next show that
-every move in a silo
-at \Vloc{k}
-is reflected in an
-move in an equvalent rightmost derivation
-before \Vloc{k}.
-
-\begin{theorem}
-\label{t:silo-reflection}
-Let \var{silo} be a silo at location \Vloc{k}.
-Then, if $1 \le \var{i} < \Vsize{silo}$,
-\begin{equation}
-\Move{\Vel{silo}{i}} + 1 = \Move{\el{silo}{\Vdecr{i}}},
-\end{equation}
-where \Move{x} is the derivation move equivalent of silo
-layer \Veim{x} in a rightmost derivation before \Vloc{k}.
-\end{theorem}
-
-\begin{proof}
-We will look at pairs of derivation moves linked together,
-so that the right step of the first derivation move is the
-left step of the second derivation move.
-We'll call the first derivation move, the ``higher move'',
-and the second derivation move, the ``lower move''.
-
-We will consider telluric and ethereal moves separately,
-we means we will need to proceed by cases:
-\begin{itemize}
-\item a telluric higher move linked to a telluric lower move;
-\item a telluric higher move linked to an ethereal lower move;
-\item an ethereal higher move linked to a telluric lower move; and
-\item an ethereal higher move linked to an ethereal lower move.
-\end{itemize}
-
-\textbf{Telluric higher, telluric lower}:
-If both moves are telluric we write them,
-without loss of generality, as
-\begin{align}
-\label{eq:silo-reflection-10}
-  & \Vmk{i} \Vsym{A} \mydot \Vstr{nulls} \Vmk{k}
-\\
-\label{eq:silo-reflection-13}
-\derives & \Vmk{i} \Vstr{A-pre} \Vmk{j} \Vsym{B} \mydot \Vstr{nulls} \Vmk{k}
-\\
-\label{eq:silo-reflection-16}
-\derives & \Vmk{i} \Vstr{A-pre} \Vmk{j} \Vsym{B-rhs} \mydot \Vstr{nulls} \Vmk{k}, \\
-\rlap{where $\Vsym{A} \ndestar \epsilon$,
-$\Vsym{B} \ndestar \epsilon$
-and $\Vstr{nulls} \destar \epsilon$} 
-\qquad  &
-\notag
-\end{align}
-The \Vstr{nulls} in
-\eqref{eq:silo-reflection-10}
-guarantees generality ---
-the silo layer equivalent of 
-\eqref{eq:silo-reflection-10}
-must be quasi-complete but is not necessarily a completion.
-
-\end{proof}
-
-TODO: Adding more silo stuff here
-
-\begin{theorem}
-\label{t:leo-silo-altitude}
-The altitude of an unmemoized quasi-confirmed
-EIM is one plus that of the
-most recent unmemoized bottom-up cause in its silo.
-\end{theorem}
-
-\begin{proof}
-TODO: Do I need to revise this?
-
-Let \var{silo} be an altitude silo
-Let $\Veim{top} = \var{silo}[\var{n}]$
-be an unmemoized reduction.
-Let $\Veim{bottom} = \var{silo}[\var{m}]$
-be its most recent unmemoized bottom-up cause.
-This is, $\var{m} < \var{n}$,
-and where
-\[\text{$\forall\;\var{i}, \var{m} < \var{i} < \var{n}$,
-$\var{silo}[\var{i}]$ is memoized.}\]
-
-By the
-Definition \ref{def:altitude} (``altitude'')
-for
-unmemoized reductions,
-$\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\Vdecr{n}]} + 1$.
-For $\var{silo}[\var{i}], \var{m} < \var{i} < \var{n}$,
-$\var{silo}[\var{i}]$ is either a reduction or a null-scan,
-and is memoized,
-so that by the Definition \ref{def:altitude},
-$\Alt{\var{silo}[\var{i}]} = \Alt{\var{silo}[\Vdecr{i}]}$.
-Therefore
-\[\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\var{m}]} + 1\]
-and
-\begin{equation*}
-\Alt{\Veim{top}} = \Alt{\Veim{bottom}} + 1.\qedhere
-\end{equation*}
 \end{proof}
 
 \subsection{Leo memos}
@@ -6934,8 +6972,8 @@ Klaus Wich.
 
 \end{thebibliography}
 
-\clearpage
+\printindex
+
 \tableofcontents
-\clearpage
 
 \end{document}
