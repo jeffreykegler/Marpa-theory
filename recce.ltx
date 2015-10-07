@@ -4247,6 +4247,17 @@ and
 
 \section{Leo memos}
 
+Implementation of Leo memoization
+will be considered in full detail,
+and its correctness proved,
+in Section \ref{ch:recce}.
+In this chapter, we develop the
+concepts behind Leo memoization.
+We define, at an abstract level,
+the data structures 
+that Leo memoization requires,
+and we show their basic properties.
+
 Summarizing Leo's method,
 it consists of spotting potential right recursions
 and memoizing them.
@@ -4256,37 +4267,49 @@ Potential right recursions are memoized by
 Earley set, using what Leo called
 ``transitive items''.
 In this \doc{} Leo's ``transitive items''
-will be called Leo items.
-Leo items of the form used in Leo's paper\cite{Leo1991},
-will be type \type{LEO}.
+will be called Leo memos.
 
-In each Earley set, there is at most one Leo item per symbol.
-A Leo item (LEO) is the 4-tuple
-\begin{equation*}
+Leo memos have type \type{LEO}.
+In each Earley set, there is at most one Leo memo per symbol.
+A Leo memo is the 4-tuple
+\begin{equation}
+\label{eq:def-leo-memo}
 \Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{current} ]
-\end{equation*}
+\end{equation}
 where \Vsym{transition} is the transition symbol,
-and
-\begin{equation*}
-\Veim{top} = [\Vdr{top}, \Vorig{top}]
-\end{equation*}
-is the Earley item to be added
-to a yet-to-be-determined
-Earley set
-on reductions over
-\Vsym{transition}.
-\Vleo{leo} memoizes a set of EIM's called a
-\dfn{Leo path}.
-\Veim{top} is called the \dfn{top item} of the Leo path.
+For \Vleo{leo} as in
+\eqref{eq:def-leo-memo},
+we write
+\begin{alignat*}{1}
+\Symbol{\Vleo{leo}} & = \Vsym{transition}, \\
+\DR{\Vleo{leo}} & = \Vdr{top}, \\
+\Origin{\Vleo{leo}} & = \Vorig{top} \\
+\text{and \Current{\Veim{x}}} & = \Vloc{x}.
+\end{alignat*}
+As a first approximation,
+\Vleo{leo} can be thought as saying this:
 
-Implementation of Leo memoization
-will be considered in full detail,
-and its correctness proved,
-in Section \ref{ch:recce}.
-In this section we describe we define
-the concepts and data structures that
-Leo memoization requires,
-and show their basic properties.
+``Suppose that at a location \Vloc{tbd},
+we find the following symbol instance
+\[
+  \Vinst{bottom} = \Vmk{current} \Vsym{transition} \Vmk{tbd}.
+\]
+Then we will memoize the right recursion from \Vinst{bottom} to the
+Earley item
+\[
+  \Veim{top} = \big[ \Vdr{top}, \Vorig{top}, \Vloc{tbd} \big].\text{''}
+\]
+The parse instances from \Vinst{bottom} to \Vinst{top}
+from what is called a \dfn{Leo path}.
+\Vinst{top} is always an Earley item,
+and is called the
+\xdfn{top EIM}{top EIM (of Leo path)}
+of the Leo path.
+\Vinst{bottom} is called the
+\xdfn{bottom}{bottom (of Leo path)}.
+The Leo memo may be spoken of a ``belonging to'' the Earley
+set at \Vloc{current}, although strictly an Earley set
+consists only of Earley items.
 
 We say that \Vdr{q} is a \dfn{quasi-penult}
 if and only if it is
@@ -4294,7 +4317,7 @@ if and only if it is
 \begin{split}
 & \Vdr{q} = [ \Vsym{A} \de \Vstr{before} \mydot \Vsym{B} \cat \Vstr{after} ] \\
 & \qquad \text{for some $[ \Vsym{A} \de \Vstr{before} \cat \Vsym{B} \cat \Vstr{after} ] \in \Crules$} \\
-& \qquad \qquad \text{such that $\Vstr{after} \derives \epsilon \land \Vstr{B} \nderives \epsilon$}.
+& \qquad \qquad \text{such that $\Vstr{after} \derives \epsilon$ and $\Vstr{B} \nderives \epsilon$}.
 \end{split}
 \end{equation*}
 An EIM is \dfn{postdot-unique} if its postdot symbol
@@ -4346,14 +4369,6 @@ If all penults are memoized,
 many memoizations will be performed where
 the longest potential Leo sequence is short,
 and the payoff is therefore very limited.
-
-Omission of a memoization does not affect correctness,
-so \Marpa{}'s restriction of Leo memoization
-preserves the correctness as shown in Leo\cite{Leo1991}.
-Later in this \doc{} we will
-show that this change also leaves
-the complexity results of
-Leo\cite{Leo1991} intact.
 
 \begin{theorem}
 \label{t:leo-quasi-complete}
@@ -4450,10 +4465,11 @@ cause.
 
 \begin{theorem}
 \label{t:memoized-effects}
-If an effect is unmemoized,
-all of its causes are unmemoized,
-with one possible exception:
-a non-trivial Leo top item.
+If an effect,
+other than
+a non-trivial Leo top item,
+is unmemoized,
+all of its causes are unmemoized.
 \end{theorem}
 
 \begin{proof}
@@ -4463,8 +4479,8 @@ TODO.
 \begin{theorem}
 \label{t:memoized-causes}
 If an effect is memoized,
-either it has a Leo memo,
-or its bottom-up cause is memoized.
+it is either the top EIM of a Leo memo,
+or it has a silo cause that is memoized.
 \end{theorem}
 
 \begin{proof}
@@ -4502,6 +4518,14 @@ The accept EIM is never memoized.
 \begin{proof}
 TODO.
 \end{proof}
+
+Omission of a memoization does not affect correctness,
+so \Marpa{}'s restriction of Leo memoization
+preserves the correctness as shown in Leo\cite{Leo1991}.
+Later in this \doc{} we will
+show that this change also leaves
+the complexity results of
+Leo\cite{Leo1991} intact.
 
 \begin{theorem}
 \label{t:memo-omission}
@@ -6904,7 +6928,7 @@ and Theorem \ref{t:ambiguous-tries}.
 \chapter{Acknowledgements}
 \label{ch:Acknowledgements}
 
-Ruslan Shvedov and
+Ruslan Schvedov and
 Ruslan Zakirov
 made many useful suggestions
 that are incorporated in this paper.
@@ -6913,7 +6937,7 @@ have helped me in many ways,
 and it is risky
 to single out one of them.
 But Ron Savage has been unstinting in
-his support.
+is support.
 
 \bibliographystyle{plain}
 
