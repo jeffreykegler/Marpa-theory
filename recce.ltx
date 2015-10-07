@@ -2,7 +2,7 @@
 % This document is licensed under
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
 \documentclass[12pt]{amsbook}
-\RequirePackage[l2tabu, orthodox]{nag}
+% \RequirePackage[l2tabu, orthodox]{nag}
 \usepackage{ragged2e}
 \usepackage{mathtools}
 \usepackage{amssymb}
@@ -465,14 +465,14 @@ This \doc{} will
 use subscripts to indicate commonly occurring types.
 \begin{center}
 \begin{tabular}{ll}
-$\var{X}_T$ & The variable \var{X} of type $T$ \\
-$\var{set-one}_\set{T}$ & The variable \var{set-one} of type set of $T$ \\
-$SYM$ & The type for a symbol \\
-$STR$ & The type for a string \\
-$EIM$ & The type for an Earley item \\
-\sym{\var{a}} & A variable \var{a} of type $SYM$ \\
-\str{\var{a}} & A variable \var{a} of type $STR$ \\
-\Veim{\var{a}} & A variable \var{a} of type $EIM$ \\
+$\var{X}_T$ & The variable \var{X} of type \type{T} \\
+$\var{set-one}_\set{T}$ & The variable \var{set-one} of type set of \type{T} \\
+\type{SYM} & The type for a symbol \\
+\type{STR} & The type for a string \\
+\type{EIM} & The type for an Earley item \\
+\sym{\var{a}} & A variable \var{a} of type \type{SYM} \\
+\str{\var{a}} & A variable \var{a} of type \type{STR} \\
+\Veim{\var{a}} & A variable \var{a} of type \type{EIM} \\
 \Vsymset{set-two} & The variable \var{set-two}, a set of strings \\
 \Veimset{set-two} & The variable \var{set-two}, a set of Earley items
 \end{tabular}
@@ -3514,13 +3514,12 @@ the maximum size of Earley set \Vloc{i} is therefore
 
 \section{The history of a conjecture}
 
-On page 60 of the
-first publication describing his new algorithm\cite{Earley1968},
-Jay Earley conjectured that \Earley{} could be
+Jay Earley\cite[p. 60]{Earley1968}
+conjectured that \Earley{} could be
 modified to be \On{} for
 all deterministic context-free grammars (DCFG's).
 (The DCFG's are the union of the
-\LRk{} grammars for all $k$.)
+\LRk{} grammars for all \var{k}.)
 He gave no details of the method he had in mind.
 Earley left the field shortly thereafter ---
 by 1973 he had earned a second Ph.D. and
@@ -3529,14 +3528,14 @@ was a practicing psychotherapist in California.
 In the late 1980's, Joop Leo also conjectured that
 Earley's algorithm could be modified to be linear for all
 DCFG's.
-Leo was unaware of Earley's earlier conjecture ---
+Leo was initially unaware of Earley's earlier conjecture ---
 he discovered it in the course of writing up his
 discovery.
 Leo published his method in
 \cite{Leo1991}.
 
 The problem both invesigators noticed was that,
-while the algorithm of \cite{Earley1970} is \On{}
+while \Earley{} is \On{}
 for left recursion,
 and in fact very efficient,
 it is $\order{\var{n}^2}$ for right recursion.
@@ -3622,17 +3621,24 @@ An Earley item
 is \dfn{silo eligible} at \Vloc{k} if and only
 if it is quasi-complete and
 its right location is \Vloc{k}.
-We may say simply that an EIM is ``silo eligible'',
-if it is clear from context which \Vloc{k} is
+intended.
+A symbol instance is 
+is \dfn{silo eligible} at \Vloc{k} if and only
+if it is telluric and
+its right location is \Vloc{k}.
+We write ``silo eligible'' instead of 
+``silo eligible at \var{k}''
+when
+it is clear from context which \Vloc{k} is
 intended.
 
-We say that an EIM, call it \Veim{cuz}
-is the \dfn{silo cause} of another EIM,
-call it \Veim{effect},
+We say that an parse instance, call it \Vinst{cuz}
+is the \dfn{silo cause} of another parse instance,
+call it \Vinst{effect},
 if and only if both are silo eligible at the
 same location,
-and \Veim{cuz} is a top-down or bottom-up cause
-of \Veim{effect}.
+and \Vinst{cuz} is a top-down or bottom-up cause
+of \Vinst{effect}.
 
 A \dfn{silo} at \Vloc{k},
 call it \var{silo},
@@ -3642,7 +3648,7 @@ where
 \Vel{silo}{i}.
 \Vloc{k} is
 called the \dfn{silo location} of \var{silo}.
-\end{definition}.
+\end{definition}
 
 Note that, from 
 Definition \ref{def:silo},
@@ -3962,44 +3968,6 @@ must be quasi-complete but is not necessarily a completion.
 
 TODO: Adding more silo stuff here
 
-\begin{theorem}
-\label{t:leo-silo-altitude}
-The altitude of an unmemoized quasi-confirmed
-EIM is one plus that of the
-most recent unmemoized bottom-up cause in its silo.
-\end{theorem}
-
-\begin{proof}
-TODO: Do I need to revise this?
-
-Let \var{silo} be an altitude silo
-Let $\Veim{top} = \var{silo}[\var{n}]$
-be an unmemoized reduction.
-Let $\Veim{bottom} = \var{silo}[\var{m}]$
-be its most recent unmemoized bottom-up cause.
-This is, $\var{m} < \var{n}$,
-and where
-\[\text{$\forall\;\var{i}, \var{m} < \var{i} < \var{n}$,
-$\var{silo}[\var{i}]$ is memoized.}\]
-
-By the
-Definition \ref{def:altitude} (``altitude'')
-for
-unmemoized reductions,
-$\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\Vdecr{n}]} + 1$.
-For $\var{silo}[\var{i}], \var{m} < \var{i} < \var{n}$,
-$\var{silo}[\var{i}]$ is either a reduction or a null-scan,
-and is memoized,
-so that by the Definition \ref{def:altitude},
-$\Alt{\var{silo}[\var{i}]} = \Alt{\var{silo}[\Vdecr{i}]}$.
-Therefore
-\[\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\var{m}]} + 1\]
-and
-\begin{equation*}
-\Alt{\Veim{top}} = \Alt{\Veim{bottom}} + 1.\qedhere
-\end{equation*}
-\end{proof}
-
 \section{Altitude}
 
 In \Earley,
@@ -4008,10 +3976,10 @@ created sequences of Earley items
 at every EORR.
 The EIM's in each EORR set formed chains.
 Within these chains, each EIM caused the next one.
-
 We will now investigate, in some detail,
 the cause-and-effect relationships of EIM's
 at a single parse location.
+
 From Section \ref{ch:earley-items},
 we recall the idea of
 top-down and bottom-up causes.
@@ -4025,10 +3993,6 @@ their top-down causes.
 We will begin our investigation by defining
 the concept of parse instance
 ``altitude'' in terms of EIM causes and effects.
-
-TODO: Do I need the concept of altitude cause?
-Note there is a definitional issue when more than one
-cause has the minimum altitude.
 
 \begin{definition}
 \dtitle{Altitude}
@@ -4241,6 +4205,44 @@ Every EIM is in an ethereal closure,
 if only the singleton that includes itself.
 So this theorem follows from
 Theorem \ref{t:ethereal-altitude}.
+\end{proof}
+
+\begin{theorem}
+\label{t:leo-silo-altitude}
+The altitude of an unmemoized quasi-confirmed
+EIM is one plus that of the
+most recent unmemoized bottom-up cause in its silo.
+\end{theorem}
+
+\begin{proof}
+TODO: Do I need to revise this?
+
+Let \var{silo} be an altitude silo
+Let $\Veim{top} = \var{silo}[\var{n}]$
+be an unmemoized reduction.
+Let $\Veim{bottom} = \var{silo}[\var{m}]$
+be its most recent unmemoized bottom-up cause.
+This is, $\var{m} < \var{n}$,
+and where
+\[\text{$\forall\;\var{i}, \var{m} < \var{i} < \var{n}$,
+$\var{silo}[\var{i}]$ is memoized.}\]
+
+By the
+Definition \ref{def:altitude} (``altitude'')
+for
+unmemoized reductions,
+$\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\Vdecr{n}]} + 1$.
+For $\var{silo}[\var{i}], \var{m} < \var{i} < \var{n}$,
+$\var{silo}[\var{i}]$ is either a reduction or a null-scan,
+and is memoized,
+so that by the Definition \ref{def:altitude},
+$\Alt{\var{silo}[\var{i}]} = \Alt{\var{silo}[\Vdecr{i}]}$.
+Therefore
+\[\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\var{m}]} + 1\]
+and
+\begin{equation*}
+\Alt{\Veim{top}} = \Alt{\Veim{bottom}} + 1.\qedhere
+\end{equation*}
 \end{proof}
 
 \section{Leo memos}
