@@ -774,6 +774,32 @@ composed in the same way as derivations without them,
 as long as the location markers in the combined
 derivation are consistent.
 
+Location-marked derivations allow subsequent steps
+of derivations to be simplified
+to focus on the part of the derivation that is of interest.
+That is,
+if in the derivation
+\begin{multline}
+\label{eq:def-derivation-simplification-10}
+\Vstr{pre-stuff} \Vmk{i} \Vsym{B} \Vmk{j} \Vstr{post-stuff} \\
+\derives
+\Vstr{pre-stuff} \Vmk{i} \Vsym{B-rhs} \Vmk{j} \Vstr{post-stuff}
+\end{multline}
+\Vstr{pre-stuff} and \Vstr{post-stuff} are not of interest,
+we will write
+\eqref{eq:def-derivation-simplification-10}
+as
+\begin{equation*}
+\Vstr{pre-stuff} \Vmk{i} \Vsym{B} \Vmk{j} \Vstr{post-stuff}
+\derives
+\Vmk{i} \Vsym{B-rhs} \Vmk{j}.
+\end{equation*}
+Where nulling symbols are involved in a derivation,
+derivation simplification can be confused with the
+expansion of a nulled symbol into the empty string.
+Where confusion is possible,
+we will make it clear in context which semantics is intended.
+
 In this \doc{},
 \Earley{} will refer to the Earley's original
 recognizer\cite{Earley1970}.
@@ -1708,16 +1734,32 @@ ethereal dotted rules emerge out of an invisible realm.
 \dtitle{EIM Validity}
 We say that
 an Earley item
-\begin{equation*}
+\begin{equation}
+\label{eq:def-eim-valid-5}
 \bigl[[\Vsym{A} \de \Vstr{predot} \mydot \Vstr{postdot}], \var{i}, \var{j} \bigr]
-\end{equation*}
+\end{equation}
 is \dfn{valid}
 if and only if
 \begin{equation}
-\label{eq:eim-valid-def}
+\label{eq:def-eim-valid-10}
 \Vsym{A} \derives [\var{i}]\, \Vstr{predot} \,[\var{j}]\, \Vstr{postdot}.
 \end{equation}
 If \Veim{x} is valid, we also say \Valid{\Veim{x}}.
+\eqref{eq:def-eim-valid-10}
+is called the
+\dfn{derivation validity equivalent},
+of \eqref{eq:def-eim-valid-5}.
+\eqref{eq:def-eim-valid-5}
+is called either the
+\dfn{parse instance validity equivalent}
+or the \dfn{EIM validity equivalent}
+of \eqref{eq:def-eim-valid-10}.
+When it is clear in context,
+we will use a more simple term,
+\dfn{validity equivalent}, for
+a derivation validity equivalent,
+a EIM validity equivalent,
+or a parse instance validity equivalent,
 \end{definition}
 
 \begin{theorem}\label{t:start-eim-is-valid}
@@ -1888,18 +1930,54 @@ We now extend the concept of validity to other types of
 causes.
 An ethereal cause is always valid.
 If \Vsym{T} is a telluric terminal symbol,
+we say that
 \begin{equation}
-\label{eq:def-terminal-validity}
-\Valid{[\var{i}]\, \Vsym{T} \,[\var{j}]} \quad \defined \quad
+\label{eq:def-terminal-validity-10}
+[\var{i}]\, \Vsym{T} \,[\var{j}]
+\end{equation}
+is valid if and only if
+\begin{equation}
+\label{eq:def-terminal-validity-15}
 \Vsym{T} = \CVw{i} \; \land \; \var{j} = \var{i} + 1.
 \end{equation}
+\eqref{eq:def-terminal-validity-10}
+is considered to be the
+\dfn{derivation validity equivalent}
+of itself.
+When it is clear in context,
+we will also call 
+\eqref{eq:def-terminal-validity-10}
+the \dfn{validity equivalent} of itself.
+
 If \Vsym{N} is a non-terminal symbol,
+we say that
 \begin{equation}
-\label{eq:def-non-terminal-validity}
-\Valid{[\var{i}]\, \Vsym{N} \,[\var{j}]}
-\quad \defined \quad
+\label{eq:def-non-terminal-validity-10}
+[\var{i}]\, \Vsym{N} \,[\var{j}]
+\end{equation}
+is valid if and only if
+\begin{equation}
+\label{eq:def-non-terminal-validity-15}
 \Vsym{N} \deplus \var{w}[\var{i}, (\var{j} \subtract 1)].
 \end{equation}
+\eqref{eq:def-non-terminal-validity-15}
+is called the
+\dfn{derivation validity equivalent}
+of \eqref{eq:def-non-terminal-validity-10}.
+\eqref{eq:def-non-terminal-validity-10}
+is called the
+\dfn{parse instance validity equivalent}
+of \eqref{eq:def-non-terminal-validity-15}.
+As a special case,
+\eqref{eq:def-non-terminal-validity-10}
+is also considered to be the
+\dfn{derivation validity equivalent},
+of itself.
+When it is clear in context,
+we will use the term,
+\dfn{validity equivalent},
+for either a derivation validity equivalent,
+or an parse instance validity equivalent.
 
 \begin{theorem}
 \ttitle{Valid Earley item from non-terminal}
@@ -1948,7 +2026,7 @@ we have
 \end{alignat*}
 If,
 in the definition of EIM validity
-\eqref{eq:eim-valid-def},
+\eqref{eq:def-eim-valid-10},
 we set the predot string to
 \Vstr{rhs},
 the postdot string to $\epsilon$,
@@ -3623,7 +3701,7 @@ if it is quasi-complete and
 its right location is \Vloc{k}.
 intended.
 A symbol instance is 
-is \dfn{silo eligible} at \Vloc{k} if and only
+\dfn{silo eligible} at \Vloc{k} if and only
 if it is telluric and
 its right location is \Vloc{k}.
 We write ``silo eligible'' instead of 
@@ -3644,8 +3722,8 @@ A \dfn{silo} at \Vloc{k},
 call it \var{silo},
 is a sequence of EIMs that are silo-eligible at \Vloc{k},
 where
-\el{silo}{\var{i}+1} is the silo cause of
-\Vel{silo}{i}.
+\Vel{silo}{\var{i}} is the silo cause of
+\el{silo}{\Vincr{i}}.
 \Vloc{k} is
 called the \dfn{silo location} of \var{silo}.
 \end{definition}
@@ -3783,187 +3861,23 @@ The ``vanished'' nulling symbols are kept as reminder of the rules used,
 so their inclusion in a derivation step is always optional ---
 a matter of presentation.
 
-\begin{definition}
-\dtitle{Silo--derivation equivalence}
-\label{def:silo-layer-equivalent}
-\dtitle{Silo layer and derivation move equivalents}
-We now define the \dfn{silo layer equivalent} of a derivation move,
-and the \dfn{derivation move equivalent} of a silo layer.
-If \Veim{eim} is a silo layer,
-and \var{m} is a derivation move,
-we write \Deriv{\var{eim}} for the derivation move equivalent of \Veim{eim},
-and \Layer{\var{m}} for the silo layer equivalent of \var{m}.
-For the purposes of this definition,
-we will call the symbol before the dot in a derivation step,
-its predot symbol.
-The predot symbol of a derivation step is closely related to
-the predot symbol of a silo layer.
-Call the predot symbol, \Vsym{B}.
-In order for these definitions to be without loss of generality,
-we \Vstr{nulls} be a
-strings of nulls before \Vloc{k},
-so that
-$\Vstr{nulls} \destar \epsilon$.
-
-If \Vsym{A} is nulling,
-without loss of generality,
-an derivation move is
-\begin{equation}
-\label{eq:silo-layer-equivalent-15}
-\Vmk{i} \Vstr{pre-A} \Vsym{A} \mydot \Vstr{nulls} \Vmk{k}
-\derives \Vmk{i} \Vstr{pre-A} \mydot \Vsym{A} \Vstr{nulls} \Vmk{k}
-\end{equation}
-The silo layer equivalent is
-\begin{equation}
-\label{eq:silo-layer-equivalent-18}
-\big[ [ \Vsym{A} \de \Vstr{pre-A} \mydot \Vsym{A} \Vstr{nulls} ], \Vloc{i}, \Vloc{k} \big]
-\end{equation}
-Conversely,
-if a silo layer is
-\eqref{eq:silo-layer-equivalent-18},
-then its derivation move equivalent is
-\eqref{eq:silo-layer-equivalent-15}.
-
-If \Vsym{A} is telluric,
-and a derivation move is
-\begin{equation}
-\label{eq:silo-layer-equivalent-25}
-\Vmk{i} \Vsym{A} \mydot \Vstr{nulls} \Vmk{k} \derives \Vmk{i} \Vstr{A-rhs} \mydot \Vmk{k}
-\end{equation}
-then its silo layer equivalent is
-\begin{equation}
-\label{eq:silo-layer-equivalent-28}
-\big[ [ \Vsym{A} \de \Vstr{A-rhs} \mydot ], \Vloc{i}, \Vloc{k} \big]
-\end{equation}
-Conversely,
-if a silo layer is
-\eqref{eq:silo-layer-equivalent-28},
-then its derivation move equivalent is,
-for some appropriate choice of \Vstr{nulls},
-\eqref{eq:silo-layer-equivalent-25}.
-Note that on the right side of
-\eqref{eq:silo-layer-equivalent-25} we
-choose to drop \Vstr{nulls}.
-We only are interested in one rule at a time,
-and $[ \Vsym{A} \de \Vstr{A-rhs} ]$ becomes the
-rule of interest after the derivation move of
-\eqref{eq:silo-layer-equivalent-25}.
-
-In the context of a discussion of silos layers
-and their derivation move equivalents,
-a move of the form
-\eqref{eq:silo-layer-equivalent-15} is called an \dfn{ethereal move}
-and
-a move of the form
-\eqref{eq:silo-layer-equivalent-25}
-is called a \dfn{telluric move}.
-\end{definition}
-
-\begin{theorem}
-In Definition 
-\ref{def:silo-layer-equivalent},
-the derivation equivalent is correct
-for every valid silo layer.
-\end{theorem}
-
-\begin{proof}
-Silo layers must be quasi-complete EIMs,
-or telluric symbol instances.
-Examination of
-Definition 
-\ref{def:silo-layer-equivalent} shows that
-if provides a derivation move equivalent for
-every possible quasi-complete EIM whose
-right location is \Vloc{k},
-according to the definition of EIM validity.
-
-TODO: Can be more than one equivalent derivation ---
-theorem and proof must be for mutual implication.
-\end{proof}
-
-In a context where the choice of \Vloc{k} is either clear
-or made explicit,
-let \var{d} be a rightmost derivation before \Vloc{k}, such that
-\[
-  \el{d}{0} \derives \el{d}{1} \ldots \derives \Vel{d}{n}.
-\]
-If \var{x} is a move
-such that
-$\var{x} = \Vel{d}{i} \derives \el{d}{\Vincr{i}}$,
-\begin{alignat*}{2}
-\text{then} \quad && \Vincr{x} & \; \defined \; \el{d}{\Vincr{i}} \derives \el{d}{\var{i}+2}
-\\
-\text{and} \quad && \Vdecr{x} & \; \defined \; \el{d}{\Vdecr{i}} \derives \Vel{d}{i}.
-\end{alignat*}
-\Vincr{x} is called the \dfn{next move} of \var{x},
-and \Vdecr{x} is called the \dfn{previous move} of \var{x}.
-
-For a silo we define a \dfn{move} as two consecutive layers:
-that is
-$ \big\langle \el{silo}{\Vdecr{i}}, \Vel{silo}{i} \big\rangle$,
-where \var{silo} is a silo such that
-$\Vsize{silo} > \var{i}$.
-The implied direction of a silo move is from the layer with the
-higher index to the layer with the lower index.
-We next show that
-every move in a silo
-at \Vloc{k}
-is reflected in an
-move in an equvalent rightmost derivation
-before \Vloc{k}.
-
 \begin{theorem}
 \label{t:silo-reflection}
-Let \var{silo} be a silo at location \Vloc{k}.
-Then, if $1 \le \var{i} < \Vsize{silo}$,
-\begin{equation}
-\Deriv{\Vel{silo}{i}} + 1 = \Deriv{\el{silo}{\Vdecr{i}}},
-\end{equation}
-where \Deriv{\var{x}} is the derivation move equivalent of silo
-layer \Veim{x} in a rightmost derivation before \Vloc{k}.
+Let
+\Vel{silo}{i}, \el{silo}{\Vincr{i}},
+be two silo layers,
+where \var{d1} is the derivation equivalent
+of \Vel{silo}{i}
+and \var{d2} is the derivation equivalent
+and \el{silo}{\Vincr{i}}.
+Then
+\begin{equation*}
+\var{d1} \destar \var{v2}
+\end{equation*}
 \end{theorem}
 
 \begin{proof}
-We will look at pairs of derivation moves linked together,
-so that the right step of the first derivation move is the
-left step of the second derivation move.
-We'll call the first derivation move, the ``higher move'',
-and the second derivation move, the ``lower move''.
-
-We will consider telluric and ethereal moves separately,
-we means we will need to proceed by cases:
-\begin{itemize}
-\item a telluric higher move linked to a telluric lower move;
-\item a telluric higher move linked to an ethereal lower move;
-\item an ethereal higher move linked to a telluric lower move; and
-\item an ethereal higher move linked to an ethereal lower move.
-\end{itemize}
-
-\textbf{Telluric higher, telluric lower}:
-If both moves are telluric we write them,
-without loss of generality, as
-\begin{align}
-\label{eq:silo-reflection-10}
-  & \Vmk{i} \Vsym{A} \mydot \Vstr{nulls} \Vmk{k}
-\\
-\label{eq:silo-reflection-13}
-\derives & \Vmk{i} \Vstr{A-pre} \Vmk{j} \Vsym{B} \mydot \Vstr{nulls} \Vmk{k}
-\\
-\label{eq:silo-reflection-16}
-\derives & \Vmk{i} \Vstr{A-pre} \Vmk{j} \Vsym{B-rhs} \mydot \Vstr{nulls} \Vmk{k}, \\
-\rlap{where $\Vsym{A} \ndestar \epsilon$,
-$\Vsym{B} \ndestar \epsilon$
-and $\Vstr{nulls} \destar \epsilon$} 
-\qquad  &
-\notag
-\end{align}
-The \Vstr{nulls} in
-\eqref{eq:silo-reflection-10}
-guarantees generality ---
-the silo layer equivalent of 
-\eqref{eq:silo-reflection-10}
-must be quasi-complete but is not necessarily a completion.
-
+TODO
 \end{proof}
 
 TODO: Adding more silo stuff here
