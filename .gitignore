@@ -5,6 +5,8 @@ junk
 *.ltx.swp
 recce[.]aux
 recce[.]idx
+recce[.]ilg
+recce[.]ind
 recce[.]log
 recce-lr0[.]pdf
 recce[.]out
