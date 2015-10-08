@@ -1,7 +1,7 @@
 % Copyright 2015 Jeffrey Kegler
 % This document is licensed under
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
-\documentclass[12pt]{amsbook}
+\documentclass[12pt,draft]{amsbook}
 % \RequirePackage[l2tabu, orthodox]{nag}
 \usepackage{ragged2e}
 \usepackage{mathtools}
@@ -3879,6 +3879,37 @@ The ``vanished'' nulling symbols are kept as reminder of the rules used,
 so their inclusion in a derivation step is always optional ---
 a matter of presentation.
 
+\begin{lemma}
+\label{lem:silo-reflection-nt}
+Let \el{silo}{\Vincr{i}},
+\Vel{silo}{i},
+be two silo layers,
+where \Predot{\el{silo}{\Vincr{i}}} is a non-terminal.
+Also
+let \var{d1} be the derivation equivalent
+of \Vel{silo}{i}
+and
+let \var{d2} be the derivation equivalent
+of \el{silo}{\Vincr{i}}.
+Then
+\begin{equation*}
+\var{d2} \derives \var{d1}
+\end{equation*}
+in one step.
+\end{lemma}
+
+\begin{proof}
+Without loss of generality, we let
+\begin{gather*}
+\el{silo}{\Vincr{i}} = \bigl[ [\Vsym{A} \de \Vstr{pre-B} \Vsym{B} \mydot \Vstr{post-B}], \var{i}, \var{j} \bigr] \\
+\text{and
+$\Vel{silo}{i} = \bigl[[\Vsym{B} \de \Vstr{B-rhs} \mydot ], \var{i}, \var{j} \bigr]$
+}
+\end{gather*}
+
+TODO: Finish
+\end{proof}
+
 \begin{theorem}
 \label{t:silo-reflection}
 Let
@@ -3887,10 +3918,10 @@ be two silo layers,
 where \var{d1} is the derivation equivalent
 of \Vel{silo}{i}
 and \var{d2} is the derivation equivalent
-and \el{silo}{\Vincr{i}}.
+of \el{silo}{\Vincr{i}}.
 Then
 \begin{equation*}
-\var{d1} \destar \var{v2}
+\var{d1} \derives \var{d2}
 \end{equation*}
 \end{theorem}
 
