@@ -1762,6 +1762,24 @@ a EIM validity equivalent,
 or a parse instance validity equivalent,
 \end{definition}
 
+It will be useful to count the number of derivation steps
+that separate two parse instances.
+For this purpose,
+we say that derivation step of an Earley items is the
+second one in its validity equivalent.
+That is, in
+\begin{align}
+\label{eq:def-eim-step-location-10}
+& \Vsym{A} \\
+\label{eq:def-eim-step-location-15}
+\derives \; & [\var{i}]\, \Vstr{predot} \,[\var{j}]\, \Vstr{postdot}.
+\end{align}
+we will say that
+the Earley item of
+\eqref{eq:def-eim-valid-5}
+is at step
+\eqref{eq:def-eim-step-location-15}.
+
 \begin{theorem}\label{t:start-eim-is-valid}
 \ttitle{Start Earley item is valid}
 The start Earley item is valid.
@@ -4190,7 +4208,7 @@ A Leo memo is the 4-tuple
 \label{eq:def-leo-memo-10}
 \Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{current} ]
 \end{equation}
-where \Vsym{transition} is the transition symbol,
+where \Vsym{transition} is the transition symbol.
 For \Vleo{leo} as in
 \eqref{eq:def-leo-memo-10},
 we write
