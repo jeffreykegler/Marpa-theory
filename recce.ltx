@@ -29,11 +29,6 @@
 % \DeclareMathSizes{20.74}{20.74}{20.74}{20.74}
 % \DeclareMathSizes{24.88}{24.88}{24.88}{24.88}
 
-% This is now a "paper", but may be a chapter
-% or something else someday
-% This command will make any such change easier.
-\newcommand{\doc}{paper}
-
 \newcommand{\todo}[1]{\par{\large\textbf Todo: #1}\par}
 \newcommand{\mymathop}[1]{\mathop{\texttt{#1}}}
 % definitions for "elements"
@@ -434,7 +429,7 @@ treating them as highly defective HTML.
 
 Chapter
 \ref{ch:preliminaries} describes the notation and conventions
-of this \doc.
+of this document.
 Chapter \ref{ch:rewrite} deals with Marpa's
 grammar rewrites.
 The next sections develop the ideas for Earley's algorithm.
@@ -461,7 +456,7 @@ other complexity results.
 
 We assume familiarity with the theory of parsing,
 as well as Earley's algorithm.
-This \doc{} will
+This document will
 use subscripts to indicate commonly occurring types.
 \begin{center}
 \begin{tabular}{ll}
@@ -516,7 +511,7 @@ Let $\var{syms}^+$ be
 \bigr\}.
 \end{equation*}
 
-In this \doc{} we use,
+In this document we use,
 without loss of generality,
 the grammar \Cg{},
 where \Cg{} is the 4-tuple
@@ -779,34 +774,36 @@ of derivations to be simplified
 to focus on the part of the derivation that is of interest.
 That is,
 if in the derivation
-\begin{multline}
+\begin{align}
 \label{eq:def-derivation-simplification-10}
-\Vstr{pre-stuff} \Vmk{i} \Vsym{B} \Vmk{j} \Vstr{post-stuff} \\
-\derives
+& \Vstr{pre-stuff} \Vmk{i} \Vsym{B} \Vmk{j} \Vstr{post-stuff} \\
+\derives \; &
 \Vstr{pre-stuff} \Vmk{i} \Vsym{B-rhs} \Vmk{j} \Vstr{post-stuff}
-\end{multline}
+\end{align}
 \Vstr{pre-stuff} and \Vstr{post-stuff} are not of interest,
 we will write
 \eqref{eq:def-derivation-simplification-10}
 as
-\begin{equation*}
-\Vstr{pre-stuff} \Vmk{i} \Vsym{B} \Vmk{j} \Vstr{post-stuff}
-\derives
-\Vmk{i} \Vsym{B-rhs} \Vmk{j}.
-\end{equation*}
-Where nulling symbols are involved in a derivation,
+\begin{align*}
+& \Vstr{pre-stuff} \Vmk{i} \Vsym{B} \Vmk{j} \Vstr{post-stuff} \\
+\derives \; &
+\ldots \Vmk{i} \Vsym{B-rhs} \Vmk{j} \ldots.
+\end{align*}
+The dot indicate the simplifications,
+in order to avoid confusion.
+When nulling symbols are involved in a derivation,
 derivation simplification can be confused with the
 expansion of a nulled symbol into the empty string.
-Where confusion is possible,
-we will make it clear in context which semantics is intended.
+If the meaning is clear from context,
+the dots may be omitted.
 
-In this \doc{},
+In this document,
 \Earley{} will refer to the Earley's original
 recognizer\cite{Earley1970}.
 \Leo{} will refer to Leo's revision of \Earley{}
 as described in~\cite{Leo1991}.
 \Marpa{} will refer to the parser described in
-this \doc{}.
+this document.
 Where $\alg{Recce}$ is a recognizer,
 $\myL{\alg{Recce},\Cg}$ will be the language accepted by $\alg{Recce}$
 when parsing \Cg{}.
@@ -826,7 +823,7 @@ without loss of generality.
 
 Because Marpa claims to be a practical parser,
 it is important to emphasize
-that all grammar rewrites in this \doc{}
+that all grammar rewrites in this document
 are done in such a way that the semantics
 of the original grammar can be reconstructed
 simply and efficiently at evaluation time.
@@ -834,7 +831,7 @@ As implemented,
 the Marpa parser allows users to associate
 semantics with an original grammar
 that has none of the restrictions imposed
-on grammars in this \doc{}.
+on grammars in this document.
 The user of a Marpa parser
 may specify any context-free grammar,
 including one with properly nullable symbols,
@@ -1669,7 +1666,7 @@ Traditionally, an Earley item is shown as a duple,
 \[
     [\Vdr{dotted-rule}, \Vorig{x} ]
 \]
-with \Vloc{current} ommitted.
+with \Vloc{current} omitted.
 When the duple form is used,
 the current location is specified by the context,
 either explicitly or implicitly.
@@ -3753,6 +3750,8 @@ A silo cause cannot be ethereal,
 or a nulling symbol parse instance.
 
 \begin{theorem}
+\label{t:silo-causes}
+\ttitle{Silo causes}
 Every silo layer
 \begin{itemize}
 \item
@@ -3900,14 +3899,69 @@ in one step.
 
 \begin{proof}
 Without loss of generality, we let
-\begin{gather*}
-\el{silo}{\Vincr{i}} = \bigl[ [\Vsym{A} \de \Vstr{pre-B} \Vsym{B} \mydot \Vstr{post-B}], \var{i}, \var{j} \bigr] \\
-\text{and
-$\Vel{silo}{i} = \bigl[[\Vsym{B} \de \Vstr{B-rhs} \mydot ], \var{i}, \var{j} \bigr]$
-}
-\end{gather*}
+\begin{equation}
+\label{eq:lem-silo-reflection-nt-10}
+\el{silo}{\Vincr{i}} = \bigl[ [\Vsym{A} \de \Vstr{pre-B} \Vsym{B} \mydot \Vstr{post-B}], \var{a}, \var{c} \bigr],
+\end{equation}
+where, by assumption for the theorem,
+\Vsym{B} is a non-terminal.
 
-TODO: Finish
+Since \Vsym{B} is a non-terminal,
+we know from Theorem \ref{t:silo-causes},
+that \Vel{silo}{i}, its silo cause,
+is its bottom-up cause.
+From Theorem \ref{t:symbolic-causes-from-effect}, we know
+that the bottom-up cause of
+\eqref{eq:lem-silo-reflection-nt-10}
+is $\Vmk{b} \Vsym{B} \Vmk{c}$ for some \Vloc{b}.
+Since \Vsym{B} is a non-terminal, by
+Theorem \ref{t:valid-eim-from-symbol},
+it has an equivalent EIM which is,
+without loss of generality,
+\begin{equation}
+\label{eq:lem-silo-reflection-nt-12}
+\text{and
+$\Vel{silo}{i} = \bigl[[\Vsym{B} \de \Vstr{B-rhs} \mydot ], \var{b}, \var{c} \bigr]$
+}
+\end{equation}
+The validity equivalent of 
+\eqref{eq:lem-silo-reflection-nt-10}
+is
+\begin{equation}
+\label{eq:lem-silo-reflection-nt-14}
+\Vsym{A} \derives \Vmk{a} \Vstr{pre-B} \Vsym{B} \Vmk{c} \Vstr{post-B}.
+\end{equation}
+and 
+the validity equivalent of 
+\eqref{eq:lem-silo-reflection-nt-12}
+is
+\begin{equation}
+\label{eq:lem-silo-reflection-nt-16}
+\Vsym{B} \derives \Vmk{b} \Vstr{B-rhs} \Vmk{c}.
+\end{equation}
+Combining
+\eqref{eq:lem-silo-reflection-nt-14}
+and
+\eqref{eq:lem-silo-reflection-nt-16},
+we have
+\begin{align}
+& \Vsym{A} \notag \\
+\label{eq:lem-silo-reflection-nt-26}
+\derives \; & \Vmk{a} \Vstr{pre-B} \Vsym{B} \Vmk{c} \Vstr{post-B} \\
+\label{eq:lem-silo-reflection-nt-28}
+\derives \; & \ldots \Vmk{b} \Vstr{B-rhs} \Vmk{c} \ldots
+\end{align}
+Recall that our convention is to say that the derivation step of an EIM
+layer is the second step of its derivation move,
+so that the derivation step for
+\eqref{eq:lem-silo-reflection-nt-10} is at
+\eqref{eq:lem-silo-reflection-nt-26}
+and the derivation step for
+\eqref{eq:lem-silo-reflection-nt-12} is at
+\eqref{eq:lem-silo-reflection-nt-28}.
+\eqref{eq:lem-silo-reflection-nt-26} derives
+\eqref{eq:lem-silo-reflection-nt-28} in one step,
+which shows the theorem.
 \end{proof}
 
 \begin{theorem}
@@ -4229,7 +4283,7 @@ the right recursion is unambiguous.
 Potential right recursions are memoized by
 Earley set, using what Leo called
 ``transitive items''.
-In this \doc{} Leo's ``transitive items''
+In this document Leo's ``transitive items''
 will be called Leo memos.
 
 Leo memos have type \type{LEO}.
@@ -4541,7 +4595,7 @@ TODO.
 Omission of a memoization does not affect correctness,
 so \Marpa{}'s restriction of Leo memoization
 preserves the correctness as shown in Leo\cite{Leo1991}.
-Later in this \doc{} we will
+Later in this document we will
 show that this change also leaves
 the complexity results of
 Leo\cite{Leo1991} intact.
@@ -5944,7 +5998,7 @@ But neither source gives them a name.
 The term PSL
 (``per-Earley set list'')
 is new
-with this \doc{}.
+with this document.
 
 A PSL is a fixed-length array of
 integers, indexed by an integer,
@@ -6206,7 +6260,7 @@ properly nullable symbols.
 This corresponds directly
 to a grammar rewrite in the \Marpa{} implementation,
 and its reversal during \Marpa's evaluation phase.
-For the correctness and complexity proofs in this \doc{},
+For the correctness and complexity proofs in this document,
 we assume an additional rewrite,
 this time to eliminate nulling symbols.
 
