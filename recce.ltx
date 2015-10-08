@@ -4052,7 +4052,7 @@ so that
 Let \el{silo}{\var{hi}} and
 \Vel{silo}{lo}
 be two silo layers,
-such that $\var{lot} < \var{hi}$.
+such that $\var{lo} < \var{hi}$.
 Then
 \begin{equation}
 \op{Valid-eq}{\Vel{silo}{hi}} \destar
@@ -4093,7 +4093,10 @@ and the case of a non-terminal.
 
 \textbf{Telluric terminal}:
 We first consider the case
-where \Predot{\Vinst{given}} is a telluric terminal.
+where
+\begin{equation*}
+\text{\Predot{\Vinst{given}} is a telluric terminal}.
+\end{equation*}
 By Theorem \ref{t:silo-causes},
 a silo layer with a telluric terminal predot symbol
 has no silo causes.
@@ -4103,30 +4106,79 @@ This gives us
 vacuously for the case of a telluric terminal.
 
 \textbf{Nulling terminal}:
-We next consider the case
-where \Predot{\Vinst{given}} is a nulling terminal.
+We next consider the case where
+\begin{equation}
+\label{eq:silo-reflection-17}
+\text{\Predot{\Vinst{given}} is a nulling terminal}.
+\end{equation}
 Using the assumption for the step, we know that
-\begin{align}
+\begin{equation}
 \label{eq:silo-reflection-20}
-& \op{Valid-eq}{\Vel{silo}{n}} \destar
-\op{Valid-eq}{\Vinst{given}} &&
-\\
+\op{Valid-eq}{\Vel{silo}{n}} \destar
+\op{Valid-eq}{\Vinst{given}}.
+\end{equation}
+From
+\eqref{eq:silo-reflection-17}
+and Lemma \ref{lem:silo-reflection-nulling}, we know that
+\begin{equation}
 \label{eq:silo-reflection-22}
-& \op{Valid-eq}{\Vinst{given}}
+\op{Valid-eq}{\Vinst{given}}
 \derives
-\op{Valid-eq}{\Vinst{sought}} &&
-\text{Lemma \ref{lem:silo-reflection-nulling}}
-\\
+\op{Valid-eq}{\Vinst{sought}}.
+\end{equation}
+Combining
+\eqref{eq:silo-reflection-20}
+and
+\eqref{eq:silo-reflection-22},
+we have
+\begin{equation}
 \label{eq:silo-reflection-24}
-& \op{Valid-eq}{\Vel{silo}{n}}
+\op{Valid-eq}{\Vel{silo}{n}}
 \derives
-\op{Valid-eq}{\Vinst{sought}} &&
-\end{align}
+\op{Valid-eq}{\Vinst{sought}}
+\end{equation}
 \eqref{eq:silo-reflection-24} is
 \eqref{eq:silo-reflection-10} for \Vincr{i},
 giving us the case of a nulling terminal.
 
-TODO: Finish this
+\textbf{Non-terminal}:
+We now consider the case where
+\begin{equation}
+\label{eq:silo-reflection-37}
+\text{\Predot{\Vinst{given}} is a non-terminal}.
+\end{equation}
+Using the assumption for the step, we know that
+\begin{equation}
+\label{eq:silo-reflection-40}
+\op{Valid-eq}{\Vel{silo}{n}} \destar
+\op{Valid-eq}{\Vinst{given}}.
+\end{equation}
+From
+\eqref{eq:silo-reflection-17}
+and Lemma \ref{lem:silo-reflection-nt}, we know that
+\begin{equation}
+\label{eq:silo-reflection-42}
+\op{Valid-eq}{\Vinst{given}}
+\derives
+\op{Valid-eq}{\Vinst{sought}}.
+\end{equation}
+Combining
+\eqref{eq:silo-reflection-40}
+and
+\eqref{eq:silo-reflection-42},
+we have
+\begin{equation}
+\label{eq:silo-reflection-44}
+\op{Valid-eq}{\Vel{silo}{n}}
+\derives
+\op{Valid-eq}{\Vinst{sought}}
+\end{equation}
+\eqref{eq:silo-reflection-44} is
+\eqref{eq:silo-reflection-10} for \Vincr{i},
+giving us the case of a non-terminal.
+This gives us the last of our three cases,
+the step of the induction,
+and the theorem.
 \end{proof}
 
 TODO: Adding more silo stuff here
