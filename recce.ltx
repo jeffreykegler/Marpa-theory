@@ -1,7 +1,7 @@
 % Copyright 2015 Jeffrey Kegler
 % This document is licensed under
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
-\documentclass[12pt,draft]{amsbook}
+\documentclass[12pt]{amsbook}
 % \RequirePackage[l2tabu, orthodox]{nag}
 \usepackage{ragged2e}
 \usepackage{mathtools}
@@ -59,8 +59,9 @@
 % I use hyphens in variable names,
 % so I need to ensure that subtraction is
 % clearly distinguished by the typography
-\newcommand{\subtract}{\,-\,}
-\newcommand{\decr}[1]{\ensuremath{#1 \subtract 1}}
+\newcommand{\subtract}{\,{}-\,}
+\newcommand{\xxsubtract}[2]{\ensuremath{#1\,{}-\,#2}}
+\newcommand{\decr}[1]{\xxsubtract{#1}{1}}
 \newcommand{\Vdecr}[1]{\decr{\var{#1}}}
 \newcommand{\incr}[1]{\ensuremath{#1 + 1}}
 \newcommand{\Vincr}[1]{\incr{\var{#1}}}
@@ -4052,7 +4053,7 @@ so that
 Let \el{silo}{\var{hi}} and
 \Vel{silo}{lo}
 be two silo layers,
-such that $\var{lo} < \var{hi}$.
+such that $\var{lo} \le \var{hi}$.
 Then
 \begin{equation}
 \op{Valid-eq}{\Vel{silo}{hi}} \destar
@@ -4067,7 +4068,7 @@ hypothesis is
 \tag{HYP}
 \label{eq:silo-reflection-10}
 \op{Valid-eq}{\Vel{silo}{n}} \destar
-\op{Valid-eq}{\Vel{silo}{\var{n} \subtract \var{i}}}.
+\op{Valid-eq}{\Vel{silo}{\xxsubtract{\var{n}}{\var{i}}}}.
 \end{equation}
 The derivation equivalent of any silo layer derives itself,
 so we have
@@ -4081,10 +4082,10 @@ for \var{i} to show
 \eqref{eq:silo-reflection-10}
 for \Vincr{i}.
 Let
-% \begin{gather*}
-    % \Vinst{given} = \Vel{silo}{\var{n} \subtract \var{i}} \\
-    % \text{and $\Vinst{sought} = \Vel{silo}{\var{n} \subtract (\Vincr{i})}}
-% \end{gather*}
+\begin{gather*}
+    \Vinst{given} = \el{silo}{\xxsubtract{\var{n}}{\var{i}}} \\
+    \text{and} \quad \Vinst{sought} = \Vel{silo}{\xxsubtract{\var{n}}{(\Vincr{i})}}
+\end{gather*}
 We show the step by cases, depending on the predot symbol
 of \Vinst{given}:
 the case of a telluric terminal,
