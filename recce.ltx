@@ -34,6 +34,8 @@
 % definitions for "elements"
 \newcommand{\el}[2]{\ensuremath{\mathop{\texttt{#1}}[#2]}}
 \newcommand{\Vel}[2]{\el{#1}{\var{#2}}}
+\newcommand{\op}[2]{\ensuremath{\mathop{\texttt{#1}}(#2)}}
+\newcommand{\Vop}[2]{\op{#1}{\var{#2}}}
 
 % For a type name, when it occurs in text
 \newcommand{\type}[1]{\ensuremath{#1}}
@@ -68,6 +70,8 @@
 \newcommand{\de}{\rightarrow}
 \newcommand{\derives}{\Rightarrow}
 \newcommand{\nderives}{\not\Rightarrow}
+\newcommand{\xderives}[1]
+    {\mathrel{\mbox{$\:\stackrel{\!{#1}}{\Rightarrow\!}\:$}}}
 \newcommand{\destar}
     {\mathrel{\mbox{$\:\stackrel{\!{\ast}}{\Rightarrow\!}\:$}}}
 \newcommand{\ndestar}
@@ -1756,8 +1760,19 @@ we will use a more simple term,
 \dfn{validity equivalent}, for
 a derivation validity equivalent,
 a EIM validity equivalent,
-or a parse instance validity equivalent,
+or a parse instance validity equivalent.
 \end{definition}
+
+We will write \Vop{Valid-eq}{x} for the
+validity equivalent of \var{x}.
+This notation is overloaded --
+\var{x} may be a derivation move or a parse
+instance,
+and \Vop{Valid-eq}{x} may mean
+a derivation validity equivalent,
+an EIM validity equivalent,
+or a parse instance validity equivalent,
+according to its usage in context.
 
 It will be useful to count the number of derivation steps
 that separate two parse instances.
@@ -3883,16 +3898,13 @@ a matter of presentation.
 Let \el{silo}{\Vincr{i}},
 \Vel{silo}{i},
 be two silo layers,
-where \Predot{\el{silo}{\Vincr{i}}} is a non-terminal.
-Also
-let \var{d1} be the derivation equivalent
-of \Vel{silo}{i}
-and
-let \var{d2} be the derivation equivalent
-of \el{silo}{\Vincr{i}}.
+where
+\begin{equation*}
+\Predot{\el{silo}{\Vincr{i}} is a non-terminal.}
+\end{equation*}
 Then
 \begin{equation*}
-\var{d2} \derives \var{d1}
+\op{Valid-eq}{\el{silo}{\Vincr{i}}} \derives \op{Valid-eq}{\el{silo}{\var{i}}}
 \end{equation*}
 in one step.
 \end{lemma}
