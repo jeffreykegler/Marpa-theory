@@ -4049,21 +4049,84 @@ so that
 
 \begin{theorem}
 \label{t:silo-reflection}
-Let
-\Vel{silo}{i}, \el{silo}{\Vincr{i}},
+Let \el{silo}{\var{hi}} and
+\Vel{silo}{lo}
 be two silo layers,
-where \var{d1} is the derivation equivalent
-of \Vel{silo}{i}
-and \var{d2} is the derivation equivalent
-of \el{silo}{\Vincr{i}}.
+such that $\var{lot} < \var{hi}$.
 Then
-\begin{equation*}
-\var{d1} \derives \var{d2}
-\end{equation*}
+\begin{equation}
+\op{Valid-eq}{\Vel{silo}{hi}} \destar
+\op{Valid-eq}{\Vel{silo}{lo}}.
+\end{equation}
 \end{theorem}
 
 \begin{proof}
-TODO
+The proof is by induction, where the induction
+hypothesis is
+\begin{equation}
+\tag{HYP}
+\label{eq:silo-reflection-10}
+\op{Valid-eq}{\Vel{silo}{n}} \destar
+\op{Valid-eq}{\Vel{silo}{\var{n} \subtract \var{i}}}.
+\end{equation}
+The derivation equivalent of any silo layer derives itself,
+so we have
+\eqref{eq:silo-reflection-10} for 
+$\var{i} = 0$ trivially.
+We take this as the basis of our induction.
+
+For the step of the induction we assume
+\eqref{eq:silo-reflection-10}
+for \var{i} to show
+\eqref{eq:silo-reflection-10}
+for \Vincr{i}.
+Let
+% \begin{gather*}
+    % \Vinst{given} = \Vel{silo}{\var{n} \subtract \var{i}} \\
+    % \text{and $\Vinst{sought} = \Vel{silo}{\var{n} \subtract (\Vincr{i})}}
+% \end{gather*}
+We show the step by cases, depending on the predot symbol
+of \Vinst{given}:
+the case of a telluric terminal,
+the case of a nulling terminal,
+and the case of a non-terminal.
+
+\textbf{Telluric terminal}:
+We first consider the case
+where \Predot{\Vinst{given}} is a telluric terminal.
+By Theorem \ref{t:silo-causes},
+a silo layer with a telluric terminal predot symbol
+has no silo causes.
+Therefore there is no \Vinst{sought}.
+This gives us
+\eqref{eq:silo-reflection-10} for \Vincr{i}
+vacuously for the case of a telluric terminal.
+
+\textbf{Nulling terminal}:
+We next consider the case
+where \Predot{\Vinst{given}} is a nulling terminal.
+Using the assumption for the step, we know that
+\begin{align}
+\label{eq:silo-reflection-20}
+& \op{Valid-eq}{\Vel{silo}{n}} \destar
+\op{Valid-eq}{\Vinst{given}} &&
+\\
+\label{eq:silo-reflection-22}
+& \op{Valid-eq}{\Vinst{given}}
+\derives
+\op{Valid-eq}{\Vinst{sought}} &&
+\text{Lemma \ref{lem:silo-reflection-nulling}}
+\\
+\label{eq:silo-reflection-24}
+& \op{Valid-eq}{\Vel{silo}{n}}
+\derives
+\op{Valid-eq}{\Vinst{sought}} &&
+\end{align}
+\eqref{eq:silo-reflection-24} is
+\eqref{eq:silo-reflection-10} for \Vincr{i},
+giving us the case of a nulling terminal.
+
+TODO: Finish this
 \end{proof}
 
 TODO: Adding more silo stuff here
