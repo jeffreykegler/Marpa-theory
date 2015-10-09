@@ -936,9 +936,9 @@ so that
 \end{equation}
 where \Vsym{tell} is a telluric symbol
 and \Vstr{core2} contains one or more symbols.
-One or more of the symbols in \Vstr{core2} may
-be telluric,
-and the last symbol must be telluric.
+Since \Vstr{core} ends in a telluric symbol,
+\Vstr{core2} ends
+in a telluric symbol.
 In this case,
 \eqref{eq:location-marker-cycle-20}
 becomes
@@ -985,9 +985,11 @@ $\Vsym{tell} \deplus \Vsym{tell} \Vstr{core2a}$
 and}
 \\
 \label{eq:location-marker-cycle-37}
-\Vstr{core2} \deplus \Vstr{core2b},
+\begin{gathered}
+\Vstr{core2a} \Vstr{core2b} \deplus \Vstr{core2b},
 \\
 \text{where $\Vstr{core2} = \Vstr{core2a} \Vstr{core2b}$.}
+\end{gathered}
 \end{gather}
 
 Subcase 3, No encroachment:
@@ -1022,7 +1024,8 @@ encroaches.
 In the subcase where \Vsym{tell} encroaches,
 \Vsym{tell} expands to replace part of \Vstr{core2},
 and \Vstr{core2} shrinks accordingly.
-We use \Vstr{core2a}
+In \eqref{eq:location-marker-cycle-37},
+we use \Vstr{core2a}
 to signify
 the part of 
 \Vstr{core2} in
@@ -1030,7 +1033,7 @@ Step \var{x} of
 \eqref{eq:location-marker-cycle-31}
 that is replaced by an expansion of \Vsym{tell}.
 
-Does \Vstr{core2} contain a telluric symbol?
+Does \Vstr{core2a} contain a telluric symbol?
 For this purpose, we will write \op{T}{\Vstr{x}}
 for the number of telluric symbols in \Vstr{x}.
 From \eqref{eq:location-marker-cycle-37},
@@ -1073,7 +1076,7 @@ we have
 \end{equation}
 by
 \eqref{eq:location-marker-cycle-38},
-an assumption for the subcase.
+the assumptions for the subcase.
 But \eqref{eq:location-marker-cycle-56}
 is a cycle, and therefore the
 case where
@@ -1084,7 +1087,7 @@ in Marpa grammar.
 We now have all three subcases of the case where
 \Vstr{core} contains multiple symbols.
 We have already shown the other case of the reductio,
-that were \Vstr{core} contains only one symbol.
+that where \Vstr{core} contains only one symbol.
 Therefore we have shown the reductio and the theorem.
 \end{proof}
 
