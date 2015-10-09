@@ -276,7 +276,7 @@ full information about
 the state of the parse so far.
 The Marpa recognizer described
 is a simplification of that
-in our 2013 paper\cite{Marpa-2013}.
+in our 2013 paper~\cite{Marpa-2013}.
 \end{abstract}
 
 \maketitle
@@ -335,7 +335,7 @@ Prior to this,
 general context-free parsing
 had never incorporated in a practical, highly available tool
 like those that had long existed
-for LALR\cite{Johnson} and
+for LALR~\cite{Johnson} and
 regular expressions.
 This was in spite of the strong academic literature behind
 general context-free parsers.
@@ -347,9 +347,9 @@ of the journals and bring them
 to a wider audience.
 This paper describes the algorithm used
 in the most recent version of Marpa,
-Marpa::R2\cite{Marpa-R2}.
+Marpa::R2~\cite{Marpa-R2}.
 It is a simplification of the one presented
-in our earlier paper\cite{Marpa-2013}.
+in our earlier paper~\cite{Marpa-2013}.
 
 As implemented,
 Marpa parses
@@ -358,8 +358,8 @@ which are free of cycles,
 unproductive symbols,
 and
 inaccessible symbols.
-Time bounds are the best of Leo\cite{Leo1991}
-and Earley\cite{Earley1970}.
+Time bounds are the best of Leo~\cite{Leo1991}
+and Earley~\cite{Earley1970}.
 The Leo bound,
 \On{} for LR-regular grammars,
 is especially relevant to
@@ -418,7 +418,7 @@ parse with a clean
 but oversimplified grammar,
 programming the lexical analyzer to make up for the grammar's
 short-comings on the fly.
-As part of the Marpa::R2\cite{Marpa-R2},
+As part of the Marpa::R2~\cite{Marpa-R2},
 the author has implemented an HTML parser,
 based on a grammar that assumes that all start
 and end tags are present.
@@ -548,7 +548,7 @@ of \Vrule{r}.
 The LHS and RHS of \Vrule{r} may also be
 referred to as
 $\LHS{\Vrule{r}}$ and $\RHS{\Vrule{r}}$, respectively.
-This definition follows \cite{AH2002},
+This definition follows~\cite{AH2002},
 which departs from tradition by disallowing an empty RHS.
 This restriction applies only to Marpa's internal grammar.
 As explained in Chapter \ref{ch:rewrite},
@@ -620,7 +620,7 @@ As a special case,
 when \Vstr{z} is an empty string of symbols,
 we will say that $\Vstr{z} \derives \epsilon$.
 
-Following Aycock and Horspool\cite{AH2002},
+Following Aycock and Horspool~\cite{AH2002},
 all nullable symbols in grammar \Cg{} are nulling ---
 which can derive the null string always derives the null string.
 This restriction applies only to Marpa's internal grammar.
@@ -712,7 +712,7 @@ deals with null parses and nulling grammars as special cases.
 
 In this document,
 \Earley{} will refer to the Earley's original
-recognizer\cite{Earley1970}.
+recognizer~\cite{Earley1970}.
 \Leo{} will refer to Leo's revision of \Earley{}
 as described in~\cite{Leo1991}.
 \Marpa{} will refer to the parser described in
@@ -730,8 +730,7 @@ of the traditional rewriting system except that they also contain
 location markers of the form $\mk{x}$, where \var{x} is a
 location in \Cw{}.\footnote{
 Our use of the location marker notation
-was inspired by
-\cite{Wich2005}.}
+was inspired by~\cite{Wich2005}.}
 In its most general form,
 a derivation step with a single location marker is
 \[ \Vstr{pre} \Vmkm{x} \Vstr{post}. \]
@@ -822,7 +821,7 @@ We have already noted
 that no rules of \Cg{}
 have a zero-length RHS,
 and that all symbols must be either nulling or telluric.
-These restrictions follow Aycock and Horspool\cite{AH2002}.
+These restrictions follow Aycock and Horspool~\cite{AH2002}.
 The elimination of empty rules and proper nullables
 is done by rewriting the grammar.
 \cite{AH2002} shows how to do this
@@ -856,7 +855,7 @@ and the one to which
 his semantics is applied.
 
 The rewrite currently used by Marpa is an improvement over
-that of \cite{AH2002}.
+that of~\cite{AH2002}.
 Rules with proper nullables are identified
 and a new grammar is created
 in which the external grammar's rules are divided
@@ -871,7 +870,7 @@ with one of the two new symbols,
 and new rules are created as necessary to ensure that all possible combinations
 of nulling and telluric symbols are accounted for.
 
-The rewrite in \cite{AH2002} was similar, but did not do the Chomsky-style
+The rewrite in~\cite{AH2002} was similar, but did not do the Chomsky-style
 rewrite before replacing the proper nullables.
 As a result the number of rules in the internal grammar could be
 an exponential function of numbers in the external grammar.
@@ -892,7 +891,7 @@ or when symbols are nulled.
 The user, of course, needs to define events,
 and receive notice of them,
 in terms of his external symbols.
-In Marpa::R2\cite{Marpa-R2},
+In Marpa::R2~\cite{Marpa-R2},
 this translation back and forth
 between internal and external can be accomplished
 quickly.
@@ -3625,7 +3624,7 @@ the maximum size of Earley set \Vloc{i} is therefore
 
 \section{The history of a conjecture}
 
-Jay Earley\cite[p. 60]{Earley1968}
+Jay Earley~\cite[p. 60]{Earley1968}
 conjectured that \Earley{} could be
 modified to be \On{} for
 all deterministic context-free grammars (DCFG's).
@@ -3642,8 +3641,7 @@ DCFG's.
 Leo was initially unaware of Earley's earlier conjecture ---
 he discovered it in the course of writing up his
 discovery.
-Leo published his method in
-\cite{Leo1991}.
+Leo published his method in~\cite{Leo1991}.
 
 The problem both invesigators noticed was that,
 while \Earley{} is \On{}
@@ -3717,7 +3715,7 @@ is infinite length, but restricted to
 distinguishing between regular expressions.
 Earley did not claim \On{} for LR-regular
 because LR-regular was not introduced
-to the literature until 1973\cite{Culik1973}.
+to the literature until 1973~\cite{Culik1973}.
 Even in 1991, LR-regular was not well-known,
 which is why Leo only claims
 the weaker \LRk{} bound in
@@ -4795,11 +4793,11 @@ TODO.
 
 Omission of a memoization does not affect correctness,
 so \Marpa{}'s restriction of Leo memoization
-preserves the correctness as shown in Leo\cite{Leo1991}.
+preserves the correctness as shown in Leo~\cite{Leo1991}.
 Later in this document we will
 show that this change also leaves
 the complexity results of
-Leo\cite{Leo1991} intact.
+Leo~\cite{Leo1991} intact.
 
 \begin{theorem}
 \label{t:memo-omission}
@@ -6604,13 +6602,13 @@ and from Lemma \ref{l:nulling-rewrite}.
 
 The same complexity results apply to \Marpa{} as to \Leo,
 and the proofs are very similar.
-\Leo's complexity results\cite{Leo1991}
+\Leo's complexity results~\cite{Leo1991}
 are based on charging
 resource to Earley items,
 as were the results
-in Earley's paper\cite{Earley1970}.
+in Earley's paper~\cite{Earley1970}.
 
-Earley\cite{Earley1970} shows that,
+Earley~\cite{Earley1970} shows that,
 for unambiguous grammars,
 every attempt to add
 an Earley item will actually add one.
@@ -6920,7 +6918,7 @@ For every LR-regular grammar,
 \end{theorem}
 
 \begin{proof}
-By Theorem 4.6 in \cite[p. 173]{Leo1991},
+By Theorem 4.6 in~\cite[p. 173]{Leo1991},
 the number of Earley items produced by
 \Leo{} when parsing input \Cw{} with an LR-regular grammar \Cg{} is
 \begin{equation*}
