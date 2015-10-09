@@ -948,10 +948,91 @@ becomes
 \end{equation}
 Here also, the nulls may be rewritten to the empty string, so that
 we have
-\begin{equation}
+\begin{align}
 \label{eq:location-marker-cycle-35}
-\Vsym{tell} \Vstr{core2} \deplus \Vsym{tell} \Vstr{core2}
+& \Vsym{tell} \Vstr{core2}
+\\
+\label{eq:location-marker-cycle-36}
+\deplus & \Vsym{tell} \Vstr{core2}
+\end{align}
+
+We deal with \eqref{eq:location-marker-cycle-35}
+in three cases:
+\begin{enumerate}
+\item
+\label{case:location-marker-cycle:core2-expands}
+$\Vsym{tell} \deplus \epsilon$
+and
+$\Vsym{core2} \deplus \Vsym{tell} \Vsym{core2}$.
+\item
+\label{case:location-marker-cycle:tell-expands}
+\begin{equation}
+\label{eq:location-marker-cycle-40}
+\Vsym{tell} \deplus \Vsym{tell} \Vstr{core2a}
 \end{equation}
+and
+$\Vsym{core2} \deplus \Vsym{core2b}$,
+where
+$\Vstr{core2} = \Vstr{core2a} \Vstr{core2b}$.
+\item
+\label{case:location-marker-cycle-direct}
+$\Vsym{tell} \deplus \Vsym{tell}$
+and
+$\Vsym{core2} \deplus \Vsym{core2}$.
+\end{enumerate}
+
+In case
+\ref{case:location-marker-cycle:core2-expands},
+\Vstr{core2} in
+\eqref{eq:location-marker-cycle-35}
+expands to both
+\Vsym{tell} and \Vstr{core2} in
+\eqref{eq:location-marker-cycle-36},
+while
+\Vsym{tell} in
+\eqref{eq:location-marker-cycle-35}
+expands to the empty string in 
+\eqref{eq:location-marker-cycle-36}.
+But \Vsym{tell} is telluric so that,
+by the definition of telluric,
+$\Vsym{tell} \ndestar \epsilon$.
+Therefore we can exclude case
+\ref{case:location-marker-cycle:core2-expands}.
+
+In case
+\ref{case:location-marker-cycle:tell-expands},
+\Vsym{tell} expands to replace part of \Vsym{core2},
+and \Vsym{core2} shrinks accordingingly.
+We call the part of 
+\Vstr{core2} in
+\eqref{eq:location-marker-cycle-35}.
+that expands to the empty string,
+and is replaced by an expansion of \Vsym{tell},
+\Vstr{core2a}.
+\Vstr{core2a} cannot contain a telluric symbol,
+because that telluric symbol would have to expand
+to an empty string when
+\Vstr{core2a} expands to an empty string.
+Therefore
+\begin{equation}
+\label{eq:location-marker-cycle-50}
+\Vstr{core2a} \destar \epsilon.
+\end{equation}
+Combining
+\eqref{eq:location-marker-cycle-40}
+and \eqref{eq:location-marker-cycle-50},
+we have
+\begin{align}
+& \Vsym{tell} \deplus \Vsym{tell} \Vstr{core2a} \destar \Vsym{tell}
+\notag \\
+\label{eq:location-marker-cycle-53}
+\therefore \; & \Vsym{tell} \deplus \Vsym{tell}
+\end{align}
+But \eqref{eq:location-marker-cycle-53}
+is a cycle, and therefore this
+case \ref{case:location-marker-cycle:tell-expands},
+cannot occur
+in Marpa grammar.
 
 TODO: Finish
 \end{proof}
