@@ -459,8 +459,9 @@ other complexity results.
 \chapter{Preliminaries}
 \label{ch:preliminaries}
 
-We assume familiarity with the theory of parsing,
-as well as Earley's algorithm.
+We assume familiarity with the theory of parsing.
+Earley's algorithm is described in full,
+but a previous familiarity will be useful.
 This document will
 use subscripts to indicate commonly occurring types.
 \begin{center}
@@ -700,8 +701,8 @@ position \var{b}, inclusive,
 so that
 \[ \bigsize{\var{w}[\var{a}, \var{b}]} = (\var{b} \subtract \var{a}) + 1. \]
 
-The alert reader may have noticed that the previous definition
-of \Cw{} did not allow zero-length inputs.
+Our definition
+of \Cw{} does not allow zero-length inputs.
 To simplify the mathematics, we exclude null parses
 and nulling grammars from consideration.
 (Nulling grammars are those that recognize only the null string.)
@@ -709,16 +710,28 @@ In its implementations,
 the Marpa parser
 deals with null parses and nulling grammars as special cases.
 
+In this document,
+\Earley{} will refer to the Earley's original
+recognizer\cite{Earley1970}.
+\Leo{} will refer to Leo's revision of \Earley{}
+as described in~\cite{Leo1991}.
+\Marpa{} will refer to the parser described in
+this document.
+Where $\alg{Recce}$ is a recognizer,
+$\myL{\alg{Recce},\Cg}$ will be the language accepted by $\alg{Recce}$
+when parsing \Cg{}.
+
+\section{Location markers}
+
 In the context of a grammar \Cg{} and an input \Cw{},
 we will often use location-marked derivations.
 Location-marked derivation steps are like the derivation steps
 of the traditional rewriting system except that they also contain
 location markers of the form $\mk{x}$, where \var{x} is a
 location in \Cw{}.\footnote{
-\cite{Wich2005} shows the importance of new notation
-for investigators of Earley's algorithm.
 Our use of the location marker notation
-was inspired by him.}
+was inspired by
+\cite{Wich2005}.}
 In its most general form,
 a derivation step with a single location marker is
 \[ \Vstr{pre} \Vmkm{x} \Vstr{post}. \]
@@ -801,17 +814,6 @@ derivation simplification can be confused with the
 expansion of a nulled symbol into the empty string.
 If the meaning is clear from context,
 the dots may be omitted.
-
-In this document,
-\Earley{} will refer to the Earley's original
-recognizer\cite{Earley1970}.
-\Leo{} will refer to Leo's revision of \Earley{}
-as described in~\cite{Leo1991}.
-\Marpa{} will refer to the parser described in
-this document.
-Where $\alg{Recce}$ is a recognizer,
-$\myL{\alg{Recce},\Cg}$ will be the language accepted by $\alg{Recce}$
-when parsing \Cg{}.
 
 \chapter{Rewriting the grammar}
 \label{ch:rewrite}
