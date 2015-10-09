@@ -955,31 +955,42 @@ we have
 \label{eq:location-marker-cycle-36}
 \deplus & \Vsym{tell} \Vstr{core2}
 \end{align}
-
 We deal with \eqref{eq:location-marker-cycle-35}
-in three cases:
-\begin{equation}
+in three cases,
+according to which symbol
+in \eqref{eq:location-marker-cycle-35}
+encroaches on the other symbol
+in \eqref{eq:location-marker-cycle-36}.
+
+Case 1, \Vsym{core2} encroaches:
+\begin{gather}
 \label{eq:location-marker-cycle:core2-expands}
-\text{\Vsym{core2} encroaches: $\Vsym{tell} \deplus \epsilon$
+\text{
+$\Vsym{tell} \deplus \epsilon$
 and
 $\Vsym{core2} \deplus \Vsym{tell} \Vsym{core2}$.
 }
-\end{equation}
+\end{gather}
+
+Case 2, \Vsym{tell} encroaches:
 \begin{multline}
 \label{eq:location-marker-cycle:tell-expands}
-\text{\Vsym{tell} encroaches:
+\text{
 $\Vsym{tell} \deplus \Vsym{tell} \Vstr{core2a}$
 and
 $\Vsym{core2} \deplus \Vsym{core2b}$,} \\
 \text{where $\Vstr{core2} = \Vstr{core2a} \Vstr{core2b}$.}
 \end{multline}
+
+Case 3, No encroachment:
 \begin{equation}
-\text{No encroachment:
+\text{
 $\Vsym{tell} \deplus \Vsym{tell}$
 and
 $\Vsym{core2} \deplus \Vsym{core2}$.}
 \end{equation}
 
+In
 \eqref{eq:location-marker-cycle:core2-expands},
 \Vstr{core2} in
 \eqref{eq:location-marker-cycle-35}
@@ -994,19 +1005,22 @@ expands to the empty string in
 But \Vsym{tell} is telluric so that,
 by the definition of telluric,
 $\Vsym{tell} \ndestar \epsilon$.
-Therefore we can exclude the case
-of \eqref{eq:location-marker-cycle:core2-expands}.
+Therefore we can exclude the where \Vstr{core2}
+encroaches.
 
-In 
-\eqref{eq:location-marker-cycle:tell-expands},
+In the case where \Vsym{tell} encroaches,
 \Vsym{tell} expands to replace part of \Vsym{core2},
 and \Vsym{core2} shrinks accordingingly.
-We call the part of 
+We use \Vstr{core2a}
+to signify
+the part of 
 \Vstr{core2} in
-\eqref{eq:location-marker-cycle-35}.
-that expands to the empty string,
-and is replaced by an expansion of \Vsym{tell},
-\Vstr{core2a}.
+\eqref{eq:location-marker-cycle-35}
+that is replaced by an expansion of \Vsym{tell}.
+The \Vstr{core2a} in
+\eqref{eq:location-marker-cycle-35}
+expands to the empty string
+\eqref{eq:location-marker-cycle-36}.
 \Vstr{core2a} cannot contain a telluric symbol,
 because that telluric symbol would have to expand
 to an empty string when
@@ -1028,7 +1042,8 @@ we have
 \end{align}
 But \eqref{eq:location-marker-cycle-53}
 is a cycle, and therefore the
-case in \eqref{eq:location-marker-cycle:tell-expands},
+case where
+\Vsym{tell} encroaches
 cannot occur
 in Marpa grammar.
 
