@@ -79,6 +79,8 @@
     {\mathrel{\mbox{$\:\stackrel{\!{\ast}}{\not\Rightarrow\!}\:$}}}
 \newcommand{\deplus}
     {\mathrel{\mbox{$\:\stackrel{\!{+}}{\Rightarrow\!}\:$}}}
+\newcommand{\ndeplus}
+    {\mathrel{\mbox{$\:\stackrel{\!{+}}{\not\Rightarrow\!}\:$}}}
 \newcommand{\derivg}[1]{\mathrel{\mbox{$\:\Rightarrow\:$}}}
 \newcommand{\derivrg}[2]{\mathrel{\mbox{$\:\stackrel{\!{#1}}%
         {\Rightarrow\!}\:$}}}
@@ -813,6 +815,146 @@ derivation simplification can be confused with the
 expansion of a nulled symbol into the empty string.
 If the meaning is clear from context,
 the dots may be omitted.
+
+Caution must be exercised because nulling symbols
+can fall on either side of a location-marker.
+The following theorem shows that what looks like a cycle
+in location-marked notation is,
+in fact, a cycle,
+and therefore cannot occur in Marpa grammar.
+
+\begin{theorem}
+\label{t:location-marker-cycle}
+Let \Vstr{sf} be a sentential form containing at
+least one telluric symbol.
+Then
+\begin{equation}
+\label{eq:location-marker-cycle-10}
+  \Vmk{i} \Vstr{sf} \Vmk{j} \ndeplus \Vmk{i} \Vstr{sf} \Vmk{j}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+We represent
+the possible nulls
+outside our location markers in 
+\eqref{eq:location-marker-cycle-10}
+in full generality as
+\begin{multline}
+\label{eq:location-marker-cycle-12}
+\Vstr{nul1L} \Vmk{i} \Vstr{sf} \Vmk{j} \Vstr{nul1R} \\
+  \ndeplus \Vstr{nul2L} \Vmk{i} \Vstr{sf} \Vmk{j} \Vstr{nul2R}.
+\end{multline}
+where
+$\Vstr{nul1L} \destar \epsilon$,
+$\Vstr{nul1R} \destar \epsilon$,
+$\Vstr{nul2L} \destar \epsilon$
+and
+$\Vstr{nul2R} \destar \epsilon$.
+
+We can rewrite \Vstr{sf},
+\begin{equation}
+\label{eq:location-marker-cycle-15}
+\Vstr{sf} = \Vstr{nul3L} \Vstr{core} \Vstr{nul3R}
+\end{equation}
+where
+$\Vstr{nul3L} \destar \epsilon$,
+$\Vstr{nul3R} \destar \epsilon$
+and
+\Vstr{core} begins and ends with a telluric symbol.
+
+Combining
+\eqref{eq:location-marker-cycle-12}
+and \eqref{eq:location-marker-cycle-15},
+we have
+\begin{equation}
+\label{eq:location-marker-cycle-21}
+\begin{aligned}
+& \Vstr{nul1L} \Vstr{nul3L} \Vstr{core} \Vstr{nul3R} \Vstr{nul1R} \\
+  \deplus \; & \Vstr{nul2L} \Vstr{nul3L} \Vstr{core} \Vstr{nul3R} \Vstr{nul2R}.
+\end{aligned}
+\end{equation}
+Note that in \eqref{eq:location-marker-cycle-21}, we have dropped the location markers,
+so that we are now working with traditional derivations.
+We can extend
+\eqref{eq:location-marker-cycle-21} to
+\begin{equation}
+\label{eq:location-marker-cycle-24}
+\begin{aligned}
+  & \Vstr{nul2L} \Vstr{nul3L} \Vstr{core} \Vstr{nul3R} \Vstr{nul2R}
+  \deplus \; & \Vstr{core}
+\end{aligned}
+\end{equation}
+by expanding the nulls to the empty string.
+Combining
+\eqref{eq:location-marker-cycle-21}
+and \eqref{eq:location-marker-cycle-24},
+we have
+\begin{equation}
+\label{eq:location-marker-cycle-20}
+\begin{aligned}
+& \Vstr{nul1L} \Vstr{nul3L} \Vstr{core} \Vstr{nul3R} \Vstr{nul1R} \\
+  \deplus \; & \Vstr{core}
+\end{aligned}
+\end{equation}
+
+If \Vstr{core} consists of a single symbol,
+$\Vstr{core} = \Vsym{core}$,
+then
+\eqref{eq:location-marker-cycle-20}
+becomes
+\begin{equation}
+\label{eq:location-marker-cycle-23}
+\begin{aligned}
+& \Vstr{nul1L} \Vstr{nul3L} \Vsym{core} \Vstr{nul3R} \Vstr{nul1R} \\
+  \deplus \; & \Vsym{core}
+\end{aligned}
+\end{equation}
+Expanding the nulling symbols in
+\eqref{eq:location-marker-cycle-23}
+to the empty string,
+we have
+\begin{equation}
+\label{eq:location-marker-cycle-26}
+\Vsym{core} \deplus \Vsym{core}
+\end{equation}
+\eqref{eq:location-marker-cycle-26}
+is a cycle, and cycles are forbidden in Marpa grammars.
+This shows the theorem where \Vstr{core} consists of a single symbol.
+
+It remains to show the theorem where \Vstr{core} consists of more
+than one symbol.
+In this case
+we can rewrite \Vstr{core},
+so that
+\begin{equation}
+\label{eq:location-marker-cycle-29}
+\Vstr{core} = \Vsym{tell} \Vstr{core2}.
+\end{equation}
+where \Vsym{tell} is a telluric symbol
+and \Vstr{core2} contains one or more symbols.
+One or more of the symbols in \Vstr{core2} may
+be telluric,
+and the last one must be.
+In this case,
+\eqref{eq:location-marker-cycle-20}
+becomes
+\begin{equation}
+\label{eq:location-marker-cycle-32}
+\begin{aligned}
+& \Vstr{nul1L} \Vstr{nul3L} \Vsym{tell} \Vstr{core2} \Vstr{nul3R} \Vstr{nul1R} \\
+  \deplus \; & \Vsym{tell} \Vstr{core2}
+\end{aligned}
+\end{equation}
+Here also, the nulls may be rewritten to the empty string, so that
+we have
+\begin{equation}
+\label{eq:location-marker-cycle-35}
+\Vsym{tell} \Vstr{core2} \deplus \Vsym{tell} \Vstr{core2}
+\end{equation}
+
+TODO: Finish
+\end{proof}
 
 \chapter{Rewriting the grammar}
 \label{ch:rewrite}
