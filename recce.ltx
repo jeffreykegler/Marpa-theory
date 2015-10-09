@@ -1001,8 +1001,10 @@ and
 $\Vstr{core2} \deplus \Vstr{core2}$.}
 \end{equation}
 
-In
-\eqref{eq:location-marker-cycle:core2-expands},
+In the case where \Vstr{core2} encroaches,
+we have from
+\eqref{eq:location-marker-cycle:core2-expands}
+that
 \Vstr{core2} in
 Step \var{x} of
 \eqref{eq:location-marker-cycle-31}
@@ -1047,7 +1049,9 @@ a derivation,
 because no telluric symbol can derive the null string,
 so that
 \begin{align}
-& \op{T}{\Vstr{core2a} \Vstr{core2b}} = \op{T}{\Vsym{core2b}}
+& \op{T}{\Vstr{core2a} \Vstr{core2b}} \le \op{T}{\Vsym{core2b}}
+\notag\\
+& \op{T}{\Vstr{core2a}} + \op{T}{\Vstr{core2b}} \le \op{T}{\Vsym{core2b}}
 \notag\\
 \therefore \; & \op{T}{\Vstr{core2a}} = 0
 \notag \\
