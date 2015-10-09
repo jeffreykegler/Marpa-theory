@@ -923,9 +923,9 @@ we have
 \end{equation}
 \eqref{eq:location-marker-cycle-26}
 is a cycle, and cycles are forbidden in Marpa grammars.
-This shows the reduction where \Vstr{core} consists of a single symbol.
+This shows the reductio where \Vstr{core} consists of a single symbol.
 
-It remains to show the theorem where \Vstr{core} consists of more
+It remains to show the reductio where \Vstr{core} consists of more
 than one symbol.
 In this case
 we can rewrite \Vstr{core},
@@ -942,12 +942,10 @@ in a telluric symbol.
 In this case,
 \eqref{eq:location-marker-cycle-20}
 becomes
-\begin{equation*}
-\begin{aligned}
-& \Vstr{nul1L} \Vstr{nul3L} \Vsym{tell} \Vstr{core2} \Vstr{nul3R} \Vstr{nul1R} \\
-  \deplus \; & \Vsym{tell} \Vstr{core2}
-\end{aligned}
-\end{equation*}
+\begin{gather*}
+\Vstr{nul1L} \Vstr{nul3L} \Vsym{tell} \Vstr{core2} \Vstr{nul3R} \Vstr{nul1R} \\
+  \deplus \; \Vsym{tell} \Vstr{core2}
+\end{gather*}
 Here also, the nulls may be rewritten to the empty string, so that
 we have
 \begin{equation}
@@ -985,11 +983,10 @@ $\Vsym{tell} \deplus \Vsym{tell} \Vstr{core2a}$
 and}
 \\
 \label{eq:location-marker-cycle-37}
-\begin{gathered}
 \Vstr{core2a} \Vstr{core2b} \deplus \Vstr{core2b},
 \\
 \text{where $\Vstr{core2} = \Vstr{core2a} \Vstr{core2b}$.}
-\end{gathered}
+\notag
 \end{gather}
 
 Subcase 3, No encroachment:
@@ -1004,16 +1001,9 @@ $\Vstr{core2} \deplus \Vstr{core2}$.}
 In the case where \Vstr{core2} encroaches,
 we have from
 \eqref{eq:location-marker-cycle:core2-expands}
-that
-\Vstr{core2} in
-Step \var{x} of
-\eqref{eq:location-marker-cycle-31}
-expands to both
-\Vsym{tell} and \Vstr{core2} in
-Step \var{y},
-while
-\Vsym{tell} in
+that \Vsym{tell} in
 Step \var{x}
+of \eqref{eq:location-marker-cycle-31}
 expands to the empty string in 
 Step \var{y}.
 But \Vsym{tell} is telluric so that,
@@ -1026,7 +1016,8 @@ encroaches.
 In the subcase where \Vsym{tell} encroaches,
 \Vsym{tell} expands to replace part of \Vstr{core2},
 and \Vstr{core2} shrinks accordingly.
-In \eqref{eq:location-marker-cycle-37},
+In \eqref{eq:location-marker-cycle:tell-expands}
+and \eqref{eq:location-marker-cycle-37},
 we use \Vstr{core2a}
 to signify
 the part of 
