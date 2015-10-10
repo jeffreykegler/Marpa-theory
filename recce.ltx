@@ -4033,7 +4033,8 @@ called the \dfn{silo location} of \var{silo}.
 
 Note that, from
 Definition \ref{def:silo},
-that a silo cause must be a telluric parse instance.
+that a silo cause must be an
+EIM or a telluric parse instance.
 A silo cause cannot be ethereal,
 or a nulling symbol parse instance.
 
@@ -4054,6 +4055,9 @@ and no bottom-up silo causes; or
 is a reduction EIM and
 has at least one bottom-up silo cause
 and no top-down silo causes.
+\item
+is a telluric symbol parse instance
+and has no silo causes.
 \end{itemize}
 \end{theorem}
 
@@ -4482,8 +4486,10 @@ We assume for a reductio that
 \text{$\Vel{silo}{hi} = \Vel{silo}{lo}$ and $\var{hi} \neq \var{lo}$}
 \end{equation}
 
+\textbf{Terminal parse instances}:
 We first deal with case where
-\Vel{silo}{hi} is a telluric terminal parse instance.
+\Vel{silo}{hi} is not an EIM,
+but a telluric terminal parse instance.
 In this case,
 \Vel{silo}{hi} has no silo cause, so that
 there can be no silo layer below it:
@@ -4493,30 +4499,131 @@ there can be no silo layer below it:
 This contradicts
 \eqref{eq:silo-layer-unique-10}
 and gives us the reductio.
+We conclude that
+\begin{equation}
+\label{eq:silo-layer-unique-24}
+\text{\Vel{silo}{hi} is an EIM}
+\end{equation}
 
-Having eliminated telluric terminal parse instances
-from consideration,
-we restrict our attention for the rest of the reduction
-to silo layers which are EIM's.
+\textbf{No predot symbol}:
+By Theorem
+\ref{t:silo-predot}
+we know that
+\Vel{silo}{hi} has a predot symbol:
+\begin{equation}
+\Predot{\Vel{silo}{hi}} \neq \Lambda
+\end{equation}
 
+\textbf{Predot not a telluric terminal}:
+If \Predot{\Vel{silo}{hi}} is a telluric terminal,
+then
+by Theorem
+\ref{t:silo-causes},
+its bottom-up cause is its only silo cause.
+This silo cause is
+\el{silo}{\Vdecr{hi}}.
+\begin{align}
+\label{eq:silo-layer-unique-30}
+&
+\begin{multlined}
+\el{silo}{\Vdecr{hi}} \\
+\text{is a symbol instance}
+\end{multlined}
+  && \text{Theorem \ref{t:symbolic-causes-from-effect}}
+\\
+\label{eq:silo-layer-unique-32}
+&
+\begin{multlined}
+\Symbol{\el{silo}{\Vdecr{hi}}} \\
+= \Predot{\Vel{silo}{hi}}
+\end{multlined}
+  && \text{also Theorem \ref{t:symbolic-causes-from-effect}}
+\\
+\label{eq:silo-layer-unique-34}
+&
+\begin{multlined}
+\Predot{\Vel{silo}{hi}} \\
+\text{is a telluric terminal}
+\end{multlined}
+  && \text{Assumption for the case}
+\\
+\label{eq:silo-layer-unique-36}
+&
+\begin{multlined}
+\el{silo}{\Vdecr{hi}} \\
+\text{has no EIM equivalent}
+\end{multlined}
+    && \eqref{eq:silo-layer-unique-30}, \eqref{eq:silo-layer-unique-32},
+	\eqref{eq:silo-layer-unique-34}
+\\
+\label{eq:silo-layer-unique-38}
+& \text{\el{silo}{\Vdecr{hi}} has no causes}
+   && \text{Theorem \ref{t:silo-causes}, \eqref{eq:silo-layer-unique-36}}
+\\
+\label{eq:silo-layer-unique-40}
+& \Vdecr{hi} \le \var{lo}
+  && \eqref{eq:silo-layer-unique-38}
+\\
+\label{eq:silo-layer-unique-41}
+& \var{lo} \le \var{hi}
+  && \text{Assumption for the case}
+\\
+\label{eq:silo-layer-unique-42}
+& \text{\Vel{silo}{hi} is an EIM}
+&& \because \eqref{eq:silo-layer-unique-24}
+\\
+\label{eq:silo-layer-unique-46}
+& \el{silo}{\Vdecr{hi}} \neq \Vel{silo}{hi}
+  && \eqref{eq:silo-layer-unique-36}, \eqref{eq:silo-layer-unique-42}
+\\
+\label{eq:silo-layer-unique-48}
+&
+\begin{multlined}
+\Vel{silo}{hi} = \Vel{silo}{lo} \\
+\implies \var{hi} = \var{lo}
+\end{multlined}
+  && \eqref{eq:silo-layer-unique-40},
+    \eqref{eq:silo-layer-unique-41},
+    \eqref{eq:silo-layer-unique-46}
+\end{align}
+and since this contradicts the assumption
+for the reductio, \eqref{eq:silo-layer-unique-10},
+we can conclude the assumption for the case is false,
+so that
+\begin{equation}
+\label{eq:silo-layer-unique-51}
+\text{\Predot{\Vel{silo}{hi}} is not a telluric terminal}
+\end{equation}
+
+\textbf{Trivial derivation}:
 From \eqref{eq:silo-layer-unique-10},
 using Theorem
 \ref{t:silo-reflection},
 we know that
 \begin{equation}
+\label{eq:silo-layer-unique-20}
 \op{Valid-eq}{\Vel{silo}{hi}} \destar
 \op{Valid-eq}{\Vel{silo}{lo}}.
 \end{equation}
+The derivation of 
+\eqref{eq:silo-layer-unique-20}
+may be trivial -- that is,
+it may be derivation of zero steps.
+We consider this case next,
+using the binary operator
+$\xderives{0}$ to indicate a trivial derivation.
 
-The predot symbol of
-\Vel{silo}{hi}
-may be nulling or a non-terminal.
-We use this distinction to proceed by
-cases.
-
-\textbf{Predot is nulling}:
-Assume for the case
-that \Predot{\Vel{silo}{hi}} is nulling.
+The contrapositive of
+Lemma \ref{lem:silo-reflection-nt}
+tells us that,
+\begin{multline}
+\label{eq:silo-layer-unique-23}
+\op{Valid-eq}{\Vel{silo}{hi}} \xderives{0}
+\op{Valid-eq}{\Vel{silo}{lo}}
+\\
+\implies
+\text{\Predot{\Vinst{given}} is not a non-terminal}.
+\end{multline}
 
 TODO: Finish this.
 \end{proof}
