@@ -30,11 +30,12 @@
 % \DeclareMathSizes{24.88}{24.88}{24.88}{24.88}
 
 \newcommand{\todo}[1]{\par{\large\textbf Todo: #1}\par}
-\newcommand{\mymathop}[1]{\mathop{\texttt{#1}}}
+\newcommand{\myfnname}[1]{\texttt{#1}}
+\newcommand{\myfn}[2]{\ensuremath{\myfnname{#1}({#2}}}
 % definitions for "elements"
-\newcommand{\el}[2]{\ensuremath{\mathop{\texttt{#1}}[#2]}}
+\newcommand{\el}[2]{\ensuremath{\texttt{#1}[#2]}}
 \newcommand{\Vel}[2]{\el{#1}{\var{#2}}}
-\newcommand{\op}[2]{\ensuremath{\mathop{\texttt{#1}}(#2)}}
+\newcommand{\op}[2]{\ensuremath{\texttt{#1}(#2)}}
 \newcommand{\Vop}[2]{\op{#1}{\var{#2}}}
 
 % For a type name, when it occurs in text
@@ -134,40 +135,40 @@
 \newcommand{\Cw}{\var{w}}
 \newcommand{\CVw}[1]{\ensuremath{\sym{\Cw[\var{#1}]}}}
 \newcommand{\Crules}{\var{rules}}
-\newcommand{\GOTO}{\ensuremath{\mymathop{GOTO}}}
-\newcommand{\Alt}[1]{\ensuremath{\mymathop{Alt}(#1)}}
-\newcommand{\Next}[1]{\mymathop{Next}(#1)}
-\newcommand{\Prev}[1]{\mymathop{Prev}(#1)}
-\newcommand{\Predict}[1]{\mymathop{Predict}(#1)}
-\newcommand{\Left}[1]{\ensuremath{\mymathop{Left}(#1)}}
-\newcommand{\Right}[1]{\ensuremath{\mymathop{Right}(#1)}}
-\newcommand{\Predot}[1]{\ensuremath{\mymathop{Predot}(#1)}}
-\newcommand{\Postdot}[1]{\ensuremath{\mymathop{Postdot}(#1)}}
-\newcommand{\Penult}[1]{\mymathop{Penult}(#1)}
-\newcommand{\LHS}[1]{\ensuremath{\mymathop{LHS}(#1)}}
-\newcommand{\RHS}[1]{\ensuremath{\mymathop{RHS}(#1)}}
-\newcommand{\Origin}[1]{\ensuremath{\mymathop{Origin}(#1)}}
-\newcommand{\DR}[1]{\ensuremath{\mymathop{DR}(#1)}}
-\newcommand{\Current}[1]{\ensuremath{\mymathop{Current}(#1)}}
-\newcommand{\Valid}[1]{\ensuremath{\mymathop{Valid}(#1)}}
-\newcommand{\Memoized}[1]{\ensuremath{\mymathop{Memoized}(#1)}}
-\newcommand{\Symbol}[1]{\ensuremath{\mymathop{Symbol}(#1)}}
-\newcommand{\LeoUnique}[1]{\mymathop{Leo-Unique}(#1)}
-\newcommand{\ID}[1]{\mymathop{ID}(#1)}
-\newcommand{\PSL}[2]{\mymathop{PSL}[#1][#2]}
-\newcommand{\myL}[1]{\mymathop{L}(#1)}
-\newcommand{\Deriv}[1]{\ensuremath{\mymathop{Deriv}(#1)}}
-\newcommand{\Layer}[1]{\ensuremath{\mymathop{Layer}(#1)}}
+\newcommand{\GOTO}{\ensuremath{\myfnname{GOTO}}}
+\newcommand{\Alt}[1]{\ensuremath{\myfnname{Alt}(#1)}}
+\newcommand{\Next}[1]{\myfnname{Next}(#1)}
+\newcommand{\Prev}[1]{\myfnname{Prev}(#1)}
+\newcommand{\Predict}[1]{\myfnname{Predict}(#1)}
+\newcommand{\Left}[1]{\ensuremath{\myfnname{Left}(#1)}}
+\newcommand{\Right}[1]{\ensuremath{\myfnname{Right}(#1)}}
+\newcommand{\Predot}[1]{\ensuremath{\myfnname{Predot}(#1)}}
+\newcommand{\Postdot}[1]{\ensuremath{\myfnname{Postdot}(#1)}}
+\newcommand{\Penult}[1]{\myfnname{Penult}(#1)}
+\newcommand{\LHS}[1]{\ensuremath{\myfnname{LHS}(#1)}}
+\newcommand{\RHS}[1]{\ensuremath{\myfnname{RHS}(#1)}}
+\newcommand{\Origin}[1]{\ensuremath{\myfn{Origin}(#1)}}
+\newcommand{\DR}[1]{\ensuremath{\myfnname{DR}(#1)}}
+\newcommand{\Current}[1]{\ensuremath{\myfnname{Current}(#1)}}
+\newcommand{\Valid}[1]{\ensuremath{\myfnname{Valid}(#1)}}
+\newcommand{\Memoized}[1]{\ensuremath{\myfnname{Memoized}(#1)}}
+\newcommand{\Symbol}[1]{\ensuremath{\myfnname{Symbol}(#1)}}
+\newcommand{\LeoUnique}[1]{\myfnname{Leo-Unique}(#1)}
+\newcommand{\ID}[1]{\myfnname{ID}(#1)}
+\newcommand{\PSL}[2]{\myfnname{PSL}[#1][#2]}
+\newcommand{\myL}[1]{\myfnname{L}(#1)}
+\newcommand{\Deriv}[1]{\ensuremath{\myfnname{Deriv}(#1)}}
+\newcommand{\Layer}[1]{\ensuremath{\myfnname{Layer}(#1)}}
 
 \newcommand\Ctables{\var{tables}}
 \newcommand\Vtables[1]{\Ctables[\alg{#1}]}
 
-\newcommand\Etable[1]{\ensuremath{\mymathop{table}[#1]}}
-\newcommand\bigEtable[1]{\ensuremath{\mymathop{table}\bigl[#1\bigr]}}
-\newcommand\Rtable[1]{\ensuremath{\mymathop{table}[#1]}}
-\newcommand\Rtablesize[1]{\ensuremath{\bigl| \mymathop{table}[#1] \bigr|}}
+\newcommand\Etable[1]{\ensuremath{\myfnname{table}[#1]}}
+\newcommand\bigEtable[1]{\ensuremath{\myfnname{table}\bigl[#1\bigr]}}
+\newcommand\Rtable[1]{\ensuremath{\myfnname{table}[#1]}}
+\newcommand\Rtablesize[1]{\ensuremath{\bigl| \myfnname{table}[#1] \bigr|}}
 \newcommand\Vtable[1]{\Etable{\var{#1}}}
-\newcommand\EEtable[2]{\ensuremath{\mymathop{table}[#1,#2]}}
+\newcommand\EEtable[2]{\ensuremath{\myfnname{table}[#1,#2]}}
 \newcommand\EVtable[2]{\EEtable{#1}{\var{#2}}}
 
 % I want to use 'call' outside of pseudocode
@@ -4768,15 +4769,19 @@ By Theorem
 \ref{t:ethereal-closure},
 we know that
 \Valid{\var{epsilon-op}(\var{desc})}.
-We write $\mymathop{epsilon-op}^\var{n}(\var{x})$
-for ``$\mymathop{epsilon-op}$ applied to its result
+We write $\myfnname{epsilon-op}^{\displaystyle (\var{n})}(\var{x})$
+for ``$\myfnname{epsilon-op}$ applied to its result
 \var{n} times,
 with \var{x} as the argument of the first call''.
 For the purpose of this proof, we define
 \begin{equation}
-\Vel{eims}{x} = \left\lbrace \Veim{eim}
-\middle|
-    \mymathop{epsilon-op}^\var{x}(\Veim{base})
+\label{eq:altitude-from-telluric-base-20}
+\Vel{eims}{x} = \left\lbrace \var{eim} \;
+\middle| \;
+\begin{multlined}
+\Veim{eim} = \\
+    {\myfnname{epsilon-op}^{\displaystyle (\var{x})}}(\Veim{base})
+\end{multlined}
 \right\rbrace
 \end{equation}
 By Definition \ref{def:altitude} for
@@ -4788,7 +4793,7 @@ we know that
 \Alt{\var{epsilon-op}(\var{desc})} = \Alt{\var{desc}}.
 \end{equation}
 
-Our induction hypothesis is that
+Our induction hypothesis is
 \begin{equation}
 \label{eq:altitude-from-telluric-base-10}
 \tag{HYP}
@@ -4802,12 +4807,16 @@ For the step of the induction, we assume
 \eqref{eq:altitude-from-telluric-base-10} for \var{i}
 to show
 \eqref{eq:altitude-from-telluric-base-10} for $\var{i}+1$.
-We note that
+From
+\eqref{eq:altitude-from-telluric-base-20},
+we know that
 \begin{multline}
 \label{eq:altitude-from-telluric-base-20}
 \Veim{desc2} \in \el{eims}{\var{i}+1} \\
-\text{$\implies \exists \, \Veim{desc1}$ such that} \\
+\implies
 \left(
+\exists \, \Veim{desc1}
+\; \middle| \;
 \begin{multlined}
 \var{desc1} \in \Vel{eims}{i}  \\
 \text{and $\var{desc2} = \var{epsilon-op}(\var{desc1})$}
