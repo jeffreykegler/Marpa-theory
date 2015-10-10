@@ -837,7 +837,7 @@ Then
 \begin{proof}
 We represent
 the possible nulls
-outside our location markers in 
+outside our location markers in
 \eqref{eq:location-marker-cycle-10}
 in full generality as
 \begin{multline}
@@ -851,7 +851,7 @@ $\Vstr{nul1R} \destar \epsilon$,
 $\Vstr{nul2L} \destar \epsilon$
 and
 $\Vstr{nul2R} \destar \epsilon$.
-We assume 
+We assume
 \eqref{eq:location-marker-cycle-12}
 for a reductio.
 
@@ -1004,7 +1004,7 @@ we have from
 that \Vsym{tell} in
 Step \var{x}
 of \eqref{eq:location-marker-cycle-31}
-expands to the empty string in 
+expands to the empty string in
 Step \var{y}.
 But \Vsym{tell} is telluric so that,
 by the definition of telluric,
@@ -1020,7 +1020,7 @@ In \eqref{eq:location-marker-cycle:tell-expands}
 and \eqref{eq:location-marker-cycle-37},
 we use \Vstr{core2a}
 to signify
-the part of 
+the part of
 \Vstr{core2} in
 Step \var{x} of
 \eqref{eq:location-marker-cycle-31}
@@ -1295,7 +1295,7 @@ Let
 %
 \end{align*}
 
-In addition, if a dotted rule is 
+In addition, if a dotted rule is
 \[
 [\Vsym{A} \de \Vstr{prefix} \mydot \Vstr{suffix}]
 \]
@@ -2249,7 +2249,7 @@ is considered to be the
 \dfn{derivation validity equivalent}
 of itself.
 When it is clear in context,
-we will also call 
+we will also call
 \eqref{eq:def-terminal-validity-10}
 the \dfn{validity equivalent} of itself.
 
@@ -3204,7 +3204,7 @@ If \Veim{wlog2} is a prediction, it is valid by
 Theorem \ref{t:prediction-from-cause}.
 If \Veim{wlog2} is a null-scan, it is valid by
 Theorem \ref{t:down-cause-from-effect}.
-This shows 
+This shows
 requirement \ref{req:ethereal-closure-3}
 for the step.
 
@@ -4003,11 +4003,11 @@ is \dfn{silo eligible} at \Vloc{k} if and only
 if it is quasi-complete and
 its right location is \Vloc{k}.
 intended.
-A symbol instance is 
+A symbol instance is
 \dfn{silo eligible} at \Vloc{k} if and only
 if it is telluric and
 its right location is \Vloc{k}.
-We write ``silo eligible'' instead of 
+We write ``silo eligible'' instead of
 ``silo eligible at \var{k}''
 when
 it is clear from context which \Vloc{k} is
@@ -4031,7 +4031,7 @@ where
 called the \dfn{silo location} of \var{silo}.
 \end{definition}
 
-Note that, from 
+Note that, from
 Definition \ref{def:silo},
 that a silo cause must be a telluric parse instance.
 A silo cause cannot be ethereal,
@@ -4062,6 +4062,7 @@ TODO
 \end{proof}
 
 \begin{theorem}
+\ttitle{Silo layer telluric prefix}
 \label{t:silo-telluric-prefix}
 Every layer of a silo at \Vloc{k} has a telluric symbol before
 \Vloc{k}.
@@ -4073,6 +4074,7 @@ so that there must be a telluric symbol before \Vloc{k}.
 \end{proof}
 
 \begin{theorem}
+\ttitle{No location 0 silo}
 \label{t:no-silo-at-0}
 There are no silos at location 0.
 \end{theorem}
@@ -4124,6 +4126,7 @@ so that
 \end{proof}
 
 \begin{theorem}
+\ttitle{Silo layer predot}
 \label{t:silo-predot}
 Let \Vloc{k} be the location of a silo.
 Every layer of the silo has a symbol before \Vloc{k}.
@@ -4209,15 +4212,15 @@ without loss of generality,
 $\Vel{silo}{i} = \bigl[[\Vsym{B} \de \Vstr{B-rhs} \mydot ], \var{b}, \var{c} \bigr]$
 }
 \end{equation}
-The validity equivalent of 
+The validity equivalent of
 \eqref{eq:lem-silo-reflection-nt-10}
 is
 \begin{equation}
 \label{eq:lem-silo-reflection-nt-14}
 \Vsym{A} \derives \Vmk{a} \Vstr{pre-B} \Vsym{B} \Vmk{c} \Vstr{post-B}.
 \end{equation}
-and 
-the validity equivalent of 
+and
+the validity equivalent of
 \eqref{eq:lem-silo-reflection-nt-12}
 is
 \begin{equation}
@@ -4288,7 +4291,7 @@ is
 \label{eq:lem-silo-reflection-nulling-12}
 \el{silo}{\var{i}} = \bigl[ [\Vsym{A} \de \Vstr{pre-B} \mydot \Vsym{B} \Vstr{post-B}], \var{a}, \var{c} \bigr],
 \end{equation}
-The validity equivalent of 
+The validity equivalent of
 \eqref{eq:lem-silo-reflection-nulling-10}
 is
 \begin{equation}
@@ -4296,8 +4299,8 @@ is
 \op{Valid-eq}{\el{silo}{\Vincr{i}}} =
 \Vsym{A} \derives \Vmk{a} \Vstr{pre-B} \Vsym{B} \Vmk{c} \Vstr{post-B}.
 \end{equation}
-and 
-the validity equivalent of 
+and
+the validity equivalent of
 \eqref{eq:lem-silo-reflection-nulling-12}
 is
 \begin{equation}
@@ -4321,6 +4324,7 @@ so that
 \end{proof}
 
 \begin{theorem}
+\ttitle{Silo reflection}
 \label{t:silo-reflection}
 Let \el{silo}{\var{hi}} and
 \Vel{silo}{lo}
@@ -4344,7 +4348,7 @@ hypothesis is
 \end{equation}
 The derivation equivalent of any silo layer derives itself,
 so we have
-\eqref{eq:silo-reflection-10} for 
+\eqref{eq:silo-reflection-10} for
 $\var{i} = 0$ trivially.
 We take this as the basis of our induction.
 
@@ -4454,7 +4458,68 @@ the step of the induction,
 and the theorem.
 \end{proof}
 
-TODO: Adding more silo stuff here
+\begin{theorem}
+\ttitle{Silo layer uniqueness}
+\label{t:silo-layer-unique}
+No layer of a silo occurs twice.
+That is, if \var{silo} is a silo,
+\begin{equation}
+\forall \; \var{i}, \var{j}, \Vel{silo}{i} = \Vel{silo}{j} \implies \var{i} = \var{j}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Let \var{silo},
+be a silo,
+and \var{hi}, \var{lo}
+be two layers in it.
+Without loss of generalization,
+let $\var{hi} \ge \var{lo}$.
+We assume for a reductio that
+\begin{equation}
+\tag{RAD}
+\label{eq:silo-layer-unique-10}
+\text{$\Vel{silo}{hi} = \Vel{silo}{lo}$ and $\var{hi} \neq \var{lo}$}
+\end{equation}
+
+We first deal with case where
+\Vel{silo}{hi} is a telluric terminal parse instance.
+In this case,
+\Vel{silo}{hi} has no silo cause, so that
+there can be no silo layer below it:
+\begin{equation}
+\var{hi} \ge \var{lo} \implies \var{hi} = \var{lo}.
+\end{equation}
+This contradicts
+\eqref{eq:silo-layer-unique-10}
+and gives us the reductio.
+
+Having eliminated telluric terminal parse instances
+from consideration,
+we restrict our attention for the rest of the reduction
+to silo layers which are EIM's.
+
+From \eqref{eq:silo-layer-unique-10},
+using Theorem
+\ref{t:silo-reflection},
+we know that
+\begin{equation}
+\op{Valid-eq}{\Vel{silo}{hi}} \destar
+\op{Valid-eq}{\Vel{silo}{lo}}.
+\end{equation}
+
+The predot symbol of
+\Vel{silo}{hi}
+may be nulling or a non-terminal.
+We use this distinction to proceed by
+cases.
+
+\textbf{Predot is nulling}:
+Assume for the case
+that \Predot{\Vel{silo}{hi}} is nulling.
+
+TODO: Finish this.
+\end{proof}
 
 \section{Altitude}
 
@@ -4742,7 +4807,7 @@ in Section \ref{ch:recce}.
 In this chapter, we develop the
 concepts behind Leo memoization.
 We define, at an abstract level,
-the data structures 
+the data structures
 that Leo memoization requires,
 and we show their basic properties.
 
