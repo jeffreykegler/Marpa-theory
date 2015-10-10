@@ -4775,12 +4775,12 @@ we write
 \text{and \Current{\Veim{x}}} & = \Vloc{x}.
 \end{alignat*}
 
-We now define a ``Leo condition'',
-\var{leo-cond}.
-Intuitively, \var{leo-cond}
+We now define a ``Leo stipulation'',
+\var{leo-stip}.
+Intuitively, \op{leo-stip}{\Vloc{tbd}}
 states the following:
-``
-In the context of \eqref{eq:def-leo-memo-10},
+
+`` In the context of \eqref{eq:def-leo-memo-10},
 consider a location \Vloc{tbd}.
 Suppose that at \Vloc{tbd},
 we find the following symbol instance
@@ -4798,12 +4798,12 @@ Earley item
 \end{equation}
 at its top''.
 
-To define \var{leo-cond} more formally,
+To define \op{leo-stip} more formally,
 we write $\var{Sym-Eq}(\Vinst{x})$ for the symbolic
 equivalent of the parse instance \Vinst{x}.
 Where a Leo memo is
 \eqref{eq:def-leo-memo-10},
-its ``Leo condition'', \var{leo-cond}, is
+its ``Leo stipulation'', \op{leo-stip}{\Vloc{tbd}}, is
 \begin{equation}
 \label{eq:def-leo-memo-20}
 \lambda \Vloc{tbd}
@@ -4813,8 +4813,8 @@ its ``Leo condition'', \var{leo-cond}, is
 \text{where
   $\Vinst{bottom} = \Vmk{current} \Vsym{transition} \Vmk{tbd}$
 } \\
-\text{and where
-  \Veim{top} = [ \Vdr{top}, \Vorig{top}, \Vloc{tbd} ]
+\text{and
+  $\Veim{top} = [ \Vdr{top}, \Vorig{top}, \Vloc{tbd} ]$,
 }
 \end{multlined}
 \\
@@ -4838,7 +4838,7 @@ We are now in a position to state the meaning
 of the Leo memo
 in \eqref{eq:def-leo-memo-10}:
 \begin{equation}
-\Vleo{leo} \equiv \forall \, \Vloc{tbd}, \var{leo-cond}(\var{tbd}).
+\Vleo{leo} \equiv \forall \, \Vloc{tbd}, \var{leo-stip}(\var{tbd}).
 \end{equation}
 
 The parse instances from \Vinst{bottom} to \Vinst{top}
@@ -4853,8 +4853,10 @@ The Leo memo may be spoken of a ``belonging to'' the Earley
 set at \Vloc{current}, although strictly an Earley set
 consists only of Earley items.
 
-We know look at the conditions under which Leo memos are made,
-and Leo conditions are enforced.
+We now look at the conditions under which Leo memos are made,
+and
+the conditions under which
+Leo stipulation are enforced.
 We will say that \Vdr{q} is a \dfn{quasi-penult}
 if and only if it is
 \begin{equation*}
