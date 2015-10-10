@@ -3036,35 +3036,36 @@ $\langle \Veim{down}, \Veim{effect} \rangle$
 is a duple,
 where \Veim{down} is a top-down cause
 of \Veim{effect}:
-\begin{align*}
+\begin{align}
 \var{predict-op} \; & \defined \left\lbrace \;
   \langle \var{down}, \var{effect} \rangle
   \; \middle| \;
   \text{\var{effect} is a prediction}
 \; \right\rbrace ,
-\\
+\notag \\
 \var{null-scan-op} \; & \defined \left\lbrace \;
   \langle \var{down}, \var{effect} \rangle
   \; \middle| \;
   \text{\var{effect} is a null-scan}
 \; \right\rbrace ,
-\\
+\notag \\
 \var{read-op} \; & \defined \left\lbrace \;
   \langle \var{down}, \var{effect} \rangle
   \; \middle| \;
   \text{\var{effect} is a read}
 \; \right\rbrace ,
-\\
+\notag \\
 \var{reduction-op} \; & \defined \left\lbrace \;
   \langle \var{down}, \var{effect} \rangle
   \; \middle| \;
   \text{\var{effect} is a reduction}
 \; \right\rbrace ,
-\\
+\notag \\
+\label{eq:def-epsilon-op}
 \var{epsilon-op} \; & \defined \var{predict-op} \cup \var{null-scan-op}
 , \; \text{and} \\
 \var{ethereal-closure} \; & \defined \var{epsilon-op}^\ast.
-\end{align*}
+\end{align}
 
 \begin{theorem}
 \ttitle{Ethereal closure properties}
@@ -4679,7 +4680,7 @@ The altitude of a prediction, \Veim{pred},
 is
 \begin{equation*}
 \Big\lfloor \Alt{\Veim{top}}
-  \; \Big| \; \text{\var{top} is a top-down cause of \Veim{pred}}
+  \; \Big| \; \text{\var{top} is a silo (top-down) cause of \Veim{pred}}
 \Big\rfloor .
 \end{equation*}
 \item
@@ -4689,7 +4690,7 @@ The altitude of a read EIM, \Veim{read}, is
 \Alt{\Vinst{up}}+1,
 \end{equation*}
 where
-\Vinst{up} is the bottom-up cause of \Veim{read}.
+\Vinst{up} is the silo (bottom-up) cause of \Veim{read}.
 Since the bottom-up cause of a read EIM is always
 a terminal symbol instance,
 the altitude of a read EIM will always be 1.
@@ -4699,7 +4700,7 @@ The altitude of an unmemoized reduction EIM, \Veim{unmemo}
 is
 \begin{equation*}
 \Big\lfloor \Alt{\Veim{up}}+1
-  \; \Big| \; \text{\var{up} is a bottom-up cause of \Veim{unmemo}}
+  \; \Big| \; \text{\var{up} is a silo (bottom-up) cause of \Veim{unmemo}}
 \Big\rfloor .
 \end{equation*}
 \item
@@ -4708,7 +4709,7 @@ The altitude of an memoized reduction EIM, \Veim{memo}
 is
 \begin{equation*}
 \Big\lfloor \Alt{\Veim{up}}
-  \; \Big| \; \text{\var{up} is a bottom-up cause of \Veim{memo}}
+  \; \Big| \; \text{\var{up} is a silo (bottom-up) cause of \Veim{memo}}
 \Big\rfloor .
 \end{equation*}
 \item
@@ -4717,7 +4718,7 @@ The altitude of a null-scan EIM, \Veim{ns},
 is
 \begin{equation*}
 \Big\lfloor \Alt{\Veim{top}}
-  \; \Big| \; \text{\var{top} is a top-down cause of \Veim{ns}}
+  \; \Big| \; \text{\var{top} is a silo (top-down) cause of \Veim{ns}}
 \Big\rfloor .
 \end{equation*}
 This case applies if \Veim{ns} is memoized,
@@ -4740,40 +4741,6 @@ Where this results in a choice of altitudes,
 the alititude is always the minimum of the choices.
 
 \begin{theorem}
-\label{t:predot-therefore-altitude}
-Every EIM except the start EIM has a defined altitude cause.
-If the EIM has no predot symbol,
-or if the predot symbol is null,
-the altitude cause is the top-down cause.
-If the predot symbol is telluric,
-the altitude cause is the bottom-up cause.
-\end{theorem}
-
-\begin{proof}
-The theorem can be proved by
-going through Definition \ref{def:altitude},
-case by case.
-\end{proof}
-
-\begin{theorem}
-\label{cause-therefore-altitude}
-Let \Vinst{i} be an instance.
-If \Vinst{i} has a defined altitude cause,
-call it \Vinst{cuz},
-and the altitude
-of \Vinst{cuz} is defined and finite,
-then
-the altitude
-of \Vinst{i} is defined and finite.
-\end{theorem}
-
-\begin{proof}
-The theorem can be proved by
-going through Definition \ref{def:altitude},
-case by case.
-\end{proof}
-
-\begin{theorem}
 \label{t:altitude-from-telluric-base}
 The altitude of
 a valid EIM is that of the telluric base
@@ -4790,7 +4757,10 @@ the \var{predict-op} and \var{null-scan-op}
 relations.
 Our proof will be by induction on the number of
 applications of
-\var{epsilon-op}, where
+\var{epsilon-op}.
+Recall from
+\eqref{eq:def-epsilon-op}
+that
 \begin{equation}
 \var{epsilon-op} \defined \var{predict-op} \cup \var{null-scan-op}.
 \end{equation}
@@ -4798,6 +4768,17 @@ By Theorem
 \ref{t:ethereal-closure},
 we know that
 \Valid{\var{epsilon-op}(\var{desc})}.
+We write $\mymathop{epsilon-op}^\var{n}(\var{x})$
+for ``$\mymathop{epsilon-op}$ applied to its result
+\var{n} times,
+with \var{x} as the argument of the first call''.
+For the purpose of this proof, we define
+\begin{equation}
+\Vel{eims}{x} = \left\lbrace \Veim{eim}
+\middle|
+    \mymathop{epsilon-op}^\var{x}(\Veim{base})
+\right\rbrace
+\end{equation}
 By Definition \ref{def:altitude} for
 the altitude of
 predictions and null-scans,
@@ -4857,14 +4838,11 @@ Theorem \ref{t:altitude-from-telluric-base}.
 If \Veim{eim} is a valid EIM,
 its altitude is defined and finite.
 
-TODO: Redo to cover valid parse instance?
+TODO: ? Redo to cover valid parse instance?
 \end{theorem}
 
 \begin{proof}
-Every EIM is in an ethereal closure,
-if only the singleton that includes itself.
-So this theorem follows from
-Theorem \ref{t:ethereal-altitude}.
+TODO
 \end{proof}
 
 \begin{theorem}
@@ -4880,18 +4858,24 @@ TODO: Do I need to revise this?
 Let \var{silo} be an altitude silo
 Let $\Veim{top} = \var{silo}[\var{n}]$
 be an unmemoized reduction.
-Let $\Veim{bottom} = \var{silo}[\var{m}]$
+Let $\Veim{bottom} = \Vel{silo}{m}$
 be its most recent unmemoized bottom-up cause.
-This is, $\var{m} < \var{n}$,
-and where
-\[\text{$\forall\;\var{i}, \var{m} < \var{i} < \var{n}$,
-$\var{silo}[\var{i}]$ is memoized.}\]
+That is,
+\begin{multline}
+\var{m} < \var{n}, \\
+\text{$\neg \Memoized{\Vel{silo}{m}}$ and} \\
+\forall\;\var{i}, \var{m} < \var{i} < \var{n},
+\Memoized{\var{silo}[\var{i}]}
+\end{multline}
 
 By the
 Definition \ref{def:altitude} (``altitude'')
 for
 unmemoized reductions,
 $\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\Vdecr{n}]} + 1$.
+
+TODO: Rewrite, making the induction explicit.
+
 For $\var{silo}[\var{i}], \var{m} < \var{i} < \var{n}$,
 $\var{silo}[\var{i}]$ is either a reduction or a null-scan,
 and is memoized,
