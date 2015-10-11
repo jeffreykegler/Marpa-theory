@@ -4603,12 +4603,12 @@ using Theorem
 \ref{t:silo-reflection},
 we know that
 \begin{equation}
-\label{eq:silo-layer-unique-20}
+\label{eq:silo-layer-unique-54}
 \op{Valid-eq}{\Vel{silo}{hi}} \destar
 \op{Valid-eq}{\Vel{silo}{lo}}.
 \end{equation}
 The derivation of 
-\eqref{eq:silo-layer-unique-20}
+\eqref{eq:silo-layer-unique-54}
 may be trivial -- that is,
 it may be derivation of zero steps.
 We consider this case next,
@@ -4619,13 +4619,53 @@ The contrapositive of
 Lemma \ref{lem:silo-reflection-nt}
 tells us that,
 \begin{multline}
-\label{eq:silo-layer-unique-23}
+\label{eq:silo-layer-unique-63}
 \op{Valid-eq}{\Vel{silo}{hi}} \xderives{0}
 \op{Valid-eq}{\Vel{silo}{lo}}
 \\
 \implies
-\text{\Predot{\Vinst{given}} is not a non-terminal}.
+\text{\Predot{\Vel{silo}{hi}} is not a non-terminal}.
 \end{multline}
+From
+\eqref{eq:silo-layer-unique-51}
+and
+\eqref{eq:silo-layer-unique-63},
+we know that
+\begin{multline}
+\label{eq:silo-layer-unique-66}
+\op{Valid-eq}{\Vel{silo}{hi}} \xderives{0}
+\op{Valid-eq}{\Vel{silo}{lo}}
+\\
+\implies
+\text{\Predot{\Vel{silo}{hi}} is a nulling terminal}.
+\end{multline}
+\begin{align}
+\label{eq:silo-layer-unique-70}
+\text{\Predot{\Vel{silo}{hi}} is nulling}
+&& \eqref{eq:silo-layer-unique-66}
+\\
+\label{eq:silo-layer-unique-72}
+\begin{multlined}
+\text{silo cause of \Vel{silo}{hi}} \\
+\text{is top-down cause}
+\end{multlined}
+&& \text{Theorem \ref{t:silo-causes}}
+\\
+\label{eq:silo-layer-unique-74}
+\Vel{silo}{hi} =
+\big[ [ \Vrule{r}, \var{ix} ], \Vorig{hi}, \Vloc{here} ]
+&& \text{Without loss of generality}
+\intertext{Note
+  that in \eqref{eq:silo-layer-unique-34}, we are using our alternate notation
+  for dotted rules, where dotted rule is a duple of rule and RHS index.
+}
+\\
+\begin{multlined}
+\text{top-down cause of \Vel{silo}{hi} is} \\
+\big[ [ \Vrule{r}, \Vdecr{ix} ], \Vorig{hi}, \Vloc{here} \big]
+\end{multlined}
+&& \text{Theorem \ref{t:symbolic-causes-from-effect}}
+\end{align}
 
 TODO: Finish this.
 \end{proof}
@@ -4811,7 +4851,7 @@ From
 \eqref{eq:altitude-from-telluric-base-20},
 we know that
 \begin{multline}
-\label{eq:altitude-from-telluric-base-20}
+\label{eq:altitude-from-telluric-base-30}
 \Veim{desc2} \in \el{eims}{\var{i}+1} \\
 \implies
 \left(
@@ -4827,7 +4867,7 @@ The step for the induction,
 \eqref{eq:altitude-from-telluric-base-10} for $\var{i}+1$, follows from
 \eqref{eq:altitude-from-telluric-base-5}
 and
-\eqref{eq:altitude-from-telluric-base-20}.
+\eqref{eq:altitude-from-telluric-base-30}.
 This shows the induction and the theorem.
 \end{proof}
 
