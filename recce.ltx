@@ -521,6 +521,17 @@ for the iterated function.
 \myfnname{f}^\var{n} \quad \text{for some $\var{n} \ge 1$}
 \end{align*}
 
+In proofs in this document,
+we may abbreviate
+``without loss of generality'' as \dfn{WLOG},
+and ``assumption'' as \dfn{ASM}.
+``\var{x} ASM'' will mean ``Assumption for \var{x}'',
+or ``Assumption for the \var{x}''.
+For example,
+``theorem ASM'' means ``assumption for the theorem'',
+and
+``reductio ASM'' means ``assumption for the reductio'',
+
 Where \Vsymset{syms} is non-empty set of symbols,
 let $\var{syms}^\ast$ be the set of all strings
 (type \type{STR}) formed
@@ -577,19 +588,38 @@ $\var{RHS}(\Vdr{dr}, \var{i})$
 is the \var{i}'th symbol on the RHS,
 where the numbering is zero-based.
 
-The rules imply the traditional rewriting system,
-in which
+The rules imply the traditional rewriting system.
+Our notation for derivations uses
+a double right arrow.
+If a superscript is placed over the arrow,
+it indicates
+the number of derivation steps.
+A derivation with no superscript is
+a derivation of exactly one step.
 \begin{center}
-\begin{tabular}{lp{.6\textwidth}}
+\begin{tabular}{l @{\hspace{2em}} p{.4\textwidth}}
 $\Vstr{x} \derives \Vstr{y}$ &
-states that \Vstr{x} derives \Vstr{y} in exactly one step; \\
+one step \\
 $\Vstr{x} \deplus \Vstr{y}$ &
-states that \Vstr{x} derives \Vstr{y} in one or more steps;
-and \\
+one or more steps \\
 $\Vstr{x} \destar \Vstr{y}$ &
-states that \Vstr{x} derives \Vstr{y} in zero or more steps.
+zero or more steps \\
+$\Vstr{x} \xderives{\var{n}} \Vstr{y}$ &
+\var{n} steps \\
+$\Vstr{x} \xderives{1} \Vstr{y}$ &
+one step \\
+$\Vstr{x} \xderives{0} \Vstr{y}$ &
+zero steps
 \end{tabular}
 \end{center}
+So, for example, we write
+$\Vstr{x} \derives \Vstr{y}$ to say that
+\Vstr{x} derives \Vstr{y} in exactly one step,
+and
+$\Vstr{x} \destar \Vstr{y}$ to say that
+\Vstr{x} derives \Vstr{y} in zero or more steps.
+A derivation of zero steps is called a
+\xdfn{trivial derivation}{trivial (derivation)}.
 
 The literature does not always distinguish between two
 meanings of the term ``derivation step''.
@@ -4158,37 +4188,6 @@ directly from Theorem
 \ref{t:silo-telluric-prefix}.
 \end{proof}
 
-We will want to translate back and forth
-between parse derivations and silo layers.
-Usually, in representing a derivation move that expands
-a nulling symbol into the empty string,
-the convention is that
-the nulling string disappears:
-\begin{equation}
-\label{eq:def-nulling-dot-convention-3}
-    \Vmk{i} \Vstr{pre} \Vsym{null} \Vmk{k} \derives \Vmk{i} \Vsym{pre} \Vmk{k}.
-\end{equation}
-This very straightforward and sensible convention is, however,
-confusing when we are trying to keep track of rules ---
-it can make the RHS of the rule of current interest
-hard to recognize.
-To allow us to see where the ``vanished'' nulling symbols
-were,
-we shall use a large dot:
-\begin{equation}
-\label{eq:def-nulling-dot-convention-5}
-    \Vmk{i} \Vstr{pre} \Vsym{null} \mydot \Vmk{k} \derives \Vmk{i} \Vsym{pre} \mydot \Vsym{null} \Vmk{k}.
-\end{equation}
-Symbols after the dot, but before the $\Vmk{k}$,
-have been expanded into the empty string,
-so that
-\eqref{eq:def-nulling-dot-convention-5}
-is equivalent to
-\eqref{eq:def-nulling-dot-convention-3}.
-The ``vanished'' nulling symbols are kept as reminder of the rules used,
-so their inclusion in a derivation step is always optional ---
-a matter of presentation.
-
 \begin{lemma}
 \label{lem:silo-reflection-nt}
 Let \el{silo}{\Vincr{i}},
@@ -4394,6 +4393,9 @@ where
 \begin{equation*}
 \text{\Predot{\Vinst{given}} is a telluric terminal}.
 \end{equation*}
+
+TODO: Fix this.
+
 By Theorem \ref{t:silo-causes},
 a silo layer with a telluric terminal predot symbol
 has no silo causes.
@@ -4478,57 +4480,57 @@ the step of the induction,
 and the theorem.
 \end{proof}
 
-\begin{theorem}
-\ttitle{Silo layer uniqueness}
-\label{t:silo-layer-unique}
-No layer of a silo occurs twice.
-That is, if \var{silo} is a silo,
+\begin{lemma}
+\ttitle{Telluric terminal silo layer is unique}
+\label{t:silo-telluric-terminal-layer-unique}
+Let a silo layer, call it \Vel{silo}{i}, be a telluric terminal.
+\Vel{silo}{i} does not occur twice:
 \begin{equation}
-\forall \; \var{i}, \var{j}, \Vel{silo}{i} = \Vel{silo}{j} \implies \var{i} = \var{j}
+\Vel{silo}{i} = \Vel{silo}{j} \implies \var{i} = \var{j}
 \end{equation}
-\end{theorem}
+\end{lemma}
 
 \begin{proof}
-Let \var{silo},
-be a silo,
-and \var{hi}, \var{lo}
-be two layers in it.
-Without loss of generalization,
-let $\var{hi} \ge \var{lo}$.
-We assume for a reductio that
+Suppose for a reductio
+that there are two layers in \var{silo},
+such that
 \begin{equation}
+\label{eq::silo-telluric-terminal-layer-unique-10}
 \tag{RAD}
-\label{eq:silo-layer-unique-10}
-\text{$\Vel{silo}{hi} = \Vel{silo}{lo}$ and $\var{hi} \neq \var{lo}$}
+\Vel{silo}{hi} = \Vel{silo}{lo} \; \land \; \var{hi} \neq \var{lo},
 \end{equation}
-
-\textbf{Terminal parse instances}:
-We first deal with case where
-\Vel{silo}{hi} is not an EIM,
-but a telluric terminal parse instance.
-In this case,
-\Vel{silo}{hi} has no silo cause, so that
-there can be no silo layer below it:
+where both \var{hi} and \var{lo} are telluric symbol instances.
+Without loss of generality,
+we assume that $\var{lo} \le \var{hi}$.
+By Theorem \ref{t:silo-causes},
+\Vel{silo}{hi} has no silo cause.
+Because \el{silo}{\Vdecr{hi}}
+is, by the definition of silo, the silo cause
+of
+\Vel{silo}{hi},
+this means that there can be no
+\el{silo}{\Vdecr{hi}}.
+So \Vel{silo}{hi} must be the bottom of the silo:
 \begin{equation}
 \var{hi} \ge \var{lo} \implies \var{hi} = \var{lo}.
 \end{equation}
 This contradicts
-\eqref{eq:silo-layer-unique-10}
-and gives us the reductio.
-We conclude that
-\begin{equation}
-\label{eq:silo-layer-unique-24}
-\text{\Vel{silo}{hi} is an EIM}
-\end{equation}
+\eqref{eq::silo-telluric-terminal-layer-unique-10},
+giving us the reductio and the theorem.
+\end{proof}
 
-\textbf{No predot symbol}:
-By Theorem
-\ref{t:silo-predot}
-we know that
-\Vel{silo}{hi} has a predot symbol:
+\begin{lemma}
+\ttitle{Read EIM silo layer is unique}
+\label{t:silo-read-eim-layer-is-unique}
+Let a silo layer, call it \Vel{silo}{i}, be a read EIM.
+\Vel{silo}{i} does not occur twice:
 \begin{equation}
-\Predot{\Vel{silo}{hi}} \neq \Lambda
+\Vel{silo}{i} = \Vel{silo}{j} \implies \var{i} = \var{j}
 \end{equation}
+\end{lemma}
+
+\begin{proof}
+TODO: Just copied.  Fix this up.
 
 \textbf{Predot not a telluric terminal}:
 If \Predot{\Vel{silo}{hi}} is a telluric terminal,
@@ -4586,7 +4588,7 @@ This silo cause is
 \\
 \label{eq:silo-layer-unique-42}
 & \text{\Vel{silo}{hi} is an EIM}
-&& \because \eqref{eq:silo-layer-unique-24}
+&& TODO
 \\
 \label{eq:silo-layer-unique-46}
 & \el{silo}{\Vdecr{hi}} \neq \Vel{silo}{hi}
@@ -4610,6 +4612,43 @@ so that
 \label{eq:silo-layer-unique-51}
 \text{\Predot{\Vel{silo}{hi}} is not a telluric terminal}
 \end{equation}
+\end{proof}
+
+\begin{theorem}
+\ttitle{Silo layer is unique}
+\label{t:silo-layer-unique}
+No layer of a silo occurs twice.
+That is, if \var{silo} is a silo,
+\begin{equation}
+\forall \; \var{i}, \var{j}, \Vel{silo}{i} = \Vel{silo}{j} \implies \var{i} = \var{j}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Let \var{silo},
+be a silo,
+and \var{hi}, \var{lo}
+be two layers in it.
+Without loss of generalization,
+let $\var{hi} \ge \var{lo}$.
+We assume for a reductio that
+\begin{equation}
+\tag{RAD}
+\label{eq:silo-layer-unique-10}
+\text{$\Vel{silo}{hi} = \Vel{silo}{lo}$ and $\var{hi} \neq \var{lo}$}
+\end{equation}
+
+\textbf{No predot symbol}:
+By Theorem
+\ref{t:silo-predot}
+we know that
+\Vel{silo}{hi} has a predot symbol:
+\begin{equation}
+\Predot{\Vel{silo}{hi}} \neq \Lambda
+\end{equation}
+
+TODO Predot not a telluric terminal:
+Moved this into lemma.  Make fixes.
 
 \textbf{Trivial derivation}:
 From \eqref{eq:silo-layer-unique-10},
@@ -4742,7 +4781,8 @@ top-down cause of \Veim{eim} for a null-scan.
 \end{multlined}
 &&
 \eqref{eq:silo-layer-unique-83},
-\eqref{eq:silo-layer-unique-86}
+\quad
+\text{TODO}
 \end{align}
 
 From
