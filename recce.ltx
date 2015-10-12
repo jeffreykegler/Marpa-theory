@@ -522,15 +522,12 @@ for the iterated function.
 \end{align*}
 
 In proofs in this document,
-we may abbreviate
+we sometimes abbreviate
 ``without loss of generality'' as \dfn{WLOG},
-and ``assumption'' as \dfn{ASM}.
-``\var{x} ASM'' will mean ``Assumption for \var{x}'',
-or ``Assumption for the \var{x}''.
-For example,
-``theorem ASM'' means ``assumption for the theorem'',
+``assumption'' as \dfn{ASM},
+``theorem'' as \dfn{Th},
 and
-``reductio ASM'' means ``assumption for the reductio'',
+``definition'' as \dfn{Def}.
 
 Where \Vsymset{syms} is non-empty set of symbols,
 let $\var{syms}^\ast$ be the set of all strings
@@ -582,44 +579,55 @@ This restriction applies only to Marpa's internal grammar.
 As explained in Chapter \ref{ch:rewrite},
 it is invisible to Marpa's users.
 
-Occasionaly, we will need to look at the RHS of a rule
+Occasionally, we will need to look at the RHS of a rule
 symbol by symbol.
 $\var{RHS}(\Vdr{dr}, \var{i})$
 is the \var{i}'th symbol on the RHS,
 where the numbering is zero-based.
 
 The rules imply the traditional rewriting system.
-Our notation for derivations uses
-a double right arrow.
+We write
+$\Vstr{x} \derives \Vstr{y}$
+to say that
+\Vstr{x} derives \Vstr{y} in exactly one step.
 If a superscript is placed over the arrow,
 it indicates
 the number of derivation steps.
-A derivation with no superscript is
-a derivation of exactly one step.
-\begin{center}
-\begin{tabular}{l @{\hspace{2em}} p{.4\textwidth}}
-$\Vstr{x} \derives \Vstr{y}$ &
-one step \\
-$\Vstr{x} \deplus \Vstr{y}$ &
-one or more steps \\
-$\Vstr{x} \destar \Vstr{y}$ &
-zero or more steps \\
-$\Vstr{x} \xderives{\var{n}} \Vstr{y}$ &
-\var{n} steps \\
-$\Vstr{x} \xderives{1} \Vstr{y}$ &
-one step \\
-$\Vstr{x} \xderives{0} \Vstr{y}$ &
-zero steps
-\end{tabular}
-\end{center}
-So, for example, we write
-$\Vstr{x} \derives \Vstr{y}$ to say that
-\Vstr{x} derives \Vstr{y} in exactly one step,
-and
-$\Vstr{x} \destar \Vstr{y}$ to say that
-\Vstr{x} derives \Vstr{y} in zero or more steps.
-A derivation of zero steps is called a
+So we can also write
+$\Vstr{x} \xderives{1} \Vstr{y}$
+to say that
+\Vstr{x} derives \Vstr{y} in one step.
+We write
+$\Vstr{x} \xderives{\var{n}} \Vstr{y}$
+so say that
+\Vstr{x} derives \Vstr{y} in \var{n} steps.
+$\Vstr{x} \xderives{0} \Vstr{y}$
+is a derivation in zero steps,
+and is called a
 \xdfn{trivial derivation}{trivial (derivation)}.
+
+We write $\Vstr{x} \destar \Vstr{y}$
+to say that 
+\Vstr{x} derives \Vstr{y} in zero or more steps,
+and
+$\Vstr{x} \deplus \Vstr{y}$
+to say that 
+\Vstr{x} derives \Vstr{y} in one or more steps.
+Note that
+\begin{gather*}
+\Vstr{x} \destar \Vstr{y} \implies
+\exists \; \var{n},
+\Vstr{x} \xderives{\var{n}} \Vstr{y}
+\\
+\text{and} \quad
+\Vstr{x} \deplus \Vstr{y} \implies
+\exists \; \var{n},
+\big(\var{n} \ge 1 \; \land \;
+\Vstr{x} \xderives{\var{n}} \Vstr{y}
+\big),
+\end{gather*}
+where \var{n} is a non-negative integer~
+\cite[Vol. 1, p. 86]{AU1972}.
 
 The literature does not always distinguish between two
 meanings of the term ``derivation step''.
@@ -4045,27 +4053,23 @@ his title.
 \dtitle{Silo}
 \label{def:silo}
 An Earley item
-is \dfn{silo eligible} at \Vloc{k} if and only
-if it is quasi-complete and
-its right location is \Vloc{k}.
-intended.
-A symbol instance is
-\dfn{silo eligible} at \Vloc{k} if and only
-if it is telluric and
-its right location is \Vloc{k}.
-We write ``silo eligible'' instead of
-``silo eligible at \var{k}''
-when
-it is clear from context which \Vloc{k} is
-intended.
-
-We say that an parse instance, call it \Vinst{cuz}
-is the \dfn{silo cause} of another parse instance,
-call it \Vinst{effect},
-if and only if both are silo eligible at the
-same location,
-and \Vinst{cuz} is a top-down or bottom-up cause
+is \dfn{silo eligible} if and only
+if it is quasi-complete.
+We say that an EIM, call it \Veim{cuz},
+is the \dfn{silo cause} of another EIM,
+call it \Veim{effect},
+if and only if
+\begin{itemize}
+\item
+\Veim{cuz} and \Veim{effect}
+are silo eligible,
+\item
+$\Right{\Veim{cuz}} = \Right{\Veim{effect}}$,
+and
+\item
+\Vinst{cuz} is a top-down or bottom-up cause
 of \Vinst{effect}.
+\end{itemize}
 
 A \dfn{silo} at \Vloc{k},
 call it \var{silo},
@@ -4077,12 +4081,131 @@ where
 called the \dfn{silo location} of \var{silo}.
 \end{definition}
 
-Note that, from
-Definition \ref{def:silo},
-that a silo cause must be an
-EIM or a telluric parse instance.
-A silo cause cannot be ethereal,
-or a nulling symbol parse instance.
+We call an element of a silo,
+a
+\xdfn{layer}{layer (of silo)}.
+We write \Vsize{\var{silo}} for the number
+of elements in silo.
+Our indexing convention is to use
+non-negative integers for silo layers
+so that
+\el{silo}{0} 
+is the
+\xdfn{bottom}{bottom (of silo)}
+of the silo,
+and 
+\el{silo}{\xxsubtract{\Vsize{\var{silo}}}{1}}.
+is the
+\xdfn{top}{top (of silo)}
+of the silo.
+The layers of a silo, therefore are
+\begin{equation*}
+\el{silo}{0} \ldots \el{silo}{\xxsubtract{\Vsize{\var{silo}}}{1}}.
+\end{equation*}
+
+\begin{theorem}
+\label{t:silo-location}
+Let \Vel{silo}{i}
+and
+\Vel{silo}{j}
+be two layers of a silo.
+Then
+\begin{equation}
+\label{eq:silo-location-4}
+\Right{\Vel{silo}{i}} =
+\Right{\Vel{silo}{j}}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+We first seek to show that
+\begin{multline}
+\label{eq:silo-location-7}
+\forall \var{x},
+0 \le \var{x} 
+\le \Vel{silo}{top}, \\
+\Right{\Vel{silo}{0}} =
+\Right{\Vel{silo}{x}} \\
+\qquad \shoveleft{\text{where $\var{top} = 
+\xxsubtract{\Vsize{\var{silo}}}{1}$}}.
+\end{multline}
+The proof
+of \eqref{eq:silo-location-7}
+is by induction.
+We take as the induction hypothesis,
+\begin{equation}
+\tag{HYP}
+\label{eq:silo-location-10}
+\Right{\el{silo}{0}} =
+\Right{\Vel{silo}{x}}
+\end{equation}
+We have 
+\eqref{eq:silo-location-10}
+trivially if $\var{x} = 0$,
+and we use this as the basis of
+the induction.
+
+For the step, we assume
+\eqref{eq:silo-location-10}
+for $\var{x} = \var{i}$
+to show
+\eqref{eq:silo-location-10}
+for $\var{x} = \Vincr{i}$.
+We know that
+\Vel{silo}{i}
+is the silo cause of
+\Vel{silo}{\Vincr{i}}.
+By the definition of a silo cause,
+then
+\begin{equation}
+\label{eq:silo-location-13}
+\Right{\Vel{silo}{i}} =
+\Right{\el{silo}{\Vincr{i}}}
+\end{equation}
+The assumption for the step is that
+\begin{equation}
+\label{eq:silo-location-16}
+\Right{\el{silo}{0}} =
+\Right{\el{silo}{\var{i}}}
+\end{equation}
+and from
+\eqref{eq:silo-location-13}
+and \eqref{eq:silo-location-16}
+we have
+\begin{equation}
+\label{eq:silo-location-17}
+\Right{\el{silo}{0}} =
+\Right{\el{silo}{\Vincr{i}}},
+\end{equation}
+which shows the step, the induction and
+\eqref{eq:silo-location-7}
+
+It remains to show
+\eqref{eq:silo-location-4}.
+\begin{align}
+\label{eq:silo-location-19}
+& 
+\Right{\el{silo}{0}} =
+\Right{\Vel{silo}{i}}
+&& \eqref{eq:silo-location-7}
+\\
+\label{eq:silo-location-22}
+& 
+\Right{\el{silo}{0}} =
+\Right{\Vel{silo}{j}}
+&& \eqref{eq:silo-location-7}
+\\
+\label{eq:silo-location-25}
+& 
+\Right{\Vel{silo}{i}} =
+\Right{\Vel{silo}{j}}
+&& \eqref{eq:silo-location-19},
+\eqref{eq:silo-location-22}
+\end{align}
+\eqref{eq:silo-location-25} is 
+\eqref{eq:silo-location-4},
+which shows the theorem.
+\end{proof}
 
 \begin{theorem}
 \label{t:silo-causes}
@@ -4101,9 +4224,6 @@ and no bottom-up silo causes; or
 is a reduction EIM and
 has at least one bottom-up silo cause
 and no top-down silo causes.
-\item
-is a telluric symbol parse instance
-and has no silo causes.
 \end{itemize}
 \end{theorem}
 
@@ -4342,6 +4462,94 @@ so that
 \end{equation}
 \end{proof}
 
+\begin{lemma}
+\ttitle{Read EIM silo layer properties}
+\label{t:silo-read-eim-layer}
+Let a silo layer, call it \Vel{silo}{i}, be a read EIM.
+Then
+\begin{gather}
+\label{eq:silo-read-eim-layer-1}
+\var{i} = 0,
+\\
+\label{eq:silo-read-eim-layer-2}
+\nexists \;
+\Vel{silo}{j} :
+\var{j} < \var{i}, \quad \text{and}
+\\
+\label{eq:silo-read-eim-layer-3}
+\Vel{silo}{i} = \Vel{silo}{j} \implies \var{i} = \var{j}.
+\end{gather}
+\end{lemma}
+
+\begin{proof}
+Let \Vel{silo}{x} be a Read EIM.
+By Theorem
+\ref{t:silo-causes},
+it has no causes,
+and therefore by the definition of
+a silo,
+there is no silo layer
+\Vel{silo}{\Vdecr{x}}.
+This shows 
+\eqref{eq:silo-read-eim-layer-1}
+in the statement of the theorem.
+
+Recall that
+silo layer indexes must be non-negative integers.
+\eqref{eq:silo-read-eim-layer-2}
+follows from this observation
+and \eqref{eq:silo-read-eim-layer-1}.
+
+It remains to show 
+\eqref{eq:silo-read-eim-layer-3}
+in the statement of the theorem.
+Suppose for a reductio
+that there are two silo layers,
+\Vel{silo}{hi}
+and
+\Vel{silo}{lo},
+such that
+\begin{equation}
+\label{eq:silo-read-eim-layer-20}
+\tag{RAD}
+\Vel{silo}{hi} = \Vel{silo}{lo} \; \land \; \var{hi} \neq \var{lo},
+\end{equation}
+and that one of
+\var{x} and \var{y} is a read EIM.
+By 
+\eqref{eq:silo-read-eim-layer-20},
+the assumption for the reductio,
+$\Vel{silo}{hi} = \Vel{silo}{lo}$,
+so that
+\begin{equation}
+\label{eq:silo-read-eim-layer-25}
+\text{\Vel{silo}{hi} and \Vel{silo}{lo} are both read EIM's.}
+\end{equation}
+
+Above, we showed
+\eqref{eq:silo-read-eim-layer-1}
+in the statement
+of the theorem.
+Using
+\eqref{eq:silo-read-eim-layer-1}
+with
+\eqref{eq:silo-read-eim-layer-25},
+we have
+\begin{equation}
+\label{eq:silo-read-eim-layer-28}
+\var{hi} = \var{lo} = 0.
+\end{equation}
+
+\eqref{eq:silo-read-eim-layer-28}
+contradicts
+\eqref{eq:silo-read-eim-layer-20}
+which shows the reductio.
+With the reductio, we
+have shown the last requirement
+in the statement of the theorem,
+requirement \ref{eq:silo-read-eim-layer-3}.
+\end{proof}
+
 \begin{theorem}
 \ttitle{Silo reflection}
 \label{t:silo-reflection}
@@ -4381,11 +4589,14 @@ Let
     \Vinst{given} = \el{silo}{\xxsubtract{\var{n}}{\var{i}}} \\
     \text{and} \quad \Vinst{sought} = \Vel{silo}{\xxsubtract{\var{n}}{(\Vincr{i})}}
 \end{gather*}
-We show the step by cases, depending on the predot symbol
-of \Vinst{given}:
-the case of a telluric terminal,
-the case of a nulling terminal,
-and the case of a non-terminal.
+By Theorem
+\ref{t:silo-predot},
+we know that every layer of \var{silo} has a predot symbol.
+We show the step by cases, according to whether the predot symbol
+of \Vinst{given} is
+a telluric terminal,
+a nulling terminal,
+or a non-terminal.
 
 \textbf{Telluric terminal}:
 We first consider the case
@@ -4393,9 +4604,6 @@ where
 \begin{equation*}
 \text{\Predot{\Vinst{given}} is a telluric terminal}.
 \end{equation*}
-
-TODO: Fix this.
-
 By Theorem \ref{t:silo-causes},
 a silo layer with a telluric terminal predot symbol
 has no silo causes.
@@ -4478,140 +4686,6 @@ giving us the case of a non-terminal.
 This gives us the last of our three cases,
 the step of the induction,
 and the theorem.
-\end{proof}
-
-\begin{lemma}
-\ttitle{Telluric terminal silo layer is unique}
-\label{t:silo-telluric-terminal-layer-unique}
-Let a silo layer, call it \Vel{silo}{i}, be a telluric terminal.
-\Vel{silo}{i} does not occur twice:
-\begin{equation}
-\Vel{silo}{i} = \Vel{silo}{j} \implies \var{i} = \var{j}
-\end{equation}
-\end{lemma}
-
-\begin{proof}
-Suppose for a reductio
-that there are two layers in \var{silo},
-such that
-\begin{equation}
-\label{eq::silo-telluric-terminal-layer-unique-10}
-\tag{RAD}
-\Vel{silo}{hi} = \Vel{silo}{lo} \; \land \; \var{hi} \neq \var{lo},
-\end{equation}
-where both \var{hi} and \var{lo} are telluric symbol instances.
-Without loss of generality,
-we assume that $\var{lo} \le \var{hi}$.
-By Theorem \ref{t:silo-causes},
-\Vel{silo}{hi} has no silo cause.
-Because \el{silo}{\Vdecr{hi}}
-is, by the definition of silo, the silo cause
-of
-\Vel{silo}{hi},
-this means that there can be no
-\el{silo}{\Vdecr{hi}}.
-So \Vel{silo}{hi} must be the bottom of the silo:
-\begin{equation}
-\var{hi} \ge \var{lo} \implies \var{hi} = \var{lo}.
-\end{equation}
-This contradicts
-\eqref{eq::silo-telluric-terminal-layer-unique-10},
-giving us the reductio and the theorem.
-\end{proof}
-
-\begin{lemma}
-\ttitle{Read EIM silo layer is unique}
-\label{t:silo-read-eim-layer-is-unique}
-Let a silo layer, call it \Vel{silo}{i}, be a read EIM.
-\Vel{silo}{i} does not occur twice:
-\begin{equation}
-\Vel{silo}{i} = \Vel{silo}{j} \implies \var{i} = \var{j}
-\end{equation}
-\end{lemma}
-
-\begin{proof}
-TODO: Just copied.  Fix this up.
-
-\textbf{Predot not a telluric terminal}:
-If \Predot{\Vel{silo}{hi}} is a telluric terminal,
-then
-by Theorem
-\ref{t:silo-causes},
-its bottom-up cause is its only silo cause.
-This silo cause is
-\el{silo}{\Vdecr{hi}}.
-\begin{align}
-\label{eq:silo-layer-unique-30}
-&
-\begin{multlined}
-\el{silo}{\Vdecr{hi}} \\
-\text{is a symbol instance}
-\end{multlined}
-  && \text{Theorem \ref{t:symbolic-causes-from-effect}}
-\\
-\label{eq:silo-layer-unique-32}
-&
-\begin{multlined}
-\Symbol{\el{silo}{\Vdecr{hi}}} \\
-= \Predot{\Vel{silo}{hi}}
-\end{multlined}
-  && \text{also Theorem \ref{t:symbolic-causes-from-effect}}
-\\
-\label{eq:silo-layer-unique-34}
-&
-\begin{multlined}
-\Predot{\Vel{silo}{hi}} \\
-\text{is a telluric terminal}
-\end{multlined}
-  && \text{Assumption for the case}
-\\
-\label{eq:silo-layer-unique-36}
-&
-\begin{multlined}
-\el{silo}{\Vdecr{hi}} \\
-\text{has no EIM equivalent}
-\end{multlined}
-    && \eqref{eq:silo-layer-unique-30}, \eqref{eq:silo-layer-unique-32},
-	\eqref{eq:silo-layer-unique-34}
-\\
-\label{eq:silo-layer-unique-38}
-& \text{\el{silo}{\Vdecr{hi}} has no causes}
-   && \text{Theorem \ref{t:silo-causes}, \eqref{eq:silo-layer-unique-36}}
-\\
-\label{eq:silo-layer-unique-40}
-& \Vdecr{hi} \le \var{lo}
-  && \eqref{eq:silo-layer-unique-38}
-\\
-\label{eq:silo-layer-unique-41}
-& \var{lo} \le \var{hi}
-  && \text{Assumption for the case}
-\\
-\label{eq:silo-layer-unique-42}
-& \text{\Vel{silo}{hi} is an EIM}
-&& TODO
-\\
-\label{eq:silo-layer-unique-46}
-& \el{silo}{\Vdecr{hi}} \neq \Vel{silo}{hi}
-  && \eqref{eq:silo-layer-unique-36}, \eqref{eq:silo-layer-unique-42}
-\\
-\label{eq:silo-layer-unique-48}
-&
-\begin{multlined}
-\Vel{silo}{hi} = \Vel{silo}{lo} \\
-\implies \var{hi} = \var{lo}
-\end{multlined}
-  && \eqref{eq:silo-layer-unique-40},
-    \eqref{eq:silo-layer-unique-41},
-    \eqref{eq:silo-layer-unique-46}
-\end{align}
-and since this contradicts the assumption
-for the reductio, \eqref{eq:silo-layer-unique-10},
-we can conclude the assumption for the case is false,
-so that
-\begin{equation}
-\label{eq:silo-layer-unique-51}
-\text{\Predot{\Vel{silo}{hi}} is not a telluric terminal}
-\end{equation}
 \end{proof}
 
 \begin{theorem}
