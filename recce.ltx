@@ -4852,9 +4852,11 @@ we have
 \begin{multline}
 \label{eq:silo-layer-unique-83}
 \text{if} \quad
-\forall \var{n} : \Predot{\el{silo}{(\xxsubtract{\var{hi}}{\var{n}})+1}} \destar \epsilon, \\
+\forall \var{a} :
+0 \le \var{a} \le \Vdecr{b} \implies
+\Predot{\el{silo}{(\xxsubtract{\var{hi}}{\var{a}}}} \destar \epsilon, \\
 \text{then} \quad
-\myfnname{TDNS}^{\displaystyle (\var{n})}(\Vel{silo}{hi}) = \\
+\myfnname{TDNS}^{\displaystyle (\var{b})}(\Vel{silo}{hi}) = \\
 \big[ [ \Vrule{r}, \xxsubtract{\var{ix}}{\var{n}} ], \Vorig{hi}, \Vloc{here} \big]
 \end{multline}
 
