@@ -4721,8 +4721,8 @@ By Theorem
 \ref{t:silo-predot}
 we know that
 \Vel{silo}{hi} has a predot symbol:
-\label{eq:silo-layer-unique-51}
 \begin{equation}
+\label{eq:silo-layer-unique-51}
 \Predot{\Vel{silo}{hi}} \neq \Lambda
 \end{equation}
 From Theorem
@@ -4807,7 +4807,7 @@ we have
 \text{of generality}
 \end{multlined}
 \intertext{Note
-  that in \eqref{eq:silo-layer-unique-34}, we are using our alternate notation
+  that in \eqref{eq:silo-layer-unique-74}, we are using our alternate notation
   for dotted rules, where dotted rule is a duple of rule and RHS index.
 }
 \label{eq:silo-layer-unique-76}
@@ -4844,17 +4844,21 @@ top-down cause of \Veim{eim} for a null-scan.
 \myfnname{TDNS},
 \eqref{eq:silo-layer-unique-78}
 \end{multlined}
-\\
+\end{align}
+
+By iteration of
+\eqref{eq:silo-layer-unique-80},
+we have
+\begin{multline}
 \label{eq:silo-layer-unique-83}
-&
-\begin{multlined}
+\text{if} \quad
+\forall \var{n} : \Predot{\el{silo}{(\xxsubtract{\var{hi}}{\var{n}})+1}} \destar \epsilon, \\
+\text{then} \quad
 \myfnname{TDNS}^{\displaystyle (\var{n})}(\Vel{silo}{hi}) = \\
-\big[ [ \Vrule{r}, \xxsubtract{\var{ix}}{\var{n}} ], \Vorig{hi}, \Vloc{here} \big] \\
-\text{if \Predot{\el{silo}{(\xxsubtract{\var{hi}}{\var{n}})+1}} is nulling,}
-\end{multlined}
-&&
-\eqref{eq:silo-layer-unique-80}
-\\
+\big[ [ \Vrule{r}, \xxsubtract{\var{ix}}{\var{n}} ], \Vorig{hi}, \Vloc{here} \big]
+\end{multline}
+
+\begin{align}
 \label{eq:silo-layer-unique-89}
 &
 \begin{multlined}
