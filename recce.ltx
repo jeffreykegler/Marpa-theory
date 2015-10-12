@@ -607,11 +607,11 @@ and is called a
 \xdfn{trivial derivation}{trivial (derivation)}.
 
 We write $\Vstr{x} \destar \Vstr{y}$
-to say that 
+to say that
 \Vstr{x} derives \Vstr{y} in zero or more steps,
 and
 $\Vstr{x} \deplus \Vstr{y}$
-to say that 
+to say that
 \Vstr{x} derives \Vstr{y} in one or more steps.
 Note that
 \begin{gather*}
@@ -4052,9 +4052,18 @@ his title.
 \begin{definition}
 \dtitle{Silo}
 \label{def:silo}
+A rule is
+\xdfn{silo eligible}{silo-eligible (rule)}
+if and only if it is right-recursive.
+A dotted rule is
+\xdfn{silo eligible}{silo-eligible (dotted rule)}
+if and only if its rule is silo-eligible,
+and it is quasi-complete.
 An Earley item
-is \dfn{silo eligible} if and only
-if it is quasi-complete.
+is
+\xdfn{silo eligible}{silo-eligible (EIM)}
+if and only
+if its dotted rule is silo-eligible.
 We say that an EIM, call it \Veim{cuz},
 is the \dfn{silo cause} of another EIM,
 call it \Veim{effect},
@@ -4087,21 +4096,17 @@ a
 We write \Vsize{\var{silo}} for the number
 of elements in silo.
 Our indexing convention is to use
-non-negative integers for silo layers
-so that
-\el{silo}{0} 
-is the
+consecutive non-negative integers for silo layers,
+started at zero.
+\el{silo}{0}
+is called the
 \xdfn{bottom}{bottom (of silo)}
 of the silo,
-and 
-\el{silo}{\xxsubtract{\Vsize{\var{silo}}}{1}}.
+and
+\var{silo}\big[\xxsubtract{\Vsize{\var{silo}}}{1}\big].
 is the
 \xdfn{top}{top (of silo)}
 of the silo.
-The layers of a silo, therefore are
-\begin{equation*}
-\el{silo}{0} \ldots \el{silo}{\xxsubtract{\Vsize{\var{silo}}}{1}}.
-\end{equation*}
 
 \begin{theorem}
 \label{t:silo-location}
@@ -4121,12 +4126,12 @@ Then
 We first seek to show that
 \begin{multline}
 \label{eq:silo-location-7}
-\forall \var{x},
-0 \le \var{x} 
-\le \Vel{silo}{top}, \\
+\forall \var{x} :
+0 \le \var{x}
+\le \Vel{silo}{top} \implies \\
 \Right{\Vel{silo}{0}} =
 \Right{\Vel{silo}{x}} \\
-\qquad \shoveleft{\text{where $\var{top} = 
+\qquad \shoveleft{\text{where $\var{top} =
 \xxsubtract{\Vsize{\var{silo}}}{1}$}}.
 \end{multline}
 The proof
@@ -4139,7 +4144,7 @@ We take as the induction hypothesis,
 \Right{\el{silo}{0}} =
 \Right{\Vel{silo}{x}}
 \end{equation}
-We have 
+We have
 \eqref{eq:silo-location-10}
 trivially if $\var{x} = 0$,
 and we use this as the basis of
@@ -4178,31 +4183,31 @@ we have
 \Right{\el{silo}{\Vincr{i}}},
 \end{equation}
 which shows the step, the induction and
-\eqref{eq:silo-location-7}
+\eqref{eq:silo-location-7}.
 
 It remains to show
 \eqref{eq:silo-location-4}.
 \begin{align}
 \label{eq:silo-location-19}
-& 
+&
 \Right{\el{silo}{0}} =
 \Right{\Vel{silo}{i}}
 && \eqref{eq:silo-location-7}
 \\
 \label{eq:silo-location-22}
-& 
+&
 \Right{\el{silo}{0}} =
 \Right{\Vel{silo}{j}}
 && \eqref{eq:silo-location-7}
 \\
 \label{eq:silo-location-25}
-& 
+&
 \Right{\Vel{silo}{i}} =
 \Right{\Vel{silo}{j}}
 && \eqref{eq:silo-location-19},
 \eqref{eq:silo-location-22}
 \end{align}
-\eqref{eq:silo-location-25} is 
+\eqref{eq:silo-location-25} is
 \eqref{eq:silo-location-4},
 which shows the theorem.
 \end{proof}
@@ -4490,7 +4495,7 @@ and therefore by the definition of
 a silo,
 there is no silo layer
 \Vel{silo}{\Vdecr{x}}.
-This shows 
+This shows
 \eqref{eq:silo-read-eim-layer-1}
 in the statement of the theorem.
 
@@ -4500,7 +4505,7 @@ silo layer indexes must be non-negative integers.
 follows from this observation
 and \eqref{eq:silo-read-eim-layer-1}.
 
-It remains to show 
+It remains to show
 \eqref{eq:silo-read-eim-layer-3}
 in the statement of the theorem.
 Suppose for a reductio
@@ -4516,7 +4521,7 @@ such that
 \end{equation}
 and that one of
 \var{x} and \var{y} is a read EIM.
-By 
+By
 \eqref{eq:silo-read-eim-layer-20},
 the assumption for the reductio,
 $\Vel{silo}{hi} = \Vel{silo}{lo}$,
@@ -4734,7 +4739,7 @@ we know that
 \op{Valid-eq}{\Vel{silo}{hi}} \destar
 \op{Valid-eq}{\Vel{silo}{lo}}.
 \end{equation}
-The derivation of 
+The derivation of
 \eqref{eq:silo-layer-unique-54}
 may be trivial -- that is,
 it may be derivation of zero steps.
@@ -4807,7 +4812,7 @@ we know that
 \text{top-down cause of \Vel{silo}{hi} is} \\
 \big[ [ \Vrule{r}, \Vdecr{ix} ], \Vorig{hi}, \Vloc{here} \big]
 \end{multlined}
-&& 
+&&
 \eqref{eq:silo-layer-unique-74},
 \text{Theorem \ref{t:symbolic-causes-from-effect}}
 \\
