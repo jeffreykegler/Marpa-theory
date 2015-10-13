@@ -4711,8 +4711,7 @@ there is no silo layer
 Our indexing convention is that 0 is the
 numerically the lowest index of the silo.
 This shows
-\eqref{eq:silo-read-eim-layer-1}
-in the statement of the theorem.
+\eqref{eq:silo-read-eim-layer-1}.
 
 Recall that
 silo layer indexes must are
@@ -4744,13 +4743,12 @@ $\Vel{silo}{x} = \Vel{silo}{y}$,
 so that
 \begin{equation}
 \label{eq:silo-read-eim-layer-25}
-\text{\Vel{silo}{x} is a read EIM.}
+\text{\Vel{silo}{y} is a read EIM.}
 \end{equation}
 
 Above, we showed
-\eqref{eq:silo-read-eim-layer-1}
-in the statement
-of the theorem, so that we can use it to show
+\eqref{eq:silo-read-eim-layer-1},
+so that it is available to show
 \eqref{eq:silo-read-eim-layer-3}.
 \begin{align}
 \label{eq:silo-read-eim-layer-28}
@@ -4798,24 +4796,26 @@ hypothesis is
 \tag{HYP}
 \label{eq:silo-reflection-10}
 \op{Valid-eq}{\Vel{silo}{hi}} \destar
-\op{Valid-eq}{\Vel{silo}{\xxsubtract{\var{hi}}{\var{i}}}}.
+\op{Valid-eq}{\Vel{silo}{x}}.
 \end{equation}
 The derivation equivalent of any silo layer derives itself,
 so we have
 \eqref{eq:silo-reflection-10} for
-$\var{i} = 0$ trivially.
+$\var{x} = \var{hi}$ trivially.
 We take this as the basis of our induction.
 
 For the step of the induction we assume
 \eqref{eq:silo-reflection-10}
-for \var{i} to show
+for $\var{x} = \var{i}$ to show
 \eqref{eq:silo-reflection-10}
-for \Vincr{i}.
-Let
-\begin{gather*}
-    \Veim{given} = \el{silo}{\xxsubtract{\var{hi}}{\var{i}}} \\
-    \text{and} \quad \Veim{sought} = \Vel{silo}{\xxsubtract{\var{hi}}{(\Vincr{i})}}
-\end{gather*}
+for $\var{x} = \Vdecr{i}$.
+The assumption for the step is
+\begin{equation}
+\tag{STEPASM}
+\label{eq:silo-reflection-20}
+\op{Valid-eq}{\Vel{silo}{hi}} \destar
+\op{Valid-eq}{\Vel{silo}{i}}.
+\end{equation}
 By Theorem
 \ref{t:silo-predot},
 we know that every layer of \var{silo} has a predot symbol.
@@ -4834,9 +4834,9 @@ where
 By Theorem \ref{t:silo-causes},
 a silo layer with a telluric terminal predot symbol
 has no silo causes.
-Therefore there is no \Veim{sought}.
+Therefore there is no \el{silo}{\Vdecr{i}}.
 This gives us
-\eqref{eq:silo-reflection-10} for \Vincr{i}
+\eqref{eq:silo-reflection-10} for \Vdecr{i}
 vacuously for the case of a telluric terminal.
 
 \textbf{Nulling terminal}:
@@ -4845,12 +4845,6 @@ We next consider the case where
 \label{eq:silo-reflection-17}
 \text{\Predot{\Veim{given}} is a nulling terminal}.
 \end{equation}
-Using the assumption for the step, we know that
-\begin{equation}
-\label{eq:silo-reflection-20}
-\op{Valid-eq}{\Vel{silo}{hi}} \destar
-\op{Valid-eq}{\Veim{given}}.
-\end{equation}
 From
 \eqref{eq:silo-reflection-17}
 and Lemma \ref{lem:silo-reflection-nulling}, we know that
@@ -4858,7 +4852,7 @@ and Lemma \ref{lem:silo-reflection-nulling}, we know that
 \label{eq:silo-reflection-22}
 \op{Valid-eq}{\Veim{given}}
 \xderives{0}
-\op{Valid-eq}{\Veim{sought}}.
+\op{Valid-eq}{\el{silo}{\Vdecr{i}}}.
 \end{equation}
 Combining
 \eqref{eq:silo-reflection-20}
@@ -4868,7 +4862,7 @@ we have
 \begin{equation}
 \label{eq:silo-reflection-24}
 \op{Valid-eq}{\Vel{silo}{hi}} \destar
-\op{Valid-eq}{\Veim{sought}}
+\op{Valid-eq}{\el{silo}{\Vdecr{i}}}
 \end{equation}
 \eqref{eq:silo-reflection-24} is
 \eqref{eq:silo-reflection-10} for \Vincr{i},
@@ -4878,32 +4872,26 @@ giving us the case of a nulling terminal.
 We now consider the case where
 \begin{equation}
 \label{eq:silo-reflection-37}
-\text{\Predot{\Veim{given}} is nulling}.
-\end{equation}
-Using the assumption for the step, we know that
-\begin{equation}
-\label{eq:silo-reflection-40}
-\op{Valid-eq}{\Vel{silo}{hi}} \destar
-\op{Valid-eq}{\Veim{given}}.
+\text{\Predot{\Vel{silo}{i}} is nulling}.
 \end{equation}
 From
-\eqref{eq:silo-reflection-17}
+\eqref{eq:silo-reflection-37}
 and Lemma \ref{lem:silo-reflection-nt}, we know that
 \begin{equation}
 \label{eq:silo-reflection-42}
-\op{Valid-eq}{\Veim{given}}
+\op{Valid-eq}{\Vel{silo}{i}}
 \xderives{1}
-\op{Valid-eq}{\Veim{sought}}.
+\op{Valid-eq}{\el{silo}{\Vdecr{i}}}.
 \end{equation}
 Combining
-\eqref{eq:silo-reflection-40}
+\eqref{eq:silo-reflection-20}
 and
 \eqref{eq:silo-reflection-42},
 we have
 \begin{equation}
 \label{eq:silo-reflection-44}
 \op{Valid-eq}{\Vel{silo}{hi}} \destar
-\op{Valid-eq}{\Veim{sought}}
+\op{Valid-eq}{\el{silo}{\Vdecr{i}}}
 \end{equation}
 \eqref{eq:silo-reflection-44} is
 \eqref{eq:silo-reflection-10} for \Vincr{i},
