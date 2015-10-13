@@ -4941,16 +4941,15 @@ we know that
 \op{Valid-eq}{\Vel{silo}{lo}}.
 \end{equation}
 
-TODO Make fixes.
-
 \textbf{Trivial derivation}:
 Even when two silo layers are different,
 their validity equivalents may be equal
 or derive each other
 in zero steps.
 We consider first the case of a trivial derivation.
-We assume for a reductio that
+We assume for an inner reductio that
 \begin{equation}
+\tag{RAD1}
 \label{eq:silo-layer-unique-57}
 \op{Valid-eq}{\Vel{silo}{hi}} \xderives{0}
 \op{Valid-eq}{\Vel{silo}{lo}}
@@ -5033,22 +5032,22 @@ we have
 \end{multlined}
 && \eqref{eq:silo-layer-unique-72}, \eqref{eq:silo-layer-unique-76}
 \end{align}
-For this proof, we define the function \myfn{TDNS}{\Veim{eim}} as the
+For this proof, we define the function \myfn{TDC}{\Veim{eim}} as the
 top-down cause of \Veim{eim} for a null-scan.
-\myfn{TDNS}{\Veim{eim}} is undefined if
+\myfn{TDC}{\Veim{eim}} is undefined if
 \Predot{\Veim{eim}} is not nulling.
 
 \begin{align}
 \label{eq:silo-layer-unique-80}
 &
 \begin{multlined}
-\myfn{TDNS}{\Vel{silo}{hi}} = \\
+\myfn{TDC}{\Vel{silo}{hi}} = \\
 \big[ [ \Vrule{r}, \Vdecr{ix} ], \Vorig{hi}, \Vloc{here} \big]
 \end{multlined}
 &&
 \begin{multlined}
 \text{Definition of} \\
-\myfnname{TDNS},
+\myfnname{TDC},
 \eqref{eq:silo-layer-unique-78}
 \end{multlined}
 \end{align}
@@ -5060,19 +5059,52 @@ we have
 \label{eq:silo-layer-unique-83}
 \text{if} \quad
 \forall \var{a} :
-0 \le \var{a} \le \Vdecr{b} \implies
-\Predot{\el{silo}{(\xxsubtract{\var{hi}}{\var{a}}}} \destar \epsilon, \\
+\var{hi} \ge \var{a} > \var{lo} \implies
+\Predot{\Vel{silo}{a}} \destar \epsilon, \\
 \text{then} \quad
-\myfnname{TDNS}^{\displaystyle (\var{b})}(\Vel{silo}{hi}) = \\
-\big[ [ \Vrule{r}, \xxsubtract{\var{ix}}{\var{n}} ], \Vorig{hi}, \Vloc{here} \big]
+\Vel{silo}{a} =
+\myfnname{TDC}^{\displaystyle (\xxsubtract{\var{hi}}{\var{a}})}(\Vel{silo}{hi}) = \\
+\big[ [ \Vrule{r},
+\xxsubtract{\var{ix}}{
+  (\xxsubtract{\var{hi}}{\var{a}})
+}
+], \Vorig{hi}, \Vloc{here} \big]
+\end{multline}
+
+From Lemma
+\ref{lem:silo-reflection-nulling-induction}
+and
+\eqref{eq:silo-layer-unique-57},
+we have
+\begin{equation}
+\label{eq:silo-layer-unique-86}
+\forall \var{a} :
+\var{hi} \ge \var{a} > \var{lo} \implies
+\Predot{\Vel{silo}{a}} \destar \epsilon,
+\end{equation}
+so that we can simplify
+\eqref{eq:silo-layer-unique-83}
+to
+\begin{multline}
+\label{eq:silo-layer-unique-89}
+\forall \var{a} :
+\var{hi} \ge \var{a} > \var{lo} \\
+\implies
+\Vel{silo}{a} =
+\myfnname{TDC}^{\displaystyle (\xxsubtract{\var{hi}}{\var{a}})}(\Vel{silo}{hi}) = \\
+\big[ [ \Vrule{r},
+\xxsubtract{\var{ix}}{
+  (\xxsubtract{\var{hi}}{\var{a}})
+}
+], \Vorig{hi}, \Vloc{here} \big]
 \end{multline}
 
 \begin{align}
-\label{eq:silo-layer-unique-89}
+\label{eq:silo-layer-unique-92}
 &
 \begin{multlined}
 \text{for all $\var{n} > 0$} \\
-\myfnname{TDNS}^{\displaystyle (\var{n})}(\Vel{silo}{hi}) \neq \Vel{silo}{hi}
+\myfnname{TDC}^{\displaystyle (\var{n})}(\Vel{silo}{hi}) \neq \Vel{silo}{hi}
 \end{multlined}
 &&
 \eqref{eq:silo-layer-unique-83},
