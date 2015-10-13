@@ -4053,15 +4053,15 @@ his title.
 \dtitle{Silo}
 \label{def:silo}
 A rule is
-\xdfn{silo eligible}{silo-eligible (rule)}
+\xdfn{silo-eligible}{silo-eligible (rule)}
 if and only if it is right-recursive.
 A dotted rule is
-\xdfn{silo eligible}{silo-eligible (dotted rule)}
+\xdfn{silo-eligible}{silo-eligible (dotted rule)}
 if and only if its rule is silo-eligible,
 and it is quasi-complete.
 An Earley item
 is
-\xdfn{silo eligible}{silo-eligible (EIM)}
+\xdfn{silo-eligible}{silo-eligible (EIM)}
 if and only
 if its dotted rule is silo-eligible.
 We say that an EIM, call it \Veim{cuz},
@@ -4071,7 +4071,7 @@ if and only if
 \begin{itemize}
 \item
 \Veim{cuz} and \Veim{effect}
-are silo eligible,
+are silo-eligible,
 \item
 $\Right{\Veim{cuz}} = \Right{\Veim{effect}}$,
 and
@@ -4080,33 +4080,31 @@ and
 of \Vinst{effect}.
 \end{itemize}
 
-A \dfn{silo} at \Vloc{k},
-call it \var{silo},
-is a sequence of EIMs that are silo-eligible at \Vloc{k},
+A \dfn{silo},
+call it \var{s1},
+is a sequence of EIM's,
 where
-\Vel{silo}{\var{i}} is the silo cause of
-\el{silo}{\Vincr{i}}.
-\Vloc{k} is
-called the \dfn{silo location} of \var{silo}.
+\Vel{s1}{\var{i}} is the silo cause of
+\el{s1}{\Vincr{i}}.
 \end{definition}
 
 We call an element of a silo,
 a
 \xdfn{layer}{layer (of silo)}.
-We write \Vsize{\var{silo}} for the number
-of elements in silo.
+We write \Vsize{\var{s1}} for the number
+of elements in silo \var{s1}.
 Our indexing convention is to use
 consecutive non-negative integers for silo layers,
 started at zero.
-\el{silo}{0}
+\el{s1}{0}
 is called the
 \xdfn{bottom}{bottom (of silo)}
-of the silo,
+of \var{s1},
 and
-\var{silo}\big[\xxsubtract{\Vsize{\var{silo}}}{1}\big].
+\var{s1}\big[\xxsubtract{\Vsize{\var{s1}}}{1}\big]
 is the
 \xdfn{top}{top (of silo)}
-of the silo.
+of \var{s1}.
 
 \begin{theorem}
 \label{t:silo-location}
@@ -4123,7 +4121,7 @@ Then
 \end{theorem}
 
 \begin{proof}
-We first seek to show that
+We first will show that
 \begin{multline}
 \label{eq:silo-location-7}
 \forall \var{x} :
@@ -4267,7 +4265,7 @@ and some rule
 \[
   [ \Vsym{A} \de \Vstr{pre} \Vsym{tell} \Vstr{nulls} ] \in \Crules
 \]
-where \Vsym{tell} is telluric and $\Vsym{nulls} \destar \epsilon$.
+where \Vsym{tell} is telluric.
 By the definition of EIM validity, we know that
 \begin{align}
 & \Vmk{i} \Vstr{pre} \Vsym{tell} \Vmk{k} &&
@@ -4280,7 +4278,7 @@ By the definition of EIM validity, we know that
 \label{eq:no-silo-at-0-17}
   & \Vsize{\Vsym{tell}} \ge 1 &&
 \text{\Vsym{tell} is telluric}
-\intertext{and because every parse location must be non-negative,}
+\intertext{and because parse locations are non-negative integers,}
 & \var{i} > 0  &&
 \notag
 \\
@@ -4293,7 +4291,7 @@ By the definition of EIM validity, we know that
 \notag
 \\
 \label{eq:no-silo-at-0-27}
-\therefore \quad & \var{k} \ge 1 &&
+\therefore \quad & \Vloc{k} \ge 1 &&
 \end{align}
 \eqref{eq:no-silo-at-0-10} was stated without loss of generality,
 so that
@@ -4317,18 +4315,25 @@ directly from Theorem
 \label{lem:silo-reflection-nt}
 Let \el{silo}{\Vincr{i}},
 \Vel{silo}{i},
-be two silo layers,
-where
-\begin{equation*}
-\text{\Predot{\el{silo}{\Vincr{i}}} is a non-terminal.}
-\end{equation*}
-Then
-\begin{equation*}
-\op{Valid-eq}{\el{silo}{\Vincr{i}}} \xderives{1} \op{Valid-eq}{\el{silo}{\var{i}}}.
-\end{equation*}
+be two silo layers.
+\begin{align}
+\label{eq:lem-silo-reflection-nt-3}
+& \text{If \Predot{\el{silo}{\Vincr{i}}} is a non-terminal,}
+\\
+& \qquad \text{then
+$\op{Valid-eq}{\el{silo}{\Vincr{i}}} \xderives{1} \op{Valid-eq}{\el{silo}{\var{i}}}.$}
+\notag \\
+\label{eq:lem-silo-reflection-nt-6}
+& \text{If $\op{Valid-eq}{\el{silo}{\Vincr{i}}} \xderives{0} \op{Valid-eq}{\el{silo}{\var{i}}}$},
+\\
+& \qquad \text{then \Predot{\el{silo}{\Vincr{i}}} is a nulling terminal.}
+\notag
+\end{align}
 \end{lemma}
 
 \begin{proof}
+We first show
+\eqref{eq:lem-silo-reflection-nt-3}.
 Without loss of generality, we let
 \begin{equation}
 \label{eq:lem-silo-reflection-nt-10}
@@ -4390,7 +4395,10 @@ and the derivation step for
 \eqref{eq:lem-silo-reflection-nt-28}.
 \eqref{eq:lem-silo-reflection-nt-26} derives
 \eqref{eq:lem-silo-reflection-nt-28} in one step,
-which shows the theorem.
+which shows \eqref{eq:lem-silo-reflection-nt-3}.
+
+It remains to show
+\eqref{eq:lem-silo-reflection-nt-6}.
 \end{proof}
 
 \begin{lemma}
@@ -5502,6 +5510,15 @@ Omission of a Leo memo adds at most one EIM per parse location.
 TODO.
 \end{proof}
 
+\begin{theorem}
+\label{t:no-memoized-predictions}
+No prediction is memoized.
+\end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
+
 \chapter{The Marpa Recognizer}
 \label{ch:recce}
 \label{ch:pseudocode}
@@ -6470,9 +6487,9 @@ is correct for \Veimset{reduced-closure}.
 \Procedure{Memoize transitions}{\Vloc{i}}
 \For{every \Vsym{postdot}, a telluric postdot symbol of $\Ves{i}$}
 \label{line:memoize-transitions-20}
-\State Note: \Vsym{postdot} is ``Leo eligible" if it is
+\State Note: \Vsym{postdot} is ``Leo-eligible" if it is
 \State \hspace\algorithmicindent  Leo unique and its rule is right recursive
-\If{\Vsym{postdot} is Leo eligible}
+\If{\Vsym{postdot} is Leo-eligible}
 \State Set $\var{transitions}(\Vloc{i},\Vsym{postdot})$
 \State \hspace\algorithmicindent to a LEO
 \Else
@@ -6501,12 +6518,12 @@ Overhead is charged to \Ves{i}.
 
 We now look at the resource used in the Leo processing.
 A transition symbol \Vsym{transition}
-is Leo eligible if it is Leo unique
+is Leo-eligible if it is Leo unique
 and its rule is right recursive.
 (If \Vsym{transition} is Leo unique in \Ves{i}, it will be the
 postdot symbol of only one rule in \Ves{i}.)
 All but one of the determinations needed to decide
-if \Vsym{transition} is Leo eligible can be precomputed
+if \Vsym{transition} is Leo-eligible can be precomputed
 from the grammar,
 and the resource to do this is charged to the parse.
 The precomputation, for example,
