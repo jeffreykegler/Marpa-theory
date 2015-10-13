@@ -4279,7 +4279,7 @@ By the definition of EIM validity, we know that
   & \Vsize{\Vsym{tell}} \ge 1 &&
 \text{\Vsym{tell} is telluric}
 \intertext{and because parse locations are non-negative integers,}
-& \var{i} > 0  &&
+& \var{i} \ge 0  &&
 \notag
 \\
 \therefore \quad & \var{k} \ge 0 + \Vsize{\Vsym{tell}} &&
@@ -4318,16 +4318,19 @@ Let \el{silo}{\Vincr{i}},
 be two silo layers.
 \begin{align}
 \label{eq:lem-silo-reflection-nt-3}
+& \begin{aligned}
 & \text{If \Predot{\el{silo}{\Vincr{i}}} is a non-terminal,}
 \\
 & \qquad \text{then
 $\op{Valid-eq}{\el{silo}{\Vincr{i}}} \xderives{1} \op{Valid-eq}{\el{silo}{\var{i}}}.$}
-\notag \\
+\end{aligned}
+\\
 \label{eq:lem-silo-reflection-nt-6}
+& \begin{aligned}
 & \text{If $\op{Valid-eq}{\el{silo}{\Vincr{i}}} \xderives{0} \op{Valid-eq}{\el{silo}{\var{i}}}$},
 \\
 & \qquad \text{then \Predot{\el{silo}{\Vincr{i}}} is a nulling terminal.}
-\notag
+\end{aligned}
 \end{align}
 \end{lemma}
 
@@ -4337,7 +4340,8 @@ We first show
 Without loss of generality, we let
 \begin{equation}
 \label{eq:lem-silo-reflection-nt-10}
-\el{silo}{\Vincr{i}} = \bigl[ [\Vsym{A} \de \Vstr{pre-B} \Vsym{B} \mydot \Vstr{post-B}], \var{a}, \var{c} \bigr],
+\el{silo}{\Vincr{i}}
+= \bigl[ [\Vsym{A} \de \Vstr{pre-B} \Vsym{B} \mydot \Vstr{post-B}], \var{a}, \var{c} \bigr].
 \end{equation}
 By assumption for
 \eqref{eq:lem-silo-reflection-nt-3},
@@ -4422,16 +4426,22 @@ which implies that
 \text{$[ \Vsym{B} \de \Vstr{B-rhs} ]$ is a rule of \Cg.}
 \end{equation}
 
-And the merged validity equivalents of
+We left \el{silo}{\Vincr{i}} and
+\Vel{silo}{i} unchanged from
+\eqref{eq:lem-silo-reflection-nt-10}
+and
+\eqref{eq:lem-silo-reflection-nt-12},
+and therefore the merged validity equivalents of
 \el{silo}{\Vincr{i}} and
-\Vel{silo}{i} take the same
-form as in
+\Vel{silo}{i} also take the same
+form.
+In case nulling symbols are significant,
+we restate
 \eqref{eq:lem-silo-reflection-nt-20},
 \eqref{eq:lem-silo-reflection-nt-26},
 and
-\eqref{eq:lem-silo-reflection-nt-28}.
-In case nulling symbols are significant,
-we restate that derivation here,
+\eqref{eq:lem-silo-reflection-nt-28}
+here,
 without location markers or
 simplifications:
 \begin{align}
