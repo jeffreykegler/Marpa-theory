@@ -4452,14 +4452,14 @@ simplifications:
 \label{eq:lem-silo-reflection-nt-44}
 \xderives{0} \; & \Vstr{pre-B} \Vstr{B-rhs} \Vstr{post-B}
 \end{align}
-We have changed the derivation from 
+Note that we have changed the derivation from 
 \eqref{eq:lem-silo-reflection-nt-42}
 to
 \eqref{eq:lem-silo-reflection-nt-44},
 to state that it takes place in zero steps,
 as required by assumption for
 \eqref{eq:lem-silo-reflection-nt-6}.
-Following the implications of this:
+Following the implications,
 \begin{align}
 & 
 \begin{multlined}
@@ -4548,7 +4548,8 @@ to show
 \eqref{eq:lem-silo-reflection-nulling-induction-20}
 for $\var{x} = \Vdecr{i}$.
 We will treat $\var{hi} \le \var{x}$ as a special case,
-so we may simplify the
+so we assume $\var{hi} > \var{x}$
+and simplify the
 assumption for the step to
 \begin{multline}
 \label{eq:lem-silo-reflection-nulling-induction-30}
@@ -4600,14 +4601,14 @@ for $\var{x} = \Vdecr{i}$,
 which is what we needed to show for the step.
 With this we have the induction.
 
+The induction shows
+\eqref{eq:lem-silo-reflection-nulling-induction-10}
+for $\var{lo} < \var{hi}$.
 For
 $\var{lo} \ge \var{hi}$
 \eqref{eq:lem-silo-reflection-nulling-induction-10}
-follows vacuously.
-The induction shows
-\eqref{eq:lem-silo-reflection-nulling-induction-10}
-for $\var{lo} < \var{hi}$,
-and this gives us the theorem.
+follows vacuously, which shows
+theorem.
 \end{proof}
 
 \begin{lemma}
