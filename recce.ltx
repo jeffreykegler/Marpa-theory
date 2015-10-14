@@ -5095,7 +5095,7 @@ also allows us to rewrite
 as
 \begin{equation}
 \label{eq:silo-layer-unique-67}
-\Vel{silo}{ly1} = \big[ [ \Vrule{r}, \var{ix} ], \Vorig{hi}, \Vloc{here} ]
+\Vel{silo}{hi} = \big[ [ \Vrule{r}, \var{ix} ], \Vorig{hi}, \Vloc{here} ]
 \end{equation}
 
 From
@@ -5104,7 +5104,33 @@ and
 \eqref{eq:silo-layer-unique-67},
 we have
 \begin{equation}
-\Vel{silo}{hi} = \Vel{silo}{lo} \implies \var{hi} = \var{lo}
+\label{eq:silo-layer-unique-70}
+\Vel{silo}{hi} = \Vel{silo}{lo} \implies \var{hi} = \var{lo}.
+\end{equation}
+
+\eqref{eq:silo-layer-unique-70}
+contradicts
+\eqref{eq:silo-layer-unique-10},
+our assumption for the outer reductio,
+which shows the inner reductio.
+Our assumption for the inner reductio was
+\eqref{eq:silo-layer-unique-30},
+so that we may conclude
+from
+\eqref{eq:silo-layer-unique-30},
+and
+\label{eq:silo-layer-unique-70}
+that
+\begin{equation}
+\label{eq:silo-layer-unique-73}
+\begin{gathered}
+\op{Valid-eq}{\Vel{silo}{hi}} \xderives{0}
+\op{Valid-eq}{\Vel{silo}{lo}} \\
+\land \;
+\Vel{silo}{hi} = \Vel{silo}{lo} \\
+\implies
+\var{hi} = \var{lo}
+\end{gathered}
 \end{equation}
 
 TODO: Finish this.
