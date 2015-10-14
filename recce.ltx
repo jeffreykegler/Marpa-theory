@@ -3482,6 +3482,58 @@ which is requirement
 
 \end{proof}
 
+\begin{definition}
+The
+\dfn{tether}
+of an Earley item \Veim{eim}
+is the sequence \var{teth},
+such that
+\begin{itemize}
+\item
+$\el{teth}{0} = \Veim{eim}$
+\item
+If
+\Veim{down}
+is the top-down cause of
+\Vel{teth}{x},
+then
+\el{teth}{Vincr{x}} = \Veim{down}.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}
+Every EIM has a tether of length \var{len},
+where \el{teth}{\Vdecr{len}} is the start EIM.
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
+If \var{hi} and \var{lo} are
+tether indexes such that $\var{hi} > \var{lo}$,
+we say that \Vel{teth}{lo} is
+xdfn{below}{below (in a tether)}
+\Vel{teth}{hi};
+and that the direction from 
+\Vel{teth}{hi} to
+\Vel{teth}{lo} is
+xdfn{downward}{downward (in a tether)}.
+
+\begin{theorem}
+If we follow a tether downward,
+the right locations of its elements are non-decreasing:
+\begin{equation}
+\var{lo} < \var{hi}
+\implies \Right{\Vel{teth}{lo}} \ge \Right{\Vel{teth}{hi}}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
+
 \begin{theorem}
 \ttitle{Location 0 Earley items}
 A EIM is valid at location 0 if and only if it
@@ -7513,39 +7565,6 @@ and must be restored during \Marpa's evaluation phase,
 so that the implementation and
 this simplification for theory purposes
 track each other closely.
-
-\section{Comparing Earley items}
-
-\begin{definition}
-An Earley item
-$\Veim{x} = [\Vdr{x}, \Vorig{x}]$
-\dfn{corresponds}
-to another Earley item \Veim{y}
-if and only if
-$\Veim{y} = [\Vdr{y}, \Vorig{x}].$
-\end{definition}
-
-\begin{definition}
-The Marpa Earley set \EVtable{\Marpa}{i}
-is \dfn{consistent} if and only if
-all of its EIM's correspond to
-EIM's in
-\EVtable{\Leo}{i}.
-\end{definition}
-
-\begin{definition}
-The Marpa Earley set \EVtable{\Marpa}{i}
-is \dfn{complete} if and only if for every
-Earley item in \EVtable{\Leo}{i}
-there is a corresponding Earley item in
-\EVtable{\Marpa}{i}.
-\end{definition}
-
-\begin{definition}
-A Marpa Earley set is \dfn{correct}
-if and only that Marpa Earley set is complete
-and consistent.
-\end{definition}
 
 \section{Complexity of each Earley item}
 
