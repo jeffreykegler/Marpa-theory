@@ -149,7 +149,7 @@
 \newcommand{\Penult}[1]{\myfnname{Penult}(#1)}
 \newcommand{\LHS}[1]{\ensuremath{\myfnname{LHS}(#1)}}
 \newcommand{\RHS}[1]{\ensuremath{\myfnname{RHS}(#1)}}
-\newcommand{\Origin}[1]{\ensuremath{\myfn{Origin}(#1)}}
+\newcommand{\Origin}[1]{\ensuremath{\myfn{Origin}{#1}}}
 \newcommand{\DR}[1]{\ensuremath{\myfnname{DR}(#1)}}
 \newcommand{\Current}[1]{\ensuremath{\myfnname{Current}(#1)}}
 \newcommand{\Valid}[1]{\ensuremath{\myfnname{Valid}(#1)}}
@@ -1301,6 +1301,8 @@ must translate exactly to an external symbol instance.
 \chapter{Dotted rules}
 \label{ch:dotted}
 
+\section{Definition}
+
 Let $\Vrule{r} \in \Crules$
 be a rule,
 and $\Vsize{r}$ the length of its RHS.
@@ -1320,6 +1322,8 @@ is a rule,
 is the dotted rule with the dot at
 $\var{pos} = 2$,
 between \Vsym{Y} and \Vsym{Z}.
+
+\section{Properties}
 
 Let
 \begin{align*}
@@ -1371,6 +1375,8 @@ we say that \Vstr{prefix} is the
 and that
 we say that \Vstr{suffix} is the
 \dfn{dot suffix}.
+
+\section{Classes}
 
 The \dfn{start dotted rule} is
 \begin{equation}
@@ -1443,6 +1449,14 @@ Predicted, confirmed and completed dotted rules
 are also called, respectively,
 \dfn{predictions}, \dfn{confirmations} and \dfn{completions}.
 
+\section{Quasi-classes}
+
+It is often conveniend, when classifying dotted rules
+to ignore the effect of nulling symbols.
+Intuitively, if a dotted rule is of the kind ``X'',
+then a quasi-X dotted rule is a dotted that would be
+of kind X, except for nulling symbols.
+
 A dotted rule which has only nulling symbols after the dot
 is \dfn{quasi-complete}.
 A quasi-complete dotted rule is called an
@@ -1497,6 +1511,8 @@ the dotted rule might be a quasi-prediction,
 but it cannot be a quasi-completion.
 \end{proof}
 
+\section{Fleeting and lasting}
+
 We also divide dotted rules into two disjoint classes
 based on their postdot symbol.
 A dotted rule with a null postdot symbol is called \dfn{fleeting}.
@@ -1527,7 +1543,7 @@ then its \dfn{lasting equivalent} is
 [\Vsym{A} \de \Vstr{alpha} \cat \Vstr{nulls} \mydot ].
 \end{equation}
 
-\section{The dotted rule transition function}
+\section{The transition function}
 
 We define
 a partial transition function from
@@ -3157,7 +3173,7 @@ $\Current{\Veim{desc}} = \Current{\Veim{base}},$
 \item
 \label{req:ethereal-closure-12}
 if \Veim{desc} is a quasi-prediction,
-$\Origin{\Veim{desc}} = \Current{\Veim{base}}$
+$\Origin{\Veim{desc}} = \Current{\Veim{base}}$,
 and
 \item
 \label{req:ethereal-closure-15}
