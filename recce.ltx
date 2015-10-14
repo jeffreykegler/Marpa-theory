@@ -1376,7 +1376,7 @@ and that
 we say that \Vstr{suffix} is the
 \dfn{dot suffix}.
 
-\section{Classes}
+\section{Types}
 
 The \dfn{start dotted rule} is
 \begin{equation}
@@ -1449,7 +1449,7 @@ Predicted, confirmed and completed dotted rules
 are also called, respectively,
 \dfn{predictions}, \dfn{confirmations} and \dfn{completions}.
 
-\section{Quasi-classes}
+\section{Quasi-types}
 
 It is often conveniend, when classifying dotted rules
 to ignore the effect of nulling symbols.
@@ -1676,8 +1676,10 @@ We call \Vdr{tell} a telluric base
 of a dotted rule \Vdr{dr2} if and only if
 \[ \Vdr{dr2} \in \var{ethereal-dr-closure}(\lbrace \Vdr{tell} \rbrace). \]
 
+\section{Ethereal closure}
+
 \begin{theorem}
-\ttitle{Ethereally equivalents have same telluric base}
+\ttitle{Ethereal equivalents have same telluric base}
 \label{eth-eq-share-telluric-base}
 If the dotted rules \Vdr{dr1}
 and \Vdr{dr2} are ethereally equivalent,
@@ -2372,6 +2374,8 @@ we will use the term,
 for either a derivation validity equivalent,
 or an parse instance validity equivalent.
 
+\section{Confirmed Earley items}
+
 \begin{theorem}
 \ttitle{Valid Earley item from non-terminal}
 \label{t:valid-eim-from-symbol}
@@ -2892,6 +2896,79 @@ and
 \end{proof}
 
 \begin{theorem}
+\ttitle{Terminal bottom-up causes are unique}
+\label{t:terminal-cause-unique}
+Let an instance of the terminal
+\Vsym{term} be the bottom-up cause of an effect,
+\Veim{effect}.
+Then that instance is the only
+bottom-up cause of \Veim{effect}.
+\end{theorem}
+
+\begin{proof}
+Since \Vsym{term} is a terminal
+it cannot appear on the LHS of a rule.
+Since \Vsym{term} cannot be the LHS of a rule,
+by the definition of EIM equivalent,
+\Vinst{inst} has no EIM equivalent.
+Let
+\begin{equation}
+\Vinst{inst1} = \Vmkm{l1} \Vsym{term} \Vmkm{r1}
+\end{equation}
+Assume for a reductio that
+\Vinst{inst2} is another
+another symbolic bottom-up cause of \Veim{effect},
+\begin{gather}
+\Vinst{inst2} = \Vmkm{l2} \Vsym{sym2} \Vmkm{r2} \\
+\label{eq:terminal-cause-unique-5}
+\text{where $\var{l1} \neq \var{l2}$ or $\Vsym{term} \neq \Vsym{sym2}$ or $\var{r1} \neq \var{r2}.$}
+\end{gather}
+
+But by Theorem \ref{t:symbolic-causes-from-effect},
+the bottom-up cause symbol of \Veim{effect} must be
+\Predot{\Veim{effect}},
+so that
+\begin{equation}
+\label{eq:terminal-cause-unique-10}
+\Vsym{term} = \Predot{\Veim{effect}} = \Vsym{sym2}.
+\end{equation}
+
+Also by Theorem \ref{t:symbolic-causes-from-effect},
+the right location of its bottom-up cause must be
+\Right{\Veim{effect}}, so that
+\begin{equation}
+\label{eq:terminal-cause-unique-20}
+\var{r1} = \Right{\Veim{effect}} = \var{r2}.
+\end{equation}
+
+Finally,
+if \Vsym{term} is terminal,
+it must be telluric in which case its length is 1,
+or nulling, in which case its length is 0.
+In either case its length is fixed.
+Let $\Vsize{\Vsym{term}} = \var{len}$.
+Then
+\begin{equation}
+\label{eq:terminal-cause-unique-30}
+\var{l1} \; = \; \left(\Right{\Veim{effect}} \subtract \var{len}\right) \; = \; \var{l2}.
+\end{equation}
+
+Gathering
+\eqref{eq:terminal-cause-unique-10},
+\eqref{eq:terminal-cause-unique-20}
+and
+\eqref{eq:terminal-cause-unique-30},
+we see that
+\eqref{eq:terminal-cause-unique-5} is false,
+which is contrary to the assumption for the reductio.
+So \Vinst{inst1} must be unique.
+Our choice of \Vinst{inst1} was without loss of generality,
+so this shows the theorem.
+\end{proof}
+
+\section{Predictions}
+
+\begin{theorem}
 \ttitle{Prediction from top-down cause}
 \label{t:prediction-from-cause}
 Let
@@ -3019,106 +3096,7 @@ shows
 and the theorem.
 \end{proof}
 
-\begin{theorem}
-\ttitle{Right location of top-down cause}
-\label{t:right-location-of-top-down-cause}
-Let \Veim{effect} be a valid EIM other than
-the start EIM.
-Then it has a top down cause,
-that cause is an EIM, call it \Veim{down},
-and
-\begin{align}
-\label{req:right-location-of-top-down-cause-3}
-& \rlap{$\Right{\Veim{down}} = \Right{\Veim{effect}}$} & \\
-& \qquad \qquad \text{if \Veim{effect} is a prediction,} & \notag \\
-\label{req:right-location-of-top-down-cause-4}
-& \rlap{$\Right{\Veim{down}} = \Right{\Veim{effect}}$} & \\
-& \qquad \qquad \text{if \Veim{effect} is a null-scan,} & \notag\\
-\label{req:right-location-of-top-down-cause-6}
-& \rlap{$\Right{\Veim{down}} = \decr{\Right{\Veim{effect}}}$} & \\
-& \qquad \qquad \text{if \Veim{effect} is read.} & \notag\\
-\label{req:right-location-of-top-down-cause-9}
-& \rlap{$\Right{\Veim{down}} < \Right{\Veim{effect}}$} & \\
-& \qquad \qquad \text{if \Veim{effect} is a reduction.} & \notag
-\end{align}
-\end{theorem}
-
-\begin{proof}
-If \Veim{effect} is a prediction,
-this theorem follows from
-Theorem \ref{t:prediction-from-cause}.
-This shows requirement
-\ref{req:right-location-of-top-down-cause-3}.
-
-For the remaining cases,
-we will
-use Theorem \ref{t:symbolic-causes-from-effect}
-to show that \Veim{down} is the matching
-cause of a symbolic instance.
-Call that instance, \Vinst{up},
-and let its length be
-\begin{equation}
-\label{eq:right-location-of-top-down-cause-12}
-\Vsize{\Vinst{up}} =
-(\Right{\Vinst{up}} \subtract \Left{\Vinst{up}}).
-\end{equation}
-From Theorem \ref{t:symbolic-causes-from-effect},
-we know that
-\begin{equation}
-\label{eq:right-location-of-top-down-cause-15}
-\Right{\Vinst{up}} = \Right{\Veim{effect}}
-\end{equation}
-From the definition of matching causes,
-\begin{equation}
-\label{eq:right-location-of-top-down-cause-18}
-\Right{\Veim{down}} = \Left{\Vinst{up}}.
-\end{equation}
-Using
-\eqref{eq:right-location-of-top-down-cause-12},
-\eqref{eq:right-location-of-top-down-cause-15}
-and
-\eqref{eq:right-location-of-top-down-cause-18}
-we see that
-\begin{equation}
-\label{eq:right-location-of-top-down-cause-21}
-\Right{\Veim{effect}} = \Right{\Veim{down}} + \Vsize{\Vinst{up}}.
-\end{equation}
-
-If \Veim{effect} is a null scan, \Vinst{up} is
-a nulling symbol instance,
-$\Vsize{\Vinst{up}} = 0$.
-Using
-\eqref{eq:right-location-of-top-down-cause-21},
-we have
-\[
-  \Right{\Veim{down}} = \Right{\Veim{effect}},
-\]
-which is requirement
-\ref{req:right-location-of-top-down-cause-4}.
-
-If \Veim{effect} is a read, \Vinst{up} is
-a terminal symbol instance,
-$\Vsize{\Vinst{up}} = 1$.
-Using
-\eqref{eq:right-location-of-top-down-cause-21}
-\[
-  \Right{\Veim{down}} = \Right{\Veim{down}} \subtract 1,
-\]
-which is requirement
-\ref{req:right-location-of-top-down-cause-6}.
-
-If \Veim{effect} is a reduction, \Vinst{up} is
-a non-terminal symbol instance,
-$\Vsize{\Vinst{up}} \ge 1$.
-Using
-\eqref{eq:right-location-of-top-down-cause-21}
-\[
-  \Right{\Veim{down}} < \Right{\Veim{effect}},
-\]
-which is requirement
-\ref{req:right-location-of-top-down-cause-9}.
-
-\end{proof}
+\section{Ethereal closures}
 
 In the following definitions,
 $\langle \Veim{down}, \Veim{effect} \rangle$
@@ -3401,6 +3379,109 @@ the induction,
 and the theorem.
 \end{proof}
 
+\section{Tethers}
+
+\begin{theorem}
+\ttitle{Right location of top-down cause}
+\label{t:right-location-of-top-down-cause}
+Let \Veim{effect} be a valid EIM other than
+the start EIM.
+Then it has a top down cause,
+that cause is an EIM, call it \Veim{down},
+and
+\begin{align}
+\label{req:right-location-of-top-down-cause-3}
+& \rlap{$\Right{\Veim{down}} = \Right{\Veim{effect}}$} & \\
+& \qquad \qquad \text{if \Veim{effect} is a prediction,} & \notag \\
+\label{req:right-location-of-top-down-cause-4}
+& \rlap{$\Right{\Veim{down}} = \Right{\Veim{effect}}$} & \\
+& \qquad \qquad \text{if \Veim{effect} is a null-scan,} & \notag\\
+\label{req:right-location-of-top-down-cause-6}
+& \rlap{$\Right{\Veim{down}} = \decr{\Right{\Veim{effect}}}$} & \\
+& \qquad \qquad \text{if \Veim{effect} is read.} & \notag\\
+\label{req:right-location-of-top-down-cause-9}
+& \rlap{$\Right{\Veim{down}} < \Right{\Veim{effect}}$} & \\
+& \qquad \qquad \text{if \Veim{effect} is a reduction.} & \notag
+\end{align}
+\end{theorem}
+
+\begin{proof}
+If \Veim{effect} is a prediction,
+this theorem follows from
+Theorem \ref{t:prediction-from-cause}.
+This shows requirement
+\ref{req:right-location-of-top-down-cause-3}.
+
+For the remaining cases,
+we will
+use Theorem \ref{t:symbolic-causes-from-effect}
+to show that \Veim{down} is the matching
+cause of a symbolic instance.
+Call that instance, \Vinst{up},
+and let its length be
+\begin{equation}
+\label{eq:right-location-of-top-down-cause-12}
+\Vsize{\Vinst{up}} =
+(\Right{\Vinst{up}} \subtract \Left{\Vinst{up}}).
+\end{equation}
+From Theorem \ref{t:symbolic-causes-from-effect},
+we know that
+\begin{equation}
+\label{eq:right-location-of-top-down-cause-15}
+\Right{\Vinst{up}} = \Right{\Veim{effect}}
+\end{equation}
+From the definition of matching causes,
+\begin{equation}
+\label{eq:right-location-of-top-down-cause-18}
+\Right{\Veim{down}} = \Left{\Vinst{up}}.
+\end{equation}
+Using
+\eqref{eq:right-location-of-top-down-cause-12},
+\eqref{eq:right-location-of-top-down-cause-15}
+and
+\eqref{eq:right-location-of-top-down-cause-18}
+we see that
+\begin{equation}
+\label{eq:right-location-of-top-down-cause-21}
+\Right{\Veim{effect}} = \Right{\Veim{down}} + \Vsize{\Vinst{up}}.
+\end{equation}
+
+If \Veim{effect} is a null scan, \Vinst{up} is
+a nulling symbol instance,
+$\Vsize{\Vinst{up}} = 0$.
+Using
+\eqref{eq:right-location-of-top-down-cause-21},
+we have
+\[
+  \Right{\Veim{down}} = \Right{\Veim{effect}},
+\]
+which is requirement
+\ref{req:right-location-of-top-down-cause-4}.
+
+If \Veim{effect} is a read, \Vinst{up} is
+a terminal symbol instance,
+$\Vsize{\Vinst{up}} = 1$.
+Using
+\eqref{eq:right-location-of-top-down-cause-21}
+\[
+  \Right{\Veim{down}} = \Right{\Veim{down}} \subtract 1,
+\]
+which is requirement
+\ref{req:right-location-of-top-down-cause-6}.
+
+If \Veim{effect} is a reduction, \Vinst{up} is
+a non-terminal symbol instance,
+$\Vsize{\Vinst{up}} \ge 1$.
+Using
+\eqref{eq:right-location-of-top-down-cause-21}
+\[
+  \Right{\Veim{down}} < \Right{\Veim{effect}},
+\]
+which is requirement
+\ref{req:right-location-of-top-down-cause-9}.
+
+\end{proof}
+
 \begin{theorem}
 \ttitle{Location 0 Earley items}
 A EIM is valid at location 0 if and only if it
@@ -3423,77 +3504,6 @@ $\Current{\Veim{base}} = \Vloc{i}$.
 
 \begin{proof}
 TODO
-\end{proof}
-
-\begin{theorem}
-\ttitle{Terminal bottom-up causes are unique}
-\label{t:terminal-cause-unique}
-Let an instance of the terminal
-\Vsym{term} be the bottom-up cause of an effect,
-\Veim{effect}.
-Then that instance is the only
-bottom-up cause of \Veim{effect}.
-\end{theorem}
-
-\begin{proof}
-Since \Vsym{term} is a terminal
-it cannot appear on the LHS of a rule.
-Since \Vsym{term} cannot be the LHS of a rule,
-by the definition of EIM equivalent,
-\Vinst{inst} has no EIM equivalent.
-Let
-\begin{equation}
-\Vinst{inst1} = \Vmkm{l1} \Vsym{term} \Vmkm{r1}
-\end{equation}
-Assume for a reductio that
-\Vinst{inst2} is another
-another symbolic bottom-up cause of \Veim{effect},
-\begin{gather}
-\Vinst{inst2} = \Vmkm{l2} \Vsym{sym2} \Vmkm{r2} \\
-\label{eq:terminal-cause-unique-5}
-\text{where $\var{l1} \neq \var{l2}$ or $\Vsym{term} \neq \Vsym{sym2}$ or $\var{r1} \neq \var{r2}.$}
-\end{gather}
-
-But by Theorem \ref{t:symbolic-causes-from-effect},
-the bottom-up cause symbol of \Veim{effect} must be
-\Predot{\Veim{effect}},
-so that
-\begin{equation}
-\label{eq:terminal-cause-unique-10}
-\Vsym{term} = \Predot{\Veim{effect}} = \Vsym{sym2}.
-\end{equation}
-
-Also by Theorem \ref{t:symbolic-causes-from-effect},
-the right location of its bottom-up cause must be
-\Right{\Veim{effect}}, so that
-\begin{equation}
-\label{eq:terminal-cause-unique-20}
-\var{r1} = \Right{\Veim{effect}} = \var{r2}.
-\end{equation}
-
-Finally,
-if \Vsym{term} is terminal,
-it must be telluric in which case its length is 1,
-or nulling, in which case its length is 0.
-In either case its length is fixed.
-Let $\Vsize{\Vsym{term}} = \var{len}$.
-Then
-\begin{equation}
-\label{eq:terminal-cause-unique-30}
-\var{l1} \; = \; \left(\Right{\Veim{effect}} \subtract \var{len}\right) \; = \; \var{l2}.
-\end{equation}
-
-Gathering
-\eqref{eq:terminal-cause-unique-10},
-\eqref{eq:terminal-cause-unique-20}
-and
-\eqref{eq:terminal-cause-unique-30},
-we see that
-\eqref{eq:terminal-cause-unique-5} is false,
-which is contrary to the assumption for the reductio.
-So \Vinst{inst1} must be unique.
-Our choice of \Vinst{inst1} was without loss of generality,
-so this shows the theorem.
 \end{proof}
 
 \section{Ambiguity}
