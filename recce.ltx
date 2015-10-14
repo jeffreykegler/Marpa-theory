@@ -74,6 +74,8 @@
 \newcommand{\nderives}{\not\Rightarrow}
 \newcommand{\xderives}[1]
     {\mathrel{\mbox{$\:\stackrel{\!{#1}}{\Rightarrow\!}\:$}}}
+\newcommand{\nxderives}[1]
+    {\mathrel{\mbox{$\:\stackrel{\!{#1}}{\not\Rightarrow\!}\:$}}}
 \newcommand{\destar}
     {\mathrel{\mbox{$\:\stackrel{\!{\ast}}{\Rightarrow\!}\:$}}}
 \newcommand{\ndestar}
@@ -521,8 +523,20 @@ for the iterated function.
 \myfnname{f}^\var{n} \quad \text{for some $\var{n} \ge 1$}
 \end{align*}
 
-In proofs in this document,
-we sometimes abbreviate
+The statements of this document often require us to introduce
+many new variables at once,
+so that we might say,
+``for some \var{a}, \var{b}, \var{c}, \ldots{} \var{z},
+let \ldots{}''n.
+We find statements of this kind very difficult to follow.
+When we introduce an definition, and it
+contains new variables
+which cause no loss of generality,
+we will prefer to simply say so,
+noting any exceptions.
+In cases where brevity is important,
+such as in some of the proofs,
+we will abbreviate
 ``without loss of generality'' as \dfn{WLOG},
 ``assumption'' as \dfn{ASM},
 ``theorem'' as \dfn{Th},
@@ -4923,14 +4937,6 @@ We assume for a reductio that
 \label{eq:silo-layer-unique-10}
 \text{$\Vel{silo}{hi} = \Vel{silo}{lo}$ and $\var{hi} \neq \var{lo}$}
 \end{equation}
-By Theorem
-\ref{t:silo-predot}
-we know that
-\Vel{silo}{hi} has a predot symbol:
-\begin{equation}
-\label{eq:silo-layer-unique-15}
-\Predot{\Vel{silo}{hi}} \neq \Lambda
-\end{equation}
 From Theorem
 \ref{t:silo-reflection},
 we know that
@@ -5023,27 +5029,21 @@ We start by assuming that
 \el{silo}{\Vdecr{ly1}} = \\
 \big[ [ \Vrule{r}, \Vdecr{ix} ], \Vorig{hi}, \Vloc{here} \big]
 \end{multlined}
-&& \eqref{eq:silo-layer-unique-43}, \eqref{eq:silo-layer-unique-46}
+&& \eqref{eq:silo-layer-unique-43}, \eqref{eq:silo-layer-unique-49}
 \end{align}
 For this proof, we define the function \myfn{TDC}{\Veim{eim}} as the
 top-down cause of \Veim{eim} for a null-scan.
 \myfn{TDC}{\Veim{eim}} is undefined if
 \Predot{\Veim{eim}} is not nulling.
-
-\begin{align}
+From this definition and
+\eqref{eq:silo-layer-unique-52}, we have
+\begin{multline}
 \label{eq:silo-layer-unique-55}
-&
-\begin{multlined}
-\myfn{TDC}{\Vel{silo}{ly1}} = \\
+\Predot{\Vel{silo}{ly1}} \destar \epsilon  \\
+\implies
+\myfn{TDC}{\Vel{silo}{ly1}} =
 \big[ [ \Vrule{r}, \Vdecr{ix} ], \Vorig{hi}, \Vloc{here} \big]
-\end{multlined}
-&&
-\begin{multlined}
-\text{Def of} \\
-\myfnname{TDC},
-\eqref{eq:silo-layer-unique-52}
-\end{multlined}
-\end{align}
+\end{multline}
 
 By iteration of
 \eqref{eq:silo-layer-unique-55},
@@ -5111,29 +5111,70 @@ we have
 \eqref{eq:silo-layer-unique-70}
 contradicts
 \eqref{eq:silo-layer-unique-10},
-our assumption for the outer reductio,
-which shows the inner reductio.
-Our assumption for the inner reductio was
-\eqref{eq:silo-layer-unique-30},
-so that we may conclude
-from
-\eqref{eq:silo-layer-unique-30},
-and
-\label{eq:silo-layer-unique-70}
-that
+our assumption for the outer reductio.
+This shows the inner reductio
+and the case of trivial derivations.
+
+\textbf{Non-trivial derivations}:
+We next consider the case of non-trivial derivations:
 \begin{equation}
-\label{eq:silo-layer-unique-73}
-\begin{gathered}
-\op{Valid-eq}{\Vel{silo}{hi}} \xderives{0}
-\op{Valid-eq}{\Vel{silo}{lo}} \\
-\land \;
-\Vel{silo}{hi} = \Vel{silo}{lo} \\
-\implies
-\var{hi} = \var{lo}
-\end{gathered}
+\label{eq:silo-layer-unique-76}
+\op{Valid-eq}{\Vel{silo}{hi}} \deplus
+\op{Valid-eq}{\Vel{silo}{lo}}
 \end{equation}
 
-TODO: Finish this.
+From \eqref{eq:silo-layer-unique-10},
+we have that
+$\Vel{silo}{hi} = \Vel{silo}{lo}.$
+Without loss of generality, let
+both
+\Vel{silo}{hi} and \Vel{silo}{lo} 
+be
+\begin{equation}
+\label{eq:silo-layer-unique-85}
+\big[ [ \Vsym{A} \de \Vstr{pre} \mydot \Vstr{post} ], \var{i}, \var{k} \big].
+\end{equation}
+so that their validity equivalents are
+\begin{equation}
+\label{eq:silo-layer-unique-88}
+\Vsym{A} \derives \Vmk{i} \Vstr{pre} \Vmk{k} \Vstr{post}
+\end{equation}
+To complete this case we can use either the left hand
+or the right hand side of
+\eqref{eq:silo-layer-unique-85}.
+We will use the left hand side.
+
+The dotted rule in a silo layer must be quasi-complete,
+so that $\Vstr{post} \destar \epsilon$.
+Therefore we can use
+\eqref{eq:silo-layer-unique-88}
+to write
+\eqref{eq:silo-layer-unique-76}
+as
+\begin{equation}
+\label{eq:silo-layer-unique-93}
+\Vmk{i} \Vsym{A} \Vmk{k} \deplus \Vmk{i} \Vsym{A} \Vmk{k}
+\end{equation}
+There are no nulling rules,
+and \Vsym{A} is a LHS,
+so \Vsym{A} is a telluric symbol.
+But, using Theorem
+\ref{t:location-marker-cycle},
+we see that
+\eqref{eq:silo-layer-unique-93}
+is a cycle, which is not
+allowed in a Marpa grammar.
+This contradicts
+\eqref{eq:silo-layer-unique-10},
+and shows the reductio for non-trivial
+derivations.
+
+We have already shown
+the reductio for trivial
+derivations.
+We now have
+both cases,
+the reductio and theorem.
 \end{proof}
 
 \section{Altitude}
