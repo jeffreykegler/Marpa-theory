@@ -715,11 +715,11 @@ We say that the rule $\Vsym{A} \de \Vstr{rhs}$
 and the symbol \Vsym{A} are
 \begin{center}
 \begin{tabular}{ll}
-\dfn{middle-recursive} & if and only if
+\dfn{middle-recursive} & if
   $\Vstr{left} \ndestar \epsilon \land \Vstr{right} \ndestar \epsilon$ \\
-\dfn{left-recursive} &  if and only if $\Vstr{left} \destar \epsilon$ \\
-\dfn{right-recursive} &  if and only if $\Vstr{right} \destar \epsilon$ \\
-\dfn{cyclic} & if and only if
+\dfn{left-recursive} &  if $\Vstr{left} \destar \epsilon$ \\
+\dfn{right-recursive} &  if $\Vstr{right} \destar \epsilon$ \\
+\dfn{cyclic} & if
   $\Vstr{left} \destar \epsilon \land \Vstr{right} \destar \epsilon$.
 \end{tabular}
 \end{center}
@@ -4448,7 +4448,7 @@ by assumption for
 We again assume
 \eqref{eq:lem-silo-reflection-nt-11},
 but this time for a reductio.
-As before, the bottom-up cause is 
+As before, the bottom-up cause is
 \eqref{eq:lem-silo-reflection-nt-16},
 which implies that
 \begin{equation}
@@ -4482,7 +4482,7 @@ simplifications:
 \label{eq:lem-silo-reflection-nt-44}
 \xderives{0} \; & \Vstr{pre-B} \Vstr{B-rhs} \Vstr{post-B}
 \end{align}
-Note that we have changed the derivation from 
+Note that we have changed the derivation from
 \eqref{eq:lem-silo-reflection-nt-42}
 to
 \eqref{eq:lem-silo-reflection-nt-44},
@@ -4491,7 +4491,7 @@ as required by assumption for
 \eqref{eq:lem-silo-reflection-nt-6}.
 Following the implications,
 \begin{align}
-& 
+&
 \begin{multlined}
 \Vstr{pre-B} \Vsym{B} \Vstr{post-B} \\
 \xderives{0} \Vstr{pre-B} \Vstr{B-rhs} \Vstr{post-B}
@@ -4501,19 +4501,19 @@ Following the implications,
 \eqref{eq:lem-silo-reflection-nt-42},
 \eqref{eq:lem-silo-reflection-nt-44}
 \\
-\therefore \quad & 
+\therefore \quad &
 \begin{multlined}
 \Vstr{pre-B} \Vsym{B} \Vstr{post-B} \\
 = \Vstr{pre-B} \Vstr{B-rhs} \Vstr{post-B}
 \end{multlined}
 &&
 \\
-\therefore \quad & 
+\therefore \quad &
 \Vsym{B} = \Vstr{B-rhs}
 &&
 \notag \\
 \label{eq:lem-silo-reflection-nt-50}
-\therefore \quad & 
+\therefore \quad &
 \text{$[ \Vsym{B} \de \Vsym{B} ]$ is a rule of \Cg.}
 &&
 \eqref{eq:lem-silo-reflection-nt-38},
@@ -4537,7 +4537,7 @@ If
 \text{For all \var{a},
 if $\var{hi} \ge \var{a} > \var{lo}$
 } \\
-\qquad \text{and 
+\qquad \text{and
   $\op{Valid-eq}{\Vel{silo}{hi}} \xderives{0} \op{Valid-eq}{\Vel{silo}{lo}}$,
 }
 \\
@@ -4556,7 +4556,7 @@ taking as the hypothesis:
 \text{For all \var{a},
 if $\var{hi} \ge \var{a} > \var{x}$
 } \\
-\qquad \text{and 
+\qquad \text{and
   $\op{Valid-eq}{\Vel{silo}{hi}} \xderives{0} \op{Valid-eq}{\Vel{silo}{x}}$,
 }
 \\
@@ -4588,7 +4588,7 @@ assumption for the step to
 \shoveleft{
 \text{then} \quad
 \forall \var{a} : \var{hi} \ge \var{a} > \var{i}
-\implies 
+\implies
 \text{\Predot{\Vel{silo}{a}} is nulling.}
 }
 \end{multline}
@@ -4598,7 +4598,7 @@ shows us that
 \label{eq:lem-silo-reflection-nulling-induction-33}
 \text{if} \quad
 \op{Valid-eq}{\Vel{silo}{i}}
-\xderives{0} 
+\xderives{0}
 \op{Valid-eq}{\el{silo}{\Vdecr{i}}}
 \\
 \shoveleft{
@@ -4619,7 +4619,7 @@ we have
 \shoveleft{
 \text{then} \quad
 \forall \var{a} : \var{hi} \ge \var{a} > \Vdecr{i}
-\implies 
+\implies
 \text{\Predot{\Vel{silo}{a}} is nulling.}
 }
 \end{multline}
@@ -4781,22 +4781,22 @@ so that it is available to show
 \eqref{eq:silo-read-eim-layer-3}.
 \begin{align}
 \label{eq:silo-read-eim-layer-28}
-& \var{x} = 0 && 
+& \var{x} = 0 &&
 \eqref{eq:silo-read-eim-layer-1},
 \eqref{eq:silo-read-eim-layer-20}
 \\
 \label{eq:silo-read-eim-layer-31}
-& \var{y} = 0 && 
+& \var{y} = 0 &&
 \eqref{eq:silo-read-eim-layer-1},
 \eqref{eq:silo-read-eim-layer-25}
 \\
 \label{eq:silo-read-eim-layer-34}
-& \var{x} = \var{y} && 
+& \var{x} = \var{y} &&
 \eqref{eq:silo-read-eim-layer-28},
 \eqref{eq:silo-read-eim-layer-31}
 \end{align}
 \eqref{eq:silo-read-eim-layer-34}
-contradicts 
+contradicts
 \eqref{eq:silo-read-eim-layer-20}
 and shows the reductio.
 This in turn shows
@@ -4984,13 +4984,13 @@ we have
 \text{For all \var{a},
 if $\var{hi} \ge \var{a} > \var{lo}$
 } \\
-\qquad \text{and 
+\qquad \text{and
   $\op{Valid-eq}{\Vel{silo}{hi}} \xderives{0} \op{Valid-eq}{\Vel{silo}{lo}}$,
 }
 \\
 \text{then \Predot{\Vel{silo}{a}} is nulling.}
 \end{multline}
-From 
+From
 \eqref{eq:silo-layer-unique-30}
 and
 \eqref{eq:silo-layer-unique-35},
@@ -5144,7 +5144,7 @@ we have that
 $\Vel{silo}{hi} = \Vel{silo}{lo}.$
 Without loss of generality, let
 both
-\Vel{silo}{hi} and \Vel{silo}{lo} 
+\Vel{silo}{hi} and \Vel{silo}{lo}
 be
 \begin{equation}
 \label{eq:silo-layer-unique-85}
