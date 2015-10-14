@@ -3486,18 +3486,19 @@ which is requirement
 The
 \dfn{tether}
 of an Earley item \Veim{eim}
-is the sequence \var{teth},
+is the sequence,
+call it \var{teth},
 such that
 \begin{itemize}
 \item
-$\el{teth}{0} = \Veim{eim}$
+$\el{teth}{0} = \Veim{eim}$, and
 \item
-If
+if
 \Veim{down}
 is the top-down cause of
 \Vel{teth}{x},
 then
-\el{teth}{Vincr{x}} = \Veim{down}.
+\el{teth}{\Vincr{x}} = \Veim{down}.
 \end{itemize}
 \end{definition}
 
@@ -3513,12 +3514,12 @@ TODO
 If \var{hi} and \var{lo} are
 tether indexes such that $\var{hi} > \var{lo}$,
 we say that \Vel{teth}{lo} is
-xdfn{below}{below (in a tether)}
+\xdfn{below}{below (in a tether)}
 \Vel{teth}{hi};
 and that the direction from 
 \Vel{teth}{hi} to
 \Vel{teth}{lo} is
-xdfn{downward}{downward (in a tether)}.
+\xdfn{downward}{downward (in a tether)}.
 
 \begin{theorem}
 If we follow a tether downward,
