@@ -2002,6 +2002,8 @@ This shows the theorem.
 \chapter{Earley items}
 \label{ch:earley-items}
 
+\section{Definition}
+
 An Earley item (type \type{EIM}) is a triple
 \[
     [\Vdr{dotted-rule}, \Vorig{x}, \Vloc{current} ]
@@ -2033,6 +2035,8 @@ the current location is specified by the context,
 either explicitly or implicitly.
 This paper will use Earley items
 in both the duple and triple forms.
+
+\section{Types}
 
 Whenever a dotted rule notion is applied to an EIM,
 it refers to the dotted rule of the EIM.
@@ -2086,6 +2090,8 @@ The idea is that telluric dotted rules are ``grounded'' either
 in the input or in the initial state of the parse,
 while
 ethereal dotted rules emerge out of an invisible realm.
+
+\section{Validity}
 
 \begin{definition}
 \label{def:eim-valid}
@@ -3490,6 +3496,8 @@ Our choice of \Vinst{inst1} was without loss of generality,
 so this shows the theorem.
 \end{proof}
 
+\section{Ambiguity}
+
 \begin{theorem}
 \ttitle{Multiple top-down causes make a grammar ambiguous}
 \label{t:multi-down-cause-ambiguous}
@@ -3630,6 +3638,8 @@ But then $\Veim{up1} = \Veim{up2}$, which is contrary to assumption
 for the reductio.
 \end{sloppypar}
 \end{proof}
+
+\section{Fleeting and lasting}
 
 Recall that dotted rule notions applied to EIM's
 refer to the dotted rule of the EIM.
