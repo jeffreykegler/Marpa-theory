@@ -117,6 +117,7 @@
 \newcommand{\Vsymset}[1]{\ensuremath{\var{#1}_{\set{SYM}}}}
 \newcommand{\term}[1]{#1_{TERM}}
 \newcommand{\mk}[1]{\lfloor#1\rceil}
+\newcommand{\bigmk}[1]{\big\lfloor#1\big\rceil}
 % \newcommand{\mkdelim}{\,\,}
 \newcommand{\mkdelim}{}
 \newcommand{\mkr}[1]{\mkdelim \mk{#1}}
@@ -3483,32 +3484,233 @@ which is requirement
 \end{proof}
 
 \begin{definition}
-The
+\dtitle{Tether}
+Let
+\var{teth},
+be a sequence
+\begin{equation}
+\el{teth}{0},
+\el{teth}{1},
+\ldots
+\Vel{teth}{top}, \quad \text{where $\var{top} \ge 1$}
+\end{equation}
+We say that \var{teth} is a
 \dfn{tether}
 of an Earley item \Veim{eim}
-is the sequence,
-call it \var{teth},
-such that
-\begin{itemize}
-\item
-$\el{teth}{0} = \Veim{eim}$, and
-\item
-if
-\Veim{down}
-is the top-down cause of
-\Vel{teth}{x},
-then
-\el{teth}{\Vincr{x}} = \Veim{down}.
-\end{itemize}
+if and only if
+\begin{align}
+\label{eq:def-tether-10}
+& \el{teth}{0} = \Veim{eim},
+\\
+\label{eq:def-tether-20}
+& \text{\Vel{teth}{top} is the start EIM, and}
+\\
+\label{eq:def-tether-30}
+& \myparbox{
+for all \var{x} such that
+$\var{top} \ge \var{x} > 0,$
+\el{teth}{\Vincr{x}} is a top-down cause of
+\Vel{teth}{x}.
+}
+\end{align}
+We sometimes say that
+\Veim{eim} ``has'' the tether \var{teth}.
 \end{definition}
 
 \begin{theorem}
-Every EIM has a tether of length \var{len},
-where \el{teth}{\Vdecr{len}} is the start EIM.
+\label{t:eim-tether}
+\ttitle{EIM Tether}:
+Let
+\begin{equation}
+\Veim{eim} = \big[ [ \Vsym{A} \derives \Vstr{predot} \mydot \Vstr{postdot} ].
+\Vorig{i}, \Vloc{j} \big]
+\end{equation}
+Then
+\begin{equation}
+\label{t:eim-tether-5}
+\Vsym{A} \derives [\var{i}]\, \Vstr{predot} \,[\var{j}]\, \Vstr{postdot}.
+\end{equation}
+if and only if
+\begin{equation}
+\label{t:eim-tether-8}
+\text{\Veim{eim} has a tether.}
+\end{equation}
 \end{theorem}
 
 \begin{proof}
-TODO
+\textbf{The ``if'' direction}:
+To show the ``if'' direction, we
+assume
+\eqref{t:eim-tether-5}
+to show
+\eqref{t:eim-tether-8}.
+
+This theorem fundamentally relates our two major notations,
+so we will provide more detail than usual.
+Note that, as usual, we are in the context of
+a specific input, \Cw{}, and a specific grammar,
+\Cg{}.
+
+We expand 
+\eqref{t:eim-tether-5} from its simplified form to
+\begin{align}
+\label{eq:eim-tether-10}
+& \Vsym{accept}
+\\
+\label{eq:eim-tether-13}
+& \quad \destar \; \Vstr{before} \Vmk{i} \Vsym{A} \Vmk{k} \Vstr{after}
+\\
+\label{eq:eim-tether-16}
+& \quad \derives \; 
+\Vstr{before} \Vmk{i} \Vstr{prefix} \Vmk{j} \Vstr{suffix} \Vmk{k} \Vstr{after}
+\\
+\label{eq:eim-tether-19}
+& \quad \destar \; \Cw\big[0,\decr{\Vsize{w}}\big] &
+\end{align}
+It is possible that
+more than one derivation corresponds to
+the simplified form in \eqref{t:eim-tether-5}.
+We may choose any of them, arbitrarily.
+The expansion of
+\eqref{eq:eim-tether-10}--\eqref{eq:eim-tether-19}
+is without loss of generality.
+
+But we have retained the location markers.
+To justify this, we note that
+every instance of a symbol in the derivation steps derives some specific substring
+of \Cw{}, so that
+every symbol instance in
+the derivation of
+\eqref{eq:eim-tether-10}
+has a specific right location
+and a specific left location.
+We have also introduced a new location marker, \Vloc{k}.
+This is introduced to represent
+the right location of \Vsym{A} and \Vstr{suffix}.
+is chosen arbitrarily and without loss of generality to represent the
+\eqref{eq:eim-tether-10}.
+
+We now construct a derivation tree
+from
+Step 0 to Step \var{s}
+of \eqref{eq:eim-tether-10},
+proceeding in
+a standard way~\cite[Vol. 1, page 141, Lemma 2.12]{AU1972}.
+The tree begins with the root node, call it \var{root},
+where root corresponds to the derivation step
+\begin{equation*}
+\mk{0} \Vsym{accept} \mk{\Vsize{w}}
+\end{equation*}
+
+Now we consider two consecutive derivation steps,
+call them step \var{n} and step \Vincr{n},
+where step \var{n} is
+\begin{gather*}
+\text{Step \var{n} is $\Vstr{s1} \Vmk{L} \Vsym{lhs} \Vmk{R} \Vstr{s2}$} \\
+\text{Step \Vincr{n} is $\Vstr{s1} \Vmk{L} \Vstr{rhs} \Vmk{R} \Vstr{s2}$} \\
+\text{where $\Vstr{rhs} = \Vsym{rh-1} \Vsym{rh-2} \ldots \Vsym{rh-n}$}
+\end{gather*}
+In our tree,
+below the leaf for $\Vmk{L} \Vsym{lhs} \Vmk{R}$,
+we add the direct descendants,
+$\Vsym{rh-1} \Vsym{rh-2} \ldots \Vsym{rh-n}$.
+For purposes of this proof,
+we say the highest index number of the
+a derivation step in which a symbol instance appears,
+is its ``depth''.
+In this case, the depth of
+$\Vmk{L} \Vsym{lhs} \Vmk{R}$ is \var{n},
+because at that point it is rewritten into \Vstr{rhs}.
+Note that the depth of the symbol instances in
+\Vstr{rhs} will be at least \Vincr{n}, because they
+appear in derivation step
+\Vincr{n}.
+
+We are now ready to show that we have a tether.
+Let our tether be the sequence \var{teth}
+\eqref{eq:def-tether-10} in the definition of tether
+requires that
+$\el{teth}{0} = \Veim{eim}$.
+We have this from
+\eqref{eq:eim-tether-13}
+and
+\eqref{eq:eim-tether-16}
+by EIM validity.
+
+We have shown
+in Theorems
+\ref{t:down-cause-from-effect}
+and
+\ref{t:cause-from-prediction}
+that every EIM except the start EIM
+has a top-down cause.
+and this shows \eqref{eq:def-tether-20}.
+But we need to show that
+this chain of top-down causes is compatible
+with
+\eqref{eq:def-tether-30} --
+that the chain of causes is finite,
+and that it does in fact lead to the start
+EIM, as required by
+\eqref{eq:def-tether-30}.
+This will require that we look at it in some
+detail.
+
+Consider one element of the tether,
+\Vel{teth}{x}.
+If 
+\Vel{teth}{x} is a confirmed EIM,
+then, by
+Theorem
+\ref{t:down-cause-from-effect},
+\begin{equation}
+\DR{\Vel{teth}{\Vincr{x}}}
+=
+\Prev{\DR{\Vel{teth}{x}}}
+\end{equation}
+Let the dotted rule of
+\Vel{teth}{x} be $[\Vrule{r}, \var{rhix} ]$,
+where we are showing the dotted rule as a duple
+of rule and RHS index.
+Then
+$\DR{\Vel{teth}{x}} = [\Vrule{r}, \Vdecr{rhix} ]$ ---
+the dotted rule of the cause
+is the same as dotted rule of the effect,
+except that the RHS index is decremented.
+
+Now we consider the other case,
+where
+\Vel{teth}{x} is a predicted EIM:
+\[
+    \big[ [ \Vsym{xlh} \de \mydot \Vstr{xrh} ], \Vloc{x}, \Vloc{x} ]
+\]
+As noted, we have right locations for all symbol instances,
+so that we have a specific \Right{\Vstr{xrh}}.
+Since $\Right{\Vsym{xlh}} = \Right{\Vstr{xrh}}$,
+we know that
+the top down cause is,
+without loss of generality,
+\[
+\Vel{teth}{\Vincr{x}}
+    = \big[ [ \Vsym{down} \de \Vstr{prefix} \mydot \Vsym{xlh} \Vstr{rest} ], \Vorig{down}, \Vloc{x} ]
+\]
+where the symbol instance for \Vsym{xlh} is
+\begin{equation}
+\label{eq:eim-tether-40}
+\bigmk{\Vloc{x}}
+\Vsym{xlh}
+\bigmk{\Right{\Vsym{xlh}}}.
+\end{equation}
+We also know that the derivation step of the validity equivalent
+of
+\Vel{teth}{\Vincr{x}} 
+is one step higher than
+the derivation step of the validity equivalent
+of
+\Vel{teth}{x}.
+
+TODO: Add stuff here
+
 \end{proof}
 
 If \var{hi} and \var{lo} are
