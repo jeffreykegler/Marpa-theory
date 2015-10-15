@@ -679,34 +679,84 @@ The language of \var{g} is $\myL{\Cg}$, where
 \right\rbrace
 \end{equation}
 
-We say that symbol \Vsym{x} is \dfn{nullable} if and only if
-$\Vsym{x} \destar \epsilon$.
+TODO: Rewrite this.
+
+In traditional parsing theory,
+a symbol \Vsym{x} is \dfn{nullable} if and only if
+$\Vsym{x} = \epsilon$.
 We say that symbol \Vsym{x} is \dfn{nulling} if and only if
 \[\forall \Vstr{y} \mid \Vsym{x} \destar \Vstr{y}
   \implies \Vstr{y} = \epsilon \].
-This implies that $\Vstr{y} \derives \epsilon$ if and only
-if all of the symbols in \Vstr{y} are nullable.
-As a special case,
-when \Vstr{z} is an empty string of symbols,
-we will say that $\Vstr{z} \derives \epsilon$.
+A symbol is a
+\xdfn{proper nullable}{proper nullable (symbol)}
+if it is nullable, but not nulling.
 
 Following Aycock and Horspool~\cite{AH2002},
-all nullable symbols in grammar \Cg{} are nulling ---
-which can derive the null string always derives the null string.
-This restriction applies only to Marpa's internal grammar.
-As explained in Chapter \ref{ch:rewrite},
-this is invisible to Marpa's users.
+Marpa grammars use a rewrite to eliminate proper nullables,
+and nulling rules.
+The pre-rewrite grammar is called the
+\dfn{external grammar},
+and the post-rewrite grammar is Marpa's
+\dfn{internal grammar}.
+The external, pre-rewrite grammars
+are the only ones visible to
+the users of Marpa::R2.
+The internal, post-rewrite grammars
+are the ones actually used by the parse engine,
+and therefore are
+the ones described in this paper.
+Details of this rewrite are given
+in Chapter \ref{ch:rewrite}.
 
-If a symbol is not nullable, we say that is
-\dfn{non-nullable}.
-In this paper, non-nullable is usually an antonym
-of nulling, which is not the case in traditional
-parsing theory.
-To prevent this confusion,
-and as a better fit to terminology yet to be
-introduced,
-we more often say that a non-nullable symbol
-is \dfn{telluric}.
+In discussing Marpa's internal grammars,
+we say that a symbol is
+\xdfn{nulling}{nulling (Marpa internal symbol)}
+if and only if
+\[
+  \Vsym{x} = \epsilon.
+\]
+We say that \Vstr{y} is nulling,
+if and only
+if every symbol in \Vstr{y} is nulling.
+We also write ``\Vstr{y} is nulling'' as
+$\Vstr{y} = \epsilon$.
+This can be the case vacuously ---
+if \Vstr{y} is the empty string of symbols,
+then
+$\Vstr{y} = \epsilon$.
+
+If a symbol is not nullable, we may say that is
+\dfn{non-nullable},
+but more often we say it is
+\xdfn{telluric}{telluric (symbol)}.
+We will find telluric less confusing in the context of
+Marpa's internal grammars,
+because
+it can used as an antonym of ``nulling''.
+For Marpa's external grammars,
+and in traditional parsing theory,
+``non-nullable'' is not, strictly speaking,
+an antonym of nulling.
+
+Since there are no nulling rules in Marpa's internal grammars,
+a symbol is not nulled as the result of a derivation step.
+Therefore, where \Vsym{nulling} is a nulling symbol,
+\begin{align*}
+    \Vsym{nulling} & \nxderives{1} \epsilon \quad \text{and} \\
+    \Vsym{nulling} & \ndeplus \epsilon
+\end{align*}
+Strictly speaking, it is not wrong to say that
+\begin{align*}
+    \Vsym{nulling} & \xderives{0} \epsilon \quad \text{or} \\
+    \Vsym{nulling} & \destar \epsilon
+\end{align*}
+although it is misleading,
+and we avoid it in favor of
+\[
+    \Vsym{nulling} = \epsilon,
+\]
+which more clearly conveys what it means for a
+Marpa internal symbol to be ``nulling''.
 
 Consider the derivation
 \begin{equation}
@@ -717,11 +767,11 @@ and the symbol \Vsym{A} are
 \begin{center}
 \begin{tabular}{ll}
 \dfn{middle-recursive} & if
-  $\Vstr{left} \ndestar \epsilon \land \Vstr{right} \ndestar \epsilon$ \\
-\dfn{left-recursive} &  if $\Vstr{left} \destar \epsilon$ \\
-\dfn{right-recursive} &  if $\Vstr{right} \destar \epsilon$ \\
+  $\Vstr{left} \neq \epsilon \land \Vstr{right} \neq \epsilon$ \\
+\dfn{left-recursive} &  if $\Vstr{left} = \epsilon$ \\
+\dfn{right-recursive} &  if $\Vstr{right} = \epsilon$ \\
 \dfn{cyclic} & if
-  $\Vstr{left} \destar \epsilon \land \Vstr{right} \destar \epsilon$.
+  $\Vstr{left} = \epsilon \land \Vstr{right} = \epsilon$.
 \end{tabular}
 \end{center}
 We assume that a Marpa grammar is cycle-free ---
@@ -914,11 +964,7 @@ in full generality as
   \deplus \Vstr{nul2L} \Vmk{i} \Vstr{sf} \Vmk{j} \Vstr{nul2R}.
 \end{multline}
 where
-$\Vstr{nul1L} \destar \epsilon$,
-$\Vstr{nul1R} \destar \epsilon$,
-$\Vstr{nul2L} \destar \epsilon$
-and
-$\Vstr{nul2R} \destar \epsilon$.
+$\Vstr{nul1L} = \Vstr{nul1R} = \Vstr{nul2L} = \Vstr{nul2R} = \epsilon$.
 We assume
 \eqref{eq:location-marker-cycle-12}
 for a reductio.
@@ -929,8 +975,7 @@ We can rewrite \Vstr{sf},
 \Vstr{sf} = \Vstr{nul3L} \Vstr{core} \Vstr{nul3R}
 \end{equation}
 where
-$\Vstr{nul3L} \destar \epsilon$,
-$\Vstr{nul3R} \destar \epsilon$
+$\Vstr{nul3L} = \Vstr{nul3R} = \epsilon$
 and
 \Vstr{core} begins and ends with a telluric symbol.
 
@@ -1115,7 +1160,7 @@ so that
 \therefore \; & \op{T}{\Vstr{core2a}} = 0
 \notag \\
 \label{eq:location-marker-cycle-50}
-\therefore \; & \Vstr{core2a} \destar \epsilon.
+\therefore \; & \Vstr{core2a} = \epsilon.
 \intertext{and using
   \eqref{eq:location-marker-cycle:tell-expands}
   and \eqref{eq:location-marker-cycle-50},
@@ -1527,7 +1572,7 @@ so that without loss of generality it is
 \begin{equation}
 [\Vsym{A} \de \Vstr{alpha} \mydot \Vstr{nulls} \cat \Vsym{B} \cat \Vstr{after} ]
 \end{equation}
-where $\Vstr{nulls} \destar \epsilon$,
+where $\Vstr{nulls} = \epsilon$,
 and $\Vsym{B}$ is a telluric symbol,
 then its \dfn{lasting equivalent} is
 \begin{equation}
@@ -1538,7 +1583,7 @@ so that without loss of generality it is
 \begin{equation}
 [\Vsym{A} \de \Vstr{alpha} \mydot \Vstr{nulls} ]
 \end{equation}
-where $\Vstr{nulls} \destar \epsilon$,
+where $\Vstr{nulls} = \epsilon$,
 then its \dfn{lasting equivalent} is
 \begin{equation}
 [\Vsym{A} \de \Vstr{alpha} \cat \Vstr{nulls} \mydot ].
@@ -1710,7 +1755,7 @@ and let the telluric base be
 \label{eq:eth-eq-share-telluric-base-20}
 \Vdr{tell} = [ \Vsym{A} \de \Vstr{pre} \cat \Vsym{tell} \mydot \Vstr{nulls1} \cat \Vstr{post1} ],
 \end{equation}
-where $\Vstr{nulls1} \destar \epsilon$.
+where $\Vstr{nulls1} = \epsilon$.
 
 We now proceed by overlapping cases.
 In the first case,
@@ -5330,7 +5375,7 @@ From this definition and
 \eqref{eq:silo-layer-unique-52}, we have
 \begin{multline}
 \label{eq:silo-layer-unique-55}
-\Predot{\Vel{silo}{ly1}} \destar \epsilon  \\
+\Predot{\Vel{silo}{ly1}} = \epsilon  \\
 \implies
 \myfn{TDC}{\Vel{silo}{ly1}} =
 \big[ [ \Vrule{r}, \Vdecr{ix} ], \Vorig{hi}, \Vloc{here} \big]
@@ -5344,7 +5389,7 @@ we have
 \text{if} \quad
 \forall \var{a} :
 \var{ly1} \ge \var{a} > \var{ly2} \implies
-\Predot{\Vel{silo}{a}} \destar \epsilon, \\
+\Predot{\Vel{silo}{a}} = \epsilon, \\
 \text{then} \quad
 \Vel{silo}{ly2} =
 \myfnname{TDC}^{\displaystyle (\xxsubtract{\var{ly1}}{\var{ly2}})}(\Vel{silo}{ly1}) = \\
@@ -5364,7 +5409,7 @@ we have
 \label{eq:silo-layer-unique-61}
 \forall \var{a} :
 \var{hi} \ge \var{a} > \var{lo} \implies
-\Predot{\Vel{silo}{a}} \destar \epsilon,
+\Predot{\Vel{silo}{a}} = \epsilon,
 \end{equation}
 so that we can rewrite
 \eqref{eq:silo-layer-unique-58}
@@ -5436,7 +5481,7 @@ or the right hand side of
 We will use the left hand side.
 
 The dotted rule in a silo layer must be quasi-complete,
-so that $\Vstr{post} \destar \epsilon$.
+so that $\Vstr{post} = \epsilon$.
 Therefore we can use
 \eqref{eq:silo-layer-unique-88}
 to write
