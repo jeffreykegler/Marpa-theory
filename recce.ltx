@@ -679,8 +679,6 @@ The language of \var{g} is $\myL{\Cg}$, where
 \right\rbrace
 \end{equation}
 
-TODO: Rewrite this.
-
 In traditional parsing theory,
 a symbol \Vsym{x} is \dfn{nullable} if and only if
 $\Vsym{x} = \epsilon$.
@@ -3607,7 +3605,7 @@ We expand
 \\
 \label{eq:eim-tether-16}
 & \quad \derives \; 
-\Vstr{before} \Vmk{i} \Vstr{prefix} \Vmk{j} \Vstr{suffix} \Vmk{k} \Vstr{after}
+\Vstr{before} \Vmk{i} \Vstr{predot} \Vmk{j} \Vstr{postdot} \Vmk{k} \Vstr{after}
 \\
 \label{eq:eim-tether-19}
 & \quad \destar \; \Cw\big[0,\decr{\Vsize{w}}\big] &
@@ -3632,6 +3630,7 @@ and a specific left location.
 We have also introduced a new location marker, \Vloc{k}.
 This is introduced to represent
 the right location of \Vsym{A} and \Vstr{suffix}.
+\Vloc{k}
 is chosen arbitrarily and without loss of generality to represent the
 \eqref{eq:eim-tether-10}.
 
@@ -3672,7 +3671,7 @@ appear in derivation step
 \Vincr{n}.
 
 We are now ready to show that we have a tether.
-Let our tether be the sequence \var{teth}
+Let our tether be the sequence \var{teth}.
 \eqref{eq:def-tether-10} in the definition of tether
 requires that
 $\el{teth}{0} = \Veim{eim}$.
@@ -3688,7 +3687,7 @@ in Theorems
 and
 \ref{t:cause-from-prediction}
 that every EIM except the start EIM
-has a top-down cause.
+has a top-down cause,
 and this shows \eqref{eq:def-tether-20}.
 But we need to show that
 this chain of top-down causes is compatible
@@ -3698,8 +3697,8 @@ that the chain of causes is finite,
 and that it does in fact lead to the start
 EIM, as required by
 \eqref{eq:def-tether-30}.
-This will require that we look at it in some
-detail.
+This will require that we look at tether in
+more detail.
 
 Consider one element of the tether,
 \Vel{teth}{x}.
@@ -3722,30 +3721,84 @@ $\DR{\Vel{teth}{x}} = [\Vrule{r}, \Vdecr{rhix} ]$ ---
 the dotted rule of the cause
 is the same as dotted rule of the effect,
 except that the RHS index is decremented.
-
-Now we consider the other case,
+We see that
+\begin{equation}
+\label{eq:eim-tether-30}
+\begin{gathered}
+\Vel{teth}{x} = \big[ [ \Vrule{r}, \var{rhix}], \Vloc{i}, \Vloc{j} ] \\
+\land \; \var{rhix} \ge 1 \\
+\implies
+\text{\Vel{teth}{\var{x}+\var{rhix}} is a prediction.}
+\end{gathered}
+\end{equation}
+Because the RHS index can never be larger than the length
+of the longest RHS in \Cg{},
+it follows from
+\eqref{eq:eim-tether-30}
+that
+\begin{equation}
+\Vsize{teth} \le \var{rhsmax} \times \var{prediction-count}
+\end{equation}
 where
-\Vel{teth}{x} is a predicted EIM:
-\[
-    \big[ [ \Vsym{xlh} \de \mydot \Vstr{xrh} ], \Vloc{x}, \Vloc{x} ]
-\]
+\Vsize{teth} is the length of the tether,
+\var{rhsmax} is the length of the longest RHS in the rules
+of \Cg{},
+and \var{prediction-count}
+is the number of prediction EIMs in \var{teth}.
+
+We now consider the case
+where \Vel{teth}{x} is a predicted EIM:
+\begin{equation}
+\label{eq:eim-tether-36}
+    \big[ [ \Vsym{xlh} \de \mydot \Vstr{xrh} ], \Vloc{j}, \Vloc{j} ]
+\end{equation}
 As noted, we have right locations for all symbol instances,
 so that we have a specific \Right{\Vstr{xrh}}.
 Since $\Right{\Vsym{xlh}} = \Right{\Vstr{xrh}}$,
 we know that
 the top down cause is,
 without loss of generality,
-\[
+\begin{equation}
+\label{eq:eim-tether-38}
 \Vel{teth}{\Vincr{x}}
-    = \big[ [ \Vsym{down} \de \Vstr{prefix} \mydot \Vsym{xlh} \Vstr{rest} ], \Vorig{down}, \Vloc{x} ]
-\]
+    = \big[ [ \Vsym{down} \de \Vstr{prefix} \mydot \Vsym{xlh} \Vstr{rest} ], \Vorig{i}, \Vloc{j} ]
+\end{equation}
 where the symbol instance for \Vsym{xlh} is
 \begin{equation}
 \label{eq:eim-tether-40}
-\bigmk{\Vloc{x}}
+\Vmk{j}
 \Vsym{xlh}
-\bigmk{\Right{\Vsym{xlh}}}.
+\Vmk{k} \quad
+\text{where} \quad \var{k} = \Right{\Vsym{xlh}}
 \end{equation}
+
+The validity equivalents for
+\eqref{eq:eim-tether-36}
+and
+\eqref{eq:eim-tether-38}
+are, without loss of generality,
+\begin{align}
+\label{eq:eim-tether-43}
+& \Vsym{accept}
+\\
+\label{eq:eim-tether-46}
+& \quad \destar \; \Vstr{a} \Vsym{down} \Vstr{z}
+\\
+\label{eq:eim-tether-49}
+& \quad \xderives{1} \; \Vstr{a} \Vstr{prefix} \Vmk{j} \Vsym{xlh} \Vmk{k} \Vstr{rest} \Vstr{z}
+\\
+\label{eq:eim-tether-52}
+& \quad \destar \; \Vstr{a1} \Vstr{prefix} \Vmk{j} \Vsym{xlh} \Vmk{k} \Vstr{rest} \Vstr{z1}
+\\
+\label{eq:eim-tether-55}
+& \quad \xderives{1} \; \Vstr{a1} \Vstr{prefix} \Vmk{j} \Vstr{xrh} \Vmk{k} \Vstr{rest} \Vstr{z1}
+\\
+\label{eq:eim-tether-58}
+& \quad \destar \; \Cw\big[0,\decr{\Vsize{w}}\big] &
+\end{align}
+
+TODO: Add stuff here
+
 We also know that the derivation step of the validity equivalent
 of
 \Vel{teth}{\Vincr{x}} 
@@ -3754,7 +3807,6 @@ the derivation step of the validity equivalent
 of
 \Vel{teth}{x}.
 
-TODO: Add stuff here
 
 \end{proof}
 
