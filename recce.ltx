@@ -3565,6 +3565,7 @@ We sometimes say that
 \ttitle{EIM Tether}:
 Let
 \begin{equation}
+\label{t:eim-tether-3}
 \Veim{eim} = \big[ [ \Vsym{A} \derives \Vstr{predot} \mydot \Vstr{postdot} ].
 \Vorig{i}, \Vloc{j} \big]
 \end{equation}
@@ -3583,6 +3584,25 @@ if and only if
 \begin{proof}
 \textbf{The ``if'' direction}:
 To show the ``if'' direction, we
+assume
+\eqref{t:eim-tether-8}
+to show
+\eqref{t:eim-tether-5}.
+If \Veim{eim} has a tether,
+call it \var{teth},
+then it is \el{teth}{0}.
+All elements of \var{teth} are valid
+by
+the assumption of
+\eqref{t:eim-tether-8}.
+\eqref{t:eim-tether-5}
+follows from
+\eqref{t:eim-tether-3}
+by EIM validity.
+This shows the ``if'' direction.
+
+\textbf{The ``only if'' direction}:
+To show the ``only if'' direction, we
 assume
 \eqref{t:eim-tether-5}
 to show
