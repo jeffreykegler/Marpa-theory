@@ -3617,14 +3617,15 @@ non-terminal into its direct descendants.
 Consider a derivation that is of a specific input \Cw{},
 so that all symbol instances in the derivation steps have
 well-defined right and left locations with respect to \Cw{}.
-Let \var{inst} be
+Let \var{ki} be
 a non-terminal symbol instance,
-such that $\Right{\Vinst{k}} \le \Vloc{k} < \Left{\Vinst{k}}$.
-\var{inst} will be unique in its step, if it exists.
+such that $\Right{\Vinst{ki}} \le \Vloc{k} < \Left{\Vinst{ki}}$.
+If \var{inst} exists,
+it will be unique in its step.
 A derivation
 \xdfn{focused}{focused (derivation)}
 at \Vloc{k}
-is a derivation which expands \Vinst{k},
+is a derivation which expands \Vinst{ki},
 if it exists,
 and the rightmost
 non-terminal otherwise.
@@ -3634,16 +3635,22 @@ Recall that, every derivation has an equivalent rightmost
 derivation, and that the rightmost derivation is unique in its derivation
 tree.
 Similarly, for every \Vloc{k},
-every derivation has an equivalent k-then-right derivation,
-and that \Vloc{k}-then-right derivation is unique in its
+every derivation has an equivalent derivation that is focused at \Vloc{k},
+and that \Vloc{k}-focused derivation is unique in its
 derivation tree.
 
 Recall also from standard parsing theory that is two derivations
-share the same parse tree, they derive the same sentence, in
-our case \Cw{}.
-We will want to know that derivations from the same parse tree
-are also equivalent in the sense that they have same set of EIM's
-are validity equivalents.
+which share the same parse tree are considered equivalent,
+in the sense that they derive the same sentence,
+in our case \Cw{}.
+For our purposes,
+we will want to know if derivation
+from the same parse tree
+are equivalent in a stronger
+sense.
+The following theorem show that,
+for two derivations from the same parse tree,
+the sets of EIM validity equivalents are the same.
 
 \begin{theorem}
 \label{t:derivation-eim-equivalence}
@@ -3668,7 +3675,7 @@ Let the EIM be
 \text{where $\Vstr{prefix} = \Vsym{C1} \Vsym{C2} \ldots \Vsym{Cn}$} \\
 \text{and $\Vstr{suffix} = \Vsym{D1} \Vsym{D2} \ldots \Vsym{Dn}$}
 \end{multline}
-and the validity equivalent of \Veim{eim} be
+so that the validity equivalent of \Veim{eim} is
 \begin{equation}
 \label{eq:derivation-eim-equivalence-15}
     \Vsym{A} \derives \Vmk{i} \Vstr{prefix} \Vmk{j} \Vstr{suffix}
@@ -3693,19 +3700,23 @@ it remains the case that
 \Vsym{C1} \Vsym{C2} \ldots{} \Vsym{Cn} \destar \Cw[\var{i},(\Vdecr{j})]
 \end{equation}
 
-The order of the derivation in \var{d2} may differ from \var{d1},
-but there also \Vsym{A} will at some point expand into its direct descendants,
-and \eqref{eq:derivation-eim-equivalence-20} from the parse tree will continue
-to hold, so that
-we will also have
+The order of the derivation in \var{d2} may differ from \var{d1}.
+But
+\eqref{eq:derivation-eim-equivalence-20} from the parse tree will continue
+to hold in \var{d2};
+and in \var{d2} there is some point at which \Vsym{A}
+expands into its direct descendants.
+Therefore
 \eqref{eq:derivation-eim-equivalence-15}
-for \var{d2}.
+holds for some derivation step in \var{d2}.
+Since
 \eqref{eq:derivation-eim-equivalence-15}
-remains the validity equivalent of
-And \eqref{eq:derivation-eim-equivalence-10}.
-Since \eqref{eq:derivation-eim-equivalence-10}
+is unchanged,
+it remains the validity equivalent of
+\eqref{eq:derivation-eim-equivalence-10}.
+Because \eqref{eq:derivation-eim-equivalence-10}
 was chosen without loss of generality,
-we have the theorem.
+this shows the theorem.
 \end{proof}
 
 \begin{theorem}
@@ -3714,7 +3725,7 @@ we have the theorem.
 Let
 \begin{equation}
 \label{t:eim-tether-3}
-\Veim{eim} = \big[ [ \Vsym{A} \derives \Vstr{predot} \mydot \Vstr{postdot} ].
+\Veim{eim} = \big[ [ \Vsym{A} \derives \Vstr{predot} \mydot \Vstr{postdot} ],
 \Vorig{i}, \Vloc{j} \big]
 \end{equation}
 Then
@@ -3766,12 +3777,12 @@ a specific input, \Cw{}, and a specific grammar,
 It will be convenient to
 assume
 \eqref{t:eim-tether-5}
-to be \Vloc{i}-then-right derivation.
+to be focused at \Vloc{i}.
 We can do this without loss of generality,
 because by Theorem
 \ref{t:derivation-eim-equivalence},
 every derivation has a
-\Vloc{i}-then-right derivation which validates
+derivation focused at \Vloc{i} which validates
 the same set of EIM's.
 
 We now build our tether by induction,
