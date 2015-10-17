@@ -5,6 +5,7 @@
 % \RequirePackage[l2tabu, orthodox]{nag}
 \usepackage{ragged2e}
 \usepackage{mathtools}
+\usepackage{tikz-qtree}
 \usepackage{amssymb}
 \usepackage{url}
 \usepackage{amsfonts}% to get the \mathbb alphabet
@@ -3616,7 +3617,7 @@ A rightmost derivation is one that always expands the rightmost
 non-terminal into its direct descendants.
 
 \begin{definition}
-Consider a derivation of a specific input \Cw{}.
+Consider a derivation that is of a specific input \Cw{},
 so that all symbol instances in the derivation steps have
 well-defined right and left locations with respect to \Cw{}.
 Let \var{inst} be
@@ -3627,9 +3628,87 @@ A
 \xdfn{k-then-right}{k-then-right (derivation)}
 is a derivation which expands \var{inst},
 if it exists,
-and the the rightmost
+and the rightmost
 non-terminal otherwise.
 \end{definition}
+
+Recall that, every derivation has an equivalent rightmost
+derivation, and that the rightmost derivation is unique in its derivation
+tree.
+Similarly, for every \Vloc{k},
+every derivation has an equivalent k-then-right derivation,
+and that \Vloc{k}-then-right derivation is unique in its
+derivation tree.
+
+Recall also from standard parsing theory that is two derivations
+share the same parse tree, they derive the same sentence, in
+our case \Cw{}.
+We will want to know that derivations from the same parse tree
+are also equivalent in the sense that they have same set of EIM's
+are validity equivalents.
+
+\begin{theorem}
+\label{t:derivation-eim-equivalence}
+Let \Veim{eim} be an EIM,
+and let \var{d1} and \var{d2} be two derivations
+which share the same parse tree.
+\Veim{eim} has a validity equivalent in \var{d1}
+if and only if it has a validity equivalent in \var{d2}.
+\end{theorem}
+
+\begin{proof}
+Because \var{d1} and \var{d2} are symmetric, we need
+to show only the ``if'' direction.
+We assume that
+\Veim{eim} has a validity equivalent in \var{d1},
+to show that it also has a validity equivalent in \var{d2}.
+Let the EIM be
+\begin{multline}
+\label{eq:derivation-eim-equivalence-10}
+   \Veim{eim} =
+   \big[ [ \Vsym{A} \de \Vstr{prefix} \mydot \Vstr{suffix} ], \Vloc{i}, \Vloc{j} ] \\
+\text{where $\Vstr{prefix} = \Vsym{C1} \Vsym{C2} \ldots \Vsym{Cn}$} \\
+\text{and $\Vstr{suffix} = \Vsym{D1} \Vsym{D2} \ldots \Vsym{Dn}$}
+\end{multline}
+and the validity equivalent of \Veim{eim} be
+\begin{equation}
+\label{eq:derivation-eim-equivalence-15}
+    \Vsym{A} \derives \Vmk{i} \Vstr{prefix} \Vmk{j} \Vstr{suffix}
+\end{equation}
+Here
+\eqref{eq:derivation-eim-equivalence-10} and
+\eqref{eq:derivation-eim-equivalence-15}
+are without loss of generality.
+The corresponding node and direct descendants in the parse tree
+will be
+\[
+\Tree [.A
+  \Vsym{C1} \Vsym{C2} \ldots{} \Vsym{Cn}
+  \Vsym{D1} \Vsym{D2} \ldots{} \Vsym{Dn}
+]
+\]
+and since symbol instances in the parse tree derive the same terminals
+as the corresponding ones in \var{d1},
+it remains the case that
+\begin{equation}
+\label{eq:derivation-eim-equivalence-20}
+\Vsym{C1} \Vsym{C2} \ldots{} \Vsym{Cn} \destar \Cw[\var{i},(\Vdecr{j})]
+\end{equation}
+
+The order of the derivation in \var{d2} may differ from \var{d1},
+but there also \Vsym{A} will at some point expand into its direct descendants,
+and \eqref{eq:derivation-eim-equivalence-20} from the parse tree will continue
+to hold, so that
+we will also have
+\eqref{eq:derivation-eim-equivalence-15}
+for \var{d2}.
+\eqref{eq:derivation-eim-equivalence-15}
+remains the validity equivalent of
+And \eqref{eq:derivation-eim-equivalence-10}.
+Since \eqref{eq:derivation-eim-equivalence-10}
+was chosen without loss of generality,
+we have the theorem.
+\end{proof}
 
 \begin{theorem}
 \label{t:eim-tether}
@@ -3654,8 +3733,8 @@ if and only if
 
 \begin{proof}
 \textbf{The ``if'' direction}:
-To show the ``if'' direction, we
-assume
+The ``if'' direction is easy to show.
+We assume
 \eqref{t:eim-tether-8}
 to show
 \eqref{t:eim-tether-5}.
@@ -3673,7 +3752,7 @@ by EIM validity.
 This shows the ``if'' direction.
 
 \textbf{The ``only if'' direction}:
-To show the ``only if'' direction, we
+For ``only if'' direction will 
 assume
 \eqref{t:eim-tether-5}
 to show
@@ -3681,24 +3760,70 @@ to show
 
 This theorem fundamentally relates our two major notations,
 so we will provide more detail than usual.
-Note that, as usual, we are in the context of
+Recall that,
+by our usual convention, we are in the context of
 a specific input, \Cw{}, and a specific grammar,
 \Cg{}.
+
+It will be convenient to
+assume
+\eqref{t:eim-tether-5}
+to be \Vloc{i}-then-right derivation.
+We can do this without loss of generality,
+because by Theorem
+\ref{t:derivation-eim-equivalence},
+every derivation has a
+\Vloc{i}-then-right derivation which validates
+the same set of EIM's.
+
+We now build our tether by induction,
+where our induction hypothesis is
+\begin{equation}
+\tag{HYP}
+\label{eq:eim-tether-HYP}
+\text{\Vel{teth}{x} is a tether element}
+\end{equation}
+By assumption
+\var{teth} is a tether of
+\eqref{t:eim-tether-3},
+so that
+\eqref{t:eim-tether-3}
+is \el{teth}{0}.
+We take $\var{x} = 0$ in
+\eqref{eq:eim-tether-HYP}
+as the basis of our
+induction.
+
+\textbf{Step assumption}
+For the step, we assume
+\begin{equation}
+\tag{STEPASM}
+\label{eq:eim-tether-STEPASM}
+\text{\Vel{teth}{x} is a tether element}
+\end{equation}
+to show
+\begin{equation}
+\tag{STEP}
+\label{eq:eim-tether-STEP}
+\text{\el{teth}{\Vincr{x}} is a tether element}
+\end{equation}
+
+TODO: Continue
 
 We expand 
 \eqref{t:eim-tether-5} from its simplified form to
 \begin{align}
-\label{eq:eim-tether-10}
+\label{eq:OLD-eim-tether-10}
 & \Vsym{accept}
 \\
-\label{eq:eim-tether-13}
+\label{eq:OLD-eim-tether-13}
 & \quad \destar \; \Vstr{before} \Vmk{i} \Vsym{A} \Vmk{k} \Vstr{after}
 \\
-\label{eq:eim-tether-16}
+\label{eq:OLD-eim-tether-16}
 & \quad \derives \; 
 \Vstr{before} \Vmk{i} \Vstr{predot} \Vmk{j} \Vstr{postdot} \Vmk{k} \Vstr{after}
 \\
-\label{eq:eim-tether-19}
+\label{eq:OLD-eim-tether-19}
 & \quad \destar \; \Cw\big[0,\decr{\Vsize{w}}\big] &
 \end{align}
 It is possible that
@@ -3706,7 +3831,7 @@ more than one derivation corresponds to
 the simplified form in \eqref{t:eim-tether-5}.
 We may choose any of them, arbitrarily.
 The expansion of
-\eqref{eq:eim-tether-10}--\eqref{eq:eim-tether-19}
+\eqref{eq:OLD-eim-tether-10}--\eqref{eq:OLD-eim-tether-19}
 is without loss of generality.
 
 But we have retained the location markers.
@@ -3715,7 +3840,7 @@ every instance of a symbol in the derivation steps derives some specific substri
 of \Cw{}, so that
 every symbol instance in
 the derivation of
-\eqref{eq:eim-tether-10}
+\eqref{eq:OLD-eim-tether-10}
 has a specific right location
 and a specific left location.
 We have also introduced a new location marker, \Vloc{k}.
@@ -3723,12 +3848,12 @@ This is introduced to represent
 the right location of \Vsym{A} and \Vstr{suffix}.
 \Vloc{k}
 is chosen arbitrarily and without loss of generality to represent the
-\eqref{eq:eim-tether-10}.
+\eqref{eq:OLD-eim-tether-10}.
 
 We now construct a derivation tree
 from
 Step 0 to Step \var{s}
-of \eqref{eq:eim-tether-10},
+of \eqref{eq:OLD-eim-tether-10},
 proceeding in
 a standard way~\cite[Vol. 1, page 141, Lemma 2.12]{AU1972}.
 The tree begins with the root node, call it \var{root},
@@ -3767,9 +3892,9 @@ Let our tether be the sequence \var{teth}.
 requires that
 $\el{teth}{0} = \Veim{eim}$.
 We have this from
-\eqref{eq:eim-tether-13}
+\eqref{eq:OLD-eim-tether-13}
 and
-\eqref{eq:eim-tether-16}
+\eqref{eq:OLD-eim-tether-16}
 by EIM validity.
 
 We have shown
@@ -3814,7 +3939,7 @@ is the same as dotted rule of the effect,
 except that the RHS index is decremented.
 We see that
 \begin{equation}
-\label{eq:eim-tether-30}
+\label{eq:OLD-eim-tether-30}
 \begin{gathered}
 \Vel{teth}{x} = \big[ [ \Vrule{r}, \var{rhix}], \Vloc{i}, \Vloc{j} ] \\
 \land \; \var{rhix} \ge 1 \\
@@ -3825,7 +3950,7 @@ We see that
 Because the RHS index can never be larger than the length
 of the longest RHS in \Cg{},
 it follows from
-\eqref{eq:eim-tether-30}
+\eqref{eq:OLD-eim-tether-30}
 that
 \begin{equation}
 \Vsize{teth} \le \var{rhsmax} \times \var{prediction-count}
@@ -3840,7 +3965,7 @@ is the number of prediction EIMs in \var{teth}.
 We now consider the case
 where \Vel{teth}{x} is a predicted EIM:
 \begin{equation}
-\label{eq:eim-tether-36}
+\label{eq:OLD-eim-tether-36}
     \big[ [ \Vsym{xlh} \de \mydot \Vstr{xrh} ], \Vloc{j}, \Vloc{j} ]
 \end{equation}
 As noted, we have right locations for all symbol instances,
@@ -3850,13 +3975,13 @@ we know that
 the top down cause is,
 without loss of generality,
 \begin{equation}
-\label{eq:eim-tether-38}
+\label{eq:OLD-eim-tether-38}
 \Vel{teth}{\Vincr{x}}
     = \big[ [ \Vsym{down} \de \Vstr{prefix} \mydot \Vsym{xlh} \Vstr{rest} ], \Vorig{i}, \Vloc{j} ]
 \end{equation}
 where the symbol instance for \Vsym{xlh} is
 \begin{equation}
-\label{eq:eim-tether-40}
+\label{eq:OLD-eim-tether-40}
 \Vmk{j}
 \Vsym{xlh}
 \Vmk{k} \quad
@@ -3864,27 +3989,27 @@ where the symbol instance for \Vsym{xlh} is
 \end{equation}
 
 The validity equivalents for
-\eqref{eq:eim-tether-36}
+\eqref{eq:OLD-eim-tether-36}
 and
-\eqref{eq:eim-tether-38}
+\eqref{eq:OLD-eim-tether-38}
 are, without loss of generality,
 \begin{align}
-\label{eq:eim-tether-43}
+\label{eq:OLD-eim-tether-43}
 & \Vsym{accept}
 \\
-\label{eq:eim-tether-46}
+\label{eq:OLD-eim-tether-46}
 & \quad \destar \; \Vstr{a} \Vsym{down} \Vstr{z}
 \\
-\label{eq:eim-tether-49}
+\label{eq:OLD-eim-tether-49}
 & \quad \xderives{1} \; \Vstr{a} \Vstr{prefix} \Vmk{j} \Vsym{xlh} \Vmk{k} \Vstr{rest} \Vstr{z}
 \\
-\label{eq:eim-tether-52}
+\label{eq:OLD-eim-tether-52}
 & \quad \destar \; \Vstr{a1} \Vstr{prefix} \Vmk{j} \Vsym{xlh} \Vmk{k} \Vstr{rest} \Vstr{z1}
 \\
-\label{eq:eim-tether-55}
+\label{eq:OLD-eim-tether-55}
 & \quad \xderives{1} \; \Vstr{a1} \Vstr{prefix} \Vmk{j} \Vstr{xrh} \Vmk{k} \Vstr{rest} \Vstr{z1}
 \\
-\label{eq:eim-tether-58}
+\label{eq:OLD-eim-tether-58}
 & \quad \destar \; \Cw\big[0,\decr{\Vsize{w}}\big] &
 \end{align}
 
