@@ -3576,7 +3576,7 @@ which is requirement
 \begin{definition}
 \dtitle{Tether}
 Let \Veim{base} be an Earley item.
-The sequence \var{teth}
+The sequence
 \begin{equation}
 \el{teth}{0},
 \el{teth}{1},
@@ -3594,7 +3594,7 @@ is a tether of \Veim{base} if and only if
 \label{eq:def-tether-30}
 & \myparbox{
 for all \var{x} such that
-$\var{top} \ge \var{x} > 0,$
+$\var{top} > \var{x} \ge 0,$
 \el{teth}{\Vincr{x}} is a top-down cause of
 \Vel{teth}{x}.
 }
@@ -3613,16 +3613,18 @@ A rightmost derivation is one that always expands the rightmost
 non-terminal into its direct descendants.
 
 \begin{definition}
+\dtitle{Focused derivation}
 Consider a derivation that is of a specific input \Cw{},
 so that all symbol instances in the derivation steps have
 well-defined right and left locations with respect to \Cw{}.
 Let \var{inst} be
 a non-terminal symbol instance,
-such that $\Right{\var{inst}} \le \var{k} < \Left{\var{inst}}$.
+such that $\Right{\Vinst{k}} \le \Vloc{k} < \Left{\Vinst{k}}$.
 \var{inst} will be unique in its step, if it exists.
-A
-\xdfn{k-then-right}{k-then-right (derivation)}
-is a derivation which expands \var{inst},
+A derivation
+\xdfn{focused}{focused (derivation)}
+at \Vloc{k}
+is a derivation which expands \Vinst{k},
 if it exists,
 and the rightmost
 non-terminal otherwise.
