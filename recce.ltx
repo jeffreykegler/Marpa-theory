@@ -2172,9 +2172,73 @@ a EIM validity equivalent,
 or a parse instance validity equivalent.
 \end{definition}
 
+The following definitions will be useful
+when relating EIM's to their validity equivalents
+\begin{definition}
+\dtitle{EIM validity equivalent}
+\label{def:eim-validity-equivalent}
+Without loss of generality,
+let
+\begin{equation}
+\label{eq:eim-validity-equivalent-5}
+\Veim{eim} = \bigl[[\Vsym{A} \de \Vstr{predot} \mydot \Vstr{postdot}], \var{i}, \var{j} \bigr]
+\end{equation}
+be an Earley item and
+\begin{align}
+\label{eq:eim-validity-equivalent-10}
+& \Vsym{A} && \text{Step \var{s}} \\
+& \quad \derives \; \Vmk{i} \Vstr{predot} \Vmk{j} \Vstr{postdot} \Vmk{k}
+&& \text{Step \Vincr{s}}
+\end{align}
+be its validity equivalent.
+
+Then we say that the derivation step 
+Step \var{s}
+is the
+\xdfn{LHS step}{LHS step (of an EIM)}
+of \Veim{eim}.
+We say that the derivation step 
+Step \Vincr{s}
+is the
+\xdfn{RHS step}{RHS step (of an EIM)}
+of \Veim{eim}.
+When we refer to the ``step'' associated with an
+EIM without specifing whether LHS or RHS,
+we will mean the RHS step.
+For example,
+when we count derivation steps
+between EIM's,
+we will regard an EIM
+as being located at its RHS step.
+
+We say that
+\[
+\Vmk{i} \Vsym{A} \Vmk{k}
+\]
+is the
+\xdfn{LHS derivation symbol instance}{LHS derivation symbol instance (of an EIM)},
+or more simply
+\xdfn{LHS derivation instance}{LHS derivation instance (of an EIM)},
+of \Veim{eim}.
+We say that the derivation symbol instances in
+\[
+\Vmk{i} \Vstr{predot} \Vstr{postdot} \Vmk{k}
+\]
+are the
+\xdfn{RHS derivation symbol instances}{RHS derivation symbol instances (of an EIM)},
+or more simply
+\xdfn{RHS derivation instances}{RHS derivation instances (of an EIM)},
+of \Veim{eim}.
+And we say that \Vloc{j} is the
+\xdfn{dot location in the derivation}{dot location in the derivation (of an EIM)},
+or when it is clear in context,
+the \xdfn{dot location}{dot location (of an EIM in a derivation)},
+of \Veim{eim}.
+\end{definition}
+
 We will write \Vop{Valid-eq}{x} for the
 validity equivalent of \var{x}.
-This notation is overloaded --
+This notation is overloaded ---
 \var{x} may be a derivation move or a parse
 instance,
 and \Vop{Valid-eq}{x} may mean
@@ -2182,24 +2246,6 @@ a derivation validity equivalent,
 an EIM validity equivalent,
 or a parse instance validity equivalent,
 according to its usage in context.
-
-It will be useful to count the number of derivation steps
-that separate two parse instances.
-For this purpose,
-we say that derivation step of an Earley items is the
-second one in its validity equivalent.
-That is, in
-\begin{align}
-\label{eq:def-eim-step-location-10}
-& \Vsym{A} \\
-\label{eq:def-eim-step-location-15}
-\derives \; & [\var{i}]\, \Vstr{predot} \,[\var{j}]\, \Vstr{postdot}.
-\end{align}
-we will say that
-the Earley item of
-\eqref{eq:def-eim-valid-5}
-is at step
-\eqref{eq:def-eim-step-location-15}.
 
 \begin{theorem}\label{t:start-eim-is-valid}
 \ttitle{Start Earley item is valid}
@@ -3558,6 +3604,31 @@ $\var{top} \ge \var{x} > 0,$
 \end{align}
 We sometimes say that
 \Veim{eim} ``has'' the tether \var{teth}.
+\end{definition}
+
+We now
+recall our previous definition of a rightmost
+derivation.
+Following ~\cite[Vol. 1, page 141, Lemma 2.12]{AU1972},
+a rightmost derivation is defined in terms of a series of
+expansions of a derivation tree, beginning at the root.
+A rightmost derivation is one that always expands the rightmost
+non-terminal into its direct descendants.
+
+\begin{definition}
+Consider a derivation of a specific input \Cw{}.
+so that all symbol instances in the derivation steps have
+well-defined right and left locations with respect to \Cw{}.
+Let \var{inst} be
+a non-terminal symbol instance,
+such that $\Right{\var{inst}} \le \var{k} < \Left{\var{inst}}$.
+\var{inst} will be unique in its step, if it exists.
+A
+\xdfn{k-then-right}{k-then-right (derivation)}
+is a derivation which expands \var{inst},
+if it exists,
+and the the rightmost
+non-terminal otherwise.
 \end{definition}
 
 \begin{theorem}
