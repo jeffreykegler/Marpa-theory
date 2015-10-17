@@ -3575,19 +3575,15 @@ which is requirement
 
 \begin{definition}
 \dtitle{Tether}
-Let
-\var{teth},
-be a sequence
+Let \Veim{base} be an Earley item.
+The sequence \var{teth}
 \begin{equation}
 \el{teth}{0},
 \el{teth}{1},
 \ldots
 \Vel{teth}{top}, \quad \text{where $\var{top} \ge 1$}
 \end{equation}
-We say that \var{teth} is a
-\dfn{tether}
-of an Earley item \Veim{eim}
-if and only if
+is a tether of \Veim{base} if and only if
 \begin{align}
 \label{eq:def-tether-10}
 & \el{teth}{0} = \Veim{eim},
@@ -3752,12 +3748,12 @@ by EIM validity.
 This shows the ``if'' direction.
 
 \textbf{The ``only if'' direction}:
-For ``only if'' direction will 
+For ``only if'' direction,
+we will 
 assume
 \eqref{t:eim-tether-5}
 to show
 \eqref{t:eim-tether-8}.
-
 This theorem fundamentally relates our two major notations,
 so we will provide more detail than usual.
 Recall that,
