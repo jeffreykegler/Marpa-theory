@@ -88,6 +88,7 @@
 \newcommand{\derivg}[1]{\mathrel{\mbox{$\:\Rightarrow\:$}}}
 \newcommand{\derivrg}[2]{\mathrel{\mbox{$\:\stackrel{\!{#1}}%
         {\Rightarrow\!}\:$}}}
+\newcommand{\drv}[3]{\ensuremath{\texttt{#1}[#2][#3]}}
 
 \newcommand{\set}[1]{{\left\lbrace #1 \right\rbrace} }
 \newcommand{\bigset}[1]{{\bigl\lbrace #1 \bigr\rbrace} }
@@ -179,8 +180,10 @@
 \newcommand\call[2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}}%
 
 % My macros for definition & theorem titles.
-\newcommand\dtitle[1]{\textbf{#1}:\index{definitions!#1}}
-\newcommand\ttitle[1]{\textbf{#1}:\index{theorems!#1}}
+\newcommand\ctitle[1]{\textbf{#1}:\index{Construction: #1}}
+\newcommand\dtitle[1]{\textbf{#1}:\index{Definition: #1}}
+\newcommand\ttitle[1]{\textbf{#1}:\index{Theorem: #1}}
+\newcommand\ltitle[1]{\textbf{#1}:\index{Lemma: #1}}
 
 % I don't like to put whole paragraphs in italics,
 % so I make this simple variation on the "plain" theoremstyle
@@ -219,12 +222,19 @@
 \rule{3em}{.5pt}
 \end{center} \end{baredefinition} }
 
-\newtheorem{bareobservation}[oldtheorem]{Definition}
+\newtheorem{bareobservation}[oldtheorem]{Observation}
 \newenvironment{observation}{ \begin{bareobservation}
 }{ \begin{center}
 \vspace{-.4\baselineskip}
 \rule{3em}{.5pt}
 \end{center} \end{bareobservation} }
+
+\newtheorem{bareconstruction}[oldtheorem]{Construction}
+\newenvironment{construction}{ \begin{bareconstruction}
+}{ \begin{center}
+\vspace{-.4\baselineskip}
+\rule{3em}{.5pt}
+\end{center} \end{bareconstruction} }
 
 \hyphenation{oper-and oper-ands}
 \hyphenation{look-ahead}
@@ -3603,6 +3613,38 @@ We sometimes say that
 \Veim{eim} ``has'' the tether \var{teth}.
 \end{definition}
 
+Using our new, simplfied and location-marked derivations
+together with Earley items will be very efficient,
+but we want to be sure that we are not engaging in
+notational "slight-of-hand".
+When we wish to proceed carefully,
+we will write \drv{d}{\var{s}}{\var{i}} for
+the \var{i}'th symbol instance of the \var{s}'th step
+of the derivation \var{d}.
+Steps will be numbered from 0, starting at the root.
+Symbol instances will be numbered from 0, starting at the left.
+
+We will say that a derivation is
+\xdfn{fully produced}{fully produced (of a derivation)},
+or more simply
+\xdfn{full}{full (of a derivation)},
+if its last step is \Cw{}.
+In a fully produced derivation,
+the right and left locations are well-defined
+for every symbol instance of every step.
+Let \var{d} be a fully produced derivation,
+and let $\var{wlen} = \Vsize{\Cw}$.
+For every \var{d}, we will have
+\begin{equation}
+\drv{d}{0}{0} = \mk{0} \Vsym{accept} \Vmk{wlen}
+\end{equation}
+and where the length of the derivation is \var{dlen},
+\begin{multline}
+\forall \var{a} : 0 \le \var{a} < \var{wlen}  \\
+\implies \drv{d}{\Vdecr{dlen}}{\var{a}} = \Vinst{a} \\
+\text{where $\Vinst{a} = \Vmk{a} \, \sym{\Cw[\var{a}]} \, \mk{\Vincr{a}}$.}
+\end{multline}
+
 We now
 recall our previous definition of a rightmost
 derivation.
@@ -3614,28 +3656,30 @@ non-terminal into its direct descendants.
 
 \begin{definition}
 \dtitle{Focused derivation}
-Consider a derivation that is of a specific input \Cw{},
-so that all symbol instances in the derivation steps have
-well-defined right and left locations with respect to \Cw{}.
-Let \var{ki} be
-a non-terminal symbol instance,
-such that $\Right{\Vinst{ki}} \le \Vloc{k} < \Left{\Vinst{ki}}$.
-If \var{inst} exists,
-it will be unique in its step.
-A derivation
+We say that the fully produced derivation \var{d}
+is
 \xdfn{focused}{focused (derivation)}
 at \Vloc{k}
-is a derivation which expands \Vinst{ki},
-if it exists,
-and the rightmost
-non-terminal otherwise.
+if in every step \var{s},
+\begin{itemize}
+\item
+if there is a non-terminal symbol instance
+$\Vinst{ki} = \drv{d}{\var{s}}{\var{x}}$
+such that $\Left{\Vinst{ki}} \le \Vloc{k} < \Right{\Vinst{ki}}$,
+it expands
+\drv{d}{\var{s}}{\var{x}}; and
+\item
+otherwise, it expands the rightmost non-terminal symbol
+instance
+\end{itemize}
 \end{definition}
 
 Recall that, every derivation has an equivalent rightmost
 derivation, and that the rightmost derivation is unique in its derivation
 tree.
 Similarly, for every \Vloc{k},
-every derivation has an equivalent derivation that is focused at \Vloc{k},
+every fully produced derivation
+has an equivalent derivation that is focused at \Vloc{k},
 and that \Vloc{k}-focused derivation is unique in its
 derivation tree.
 
