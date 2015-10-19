@@ -480,6 +480,9 @@ other complexity results.
 We assume familiarity with the theory of parsing.
 Earley's algorithm is described in full,
 but a previous familiarity will be useful.
+
+\section{Notation}
+
 This document will
 use subscripts to indicate commonly occurring types.
 \begin{center}
@@ -555,6 +558,8 @@ we will abbreviate
 ``theorem'' as \dfn{Th},
 and
 ``definition'' as \dfn{Def}.
+
+\section{Grammars}
 
 Where \Vsymset{syms} is non-empty set of symbols,
 let $\var{syms}^\ast$ be the set of all strings
@@ -690,6 +695,16 @@ The language of \var{g} is $\myL{\Cg}$, where
 \Vstr{z} \mid \Vstr{z} \in \var{term}^\ast \land \Vsym{accept} \destar \Vstr{z}
 \right\rbrace
 \end{equation}
+In this document,
+\Earley{} will refer to the Earley's original
+recognizer~\cite{Earley1970}.
+\Leo{} will refer to Leo's revision of \Earley{}
+as described in~\cite{Leo1991}.
+\Marpa{} will refer to the parser described in
+this document.
+Where $\alg{Recce}$ is a recognizer,
+$\myL{\alg{Recce},\Cg}$ will be the language accepted by $\alg{Recce}$
+when parsing \Cg{}.
 
 In traditional parsing theory,
 a symbol \Vsym{x} is \dfn{nullable} if and only if
@@ -811,6 +826,8 @@ that is, that it derives a sentence.
 We assume that every symbol is accessible ---
 that is, that it is derivable from the start symbol.
 
+\section{Input}
+
 Let the input to
 the parse be \Cw{} such that $\Cw \in \myL{\Cg}$.
 Locations in the input will be of type \type{LOC}.
@@ -887,6 +904,8 @@ and where the length of the derivation is \var{dlen},
 \text{where $\Vinst{a} = \Vmk{a} \, \sym{\Cw[\var{a}]} \, \mk{\Vincr{a}}$.}
 \end{multline}
 
+\section{Focused derivations}
+
 We now
 recall our previous definition of a rightmost
 derivation.
@@ -942,17 +961,6 @@ every fully produced derivation
 has an equivalent derivation that is focused at \Vloc{k},
 and that \Vloc{k}-focused derivation is unique in its
 derivation tree.
-
-In this document,
-\Earley{} will refer to the Earley's original
-recognizer~\cite{Earley1970}.
-\Leo{} will refer to Leo's revision of \Earley{}
-as described in~\cite{Leo1991}.
-\Marpa{} will refer to the parser described in
-this document.
-Where $\alg{Recce}$ is a recognizer,
-$\myL{\alg{Recce},\Cg}$ will be the language accepted by $\alg{Recce}$
-when parsing \Cg{}.
 
 \section{Location markers}
 
