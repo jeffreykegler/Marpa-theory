@@ -975,7 +975,7 @@ of a symbol instance \Vinst{i2},
 such that
 \begin{gather}
 \label{eq:focusing-props-10}
-\text{\var{i2} is at derivation \Vdecr{s}} \\
+\text{\var{i2} is at derivation step \Vdecr{s}} \\
 \label{eq:focusing-props-13}
 \text{\Symbol{\var{i2}} is a non-terminal} \\
 \label{eq:focusing-props-16}
@@ -998,21 +998,38 @@ and for some \Vstr{pre}, \Vstr{post},
 \end{theorem}
 
 \begin{proof}
-In step \Vdecr{s}, there is either another copy of symbol
+Since \Vinst{i1} is not the accept symbol,
+there is a derivation step \Vdecr{s}.
+In each derivation step, a symbol instance is either
+copied over into the next step or expanded into
+its direct descendants.
+Therefore,
+in step \Vdecr{s}, there is either another copy of symbol
 instance \Vinst{i1}, or \Vinst{i1} is the direct descandent
 of another symbol instance.
 Either way, call that other symbol instance, \Vinst{i2}.
 \Vinst{i2} is in \Vdecr{s} by definition, which gives us
 \eqref{eq:focusing-props-16}.
-In context-free grammars a direct descendant is always part
-of the expansion of a single symbol,
-so that
-we have
+
+We show
+\eqref{eq:focusing-props-16}
+and
+\eqref{eq:focusing-props-19}
+by cases.
+In the first case, where \Vinst{i1} is a direct descendant
+of \Vinst{i2}, we recall that
+in context-free grammars a direct descendant is always part
+of the expansion of a single symbol, giving us
 \eqref{eq:focusing-props-16}
 and
 \eqref{eq:focusing-props-19}.
+If \Vinst{i1} is a copy of \Vinst{i2},
+\eqref{eq:focusing-props-16}
+and
+\eqref{eq:focusing-props-19}
+follow trivially.
 
-By assumption \var{d} is focused within \Vinst{i1},
+By assumption, \var{d} is focused within \Vinst{i1},
 and therefore at some \Vloc{k} such that
 \begin{equation}
 \label{eq:focusing-props-30}
@@ -1029,7 +1046,7 @@ We show \eqref{eq:focusing-props-13}
 by cases.
 In the first case,
 \Vinst{i2} is a copy of \Vinst{i1}
-then
+so that
 $\Symbol{\var{i2}} = \Symbol{\var{i1}}$,
 and since
 \Symbol{\var{i1}} is a non-terminal,
@@ -1046,7 +1063,7 @@ and
 \eqref{eq:focusing-props-13}.
 
 We have already shown
-\eqref{eq:focusing-props-13}.
+\eqref{eq:focusing-props-13}
 and
 \eqref{eq:focusing-props-19},
 so we know that,
