@@ -270,7 +270,7 @@ a Creative Commons Attribution-NoDerivs 3.0 United States License.
 }
 
 \begin{abstract}
-{\textbf
+\textbf{
 This is a draft.
 }
 Marpa is
@@ -961,6 +961,102 @@ every fully produced derivation
 has an equivalent derivation that is focused at \Vloc{k},
 and that \Vloc{k}-focused derivation is unique in its
 derivation tree.
+
+\begin{theorem}
+\label{t:focusing-props}
+Let \var{d} be a derivation focused within
+the symbol instance
+\Vinst{i1}, where
+\Vinst{i1} is at derivation step \var{s},
+and \Symbol{\var{i1}} is
+a non-terminal other than \Vsym{accept}.
+Then \Vinst{i1} is a direct descendant
+of a symbol instance \Vinst{i2},
+such that
+\begin{gather}
+\label{eq:focusing-props-10}
+\text{\var{i2} is at derivation \Vdecr{s}} \\
+\label{eq:focusing-props-13}
+\text{\Symbol{\var{i2}} is a non-terminal} \\
+\label{eq:focusing-props-16}
+\Right{\var{i2}} \ge \Right{\var{i1}} \\
+\label{eq:focusing-props-19}
+\Left{\var{i2}} \le \Left{\var{i1}} \\
+\label{eq:focusing-props-22}
+\text{\var{d} is focused within \var{i2}}
+\end{gather}
+and for some \Vstr{pre}, \Vstr{post},
+\begin{equation}
+\label{eq:focusing-props-25}
+\begin{gathered}
+[\Vsym{i2} \de \Vstr{pre} \Vsym{i1} \Vstr{post} ] \in \Crules, \\
+\text{where $\Symbol{\var{i1}} = \Vsym{i1}$ and
+  $\Symbol{\var{i2}} = \Vsym{i2}$
+}
+\end{gathered}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+In step \Vdecr{s}, there is either another copy of symbol
+instance \Vinst{i1}, or \Vinst{i1} is the direct descandent
+of another symbol instance.
+Either way, call that other symbol instance, \Vinst{i2}.
+\Vinst{i2} is in \Vdecr{s} by definition, which gives us
+\eqref{eq:focusing-props-16}.
+In context-free grammars a direct descendant is always part
+of the expansion of a single symbol,
+so that
+we have
+\eqref{eq:focusing-props-16}
+and
+\eqref{eq:focusing-props-19}.
+
+By assumption \var{d} is focused within \Vinst{i1},
+and therefore at some \Vloc{k} such that
+\begin{equation}
+\label{eq:focusing-props-30}
+\Left{\var{i1}} \le \Vloc{k} < \Right{\var{i1}}.
+\end{equation}
+\eqref{eq:focusing-props-22}
+follows from
+\eqref{eq:focusing-props-16},
+\eqref{eq:focusing-props-19}
+and
+\eqref{eq:focusing-props-30}.
+
+We show \eqref{eq:focusing-props-13}
+by cases.
+In the first case,
+\Vinst{i2} is a copy of \Vinst{i1}
+then
+$\Symbol{\var{i2}} = \Symbol{\var{i1}}$,
+and since
+\Symbol{\var{i1}} is a non-terminal,
+\Symbol{\var{i2}} is a non-terminal.
+In the second case,
+\Vinst{i2} is not a copy of \Vinst{i1},
+so that \Vinst{i1} is a direct descendant of
+\Vinst{i2}.
+In this second case,
+\Vinst{i2} is a non-terminal
+by definition.
+This gives us both cases,
+and
+\eqref{eq:focusing-props-13}.
+
+We have already shown
+\eqref{eq:focusing-props-13}.
+and
+\eqref{eq:focusing-props-19},
+so we know that,
+by the definition of a focused derivation,
+\Vinst{i2} is expanded into
+its direct descendants in step \var{s}.
+\eqref{eq:focusing-props-25}
+follows from this observation and the definition
+of a derivation.
+\end{proof}
 
 \section{Location markers}
 
