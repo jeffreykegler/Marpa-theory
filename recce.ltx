@@ -991,7 +991,7 @@ and for some \Vstr{pre}, \Vstr{post},
 \begin{gathered}
 [\Vsym{i2} \de \Vstr{pre} \Vsym{i1} \Vstr{post} ] \in \Crules, \\
 \text{where $\Symbol{\var{i1}} = \Vsym{i1}$ and
-  $\Symbol{\var{i2}} = \Vsym{i2}$
+  $\Symbol{\var{i2}} = \Vsym{i2}$.
 }
 \end{gathered}
 \end{equation}
@@ -1008,7 +1008,8 @@ in step \Vdecr{s}, there is either another copy of symbol
 instance \Vinst{i1}, or \Vinst{i1} is the direct descandent
 of another symbol instance.
 Either way, call that other symbol instance, \Vinst{i2}.
-\Vinst{i2} is in \Vdecr{s} by definition, which gives us
+\Vinst{i2} is in derivation step
+\Vdecr{s} by definition, which gives us
 \eqref{eq:focusing-props-16}.
 
 We show
@@ -3952,7 +3953,8 @@ and \var{d} is focused within \Veim{down}.
 \end{theorem}
 
 \begin{proof}
-Since \Veim{eim} is a prediction, it is not the start EIM, so that
+Since \Veim{eim} is a prediction, it is not the start EIM,
+so that
 there is a derivation step \Vdecr{s}.
 Since the derivation \var{d} is focused within \Veim{eim},
 it is focused at some \Vloc{k} such that
