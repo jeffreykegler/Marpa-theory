@@ -89,6 +89,7 @@
 \newcommand{\derivrg}[2]{\mathrel{\mbox{$\:\stackrel{\!{#1}}%
         {\Rightarrow\!}\:$}}}
 \newcommand{\drv}[3]{\ensuremath{\texttt{#1}[#2][#3]}}
+\newcommand{\drvVV}[3]{\drv{#1}{\var{#2}}{\var{#3}}}
 
 \newcommand{\set}[1]{{\left\lbrace #1 \right\rbrace} }
 \newcommand{\bigset}[1]{{\bigl\lbrace #1 \bigr\rbrace} }
@@ -839,6 +840,109 @@ In its implementations,
 the Marpa parser
 deals with null parses and nulling grammars as special cases.
 
+We will say that a derivation is
+\xdfn{fully produced}{fully produced (of a derivation)},
+or more simply
+\xdfn{full}{full (of a derivation)},
+if its last step is \Cw{}.
+Intuitively, a \dfn{symbol instance} is
+a symbol in the context of a parse.
+In a fully produced derivation,
+the right and left locations are well-defined
+for every symbol instance of every step.
+
+More formally, a symbol instance is a triple whose elements
+are a left location, a symbol name and a right location.
+We often represent symbol instances in the form
+\[\Vmkl{j} \Vsym{up} \Vmkr{k}.\]
+We write \Left{\Vinst{inst}} for the left location of \Vinst{inst}
+\Right{\Vinst{inst}} for the right location of \Vinst{inst},
+and \Symbol{\Vinst{inst}} for the symbol name of \Vinst{inst}.
+
+At some points, such as when we translate a derivation
+to other notation,
+we will want to be justify the conversion to and from
+a derivation carefully.
+To do this, we will treat a derivation as a two-dimensional
+ragged array.
+The rows will be derivation steps,
+and the columns of these variable length rows will be symbol
+instances.
+We will write \drvVV{d}{s}{i} for
+the \var{i}'th symbol instance of the \var{s}'th step
+of the derivation \var{d}.
+Steps will be numbered from 0, starting at the root.
+Symbol instances will be numbered from 0, starting at the left.
+
+Let \var{d} be a fully produced derivation,
+and let $\var{wlen} = \Vsize{\Cw}$.
+For every \var{d}, we will have
+\begin{equation}
+\drv{d}{0}{0} = \mk{0} \Vsym{accept} \Vmk{wlen}
+\end{equation}
+and where the length of the derivation is \var{dlen},
+\begin{multline}
+\forall \var{a} : 0 \le \var{a} < \var{wlen}  \\
+\implies \drv{d}{\Vdecr{dlen}}{\var{a}} = \Vinst{a} \\
+\text{where $\Vinst{a} = \Vmk{a} \, \sym{\Cw[\var{a}]} \, \mk{\Vincr{a}}$.}
+\end{multline}
+
+We now
+recall our previous definition of a rightmost
+derivation.
+Following ~\cite[Vol. 1, page 141, Lemma 2.12]{AU1972},
+a rightmost derivation is defined in terms of a series of
+expansions of a derivation tree, beginning at the root.
+A rightmost derivation is one that always expands the rightmost
+non-terminal into its direct descendants.
+
+\begin{definition}
+\dtitle{Focused derivation}
+We say that the fully produced derivation \var{d}
+is
+\xdfn{focused}{focused (derivation)}
+at \Vloc{k}
+if in every step \var{s},
+\begin{itemize}
+\item
+if there is a non-terminal symbol instance
+$\Vinst{ki} = \drvVV{d}{s}{x}$
+such that $\Left{\Vinst{ki}} \le \Vloc{k} < \Right{\Vinst{ki}}$,
+it expands
+\drvVV{d}{s}{x}; and
+\item
+otherwise, it expands the rightmost non-terminal symbol
+instance
+\end{itemize}
+We say that \var{d} is
+\xdfn{focused within}{focused within (a symbol instance, said of a derivation}
+a symbol instance \Vinst{si}
+if and only if it is
+focused at some \Vloc{k} such
+that
+\[
+\Left{\var{si}} \le \Vloc{k} < \Right{\var{si}}.
+\]
+In a context where the right location of
+an EIM's LHS symbol instance is well-defined,
+We say that \var{d} is
+\xdfn{focused within}{focused within (an EIM, said of a derivation)}
+if and only if it is
+focused at some \Vloc{k} such that
+\[
+\Left{\LHS{eim}} \le \Vloc{k} < \Right{\LHS{\var{eim}}}.
+\]
+\end{definition}
+
+Recall that, every derivation has an equivalent rightmost
+derivation, and that the rightmost derivation is unique in its derivation
+tree.
+Similarly, for every \Vloc{k},
+every fully produced derivation
+has an equivalent derivation that is focused at \Vloc{k},
+and that \Vloc{k}-focused derivation is unique in its
+derivation tree.
+
 In this document,
 \Earley{} will refer to the Earley's original
 recognizer~\cite{Earley1970}.
@@ -1315,8 +1419,6 @@ Only brick symbols have semantics attached to them.
 
 Assume that we have a parse, using internal symbols.
 We define a ``brick traversal'' from a ``root'' brick non-terminal instance.
-(A symbol instance is an instance of a symbol in a parse tree,
-with its right and left locations specified.)
 The ``brick traversal'' is pre-order
 and stops traversing any path when it hits
 a brick symbol instance other than the ``brick root''.
@@ -1361,22 +1463,50 @@ must translate exactly to an external symbol instance.
 Let $\Vrule{r} \in \Crules$
 be a rule,
 and $\Vsize{r}$ the length of its RHS.
-A dotted rule (type \type{DR}) is a duple, $[\Vrule{r}, \var{pos}]$,
-where $0 \le \var{pos} \le \size{\Vrule{r}}$.
-The position, \var{pos}, indicates the extent to which
+A dotted rule (type \type{DR}) is a duple, $[\Vrule{r}, \var{dotix}]$,
+where $0 \le \var{dotix} \le \size{\Vrule{r}}$.
+The
+\dfn{dot RHS index}
+or 
+\dfn{dot index},
+\var{dotix}, indicates the extent to which
 the rule has been recognized,
 and is represented with a large raised dot,
 so that if
 \begin{equation*}
-[\Vsym{A} \de \Vsym{X} \cat \Vsym{Y} \cat \Vsym{Z}]
+[\Vsym{A} \de \Vsym{X} \Vsym{Y} \Vsym{Z}]
 \end{equation*}
 is a rule,
-\begin{equation*}
-[\Vsym{A} \de \var{X} \cat \var{Y} \mydot \var{Z}]
-\end{equation*}
+\begin{equation}
+\label{eq:def-dotted-rule-10}
+[\Vsym{A} \de \Vsym{X} \var{Y} \mydot \var{Z}]
+\end{equation}
 is the dotted rule with the dot at
-$\var{pos} = 2$,
+$\var{dotix} = 2$,
 between \Vsym{Y} and \Vsym{Z}.
+
+In the discussion to come
+we will often refer to the
+``dot location''.
+The dot location should not be confused with the 
+dot index.
+Dot locations will be locations in the input,
+and will require the dotted rule
+to be placed in a context as will be explained in
+Chapter \ref{ch:earley-items}.
+
+We will sometimes write the dotted rule as a duple,
+for example,
+we might write
+\eqref{eq:def-dotted-rule-10}
+as
+\[
+[ [ \Vsym{A} \de \var{X} \var{Y} \var{Z} ], 2 ] \\
+\]
+or redundantly, as
+\[
+[ [ \Vsym{A} \de \var{X} \var{Y} \mydot \var{Z} ], 2 ].
+\]
 
 \section{Properties}
 
@@ -2320,13 +2450,6 @@ which is what we needed to show for the theorem.
 \section{Parse instances}
 
 A \dfn{parse instance} is either a symbol instance or an EIM.
-Intuitively, a \dfn{symbol instance} is
-a symbol in the context of a parse.
-More formally, a symbol instance is a triple whose elements
-are a left location, a symbol name and a right location.
-We often represent symbol instances in the form
-\[\Vmkl{j} \Vsym{up} \Vmkr{k}.\]
-
 When it is clear in context, we will often say ``symbol''
 when we mean ``symbol instance''.
 A parse instance is often called simply an \dfn{instance}.
@@ -2338,8 +2461,6 @@ when introducing dotted rules.
 We now revisit these concepts in the context of Earley items.
 
 \begin{sloppypar}
-We write \Left{\Vinst{inst}} for the left location of \Vinst{inst}
-and \Right{\Vinst{inst}} for the right location of \Vinst{inst}.
 If \var{inst} is an Earley item,
 call it \Veim{inst}, then
 \begin{gather*}
@@ -3613,76 +3734,6 @@ We sometimes say that
 \Veim{eim} ``has'' the tether \var{teth}.
 \end{definition}
 
-Using our new, simplfied and location-marked derivations
-together with Earley items will be very efficient,
-but we want to be sure that we are not engaging in
-notational "slight-of-hand".
-When we wish to proceed carefully,
-we will write \drv{d}{\var{s}}{\var{i}} for
-the \var{i}'th symbol instance of the \var{s}'th step
-of the derivation \var{d}.
-Steps will be numbered from 0, starting at the root.
-Symbol instances will be numbered from 0, starting at the left.
-
-We will say that a derivation is
-\xdfn{fully produced}{fully produced (of a derivation)},
-or more simply
-\xdfn{full}{full (of a derivation)},
-if its last step is \Cw{}.
-In a fully produced derivation,
-the right and left locations are well-defined
-for every symbol instance of every step.
-Let \var{d} be a fully produced derivation,
-and let $\var{wlen} = \Vsize{\Cw}$.
-For every \var{d}, we will have
-\begin{equation}
-\drv{d}{0}{0} = \mk{0} \Vsym{accept} \Vmk{wlen}
-\end{equation}
-and where the length of the derivation is \var{dlen},
-\begin{multline}
-\forall \var{a} : 0 \le \var{a} < \var{wlen}  \\
-\implies \drv{d}{\Vdecr{dlen}}{\var{a}} = \Vinst{a} \\
-\text{where $\Vinst{a} = \Vmk{a} \, \sym{\Cw[\var{a}]} \, \mk{\Vincr{a}}$.}
-\end{multline}
-
-We now
-recall our previous definition of a rightmost
-derivation.
-Following ~\cite[Vol. 1, page 141, Lemma 2.12]{AU1972},
-a rightmost derivation is defined in terms of a series of
-expansions of a derivation tree, beginning at the root.
-A rightmost derivation is one that always expands the rightmost
-non-terminal into its direct descendants.
-
-\begin{definition}
-\dtitle{Focused derivation}
-We say that the fully produced derivation \var{d}
-is
-\xdfn{focused}{focused (derivation)}
-at \Vloc{k}
-if in every step \var{s},
-\begin{itemize}
-\item
-if there is a non-terminal symbol instance
-$\Vinst{ki} = \drv{d}{\var{s}}{\var{x}}$
-such that $\Left{\Vinst{ki}} \le \Vloc{k} < \Right{\Vinst{ki}}$,
-it expands
-\drv{d}{\var{s}}{\var{x}}; and
-\item
-otherwise, it expands the rightmost non-terminal symbol
-instance
-\end{itemize}
-\end{definition}
-
-Recall that, every derivation has an equivalent rightmost
-derivation, and that the rightmost derivation is unique in its derivation
-tree.
-Similarly, for every \Vloc{k},
-every fully produced derivation
-has an equivalent derivation that is focused at \Vloc{k},
-and that \Vloc{k}-focused derivation is unique in its
-derivation tree.
-
 Recall also from standard parsing theory that is two derivations
 which share the same parse tree are considered equivalent,
 in the sense that they derive the same sentence,
@@ -3764,8 +3815,68 @@ this shows the theorem.
 \end{proof}
 
 \begin{theorem}
+\label{lem:eim-tether-prediction}
+Let
+$\Veim{eim} = \langle \var{s}, \var{rha1}, \var{rhz1}, 0\rangle$ be a prediction
+expressed in terms of \var{d},
+a derivation focused within \Veim{eim}.
+Then it has a top-down cause, \Veim{down},
+such that,
+for some
+\var{rha2}, \var{rhz2}, \var{ddot},
+\begin{equation}
+\Veim{down} = \langle \Vdecr{s}, \var{rha2}, \var{rhz2}, \var{dot2}\rangle
+\end{equation}
+and \var{d} is focused within \Veim{down}.
+\end{theorem}
+
+\begin{proof}
+Since \Veim{eim} is a prediction, it is not the start EIM, so that
+there is a derivation step \Vdecr{s}.
+Since the derivation \var{d} is focused within \Veim{eim},
+it is focused at some \Vloc{k} such that
+$\Left{\LHS{\var{eim}}} \le \Vloc{k} < \Right{\LHS{\var{eim}}}$,
+where 
+\LHS{\var{eim}} is clearly a non-terminal,
+so that the symbol expanded in
+derivation step \Vdecr{s} is the LHS symbol instance of \Veim{eim}.
+This symbol instance is \drv{d}{\Vdecr{s}}{\var{rha1}}.
+
+If \drv{d}{\Vdecr{s}}{\var{rha1}} is the accept symbol,
+then we must have
+\begin{gather}
+\Veim{down} = \big[ [ \Vsym{accept} \derives \mydot \Vsym{start} ], 0, 0 ] \\
+\text{and} \quad
+\Veim{eim} = \big[ [ \Vsym{start} \derives \mydot \Vstr{start-rhs} ], 0, 0 ] \\
+\text{where $\var{rha1} = \var{rha1}$, $\var{s} = 1$ and} \\
+  \Vstr{start-rhs} = \Symbol{\drvVV{d}{s}{rha1}}.
+\end{gather}
+By Theorem
+\ref{t:cause-from-prediction},
+\Veim{down} is the top-down cause of \Veim{eim}.
+Also, since the LHS symbol instance of \Veim{down} is
+$\mk{0} \Vsym{accept} \Vmk{\Vsize{\Cw}}$,
+if \var{d} is focused it must be focused within \Veim{down}.
+This shows the theorem for the case where
+\drv{d}{\Vdecr{s}}{\var{rha1}} is the accept symbol.
+
+It remains to show the theorem when
+\drv{d}{\Vdecr{s}}{\var{rha1}} is
+not the accept symbol.
+In this case, $s > 1$, so that there is a step
+\xxsubtract{\var{s}}{2}.
+Derivation \var{d} was focused within
+$\LHS{\var{eim}} = \drv{d}{\Vdecr{s}}{\var{rha1}}$,
+so
+
+\ldots
+
+TODO: Finish
+\end{proof}
+
+\begin{theorem}
 \label{t:eim-tether}
-\ttitle{EIM Tether}:
+\ttitle{EIM tether}:
 Let
 \begin{equation}
 \label{t:eim-tether-3}
