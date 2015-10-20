@@ -2621,6 +2621,9 @@ the \xdfn{dot location}{dot location (of an EIM in a derivation)},
 of \Veim{eim}.
 \end{definition}
 
+\begin{definition}
+\label{def:4-tuple-eim}
+\dtitle{EIM 4-tuple notation}
 We will sometimes find it convenient to express EIM's in terms of
 fully produced derivations,
 as 4-tuples:
@@ -2667,6 +2670,7 @@ then
 \begin{equation}
 \Vsym{LH} = \Symbol{\drv{d}{\Vdecr{s}}{\var{rha}}}
 \end{equation}
+\end{definition}
 
 We will write \Vop{Valid-eq}{x} for the
 validity equivalent of \var{x}.
@@ -4078,8 +4082,8 @@ will be
   \Vsym{D1} \Vsym{D2} \ldots{} \Vsym{Dn}
 ]
 \]
-and since symbol instances in the parse tree derive the same terminals
-as the corresponding ones in \var{d1},
+and since symbol instances in the parse tree are those
+of \var{d1},
 it remains the case that
 \begin{equation}
 \label{eq:derivation-eim-equivalence-20}
@@ -4127,19 +4131,26 @@ we have
 \begin{proof}
 Since \Veim{prd} is a prediction, it is not the start EIM,
 and therefore its LHS symbol is not \Vsym{accept}.
-Let $\Vsym{prd} = \LHS{\Veim{prd}}$.
+Without loss of generality, let
+\begin{equation}
+\label{lem:eim-tether-prediction-15}
+\Veim{prd} = \big[ [ \Vsym{prd} \de \mydot \Vstr{prd-rhs} ], \Vloc{j}, \Vloc{j} \big]
+\end{equation}
 By assumption for the theorem, \var{d} is focused within \Veim{eim},
 and it is at derivation step \var{s}.
-So by Theorem
-\ref{t:focusing-props}
+So,
+combining Theorem \ref{t:focusing-props} with 
+\eqref{lem:eim-tether-prediction-15},
+we have
+for some \Vloc{i}, \Vstr{pre} and \Vstr{post},
 \begin{equation}
 \label{lem:eim-tether-prediction-20}
 \begin{aligned}
 & \Vsym{down} && \text{Step \xxsubtract{\var{s}}{2}} \\
-& \derives \Vstr{pre} \Vsym{prd} \Vstr{post} \qquad && \text{Step \Vdecr{s}}.
+\derives \; & \Vmk{i} \Vstr{pre} \Vmk{j} \Vsym{prd} \Vstr{post} \qquad && \text{Step \Vdecr{s}} \\
+\derives \; & \Vmk{i} \Vstr{pre} \Vmk{j} \Vsym{prd-rhs} \Vstr{post} \qquad && \text{Step \var{s}}
 \end{aligned}
 \end{equation}
-for some \Vstr{pre}, \Vstr{post},
 and
 \begin{equation}
 \label{lem:eim-tether-prediction-23}
@@ -4156,8 +4167,9 @@ so that
 \Vdr{down} = [\Vsym{down} \de \Vstr{pre} \mydot \Vsym{prd} \Vstr{post}]
 \end{equation}
 is a
-dotted rule,
-and one which is by the definition of top-down cause for dotted rules,
+dotted rule
+and one which is,
+by the definition of top-down cause for dotted rules,
 a top-down cause of \DR{\Veim{prd}}.
 From this observation and
 the Definition \ref{def:causes},
@@ -4171,67 +4183,55 @@ if
 \end{equation}
 \begin{equation}
 \label{lem:eim-tether-prediction-25b}
-\Current{\Veim{down}} = \Current{\Veim{prd}}.
+\text{and} \quad \Current{\Veim{down}} = \Current{\Veim{prd}}.
 \end{equation}
 
 From
 \eqref{lem:eim-tether-prediction-20}
 and the definition of EIM validity,
 we see that
-\begin{equation}
+\begin{gather}
 \label{lem:eim-tether-prediction-26}
 \Veim{down} = \big[ [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{prd} \Vstr{post} ], \Vloc{i}, \Vloc{j} \big]
-\end{equation}
-is valid
-for some \Vloc{i}, \Vloc{j}.
-From 
-\eqref{lem:eim-tether-prediction-26},
-\eqref{lem:eim-tether-prediction-25a}
-follows directly.
-To show that \Veim{down} is a top-down cause of \Veim{prd},
-it remains to show
-\eqref{lem:eim-tether-prediction-25b}.
+\\
+\text{and} \quad \Valid{\Veim{down}}.
+\end{gather}
 
-Let \Vinst{lh-prd} be the symbol instance represented
-by \Vsym{prd}
-in both
+From
 \eqref{lem:eim-tether-prediction-20}
 and
 \eqref{lem:eim-tether-prediction-26}.
+we have
 \begin{align}
-\label{lem:eim-tether-prediction-28a}
-& \Left{\Vinst{lh-prd}} = \Current{\Veim{prd}}
-&&
-\begin{aligned}
-& \text{\Veim{prd} is} \\
-& \text{a prediction}
-\end{aligned}
-\\
-\label{lem:eim-tether-prediction-28b}
-&\Left{\Vinst{lh-prd}} = \var{j}.
-&& \eqref{lem:eim-tether-prediction-26}
-\\
-\label{lem:eim-tether-prediction-28c}
-& \var{j} = \Current{\Veim{down}}.
-&& \eqref{lem:eim-tether-prediction-26}
-\\
-\label{lem:eim-tether-prediction-28d}
-& \Current{\Veim{down}} = \Current{\Veim{prd}}.
-&&
-\begin{aligned}
-& \eqref{lem:eim-tether-prediction-28a}, \eqref{lem:eim-tether-prediction-28b}, \\
-& \eqref{lem:eim-tether-prediction-28c}
-\end{aligned}
+\label{lem:eim-tether-prediction-27a}
+\Current{\Veim{down}} & = \Vloc{j} \\
+\label{lem:eim-tether-prediction-27b}
+& = \text{left location of \Vsym{prd} in Step \Vdecr{s}} \\
+\label{lem:eim-tether-prediction-27c}
+& = \Left{\LHS{\Veim{prd}}} \\
+\intertext{and because \Veim{prd} is a prediction}
+\label{lem:eim-tether-prediction-27d}
+& = \Current{\Veim{prd}}.
 \end{align}
 
-We have shown in 
-\eqref{lem:eim-tether-prediction-26}
-that \Veim{down} is valid,
-and with
-\eqref{lem:eim-tether-prediction-28d}
-we have what
-we needed to show that
-\Veim{down} is a top-down cause of \Veim{prd}.
+From 
+\eqref{lem:eim-tether-prediction-24}
+and
+\eqref{lem:eim-tether-prediction-26},
+\eqref{lem:eim-tether-prediction-25a}
+follows directly.
+\eqref{lem:eim-tether-prediction-27a}--\eqref{lem:eim-tether-prediction-27d}
+gives us
+\eqref{lem:eim-tether-prediction-25b}.
+From
+\eqref{lem:eim-tether-prediction-25a}
+and
+\eqref{lem:eim-tether-prediction-25b},
+we can conclude that
+\begin{equation}
+\label{lem:eim-tether-prediction-30}
+\text{\Veim{down} is a top-down cause of \Veim{prd}.}
+\end{equation}
 
 In 4-tuple representation, \Veim{down} is
 for some \var{tbd},
@@ -4242,18 +4242,20 @@ for some \var{tbd},
 \end{equation}
 We see from
 \eqref{lem:eim-tether-prediction-20} that the LHS instance of \Veim{down}
-is at Step \xxsubtract{\var{s}}{2}.
-The EIM has the same derivation step as its RHS instance, which is the
-one after the LHS instance, 
-so that the derivation step
-of \Veim{down} itself is \Vdecr{s}.
-Using this observation,
+is at Step \xxsubtract{\var{s}}{2},
+and its RHS instance is at Step \Vdecr{s}.
+The EIM has the same derivation step as its RHS instance,
+so that
 \eqref{lem:eim-tether-prediction-29}
 becomes
-\begin{equation*}
-\Veim{down} = \langle \Vdecr{s}, \var{rha2}, \var{rhz2}, \var{dot2}\rangle,
-\end{equation*}
-which shows
+\begin{equation}
+\label{lem:eim-tether-prediction-33}
+\Veim{down} = \langle \Vdecr{s}, \var{rha2}, \var{rhz2}, \var{dot2}\rangle.
+\end{equation}
+\eqref{lem:eim-tether-prediction-30}
+and
+\eqref{lem:eim-tether-prediction-33}
+show
 \eqref{lem:eim-tether-prediction-5}
 in the statement of the theorem.
 
@@ -4271,18 +4273,131 @@ and the theorem.
 \end{proof}
 
 \begin{theorem}
+\label{lem:eim-tether-confirmation}
+Let
+\begin{equation}
+\label{lem:eim-tether-confirmation-2}
+\Veim{firm} = \langle \var{s}, \var{rha}, \var{rhz}, \var{dx}\rangle
+\end{equation}
+be a confirmed
+EIM
+expressed in terms of \var{d},
+a derivation focused within \Veim{firm}.
+Then \Veim{prd} has a top-down cause,
+\begin{gather}
+\label{lem:eim-tether-confirmation-5}
+\Veim{down} = \langle \var{s}, \var{rha}, \var{rhz}, \Vdecr{dx}\rangle \\
+\label{lem:eim-tether-confirmation-8}
+\text{and \var{d} is focused within \Veim{down}.}
+\end{gather}
+\end{theorem}
+
+\begin{proof}
+Without loss of generality,
+We write
+\eqref{lem:eim-tether-confirmation-2}
+in 3-tuple form as
+\begin{equation}
+\label{lem:eim-tether-confirmation-15}
+\Veim{effect} = [ [ \Vsym{A} \de \Vstr{before} \cat \Vsym{up} \mydot \Vstr{after} ], \var{i}, \var{k} ].
+\end{equation}
+its predot symbol instance as
+\begin{equation}
+\label{lem:eim-tether-confirmation-18}
+\Vmkl{j} \Vsym{up} \Vmkr{k}
+\end{equation}
+and
+\Veim{down} as
+\begin{equation}
+\label{lem:eim-tether-confirmation-21}
+\Veim{down} = [ [ \Vsym{A} \de \Vstr{before} \mydot \Vsym{up} \cat \Vstr{after} ], \var{i}, \var{j} ]
+\end{equation}
+where
+by
+Definition \ref{def:4-tuple-eim},
+the definition of the 4-tuple notation for EIM's,
+we have
+\begin{gather}
+\label{lem:eim-tether-confirmation-22}
+\Vsym{A} = \Symbol{\drv{d}{\Vdecr{s}}{\var{rha}}} \\
+\notag
+\Vstr{before} = \Symbol{\drv{d}{\var{s}}{\var{rha} \ldots \var{rha}+\Vdecr{dx}}} \\
+\notag
+\Vsym{up} = \Symbol{\drv{d}{\var{s}}{\var{rha}+\var{dx}}} \quad \text{and} \\
+\notag
+\Vstr{after} = \Symbol{\drv{d}{\var{s}}{\var{rha}+\var{dotix}+1 \ldots \var{rhz}}}
+\end{gather}
+By Definition \ref{def:causes} (``causes''),
+\eqref{lem:eim-tether-confirmation-21} is a top-down cause
+of \Veim{firm}.
+
+Let our first draft of \Veim{down} take the fully general form
+\begin{equation}
+\label{lem:eim-tether-confirmation-27}
+\Veim{down} = \langle \var{s2}, \var{rha2}, \var{rhz2}, \var{dx2}\rangle \\
+\end{equation}
+The symbol instances of the RHS for \Veim{down} are exactly those
+of \Veim{firm}:
+$\var{rha} = \var{rha2}$,
+and
+$\var{rhz} = \var{rhz2}$.
+Since the symbol instances of the RHS are the same as those of \Veim{firm},
+\Veim{down}'s RHS derivation step is also the same,
+and therefore its EIM step is the same:
+$\var{s} = \var{s2}$.
+Finally, it is clear from comparision of
+\eqref{lem:eim-tether-confirmation-15}
+with
+\eqref{lem:eim-tether-confirmation-21},
+that
+$\var{dx2} = \Vdecr{dx}$.
+Collecting these result and substituting them in
+\eqref{lem:eim-tether-confirmation-27},
+we have
+\begin{equation}
+\label{lem:eim-tether-confirmation-35}
+\Veim{down} = \langle \var{s}, \var{rha}, \var{rhz}, \Vdecr{dx}\rangle,
+\end{equation}
+which shows
+\eqref{lem:eim-tether-confirmation-5}
+in the statement of the theorem.
+
+It remains to show
+\eqref{lem:eim-tether-confirmation-8}
+in the statement of the theorem.
+If \var{d} is focused within \Veim{firm} then it is,
+by the definition of a focused derivation for EIM's,
+focused within its LHS symbol instance.
+From
+\eqref{lem:eim-tether-confirmation-2},
+we see that
+the LHS symbol instance of \Veim{firm}
+is \drv{d}{\Vdecr{s}}{\var{rha}}
+From
+\eqref{lem:eim-tether-confirmation-22} we see that
+the LHS symbol instance of \Veim{down} is also
+\drv{d}{\Vdecr{s}}{\var{rha}}.
+So \var{d} is focused within the LHS symbol instance of
+\Veim{down},
+and therefore
+\var{d} is focused within \Veim{down}.
+This shows
+\eqref{lem:eim-tether-confirmation-8}.
+\end{proof}
+
+\begin{theorem}
 \label{t:eim-tether}
 \ttitle{EIM tether}:
 Let
 \begin{equation}
 \label{t:eim-tether-3}
-\Veim{eim} = \big[ [ \Vsym{A} \derives \Vstr{predot} \mydot \Vstr{postdot} ],
+\Veim{eim} = \big[ [ \Vsym{A} \derives \Vstr{predot} \mydot \Vstr{postdot} ].
 \Vorig{i}, \Vloc{j} \big]
 \end{equation}
 Then
 \begin{equation}
 \label{t:eim-tether-5}
-\Vsym{A} \derives [\var{i}]\, \Vstr{predot} \,[\var{j}]\, \Vstr{postdot}.
+\Vsym{A} \derives [\var{i}]\, \Vstr{predot} \,[\var{j}]\, \Vstr{postdot}
 \end{equation}
 if and only if
 \begin{equation}
@@ -4318,12 +4433,10 @@ assume
 \eqref{t:eim-tether-5}
 to show
 \eqref{t:eim-tether-8}.
-This theorem fundamentally relates our two major notations,
-so we will provide more detail than usual.
-Recall that,
-by our usual convention, we are in the context of
-a specific input, \Cw{}, and a specific grammar,
-\Cg{}.
+To show 
+\eqref{t:eim-tether-8},
+we will want to show
+\ldots
 
 It will be convenient to
 assume
@@ -4367,222 +4480,6 @@ to show
 \label{eq:eim-tether-STEP}
 \text{\el{teth}{\Vincr{x}} is a tether element}
 \end{equation}
-
-TODO: Continue
-
-We expand
-\eqref{t:eim-tether-5} from its simplified form to
-\begin{align}
-\label{eq:OLD-eim-tether-10}
-& \Vsym{accept}
-\\
-\label{eq:OLD-eim-tether-13}
-& \quad \destar \; \Vstr{before} \Vmk{i} \Vsym{A} \Vmk{k} \Vstr{after}
-\\
-\label{eq:OLD-eim-tether-16}
-& \quad \derives \;
-\Vstr{before} \Vmk{i} \Vstr{predot} \Vmk{j} \Vstr{postdot} \Vmk{k} \Vstr{after}
-\\
-\label{eq:OLD-eim-tether-19}
-& \quad \destar \; \Cw\big[0,\decr{\Vsize{w}}\big] &
-\end{align}
-It is possible that
-more than one derivation corresponds to
-the simplified form in \eqref{t:eim-tether-5}.
-We may choose any of them, arbitrarily.
-The expansion of
-\eqref{eq:OLD-eim-tether-10}--\eqref{eq:OLD-eim-tether-19}
-is without loss of generality.
-
-But we have retained the location markers.
-To justify this, we note that
-every instance of a symbol in the derivation steps derives some specific substring
-of \Cw{}, so that
-every symbol instance in
-the derivation of
-\eqref{eq:OLD-eim-tether-10}
-has a specific right location
-and a specific left location.
-We have also introduced a new location marker, \Vloc{k}.
-This is introduced to represent
-the right location of \Vsym{A} and \Vstr{suffix}.
-\Vloc{k}
-is chosen arbitrarily and without loss of generality to represent the
-\eqref{eq:OLD-eim-tether-10}.
-
-We now construct a derivation tree
-from
-Step 0 to Step \var{s}
-of \eqref{eq:OLD-eim-tether-10},
-proceeding in
-a standard way~\cite[Vol. 1, page 141, Lemma 2.12]{AU1972}.
-The tree begins with the root node, call it \var{root},
-where root corresponds to the derivation step
-\begin{equation*}
-\mk{0} \Vsym{accept} \mk{\Vsize{w}}
-\end{equation*}
-
-Now we consider two consecutive derivation steps,
-call them step \var{n} and step \Vincr{n},
-where step \var{n} is
-\begin{gather*}
-\text{Step \var{n} is $\Vstr{s1} \Vmk{L} \Vsym{lhs} \Vmk{R} \Vstr{s2}$} \\
-\text{Step \Vincr{n} is $\Vstr{s1} \Vmk{L} \Vstr{rhs} \Vmk{R} \Vstr{s2}$} \\
-\text{where $\Vstr{rhs} = \Vsym{rh-1} \Vsym{rh-2} \ldots \Vsym{rh-n}$}
-\end{gather*}
-In our tree,
-below the leaf for $\Vmk{L} \Vsym{lhs} \Vmk{R}$,
-we add the direct descendants,
-$\Vsym{rh-1} \Vsym{rh-2} \ldots \Vsym{rh-n}$.
-For purposes of this proof,
-we say the highest index number of the
-a derivation step in which a symbol instance appears,
-is its ``depth''.
-In this case, the depth of
-$\Vmk{L} \Vsym{lhs} \Vmk{R}$ is \var{n},
-because at that point it is rewritten into \Vstr{rhs}.
-Note that the depth of the symbol instances in
-\Vstr{rhs} will be at least \Vincr{n}, because they
-appear in derivation step
-\Vincr{n}.
-
-We are now ready to show that we have a tether.
-Let our tether be the sequence \var{teth}.
-\eqref{eq:def-tether-10} in the definition of tether
-requires that
-$\el{teth}{0} = \Veim{eim}$.
-We have this from
-\eqref{eq:OLD-eim-tether-13}
-and
-\eqref{eq:OLD-eim-tether-16}
-by EIM validity.
-
-We have shown
-in Theorems
-\ref{t:down-cause-from-effect}
-and
-\ref{t:cause-from-prediction}
-that every EIM except the start EIM
-has a top-down cause,
-and this shows \eqref{eq:def-tether-20}.
-But we need to show that
-this chain of top-down causes is compatible
-with
-\eqref{eq:def-tether-30} --
-that the chain of causes is finite,
-and that it does in fact lead to the start
-EIM, as required by
-\eqref{eq:def-tether-30}.
-This will require that we look at tether in
-more detail.
-
-Consider one element of the tether,
-\Vel{teth}{x}.
-If
-\Vel{teth}{x} is a confirmed EIM,
-then, by
-Theorem
-\ref{t:down-cause-from-effect},
-\begin{equation}
-\DR{\Vel{teth}{\Vincr{x}}}
-=
-\Prev{\DR{\Vel{teth}{x}}}
-\end{equation}
-Let the dotted rule of
-\Vel{teth}{x} be $[\Vrule{r}, \var{rhix} ]$,
-where we are showing the dotted rule as a duple
-of rule and RHS index.
-Then
-$\DR{\Vel{teth}{x}} = [\Vrule{r}, \Vdecr{rhix} ]$ ---
-the dotted rule of the cause
-is the same as dotted rule of the effect,
-except that the RHS index is decremented.
-We see that
-\begin{equation}
-\label{eq:OLD-eim-tether-30}
-\begin{gathered}
-\Vel{teth}{x} = \big[ [ \Vrule{r}, \var{rhix}], \Vloc{i}, \Vloc{j} ] \\
-\land \; \var{rhix} \ge 1 \\
-\implies
-\text{\Vel{teth}{\var{x}+\var{rhix}} is a prediction.}
-\end{gathered}
-\end{equation}
-Because the RHS index can never be larger than the length
-of the longest RHS in \Cg{},
-it follows from
-\eqref{eq:OLD-eim-tether-30}
-that
-\begin{equation}
-\Vsize{teth} \le \var{rhsmax} \times \var{prediction-count}
-\end{equation}
-where
-\Vsize{teth} is the length of the tether,
-\var{rhsmax} is the length of the longest RHS in the rules
-of \Cg{},
-and \var{prediction-count}
-is the number of prediction EIMs in \var{teth}.
-
-We now consider the case
-where \Vel{teth}{x} is a predicted EIM:
-\begin{equation}
-\label{eq:OLD-eim-tether-36}
-    \big[ [ \Vsym{xlh} \de \mydot \Vstr{xrh} ], \Vloc{j}, \Vloc{j} ]
-\end{equation}
-As noted, we have right locations for all symbol instances,
-so that we have a specific \Right{\Vstr{xrh}}.
-Since $\Right{\Vsym{xlh}} = \Right{\Vstr{xrh}}$,
-we know that
-the top down cause is,
-without loss of generality,
-\begin{equation}
-\label{eq:OLD-eim-tether-38}
-\Vel{teth}{\Vincr{x}}
-    = \big[ [ \Vsym{down} \de \Vstr{prefix} \mydot \Vsym{xlh} \Vstr{rest} ], \Vorig{i}, \Vloc{j} ]
-\end{equation}
-where the symbol instance for \Vsym{xlh} is
-\begin{equation}
-\label{eq:OLD-eim-tether-40}
-\Vmk{j}
-\Vsym{xlh}
-\Vmk{k} \quad
-\text{where} \quad \var{k} = \Right{\Vsym{xlh}}
-\end{equation}
-
-The validity equivalents for
-\eqref{eq:OLD-eim-tether-36}
-and
-\eqref{eq:OLD-eim-tether-38}
-are, without loss of generality,
-\begin{align}
-\label{eq:OLD-eim-tether-43}
-& \Vsym{accept}
-\\
-\label{eq:OLD-eim-tether-46}
-& \quad \destar \; \Vstr{a} \Vsym{down} \Vstr{z}
-\\
-\label{eq:OLD-eim-tether-49}
-& \quad \xderives{1} \; \Vstr{a} \Vstr{prefix} \Vmk{j} \Vsym{xlh} \Vmk{k} \Vstr{rest} \Vstr{z}
-\\
-\label{eq:OLD-eim-tether-52}
-& \quad \destar \; \Vstr{a1} \Vstr{prefix} \Vmk{j} \Vsym{xlh} \Vmk{k} \Vstr{rest} \Vstr{z1}
-\\
-\label{eq:OLD-eim-tether-55}
-& \quad \xderives{1} \; \Vstr{a1} \Vstr{prefix} \Vmk{j} \Vstr{xrh} \Vmk{k} \Vstr{rest} \Vstr{z1}
-\\
-\label{eq:OLD-eim-tether-58}
-& \quad \destar \; \Cw\big[0,\decr{\Vsize{w}}\big] &
-\end{align}
-
-TODO: Add stuff here
-
-We also know that the derivation step of the validity equivalent
-of
-\Vel{teth}{\Vincr{x}}
-is one step higher than
-the derivation step of the validity equivalent
-of
-\Vel{teth}{x}.
-
 
 \end{proof}
 
