@@ -975,25 +975,31 @@ of a symbol instance \Vinst{i2},
 such that
 \begin{gather}
 \label{eq:focusing-props-10}
-\text{\var{i2} is at derivation step \Vdecr{s}} \\
+\text{\var{i2} is at derivation step \Vdecr{s},} \\
 \label{eq:focusing-props-13}
-\text{\Symbol{\var{i2}} is a non-terminal} \\
+\text{\Symbol{\var{i2}} is a non-terminal,} \\
 \label{eq:focusing-props-16}
-\Right{\var{i2}} \ge \Right{\var{i1}} \\
+\Right{\var{i2}} \ge \Right{\var{i1}}, \\
 \label{eq:focusing-props-19}
-\Left{\var{i2}} \le \Left{\var{i1}} \\
+\Left{\var{i2}} \le \Left{\var{i1}}, \\
 \label{eq:focusing-props-22}
-\text{\var{d} is focused within \var{i2}}
+\text{and \var{d} is focused within \var{i2}.}
 \end{gather}
-and for some \Vstr{pre}, \Vstr{post},
+In addition,
+for some \Vstr{pre}, \Vstr{post},
+where $\Symbol{\var{i1}} = \Vsym{i1}$ and
+$\Symbol{\var{i2}} = \Vsym{i2}$,
 \begin{equation}
 \label{eq:focusing-props-25}
-\begin{gathered}
-[\Vsym{i2} \de \Vstr{pre} \Vsym{i1} \Vstr{post} ] \in \Crules, \\
-\text{where $\Symbol{\var{i1}} = \Vsym{i1}$ and
-  $\Symbol{\var{i2}} = \Vsym{i2}$.
-}
-\end{gathered}
+[\Vsym{i2} \de \Vstr{pre} \Vsym{i1} \Vstr{post} ] \in \Crules,
+\end{equation}
+and
+\begin{equation}
+\label{eq:focusing-props-27}
+\begin{aligned}
+& \Vsym{i2} && \text{Step \Vdecr{s}} \\
+\derives \quad & \Vstr{pre} \Vsym{i1} \Vstr{post} \qquad && \text{Step \var{s}}
+\end{aligned}
 \end{equation}
 \end{theorem}
 
@@ -1066,14 +1072,22 @@ and
 We have already shown
 \eqref{eq:focusing-props-13}
 and
-\eqref{eq:focusing-props-19},
+\eqref{eq:focusing-props-22},
 so we know that,
 by the definition of a focused derivation,
 \Vinst{i2} is expanded into
 its direct descendants in step \var{s}.
 \eqref{eq:focusing-props-25}
-follows from this observation and the definition
+and \eqref{eq:focusing-props-27}
+follow from this observation and the definition
 of a derivation.
+
+For convenience the step numbers are shown in 
+\eqref{eq:focusing-props-27}.
+The labeling of Step \var{s} follows from assumption
+for the theorem.
+The labeling of Step \Vdecr{s} follows from
+\eqref{eq:focusing-props-10}.
 \end{proof}
 
 \section{Location markers}
@@ -1589,7 +1603,7 @@ A dotted rule (type \type{DR}) is a duple, $[\Vrule{r}, \var{dotix}]$,
 where $0 \le \var{dotix} \le \size{\Vrule{r}}$.
 The
 \dfn{dot RHS index}
-or 
+or
 \dfn{dot index},
 \var{dotix}, indicates the extent to which
 the rule has been recognized,
@@ -1610,7 +1624,7 @@ between \Vsym{Y} and \Vsym{Z}.
 In the discussion to come
 we will often refer to the
 ``dot location''.
-The dot location should not be confused with the 
+The dot location should not be confused with the
 dot index.
 Dot locations will be locations in the input,
 and will require the dotted rule
@@ -2455,12 +2469,12 @@ be an Earley item and
 \end{align}
 be its validity equivalent.
 
-Then we say that the derivation step 
+Then we say that the derivation step
 Step \var{s}
 is the
 \xdfn{LHS step}{LHS step (of an EIM)}
 of \Veim{eim}.
-We say that the derivation step 
+We say that the derivation step
 Step \Vincr{s}
 is the
 \xdfn{RHS step}{RHS step (of an EIM)}
@@ -3954,12 +3968,26 @@ and \var{d} is focused within \Veim{down}.
 
 \begin{proof}
 Since \Veim{eim} is a prediction, it is not the start EIM,
-so that
+and therefore its LHS symbol is not \Vsym{accept}.
+By assumption for the theorem, \var{d} is focused within \Veim{eim},
+and it is at derviation step \var{s}.
+So by Theorem
+\ref{t:focusing-props}
+\begin{align}
+& \Vsym{i2} \\
+\label{lem:eim-tether-prediction-10}
+& \derives \Vstr{pre} \Vsym{down} \Vstr{post}
+\end{align}
+where \ref{lem:eim-tether-prediction-10} is part of derivation
+step \Vdecr{s}.
+
+TODO: to here
+
 there is a derivation step \Vdecr{s}.
 Since the derivation \var{d} is focused within \Veim{eim},
 it is focused at some \Vloc{k} such that
 $\Left{\LHS{\var{eim}}} \le \Vloc{k} < \Right{\LHS{\var{eim}}}$,
-where 
+where
 \LHS{\var{eim}} is clearly a non-terminal,
 so that the symbol expanded in
 derivation step \Vdecr{s} is the LHS symbol instance of \Veim{eim}.
@@ -4040,7 +4068,7 @@ This shows the ``if'' direction.
 
 \textbf{The ``only if'' direction}:
 For ``only if'' direction,
-we will 
+we will
 assume
 \eqref{t:eim-tether-5}
 to show
@@ -4097,7 +4125,7 @@ to show
 
 TODO: Continue
 
-We expand 
+We expand
 \eqref{t:eim-tether-5} from its simplified form to
 \begin{align}
 \label{eq:OLD-eim-tether-10}
@@ -4107,7 +4135,7 @@ We expand
 & \quad \destar \; \Vstr{before} \Vmk{i} \Vsym{A} \Vmk{k} \Vstr{after}
 \\
 \label{eq:OLD-eim-tether-16}
-& \quad \derives \; 
+& \quad \derives \;
 \Vstr{before} \Vmk{i} \Vstr{predot} \Vmk{j} \Vstr{postdot} \Vmk{k} \Vstr{after}
 \\
 \label{eq:OLD-eim-tether-19}
@@ -4205,7 +4233,7 @@ more detail.
 
 Consider one element of the tether,
 \Vel{teth}{x}.
-If 
+If
 \Vel{teth}{x} is a confirmed EIM,
 then, by
 Theorem
@@ -4304,7 +4332,7 @@ TODO: Add stuff here
 
 We also know that the derivation step of the validity equivalent
 of
-\Vel{teth}{\Vincr{x}} 
+\Vel{teth}{\Vincr{x}}
 is one step higher than
 the derivation step of the validity equivalent
 of
@@ -4318,7 +4346,7 @@ tether indexes such that $\var{hi} > \var{lo}$,
 we say that \Vel{teth}{lo} is
 \xdfn{below}{below (in a tether)}
 \Vel{teth}{hi};
-and that the direction from 
+and that the direction from
 \Vel{teth}{hi} to
 \Vel{teth}{lo} is
 \xdfn{downward}{downward (in a tether)}.
