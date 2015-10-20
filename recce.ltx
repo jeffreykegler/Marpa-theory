@@ -2554,29 +2554,44 @@ as 4-tuples:
 \label{eq:def-4-tuple-eim-10}
 \Veim{eim} = \big\langle \var{s}, \var{rha}, \var{rhz}, \var{dotix} \big\rangle
 \end{equation}
-where \var{si} is the RHS derivation step of \Veim{eim},
+where \var{s} is the RHS derivation step of \Veim{eim},
 the sequence
 \[
-\drvVV{d}{s}{rha} \ldots{} \drvVV{d}{s}{rhz}
+\drv{d}{\var{s}}{\var{rha} \ldots{} \var{rhz}}
 \]
 is the RHS of \Veim{eim},
-and \var{dotix} is the dot index of \Veim.
+and \var{dotix} is the dot index of \Veim{eim}.
 
 When $\var{dotix} > 0$,
 \Veim{eim} expressed in our more usual notation will be
 \begin{equation}
 \label{eq:def-4-tuple-eim-20}
-\begin{gathered}
-\big[ [ \Vsym{LH} \de \Vstr{prefix} \mydot \Vstr{suffix} ], \Vloc{i}, \Vloc{j} ] \\
-\text{where} \quad \Vsym{LH} = \Symbol{\drv{d}{\decr{s}}{\var{rha}}} \\
-\Vstr{prefix} = \Symbol{\drv{d}{\var{s}}{\var{rha}}} \ldots
- \Symbol{\drv{d}{\var{s}}{\var{rha}+\Vdecr{dotix}}}
- \\
-\Vstr{suffix} = \Symbol{\drv{d}{\var{s}}{\var{rha}+\var{dotix}}} \ldots
- \Symbol{\drv{d}{\var{s}}{\var{rhz}}} \\
- \Vloc{i} = \Left{\drvVV{d}{s}{rha}} \quad \text{and} \\
- \Vloc{j} = \Left{\drv{d}{\var{s}}{\var{rha}+\var{dotix}}}
-\end{gathered}
+\Veim{eim} = \big[ [ \Vsym{LH} \de \Vstr{prefix} \mydot \Vstr{suffix} ], \Vloc{i}, \Vloc{j} ]
+\end{equation}
+In 
+\eqref{eq:def-4-tuple-eim-20}
+\begin{align}
+\Vstr{prefix} & =
+\begin{cases}
+\begin{aligned}
+& \Symbol{\drv{d}{\var{s}}{\var{rha} \ldots \var{rha}+\Vdecr{dotix}}} \\
+& \qquad \text{if $\var{dotix} > 0$,} \\
+& \epsilon, \quad \text{otherwise}
+\end{aligned}
+\end{cases} \\
+\Vstr{suffix} & = \Symbol{\drv{d}{\var{s}}{\var{rha}+\var{dotix} \ldots \var{rhz}}} \\
+ \Vloc{i} & = \Left{\drvVV{d}{s}{rha}} \\
+ \Vloc{j} & = \Left{\drv{d}{\var{s}}{\var{rha}+\var{dotix}}}
+\end{align}
+and, assuming that \var{s} is the first derivation step at which the
+symbol instances
+\drv{d}{\var{s}}{\var{rha} \ldots{} \var{rhz}}
+appear,
+so that they are direct descendants of a parent symbol instance
+in derivation step \Vdecr{s},
+then
+\begin{equation}
+\Vsym{LH} = \Symbol{\drv{d}{\Vdecr{s}}{\var{rha}}}
 \end{equation}
 
 We will write \Vop{Valid-eq}{x} for the
