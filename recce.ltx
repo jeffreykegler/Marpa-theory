@@ -4034,13 +4034,14 @@ this shows the theorem.
 \begin{theorem}
 \label{lem:eim-tether-prediction}
 Let
-$\Veim{eim} = \langle \var{s}, \var{rha1}, \var{rhz1}, 0\rangle$ be a prediction
+$\Veim{prd} = \langle \var{s}, \var{rha1}, \var{rhz1}, 0\rangle$ be a prediction
 expressed in terms of \var{d},
-a derivation focused within \Veim{eim}.
-Then it has a top-down cause, \Veim{down},
+a derivation focused within \Veim{prd}.
+Then \Veim{prd} has a top-down cause, \Veim{down},
 such that,
 for some
 \var{rha2}, \var{rhz2}, \var{ddot},
+we have
 \begin{gather}
 \label{lem:eim-tether-prediction-5}
 \Veim{down} = \langle \Vdecr{s}, \var{rha2}, \var{rhz2}, \var{dot2}\rangle \\
@@ -4050,47 +4051,149 @@ for some
 \end{theorem}
 
 \begin{proof}
-Since \Veim{eim} is a prediction, it is not the start EIM,
+Since \Veim{prd} is a prediction, it is not the start EIM,
 and therefore its LHS symbol is not \Vsym{accept}.
+Let $\Vsym{prd} = \LHS{\Veim{prd}}$.
 By assumption for the theorem, \var{d} is focused within \Veim{eim},
-and it is at derviation step \var{s}.
+and it is at derivation step \var{s}.
 So by Theorem
 \ref{t:focusing-props}
 \begin{equation}
-\label{lem:eim-tether-prediction-10}
+\label{lem:eim-tether-prediction-20}
 \begin{aligned}
-& \Vsym{i2} && \text{Step \Vdecr{s}} \\
-& \derives \Vstr{pre} \Vsym{down} \Vstr{post} \qquad && \text{Step \var{s}}.
+& \Vsym{down} && \text{Step \xxsubtract{\var{s}}{2}} \\
+& \derives \Vstr{pre} \Vsym{prd} \Vstr{post} \qquad && \text{Step \Vdecr{s}}.
 \end{aligned}
 \end{equation}
-for some \Vstr{pre}, \Vstr{post}.
-From
-\eqref{lem:eim-tether-prediction-10},
-by the EIM validity,
-we have
-\begin{equation}
-\label{lem:eim-tether-prediction-13}
-\big[
-  [ \Vsym{i2} \de \Vstr{pre} \mydot \Vsym{down} \Vstr{post} ],
-  \var{i}, \var{j}
-\big]
-\end{equation}
-for some \Vloc{i}, \Vloc{j}.
-And from
-\eqref{lem:eim-tether-prediction-13}
-we have
-\begin{equation}
-\Veim{down} = \langle \Vdecr{s}, \var{rha2}, \var{rhz2}, \var{dot2}\rangle
-\end{equation}
-where
-\Vstr{pre} is the symbol sequence
-of $\drv{d}{\Vdecr{s}}{\var{rha2}} \ldots{} \drv{d}{\Vdecr{s}}{\var{rha2}+\var{dot2}}$,
-\Vsym{down} = \drv{d}{\Vdecr{s}}{\var{rha2}+\Vincr{dot2}},
+for some \Vstr{pre}, \Vstr{post},
 and
-\Vstr{post} is the symbol sequence
-of $\drv{d}{\Vdecr{s}}{\var{rha2}+\var{dot2}+2} \ldots{} \drv{d}{\Vdecr{s}}{\var{rhz2}}$.
+\begin{equation}
+\label{lem:eim-tether-prediction-23}
+\text{\var{d} is focused within \Vsym{down}.}
+\end{equation}
 
-TODO: to here
+From
+\eqref{lem:eim-tether-prediction-20},
+we see that
+$[\Vsym{down} \de \Vstr{pre} \Vsym{prd} \Vstr{post}]$ is a rule,
+so that
+\begin{equation}
+\label{lem:eim-tether-prediction-24}
+\Vdr{down} = [\Vsym{down} \de \Vstr{pre} \mydot \Vsym{prd} \Vstr{post}]
+\end{equation}
+is a
+dotted rule,
+and one which is by the definition of top-down cause for dotted rules,
+a top-down cause of \DR{\Veim{prd}}.
+From this observation and
+the Definition \ref{def:causes},
+we see that
+\Veim{down}
+is a top-down cause of \Veim{prd}
+if
+\begin{equation}
+\label{lem:eim-tether-prediction-25a}
+\DR{\Veim{down}} = \Vdr{down}
+\end{equation}
+\begin{equation}
+\label{lem:eim-tether-prediction-25b}
+\Current{\Veim{down}} = \Current{\Veim{prd}}.
+\end{equation}
+
+From
+\eqref{lem:eim-tether-prediction-20}
+and the definition of EIM validity,
+we see that
+\begin{equation}
+\label{lem:eim-tether-prediction-26}
+\Veim{down} = \big[ [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{prd} \Vstr{post} ], \Vloc{i}, \Vloc{j} \big]
+\end{equation}
+is valid
+for some \Vloc{i}, \Vloc{j}.
+From 
+\eqref{lem:eim-tether-prediction-26},
+\eqref{lem:eim-tether-prediction-25a}
+follows directly.
+To show that \Veim{down} is a top-down cause of \Veim{prd},
+it remains to show
+\eqref{lem:eim-tether-prediction-25b}.
+
+Let \Vinst{lh-prd} be the symbol instance represented
+by \Vsym{prd}
+in both
+\eqref{lem:eim-tether-prediction-20}
+and
+\eqref{lem:eim-tether-prediction-26}.
+\begin{align}
+\label{lem:eim-tether-prediction-28a}
+& \Left{\Vinst{lh-prd}} = \Current{\Veim{prd}}
+&&
+\begin{aligned}
+& \text{\Veim{prd} is} \\
+& \text{a prediction}
+\end{aligned}
+\\
+\label{lem:eim-tether-prediction-28b}
+&\Left{\Vinst{lh-prd}} = \var{j}.
+&& \eqref{lem:eim-tether-prediction-26}
+\\
+\label{lem:eim-tether-prediction-28c}
+& \var{j} = \Current{\Veim{down}}.
+&& \eqref{lem:eim-tether-prediction-26}
+\\
+\label{lem:eim-tether-prediction-28d}
+& \Current{\Veim{down}} = \Current{\Veim{prd}}.
+&&
+\begin{aligned}
+& \eqref{lem:eim-tether-prediction-28a}, \eqref{lem:eim-tether-prediction-28b}, \\
+& \eqref{lem:eim-tether-prediction-28c}
+\end{aligned}
+\end{align}
+
+We have shown in 
+\eqref{lem:eim-tether-prediction-26}
+that \Veim{down} is valid,
+and with
+\eqref{lem:eim-tether-prediction-28d}
+we have what
+we needed to show that
+\Veim{down} is a top-down cause of \Veim{prd}.
+
+In 4-tuple representation, \Veim{down} is
+for some \var{tbd},
+\var{rha2}, \var{rhz2}, \var{ddot},
+\begin{equation}
+\label{lem:eim-tether-prediction-29}
+\Veim{down} = \langle \var{tbd}, \var{rha2}, \var{rhz2}, \var{dot2}\rangle.
+\end{equation}
+We see from
+\eqref{lem:eim-tether-prediction-20} that the LHS instance of \Veim{down}
+is at Step \xxsubtract{\var{s}}{2}.
+The EIM has the same derivation step as its RHS instance, which is the
+one after the LHS instance, 
+so that the derivation step
+of \Veim{down} itself is \Vdecr{s}.
+Using this observation,
+\eqref{lem:eim-tether-prediction-29}
+becomes
+\begin{equation*}
+\Veim{down} = \langle \Vdecr{s}, \var{rha2}, \var{rhz2}, \var{dot2}\rangle,
+\end{equation*}
+which shows
+\eqref{lem:eim-tether-prediction-5}
+in the statement of the theorem.
+
+It remains to show
+\eqref{lem:eim-tether-prediction-8}
+in the statement of the theorem.
+From
+\eqref{lem:eim-tether-prediction-23},
+we know that
+\var{d} is focused in \LHS{\Veim{down}}.
+By the definition of derivations focused within an EIM,
+we have
+\eqref{lem:eim-tether-prediction-8}
+and the theorem.
 \end{proof}
 
 \begin{theorem}
