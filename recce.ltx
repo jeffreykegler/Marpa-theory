@@ -875,6 +875,16 @@ We often represent symbol instances in the form
 We write \Left{\Vinst{inst}} for the left location of \Vinst{inst}
 \Right{\Vinst{inst}} for the right location of \Vinst{inst},
 and \Symbol{\Vinst{inst}} for the symbol name of \Vinst{inst}.
+When \Vstr{si} is a sequence of symbol instances of length \Vsize{si},
+and $\var{last} = \decr{\Vsize{si}}$,
+we will write
+\Symbol{\Vstr{si}} for
+\[
+\Symbol{\el{si}{0}}, \;\;
+\Symbol{\el{si}{1}}, \;\;
+\ldots \;\;
+\Symbol{\Vel{si}{last}}.
+\]
 
 At some points, such as when we translate a derivation
 to other notation,
@@ -903,6 +913,30 @@ and where the length of the derivation is \var{dlen},
 \implies \drv{d}{\Vdecr{dlen}}{\var{a}} = \Vinst{a} \\
 \text{where $\Vinst{a} = \Vmk{a} \, \sym{\Cw[\var{a}]} \, \mk{\Vincr{a}}$.}
 \end{multline}
+
+We will use type \type{STR} for sequences of symbol instances
+as well as symbols.
+We write \Vel{s1}{i} to refer
+to refer to the \var{i}'th symbol or symbol instance
+in a string,
+where the first symbol or symbol instance is at
+\el{s1}{0}.
+We write \el{s1}{\var{i} \ldots \var{j}} to refer
+to the contiguous substring of \Vstr{s1} which starts with
+\Vel{s1}{i} and ends with \Vel{s1}{j}.
+The range is inclusive, so that
+the length of \el{s1}{\var{i} \ldots \var{j}}
+is $(\xxsubtract{\var{j}}{\var{i}})+1$.
+We will find it convenient to write
+\drv{d}{\var{s}}{\var{a} \ldots \var{z}}
+for the sequence of symbol instances
+\[
+    \drvVV{d}{s}{a}, \;\;
+    \drv{d}{\var{s}}{\Vincr{a}}, \;\;
+    \ldots \;\;
+    \drvVV{d}{s}{z}
+\]
+
 
 \section{Focused derivations}
 
@@ -2513,6 +2547,38 @@ the \xdfn{dot location}{dot location (of an EIM in a derivation)},
 of \Veim{eim}.
 \end{definition}
 
+We will sometimes find it convenient to express EIM's in terms of
+fully produced derivations,
+as 4-tuples:
+\begin{equation}
+\label{eq:def-4-tuple-eim-10}
+\Veim{eim} = \big\langle \var{s}, \var{rha}, \var{rhz}, \var{dotix} \big\rangle
+\end{equation}
+where \var{si} is the RHS derivation step of \Veim{eim},
+the sequence
+\[
+\drvVV{d}{s}{rha} \ldots{} \drvVV{d}{s}{rhz}
+\]
+is the RHS of \Veim{eim},
+and \var{dotix} is the dot index of \Veim.
+
+When $\var{dotix} > 0$,
+\Veim{eim} expressed in our more usual notation will be
+\begin{equation}
+\label{eq:def-4-tuple-eim-20}
+\begin{gathered}
+\big[ [ \Vsym{LH} \de \Vstr{prefix} \mydot \Vstr{suffix} ], \Vloc{i}, \Vloc{j} ] \\
+\text{where} \quad \Vsym{LH} = \Symbol{\drv{d}{\decr{s}}{\var{rha}}} \\
+\Vstr{prefix} = \Symbol{\drv{d}{\var{s}}{\var{rha}}} \ldots
+ \Symbol{\drv{d}{\var{s}}{\var{rha}+\Vdecr{dotix}}}
+ \\
+\Vstr{suffix} = \Symbol{\drv{d}{\var{s}}{\var{rha}+\var{dotix}}} \ldots
+ \Symbol{\drv{d}{\var{s}}{\var{rhz}}} \\
+ \Vloc{i} = \Left{\drvVV{d}{s}{rha}} \quad \text{and} \\
+ \Vloc{j} = \Left{\drv{d}{\var{s}}{\var{rha}+\var{dotix}}}
+\end{gathered}
+\end{equation}
+
 We will write \Vop{Valid-eq}{x} for the
 validity equivalent of \var{x}.
 This notation is overloaded ---
@@ -3960,10 +4026,12 @@ Then it has a top-down cause, \Veim{down},
 such that,
 for some
 \var{rha2}, \var{rhz2}, \var{ddot},
-\begin{equation}
-\Veim{down} = \langle \Vdecr{s}, \var{rha2}, \var{rhz2}, \var{dot2}\rangle
-\end{equation}
-and \var{d} is focused within \Veim{down}.
+\begin{gather}
+\label{lem:eim-tether-prediction-5}
+\Veim{down} = \langle \Vdecr{s}, \var{rha2}, \var{rhz2}, \var{dot2}\rangle \\
+\label{lem:eim-tether-prediction-8}
+\text{and \var{d} is focused within \Veim{down}.}
+\end{gather}
 \end{theorem}
 
 \begin{proof}
@@ -3973,56 +4041,41 @@ By assumption for the theorem, \var{d} is focused within \Veim{eim},
 and it is at derviation step \var{s}.
 So by Theorem
 \ref{t:focusing-props}
-\begin{align}
-& \Vsym{i2} \\
+\begin{equation}
 \label{lem:eim-tether-prediction-10}
-& \derives \Vstr{pre} \Vsym{down} \Vstr{post}
-\end{align}
-where \ref{lem:eim-tether-prediction-10} is part of derivation
-step \Vdecr{s}.
+\begin{aligned}
+& \Vsym{i2} && \text{Step \Vdecr{s}} \\
+& \derives \Vstr{pre} \Vsym{down} \Vstr{post} \qquad && \text{Step \var{s}}.
+\end{aligned}
+\end{equation}
+for some \Vstr{pre}, \Vstr{post}.
+From
+\eqref{lem:eim-tether-prediction-10},
+by the EIM validity,
+we have
+\begin{equation}
+\label{lem:eim-tether-prediction-13}
+\big[
+  [ \Vsym{i2} \de \Vstr{pre} \mydot \Vsym{down} \Vstr{post} ],
+  \var{i}, \var{j}
+\big]
+\end{equation}
+for some \Vloc{i}, \Vloc{j}.
+And from
+\eqref{lem:eim-tether-prediction-13}
+we have
+\begin{equation}
+\Veim{down} = \langle \Vdecr{s}, \var{rha2}, \var{rhz2}, \var{dot2}\rangle
+\end{equation}
+where
+\Vstr{pre} is the symbol sequence
+of $\drv{d}{\Vdecr{s}}{\var{rha2}} \ldots{} \drv{d}{\Vdecr{s}}{\var{rha2}+\var{dot2}}$,
+\Vsym{down} = \drv{d}{\Vdecr{s}}{\var{rha2}+\Vincr{dot2}},
+and
+\Vstr{post} is the symbol sequence
+of $\drv{d}{\Vdecr{s}}{\var{rha2}+\var{dot2}+2} \ldots{} \drv{d}{\Vdecr{s}}{\var{rhz2}}$.
 
 TODO: to here
-
-there is a derivation step \Vdecr{s}.
-Since the derivation \var{d} is focused within \Veim{eim},
-it is focused at some \Vloc{k} such that
-$\Left{\LHS{\var{eim}}} \le \Vloc{k} < \Right{\LHS{\var{eim}}}$,
-where
-\LHS{\var{eim}} is clearly a non-terminal,
-so that the symbol expanded in
-derivation step \Vdecr{s} is the LHS symbol instance of \Veim{eim}.
-This symbol instance is \drv{d}{\Vdecr{s}}{\var{rha1}}.
-
-If \drv{d}{\Vdecr{s}}{\var{rha1}} is the accept symbol,
-then we must have
-\begin{gather}
-\Veim{down} = \big[ [ \Vsym{accept} \derives \mydot \Vsym{start} ], 0, 0 ] \\
-\text{and} \quad
-\Veim{eim} = \big[ [ \Vsym{start} \derives \mydot \Vstr{start-rhs} ], 0, 0 ] \\
-\text{where $\var{rha1} = \var{rha1}$, $\var{s} = 1$ and} \\
-  \Vstr{start-rhs} = \Symbol{\drvVV{d}{s}{rha1}}.
-\end{gather}
-By Theorem
-\ref{t:cause-from-prediction},
-\Veim{down} is the top-down cause of \Veim{eim}.
-Also, since the LHS symbol instance of \Veim{down} is
-$\mk{0} \Vsym{accept} \Vmk{\Vsize{\Cw}}$,
-if \var{d} is focused it must be focused within \Veim{down}.
-This shows the theorem for the case where
-\drv{d}{\Vdecr{s}}{\var{rha1}} is the accept symbol.
-
-It remains to show the theorem when
-\drv{d}{\Vdecr{s}}{\var{rha1}} is
-not the accept symbol.
-In this case, $s > 1$, so that there is a step
-\xxsubtract{\var{s}}{2}.
-Derivation \var{d} was focused within
-$\LHS{\var{eim}} = \drv{d}{\Vdecr{s}}{\var{rha1}}$,
-so
-
-\ldots
-
-TODO: Finish
 \end{proof}
 
 \begin{theorem}
