@@ -119,7 +119,7 @@
 \newcommand{\symset}[1]{#1_{\lbrace SYM \rbrace} }
 \newcommand{\Vsymset}[1]{\ensuremath{\var{#1}_{\set{SYM}}}}
 \newcommand{\term}[1]{#1_{TERM}}
-\newcommand{\mk}[1]{\lfloor#1\rceil}
+\newcommand{\mk}[1]{\ensuremath{\lfloor#1\rceil}}
 \newcommand{\bigmk}[1]{\big\lfloor#1\big\rceil}
 % \newcommand{\mkdelim}{\,\,}
 \newcommand{\mkdelim}{}
@@ -1126,6 +1126,8 @@ The labeling of Step \Vdecr{s} follows from
 
 \section{Location markers}
 
+\subsection{Definition}
+
 In the context of a grammar \Cg{} and an input \Cw{},
 we will often use location-marked derivations.
 Location-marked derivation steps are like the derivation steps
@@ -1189,33 +1191,92 @@ composed in the same way as derivations without them,
 as long as the location markers in the combined
 derivation are consistent.
 
-Location-marked derivations allow subsequent steps
-of derivations to be simplified
-to focus on the part of the derivation that is of interest.
-That is,
-if in the derivation
-\begin{align}
-\label{eq:def-derivation-simplification-10}
-& \Vstr{pre-stuff} \Vmk{i} \Vsym{B} \Vmk{j} \Vstr{post-stuff} \\
-\derives \; &
-\Vstr{pre-stuff} \Vmk{i} \Vsym{B-rhs} \Vmk{j} \Vstr{post-stuff}
-\end{align}
-\Vstr{pre-stuff} and \Vstr{post-stuff} are not of interest,
-we will write
-\eqref{eq:def-derivation-simplification-10}
-as
-\begin{align*}
-& \Vstr{pre-stuff} \Vmk{i} \Vsym{B} \Vmk{j} \Vstr{post-stuff} \\
-\derives \; &
-\ldots \Vmk{i} \Vsym{B-rhs} \Vmk{j} \ldots.
-\end{align*}
-The dot indicate the simplifications,
-in order to avoid confusion.
-When nulling symbols are involved in a derivation,
-derivation simplification can be confused with the
-expansion of a nulled symbol into the empty string.
-If the meaning is clear from context,
-the dots may be omitted.
+\subsection{Transformations}
+
+The location marker notation is intuitive and based on the
+traditional notation for derivations,
+but, since it is new, we will present examples of the
+allowed transformation.
+Starting with a traditional derivation
+\begin{gather*}
+\Vstr{A} \\
+\derives \Vstr{Aa} \Vsym{B} \Vsym{D} \Vstr{Aa} \\
+\derives \Vstr{Aa} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vsym{D} \Vstr{Az}
+\end{gather*}
+we can
+\begin{itemize}
+\item \textbf{Insert new location markers}:
+If a location marker is not currently used, we can insert it
+to mark a location.
+\begin{gather*}
+\Vstr{A} \\
+% \derives \Vmk{i} \Vstr{Aa} \Vmk{j} \Vsym{B} \Vmk{k} \Vsym{D} \mk{\ell} \Vstr{Aa} \Vmk{m} \\
+\derives \Vstr{Aa} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vsym{D} \Vstr{Az}
+\end{gather*}
+\item \textbf{Move location markers from direct descendants to their parents}:
+If a location marker is before the first of its direct descendants, we can move
+it to before its parent in the previous step.
+In this example, \Vmk{i} is moved:
+\begin{gather*}
+\Vmk{i} \Vstr{A} \\
+\derives \Vmk{i} \Vstr{Aa} \Vmk{j} \Vsym{B} \Vmk{k} \Vsym{D} \mk{\ell} \Vstr{Aa} \Vmk{m} \\
+\derives \Vstr{Aa} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vsym{D} \Vstr{Az}
+\end{gather*}
+Also, if a location marker is after the last of its direct desendants,
+we can move it to after its parent in the previous step.
+In this example, \Vmk{m} is moved:
+\begin{gather*}
+\Vmk{i} \Vstr{A} \Vmk{m} \\
+\derives \Vmk{i} \Vstr{Aa} \Vmk{j} \Vsym{B} \Vmk{k} \Vsym{D} \mk{\ell} \Vstr{Aa} \Vmk{m} \\
+\derives \Vstr{Aa} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vsym{D} \Vstr{Az}
+\end{gather*}
+\item \textbf{Move location markers from parents to direct descendants}:
+Similarly if a location marker is before a parent, we can 
+move it to before the first of its direct descendants in the next step;
+and,
+if a location marker is after a parent, we can 
+move it to after the last of its direct descendants in the next step.
+In this example, \Vmk{j} and \Vmk{k} are moved:
+\begin{gather*}
+\Vmk{i} \Vstr{A} \Vmk{m} \\
+\derives \Vmk{i} \Vstr{Aa} \Vmk{j} \Vsym{B} \Vmk{k} \Vsym{D} \mk{\ell} \Vstr{Az} \Vmk{m} \\
+\derives \Vstr{Aa} \Vmk{j} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vmk{k} \Vsym{D} \Vstr{Az}
+\end{gather*}
+\item \textbf{Delete location markers}:
+Location markers which are no longer of interest may be removed.
+In this example, \Vmk{i} and \Vmk{m} are deleted:
+\begin{gather*}
+\Vstr{A} \\
+\derives \Vstr{Aa} \Vmk{j} \Vsym{B} \Vmk{k} \Vsym{D} \mk{\ell} \Vstr{Az} \\
+\derives \Vstr{Aa} \Vmk{j} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vmk{k} \Vsym{D} \Vstr{Az}
+\end{gather*}
+\item \textbf{Move location marker to before or after same symbol instance}:
+A location marker which is before (after) a symbol instance in one derivation
+step may be moved to before (after) the same symbol instance in another derivation step.
+In this example, \mk{\ell} is moved:
+\begin{gather*}
+\Vstr{A} \\
+\derives \Vstr{Aa} \Vmk{j} \Vsym{B} \Vmk{k} \Vsym{D} \mk{\ell} \Vstr{Az} \\
+\derives \Vstr{Aa} \Vmk{j} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vmk{k} \Vsym{D} \mk{\ell} \Vstr{Az}
+\end{gather*}
+\item \textbf{Simplification}:
+A derivation may be simplified from the bottom up,
+by removing the symbol instances outside of two markers.
+In this example, the last step is simplified outside of \Vloc{j} and \Vloc{k}:
+\begin{gather*}
+\Vstr{A} \\
+\derives \Vstr{Aa} \Vmk{j} \Vsym{B} \Vmk{k} \Vsym{D} \mk{\ell} \Vstr{Az} \\
+\derives \ldots \Vmk{j} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vmk{k} \ldots
+\end{gather*}
+When it is clear what is happening, the dots may be omitted:
+\begin{gather*}
+\Vstr{A} \\
+\derives \Vstr{Aa} \Vmk{j} \Vsym{B} \Vmk{k} \Vsym{D} \mk{\ell} \Vstr{Az} \\
+\derives \Vmk{j} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vmk{k}
+\end{gather*}
+\end{itemize}
+
+\subsection{Simplification and nulling symbols}
 
 Caution must be exercised because nulling symbols
 can fall on either side of a location-marker.
@@ -1498,8 +1559,7 @@ without loss of generality.
 Because Marpa claims to be a practical parser,
 it is important to emphasize
 that all grammar rewrites in this document
-are done in such a way that the semantics
-of the original grammar can be reconstructed
+allow the original grammar to be reconstructed
 simply and efficiently at evaluation time.
 As implemented,
 the Marpa parser allows users to associate
