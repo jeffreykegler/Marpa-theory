@@ -1563,21 +1563,35 @@ allow the original grammar to be reconstructed
 simply and efficiently at evaluation time.
 As implemented,
 the Marpa parser allows users to associate
-semantics with an original grammar
+semantics with an external grammar
 that has none of the restrictions imposed
-on grammars in this document.
-The user of a Marpa parser
-may specify any context-free grammar,
-including one with properly nullable symbols,
-empty rules, etc.
+on the internal grammars.
+As his external grammar,
+the Marpa::R2 user
+may specify any proper context-free grammar.
+A ``proper'' grammar is one which is cycle-free,
+and which contains no unproductive or inaccessible
+symbols.\footnote{
+In fact, as of this writing, Marpa::R2 has options
+which allow grammars with cycles and inaccessible symbols,
+but there is very little interest in these,
+and future Marpa versions are likely to remove this support.
+}
+
+Marpa external grammars allow nullable,
+properly nullable and nulling symbols,
+as well as empty rules.
 The user specifies his semantics in terms
-of this original, ``free-form'', grammar.
-Marpa implements the rewrites,
-and performs evaluation,
-in such a way as to keep them invisible to
+of the external grammar.
+Marpa rewrite the external grammar into
+an internal grammar.
+Parsing and evaluation,
+is performed
+in such a way as to keep the internal grammar
+invisible to
 the user.
 From the user's point of view,
-the ``free-form'' of his grammar is the
+the external grammar is the
 one being used for the parse,
 and the one to which
 his semantics is applied.
