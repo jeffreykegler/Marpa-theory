@@ -1,12 +1,13 @@
 % Copyright 2015 Jeffrey Kegler
 % This document is licensed under
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
-\documentclass[12pt]{amsbook}
+\documentclass[12pt,openany]{amsbook}
 % \RequirePackage[l2tabu, orthodox]{nag}
 \usepackage{ragged2e}
 \usepackage{mathtools}
 \usepackage{tikz-qtree}
 \usepackage{amssymb}
+\usepackage{amsmidx}
 \usepackage{url}
 \usepackage{amsfonts}% to get the \mathbb alphabet
 \usepackage{float}
@@ -14,6 +15,10 @@
 \usepackage[pdfpagelabels]{hyperref}
 \usepackage{algpseudocode}
 \usepackage{algorithm}
+
+\makeindex{general}
+\makeindex{theorems}
+\makeindex{definitions}
 
 % This is used to find the font size if need be
 % its uses are usually commented out
@@ -43,7 +48,7 @@
 \newcommand{\type}[1]{\ensuremath{#1}}
 
 \newcommand{\defined}{\underset{\text{def}}{\equiv}}
-\newcommand{\xdfn}[2]{\textbf{#1}\index{definitions!#2}}
+\newcommand{\xdfn}[2]{\textbf{#1}\index{definitions}{#2}}
 \newcommand{\dfn}[1]{\xdfn{#1}{#1}}
 \newcommand{\sdfn}[1]{{\textbf{#1}}}
 \newcommand{\sep}{\,\mid\,}
@@ -181,10 +186,9 @@
 \newcommand\call[2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}}%
 
 % My macros for definition & theorem titles.
-\newcommand\ctitle[1]{\textbf{#1}:\index{Construction: #1}}
-\newcommand\dtitle[1]{\textbf{#1}:\index{Definition: #1}}
-\newcommand\ttitle[1]{\textbf{#1}:\index{Theorem: #1}}
-\newcommand\ltitle[1]{\textbf{#1}:\index{Lemma: #1}}
+\newcommand\dtitle[1]{\textbf{#1}:\index{definitions}{#1}}
+\newcommand\ttitle[1]{\textbf{#1}:\index{theorems}{#1}}
+\newcommand\ltitle[1]{\textbf{#1}:\index{theorems}{#1}}
 
 % I don't like to put whole paragraphs in italics,
 % so I make this simple variation on the "plain" theoremstyle
@@ -253,7 +257,7 @@
 \end{FlushLeft} }
 }
 
-\makeindex
+% \makeindex
 \begin{document}
 
 \date{\today}
@@ -1116,7 +1120,7 @@ and \eqref{eq:focusing-props-27}
 follow from this observation and the definition
 of a derivation.
 
-For convenience the step numbers are shown in 
+For convenience the step numbers are shown in
 \eqref{eq:focusing-props-27}.
 The labeling of Step \var{s} follows from assumption
 for the theorem.
@@ -1231,10 +1235,10 @@ In this example, \Vmk{m} is moved:
 \derives \Vstr{Aa} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vsym{D} \Vstr{Az}
 \end{gather*}
 \item \textbf{Move location markers from parents to direct descendants}:
-Similarly if a location marker is before a parent, we can 
+Similarly if a location marker is before a parent, we can
 move it to before the first of its direct descendants in the next step;
 and,
-if a location marker is after a parent, we can 
+if a location marker is after a parent, we can
 move it to after the last of its direct descendants in the next step.
 In this example, \Vmk{j} and \Vmk{k} are moved:
 \begin{gather*}
@@ -2645,7 +2649,7 @@ When $\var{dotix} > 0$,
 \label{eq:def-4-tuple-eim-20}
 \Veim{eim} = \big[ [ \Vsym{LH} \de \Vstr{prefix} \mydot \Vstr{suffix} ], \Vloc{i}, \Vloc{j} ]
 \end{equation}
-In 
+In
 \eqref{eq:def-4-tuple-eim-20}
 \begin{align}
 \Vstr{prefix} & =
@@ -4140,7 +4144,7 @@ Without loss of generality, let
 By assumption for the theorem, \var{d} is focused within \Veim{eim},
 and it is at derivation step \var{s}.
 So,
-combining Theorem \ref{t:focusing-props} with 
+combining Theorem \ref{t:focusing-props} with
 \eqref{lem:eim-tether-prediction-15},
 we have
 for some \Vloc{i}, \Vstr{pre} and \Vstr{post},
@@ -4215,7 +4219,7 @@ we have
 & = \Current{\Veim{prd}}.
 \end{align}
 
-From 
+From
 \eqref{lem:eim-tether-prediction-24}
 and
 \eqref{lem:eim-tether-prediction-26},
@@ -4387,22 +4391,22 @@ This shows
 \end{proof}
 
 \begin{theorem}
-\label{t:eim-tether}
+\label{t:deriv-tether}
 \ttitle{EIM tether}:
 Let
 \begin{equation}
-\label{t:eim-tether-3}
+\label{t:deriv-tether-3}
 \Veim{eim} = \big[ [ \Vsym{A} \derives \Vstr{predot} \mydot \Vstr{postdot} ],
 \Vorig{i}, \Vloc{j} \big]
 \end{equation}
 Then
 \begin{equation}
-\label{t:eim-tether-5}
+\label{t:deriv-tether-5}
 \Vsym{A} \derives [\var{i}]\, \Vstr{predot} \,[\var{j}]\, \Vstr{postdot}
 \end{equation}
 if and only if
 \begin{equation}
-\label{t:eim-tether-8}
+\label{t:deriv-tether-8}
 \text{\Veim{eim} has a tether.}
 \end{equation}
 \end{theorem}
@@ -4411,9 +4415,9 @@ if and only if
 \textbf{The ``if'' direction}:
 The ``if'' direction is easy to show.
 We assume
-\eqref{t:eim-tether-8}
+\eqref{t:deriv-tether-8}
 to show
-\eqref{t:eim-tether-5}.
+\eqref{t:deriv-tether-5}.
 If \Veim{eim} has a tether,
 call it \var{teth},
 then,
@@ -4422,10 +4426,10 @@ by the definition of a tether,
 All elements of \var{teth} are valid
 by
 the assumption of
-\eqref{t:eim-tether-8}.
-\eqref{t:eim-tether-5}
+\eqref{t:deriv-tether-8}.
+\eqref{t:deriv-tether-5}
 follows from
-\eqref{t:eim-tether-3}
+\eqref{t:deriv-tether-3}
 by EIM validity.
 This shows the ``if'' direction.
 
@@ -4433,14 +4437,14 @@ This shows the ``if'' direction.
 For ``only if'' direction,
 we will
 assume
-\eqref{t:eim-tether-5}
+\eqref{t:deriv-tether-5}
 to show
-\eqref{t:eim-tether-8}.
+\eqref{t:deriv-tether-8}.
 To do this, we will first construct a
 \var{teth} which has \Veim{eim}
 as its base,
 and then we will show that \var{teth}
-satisfies 
+satisfies
 \eqref{eq:def-tether-10},
 \eqref{eq:def-tether-20}
 and
@@ -4448,13 +4452,13 @@ and
 in Definition \ref{def:tether} (``tether'').
 
 From
-\eqref{t:eim-tether-5}
+\eqref{t:deriv-tether-5}
 and the definition of EIM validity,
 we know that
-\eqref{t:eim-tether-3}
+\eqref{t:deriv-tether-3}
 is valid.
 We assume
-\eqref{t:eim-tether-5}
+\eqref{t:deriv-tether-5}
 to be focused within \Veim{eim}.
 We can do this without loss of generality,
 because by Theorem
@@ -4498,9 +4502,9 @@ We show
 by induction, where the induction hypothesis
 is
 \begin{gather}
-\label{t:eim-tether-20}
+\label{t:deriv-tether-20}
 \text{\var{d} is focused within \Vel{teth}{x}} \\
-\label{t:eim-tether-22}
+\label{t:deriv-tether-22}
 \text{and} \quad
 \left(
 \begin{gathered}
@@ -4513,34 +4517,34 @@ is
 
 We assumed that \var{d} is focused within
 $\el{teth}{0} = \Veim{eim}$,
-and we have 
-\eqref{t:eim-tether-22} for $\var{x} = 0$
+and we have
+\eqref{t:deriv-tether-22} for $\var{x} = 0$
 trivially.
 We use this as the basis of the induction.
 
 For the step of the induction we assume
 \begin{equation}
 \tag{ASM}
-\label{t:eim-tether-30}
-\text{\eqref{t:eim-tether-20} and \eqref{t:eim-tether-22}
+\label{t:deriv-tether-30}
+\text{\eqref{t:deriv-tether-20} and \eqref{t:deriv-tether-22}
 for $\var{x} = \var{i}$.}
 \end{equation}
 and we seek to show
 \begin{equation}
 \tag{STEP}
-\label{t:eim-tether-35}
+\label{t:deriv-tether-35}
 \text{
-\eqref{t:eim-tether-20} and \eqref{t:eim-tether-22}
+\eqref{t:deriv-tether-20} and \eqref{t:deriv-tether-22}
 for $\var{x} = \Vincr{i}$.
 }
 \end{equation}
 When \Vel{teth}{i} is a confirmed EIM,
-\eqref{t:eim-tether-35} follows from
-\eqref{t:eim-tether-30}
+\eqref{t:deriv-tether-35} follows from
+\eqref{t:deriv-tether-30}
 and Lemma \ref{lem:eim-tether-confirmation}.
 When \Vel{teth}{i} is a predicted EIM,
-\eqref{t:eim-tether-35} follows from
-\eqref{t:eim-tether-30}
+\eqref{t:deriv-tether-35} follows from
+\eqref{t:deriv-tether-30}
 and Lemma \ref{lem:eim-tether-prediction}.
 This shows the step of the induction,
 the induction,
@@ -4578,7 +4582,7 @@ Clearly,
 only one start EIM
 is ever processed:
 \begin{equation}
-\label{t:eim-tether-40}
+\label{t:deriv-tether-40}
 \var{s-cnt} = 1.
 \end{equation}
 We note from
@@ -4597,7 +4601,7 @@ So we know that
 $\var{p-cnt} = \var{k}$ for some finite \var{k},
 and therefore
 \begin{equation}
-\label{t:eim-tether-43}
+\label{t:deriv-tether-43}
 \var{p-cnt} = \Oc.
 \end{equation}
 
@@ -4615,22 +4619,22 @@ possibly to as high as
 \var{maxrh}.
 So that number of confirmation may be as great as
 \begin{equation}
-\label{t:eim-tether-46}
+\label{t:deriv-tether-46}
 \var{c-cnt} = \var{maxrh} \times \var{p-cnt}.
 \end{equation}
 But \var{maxrh} is a constant,
-so that, using \eqref{t:eim-tether-43},
-\eqref{t:eim-tether-46}
+so that, using \eqref{t:deriv-tether-43},
+\eqref{t:deriv-tether-46}
 becomes
 \begin{equation}
-\label{t:eim-tether-49}
+\label{t:deriv-tether-49}
 \var{c-cnt} = \Oc.
 \end{equation}
 Combining
-\eqref{t:eim-tether-40},
-\eqref{t:eim-tether-43}
+\eqref{t:deriv-tether-40},
+\eqref{t:deriv-tether-43}
 and
-\eqref{t:eim-tether-49},
+\eqref{t:deriv-tether-49},
 we see that the total number of tether EIM's is
 \begin{equation}
 \var{s-cnt} + \var{p-cnt} + \var{c-cnt} =
@@ -4644,6 +4648,31 @@ With this we have shown
 and the theorem.
 \end{proof}
 
+\begin{theorem}
+\label{t:eim-tether}
+\ttitle{EIM tether}:
+If \Veim{eim} is valid,
+it has a tether.
+\end{theorem}
+
+\begin{proof}
+Without loss of generality, let
+\begin{equation}
+\label{t:eim-tether-3}
+\Veim{eim} = \big[ [ \Vsym{A} \derives \Vstr{predot} \mydot \Vstr{postdot} ],
+\Vorig{i}, \Vloc{j} \big]
+\end{equation}
+Since, by assumption for the theorem, \Veim{eim} is valid,
+we have
+\begin{equation}
+\label{t:eim-tether-5}
+\Vsym{A} \derives [\var{i}]\, \Vstr{predot} \,[\var{j}]\, \Vstr{postdot}
+\end{equation}
+This theorem follows from
+\eqref{t:eim-tether-5} and
+Theorem \ref{t:deriv-tether}
+\end{proof}
+
 If \var{hi} and \var{lo} are
 tether indexes such that $\var{hi} > \var{lo}$,
 we say that \Vel{teth}{lo} is
@@ -4655,6 +4684,7 @@ and that the direction from
 \xdfn{downward}{downward (in a tether)}.
 
 \begin{theorem}
+\label{t:non-decreasing-location}
 If we follow a tether downward,
 the right locations of its elements are non-decreasing:
 \begin{equation}
@@ -4673,6 +4703,47 @@ top-down cause.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Location 0 Earley items}
+\label{t:location-0-eims}
+A EIM is valid at location 0 if and only if it
+is in the ethereal closure of the start EIM.
+\end{theorem}
+
+\begin{proof}
+The \var{ecs} be the ethereal closure of the
+start EIM.
+We first show the ``if'' direction.
+It remains to show that EIM's at location 0,
+and with top-down causes, are elements of \var{ecs}.
+We note from
+Theorem
+\ref{t:right-location-of-top-down-cause},
+that the reduction and read EIM's have a location
+greater than that of their top-down cause,
+and therefore other than 0.
+So every EIM at location 0 must be the start EIM,
+or the result of an \var{epsilon-op}.
+The transitive and reflexive closure of
+\var{epsilon-op} on the start EIM is exactly what \var{ecs} is,
+by definition.
+
+It remains to show
+the ``only if'' direction.
+We assume that an EIM is \var{ecs} to show that
+it is at location 0.
+The start EIM is by definition at location 0.
+Any other EIM in \var{ecs}, is produced by iterating
+\var{epsilon-op}.
+As can be seen from
+Theorem
+\ref{t:right-location-of-top-down-cause},
+an \var{epsilon-op} does not increment the right location
+of its argument.
+Therefore every EIM in the ethereal closure of the start
+EIM will be at location 0.
+\end{proof}
+
+\begin{theorem}
 \ttitle{Earley item has telluric base at same location}
 \label{t:eim-has-telluric-base}
 Let \Veim{desc} be a valid EIM at location
@@ -4683,17 +4754,83 @@ $\Current{\Veim{base}} = \Vloc{i}$.
 \end{theorem}
 
 \begin{proof}
-TODO
-\end{proof}
+We consider first, as a special case,
+location 0.
+By Theorem \ref{t:location-0-eims},
+all EIM's at location 0
+are in the ethereal closure of the start EIM,
+call it \var{ecs}.
+The telluric base of \var{ecs} is the start
+EIM, and it is at location 0.
 
-\begin{theorem}
-\ttitle{Location 0 Earley items}
-A EIM is valid at location 0 if and only if it
-is in the ethereal closure of the start EIM.
-\end{theorem}
+We now consider the case
+locations greater than 0.
+By Theorem \ref{t:eim-tether}
+\Veim{base} has a tether,
+call it \var{teth}.
+By definition of the tether, its top element has right
+location 0.
+By assumption for this case,
+\Veim{desc} has a right location greater than 0.
+Let \Current{\Veim{desc}} be \Vloc{i}.
+If we descend
+\var{teth} from the its top element,
+we will encounter a first element of \var{teth} at \Vloc{i}.
+Call this first element, $\Veim{base} = \Vel{teth}{base-ix}$.
 
-\begin{proof}
-TODO
+\Veim{base} will not be the top element
+because the top element is at location 0,
+which by assumption for the case is not location \Vloc{i}.
+Therefore there will be a tether element above it,
+\el{teth}{\Vdecr{base-ix}}.
+Call
+\el{teth}{\Vdecr{base-ix}}, \Veim{prev}.
+\Veim{prev} will not be at \Vloc{i}, otherwise it would
+have been first tether element encounted at \Vloc{i}.
+So we have
+\begin{equation}
+\label{eq:eim-has-telluric-base-20}
+\Right{\Veim{prev}} \neq \Right{\Veim{base}}.
+\end{equation}
+From
+\eqref{eq:eim-has-telluric-base-20},
+and Theorem
+\ref{t:right-location-of-top-down-cause},
+we know that \Veim{base} is not a null-scan
+or a prediction.
+Therefore
+\begin{equation}
+\label{eq:eim-has-telluric-base-25}
+\text{\Veim{base} is a telluric EIM.}
+\end{equation}
+
+We choose
+\Veim{base} in such a way that
+\[
+  \Right{\Veim{base}} = \Right{\Veim{desc}},
+\]
+and \Veim{base} is on \var{teth} above \Veim{desc}.
+So there is a series of zero or more top-down causes
+from \Veim{base} to \Veim{desc}.
+Let the tether index of \Veim{desc} be \var{desc-ix}.
+Since right location is non-decreasing,
+every EIM with an index \var{ix}
+such that
+\[
+\var{base-ix} > \var{ix} \ge \var{desc-ix}
+\]
+must not increase the right location
+from that of its top-down cause.
+Therefore,
+\begin{equation}
+\label{eq:eim-has-telluric-base-35}
+\Current{\Veim{base}} = \Current{\Veim{desc}}
+\end{equation}
+Together,
+\eqref{eq:eim-has-telluric-base-25}
+and
+\eqref{eq:eim-has-telluric-base-35}
+show the theorem.
 \end{proof}
 
 \section{Ambiguity}
@@ -6735,7 +6872,7 @@ Earley item
 \end{equation}
 at its top''.
 
-To define \op{leo-stip} more formally,
+To define \var{leo-stip} more formally,
 we write $\var{Sym-Eq}(\Vinst{x})$ for the symbolic
 equivalent of the parse instance \Vinst{x}.
 Where a Leo memo is
@@ -6746,20 +6883,15 @@ its ``Leo stipulation'', \op{leo-stip}{\Vloc{tbd}}, is
 \lambda \Vloc{tbd}
 \left(
 \begin{aligned}
-& \begin{multlined}
-\text{where
-  $\Vinst{bottom} = \Vmk{current} \Vsym{transition} \Vmk{tbd}$
-} \\
-\text{and
-  $\Veim{top} = [ \Vdr{top}, \Vorig{top}, \Vloc{tbd} ]$,
-}
-\end{multlined}
-\\
 & \text{for all \var{i} and for every silo at \Vloc{tbd}, \var{silo},}
 \\
 & \;\; \left(
 \begin{aligned}
-& \Vinst{bottom} = \var{Sym-Eq}(\Vel{silo}{x}) \\
+& \Vinst{bottom} = \Vmk{current} \Vsym{transition} \Vmk{tbd} \\
+\land \; &
+\Veim{top} = [ \Vdr{top}, \Vorig{top}, \Vloc{tbd} ], \\
+\land \; &
+\Vinst{bottom} = \var{Sym-Eq}(\Vel{silo}{x}) \\
 \land \; &
 \Vel{silo}{y} = \Veim{top} \\
 \land \; &
@@ -9471,7 +9603,10 @@ Klaus Wich.
 
 \end{thebibliography}
 
-\printindex
+% \printindex
+\Printindex{general}{General}
+\Printindex{theorems}{Theorems}
+\Printindex{definitions}{Definitions}
 
 \tableofcontents
 

@@ -21,7 +21,9 @@ all: ah2002_notes.pdf recce.pdf
 
 recce.pdf: recce.ltx
 	pdflatex $?
-	makeindex recce.idx
+	makeindex general.idx
+	makeindex theorems.idx
+	makeindex definitions.idx
 
 ah2002_notes.pdf: ah2002_notes.ltx
 	pdflatex $?
