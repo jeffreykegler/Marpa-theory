@@ -967,11 +967,11 @@ if in every step \var{s},
 if there is a non-terminal symbol instance
 $\Vinst{ki} = \drvVV{d}{s}{x}$
 such that $\Left{\Vinst{ki}} \le \Vloc{k} < \Right{\Vinst{ki}}$,
-it expands
+\var{d} expands
 \drvVV{d}{s}{x}; and
 \item
-otherwise, it expands the rightmost non-terminal symbol
-instance
+otherwise, \var{d} expands the rightmost non-terminal symbol
+instance.
 \end{itemize}
 We say that \var{d} is
 \xdfn{focused within}{focused within (a symbol instance, said of a derivation}
@@ -982,18 +982,17 @@ that
 \[
 \Left{\var{si}} \le \Vloc{k} < \Right{\var{si}}.
 \]
-In a context where the right location of
-an EIM's LHS symbol instance is well-defined,
 We say that \var{d} is
 \xdfn{focused within}{focused within (an EIM, said of a derivation)}
+\Veim{eim}
 if and only if it is
 focused at some \Vloc{k} such that
 \[
-\Left{\LHS{eim}} \le \Vloc{k} < \Right{\LHS{\var{eim}}}.
+\Left{\LHS{\Veim{eim}}} \le \Vloc{k} < \Right{\LHS{\Veim{eim}}}.
 \]
 \end{definition}
 
-Recall that, every derivation has an equivalent rightmost
+Recall from parsing theory that every derivation has an equivalent rightmost
 derivation, and that the rightmost derivation is unique in its derivation
 tree.
 Similarly, for every \Vloc{k},
