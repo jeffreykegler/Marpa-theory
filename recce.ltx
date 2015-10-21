@@ -855,12 +855,11 @@ so that
 
 Our definition
 of \Cw{} does not allow zero-length inputs.
-To simplify the mathematics, we exclude null parses
-and nulling grammars from consideration.
+The Marpa parser
+deals with null parses
+and nulling grammars as special cases,
+and this document will not consider them.
 (Nulling grammars are those that recognize only the null string.)
-In its implementations,
-the Marpa parser
-deals with null parses and nulling grammars as special cases.
 
 We will say that a derivation is
 \xdfn{fully produced}{fully produced (of a derivation)},
