@@ -4000,6 +4000,7 @@ which is requirement
 \end{proof}
 
 \begin{definition}
+\label{def:tether}
 \dtitle{Tether}
 Let \Veim{base} be an Earley item.
 The sequence
@@ -4109,7 +4110,7 @@ was chosen without loss of generality,
 this shows the theorem.
 \end{proof}
 
-\begin{theorem}
+\begin{lemma}
 \label{lem:eim-tether-prediction}
 Let
 $\Veim{prd} = \langle \var{s}, \var{rha1}, \var{rhz1}, 0\rangle$ be a prediction
@@ -4126,7 +4127,7 @@ we have
 \label{lem:eim-tether-prediction-8}
 \text{and \var{d} is focused within \Veim{down}.}
 \end{gather}
-\end{theorem}
+\end{lemma}
 
 \begin{proof}
 Since \Veim{prd} is a prediction, it is not the start EIM,
@@ -4272,7 +4273,7 @@ we have
 and the theorem.
 \end{proof}
 
-\begin{theorem}
+\begin{lemma}
 \label{lem:eim-tether-confirmation}
 Let
 \begin{equation}
@@ -4290,7 +4291,7 @@ Then \Veim{prd} has a top-down cause,
 \label{lem:eim-tether-confirmation-8}
 \text{and \var{d} is focused within \Veim{down}.}
 \end{gather}
-\end{theorem}
+\end{lemma}
 
 \begin{proof}
 Without loss of generality,
@@ -4391,7 +4392,7 @@ This shows
 Let
 \begin{equation}
 \label{t:eim-tether-3}
-\Veim{eim} = \big[ [ \Vsym{A} \derives \Vstr{predot} \mydot \Vstr{postdot} ].
+\Veim{eim} = \big[ [ \Vsym{A} \derives \Vstr{predot} \mydot \Vstr{postdot} ],
 \Vorig{i}, \Vloc{j} \big]
 \end{equation}
 Then
@@ -4415,7 +4416,9 @@ to show
 \eqref{t:eim-tether-5}.
 If \Veim{eim} has a tether,
 call it \var{teth},
-then it is \el{teth}{0}.
+then,
+by the definition of a tether,
+\Veim{eim} is \el{teth}{0}.
 All elements of \var{teth} are valid
 by
 the assumption of
@@ -4433,15 +4436,26 @@ assume
 \eqref{t:eim-tether-5}
 to show
 \eqref{t:eim-tether-8}.
-To show 
-\eqref{t:eim-tether-8},
-we will want to show
-\ldots
+To do this, we will first construct a
+\var{teth} which has \Veim{eim}
+as its base,
+and then we will show that \var{teth}
+satisfies 
+\eqref{eq:def-tether-10},
+\eqref{eq:def-tether-20}
+and
+\eqref{eq:def-tether-30}
+in Definition \ref{def:tether} (``tether'').
 
-It will be convenient to
-assume
+From
 \eqref{t:eim-tether-5}
-to be focused at \Vloc{i}.
+and the definition of EIM validity,
+we know that
+\eqref{t:eim-tether-3}
+is valid.
+We assume
+\eqref{t:eim-tether-5}
+to be focused within \Veim{eim}.
 We can do this without loss of generality,
 because by Theorem
 \ref{t:derivation-eim-equivalence},
@@ -4449,38 +4463,185 @@ every derivation has a
 derivation focused at \Vloc{i} which validates
 the same set of EIM's.
 
-We now build our tether by induction,
-where our induction hypothesis is
-\begin{equation}
-\tag{HYP}
-\label{eq:eim-tether-HYP}
-\text{\Vel{teth}{x} is a tether element}
-\end{equation}
-By assumption
-\var{teth} is a tether of
-\eqref{t:eim-tether-3},
-so that
-\eqref{t:eim-tether-3}
-is \el{teth}{0}.
-We take $\var{x} = 0$ in
-\eqref{eq:eim-tether-HYP}
-as the basis of our
-induction.
+We construct \var{teth} using
+the following algorithm:
+\begin{algorithmic}[1]
+\Procedure{Construct tether}{}
+\State $\el{teth}{0} \gets \Veim{eim}$
+\label{line:eim-tether-10}
+\State $\var{ix} \gets 0$
+\While{ \Vel{teth}{ix} is not the start EIM }
+\label{line:eim-tether-20}
+\If{\Vel{teth}{ix} is a confirmed EIM}
+\State Find \Veim{td}, top-down cause of \Vel{teth}{ix} \ldots
+\State \ldots{} using Lemma \ref{lem:eim-tether-confirmation}
+\Else
+\State If here, \Vel{teth}{ix} is a prediction
+\State Find \Veim{td}, top-down cause of \Vel{teth}{ix} \ldots
+\State \ldots{} using Lemma \ref{lem:eim-tether-prediction}
+\EndIf
+\State $\el{teth}{\Vincr{ix}} \gets \Veim{td}$
+\State $\var{ix} \gets \Vincr{ix}$
+\EndWhile
+\label{line:eim-tether-90}
+\EndProcedure
+\end{algorithmic}
 
-\textbf{Step assumption}
-For the step, we assume
+We have
+\eqref{eq:def-tether-10},
+trivially from
+Line \ref{line:eim-tether-10}
+of the above algorithm.
+
+We show
+\eqref{eq:def-tether-30}
+by induction, where the induction hypothesis
+is
+\begin{gather}
+\label{t:eim-tether-20}
+\text{\var{d} is focused within \Vel{teth}{x}} \\
+\label{t:eim-tether-22}
+\text{and} \quad
+\left(
+\begin{gathered}
+\var{x} = 0 \\
+\text{or \Vel{teth}{x} is a top-down cause} \\
+\text{of \Vel{teth}{\Vdecr{x}}}.
+\end{gathered}
+\right)
+\end{gather}
+
+We assumed that \var{d} is focused within
+$\el{teth}{0} = \Veim{eim}$,
+and we have 
+\eqref{t:eim-tether-22} for $\var{x} = 0$
+trivially.
+We use this as the basis of the induction.
+
+For the step of the induction we assume
 \begin{equation}
-\tag{STEPASM}
-\label{eq:eim-tether-STEPASM}
-\text{\Vel{teth}{x} is a tether element}
+\tag{ASM}
+\label{t:eim-tether-30}
+\text{\eqref{t:eim-tether-20} and \eqref{t:eim-tether-22}
+for $\var{x} = \var{i}$.}
 \end{equation}
-to show
+and we seek to show
 \begin{equation}
 \tag{STEP}
-\label{eq:eim-tether-STEP}
-\text{\el{teth}{\Vincr{x}} is a tether element}
+\label{t:eim-tether-35}
+\text{
+\eqref{t:eim-tether-20} and \eqref{t:eim-tether-22}
+for $\var{x} = \Vincr{i}$.
+}
+\end{equation}
+When \Vel{teth}{i} is a confirmed EIM,
+\eqref{t:eim-tether-35} follows from
+\eqref{t:eim-tether-30}
+and Lemma \ref{lem:eim-tether-confirmation}.
+When \Vel{teth}{i} is a predicted EIM,
+\eqref{t:eim-tether-35} follows from
+\eqref{t:eim-tether-30}
+and Lemma \ref{lem:eim-tether-prediction}.
+This shows the step of the induction,
+the induction,
+and
+\eqref{eq:def-tether-30}.
+
+It remains to show
+\eqref{eq:def-tether-20}.
+From Line
+\ref{line:eim-tether-20}
+of the algorithm, we see that we stop
+only we find a start EIM.
+So if we stop,
+and \var{top} is the last index of \var{teth},
+then \Vel{teth}{top} is the start EIM.
+But do we ever stop?
+
+We will count the number of EIM's in the tether.
+They fall into three categories:
+the start EIM,
+predicted EIM's,
+and confirmed EIM's,
+whose count we will write as,
+respectively \var{s-cnt},
+\var{p-cnt},
+and
+\var{c-cnt}.
+It will be most convenient to count EIM's,
+not as they are added,
+but as they are processed in a pass of the
+loop from Lines
+\ref{line:eim-tether-20}--\ref{line:eim-tether-90}
+of our ``Create tether'' algorithm.
+Clearly,
+only one start EIM
+is ever processed:
+\begin{equation}
+\label{t:eim-tether-40}
+\var{s-cnt} = 1.
+\end{equation}
+We note from
+Lemma \ref{lem:eim-tether-prediction},
+that every time we process a prediction in \var{teth},
+the derivation step is decremented in the next
+and examination of
+Lemma \ref{lem:eim-tether-confirmation}
+shows that the derivation step is never incremented.
+Recall that the length of every derivation is
+a finite constant ---
+even a derivation of the form $\Vstr{A} \destar \Vstr{B}$,
+signifies that there exists some finite \var{k}
+such that $\Vstr{A} \xderives{k} \Vstr{B}$.
+So we know that
+$\var{p-cnt} = \var{k}$ for some finite \var{k},
+and therefore
+\begin{equation}
+\label{t:eim-tether-43}
+\var{p-cnt} = \Oc.
 \end{equation}
 
+Finally, we examine the confirmations.
+Call the maximum length of a RHS, \var{maxrh}.
+\var{maxrh} is a constant which depends on \Cg.
+We see from
+Lemma \ref{lem:eim-tether-confirmation}
+that the dot index is decremented every
+time a confirmation is processed.
+But Lemma \ref{lem:eim-tether-prediction}
+resets the dot index,
+every time a prediction is processed,
+possibly to as high as
+\var{maxrh}.
+So that number of confirmation may be as great as
+\begin{equation}
+\label{t:eim-tether-46}
+\var{c-cnt} = \var{maxrh} \times \var{p-cnt}.
+\end{equation}
+But \var{maxrh} is a constant,
+so that, using \eqref{t:eim-tether-43},
+\eqref{t:eim-tether-46}
+becomes
+\begin{equation}
+\label{t:eim-tether-49}
+\var{c-cnt} = \Oc.
+\end{equation}
+Combining
+\eqref{t:eim-tether-40},
+\eqref{t:eim-tether-43}
+and
+\eqref{t:eim-tether-49},
+we see that the total number of tether EIM's is
+\begin{equation}
+\var{s-cnt} + \var{p-cnt} + \var{c-cnt} =
+1 + \Oc + \Oc = \Oc.
+\end{equation}
+
+We have shown that the construction of the tether does,
+indeed, stop.
+With this we have shown
+\eqref{eq:def-tether-20}
+and the theorem.
 \end{proof}
 
 If \var{hi} and \var{lo} are
@@ -4503,18 +4664,12 @@ the right locations of its elements are non-decreasing:
 \end{theorem}
 
 \begin{proof}
-TODO
-\end{proof}
-
-
-\begin{theorem}
-\ttitle{Location 0 Earley items}
-A EIM is valid at location 0 if and only if it
-is in the ethereal closure of the start EIM.
-\end{theorem}
-
-\begin{proof}
-TODO
+It is clear from examining
+the cases of Theorem
+\ref{t:right-location-of-top-down-cause},
+that the right location of an effect
+is never less than the right location of its
+top-down cause.
 \end{proof}
 
 \begin{theorem}
@@ -4525,6 +4680,16 @@ Let \Veim{desc} be a valid EIM at location
 Then \Veim{desc} has a telluric base,
 \Veim{base}, such that
 $\Current{\Veim{base}} = \Vloc{i}$.
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
+\begin{theorem}
+\ttitle{Location 0 Earley items}
+A EIM is valid at location 0 if and only if it
+is in the ethereal closure of the start EIM.
 \end{theorem}
 
 \begin{proof}
@@ -4666,8 +4831,7 @@ From these we get the two derivations:
 These will be different derivations of the input if
 $\Vstr{up-rhs1} \neq \Vstr{up-rhs2}.$
 By assumption for the reductio, \Cg{} is not ambiguous,
-and therefore no derivation step can allow two different sentential forms
-derivation
+and therefore no derivation step can allow two different sentential forms.
 So $\Vstr{up-rhs1} = \Vstr{up-rhs2}.$
 But then $\Veim{up1} = \Veim{up2}$, which is contrary to assumption
 for the reductio.
