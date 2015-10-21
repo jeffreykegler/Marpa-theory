@@ -16,9 +16,9 @@
 \usepackage{algpseudocode}
 \usepackage{algorithm}
 
-\makeindex{general}
-\makeindex{theorems}
-\makeindex{definitions}
+\makeindex{recce-general}
+\makeindex{recce-theorems}
+\makeindex{recce-definitions}
 
 % This is used to find the font size if need be
 % its uses are usually commented out
@@ -48,7 +48,7 @@
 \newcommand{\type}[1]{\ensuremath{#1}}
 
 \newcommand{\defined}{\underset{\text{def}}{\equiv}}
-\newcommand{\xdfn}[2]{\textbf{#1}\index{definitions}{#2}}
+\newcommand{\xdfn}[2]{\textbf{#1}\index{recce-definitions}{#2}}
 \newcommand{\dfn}[1]{\xdfn{#1}{#1}}
 \newcommand{\sdfn}[1]{{\textbf{#1}}}
 \newcommand{\sep}{\,\mid\,}
@@ -186,9 +186,9 @@
 \newcommand\call[2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}}%
 
 % My macros for definition & theorem titles.
-\newcommand\dtitle[1]{\textbf{#1}:\index{definitions}{#1}}
-\newcommand\ttitle[1]{\textbf{#1}:\index{theorems}{#1}}
-\newcommand\ltitle[1]{\textbf{#1}:\index{theorems}{#1}}
+\newcommand\dtitle[1]{\textbf{#1}:\index{recce-definitions}{#1}}
+\newcommand\ttitle[1]{\textbf{#1}:\index{recce-theorems}{#1}}
+\newcommand\ltitle[1]{\textbf{#1}:\index{recce-theorems}{#1}}
 
 % I don't like to put whole paragraphs in italics,
 % so I make this simple variation on the "plain" theoremstyle
@@ -9604,9 +9604,9 @@ Klaus Wich.
 \end{thebibliography}
 
 % \printindex
-\Printindex{general}{General}
-\Printindex{theorems}{Theorems}
-\Printindex{definitions}{Definitions}
+\Printindex{recce-general}{General}
+\Printindex{recce-theorems}{Theorems}
+\Printindex{recce-definitions}{Definitions}
 
 \tableofcontents
 
