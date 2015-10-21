@@ -1325,7 +1325,7 @@ We assume
 \eqref{eq:location-marker-cycle-12}
 for a reductio.
 
-We can rewrite \Vstr{sf},
+We can rewrite \Vstr{sf} as
 \begin{equation}
 \label{eq:location-marker-cycle-15}
 \Vstr{sf} = \Vstr{nul3L} \Vstr{core} \Vstr{nul3R}
@@ -1348,51 +1348,37 @@ we have
 \end{equation}
 Note that in \eqref{eq:location-marker-cycle-21}, we have dropped the location markers,
 so that we are now working with traditional derivations.
-We can extend
-\eqref{eq:location-marker-cycle-21} to
-\begin{equation}
-\label{eq:location-marker-cycle-24}
-\begin{aligned}
-  & \Vstr{nul2L} \Vstr{nul3L} \Vstr{core} \Vstr{nul3R} \Vstr{nul2R}
-  \deplus \; & \Vstr{core}
-\end{aligned}
-\end{equation}
-by expanding the nulls to the empty string.
-Combining
-\eqref{eq:location-marker-cycle-21}
-and \eqref{eq:location-marker-cycle-24},
-we have
-\begin{equation}
-\label{eq:location-marker-cycle-20}
-\begin{aligned}
-& \Vstr{nul1L} \Vstr{nul3L} \Vstr{core} \Vstr{nul3R} \Vstr{nul1R} \\
-  \deplus \; & \Vstr{core}
-\end{aligned}
-\end{equation}
 
-If \Vstr{core} consists of a single symbol,
-$\Vstr{core} = \Vsym{core}$,
-then
-\eqref{eq:location-marker-cycle-20}
+If \Vstr{core} is a single symbol,
+\eqref{eq:location-marker-cycle-21}
 becomes
 \begin{equation}
-\label{eq:location-marker-cycle-23}
+\label{eq:location-marker-cycle-21c}
 \begin{aligned}
 & \Vstr{nul1L} \Vstr{nul3L} \Vsym{core} \Vstr{nul3R} \Vstr{nul1R} \\
-  \deplus \; & \Vsym{core}
+  \deplus \; & \Vstr{nul2L} \Vstr{nul3L} \Vsym{core} \Vstr{nul3R} \Vstr{nul2R}.
 \end{aligned}
 \end{equation}
-Expanding the nulling symbols in
-\eqref{eq:location-marker-cycle-23}
-to the empty string,
-we have
+The null symbols in
+\Vstr{nul1L}, \Vstr{nul3L}, \Vstr{nul3R},
+and \Vstr{nul1R} cannot derive the telluric symbol \Vsym{core},
+so we from
+\eqref{eq:location-marker-cycle-21c}
+we know that
 \begin{equation}
-\label{eq:location-marker-cycle-26}
-\Vsym{core} \deplus \Vsym{core}
+\label{eq:location-marker-cycle-21f}
+\Vsym{core} \deplus \Vstr{nul4L} \Vsym{core} \Vstr{nul4R},
 \end{equation}
-\eqref{eq:location-marker-cycle-26}
-is a cycle, and cycles are forbidden in Marpa grammars.
-This shows the reductio where \Vstr{core} consists of a single symbol.
+for some \Vstr{nul4L}
+and \Vstr{nul4R}
+such that
+$\Vstr{nul4L} = \epsilon$ and
+and $\Vstr{nul4R} = \epsilon$.
+By the definition of a cyclic, 
+\eqref{eq:location-marker-cycle-21f}
+is a cycle.
+This shows the theorem for the case where \Vstr{core}
+is a single symbol.
 
 It remains to show the reductio where \Vstr{core} consists of more
 than one symbol.
@@ -1401,158 +1387,61 @@ we can rewrite \Vstr{core},
 so that
 \begin{equation}
 \label{eq:location-marker-cycle-29}
-\Vstr{core} = \Vsym{tell} \Vstr{core2}.
+\Vstr{core} = \Vsym{tellL} \Vstr{incore} \Vsym{tellR}.
 \end{equation}
-where \Vsym{tell} is a telluric symbol
-and \Vstr{core2} contains one or more symbols.
-Since \Vstr{core} ends in a telluric symbol,
-\Vstr{core2} ends
-in a telluric symbol.
+where \Vsym{tellL} and \Vsym{tellR} are telluric symbols
 In this case,
-\eqref{eq:location-marker-cycle-20}
+\eqref{eq:location-marker-cycle-21}
 becomes
-\begin{gather*}
-\Vstr{nul1L} \Vstr{nul3L} \Vsym{tell} \Vstr{core2} \Vstr{nul3R} \Vstr{nul1R} \\
-  \deplus \; \Vsym{tell} \Vstr{core2}
-\end{gather*}
-Here also, the nulls may be rewritten to the empty string, so that
-we have
 \begin{equation}
-\label{eq:location-marker-cycle-31}
+\label{eq:location-marker-cycle-32}
 \begin{aligned}
-& \Vsym{tell} \Vstr{core2} && \qquad \text{Step \var{x}}
-\\
-\deplus \quad & \Vsym{tell} \Vstr{core2} && \qquad \text{Step \var{y}}
+& \Vstr{nul1L} \Vstr{nul3L} \Vsym{tellL} \Vstr{incore} \Vsym{tellR} \Vstr{nul3R} \Vstr{nul1R} \\
+  \deplus \; & \Vstr{nul2L} \Vstr{nul3L} \Vsym{tellL} \Vstr{incore} \Vsym{tellR} 
+    \Vstr{nul3R} \Vstr{nul2R}.
 \end{aligned}
 \end{equation}
-We deal with \eqref{eq:location-marker-cycle-31}
-in three subcases,
-according to which symbol
-in Step \var{x}
-of
-\eqref{eq:location-marker-cycle-31}
-encroaches on the other symbol
-in Step \var{y}.
 
-Subcase 1, \Vstr{core2} encroaches:
-\begin{gather}
-\label{eq:location-marker-cycle:core2-expands}
-\text{
-$\Vsym{tell} \deplus \epsilon$
-and
-$\Vstr{core2} \deplus \Vsym{tell} \Vstr{core2}$.
-}
-\end{gather}
-
-Subcase 2, \Vsym{tell} encroaches:
-\begin{gather}
-\label{eq:location-marker-cycle:tell-expands}
-\text{
-$\Vsym{tell} \deplus \Vsym{tell} \Vstr{core2a}$
-and}
-\\
-\label{eq:location-marker-cycle-37}
-\Vstr{core2a} \Vstr{core2b} \deplus \Vstr{core2b},
-\\
-\text{where $\Vstr{core2} = \Vstr{core2a} \Vstr{core2b}$.}
-\notag
-\end{gather}
-
-Subcase 3, No encroachment:
+The null symbols will not derive telluric symbols,
+so that we may simplify 
+\eqref{eq:location-marker-cycle-32}
+to
 \begin{equation}
-\label{eq:location-marker-cycle-38}
-\text{
-$\Vsym{tell} \deplus \Vsym{tell}$
-and
-$\Vstr{core2} \deplus \Vstr{core2}$.}
+\label{eq:location-marker-cycle-32}
+\begin{aligned}
+& \Vsym{tellL} \Vstr{incore} \Vsym{tellR} \\
+  \deplus \; & \Vstr{nul5L} \Vsym{tellL} \Vstr{incore} \Vsym{tellR} 
+    \Vstr{nul5R} \\
+& \quad \text{where $\Vstr{nul5L} = \Vstr{nul2L} \Vstr{nul3L} = \epsilon$} \\
+& \qquad \text{and $\Vstr{nul5R} = \Vstr{nul3R} \Vstr{nul2R} = \epsilon$.}
+\end{aligned}
 \end{equation}
 
-In the case where \Vstr{core2} encroaches,
-we have from
-\eqref{eq:location-marker-cycle:core2-expands}
-that \Vsym{tell} in
-Step \var{x}
-of \eqref{eq:location-marker-cycle-31}
-expands to the empty string in
-Step \var{y}.
-But \Vsym{tell} is telluric so that,
-by the definition of telluric,
-$\Vsym{tell} \ndestar \epsilon$.
-Therefore we can exclude the subcase
-where \Vstr{core2}
-encroaches.
+Telluric symbols must derive telluric strings,
+so we have from
+\eqref{eq:location-marker-cycle-32}
+\begin{multline}
+\label{eq:location-marker-cycle-33}
+\begin{aligned}
+\Vsym{tellL} \Vstr{inc1L} & \deplus \Vsym{tellL} \Vstr{inc2L} \quad \text{and} \\
+\Vstr{inc1R} \Vsym{tellR} & \deplus \Vstr{inc2R} \Vsym{tellR}, \\
+\end{aligned}
+\\
+\text{where $\Vstr{inc1L} \Vstr{inc1R} = \Vstr{incore} = \epsilon$} \\
+\text{and $\Vstr{inc2L} \Vstr{inc2R} = \Vstr{incore} = \epsilon$.}
+\end{multline}
 
-In the subcase where \Vsym{tell} encroaches,
-\Vsym{tell} expands to replace part of \Vstr{core2},
-and \Vstr{core2} shrinks accordingly.
-In \eqref{eq:location-marker-cycle:tell-expands}
-and \eqref{eq:location-marker-cycle-37},
-we use \Vstr{core2a}
-to signify
-the part of
-\Vstr{core2} in
-Step \var{x} of
-\eqref{eq:location-marker-cycle-31}
-that is replaced by an expansion of \Vsym{tell}.
+We will write \Vop{T}{x} for the number of telluric symbols in \Vstr{x}.
+From
+\eqref{eq:location-marker-cycle-33},
+we see that
+\begin{multline}
+\op{T}{\Vstr{inc1L}} + \op{T}{\Vstr{inc1R}} =  \\
+\op{T}{\Vstr{incore}} = \op{T}{\Vstr{inc2R}} + \op{T}{\Vstr{inc2L}}.
+\end{multline}
 
-Does \Vstr{core2a} contain a telluric symbol?
-For this purpose, we will write \op{T}{\Vstr{x}}
-for the number of telluric symbols in \Vstr{x}.
-From \eqref{eq:location-marker-cycle-37},
-we have
-\begin{equation*}
-\label{eq:location-marker-cycle-45}
-\Vstr{core2a} \Vstr{core2b} \deplus \Vsym{core2b}
-\end{equation*}
-No telluric symbol can ``disappear'' in
-a derivation,
-because no telluric symbol can derive the null string,
-so that
-\begin{align}
-& \op{T}{\Vstr{core2a} \Vstr{core2b}} \le \op{T}{\Vsym{core2b}}
-\notag\\
-& \op{T}{\Vstr{core2a}} + \op{T}{\Vstr{core2b}} \le \op{T}{\Vsym{core2b}}
-\notag\\
-\therefore \; & \op{T}{\Vstr{core2a}} = 0
-\notag \\
-\label{eq:location-marker-cycle-50}
-\therefore \; & \Vstr{core2a} = \epsilon.
-\intertext{and using
-  \eqref{eq:location-marker-cycle:tell-expands}
-  and \eqref{eq:location-marker-cycle-50},
-}
-& \Vsym{tell} \deplus \Vsym{tell} \Vstr{core2a} \destar \Vsym{tell} \\
-\label{eq:location-marker-cycle-53}
-\therefore \; & \Vsym{tell} \deplus \Vsym{tell}
-\end{align}
-But \eqref{eq:location-marker-cycle-53}
-is a cycle, and therefore the
-case where
-\Vsym{tell} encroaches
-cannot occur
-in Marpa grammar.
+TODO: Revise from here.
 
-In the subcase of no encroachment
-we have
-\begin{equation}
-\label{eq:location-marker-cycle-56}
-\Vsym{tell} \deplus \Vsym{tell}.
-\end{equation}
-by
-\eqref{eq:location-marker-cycle-38},
-the assumptions for the subcase.
-But \eqref{eq:location-marker-cycle-56}
-is a cycle, and therefore the
-case where
-there is no encroachment
-cannot occur
-in Marpa grammar.
-
-We now have all three subcases of the case where
-\Vstr{core} contains multiple symbols.
-We have already shown the other case of the reductio,
-that where \Vstr{core} contains only one symbol.
-Therefore we have shown the reductio and the theorem.
 \end{proof}
 
 \chapter{Rewriting the grammar}
