@@ -413,7 +413,8 @@ before any symbols are scanned.
 As one example,
 left-eideticism allows the lexer to check its list
 of acceptable tokens before any token is scanned.
-Marpa's most popular implementation uses this information
+Marpa's most popular implementation as of this writing,
+Marpa::R2, uses this information
 to implement an event-driven approach.
 This is possible because
 rejection of tokens is easily and
@@ -459,7 +460,7 @@ Chapter
 of this document.
 Chapter \ref{ch:rewrite} deals with Marpa's
 grammar rewrites.
-The next sections develop the ideas for Earley's algorithm.
+The next three sections develop the ideas for Earley's algorithm.
 Chapter \ref{ch:dotted} describes dotted rules.
 Chapter \ref{ch:earley-items} describes Earley items.
 Chapter \ref{ch:earley-implementation} describes Earley sets
@@ -483,7 +484,7 @@ other complexity results.
 
 We assume familiarity with the theory of parsing.
 Earley's algorithm is described in full,
-but a previous familiarity will be useful.
+but previous familiarity will be helpful.
 
 \section{Notation}
 
@@ -503,7 +504,7 @@ $\var{set-one}_\set{T}$ & The variable \var{set-one} of type set of \type{T} \\
 \Veimset{set-two} & The variable \var{set-two}, a set of Earley items
 \end{tabular}
 \end{center}
-Strings and symbols occur so frequently that they have a special
+Strings and symbols occur frequently and have a special
 notation:
 \begin{center}
 \begin{tabular}{ll}
@@ -547,8 +548,7 @@ The statements of this document often require us to introduce
 many new variables at once,
 so that we might say,
 ``for some \var{a}, \var{b}, \var{c}, \ldots{} \var{z},
-let \ldots{}''n.
-We find statements of this kind very difficult to follow.
+let \ldots{}''.
 When we introduce an definition, and it
 contains new variables
 which cause no loss of generality,
@@ -574,7 +574,7 @@ let \size{\Vstr{s}} be its length, counted in symbols.
 Let $\var{syms}^+$ be
 \begin{equation*}
 \bigl\{ \Vstr{x}
-\bigm| \Vstr{x} \in \var{syms}* \;\; \land \;\; \Vsize{\Vstr{x}} > 0
+\bigm| \Vstr{x} \in \var{syms}* \;\; \land \;\; \Vstr{x} \neq \epsilon
 \bigr\}.
 \end{equation*}
 
