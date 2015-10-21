@@ -569,8 +569,6 @@ Where \Vsymset{syms} is non-empty set of symbols,
 let $\var{syms}^\ast$ be the set of all strings
 (type \type{STR}) formed
 from those symbols.
-Where \Vstr{s} is a string,
-let \size{\Vstr{s}} be its length, counted in symbols.
 Let $\var{syms}^+$ be
 \begin{equation*}
 \bigl\{ \Vstr{x}
@@ -600,7 +598,7 @@ of the form $[\Vsym{lhs} \de \Vstr{rhs}]$,
 such that
 \begin{equation*}
 \Vsym{lhs} \in \var{nt} \quad \text{and}
-\quad \Vstr{rhs} \in \var{vocab}^+.
+\quad \Vstr{rhs} \in \var{vocab}^\ast
 \end{equation*}
 \Vsym{lhs} is referred to as the left hand side (LHS)
 of \Vrule{r}.
@@ -609,11 +607,6 @@ of \Vrule{r}.
 The LHS and RHS of \Vrule{r} may also be
 referred to as
 $\LHS{\Vrule{r}}$ and $\RHS{\Vrule{r}}$, respectively.
-This definition follows~\cite{AH2002},
-which departs from tradition by disallowing an empty RHS.
-This restriction applies only to Marpa's internal grammar.
-As explained in Chapter \ref{ch:rewrite},
-it is invisible to Marpa's users.
 
 Occasionally, we will need to look at the RHS of a rule
 symbol by symbol.
@@ -692,6 +685,31 @@ with \Vstr{x} as its left side,
 and
 \Vstr{y} as its right side.
 
+We say that \Vstr{desc} is a direct descendant of \Vsym{A} if
+it is \Vstr{A-rhs} where $\Vsym{A} \de \Vstr{A-rhs}$ is a rule,
+or if it is the empty string where \Vsym{A} is a nulling terminal.
+We say that a derivation is \dfn{leftmost} if at each of its steps,
+its leftmost nonterminal is replaced by one of its direct descendants.
+We say that a derivation is \dfn{rightmost} if at each of its steps,
+its rightmost nonterminal is replaced by one of its direct descendants.
+
+Consider the derivation
+\begin{equation}
+\Vsym{A} \derives \Vstr{rhs} \destar \Vstr{left} \cat \Vsym{A} \cat \Vstr{right}
+\end{equation}
+We say that the rule $\Vsym{A} \de \Vstr{rhs}$
+and the symbol \Vsym{A} are
+\begin{center}
+\begin{tabular}{ll}
+\dfn{middle-recursive} & if
+  $\Vstr{left} \neq \epsilon \land \Vstr{right} \neq \epsilon$ \\
+\dfn{left-recursive} &  if $\Vstr{left} = \epsilon$ \\
+\dfn{right-recursive} &  if $\Vstr{right} = \epsilon$ \\
+\dfn{cyclic} & if
+  $\Vstr{left} = \epsilon \land \Vstr{right} = \epsilon$.
+\end{tabular}
+\end{center}
+
 The language of \var{g} is $\myL{\Cg}$, where
 \begin{equation}
 \label{eq:def-L-g}
@@ -710,12 +728,15 @@ Where $\alg{Recce}$ is a recognizer,
 $\myL{\alg{Recce},\Cg}$ will be the language accepted by $\alg{Recce}$
 when parsing \Cg{}.
 
+\section{Marpa internal grammars}
 In traditional parsing theory,
 a symbol \Vsym{x} is \dfn{nullable} if and only if
 $\Vsym{x} = \epsilon$.
 We say that symbol \Vsym{x} is \dfn{nulling} if and only if
-\[\forall \Vstr{y} \mid \Vsym{x} \destar \Vstr{y}
-  \implies \Vstr{y} = \epsilon \].
+\[
+  \forall \Vstr{y} \mid \Vsym{x} \destar \Vstr{y}
+  \implies \Vstr{y} = \epsilon.
+\]
 A symbol is a
 \xdfn{proper nullable}{proper nullable (symbol)}
 if it is nullable, but not nulling.
@@ -787,44 +808,24 @@ and we avoid it in favor of
 which more clearly conveys what it means for a
 Marpa internal symbol to be ``nulling''.
 
-Consider the derivation
-\begin{equation}
-\Vsym{A} \derives \Vstr{rhs} \destar \Vstr{left} \cat \Vsym{A} \cat \Vstr{right}
-\end{equation}
-We say that the rule $\Vsym{A} \de \Vstr{rhs}$
-and the symbol \Vsym{A} are
-\begin{center}
-\begin{tabular}{ll}
-\dfn{middle-recursive} & if
-  $\Vstr{left} \neq \epsilon \land \Vstr{right} \neq \epsilon$ \\
-\dfn{left-recursive} &  if $\Vstr{left} = \epsilon$ \\
-\dfn{right-recursive} &  if $\Vstr{right} = \epsilon$ \\
-\dfn{cyclic} & if
-  $\Vstr{left} = \epsilon \land \Vstr{right} = \epsilon$.
-\end{tabular}
-\end{center}
-We assume that a Marpa grammar is cycle-free ---
-that none of its rules are cyclic.
-
-We say that \Vstr{desc} is a direct descendant of \Vsym{A} if
-it is \Vstr{A-rhs} where $\Vsym{A} \de \Vstr{A-rhs}$ is a rule,
-or if it is the empty string where \Vsym{A} is a nulling terminal.
-We say that a derivation is \dfn{leftmost} if at each of its steps,
-its leftmost nonterminal is replaced by one of its direct descendants.
-We say that a derivation is \dfn{rightmost} if at each of its steps,
-its rightmost nonterminal is replaced by one of its direct descendants.
-
-Also without loss of generality,
-it is assumed
-that there is a dedicated acceptance rule, \Vrule{accept}
-and a dedicated acceptance symbol, $\Vsym{accept} = \LHS{\Vrule{accept}}$,
+A Marpa internal grammar always has
+a dedicated acceptance rule, \Vrule{accept}
+and a dedicated acceptance symbol,
+\[
+  \Vsym{accept} = \LHS{\Vrule{accept}},
+\]
 such that
 for all \Vrule{x},
-\begin{multline*}
-\Vsym{accept} \notin \RHS{\Vrule{x}} \land \\
+\[
+\Vsym{accept} \notin \RHS{\Vrule{x}} 
+\]
+and
+\[
 \Vsym{accept} = \LHS{\Vrule{x}} \implies \Vrule{accept} = \Vrule{x}.
-\end{multline*}
+\]
 
+We assume that a Marpa grammar is cycle-free ---
+that none of its rules are cyclic.
 We assume that every symbol is productive ---
 that is, that it derives a sentence.
 We assume that every symbol is accessible ---
