@@ -876,7 +876,8 @@ More formally, a symbol instance is a triple whose elements
 are a left location, a symbol name and a right location.
 We often represent symbol instances in the form
 \[\Vmkl{j} \Vsym{up} \Vmkr{k}.\]
-We write \Left{\Vinst{inst}} for the left location of \Vinst{inst}
+
+We write \Left{\Vinst{inst}} for the left location of \Vinst{inst},
 \Right{\Vinst{inst}} for the right location of \Vinst{inst},
 and \Symbol{\Vinst{inst}} for the symbol name of \Vinst{inst}.
 When \Vstr{si} is a sequence of symbol instances of length \Vsize{si},
@@ -912,11 +913,12 @@ For every \var{d}, we will have
 \drv{d}{0}{0} = \mk{0} \Vsym{accept} \Vmk{wlen}
 \end{equation}
 and where the length of the derivation is \var{dlen},
-\begin{multline}
-\forall \var{a} : 0 \le \var{a} < \var{wlen}  \\
-\implies \drv{d}{\Vdecr{dlen}}{\var{a}} = \Vinst{a} \\
-\text{where $\Vinst{a} = \Vmk{a} \, \sym{\Cw[\var{a}]} \, \mk{\Vincr{a}}$.}
-\end{multline}
+for all \var{a} such that $0 \le \var{a} < \var{wlen}$,
+\[
+  \drv{d}{\Vdecr{dlen}}{\var{a}} = \Vinst{a} = \Vmk{a} \Vsym{a} \mk{\Vincr{a}}.
+\]
+where \Vsym{a} is $\Cw[\var{a}]$,
+the symbol at location \Vloc{a} of the input.
 
 We will use type \type{STR} for sequences of symbol instances
 as well as symbols.
