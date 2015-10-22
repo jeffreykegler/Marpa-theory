@@ -17,22 +17,44 @@
 
 .phony: all clean
 
+LATEX = pdflatex
+MAKEINDEX = makeindex
+
+.SUFFIXES:
+.SUFFIXES: .pdf .ltx .ind .idx
+
+.idx.ind:
+	$(MAKEINDEX) $*
+
+.ltx.pdf:
+
 all: ah2002_notes.pdf recce.pdf
 
-recce.pdf: recce.ltx
-	pdflatex $?
-	makeindex recce-general.idx
-	makeindex recce-theorems.idx
-	makeindex recce-definitions.idx
+recce.pdf: recce.ltx recce-general.idx recce-theorems.idx recce-definitions.idx recce-notation.idx
+	$(LATEX) recce.ltx
+	$(MAKE) recce-general.ind
+	$(MAKE) recce-theorems.ind
+	$(MAKE) recce-definitions.ind
+	$(MAKE) recce-notation.ind
+	$(LATEX) recce.ltx
+	$(MAKE) recce-general.ind
+	$(MAKE) recce-theorems.ind
+	$(MAKE) recce-definitions.ind
+	$(MAKE) recce-notation.ind
+	$(LATEX) recce.ltx
+	$(MAKE) recce-general.ind
+	$(MAKE) recce-theorems.ind
+	$(MAKE) recce-definitions.ind
+	$(MAKE) recce-notation.ind
 
 ah2002_notes.pdf: ah2002_notes.ltx
-	pdflatex $?
 
 clean:
 	rm -f recce.aux recce.pdf recce.toc recce.out \ 
 	  recce-definitions.idx recce-definitions.ilg recce-definitions.ind \
 	  recce-general.idx recce-general.ilg recce-general.ind \
-	  recce-theorems.idx recce-theorems.ilg recce-theorems.ind
+	  recce-theorems.idx recce-theorems.ilg recce-theorems.ind \
+	  recce-notation.idx recce-notation.ilg recce-notation.ind
 
 # Requires these Debian packages (as of Thu Sep 17 10:11:18 PDT 2015)
 # ii  texlive-base                    2014.20141024-2      all                  TeX Live: Essential programs and files

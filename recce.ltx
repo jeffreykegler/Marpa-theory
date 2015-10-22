@@ -19,6 +19,7 @@
 \makeindex{recce-general}
 \makeindex{recce-theorems}
 \makeindex{recce-definitions}
+\makeindex{recce-notation}
 
 % This is used to find the font size if need be
 % its uses are usually commented out
@@ -514,7 +515,9 @@ notation:
 \Vsym{a} & \var{a}, a symbol variable \\
 \Vstr{a} & \var{a}, a string variable
 \end{tabular}
-\end{center}
+\end{center}%
+\index{recce-notation}{<<sym>>@\Vstr{sym}}%
+\index{recce-notation}{<str>@\Vsym{sym}}
 Subscripts may be omitted when the type
 is obvious from the context.
 The notation for
@@ -9617,6 +9620,7 @@ Klaus Wich.
 \Printindex{recce-general}{General index}
 \Printindex{recce-theorems}{Index of theorems and lemmas}
 \Printindex{recce-definitions}{Index of definitions}
+\Printindex{recce-notation}{Index of notation}
 
 \tableofcontents
 
