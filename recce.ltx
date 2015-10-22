@@ -2535,10 +2535,17 @@ and \ref{def:reduction-dr}
 above.
 \end{proof}
 
+\begin{definition}
 Following the convention for dotted rules,
-EIM's are telluric if they are the start EIM,
+EIM's are
+\xdfn{telluric}{telluric (of an EIM)}
+if they are the start EIM,
 a read EIM or a reduction EIM.
-An EIM is ethereal if it is not telluric.
+An EIM is
+\xdfn{ethereal}{ethereal (of an EIM)}
+if it is not telluric.
+\end{definition}
+
 The idea is that telluric dotted rules are ``grounded'' either
 in the input or in the initial state of the parse,
 while
@@ -2641,6 +2648,19 @@ And we say that \Vloc{j} is the
 or when it is clear in context,
 the \xdfn{dot location}{dot location (of an EIM in a derivation)},
 of \Veim{eim}.
+
+We will write \Vop{Valid-eq}{x}%
+\index{recce-notation}{Valid-eq(x)@\Vop{Valid-eq}{x}}
+for the
+validity equivalent of \var{x}.
+This notation is overloaded ---
+\var{x} may be a derivation move or a parse
+instance,
+and \Vop{Valid-eq}{x} may mean
+a derivation validity equivalent,
+an EIM validity equivalent,
+or a parse instance validity equivalent,
+according to its usage in context.
 \end{definition}
 
 \begin{definition}
@@ -2665,9 +2685,9 @@ When $\var{dotix} > 0$,
 \Veim{eim} expressed in our more usual notation will be
 \begin{equation}
 \label{eq:def-4-tuple-eim-20}
-\Veim{eim} = \big[ [ \Vsym{LH} \de \Vstr{prefix} \mydot \Vstr{suffix} ], \Vloc{i}, \Vloc{j} ]
+\Veim{eim} = \big[ [ \Vsym{LH} \de \Vstr{prefix} \mydot \Vstr{suffix} ], \Vloc{i}, \Vloc{j} ],
 \end{equation}
-In
+where
 \eqref{eq:def-4-tuple-eim-20}
 \begin{align}
 \Vstr{prefix} & =
@@ -2675,14 +2695,14 @@ In
 \begin{aligned}
 & \Symbol{\drv{d}{\var{s}}{\var{rha} \ldots \var{rha}+\Vdecr{dotix}}} \\
 & \qquad \text{if $\var{dotix} > 0$,} \\
-& \epsilon, \quad \text{otherwise}
+& \epsilon, \quad \text{otherwise},
 \end{aligned}
 \end{cases} \\
-\Vstr{suffix} & = \Symbol{\drv{d}{\var{s}}{\var{rha}+\var{dotix} \ldots \var{rhz}}} \\
- \Vloc{i} & = \Left{\drvVV{d}{s}{rha}} \\
- \Vloc{j} & = \Left{\drv{d}{\var{s}}{\var{rha}+\var{dotix}}}
+\Vstr{suffix} & = \Symbol{\drv{d}{\var{s}}{\var{rha}+\var{dotix} \ldots \var{rhz}}}, \\
+ \Vloc{i} & = \Left{\drvVV{d}{s}{rha}} \quad \text{and} \\
+ \Vloc{j} & = \Left{\drv{d}{\var{s}}{\var{rha}+\var{dotix}}}.
 \end{align}
-and, assuming that \var{s} is the first derivation step at which the
+Also, if \var{s} is the first derivation step at which the
 symbol instances
 \drv{d}{\var{s}}{\var{rha} \ldots{} \var{rhz}}
 appear,
@@ -2694,16 +2714,6 @@ then
 \end{equation}
 \end{definition}
 
-We will write \Vop{Valid-eq}{x} for the
-validity equivalent of \var{x}.
-This notation is overloaded ---
-\var{x} may be a derivation move or a parse
-instance,
-and \Vop{Valid-eq}{x} may mean
-a derivation validity equivalent,
-an EIM validity equivalent,
-or a parse instance validity equivalent,
-according to its usage in context.
 
 \begin{theorem}\label{t:start-eim-is-valid}
 \ttitle{Start Earley item is valid}
