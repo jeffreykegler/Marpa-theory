@@ -1343,8 +1343,8 @@ in full generality as
 where
 $\Vstr{nul1L} = \Vstr{nul1R} = \Vstr{nul2L} = \Vstr{nul2R} = \epsilon$.
 We assume
-\eqref{eq:location-marker-cycle-12}
-for a reductio.
+\eqref{eq:location-marker-cycle-12}--\eqref{eq:location-marker-cycle-14}
+for an outer reductio.
 
 By assumption for the theorem there is at least
 one telluric symbol in \Vstr{sf}.
@@ -1358,21 +1358,42 @@ $\bigop{T}{\Vsym{tell}} \le \bigop{T}{\Vstr{dd}}$,
 and therefore
 $\bigop{T}{\Vstr{dd}} \ge 1$.
 
-Assume for a reductio, that
+Assume for an inner reductio, that
 there is some \Vsym{tell2} in
 Step \var{x} of
 \Vstr{sf},
 such that $\bigop{T}{\Vstr{descs2}} > 1$,
 where \Vstr{descs2} are the descendants of \Vsym{tell2}
 in Step \var{y}.
-Let $\var{tell-cnt} = \bigop{T}{\Vstr{sf}@\var{x}}$.
-We have
+
+Let \var{tell-cnt} be the number of telluric symbols in
+\eqref{eq:location-marker-cycle-12}:
 \[
+\var{tell-cnt} =
+\bigop{T}{ \Vstr{nul1L} } +
+\bigop{T}{ \Vstr{sf}@\var{x}} +
+\bigop{T}{ \Vstr{nul1R} }.
+\]
+Since $\Vstr{nul1L} = \Vstr{nul1R} = \epsilon$,
+we have
+$\var{tell-cnt} = \bigop{T}{\Vstr{sf}@\var{x}}$.
+We have
+\begin{equation}
+\label{eq:location-marker-cycle-17}
 \var{tell-cnt} = \bigop{T}{\Vstr{sf}@\var{x}} 
 = \bigop{T}{\Vstr{sf}@\var{y}}
-\]
-by the self-identity of \Vstr{sf},
-so that if one telluric symbol in $\var{sf}@\var{x}$
+\end{equation}
+by the self-identity of \Vstr{sf}.
+
+$\Vstr{nul2L} = \Vstr{nul2R} = \epsilon$,
+so that if there is any
+telluric symbol
+in Step \var{y},
+it will be in
+$\var{sf}@\var{y}$.
+Using
+\eqref{eq:location-marker-cycle-17}
+we see that if one telluric symbol in $\var{sf}@\var{x}$
 derives
 \var{n} telluric symbols in $\var{sf}@\var{y}$,
 then the other $\Vdecr{tell-cnt}$ telluric symbols
@@ -1386,11 +1407,13 @@ $\var{sf}@\var{x}$
 derives
 zero telluric symbols in $\var{sf}@\var{y}$.
 In other words,
+if $\var{n} > 1$,
 at least one telluric symbol in
 $\var{sf}@\var{x}$ must be nulling.
+
 But telluric symbols are never nulling,
-which shows the reductio.
-We conclude from the reductio that
+which shows the inner reductio.
+We conclude from the inner reductio that
 no telluric symbol in 
 $\bigop{T}{\Vstr{sf}@\var{x}}$
 derives more than one telluric symbol in
@@ -1399,49 +1422,65 @@ $\bigop{T}{\Vstr{sf}@\var{y}}$.
 We have already shown that every telluric symbol in
 Step \var{x}
 derives at least one telluric symbol in Step \var{y}.
-So we have that, for any telluric symbol
+So we have that,
+\begin{equation}
+\label{eq:location-marker-cycle-20}
+\myparbox{
+for any telluric symbol
 $\Vsym{tell2}@\var{x}$,
 if \Vstr{descs2}@\var{y} are its direct descendants in
 Step \var{y},
 then $\bigop{T}{\Vstr{descs2}@\var{y}} = 1$.
+}
+\end{equation}
 
-Recall our earlier assumption that \Vsym{tell} is an arbitrary
+Recall our earlier assumption
+in the outer reductio
+that \Vsym{tell} is an arbitrary
 telluric symbol in \var{sf}@\var{x}
 and 
 \var{descs}@\var{y}
 its descendants.
-We now know that
-then $\bigop{T}{\Vstr{descs}@\var{y}} = 1$.
+We know from
+\eqref{eq:location-marker-cycle-20}
+that
+$\bigop{T}{\Vstr{descs}@\var{y}} = 1$.
 That is, each telluric symbol in Step \var{x}
-maps one-to-one to a telluric descandant in
+maps one-to-one to a telluric descendant in
 Step \var{y}.
-What is that the telluric symbol that \Vsym{tell}
+What is the telluric symbol that \Vsym{tell}
 maps to in \Vstr{descs}?
 
-The descendants in Step \var{y}
-of the telluric symbols
-in $\var{sf}@\var{x}$,
-by the self-identity of \var{sf}
-will be in the same order as their parents in
-Step \var{x}
-So the telluric symbols in the descendants
-of Step \var{y}
-occur in the same order as their parents
-in Step \var{x}.
-Further
-$\var{sf}@\var{x} = \var{sf}@\var{y}$.
-So the only telluric symbol in
-$\Vstr{descs}@\var{y}$ is 
-$\Vsym{tell}@\var{x}$.
+All the telluric symbols in
+\eqref{eq:location-marker-cycle-12}
+and
+\eqref{eq:location-marker-cycle-14}
+must be in
+$\var{sf}@\var{x}$ and $\var{sf}@\var{y}$,
+and
+$\var{sf}@\var{x} = \var{sf}@\var{y}$,
+so that the telluric symbols in
+$\var{sf}@\var{x}$
+must be the same, and in
+the same order,
+as those in
+$\var{sf}@\var{y}$.
+So a one-to-one mapping of telluric symbols from
+$\var{sf}@\var{x}$
+to telluric symbols in $\var{sf}@\var{y}$
+must map each telluric symbol to itself.
+Therefore, the telluric symbol in
+$\Vstr{descs}@\var{y}$
+is $\Vsym{tell}@\var{x}$.
 
 We can therefore write the derivation of
-the Step \var{y} descendants of 
+\Vstr{descs} from
 $\Vsym{tell}@\var{x}$,
 without loss of generality,
 as
 \begin{equation}
 \label{eq:location-marker-cycle-24}
-\Vsym{tell} \deplus \Vstr{nulL} \Vsym{tell} \Vstr{nulR}
+\Vsym{tell} \deplus \Vstr{nulL} \Vsym{tell} \Vstr{nulR} = \Vstr{descs}
 \end{equation}
 where 
 $\Vstr{nulL} = \Vstr{nulR} = \epsilon$.
