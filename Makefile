@@ -28,6 +28,14 @@ MAKEINDEX = makeindex
 
 .ltx.pdf:
 
+# temporary, during heavy development of theory doc
+quick:
+	$(LATEX) recce.ltx
+	$(MAKE) recce-general.ind
+	$(MAKE) recce-theorems.ind
+	$(MAKE) recce-definitions.ind
+	$(MAKE) recce-notation.ind
+
 all: ah2002_notes.pdf recce.pdf
 
 recce.pdf: recce.ltx recce-general.idx recce-theorems.idx recce-definitions.idx recce-notation.idx
