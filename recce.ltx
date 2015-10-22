@@ -2220,14 +2220,14 @@ and in any case,
 we certainly want to show that
 the ethereal closure has finite time complexity.
 \begin{algorithm}[!htp]
-\caption{Add a new generation of dotted rules to the ethereal closure}
+\caption{Add a generation to the ethereal closure}
 \label{alg:ethereal-generation}
 \begin{algorithmic}[1]
-\Procedure{Ethereal next}{\Vdr{base}, \Vdrset{results}}
-\If{\Vdr{base} has no postdot symbol}
+\Procedure{Ethereal next}{\Vdr{this}, \Vdrset{results}, \Vdrset{work}}
+\If{\Vdr{this} has no postdot symbol}
 \State return
 \EndIf
-\State Here \Vdr{base} is $[ \Vsym{lhs} \de \Vstr{before} \mydot \Vsym{A} \cat \Vstr{after} ]$
+\State Here \Vdr{this} is $[ \Vsym{lhs} \de \Vstr{before} \mydot \Vsym{A} \cat \Vstr{after} ]$
 \label{line:ethereal-generation-20}
 \State \Comment We can state this without loss of generality
 \If{$\Vsym{A}$ is a nulling symbol}
@@ -2255,7 +2255,8 @@ the ethereal closure has finite time complexity.
 \State return
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}
+\end{algorithm}%
+\index{recce-theorems}{Algorithm: Add a generation to the ethereal closure}
 
 \begin{algorithm}[!htp]
 \caption{Create ethereal closure}
@@ -2266,13 +2267,14 @@ the ethereal closure has finite time complexity.
 \State $\Vdrset{work} \gets \emptyset$
 \State \Call{Ethereal next}{\Vdr{base}}
 \While{$\Vdrset{work} \neq \emptyset$}
-\State Remove a dotted rule from \Vdrset{work}, call it \Vdr{work}
-\State \Call{Ethereal next}{\Vdr{work}, \Vdrset{result}}
+\State Remove a dotted rule from \Vdrset{work}, call it \Vdr{this}
+\State \Call{Ethereal next}{\Vdr{this}, \Vdrset{result}, \Vdrset{work}}
 \EndWhile
 \State return \Vdrset{result}
 \EndFunction
 \end{algorithmic}
-\end{algorithm}
+\end{algorithm}%
+\index{recce-theorems}{Algorithm: Create ethereal closure}
 
 Algorithm \ref{alg:ethereal-closure}
 is not actually used by any
@@ -2415,7 +2417,7 @@ we see that we can create a chain that results in
 but which does not contain any prediction more than once.
 We can also see that, since
 Algorithm \ref{alg:ethereal-closure} follows all chains
-that contain no duplicate steps,
+that contain no duplicate predictions,
 that
 Algorithm \ref{alg:ethereal-closure} will add
 \eqref{ethereal-closure-correct-5} to its result.
@@ -2424,7 +2426,7 @@ Since
 \eqref{ethereal-closure-correct-5} was chosen without loss
 of generality,
 we see that every prediction can be reached by following
-a chain of predictions with no duplicate steps,
+a chain of predictions with no duplicate predictions,
 and that therefore
 \begin{equation}
 \label{ethereal-closure-correct-40}
@@ -2481,12 +2483,11 @@ Traditionally, an Earley item is shown as a duple,
 \[
     [\Vdr{dotted-rule}, \Vorig{x} ]
 \]
-with \Vloc{current} omitted.
+with \Vloc{current} omitted,
+and we will sometimes use this form.
 When the duple form is used,
 the current location is specified by the context,
 either explicitly or implicitly.
-This paper will use Earley items
-in both the duple and triple forms.
 
 \section{Types}
 
@@ -7280,7 +7281,8 @@ Per-set-lists will be described in Section \ref{s:per-set-lists}.
 \State reject \Cw{}
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}
+\end{algorithm}%
+\index{recce-theorems}{Algorithm: Marpa Top-level}
 
 \section{Top-level code}
 
@@ -7392,7 +7394,7 @@ of Algorithm \ref{alg:initial}.
 \end{proof}
 
 \begin{algorithm}[th]
-\caption{Marpa Read pass}
+\caption{Read pass}
 \label{alg:read-pass}
 \begin{algorithmic}[1]
 \Procedure{Read pass}{$\Vloc{i},\Vsym{up}$}
@@ -7407,7 +7409,8 @@ of Algorithm \ref{alg:initial}.
 \EndFor
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}
+\end{algorithm}%
+\index{recce-theorems}{Algorithm: Read pass}
 
 \section{Read pass}
 \label{p:read-op}
@@ -7594,7 +7597,8 @@ as required for the theorem.
 \State \Call{Memoize transitions}{\Vloc{i}}
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}
+\end{algorithm}%
+\index{recce-theorems}{Algorithm: Reduction pass}
 
 \section{Reduction pass}
 
@@ -8158,7 +8162,8 @@ is correct for \Veimset{reduced-closure}.
 \EndFor
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}
+\end{algorithm}%
+\index{recce-theorems}{Algorithm: Memoize transitions}
 
 \section{Memoize transitions}
 
@@ -8237,7 +8242,8 @@ TODO: Make sure this accounts for the completeness of all top-down causes.
 \EndFor
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}
+\end{algorithm}%
+\index{recce-theorems}{Algorithm: Reduce one op-cause}
 
 \section{Reduce one up-cause}
 \label{p:reduce-one-up-cause}
@@ -8274,7 +8280,8 @@ Overhead is \Oc{} and caller-included.
 \label{line:earley-reduction-op-20}
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}
+\end{algorithm}%
+\index{recce-theorems}{Algorithm: Earley reduction operation}
 
 \section{Earley Reduction operation}
 \label{p:reduction-op}
@@ -8296,7 +8303,8 @@ attempt.
 \label{line:leo-reduction-op-20}
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}
+\end{algorithm}%
+\index{recce-theorems}{Algorithm: Leo reduction operation}
 
 \section{Leo reduction operation}
 \label{p:leo-op}
@@ -8333,7 +8341,8 @@ attempt.
 \EndFor
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}
+\end{algorithm}%
+\index{recce-theorems}{Algorithm: Add EIM set}
 
 \section{Adding a set of Earley items}
 \label{p:add-eim-set}
@@ -9622,7 +9631,7 @@ Klaus Wich.
 
 % \printindex
 \Printindex{recce-general}{General index}
-\Printindex{recce-theorems}{Index of theorems and lemmas}
+\Printindex{recce-theorems}{Index of algorithms, theorems, and lemmas}
 \Printindex{recce-definitions}{Index of definitions}
 \Printindex{recce-notation}{Index of notation}
 
