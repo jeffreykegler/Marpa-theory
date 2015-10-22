@@ -2019,30 +2019,20 @@ a nulling predot symbol.
 
 Where the transition is over a symbol,
 call it \Vsym{A},
-the behavior of \GOTO{} is straightforward:
-\begin{equation*}
-\GOTO(\Vdr{from}, \Vsym{A}) =
+\begin{multline*}
+\GOTO(\Vdr{from}, \Vsym{A}) = \\
 \begin{cases}
 \begin{aligned}
-& \rlap{$\left\lbrace \Next{\Vdr{from}} \right\rbrace,$} && \\
-& && \text{if $\Vsym{A} = \Postdot{\Vdr{from}}$,} \\
-& \emptyset, && \text{if $\Vsym{A} \ne \Postdot{\Vdr{from}}$},
+& \left\lbrace \Next{\Vdr{from}} \right\rbrace,
+  && \text{if $\Vsym{A} = \Postdot{\Vdr{from}}$} \\
+& \emptyset,
+  && \text{otherwise}
 \end{aligned}
 \end{cases}
-\end{equation*}
+\end{multline*}
 
-Ethereal transitions are more complicated.
-The result of \GOTO{} is always the empty set
-if there is
-no postdot symbol:
-\begin{equation*}
-\Postdot{\Vdr{from}} = \Lambda \implies \GOTO(\Vdr{from}, \Vsym{A}) = \emptyset.
-\end{equation*}
-To find $\GOTO(\Vdr{from}, \epsilon)$ where
-$\Postdot{\Vdr{from}} \neq \Lambda$,
-we need to make some definitions,
-many of which will be useful later.
-
+Ethereal transitions are more complicated,
+but their analysis will come in useful later.
 Let \var{null-scan-dr-op} be the set of
 pairs of dotted rules
 \begin{gather*}
@@ -2057,7 +2047,8 @@ and that \Vsym{B} is the \dfn{bottom-up cause}.
 We can use \var{null-scan-dr-op} to define an equivalence relation.
 Intuitively, two dotted rules, \Vdr{dr1}
 and \Vdr{dr2} are \dfn{ethereally equivalent} if
-\Vdr{dr1} can be changed into \Vdr{dr2} by a series of null-scans.
+\Vdr{dr1} can be changed into \Vdr{dr2}
+by iteration of \var{null-scan-dr-op}.
 More formally, we define \var{eth-eq} to be the reflexive, symmetric
 and transitive closure of
 \var{null-scan-dr-op}.
@@ -2079,27 +2070,36 @@ For symmetry, we say that \Vdr{cause}
 has a bottom-up cause,
 but that the \dfn{bottom-up cause} is ethereal.
 
+\begin{FlushLeft}
 Let
 \begin{equation}
 \var{epsilon-dr-op} = \var{null-scan-dr-op} \cup \var{predict-dr-op}.
 \end{equation}
-Then
-\dfn{ethereal closure}
-is
-\var{null-scan-dr-op} and \var{predict-dr-op}.
-\[\var{ethereal-dr-closure} \defined \var{epsilon-dr-op}^\ast.\]
-
 We are now in a position to define the ethereal transition of \GOTO{}
-from the dotted rule \Vdr{base},
-when
-\Vdr{base} has a postdot symbol.
-It is the ethereal closure
-over the singleton set containing the dotted rule argument of \GOTO{}.
-\begin{multline}
-\label{eq:def-ethereal-dr-closure}
-\Vsym{A} = \Postdot{\Vdr{base}} \land \Vsym{A} \neq \Lambda \implies \\
-\GOTO(\Vdr{base}, \Vsym{A}) =  \var{ethereal-dr-closure}(\lbrace \Vdr{base} \rbrace)
-\end{multline}
+from the dotted rule \Vdr{base}.
+It is the transitive closure of \var{epsilon-op}
+over the singleton set containing the dotted rule argument of \GOTO{}
+if there is a postdot symbol.
+Otherwise it is the empty set.
+\begin{multline*}
+\GOTO(\Vdr{from}, \epsilon) = \\
+\begin{cases}
+\begin{aligned}
+& \var{epsilon-op}^+(\lbrace \Vdr{base} \rbrace),
+  && \text{if $\Postdot{\Vdr{from}} \neq \Lambda$} \\
+& \emptyset,
+  && \text{otherwise}
+\end{aligned}
+\end{cases}
+\end{multline*}
+
+\end{FlushLeft}
+
+The
+\xdfn{ethereal closure}{ethereal closure (of a dotted rule)}
+is the reflexive and transitive closure of
+\var{epsilon-dr-op}:
+\[\var{ethereal-dr-closure} \defined \var{epsilon-dr-op}^\ast.\]
 We say that
 the ethereal closure for a dotted rule is the ethereal closure of the singleton
 set containing that dotted rule:
