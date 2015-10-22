@@ -1532,10 +1532,10 @@ properly nullable and nulling symbols,
 as well as empty rules.
 The user specifies his semantics in terms
 of the external grammar.
-Marpa rewrite the external grammar into
+Marpa rewrites the external grammar into
 an internal grammar.
-Parsing and evaluation,
-is performed
+Parsing and evaluation
+are performed
 in such a way as to keep the internal grammar
 invisible to
 the user.
@@ -1591,11 +1591,11 @@ Future plans for Marpa include more aggressive use
 of rewrites.
 It should be possible, not only to eliminate proper
 nullables from the internal grammar,
-but also nulling symbols.
+but also to eliminate nulling symbols.
 We conjecture that elimination of nulling symbols
 from the internal grammar will greatly simplify the implementation.
-The reader of this paper may note that it would be
-simpler and shorter if it did not have to deal with nulling
+The reader may observe that it would
+simplify this document if it did not have to deal with nulling
 symbols.
 
 Not all rewrites lend themselves to easy translation
@@ -1624,27 +1624,51 @@ constitute its ``brick frontier''.
 Mortar symbols will only occur in the interior of this ``brick'' subtree,
 never as its root or its leaf.
 
+An internal symbol instance \textbf{matches}
+an external symbol instance if and only if
+\begin{itemize}
+\item they have have same symbol;
+\item they have have same left location; and
+\item they have have same right location.
+\end{itemize}
+
 For a rewrite to be ``safe'':
 \begin{itemize}
 \item Every brick symbol must translate to exactly one
 external symbol
-\item Every terminal symbol instance must be a brick symbol,
-and the input in terms of internal terminal instances must translate
-exactly to external terminal instances.
+\item Every terminal symbol instance must be a brick symbol.
+\item The internal and external input sequences must be the same length.
+\item The internal and external input sequences must allow
+a shared indexing
+scheme, which indexes the input symbols consecutively from
+left to right.
+\item
+For every index \var{i},
+the \var{i}'th symbol instance in the internal input sequence
+must match 
+the \var{i}'th symbol instance in the external input sequence.
 \item Every brick traveral must translate to an external rule
-instance, as follows:
+instance,
+and vice versa,
+as follows:
 \begin{itemize}
-\item The brick root symbol must translate to
-the LHS of the rule,
-and the brick frontier to the RHS of the rule.
-In the case of the frontier-to-RHS translation,
-the two sequences must match exactly,
-symbol-for-symbol,
-preserving the order of the symbols.
-\item The brick root symbol instance must translate
-exactly to an instance of the LHS of the rule.
-\item Each of the brick frontier symbol instances
-must translate exactly to an external symbol instance.
+\item The brick root symbol instance must match
+the LHS symbol instance of the external rule instance.
+\item
+The brick frontier must be the same length as
+the RHS of the rule.
+\item
+The brick frontier and the external rule RHS must allow a shared indexing
+scheme,
+which indexes both of them
+consecutively
+from left to right.
+\item
+For every index \var{i},
+the \var{i}'th
+instance in the brick frontier must
+match the \var{i}'th symbol instance
+of the external rule RHS.
 \end{itemize}
 \end{itemize}
 
