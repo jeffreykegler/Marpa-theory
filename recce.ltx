@@ -187,7 +187,9 @@
 \newcommand\call[2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}}%
 
 % My macros for definition & theorem titles.
+% The 'q' forms are 'quiet' -- they do not index
 \newcommand\dtitle[1]{\textbf{#1}:\index{recce-definitions}{#1}}
+\newcommand\qdtitle[1]{\textbf{#1}:}
 \newcommand\ttitle[1]{\textbf{#1}:\index{recce-theorems}{#1}}
 \newcommand\ltitle[1]{\textbf{#1}:\index{recce-theorems}{#1}}
 
@@ -1696,13 +1698,14 @@ so that if
 is a rule,
 \begin{equation}
 \label{eq:def-dotted-rule-10}
-[\Vsym{A} \de \Vsym{X} \var{Y} \mydot \var{Z}]
+[\Vsym{A} \de \Vsym{X} \Vsym{Y} \mydot \Vsym{Z}]
 \end{equation}
 is the dotted rule with the dot at
 $\var{dotix} = 2$,
+that is,
 between \Vsym{Y} and \Vsym{Z}.
 
-In the discussion to come
+In the discussions to follow
 we will often refer to the
 ``dot location''.
 The dot location should not be confused with the
@@ -1718,11 +1721,11 @@ we might write
 \eqref{eq:def-dotted-rule-10}
 as
 \[
-[ [ \Vsym{A} \de \var{X} \var{Y} \var{Z} ], 2 ] \\
+[ [ \Vsym{A} \de \Vsym{X} \Vsym{Y} \Vsym{Z} ], 2 ] \\
 \]
 or redundantly, as
 \[
-[ [ \Vsym{A} \de \var{X} \var{Y} \mydot \var{Z} ], 2 ].
+[ [ \Vsym{A} \de \Vsym{X} \Vsym{Y} \mydot \Vsym{Z} ], 2 ].
 \]
 
 \section{Properties}
@@ -1733,7 +1736,7 @@ Let
 \Postdot{\Vdr{x}} & \defined
 \begin{cases}
 \begin{aligned}
-& \Vsym{B}, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{pre} \mydot \Vsym{B} \cat \Vstr{post}]$} \\
+& \Vsym{B}, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{s1} \mydot \Vsym{B} \cat \Vstr{s2}]$} \\
 & \Lambda, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{rhs} \mydot]$}
 \end{aligned}
 \end{cases} \\
@@ -1741,27 +1744,27 @@ Let
 \Predot{\Vdr{x}} & \defined
 \begin{cases}
 \begin{aligned}
-& \Vsym{B}, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{pre} \cat \Vsym{B} \mydot \Vstr{post}]$} \\
+& \Vsym{B}, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{s1} \cat \Vsym{B} \mydot \Vstr{s2}]$} \\
 & \Lambda, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \mydot \Vstr{rhs} ]$}
 \end{aligned}
 \end{cases} \\
 %
 \Next{\Vdr{x}} & \defined
 \begin{cases}
-[\Vsym{A} \de \Vstr{pre} \cat \Vsym{B} \mydot \Vstr{post}],  \\
+[\Vsym{A} \de \Vstr{s1} \cat \Vsym{B} \mydot \Vstr{s2}],  \\
 \begin{aligned}
 & \qquad && \text{if $\Vdr{X} =
-[\Vsym{A} \de \Vstr{pre} \mydot \Vsym{B} \cat \Vstr{post}]$} \\
+[\Vsym{A} \de \Vstr{s1} \mydot \Vsym{B} \cat \Vstr{s2}]$} \\
 & \Lambda, && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{rhs} \mydot]$}
 \end{aligned}
 \end{cases} \\
 %
 \Prev{\Vdr{x}} & \defined
 \begin{cases}
-[\Vsym{A} \de \Vstr{pre} \mydot \Vsym{B} \cat \Vstr{post}],  \\
+[\Vsym{A} \de \Vstr{s1} \mydot \Vsym{B} \cat \Vstr{s2}],  \\
 \begin{aligned}
 & \qquad && \text{if $\Vdr{X} =
-[\Vsym{A} \de \Vstr{pre} \cat \Vsym{B} \mydot \Vstr{post}]$} \\
+[\Vsym{A} \de \Vstr{s1} \cat \Vsym{B} \mydot \Vstr{s2}]$} \\
 & \Lambda, && \text{if $\Vdr{x} = [\Vsym{A} \de \mydot \Vstr{rhs} ]$}
 \end{aligned}
 \end{cases} \\
@@ -1795,98 +1798,136 @@ We divide all dotted rules into five disjoint types:
 start, prediction, null-scan, read and reduction.
 
 \begin{baredefinition}
+\qdtitle{Start}
 \label{def:start-dr}
-If a dotted rule does not have a predot symbol and it is the start dotted rule
-its type is \dfn{start} dotted rule as defined above \eqref{eq:start-rule-def}.
+The
+start dotted rule was defined
+in \eqref{eq:start-rule-def}.
+Its type is
+\xdfn{start}{start (dotted rule)}.
 \end{baredefinition}
 
 \begin{baredefinition}
-\dtitle{Prediction dotted rule}
+\qdtitle{Prediction}
 \label{def:prediction-dr}
-If it does not have a predot symbol and it is not the start dotted rule,
-it is a \dfn{prediction} dotted rule.
+If a rule does not have a predot symbol and is not the start dotted rule,
+it is a
+\xdfn{predicted dotted rule}{predicted (dotted rule)}
+or a
+\xdfn{prediction}{prediction (dotted rule)}.
 \end{baredefinition}
 
 \begin{baredefinition}
-\dtitle{Null-scan dotted rule}
+\qdtitle{Null-scan}
 \label{def:null-scan-dr}
-If it does have a predot symbol and that symbol is a nulling terminal,
-it is a \dfn{null-scan} dotted rule.
+If a rule does have a predot symbol and that symbol is a nulling terminal,
+that rule
+is a
+\xdfn{null-scan}{null-scan (dotted rule)}
+dotted rule.
 \end{baredefinition}
 
 \begin{baredefinition}
-\dtitle{Read dotted rule}
+\qdtitle{Read}
 \label{def:read-dr}
-If it does have a predot symbol and that symbol is a telluric terminal,
-it is a \dfn{read} dotted rule.
-Note that in \Marpa{} all terminals are either nulling or telluric.
+If a rule does have a predot symbol and that symbol is a telluric terminal,
+the rule is a
+\xdfn{read}{read (dotted rule)}
+dotted rule.
 \end{baredefinition}
 
 \begin{definition}
-\dtitle{Reduction dotted rule}
+\qdtitle{Reduction}
 \label{def:reduction-dr}
-If it does have a predot symbol and that symbol is a non-terminal
-it is a \dfn{reduction} dotted rule.
+If a rule does have a predot symbol and that symbol is a non-terminal
+it is a
+\xdfn{reduced}{reduced (dotted rule)}
+dotted rule,
+or a
+\xdfn{reduction}{reduction (dotted rule)}.
 \end{definition}
 
-Prediction and null-scan dotted rules are called \dfn{ethereal} dotted rules.
-All other dotted rules are called \dfn{telluric} dotted rules.
+Prediction and null-scan dotted rules are called
+\xdfn{ethereal}{ethereal (dotted rule)}
+dotted rules.
+All other dotted rules are called
+\xdfn{telluric}{telluric (dotted rule)}.
+dotted rules.
 
-A \dfn{predicted dotted rule}
+A predicted dotted rule
 always has a dot position of zero,
 for example,
 \begin{equation*}
 \Vdr{predicted} = [\Vsym{A} \de \mydot \Vstr{alpha} ].
 \end{equation*}
-A \dfn{confirmed dotted rule}
+A
+\xdfn{confirmed dotted rule}{confirmed (dotted rule)},
+or
+\xdfn{confirmation}{confirmation (dotted rule)},
 is a dotted rule
 with a dot position greater than zero.
-A \dfn{completed dotted rule} is a dotted rule with its dot
+A
+\xdfn{completed dotted rule}{completed (dotted rule)},
+or a 
+\xdfn{completion}{completion (dotted rule)},
+is a dotted rule with its dot
 position after the end of its RHS,
 for example,
 \begin{equation*}
 \Vdr{completed} = [\Vsym{A} \de \Vstr{alpha} \mydot ].
 \end{equation*}
-Predicted, confirmed and completed dotted rules
-are also called, respectively,
-\dfn{predictions}, \dfn{confirmations} and \dfn{completions}.
 
 \section{Quasi-types}
 
-It is often conveniend, when classifying dotted rules
+When classifying dotted rules,
+it is often convenient
 to ignore the effect of nulling symbols.
 Intuitively, if a dotted rule is of the kind ``X'',
 then a quasi-X dotted rule is a dotted that would be
-of kind X, except for nulling symbols.
+of kind X, if it were not for its nulling symbols.
 
 A dotted rule which has only nulling symbols after the dot
-is \dfn{quasi-complete}.
+is
+\xdfn{quasi-complete}{quasi-complete (dotted rule)}.
 A quasi-complete dotted rule is called an
-\dfn{quasi-completion}.
+\xdfn{quasi-completion}{quasi-completion(dotted rule)}.
 If a dotted rule is not quasi-complete,
-it is said to be \dfn{quasi-incomplete},
-or a \dfn{quasi-incompletion}.
-These definitions may be vacuously true:
+it is said to be
+\xdfn{quasi-incomplete}{quasi-incomplete (dotted rule)},
+or a
+\xdfn{quasi-incompletion}{quasi-incompletion (dotted rule)}.
+These definitions may be satisfied vacuously:
 all completions are quasi-completions.
 
-If in a pair of dotted rules,
+If
 \begin{equation*}
 \begin{split}
-& \Vdr{quasi} = [\Vsym{A} \de \Vstr{alpha} \mydot \Vstr{nulls} ] \\
-& \Vdr{completion} = [\Vsym{A} \de \Vstr{alpha} \cat \Vstr{nulls} \mydot ]
+\Vdr{quasi} & = [\Vsym{A} \de \Vstr{alpha} \mydot \Vstr{nulls} ] \\
+\Vdr{completion} & = [\Vsym{A} \de \Vstr{alpha} \cat \Vstr{nulls} \mydot ] \\
+& \qquad \text{where} \quad \Vstr{nulls} = \epsilon
 \end{split}
 \end{equation*}
-where \Vstr{nulls} is a string composed entirely of nullable symbols
-we say that \Vdr{completion} is the \dfn{completion dotted rule}
+is a pair of dotted rules,
+we say that \Vdr{completion} is the
+\xdfn{completion dotted rule}{completion (dotted rule, of another dotted rule)}
 of the quasi-completion \Vdr{quasi}.
 
 A dotted rule which has only nulling symbols before the dot
-is a \dfn{quasi-prediction}.
-This definition may be vacuously true:
+is a
+\xdfn{quasi-predicted}{quasi-predicted (dotted rule)}
+dotted rule,
+or a
+\xdfn{quasi-prediction}{quasi-prediction (dotted rule)}.
+This definition may be satisfied vacuously:
 all predictions are quasi-predictions.
 If a dotted rule is not a
 quasi-prediction,
-then it is a \dfn{quasi-confirmed}.
+then it is a
+is a
+\xdfn{quasi-confirmed}{quasi-confirmed (dotted rule)}
+dotted rule,
+or a
+\xdfn{quasi-confirmation}{quasi-confirmation (dotted rule)}.
 
 \begin{theorem}
 \title{Quasi-predictions and quasi-completions are disjoint}
