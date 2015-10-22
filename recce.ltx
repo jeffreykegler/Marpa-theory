@@ -2210,7 +2210,7 @@ its telluric base is unique.
 Let the dotted rule be \Vdr{dr}.
 This theorem follows
 directly
-from Theorem \ref{eth-eq-share-telluric-base},
+from Theorem \ref{t:eth-eq-share-telluric-base},
 if you set both of its dotted rules to \Vdr{dr}.
 \end{proof}
 
@@ -2794,12 +2794,11 @@ call it \Veim{inst}, then
 \Left{\Veim{inst}} = \Origin{\Veim{inst}} \\
 \text{and} \quad \Right{\Veim{inst}} = \Current{\Veim{inst}}.
 \end{gather*}
-If \var{inst} is a symbol instance,
-call it,
-without loss of generality,
+Let, without loss of generality,
+\var{inst} be the a symbol instance
 \begin{gather*}
-\Vinst{inst} = \Vmk{i} \Vsym{A} \Vmk{j}, \\
-\text{then} \quad \Left{\Veim{inst}} = \Vloc{i} \\
+\Vinst{inst} = \Vmk{i} \Vsym{A} \Vmk{j}. \\
+\text{Then} \quad \Left{\Veim{inst}} = \Vloc{i} \\
 \text{and} \quad \Right{\Veim{inst}} = \Vloc{j}.
 \end{gather*}
 
@@ -2855,8 +2854,8 @@ is a \dfn{top-down descendant} of \Veim{anc}.
 
 An effect is always an Earley item.
 A top-down cause is always an Earley item.
-
 A bottom-up cause may be ethereal or telluric.
+
 If a bottom-up cause is ethereal, it may be because the effect has no
 predot symbol,
 or because the bottom-up cause is a nulling terminal symbol instance.
@@ -2873,55 +2872,82 @@ We have already defined validity for Earley items.
 We now extend the concept of validity to other types of
 causes.
 An ethereal cause is always valid.
+
+\begin{definition}
+\qdtitle{Validity of terminal symbols}
 If \Vsym{T} is a telluric terminal symbol,
 we say that
 \begin{equation}
 \label{eq:def-terminal-validity-10}
 [\var{i}]\, \Vsym{T} \,[\var{j}]
 \end{equation}
-is valid if and only if
+is
+\xdfn{valid}{valid (terminal symbol)}
+if and only if
 \begin{equation}
 \label{eq:def-terminal-validity-15}
 \Vsym{T} = \CVw{i} \; \land \; \var{j} = \var{i} + 1.
 \end{equation}
 \eqref{eq:def-terminal-validity-10}
 is considered to be the
-\dfn{derivation validity equivalent}
+\xdfn{derivation validity equivalent}{derivation validity equivalent (terminal symbol, of itself)}
 of itself.
 When it is clear in context,
 we will also call
 \eqref{eq:def-terminal-validity-10}
-the \dfn{validity equivalent} of itself.
+the
+\xdfn{validity equivalent}{validity equivalent (terminal symbol, of itself)}
+of itself.
+Overloading our previous use of \myfnname{Valid-eq},
+we write \Vop{Valid-eq}{x}%
+\index{recce-notation}{Valid-eq(x)@\Vop{Valid-eq}{x}}
+for the
+validity equivalent
+of the terminal symbol instance \Vinst{x}.
+\end{definition}
 
+\begin{definition}
+\qdtitle{Validity of non-terminal symbols}
 If \Vsym{N} is a non-terminal symbol,
 we say that
 \begin{equation}
 \label{eq:def-non-terminal-validity-10}
 [\var{i}]\, \Vsym{N} \,[\var{j}]
 \end{equation}
-is valid if and only if
+is
+\xdfn{valid}{valid (non-terminal symbol)}
+if and only if
 \begin{equation}
 \label{eq:def-non-terminal-validity-15}
 \Vsym{N} \deplus \var{w}[\var{i}, (\var{j} \subtract 1)].
 \end{equation}
 \eqref{eq:def-non-terminal-validity-15}
 is called the
-\dfn{derivation validity equivalent}
+\xdfn{derivation validity equivalent}{derivation validity equivalent
+  (of non-terminal symbol)}
 of \eqref{eq:def-non-terminal-validity-10}.
 \eqref{eq:def-non-terminal-validity-10}
 is called the
-\dfn{parse instance validity equivalent}
+\xdfn{parse instance validity equivalent}{parse instance validity equivalent
+  (of derivation step)}
 of \eqref{eq:def-non-terminal-validity-15}.
 As a special case,
 \eqref{eq:def-non-terminal-validity-10}
 is also considered to be the
-\dfn{derivation validity equivalent},
+\xdfn{derivation validity equivalent}{derivation validity equivalent
+  (of non-terminal symbol)}
 of itself.
 When it is clear in context,
 we will use the term,
-\dfn{validity equivalent},
+\xdfn{validity equivalent}{validity equivalent},
 for either a derivation validity equivalent,
 or an parse instance validity equivalent.
+Overloading our previous use of \myfnname{Valid-eq},
+we write \Vop{Valid-eq}{x}%
+\index{recce-notation}{Valid-eq(x)@\Vop{Valid-eq}{x}}
+for validity equivalent
+in all of its senses in this definition.
+\end{definition}
 
 \section{Confirmed Earley items}
 
@@ -2973,9 +2999,9 @@ we have
 If,
 in the definition of EIM validity
 \eqref{eq:def-eim-valid-10},
-we set the predot string to
+we set the dot prefix to
 \Vstr{rhs},
-the postdot string to $\epsilon$,
+the dot suffix to $\epsilon$,
 and the LHS to \Vsym{up},
 we see that \Veim{up} in
 \eqref{eq:valid-eim-from-symbol-6} is valid.
@@ -4033,7 +4059,7 @@ which is requirement
 
 \begin{definition}
 \label{def:tether}
-\dtitle{Tether}
+\qdtitle{Tether}
 Let \Veim{base} be an Earley item.
 The sequence
 \begin{equation}
@@ -4042,7 +4068,9 @@ The sequence
 \ldots
 \Vel{teth}{top}, \quad \text{where $\var{top} \ge 1$}
 \end{equation}
-is a tether of \Veim{base} if and only if
+is a
+\dfn{tether}
+of \Veim{base} if and only if
 \begin{align}
 \label{eq:def-tether-10}
 & \el{teth}{0} = \Veim{eim},
@@ -9642,7 +9670,7 @@ Klaus Wich.
 % \printindex
 \Printindex{recce-general}{General index}
 \Printindex{recce-theorems}{Index of algorithms, theorems, and lemmas}
-\Printindex{recce-definitions}{Index of definitions}
+\Printindex{recce-definitions}{Index of abbreviations and definitions}
 \Printindex{recce-notation}{Index of notation}
 
 \tableofcontents
