@@ -1701,12 +1701,23 @@ so that if
 is a rule,
 \begin{equation}
 \label{eq:def-dotted-rule-10}
-[\Vsym{A} \de \Vsym{X} \Vsym{Y} \mydot \Vsym{Z}]
+\Vdr{dr} = [\Vsym{A} \de \Vsym{X} \Vsym{Y} \mydot \Vsym{Z}]
 \end{equation}
 is the dotted rule with the dot at
 $\var{dotix} = 2$,
 that is,
 between \Vsym{Y} and \Vsym{Z}.
+
+We write
+\Vop{Dotix}{x}%
+\index{recce-notation}{Dotix(x)@\Vop{Dotix}{x}}
+for the dot index of dotted rule
+\Vdr{x}.
+For example, where \Vdr{dr} is as in
+\eqref{eq:def-dotted-rule-10},
+\[
+  \op{Dotix}{\Vdr{dr}} = 2.
+\]
 
 In the discussions to follow
 we will often refer to the
@@ -3546,9 +3557,9 @@ so this shows the theorem.
 Let
 \begin{equation}
 \label{eq:prediction-from-cause-3}
-\Veim{down} = \left[
+\Veim{down} = \big[
   [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j}
-\right]
+\big]
 \end{equation}
 be a valid EIM,
 and let
@@ -3560,8 +3571,8 @@ be a rule in \Cg{}.
 Then
 \begin{equation}
 \label{eq:prediction-from-cause-9}
-\Veim{prediction} = \left[ [ \Vsym{A} \de \mydot \Vstr{A-rhs} ], \var{j}, \var{j}
-\right]
+\Veim{prediction} = \big[ [ \Vsym{A} \de \mydot \Vstr{A-rhs} ], \var{j}, \var{j}
+\big]
 \end{equation}
 is valid.
 \end{theorem}
@@ -3609,23 +3620,24 @@ and therefore the theorem.
 Let
 \begin{equation}
 \label{eq:cause-from-prediction-1}
-\Veim{prediction} = \left[ [ \Vsym{A} \de \mydot \Vstr{A-rhs} ], \var{j}, \var{j}
-\right]
+\Veim{prediction} = \big[ [ \Vsym{A} \de \mydot \Vstr{A-rhs} ], \var{j}, \var{j}
+\big]
 \end{equation}
-be a valid EIM,
-where $\Vsym{A} \neq \Vsym{accept}$.
+be a predicted EIM.
 Then there is a rule,
 \begin{equation}
 \label{eq:cause-from-prediction-2}
   [ \Vsym{down} \de \Vstr{pre} \Vsym{A} \Vstr{post} ] \in \Crules
 \end{equation}
-and some \Vloc{i} such that
-\Vstr{pre}, \Vstr{post},
+and some \Vloc{i},
+some \Vstr{pre}, and
+some \Vstr{post}
+such that
 \begin{equation}
 \label{eq:cause-from-prediction-3}
-\Veim{down} = \left[
+\Veim{down} = \big[
   [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j}
-\right]
+\big]
 \end{equation}
 is valid.
 \end{theorem}
@@ -3638,9 +3650,13 @@ we have
 \label{eq:cause-from-prediction-12}
 \Vsym{A} \derives [\var{j}] \Vstr{A-rhs}.
 \end{equation}
-All symbols in Marpa grammars are accessible,
-and \Vsym{A} is not \Vsym{accept}.
-so we can expand
+All symbols in Marpa grammars are accessible
+and,
+because
+\eqref{eq:cause-from-prediction-1} is a prediction,
+and therefore not the start EIM,
+\Vsym{A} is not \Vsym{accept}.
+So we can expand
 \eqref{eq:cause-from-prediction-12}
 to
 \begin{equation}
@@ -3656,7 +3672,8 @@ which simplifies to
 \label{eq:cause-from-prediction-30}
 \Vsym{down} \derives \Vmk{i} \Vstr{pre} \Vmk{j} \Vsym{A} \Vstr{post},
 \end{equation}
-for some \Vloc{i}.
+into which we have introduced a location
+marker for \Vloc{i}.
 From \eqref{eq:cause-from-prediction-30},
 for the definition of EIM validity,
 we have
@@ -3704,8 +3721,11 @@ of \Veim{effect}:
 \var{epsilon-op} \; & \defined \var{predict-op} \cup \var{null-scan-op}
 , \; \text{and} \\
 \var{ethereal-closure} \; & \defined \var{epsilon-op}^\ast.
+\notag
 \end{align}
 
+\begin{sloppypar}
+\begin{FlushLeft}
 \begin{theorem}
 \ttitle{Ethereal closure properties}
 \label{t:ethereal-closure}
@@ -3714,7 +3734,6 @@ EIM such that
 \begin{equation}
 \Veim{desc} \in \var{ethereal-closure}(\Veim{base}).
 \end{equation}
-\begin{FlushLeft}
 Then
 \begin{enumerate}
 \item
@@ -3737,24 +3756,24 @@ if \Veim{desc} is quasi-confirmed,
 then
 $\Origin{\Veim{desc}} = \Origin{\Veim{base}}.$
 \end{enumerate}
-\end{FlushLeft}
 \end{theorem}
+\end{FlushLeft}
+\end{sloppypar}
 
 \begin{proof}
-Our proof will be by induction on the number of
-applications of
+Our proof will be by induction on the iterations
+of
 \var{epsilon-op}.
-Call the set of EIM's after
-\var{i} applications of \var{epsilon-op},
+Let
 \begin{equation}
-\var{eims}[\var{i}] = \left(\var{epsilon-op}^{\displaystyle \var{i}}\right)(\Veim{base})
+\var{eims}[\var{i}] = \var{epsilon-op}^{\displaystyle \var{i}}(\Veim{base}).
 \end{equation}
 
 We take as our induction hypothesis:
 \begin{equation}
 \label{eq:ethereal-closure-18}
 \myparbox{
-The EIMS in $\var{eims}[\var{i}]$
+The EIMS in $\var{eims}[\var{x}]$
 obey requirements
 \eqref{req:ethereal-closure-3},
 \ref{req:ethereal-closure-5},
@@ -3766,31 +3785,23 @@ in the statement of the theorem.
 }
 \end{equation}
 
-We will call $\var{Dot}(\Vdr{dr})$,
-the numeric dot position within
-the RHS of a dotted rule,
-so that
-for every location, \var{i},
-$0 \le \var{i} < \Vsize{\RHS{\Vdr{dr}}}$,
-\begin{equation*}
-\text{
-$\var{i} < \var{Dot}(\Vdr{dr})$
-if and only if $\var{RHS}(\Vdr{dr}, \var{i})$ is before the dot}
-\end{equation*}
-
-When we apply dotted rule notion to
+When we apply dotted rule notions
+and functions to
 an EIM, we refer to its dotted rule.
-By the definition of a quasi-prediction,
+By the definition of a quasi-prediction
+and of \myfnname{Dotix},
 \begin{gather}
 \text{if \Veim{qpred} is a quasi-prediction, then} \notag \\
-\var{i} < \var{Dot}(\Veim{qpred}) \implies \RHS{\Veim{dr}, \var{i}} \derives \epsilon \quad \text{and} \notag \\
+\var{i} < \op{Dotix}{\Veim{qpred}} \implies \RHS{\Veim{dr}, \var{i}} \derives \epsilon \quad \text{and} \notag \\
 \label{eq:ethereal-closure-20}
 \text{\Current{\Veim{qpred}} = \Origin{\Veim{qpred}}}.
 \end{gather}
 
+\textbf{Basis}:
 As the basis of the induction, we show
-\eqref{eq:ethereal-closure-18} for the
-singleton set
+\eqref{eq:ethereal-closure-18} for
+for $\var{x} = 0$.
+By the definition of an ethereal closure,
 $\var{eims}[0] = \lbrace \Veim{base} \rbrace.$
 By assumption for the theorem, \Veim{base} is valid.
 This shows requirement \ref{req:ethereal-closure-3}.
@@ -3815,19 +3826,17 @@ then
 we have
 requirement \ref{req:ethereal-closure-15}
 vacuously.
-If
 If \Veim{base} is quasi-confirmed, we
 have
 requirement \ref{req:ethereal-closure-15}
 by self-identity.
 This shows all the requirements for the basis of the induction.
 
+\textbf{Step}:
 For the step of the induction, we assume
-\eqref{eq:ethereal-closure-18} for the set of EIM's
-after \var{i} applications of \var{epsilon-op},
+\eqref{eq:ethereal-closure-18} for $\var{x} = \var{i}$,
 to show
-\eqref{eq:ethereal-closure-18} for $\var{eims}[\var{i}+1]$.
-
+\eqref{eq:ethereal-closure-18} for $\var{x} = \Vincr{i}$.
 We consider, without loss of generality,
 just one of the dotted rules in $\var{eims}[\var{i}+1]$.
 Call it \Veim{wlog2}.
@@ -3842,6 +3851,9 @@ By definition of \var{ethereal-closure} for EIM's,
 \Veim{wlog2} is a null-scan or a prediction.
 If \Veim{wlog2} is a prediction, it is valid by
 Theorem \ref{t:prediction-from-cause}.
+
+TODO: check this.
+
 If \Veim{wlog2} is a null-scan, it is valid by
 Theorem \ref{t:down-cause-from-effect}.
 This shows
