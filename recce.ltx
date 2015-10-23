@@ -3048,9 +3048,7 @@ A bottom-up cause must be a completion.
 We may therefore,
 without loss of generality,
 let the bottom-up EIM be
-\eqref{eq:def-symbolic-equivalent-10}
-and its symbolic equivalent is therefore
-\eqref{eq:def-symbolic-equivalent-20}.
+\eqref{eq:def-symbolic-equivalent-10}.
 \eqref{eq:def-symbolic-equivalent-10}
 is valid by assumption for the theorem,
 so we have
@@ -3065,7 +3063,7 @@ so we have
 & [\var{i}]\, \Vsym{up} \,[\var{j}] &&
 \end{alignat}
 \eqref{eq:valid-eim-from-symbol-20} is
-\eqref{eq:def-symbolic-equivalent-10},
+\eqref{eq:def-symbolic-equivalent-20},
 which shows the theorem.
 \end{proof}
 
@@ -3088,9 +3086,8 @@ are
 \dfn{matching causes}
 if and only if
 \begin{gather*}
-\Symbol{\Veim{down}} = \Symbol{\Vinst{up}}, \\
-\Left{\Veim{down}} = \Left{\Vinst{up}} \quad \text{and} \\
-\Right{\Veim{down}} = \Right{\Vinst{up}}.
+\Postdot{\Veim{down}} = \Symbol{\Vinst{up}} \quad \text{and} \\
+\Right{\Veim{down}} = \Left{\Vinst{up}}.
 \end{gather*}
 When \Veim{down} and \Vinst{up} are matching causes,
 we also say that
@@ -3127,7 +3124,7 @@ To show the theorem, we must show that
 \label{eq:effect-from-symbolic-causes-9}
 \begin{split}
 & \Veim{effect} =  \\
-& \qquad \qquad [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
+& \qquad \qquad [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ]
 \end{split}
 \end{equation}
 is valid.
@@ -3307,7 +3304,7 @@ such that
 The proof follows from
 Theorem \ref{t:symbolic-causes-from-effect},
 noting in particular the requirement that
-\Veim{effect} must have both
+\Veim{effect} must have
 a top-down cause, \Veim{down},
 and \Vinst{up},
 and that they must match.
