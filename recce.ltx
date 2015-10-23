@@ -3174,24 +3174,32 @@ is a valid, confirmed EIM,
 then
 \begin{enumerate}
 \RaggedRight
-\item \Veim{effect} must have a valid symbolic bottom-up cause,
-call it $\Vinst{up}$,
+\item
 \label{item:symbolic-causes-from-effect-3}
-\item \Veim{effect} must have a valid top-down cause,
-call it $\Veim{down}$,
+\Veim{effect} must have a valid symbolic bottom-up cause,
+call it $\Vinst{up}$,
+\item
 \label{item:symbolic-causes-from-effect-6}
-\item \Vinst{up} and \Veim{down} must be matching causes,
+\Veim{effect} must have a valid top-down cause,
+call it $\Veim{down}$,
+\item
 \label{item:symbolic-causes-from-effect-9}
-\item $\Right{\Vinst{up}}  = \Vloc{k}$,
+\Vinst{up} and \Veim{down} must be matching causes,
+\item
 \label{item:symbolic-causes-from-effect-12}
-\item $\Left{\Veim{down}} = \Vloc{i}$,
+$\Right{\Vinst{up}}  = \Vloc{k}$,
+\item
 \label{item:symbolic-causes-from-effect-15}
-\item $\Symbol{\Vinst{up}} = \Predot{\Veim{effect}}$,
+$\Left{\Veim{down}} = \Vloc{i}$,
+\item
 \label{item:symbolic-causes-from-effect-18}
-\item $\Predot{\Veim{effect}} = \Postdot{\Veim{down}}$, and
+$\Symbol{\Vinst{up}} = \Predot{\Veim{effect}}$,
+\item
 \label{item:symbolic-causes-from-effect-19}
-\item $\Next{\Vdr{down}} = \Vdr{effect}$
+$\Predot{\Veim{effect}} = \Postdot{\Veim{down}}$, and
+\item
 \label{item:symbolic-causes-from-effect-21}
+$\Next{\Vdr{down}} = \Vdr{effect}$
 \end{enumerate}
 \end{theorem}
 
@@ -3201,7 +3209,8 @@ let \Veim{effect} be
 \begin{equation}
 \label{eq:symbolic-causes-from-effect-20}
 \Veim{effect} =
-[ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
+\big[ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k}
+\big].
 \end{equation}
 so that by
 Definition \ref{def:causes},
