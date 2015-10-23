@@ -3218,13 +3218,33 @@ the definition of causes,
 the bottom-up cause is
 \begin{equation}
 \label{eq:symbolic-causes-from-effect-25}
-\Vmkl{j} \Vstr{A} \Vmkr{k},
+\Vinst{up} = \Vmkl{j} \Vstr{A} \Vmkr{k},
 \end{equation}
 and the top-down cause is
 \begin{equation}
 \label{eq:symbolic-causes-from-effect-30}
 \Veim{down} = [ [ \Vsym{down} \derives \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j} ].
 \end{equation}
+
+Trivially, we can see that
+\eqref{eq:symbolic-causes-from-effect-20},
+\eqref{eq:symbolic-causes-from-effect-25},
+and
+\eqref{eq:symbolic-causes-from-effect-30}
+satisfy
+requirements \ref{item:symbolic-causes-from-effect-9}
+\ref{item:symbolic-causes-from-effect-12},
+\ref{item:symbolic-causes-from-effect-15},
+\ref{item:symbolic-causes-from-effect-18},
+\ref{item:symbolic-causes-from-effect-19}
+and
+\ref{item:symbolic-causes-from-effect-21}
+in the statement of the theorem.
+It remains to show that
+\eqref{eq:symbolic-causes-from-effect-25},
+and
+\eqref{eq:symbolic-causes-from-effect-30}
+are valid.
 
 Using
 \eqref{eq:symbolic-causes-from-effect-20},
@@ -3245,8 +3265,9 @@ Simplifying
 we have
 \eqref{eq:symbolic-causes-from-effect-25},
 our bottom-up cause.
-This shows requirement \ref{item:symbolic-causes-from-effect-3}
-of this theorem.
+This shows that \Vinst{up} is valid
+which was requirement \ref{item:symbolic-causes-from-effect-3}
+in the statement of this theorem.
 
 A different simplification of
 \eqref{eq:symbolic-causes-from-effect-32}
@@ -3261,29 +3282,11 @@ from
 by the definition of EIM validity,
 we have
 \eqref{eq:symbolic-causes-from-effect-30}.
-This shows
-requirement \ref{item:symbolic-causes-from-effect-6}
-of this theorem.
-
-Using
-Definition \ref{def:matching-causes},
-the definition of matching causes,
-shows
-requirement \ref{item:symbolic-causes-from-effect-9}
-of this theorem.
-Examination of
-\eqref{eq:symbolic-causes-from-effect-20},
-\eqref{eq:symbolic-causes-from-effect-25},
-and
-\eqref{eq:symbolic-causes-from-effect-30}
-shows that requirements
-\ref{item:symbolic-causes-from-effect-12},
-\ref{item:symbolic-causes-from-effect-15},
-\ref{item:symbolic-causes-from-effect-18},
-\ref{item:symbolic-causes-from-effect-19}
-and
-\ref{item:symbolic-causes-from-effect-21}
-are also met.
+This shows that \Veim{down} is valid
+which was
+requirement \ref{item:symbolic-causes-from-effect-6},
+the only remaining requirement
+in the statement of this theorem.
 \end{proof}
 
 \begin{theorem}
