@@ -3372,6 +3372,8 @@ so that we have
 \eqref{eq:down-cause-from-effect-16}.
 \end{proof}
 
+\begin{sloppypar}
+\begin{FlushLeft}
 \begin{theorem}
 \ttitle{Effect from symbol instance}
 \label{t:effect-from-symbol}
@@ -3401,6 +3403,9 @@ $\Vsym{A} = \Postdot{\Veim{down}} = \Predot{\Veim{effect}}.$
 \end{enumerate}
 \end{theorem}
 
+\end{FlushLeft}
+\end{sloppypar}
+
 \begin{proof}
 Without loss of generality,
 we let the symbolic equivalent of the bottom-up cause be
@@ -3409,7 +3414,8 @@ we let the symbolic equivalent of the bottom-up cause be
 \Vmkl{j} \Vsym{A} \Vmkr{k}.
 \end{equation}
 By assumption for the theorem,
-$\Vsym{A} \neq \Vsym{accept}$,
+$\Vsym{A} \neq \Vsym{accept}$.
+Therefore,
 there is at least one derivation step before
 \eqref{eq:effect-from-symbol-6},
 so that, without loss of generality, we may write
@@ -3417,30 +3423,9 @@ so that, without loss of generality, we may write
 \label{eq:effect-from-symbol-9}
 \Vsym{down} \destar \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \Vstr{post}.
 \end{equation}
-By the definition of location markers there is
-some \Vstr{before} and \Vstr{after},
-such that
-\begin{gather}
-\label{eq:effect-from-symbol-12}
-\Vsym{accept} \destar \Vstr{before} \cat \Vsym{down} \cat \Vstr{after} \\
-\label{eq:effect-from-symbol-13}
-\derives \Vstr{before} \cat \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \Vstr{post} \cat \Vstr{after}
-\notag\\
-\label{eq:effect-from-symbol-14}
-\text{and} \qquad \Vstr{before} \cat \Vstr{pre} \destar \var{w}[0, \var{j} \subtract 1].
-\end{gather}
-From \eqref{eq:effect-from-symbol-14} we know there must be some \Vloc{i},
-$0 \le \var{i} < \Vloc{j}$,
-such that
-\eqref{eq:effect-from-symbol-12}
-can be rewritten as
-\begin{multline}
-\label{eq:effect-from-symbol-22}
-\Vsym{accept} \destar \Vstr{before} \cat \Vsym{down} \cat \Vstr{after} \\
-\derives \Vstr{before} \Vmkm{i} \Vstr{pre} \Vmkm{j} \Vsym{A} \Vmkm{k} \Vstr{post} \cat \Vstr{after}
-\end{multline}
-Simplifying
-\eqref{eq:effect-from-symbol-22},
+If we let \Vloc{i} = \Right{\Vstr{pre}},
+and introduce a location marker for it into
+\eqref{eq:effect-from-symbol-9},
 we have
 \begin{equation}
 \label{eq:effect-from-symbol-25}
