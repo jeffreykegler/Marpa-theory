@@ -4737,16 +4737,16 @@ Lemma \ref{lem:eim-tether-confirmation}
 that the dot index is decremented every
 time a confirmation is processed.
 But Lemma \ref{lem:eim-tether-prediction}
-resets the dot index,
+resets the dot index
 every time a prediction is processed,
 possibly to as high as
 \var{maxrh}.
-So that number of confirmation may be as great as
+So the number of confirmations may be as great as
 \begin{equation}
 \label{t:deriv-tether-46}
 \var{c-cnt} = \var{maxrh} \times \var{p-cnt}.
 \end{equation}
-But \var{maxrh} is a constant,
+\var{maxrh} is a constant,
 so that, using \eqref{t:deriv-tether-43},
 \eqref{t:deriv-tether-46}
 becomes
@@ -4818,9 +4818,10 @@ the right locations of its elements are non-decreasing:
 \end{theorem}
 
 \begin{proof}
-It is clear from examining
+By examining
 the cases of Theorem
 \ref{t:right-location-of-top-down-cause},
+we see
 that the right location of an effect
 is never less than the right location of its
 top-down cause.
@@ -4834,29 +4835,14 @@ is in the ethereal closure of the start EIM.
 \end{theorem}
 
 \begin{proof}
-The \var{ecs} be the ethereal closure of the
+Let \var{ecs} be the ethereal closure of the
 start EIM.
-We first show the ``if'' direction.
-It remains to show that EIM's at location 0,
-and with top-down causes, are elements of \var{ecs}.
-We note from
-Theorem
-\ref{t:right-location-of-top-down-cause},
-that the reduction and read EIM's have a location
-greater than that of their top-down cause,
-and therefore other than 0.
-So every EIM at location 0 must be the start EIM,
-or the result of an \var{epsilon-op}.
-The transitive and reflexive closure of
-\var{epsilon-op} on the start EIM is exactly what \var{ecs} is,
-by definition.
-
-It remains to show
-the ``only if'' direction.
-We assume that an EIM is \var{ecs} to show that
+We first show
+the ``if'' direction.
+We assume that an EIM is in \var{ecs} to show that
 it is at location 0.
 The start EIM is by definition at location 0.
-Any other EIM in \var{ecs}, is produced by iterating
+Any other EIM in \var{ecs} is produced by iterating
 \var{epsilon-op}.
 As can be seen from
 Theorem
@@ -4865,6 +4851,24 @@ an \var{epsilon-op} does not increment the right location
 of its argument.
 Therefore every EIM in the ethereal closure of the start
 EIM will be at location 0.
+
+It remains to
+show the ``only if'' direction.
+We assume that an EIM is at location 0,
+to show that it is in \var{ecs}.
+We note from
+Theorem
+\ref{t:right-location-of-top-down-cause},
+that the reduction and read EIM's have a location
+greater than that of their top-down cause,
+and therefore other than 0.
+So every EIM at location 0 must be the start EIM,
+or the result of an \var{epsilon-op}.
+Therefore the only telluric EIM in location 0 is the start
+EIM.
+
+TODO: Finish.
+
 \end{proof}
 
 \begin{theorem}
