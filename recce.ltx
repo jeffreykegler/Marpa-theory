@@ -3177,6 +3177,48 @@ which is what we needed to show for the theorem.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Null-scan from top-down cause}
+\label{t:null-scan-from-down-cause}
+Let
+\begin{equation}
+\label{eq:null-scan-from-down-cause-5}
+\Veim{down} = \big[ [ \Vsym{A} \de \Vstr{prf} \mydot \Vsym{nul} \Vstr{suf} ],
+\var{i}, \var{k} \big],
+\end{equation}
+be a valid EIM
+where $\Vsym{nul} = \epsilon$.
+Then \Veim{down} has a valid null-scan effect:
+\begin{equation}
+\label{eq:null-scan-from-down-cause-8}
+\Veim{down} = \big[ [ \Vsym{A} \de \Vstr{prf} \Vsym{nul} \mydot \Vstr{suf} ],
+\var{i}, \var{k} \big].
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\Veim{down} is valid by assumption, so
+from 
+\eqref{eq:null-scan-from-down-cause-5}
+we have
+\begin{equation}
+\label{eq:null-scan-from-down-cause-12}
+\Vsym{down} \derives \Vmk{i} \Vstr{prf} \Vmk{j} \Vsym{nul} \Vstr{suf}.
+\end{equation}
+Moving \Vmk{j} in
+\eqref{eq:null-scan-from-down-cause-12}
+to the other side of the nulling symbol produces
+\begin{equation}
+\label{eq:null-scan-from-down-cause-10}
+\Vsym{down} \derives \Vmk{i} \Vstr{prf} \Vsym{nul} \Vmk{j} \Vstr{suf},
+\end{equation}
+\eqref{eq:null-scan-from-down-cause-8}
+follows from
+\eqref{eq:null-scan-from-down-cause-10},
+by EIM validity,
+which shows the theorem.
+\end{proof}
+
+\begin{theorem}
 \ttitle{Causes of confirmed effect}
 \label{t:symbolic-causes-from-effect}
 If
@@ -3849,16 +3891,27 @@ cause in
 $\var{eims}[\var{i}]$.
 Call this top-down cause, \Veim{wlog1}.
 
+We show requirement \ref{req:ethereal-closure-3}
+by cases,
+depending on the type of \Veim{wlog2}.
 By definition of \var{ethereal-closure} for EIM's,
 \Veim{wlog2} is a null-scan or a prediction.
-If \Veim{wlog2} is a prediction, it is valid by
-Theorem \ref{t:prediction-from-cause}.
-
-TODO: check this.
-
-If \Veim{wlog2} is a null-scan, it is valid by
-Theorem \ref{t:down-cause-from-effect}.
-This shows
+Theorem \ref{t:prediction-from-cause}
+shows that the
+validity of
+top-down cause \Veim{wlog1}
+is sufficient to make
+\Veim{wlog2} valid,
+if \Veim{wlog2} is a prediction.
+Theorem \ref{t:null-scan-from-down-cause}
+shows that the
+validity of
+top-down cause \Veim{wlog1}
+is sufficient to make
+\Veim{wlog2} valid,
+if \Veim{wlog2} is a null-scan.
+We have both cases
+and therefore have shown
 requirement \ref{req:ethereal-closure-3}
 for the step.
 
