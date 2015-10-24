@@ -3773,7 +3773,7 @@ We take as our induction hypothesis:
 \begin{equation}
 \label{eq:ethereal-closure-18}
 \myparbox{
-The EIMS in $\var{eims}[\var{x}]$
+The EIM's in $\var{eims}[\var{x}]$
 obey requirements
 \eqref{req:ethereal-closure-3},
 \ref{req:ethereal-closure-5},
@@ -3790,12 +3790,14 @@ and functions to
 an EIM, we refer to its dotted rule.
 By the definition of a quasi-prediction
 and of \myfnname{Dotix},
-\begin{gather}
-\text{if \Veim{qpred} is a quasi-prediction, then} \notag \\
-\var{i} < \op{Dotix}{\Veim{qpred}} \implies \RHS{\Veim{dr}, \var{i}} \derives \epsilon \quad \text{and} \notag \\
+\begin{equation}
 \label{eq:ethereal-closure-20}
+\begin{gathered}
+\text{if \Veim{qpred} is a quasi-prediction, then} \\
+\var{i} < \op{Dotix}{\Veim{qpred}} \implies \RHS{\Veim{dr}, \var{i}} \derives \epsilon \quad \text{and} \\
 \text{\Current{\Veim{qpred}} = \Origin{\Veim{qpred}}}.
-\end{gather}
+\end{gathered}
+\end{equation}
 
 \textbf{Basis}:
 As the basis of the induction, we show
@@ -3804,7 +3806,7 @@ for $\var{x} = 0$.
 By the definition of an ethereal closure,
 $\var{eims}[0] = \lbrace \Veim{base} \rbrace.$
 By assumption for the theorem, \Veim{base} is valid.
-This shows requirement \ref{req:ethereal-closure-3}.
+This shows requirement~\ref{req:ethereal-closure-3}.
 Trivially, \DR{\Veim{base}} is in its own ethereal closure.
 This shows requirement \ref{req:ethereal-closure-5}.
 Also trivially, its current location is self-identical,
@@ -3843,7 +3845,7 @@ Call it \Veim{wlog2}.
 By assumption for the step,
 \Veim{wlog2} is not in $\var{eims}[0]$,
 so that it has a top-down
-cause,
+cause in
 $\var{eims}[\var{i}]$.
 Call this top-down cause, \Veim{wlog1}.
 
