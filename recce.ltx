@@ -4854,21 +4854,37 @@ EIM will be at location 0.
 
 It remains to
 show the ``only if'' direction.
-We assume that an EIM is at location 0,
-to show that it is in \var{ecs}.
+We assume that an EIM, call it \Veim{eim},
+is at location 0.
+We seek
+to show that \Veim{eim} is in \var{ecs}.
+By Theorem \ref{t:eim-tether},
+every EIM has a tether,
+so every EIM at location 0 has a tether.
+By Theorem
+\ref{t:non-decreasing-location}
+locations in a tether are non-decreasing
+so that every element of the tether of \Veim{eim}
+must be at location zero.
 We note from
 Theorem
 \ref{t:right-location-of-top-down-cause},
 that the reduction and read EIM's have a location
 greater than that of their top-down cause,
 and therefore other than 0.
-So every EIM at location 0 must be the start EIM,
-or the result of an \var{epsilon-op}.
-Therefore the only telluric EIM in location 0 is the start
-EIM.
-
-TODO: Finish.
-
+So the tether of \Veim{eim} can contain only null-scans,
+predictions, and the start EIM.
+By its definition, the tether starts with its top
+element, the start EIM.
+Therefore \Veim{eim} is the result of the iteration
+of epsilon operations,
+beginning with the start EIM.
+By the definition of ethereal closure, any EIM
+that is the result of iterating epsilon operations
+on a telluric base is
+in the ethereal closure of that telluric base.
+So \Veim{eim} is in the ethereal closure of the
+start EIM, or \var{ecs}.
 \end{proof}
 
 \begin{theorem}
