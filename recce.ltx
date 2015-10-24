@@ -4563,7 +4563,7 @@ To do this, we will first construct a
 \var{teth} which has \Veim{eim}
 as its base,
 and then we will show that \var{teth}
-satisfies
+satisfies requirements
 \eqref{eq:def-tether-10},
 \eqref{eq:def-tether-20}
 and
@@ -4610,12 +4610,14 @@ the following algorithm:
 \EndProcedure
 \end{algorithmic}
 
+\textbf{``Only if'', first requirement}:
 We have
 \eqref{eq:def-tether-10},
 trivially from
 Line \ref{line:eim-tether-10}
 of the above algorithm.
 
+\textbf{``Only if'', second requirement}:
 We show
 \eqref{eq:def-tether-30}
 by induction, where the induction hypothesis
@@ -4670,12 +4672,13 @@ the induction,
 and
 \eqref{eq:def-tether-30}.
 
+\textbf{``Only if'', third requirement}:
 It remains to show
 \eqref{eq:def-tether-20}.
 From Line
 \ref{line:eim-tether-20}
 of the algorithm, we see that we stop
-only we find a start EIM.
+only when and if we find a start EIM.
 So if we stop,
 and \var{top} is the last index of \var{teth},
 then \Vel{teth}{top} is the start EIM.
@@ -4696,8 +4699,10 @@ not as they are added,
 but as they are processed in a pass of the
 loop from Lines
 \ref{line:eim-tether-20}--\ref{line:eim-tether-90}
-of our ``Create tether'' algorithm.
-Clearly,
+of our ``Construct tether'' algorithm.
+From
+Line \ref{line:eim-tether-20},
+we see that
 only one start EIM
 is ever processed:
 \begin{equation}
@@ -4713,9 +4718,9 @@ Lemma \ref{lem:eim-tether-confirmation}
 shows that the derivation step is never incremented.
 Recall that the length of every derivation is
 a finite constant ---
-even a derivation of the form $\Vstr{A} \destar \Vstr{B}$,
+even a derivation of the form $\Vstr{A} \destar \Vstr{B}$
 signifies that there exists some finite \var{k}
-such that $\Vstr{A} \xderives{k} \Vstr{B}$.
+such that $\Vstr{A} \xderives{\var{k}} \Vstr{B}$.
 So we know that
 $\var{p-cnt} = \var{k}$ for some finite \var{k},
 and therefore
