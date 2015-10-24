@@ -4423,7 +4423,7 @@ We write
 in 3-tuple form as
 \begin{equation}
 \label{lem:eim-tether-confirmation-15}
-\Veim{effect} = [ [ \Vsym{A} \de \Vstr{before} \cat \Vsym{up} \mydot \Vstr{after} ], \var{i}, \var{k} ].
+\Veim{firm} = [ [ \Vsym{A} \de \Vstr{before} \cat \Vsym{up} \mydot \Vstr{after} ], \var{i}, \var{k} ].
 \end{equation}
 its predot symbol instance as
 \begin{equation}
@@ -4445,11 +4445,11 @@ we have
 \label{lem:eim-tether-confirmation-22}
 \Vsym{A} = \Symbol{\drv{d}{\Vdecr{s}}{\var{rha}}} \\
 \notag
-\Vstr{before} = \Symbol{\drv{d}{\var{s}}{\var{rha} \ldots \var{rha}+\Vdecr{dx}}} \\
+\Vstr{before} = \Symbol{\drv{d}{\var{s}}{\, \var{rha} \; \ldots \; (\var{rha}+\Vdecr{dx}) \, }} \\
 \notag
 \Vsym{up} = \Symbol{\drv{d}{\var{s}}{\var{rha}+\var{dx}}} \quad \text{and} \\
 \notag
-\Vstr{after} = \Symbol{\drv{d}{\var{s}}{\var{rha}+\var{dotix}+1 \ldots \var{rhz}}}
+\Vstr{after} = \Symbol{\drv{d}{\var{s}}{\, (\var{rha}+\var{dx}+1) \; \ldots \; \var{rhz} \, }}
 \end{gather}
 By Definition \ref{def:causes} (``causes''),
 \eqref{lem:eim-tether-confirmation-21} is a top-down cause
@@ -4475,7 +4475,7 @@ with
 \eqref{lem:eim-tether-confirmation-21},
 that
 $\var{dx2} = \Vdecr{dx}$.
-Collecting these result and substituting them in
+Collecting these results and substituting them in
 \eqref{lem:eim-tether-confirmation-27},
 we have
 \begin{equation}
