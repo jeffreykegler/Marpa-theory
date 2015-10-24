@@ -5032,11 +5032,12 @@ let \Veim{effect} be
 \begin{equation}
 \label{eq:multi-up-cause-ambiguous-20}
 \Veim{effect} =
-[ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ]
+\big[ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k}
+\big]
 \end{equation}
 and call the two differing up-causes, \Vinst{up1}
 and \Vinst{up2}.
-By the Definition \ref{def:causes},
+By Definition \ref{def:causes},
 the symbol and right location of a bottom-up cause are determined by its effect,
 so that
 \begin{gather}
@@ -5073,25 +5074,21 @@ If \var{up1} has no EIM equivalent,
 then \var{up2} has no EIM equivalent.
 But if both
 \var{up1} and
-\var{up2} are symbolic instances,
-by
+\var{up2} have no EIM equivalent,
+they consist entirely of their parse symbol instance,
+so that by
 \eqref{eq:multi-up-cause-ambiguous-25},
 \eqref{eq:multi-up-cause-ambiguous-26}
 and
 \eqref{eq:multi-up-cause-ambiguous-28},
 they are identical.
-So both
-\var{up1} and
-\var{up2} must have EIM equivalents
-and the
-EIM equivalents must differ.
 
 It remains to examine the case where up-causes differ in their EIM equivalent.
 By
 \eqref{eq:multi-up-cause-ambiguous-25}
 and \eqref{eq:multi-up-cause-ambiguous-26}
 the symbol and right location of the two up-causes must be the same.
-By the Definition \ref{def:causes},
+By Definition \ref{def:causes},
 an EIM bottom-up cause must be a completion.
 By \eqref{eq:multi-up-cause-ambiguous-28}
 their left locations must be identical.
@@ -5101,8 +5098,10 @@ So the two up-causes can differ only in the RHS of their dotted rule.
 Without loss of generalization,
 let the two differing up causes be
 \begin{gather*}
-\Veim{up1} = [ [ \Vsym{up} \derives \Vstr{up-rhs1} \mydot ], \var{j}, \var{k} ] \\
-\Veim{up2} = [ [ \Vsym{up} \derives \Vstr{up-rhs2} \mydot ], \var{j}, \var{k} ]
+\Veim{up1} = \big[ [ \Vsym{up} \derives \Vstr{up-rhs1} \mydot ], \var{j}, \var{k}
+\big] \\
+\Veim{up2} = \big[ [ \Vsym{up} \derives \Vstr{up-rhs2} \mydot ], \var{j}, \var{k}
+\big]
 \end{gather*}
 From these we get the two derivations:
 \begin{gather*}
@@ -5115,7 +5114,7 @@ By assumption for the reductio, \Cg{} is not ambiguous,
 and therefore no derivation step can allow two different sentential forms.
 So $\Vstr{up-rhs1} = \Vstr{up-rhs2}.$
 But then $\Veim{up1} = \Veim{up2}$, which is contrary to assumption
-for the reductio.
+for the reductio.\qedhere
 \end{sloppypar}
 \end{proof}
 
