@@ -4261,7 +4261,7 @@ Without loss of generality, let
 \label{lem:eim-tether-prediction-15}
 \Veim{prd} = \big[ [ \Vsym{prd} \de \mydot \Vstr{prd-rhs} ], \Vloc{j}, \Vloc{j} \big]
 \end{equation}
-By assumption for the theorem, \var{d} is focused within \Veim{eim},
+By assumption for the lemma, \var{d} is focused within \Veim{eim},
 and it is at derivation step \var{s}.
 So,
 combining Theorem \ref{t:focusing-props} with
@@ -4297,18 +4297,15 @@ and one which is,
 by the definition of top-down cause for dotted rules,
 a top-down cause of \DR{\Veim{prd}}.
 From this observation and
-the Definition \ref{def:causes},
+Definition \ref{def:causes},
 we see that
-\Veim{down}
-is a top-down cause of \Veim{prd}
-if
 \begin{equation}
 \label{lem:eim-tether-prediction-25a}
-\DR{\Veim{down}} = \Vdr{down}
-\end{equation}
-\begin{equation}
-\label{lem:eim-tether-prediction-25b}
+\begin{gathered}
+\text{\Veim{down} is a top-down cause of \Veim{prd}} \\
+\text{if} \quad \DR{\Veim{down}} = \Vdr{down} \\
 \text{and} \quad \Current{\Veim{down}} = \Current{\Veim{prd}}.
+\end{gathered}
 \end{equation}
 
 From
@@ -4323,35 +4320,37 @@ we see that
 \end{gather}
 
 From
+\eqref{lem:eim-tether-prediction-24}
+and
+\eqref{lem:eim-tether-prediction-26},
+we have
+\begin{equation}
+\label{lem:eim-tether-prediction-26c}
+\DR{\Veim{down}} = \Vdr{down}
+\end{equation}
+
+From
 \eqref{lem:eim-tether-prediction-20}
 and
-\eqref{lem:eim-tether-prediction-26}.
+\eqref{lem:eim-tether-prediction-26},
 we have
 \begin{align}
 \label{lem:eim-tether-prediction-27a}
 \Current{\Veim{down}} & = \Vloc{j} \\
 \label{lem:eim-tether-prediction-27b}
-& = \text{left location of \Vsym{prd} in Step \Vdecr{s}} \\
+& = \myfnname{Left}\big(\Vsym{prd}@(\Vdecr{s})\big) \\
 \label{lem:eim-tether-prediction-27c}
 & = \Left{\LHS{\Veim{prd}}} \\
 \intertext{and because \Veim{prd} is a prediction}
 \label{lem:eim-tether-prediction-27d}
-& = \Current{\Veim{prd}}.
+\Current{\Veim{down}} & = \Current{\Veim{prd}}.
 \end{align}
 
 From
-\eqref{lem:eim-tether-prediction-24}
+\eqref{lem:eim-tether-prediction-25a},
+\eqref{lem:eim-tether-prediction-26c}
 and
-\eqref{lem:eim-tether-prediction-26},
-\eqref{lem:eim-tether-prediction-25a}
-follows directly.
-\eqref{lem:eim-tether-prediction-27a}--\eqref{lem:eim-tether-prediction-27d}
-gives us
-\eqref{lem:eim-tether-prediction-25b}.
-From
-\eqref{lem:eim-tether-prediction-25a}
-and
-\eqref{lem:eim-tether-prediction-25b},
+\eqref{lem:eim-tether-prediction-27d},
 we can conclude that
 \begin{equation}
 \label{lem:eim-tether-prediction-30}
@@ -4382,11 +4381,11 @@ and
 \eqref{lem:eim-tether-prediction-33}
 show
 \eqref{lem:eim-tether-prediction-5}
-in the statement of the theorem.
+in the statement of the lemma.
 
 It remains to show
 \eqref{lem:eim-tether-prediction-8}
-in the statement of the theorem.
+in the statement of the lemma.
 From
 \eqref{lem:eim-tether-prediction-23},
 we know that
@@ -4394,7 +4393,7 @@ we know that
 By the definition of derivations focused within an EIM,
 we have
 \eqref{lem:eim-tether-prediction-8}
-and the theorem.
+and the lemma.
 \end{proof}
 
 \begin{lemma}
@@ -4485,11 +4484,11 @@ we have
 \end{equation}
 which shows
 \eqref{lem:eim-tether-confirmation-5}
-in the statement of the theorem.
+in the statement of the lemma.
 
 It remains to show
 \eqref{lem:eim-tether-confirmation-8}
-in the statement of the theorem.
+in the statement of the lemma.
 If \var{d} is focused within \Veim{firm} then it is,
 by the definition of a focused derivation for EIM's,
 focused within its LHS symbol instance.
