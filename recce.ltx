@@ -356,89 +356,176 @@ rewriting or rethinking.
 \chapter{Introduction}
 \label{ch:introduction}
 
-The first stable version of Marpa was uploaded to
-a public archive on Solstice Day 2011.
-Prior to this,
-general context-free parsing
-had never incorporated in a practical, highly available tool
-like those that had long existed
+The Marpa project was intended to create
+a practical, highly available, tool
+to generate and use general context-free
+parsers.
+Tools of this kind
+had long existed
 for LALR~\cite{Johnson} and
 regular expressions.
-This was in spite of the strong academic literature behind
-general context-free parsers.
+But, despite a devoted academic literature,
+no such tool had existed for context-free parsing.
 
-The Marpa project was intended
-to take the best results from the literature
-on Earley parsing off the pages
-of the journals and bring them
-to a wider audience.
+The first stable version of Marpa was uploaded to
+a public archive on Solstice Day 2011.
 This paper describes the algorithm used
 in the most recent version of Marpa,
 Marpa::R2~\cite{Marpa-R2}.
-It is a simplification of the one presented
+It is a simplification of the algorithm presented
 in our earlier paper~\cite{Marpa-2013}.
 
+\section{A proven algorithm}
+
+While the presentation in this document is theoretical,
+the approach is practical.
+The Marpa::R2 implementation has been widely available
+for some time,
+and has seen considerable use,
+including in production environments.
+Many of the ideas in the parsing literature
+satisfy theoretical criteria,
+but in practice turn out to face significant obstacles.
+An algorithm may be as fast as reported, but may turn 
+out not to allow
+adequate error reporting.
+Or a modification may speed up the recognizer,
+but require additional processing at evaluation time
+which undoes the speed advantage,
+leaving no compensating advantage for
+its additional complexity.
+
+In this document, we describe the Marpa
+algorithm,
+as it has been implemented in Marpa::R2.
+In many cases,
+we believe there are approaches better than those we
+have described.
+From our point of view, these techniques,
+however solid their theory,
+are conjectures.
+When we mention a technique
+that is not implemented in
+Marpa::R2,
+we will always explicitly state that
+that technique is not in Marpa as implemented.
+
+\section{Features}
+
+\subsection{General context-free parsing}
 As implemented,
 Marpa parses
-all context-free grammars
-which are free of cycles,
+all ``proper'' context-free grammars.
+The 
+proper context-free grammars are those which
+are free of cycles,
 unproductive symbols,
 and
 inaccessible symbols.
-Time bounds are the best of Leo~\cite{Leo1991}
-and Earley~\cite{Earley1970}.
-The Leo bound,
-\On{} for LR-regular grammars,
-is especially relevant to
-Marpa's goal of being a practical parser.
-It includes all of the deterministic context-free grammars:
-If a grammar is in a class currently in practical use,
-Marpa parses it in linear time.
+Worst case time bounds are never worse than
+those of Earley~\cite{Earley1970},
+and therefore never worse than $\order{\var{n}^3}$.
 
-Error-detection properties
-have been overlooked in the past.
-They are, in fact, extremely important.
-In many parsing applications,
-such as compilers,
-the quality of the error messages is nearly
-as important as the quality of the output
-on success.
-Marpa has the immediate error detection property,
-but it goes well beyond that:
-Marpa is left-eidetic.
+\subsection{Linear time for practical grammars}
+Currently, the grammar suitable for practical
+use are thought to be a subset
+of the determistic context-free grammars.
+Using a technique discovered by
+Leo~\cite{Leo1991},
+Marpa parses all of these in linear time.
+Leo's modification of Earley's algorithm is
+\On{} for LR-regular grammars.
+Leo's modification
+also parses many ambiguous grammars in linear
+time.
 
-As a parser in the Earley lineage,
-Marpa has complete information about
-partial and fully
-recognized rule instances in its tables.
-Marpa's parse engine is arranged to make this
-information available at every parse location,
-before any symbols are scanned.
+\subsection{Left-eidetic}
+The original Earley algorithm kept full information
+about the parse ---
+including partial and fully
+recognized rule instances ---
+in its tables.
+At every parse location,
+before any symbols
+are scanned,
+Marpa's parse engine makes available
+its
+information about the state of the parse so far.
+This information is 
+in useful form,
+and can be accessed efficiently.
 
-As one example,
-left-eideticism allows the lexer to check its list
-of acceptable tokens before any token is scanned.
-Marpa's most popular implementation as of this writing,
-Marpa::R2, uses this information
-to implement an event-driven approach.
-This is possible because
-rejection of tokens is easily and
-efficiently recoverable in Marpa.
+\subsection{Recoverable from read errors}
+When
+Marpa reads a token which it cannot accept,
+that the error is fully recoverable.
+An application can try to read another
+token.
+The application can do this repeatedly
+for as long as the token is rejected.
+Once the application provides
+an acceptable token,
+parsing will continue
+as if the rejected scan attempt had never been made.
 
-In traditional parser practice,
-error detection is an act of desperation:
-a technique not to be used unless necessary.
-With left-eideticism and trouble-free recovery
-from token rejection,
-error detection becomes
-a parsing technique in its own right.
-If a token is rejected,
+\subsection{Ambiguous tokens}
+Marpa allows ambiguous tokens.
+These are often useful in natural language processing
+where, for example,
+the same word might be a verb or a noun.
+Use of ambiguous tokens can be combined with
+with recovery from rejected tokens so that,
+for example, an application could react to the
+rejection of a token by reading two others,
+and letting the parser determine which one is
+correct.
+
+\section{Using the features}
+
+\subsection{Error reporting}
+An obvious application of left-eideticism is error
+reporting.
+Marpa's abilities in this respect are
+ground-breaking.
+For example,
+users typically regard an ambiguity as an error
+in the grammar, or at least in the input.
+Marpa, as currently implemented,
+will detect an ambiguity and report
+specifically where it occurred
+and what the alternatives were.
+
+\subsection{Event driven parsing}
+As implemented,
+Marpa::R2~\cite{Marpa-R2},
+allows the user to define events.
+Events can defined that trigger when a specified rule is complete,
+when a specified rule is predicted,
+when a specified symbol is nulled,
+when a user-specified lexeme has been scanned,
+or when a user-specified lexeme is about to be scanned.
+A mid-rule event can be defining by adding a nulling symbol
+at the desired point in the rule,
+and defining an event which triggers when the symbol is nulled.
+
+\subsection{Ruby slippers parsing}
+Left-eideticism, efficient error recovery
+and the event mechanism can be combined to allow
+the application to change the input in response to
+feedback from the parser.
+Unlike in traditional parser practice,
+where error detection is an act of desperation,
+Marpa's error detection can be used as the foundation
+of new parsing techniques.
+
+For example,
+if a token is rejected,
 the lexer is free to create a new token
 in the light of the parser's expectations.
 This approach can be seen
 as making the parser's
 ``wishes'' come true,
-and we have called this
+and we have called it
 ``Ruby Slippers Parsing''.
 
 One use of the Ruby Slippers technique is to
@@ -459,6 +546,105 @@ that parses very liberal HTML
 and accepts all input files,
 in the worst case
 treating them as highly defective HTML.
+
+\subsection{Ambiguity as a language design technique}
+In current practice, ambiguity is avoided in language design.
+This is very unlike the practice in the languages humans choose
+when communicating with each other.
+Human languages exploit ambiguity in order to design highly flexible,
+powerfully expressive languages.
+For example,
+the language of this document, English, is notoriously
+ambiguous.
+
+Ambiguity of course can present a problem.
+A sentence in a ambiguous
+language may have undesired meanings.
+But note that this is not a reason to ban potential ambiguity ---
+it is only a problem with actual ambiguity.
+
+Syntax errors, for example, are undesired, but nobody tries
+to design languages to make syntax errors impossible.
+A language in which every input was well-formed and meaningful
+would be cumbersome and even dangerous:
+all typos in such a language would be meaningful,
+and parser would never warn the user about errors, because
+there would be no such thing.
+
+With Marpa, ambiguity can be dealt with in the same way
+that syntax errors are dealt with in current practice.
+The language can be designed to be ambiguous,
+but any actual ambiguity can be detected
+and reported at parse time.
+This exploits Marpa's ability
+to report exactly where
+and what the ambiguity is.
+Marpa::R2 own parser description language, the SLIF,
+uses ambiguity in this way.
+
+\subsection{Auto-generated languages}
+\cite[pp. 6-7]{Culik1973} points out that the ability
+to efficiently parse LR-regular languages
+opens the way to auto-generated languages.
+In particular,
+\cite{Culik1973} notes that a parser which
+can parse any LR-regular language will be
+able to parse a language generated using syntax macros.
+
+\subsection{Second order languages}
+In the literature, the term ``second order language''
+is usually used to describe languages with features
+which are useful for second-order programming.
+True second-order languages --- languages which
+are auto-generated
+from other languages ---
+have not been seen as practical,
+since there was no guarantee that the auto-generated
+language could be efficiently parsed.
+
+With Marpa, this barrier is raised.
+As an example,
+Marpa::R2's own parser description language, the SLIF,
+allows precedenced rules,
+rules which are specified in an extended BNF,
+where the extension allows precedence and associativity
+to be specified for each RHS.
+
+Marpa::R2's precedenced rules are implemented as
+a true second order language.
+The SLIF representation of the precedenced rule
+is parsed to create a BNF grammar which
+is equivalent and which
+has the desired precedence.
+Essentially, the SLIF does the usual textbook
+transformation of rules with precedence and
+associativity specified,
+into pure BNF.
+The SLIF's advantage is that it is powered by Marpa,
+and therefore can expect the grammar it auto-generates to
+parse in linear time.
+
+Notationally, Marpa's precedenced rules
+are an improvement over
+similar features
+in LALR-based parser generators like
+yacc or bison, but in the SLIF there are two important
+differences.
+First, in the SLIF's precedenced rules,
+precedence is generalized, so that it does
+not depend on the operators:
+there is no need to identify operators,
+much less class them as binary, unary, etc.
+This more powerful and flexible precedence notation
+allows the definition of multiple ternary operators,
+and multiple operators with arity above three.
+
+Second, and more important, a SLIF user is guaranteed
+to get exactly the language that the precedenced rule specifies,
+while the user of the yacc equivalent must hope their
+syntax falls within the limits of LALR.
+
+\section{The organization of this document}
 
 Chapter
 \ref{ch:preliminaries} describes the notation and conventions
@@ -1697,18 +1883,11 @@ the reverse rewrite,
 from internal to external,
 is often done ``on the fly'',
 as the parse proceeds.
-Marpa allows the user to use Marpa's left-eideticism
-to define events.
-Events can trigger when rules are complete,
-when rules are predicted,
-or when symbols are nulled.
-The user, of course, needs to define events,
-and receive notice of them,
-in terms of his external symbols.
-In Marpa::R2~\cite{Marpa-R2},
-this translation back and forth
-between internal and external can be accomplished
-quickly.
+This translation back and forth is
+efficient,
+and is done for error reporting, tracing,
+and in the implementation of Marpa::R2's event
+mechanism.
 
 Future plans for Marpa include more aggressive use
 of rewrites.
