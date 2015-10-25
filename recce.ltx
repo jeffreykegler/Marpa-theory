@@ -146,6 +146,7 @@
 \newcommand{\Cdr}{\var{dr}}
 \newcommand{\Cg}{\var{g}}
 \newcommand{\Cw}{\var{w}}
+\newcommand{\CW}{\ensuremath{\mathbb W}}
 \newcommand{\CVw}[1]{\ensuremath{\sym{\Cw[\var{#1}]}}}
 \newcommand{\Crules}{\var{rules}}
 \newcommand{\GOTO}{\ensuremath{\myfnname{GOTO}}}
@@ -856,7 +857,7 @@ that is, that it is derivable from the start symbol.
 
 \section{Input}
 
-Let the input to
+Let the actual input to
 the parse be \Cw{} such that $\Cw \in \myL{\Cg}$.
 Locations in the input will be of type \type{LOC}.
 Let \Vsize{w} be the length of the input, counted in symbols.
@@ -884,19 +885,67 @@ and nulling grammars as special cases,
 and this document will not consider them.
 (Nulling grammars are those that recognize only the null string.)
 
+Parsers typically do work while examining their input,
+so that they are, in effect, working with a set of possible inputs,
+of which the actual input is just one element.
+Reasoning about the set of inputs possible based on what has been
+seen so far plays little role in
+traditional deterministic parsers,
+which do limited tracking  
+of input already seen,
+and have even less of an idea of the inputs not yet seen.
+But Marpa is left-eidetic ---
+it has a full, exact idea of the input already seen,
+and Earley parsers
+also have a very exact idea what the unseen portion of the input
+could be.
+
+We will call the current set of inputs, \CW{}.
+\CW{} will always be such that
+\begin{equation*}
+\Cw \in \CW \quad \text{and} \quad \CW{} \subseteq \myL{\Cg}.
+\end{equation*}
+We say that \CW{} is
+\xdfn{seen}{seen from \var{i} to \var{j} (re a set of inputs)}
+from \Vloc{i} to \Vloc{j} if and only if,
+for all \Vstr{w1}, \Vstr{w2}
+\begin{equation*}
+\Vstr{w1} \in \CW \land \Vstr{w2} \in \CW
+\implies
+\el{w1}{\var{i}, \, (\Vdecr{j}) \, } =
+\el{w2}{\var{i}, \, (\Vdecr{j}) \, }.
+\end{equation*}
+
+Most parsing, including Earley parsing, takes place from left-to-right,
+and Marpa examines its input from left to right.
+So in this document we will usually speak of input sets that to seen
+to \Vloc{j}, where we say that
+\CW{} is
+\xdfn{seen}{seen to \var{j} (re a set of inputs)}
+if \CW{} is seen between location 0 to \Vloc{j}.
+If \CW{} is seen to location 0, none of its input symbols have been
+seen.
+If \CW{} is seen to location \Vsize{\Cw},
+where \Cw{} is the actual input then all of its input symbols
+have been seen.
+
 We will say that a derivation is
-\xdfn{fully produced}{fully produced (of a derivation)},
+\xdfn{fully seen}{fully seen (of a derivation)},
 or more simply
 \xdfn{full}{full (of a derivation)},
 if its last step is \Cw{}.
 Intuitively, a \dfn{symbol instance} is
 a symbol in the context of a parse.
-In a fully produced derivation,
+In a fully seen derivation,
 the right and left locations are well-defined
 for every symbol instance of every step.
 
-More formally, a symbol instance is a triple whose elements
+More formally,
+a symbol instance is a triple whose elements
 are a left location, a symbol name and a right location.
+For a symbol instance to be well-defined,
+\CW{} must have been seen to \Vloc{k}, where \Vloc{k}
+is the symbols instances right location.
 We often represent symbol instances in the form
 \[\Vmkl{j} \Vsym{up} \Vmkr{k}.\]
 
@@ -929,7 +978,7 @@ of the derivation \var{d}.
 Steps will be numbered from 0, starting at the root.
 Symbol instances will be numbered from 0, starting at the left.
 
-Let \var{d} be a fully produced derivation,
+Let \var{d} be a fully seen derivation,
 and let $\var{wlen} = \Vsize{\Cw}$.
 For every \var{d}, we will have
 \begin{equation}
@@ -980,10 +1029,12 @@ non-terminal into its direct descendants.
 
 \begin{definition}
 \dtitle{Focused derivation}
-We say that the fully produced derivation \var{d}
+We say that the derivation \var{d}
 is
 \xdfn{focused}{focused (derivation)}
 at \Vloc{k}
+if \CW{} is seen to \Vloc{k},
+and
 if in every step \var{s},
 \begin{itemize}
 \item
@@ -1019,7 +1070,7 @@ Recall from parsing theory that every derivation has an equivalent rightmost
 derivation, and that the rightmost derivation is unique in its derivation
 tree.
 Similarly, for every \Vloc{k},
-every fully produced derivation
+every derivation which is seen to \Vincr{k}
 has an equivalent derivation that is focused at \Vloc{k},
 and that \Vloc{k}-focused derivation is unique in its
 derivation tree.
@@ -2678,7 +2729,7 @@ according to its usage in context.
 \label{def:4-tuple-eim}
 \dtitle{EIM 4-tuple notation}
 We will sometimes find it convenient to express EIM's in terms of
-fully produced derivations,
+derivations,
 as 4-tuples:
 \begin{equation}
 \label{eq:def-4-tuple-eim-10}
@@ -5366,7 +5417,7 @@ correct inputs:
 \end{theorem}
 
 \begin{proof}
-We prove the forward direction of the implication first.
+We prove the forward direction of the equivalence first.
 We assume that
 \begin{equation}
 \label{eq:algorithm-correct-3}
@@ -5399,9 +5450,9 @@ we have that
 \label{eq:algorithm-correct-27}
 \Cw \in \var{L}(\Cg).
 \end{equation}
-This shows the forward direction of the implication.
+This shows the forward direction of the equivalence.
 
-To show the reverse direction of the implication, we assume
+To show the reverse direction of the equivalence, we assume
 \eqref{eq:algorithm-correct-27}.
 From it,
 the definition of the \Vsym{accept} symbol,
@@ -5425,8 +5476,8 @@ we have
 \label{eq:algorithm-correct-46}
 [\Vdr{accept}, 0] \in \bigEtable{\Vsize{\Cw}}.
 \end{equation}
-This shows the reverse direction of the implication.
-We have now shown both directions of the implication,
+This shows the reverse direction of the equivalence.
+We have now shown both directions of the equivalence,
 and therefore the theorem.
 \end{proof}
 
