@@ -895,7 +895,7 @@ which do limited tracking
 of input already seen,
 and have even less of an idea of the inputs not yet seen.
 But Marpa is left-eidetic ---
-it has a full, exact idea of the input already seen,
+it has a full, exact idea of the input already seen ---
 and Earley parsers
 also have a very exact idea what the unseen portion of the input
 could be.
@@ -906,7 +906,7 @@ We will call the current set of inputs, \CW{}.
 \Cw \in \CW \quad \text{and} \quad \CW{} \subseteq \myL{\Cg}.
 \end{equation*}
 We say that \CW{} is
-\xdfn{seen}{seen from \var{i} to \var{j} (re a set of inputs)}
+\xdfn{seen between}{seen between \var{i} to \var{j} (re a set of inputs)}
 from \Vloc{i} to \Vloc{j} if and only if,
 for all \Vstr{w1}, \Vstr{w2}
 \begin{equation*}
@@ -918,16 +918,29 @@ for all \Vstr{w1}, \Vstr{w2}
 
 Most parsing, including Earley parsing, takes place from left-to-right,
 and Marpa examines its input from left to right.
-So in this document we will usually speak of input sets that to seen
-to \Vloc{j}, where we say that
+We say that
 \CW{} is
-\xdfn{seen}{seen to \var{j} (re a set of inputs)}
-if \CW{} is seen between location 0 to \Vloc{j}.
+\xdfn{seen to}{seen to \var{j} (re a set of inputs)}
+\var{j},
+or that
+\CW{} is
+\xdfn{seen as far as}{seen as far as \var{j} (re a set of inputs)}
+\var{j},
+if \CW{} is seen between locations 0 and \Vloc{j}.
+In this document we will usually speak of input sets that are seen
+as far as some \Vloc{j}.
 If \CW{} is seen to location 0, none of its input symbols have been
 seen.
 If \CW{} is seen to location \Vsize{\Cw},
-where \Cw{} is the actual input then all of its input symbols
+where \Cw{} is the actual input,
+then
+$\CW = \lbrace \Cw \rbrace$,
+and all of its input symbols
 have been seen.
+In most contexts, the current set of inputs will be assumed to be \CW{}.
+For example,
+instead of saying that \CW{} is seen as far as \Vloc{k},
+we may say the ``the input is seen as far as \Vloc{k}''.
 
 We will say that a derivation is
 \xdfn{fully seen}{fully seen (of a derivation)},
@@ -943,12 +956,12 @@ for every symbol instance of every step.
 More formally,
 a symbol instance is a triple whose elements
 are a left location, a symbol name and a right location.
-For a symbol instance to be well-defined,
-\CW{} must have been seen to \Vloc{k}, where \Vloc{k}
-is the symbols instances right location.
 We often represent symbol instances in the form
 \[\Vmkl{j} \Vsym{up} \Vmkr{k}.\]
+\Vmk{j} and \Vmk{k} are always optional.
 
+% do not do this until the last revision
+% \begin{sloppypar}
 We write \Left{\Vinst{inst}} for the left location of \Vinst{inst},
 \Right{\Vinst{inst}} for the right location of \Vinst{inst},
 and \Symbol{\Vinst{inst}} for the symbol name of \Vinst{inst}.
@@ -962,6 +975,8 @@ we will write
 \ldots \;\;
 \Symbol{\Vel{si}{last}}.
 \]
+
+% \end{sloppypar}
 
 At some points, such as when we translate a derivation
 to other notation,
@@ -1032,7 +1047,7 @@ non-terminal into its direct descendants.
 We say that the derivation \var{d}
 is
 \xdfn{focused}{focused (derivation)}
-at \Vloc{k}
+at \Vloc{k},
 if \CW{} is seen to \Vloc{k},
 and
 if in every step \var{s},
@@ -1139,11 +1154,25 @@ and
 by cases.
 In the first case, where \Vinst{i1} is a direct descendant
 of \Vinst{i2}, we recall that
-in context-free grammars a direct descendant is always part
-of the expansion of a single symbol, giving us
+\begin{equation}
+\label{eq:focusing-props-29}
+\myparbox{
+In every parse using a context-free grammars,
+the right and left locations of
+a direct descendant are always inside
+of the single symbol from which the
+direct descendant was expanded.
+}
+\end{equation}
+The input may not have been seen to \Right{\var{i2}},
+but
+\eqref{eq:focusing-props-30}
+is true of all factorings of all inputs,
+and we may conclude
 \eqref{eq:focusing-props-16}
 and
-\eqref{eq:focusing-props-19}.
+\eqref{eq:focusing-props-19}
+hold for every input in \CW{}.
 If \Vinst{i1} is a copy of \Vinst{i2},
 \eqref{eq:focusing-props-16}
 and
@@ -1212,10 +1241,13 @@ In the context of a grammar \Cg{} and an input \Cw{},
 we will often use location-marked derivations.
 Location-marked derivation steps are like the derivation steps
 of the traditional rewriting system except that they also contain
-location markers of the form $\mk{x}$, where \var{x} is a
+location markers of the form \Vmk{x}, where \var{x} is a
 location in \Cw{}.\footnote{
 Our use of the location marker notation
 was inspired by~\cite{Wich2005}.}
+When not otherwise stated,
+use of the location marker \Vmk{x}
+implies that \CW{} has been seen to \Vmk{x}.
 In its most general form,
 a derivation step with a single location marker is
 \begin{equation}
@@ -1278,19 +1310,19 @@ derivation are consistent.
 
 The location marker notation is intuitive and based on the
 traditional notation for derivations,
-but, since it is new, we will present examples of the
-allowed transformation.
-Starting with a traditional derivation
+but, since it is new, we will present examples.
+For the examples of this section,
+we 
+start with the traditional derivation
 \begin{gather*}
 \Vstr{A} \\
 \derives \Vstr{Aa} \Vsym{B} \Vsym{D} \Vstr{Aa} \\
 \derives \Vstr{Aa} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vsym{D} \Vstr{Az}
 \end{gather*}
-we can
-\begin{itemize}
-\item \textbf{Insert new location markers}:
+
+\textbf{Insert new location markers}:
 If a location marker is not currently used, we can insert it
-to mark a location.
+to mark any location that has been seen.
 In this example,
 we insert
 new markers
@@ -1300,7 +1332,16 @@ new markers
 \derives \Vmk{i} \Vstr{Aa} \Vmk{j} \Vsym{B} \Vmk{k} \Vsym{D} \mk{\ell} \Vstr{Aa} \Vmk{m} \\
 \derives \Vstr{Aa} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vsym{D} \Vstr{Az}
 \end{gather*}
-\item \textbf{Move location markers from direct descendants to their parents}:
+
+Introduction of a location marker \Vmk{x}, unless otherwise stated,
+assumes that the \CW{} has been seen to \Vmk{x},
+so in this example, we assumed that input has been seen to
+the rightmost marker, \Vmk{m}.
+The examples to follow deal with movement of existing
+location markers, so that it will have already been assumed
+that \CW{} has been seen as far as those location markers.
+
+\textbf{Move location markers from direct descendants to their parents}:
 If a location marker is before the first of its direct descendants, we can move
 it to before its parent in the previous step.
 In this example, \Vmk{i} is moved:
@@ -1317,7 +1358,8 @@ In this example, \Vmk{m} is moved:
 \derives \Vmk{i} \Vstr{Aa} \Vmk{j} \Vsym{B} \Vmk{k} \Vsym{D} \mk{\ell} \Vstr{Aa} \Vmk{m} \\
 \derives \Vstr{Aa} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vsym{D} \Vstr{Az}
 \end{gather*}
-\item \textbf{Move location markers from parents to direct descendants}:
+
+\textbf{Move location markers from parents to direct descendants}:
 Similarly if a location marker is before a parent, we can
 move it to before the first of its direct descendants in the next step;
 and,
@@ -1329,7 +1371,8 @@ In this example, \Vmk{j} and \Vmk{k} are moved:
 \derives \Vmk{i} \Vstr{Aa} \Vmk{j} \Vsym{B} \Vmk{k} \Vsym{D} \mk{\ell} \Vstr{Az} \Vmk{m} \\
 \derives \Vstr{Aa} \Vmk{j} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vmk{k} \Vsym{D} \Vstr{Az}
 \end{gather*}
-\item \textbf{Delete location markers}:
+
+\textbf{Delete location markers}:
 Location markers which are no longer of interest may be removed.
 In this example, \Vmk{i} and \Vmk{m} are deleted:
 \begin{gather*}
@@ -1337,7 +1380,8 @@ In this example, \Vmk{i} and \Vmk{m} are deleted:
 \derives \Vstr{Aa} \Vmk{j} \Vsym{B} \Vmk{k} \Vsym{D} \mk{\ell} \Vstr{Az} \\
 \derives \Vstr{Aa} \Vmk{j} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vmk{k} \Vsym{D} \Vstr{Az}
 \end{gather*}
-\item \textbf{Move location marker to before or after same symbol instance}:
+
+\textbf{Move location marker to before or after same symbol instance}:
 A location marker which is before (after) a symbol instance in one derivation
 step may be moved to before (after) the same symbol instance in another derivation step.
 In this example, \mk{\ell} is moved:
@@ -1346,7 +1390,8 @@ In this example, \mk{\ell} is moved:
 \derives \Vstr{Aa} \Vmk{j} \Vsym{B} \Vmk{k} \Vsym{D} \mk{\ell} \Vstr{Az} \\
 \derives \Vstr{Aa} \Vmk{j} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vmk{k} \Vsym{D} \mk{\ell} \Vstr{Az}
 \end{gather*}
-\item \textbf{Simplification}:
+
+\textbf{Simplification}:
 A derivation may be simplified from the bottom up,
 by removing the symbol instances outside of two markers.
 In this example, the last step is simplified outside of \Vloc{j} and \Vloc{k}:
@@ -1361,7 +1406,29 @@ When it is clear what is happening, the dots may be omitted:
 \derives \Vstr{Aa} \Vmk{j} \Vsym{B} \Vmk{k} \Vsym{D} \mk{\ell} \Vstr{Az} \\
 \derives \Vmk{j} \Vstr{Ba} \Vsym{C} \Vstr{Bz} \Vmk{k}
 \end{gather*}
-\end{itemize}
+
+\textbf{Null passing}:
+A location marker may be duplicated from one side of a nulling symbol
+to the other.
+For this example,
+assume that
+$\Vstr{nul1} = \epsilon$,
+$\Vstr{tel1} \neq \epsilon$,
+and
+$\Vstr{tel2} \neq \epsilon$.
+In
+\begin{equation}
+\Vstr{tel1} \Vmk{x} \Vstr{nul1}  \Vstr{tel2},
+\end{equation}
+we can duplicate the \Vmk{x}
+\begin{equation}
+\Vstr{tel1} \Vmk{x} \Vstr{nul1} \Vmk{x} \Vstr{tel2}.
+\end{equation}
+If one of the two \Vmk{x} markers is now clutter,
+we may also delete it:
+\begin{equation}
+\Vstr{tel1} \Vstr{nul1} \Vmk{x} \Vstr{tel2}.
+\end{equation}
 
 \subsection{Simplification and nulling symbols}
 
@@ -2938,6 +3005,7 @@ An ethereal cause is always valid.
 \begin{definition}
 \qdtitle{Validity of terminal symbols}
 If \Vsym{T} is a telluric terminal symbol,
+and if \CW{} has been seen as far as \Vloc{j}.
 we say that
 \begin{equation}
 \label{eq:def-terminal-validity-10}
@@ -2979,22 +3047,7 @@ we say that
 is
 \xdfn{valid}{valid (non-terminal symbol)}
 if and only if
-\begin{equation}
-\label{eq:def-non-terminal-validity-15}
-\Vsym{N} \deplus \var{w}[\var{i}, (\var{j} \subtract 1)].
-\end{equation}
-\eqref{eq:def-non-terminal-validity-15}
-is called the
-\xdfn{derivation validity equivalent}{derivation validity equivalent
-  (of non-terminal symbol)}
-of \eqref{eq:def-non-terminal-validity-10}.
-\eqref{eq:def-non-terminal-validity-10}
-is called the
-\xdfn{parse instance validity equivalent}{parse instance validity equivalent
-  (of derivation step)}
-of \eqref{eq:def-non-terminal-validity-15}.
-As a special case,
-\eqref{eq:def-non-terminal-validity-10}
+it is the LHS of a valid, completed EIM.
 is also considered to be the
 \xdfn{derivation validity equivalent}{derivation validity equivalent
   (of non-terminal symbol)}
@@ -3002,72 +3055,17 @@ of itself.
 When it is clear in context,
 we will use the term,
 \xdfn{validity equivalent}{validity equivalent},
-for either a derivation validity equivalent,
-or an parse instance validity equivalent.
-Overloading our previous use of \myfnname{Valid-eq},
-we write \Vop{Valid-eq}{x}%
+for the derivation validity equivalent of a
+non-terminal symbol.
+Also,
+overloading our previous use of \myfnname{Valid-eq},
+we will write \Vop{Valid-eq}{x}%
 \index{recce-notation}{Valid-eq(x)@\Vop{Valid-eq}{x}}
 for validity equivalent
-in all of its senses in this definition.
+of a non-terminal symbol.
 \end{definition}
 
 \section{Confirmed Earley items}
-
-\begin{theorem}
-\ttitle{Valid Earley item from non-terminal}
-\label{t:valid-eim-from-symbol}
-Let the non-terminal symbol instance
-\begin{equation}
-\label{eq:valid-eim-from-symbol-3}
-\,[\var{i}]\, \Vsym{up} \,[\var{j}]
-\end{equation}
-be valid.
-Then \Veim{up}
-is a valid completed Earley item,
-where
-\begin{gather}
-\label{eq:valid-eim-from-symbol-6}
-\Veim{up} = [ [ \Vsym{up} \de \Vstr{rhs} \mydot ], \var{i}, \var{j} ]
-\\
-\label{eq:valid-eim-from-symbol-9}
-\land \quad [ \Vsym{up} \de \Vstr{rhs} ] \in \Crules.
-\end{gather}
-\end{theorem}
-
-\begin{proof}
-To be valid, \Vsym{up}
-must derive the sentence
-$\var{w}[\var{i}, (\var{j}\subtract 1)]$.
-\Vsym{up} must do this using at least one derivation step,
-since it is a non-terminal.
-Therefore \Vsym{up} derives a sentence through a derivation
-whose next step uses a rule in \Crules,
-where \Vsym{up} is the LHS.
-This shows \eqref{eq:valid-eim-from-symbol-9}.
-It remain to show
-\eqref{eq:valid-eim-from-symbol-6}.
-
-Using
-\eqref{eq:valid-eim-from-symbol-3}
-and \eqref{eq:valid-eim-from-symbol-9},
-we have
-\begin{alignat*}{3}
-& [\var{i}]\, \Vsym{up} \,[\var{j}] && \derives \Vstr{rhs} \\
-\therefore \quad & [\var{i}]\, \Vsym{up} \,[\var{j}] && \derives
-[ \var{i}]\, \Vstr{rhs} \,[\var{j}] \\
-\therefore \quad & \Vsym{up} && \derives
-[\var{i}]\, \Vstr{rhs} \,[\var{j}]
-\end{alignat*}
-If,
-in the definition of EIM validity
-\eqref{eq:def-eim-valid-10},
-we set the dot prefix to
-\Vstr{rhs},
-the dot suffix to $\epsilon$,
-and the LHS to \Vsym{up},
-we see that \Veim{up} in
-\eqref{eq:valid-eim-from-symbol-6} is valid.
-\end{proof}
 
 If a parse instance is a symbol instance or
 a complete EIM,
@@ -5930,7 +5928,8 @@ that the bottom-up cause of
 \eqref{eq:lem-silo-reflection-nt-10}
 is $\Vmk{b} \Vsym{B} \Vmk{c}$ for some \Vloc{b}.
 Since \Vsym{B} is a non-terminal, by
-Theorem \ref{t:valid-eim-from-symbol},
+the definition of validity for a non-terminal symbol instance,
+we know that
 it has an equivalent EIM which is,
 without loss of generality,
 \begin{equation}
