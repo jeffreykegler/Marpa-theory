@@ -1,7 +1,7 @@
 % Copyright 2015 Jeffrey Kegler
 % This document is licensed under
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
-\documentclass[12pt,openany]{amsbook}
+\documentclass[12pt,openany,twoside]{amsbook}
 % \RequirePackage[l2tabu, orthodox]{nag}
 \usepackage{ragged2e}
 \usepackage{mathtools}
@@ -6632,7 +6632,7 @@ By Theorem
 \ref{t:silo-predot},
 we know that every layer of \var{silo} has a predot symbol.
 We show the step by cases, according to whether the predot symbol
-of \Veim{given} is
+of \Vel{silo}{i} is
 a telluric terminal,
 a nulling terminal,
 or a non-terminal.
@@ -6641,7 +6641,7 @@ or a non-terminal.
 We first consider the case
 where
 \begin{equation*}
-\text{\Predot{\Veim{given}} is a telluric terminal}.
+\text{\Predot{\Vel{silo}{i}} is a telluric terminal}.
 \end{equation*}
 By Theorem \ref{t:silo-causes},
 a silo layer with a telluric terminal predot symbol
@@ -6655,14 +6655,14 @@ vacuously for the case of a telluric terminal.
 We next consider the case where
 \begin{equation}
 \label{eq:silo-reflection-17}
-\Predot{\Veim{given}} = \epsilon.
+\Predot{\Vel{silo}{i}} = \epsilon.
 \end{equation}
 From
 \eqref{eq:silo-reflection-17}
 and Lemma \ref{lem:silo-reflection-nulling}, we know that
 \begin{equation}
 \label{eq:silo-reflection-22}
-\op{Valid-eq}{\Veim{given}}
+\op{Valid-eq}{\Vel{silo}{i}}
 \xderives{0}
 \op{Valid-eq}{\el{silo}{\Vdecr{i}}}.
 \end{equation}
@@ -6714,8 +6714,6 @@ and the theorem.
 \end{proof}
 
 \begin{theorem}
-TODO: Recheck this.
-
 \ttitle{Silo layer is unique}
 \label{t:silo-layer-unique}
 No layer of a silo occurs twice.
@@ -6726,8 +6724,6 @@ That is, if \var{silo} is a silo,
 \end{theorem}
 
 \begin{proof}
-TODO: Recheck this.
-
 Let \var{silo},
 be a silo,
 and \var{hi}, \var{lo}
@@ -6755,7 +6751,6 @@ may derive each other
 in zero steps ---
 in other words, they may be equal to each other.
 We call a derivation in zero steps, ``trivial''.
-
 We now proceed by cases: trivial derivations,
 and non-trivial derivations.
 
@@ -6774,17 +6769,10 @@ and
 Lemma
 \ref{lem:silo-reflection-nulling-induction},
 we have
-\begin{equation}
-\label{eq:silo-layer-unique-33}
-\forall \var{a}: \var{hi} \ge \var{a} > \var{lo}
-\implies \;
-\text{\Predot{\Vel{silo}{a}} is nulling.}
-\end{equation}
-
 \begin{align}
 \label{eq:silo-layer-unique-40}
-& \text{\Predot{\Vel{silo}{hi}} is nulling}
-&& \eqref{eq:silo-layer-unique-33}
+& \Predot{\Vel{silo}{hi}} = \epsilon
+&&
 \\
 \label{eq:silo-layer-unique-43}
 & \begin{multlined}
@@ -6804,6 +6792,9 @@ we have
 \intertext{Note
   that in \eqref{eq:silo-layer-unique-46}, we are using our alternate notation
   for dotted rules, where dotted rule is a duple of rule and RHS index.
+  From \eqref{eq:silo-layer-unique-40}, \eqref{eq:silo-layer-unique-46}
+  and the definition of top-down
+  cause for a null-scan, we have
 }
 \label{eq:silo-layer-unique-49}
 & \begin{multlined}
@@ -6811,8 +6802,6 @@ we have
 \big[ [ \Vrule{r}, \Vdecr{ix} ], \Vorig{hi}, \Vloc{here} \big]
 \end{multlined}
 &&
-\eqref{eq:silo-layer-unique-46},
-\text{Th \ref{t:symbolic-causes-from-effect}}
 \\
 \label{eq:silo-layer-unique-52}
 & \begin{multlined}
@@ -6821,11 +6810,11 @@ we have
 \end{multlined}
 && \eqref{eq:silo-layer-unique-43}, \eqref{eq:silo-layer-unique-49}
 \end{align}
-For this proof, we define the function \myfn{TDC}{\Veim{eim}} as the
-top-down cause of \Veim{eim} for a null-scan.
-\myfn{TDC}{\Veim{eim}} is undefined if
-\Predot{\Veim{eim}} is not nulling.
-From this definition and
+For this proof, let the function \myfn{TDC}{\Veim{eim}} be the
+top-down cause of \Veim{eim} for a null-scan,
+if \Predot{\Veim{eim}} is nulling,
+and undefined, otherwise.
+From this definition of \myfnname{TDC} and
 \eqref{eq:silo-layer-unique-52}, we have
 \begin{multline}
 \label{eq:silo-layer-unique-55}
@@ -6920,10 +6909,6 @@ so that their validity equivalents are
 \label{eq:silo-layer-unique-88}
 \Vsym{A} \derives \Vmk{i} \Vstr{pre} \Vmk{k} \Vstr{post}
 \end{equation}
-To complete this case we can use either the left hand
-or the right hand side of
-\eqref{eq:silo-layer-unique-85}.
-We will use the left hand side.
 
 The dotted rule in a silo layer must be quasi-complete,
 so that $\Vstr{post} = \epsilon$.
@@ -6933,17 +6918,31 @@ to write
 \eqref{eq:silo-layer-unique-76}
 as
 \begin{equation}
+\begin{aligned}
 \label{eq:silo-layer-unique-93}
-\Vmk{i} \Vsym{A} \Vmk{k} \deplus \Vmk{i} \Vsym{A} \Vmk{k}
+\Vmk{i} \Vsym{A} \Vmk{k} \derives & \; \Vmk{i} \Vsym{pre} \Vmk{k} \\
+  \destar & \; \Vmk{i} \Vsym{A} \Vmk{k} \\
+  \derives & \; \Vmk{i} \Vsym{pre} \Vmk{k} \\
+\end{aligned}
 \end{equation}
-There are no nulling rules,
-and \Vsym{A} is a LHS,
-so \Vsym{A} is a telluric symbol.
-But, using Theorem
-\ref{t:location-marker-cycle},
-we see that
+From
 \eqref{eq:silo-layer-unique-93}
-is a cycle, which is not
+we have
+\begin{gather}
+\label{eq:silo-layer-unique-95a}
+\Vmk{i} \Vsym{A} \Vmk{k} \deplus \Vmk{i} \Vsym{A} \Vmk{k} \\
+\label{eq:silo-layer-unique-95b}
+\text{and} \quad
+ \Vmk{i} \Vsym{pre} \Vmk{k} \deplus \Vmk{i} \Vsym{pre} \Vmk{k}
+\end{gather}
+Using Theorem
+\ref{t:location-marker-cycle},
+we see that both
+\eqref{eq:silo-layer-unique-95a}
+and
+\eqref{eq:silo-layer-unique-95b}
+are cycles,
+which are not
 allowed in a Marpa grammar.
 This contradicts
 \eqref{eq:silo-layer-unique-10},
