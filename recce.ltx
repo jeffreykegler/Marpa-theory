@@ -6517,15 +6517,12 @@ have the theorem.
 \label{lem:silo-reflection-nulling}
 Let \el{silo}{\Vincr{i}},
 \Vel{silo}{i},
-be two silo layers,
-where
-\begin{equation*}
-\text{\Predot{\el{silo}{\Vincr{i}}} is a nulling terminal.}
-\end{equation*}
-Then
-\begin{equation*}
+be two silo layers.
+\begin{multline*}
+\Predot{\el{silo}{\Vincr{i}}} = \epsilon \\
+\implies
 \op{Valid-eq}{\el{silo}{\Vincr{i}}} \xderives{0} \op{Valid-eq}{\el{silo}{\var{i}}}.
-\end{equation*}
+\end{multline*}
 \end{lemma}
 
 \begin{proof}
@@ -6541,8 +6538,11 @@ Since \Vsym{B} is nulling,
 we know from Theorem \ref{t:silo-causes},
 that \Vel{silo}{i}, its silo cause,
 is its top-down cause.
-From Theorem \ref{t:symbolic-causes-from-effect}, we know
-that the top-down cause of
+From 
+Definition \ref{def:causes},
+the definition of causes,
+we know that
+the top-down cause of
 \eqref{eq:lem-silo-reflection-nulling-10}
 is
 \begin{equation}
@@ -6583,7 +6583,9 @@ so that
 \end{proof}
 
 We next show that, for every silo,
-there is a derivation which ``reflects'' it.
+there is a derivation which
+\mbox{``reflects''} % do not hyphenate
+it.
 
 \begin{theorem}
 \ttitle{Silo reflection}
@@ -6653,7 +6655,7 @@ vacuously for the case of a telluric terminal.
 We next consider the case where
 \begin{equation}
 \label{eq:silo-reflection-17}
-\text{\Predot{\Veim{given}} is a nulling terminal}.
+\Predot{\Veim{given}} = \epsilon.
 \end{equation}
 From
 \eqref{eq:silo-reflection-17}
@@ -6682,7 +6684,7 @@ giving us the case of a nulling terminal.
 We now consider the case where
 \begin{equation}
 \label{eq:silo-reflection-37}
-\text{\Predot{\Vel{silo}{i}} is nulling}.
+\text{\Predot{\Vel{silo}{i}} is a non-terminal}.
 \end{equation}
 From
 \eqref{eq:silo-reflection-37}
