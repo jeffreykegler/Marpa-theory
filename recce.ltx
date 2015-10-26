@@ -6415,39 +6415,35 @@ which shows the theorem.
 
 \begin{lemma}
 \label{lem:silo-reflection-nulling-induction}
-If
-\begin{equation}
+\begin{multline}
 \label{eq:lem-silo-reflection-nulling-induction-10}
-\begin{multlined}
-\text{For all \var{a},
-if $\var{hi} \ge \var{a} > \var{lo}$
-} \\
-\qquad \text{and
-  $\op{Valid-eq}{\Vel{silo}{hi}} \xderives{0} \op{Valid-eq}{\Vel{silo}{lo}}$,
-}
-\\
-\text{then \Predot{\Vel{silo}{a}} is nulling.}
-\end{multlined}
-\end{equation}
+\text{If $\op{Valid-eq}{\Vel{silo}{hi}} \xderives{0} \op{Valid-eq}{\Vel{silo}{lo}}$,} \\
+\text{then for all \var{a},} \quad
+\var{hi} \ge \var{a} > \var{lo} \implies \Predot{\Vel{silo}{a}} = \epsilon.
+\end{multline}
 \end{lemma}
 
 \begin{proof}
-We proceed by induction,
+We proceed in two cases, depending on the relative
+values of \var{lo} and \var{lo}.
+We take as our first case,
+$\var{lo} \ge \var{hi}$.
+For this case
+\eqref{eq:lem-silo-reflection-nulling-induction-10}
+follows vacuously.
+
+The second case remains:
+$\var{lo} < \var{hi}$.
+For it
+we proceed by induction,
 taking as the hypothesis:
-\begin{equation}
+\begin{multline}
 \label{eq:lem-silo-reflection-nulling-induction-20}
-\tag{IND}
-\begin{multlined}
-\text{For all \var{a},
-if $\var{hi} \ge \var{a} > \var{x}$
-} \\
-\qquad \text{and
-  $\op{Valid-eq}{\Vel{silo}{hi}} \xderives{0} \op{Valid-eq}{\Vel{silo}{x}}$,
-}
-\\
-\text{then \Predot{\Vel{silo}{a}} is nulling.}
-\end{multlined}
-\end{equation}
+\tag{HYP}
+\text{If $\op{Valid-eq}{\Vel{silo}{hi}} \xderives{0} \op{Valid-eq}{\Vel{silo}{x}}$,} \\
+\text{then for all \var{a},} \quad
+\var{hi} \ge \var{a} > \var{x} \implies \Predot{\Vel{silo}{a}} = \epsilon.
+\end{multline}
 \eqref{eq:lem-silo-reflection-nulling-induction-20}
 for $\var{x} = \Vdecr{hi}$
 follows from
@@ -6461,21 +6457,16 @@ for $\var{x} = \var{i}$
 to show
 \eqref{eq:lem-silo-reflection-nulling-induction-20}
 for $\var{x} = \Vdecr{i}$.
-We will treat $\var{hi} \le \var{x}$ as a special case,
-so we assume $\var{hi} > \var{x}$
-and simplify the
-assumption for the step to
+The assumption for the step is
 \begin{multline}
 \label{eq:lem-silo-reflection-nulling-induction-30}
-\text{if} \quad
+\text{If} \quad
 \op{Valid-eq}{\Vel{silo}{hi}} \xderives{0} \op{Valid-eq}{\Vel{silo}{i}}
 \\
-\shoveleft{
 \text{then} \quad
 \forall \var{a} : \var{hi} \ge \var{a} > \var{i}
 \implies
 \text{\Predot{\Vel{silo}{a}} is nulling.}
-}
 \end{multline}
 Lemma \ref{lem:silo-reflection-nulling1}
 shows us that
@@ -6513,16 +6504,13 @@ is
 \eqref{eq:lem-silo-reflection-nulling-induction-20}
 for $\var{x} = \Vdecr{i}$,
 which is what we needed to show for the step.
-With this we have the induction.
-
-The induction shows
+With this we have the induction,
+and
+the induction shows
 \eqref{eq:lem-silo-reflection-nulling-induction-10}
 for $\var{lo} < \var{hi}$.
-For
-$\var{lo} \ge \var{hi}$
-\eqref{eq:lem-silo-reflection-nulling-induction-10}
-follows vacuously, which shows
-the theorem.
+This was our second case, and with it we
+have the theorem.
 \end{proof}
 
 \begin{lemma}
