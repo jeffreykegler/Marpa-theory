@@ -190,7 +190,9 @@
 
 % My macros for definition & theorem titles.
 % The 'q' forms are 'quiet' -- they do not index
-\newcommand\dtitle[1]{\textbf{#1}:\index{recce-definitions}{#1}}
+% Don't use definition titles for index -- use \xdfn instead.
+% \newcommand\dtitle[1]{\textbf{#1}:\index{recce-definitions}{#1}}
+\newcommand\dtitle[1]{\textbf{#1}:}
 \newcommand\qdtitle[1]{\textbf{#1}:}
 \newcommand\ttitle[1]{\textbf{#1}:\index{recce-theorems}{#1}}
 \newcommand\ltitle[1]{\textbf{#1}:\index{recce-theorems}{#1}}
@@ -5826,8 +5828,8 @@ are silo-eligible,
 $\Right{\Veim{cuz}} = \Right{\Veim{effect}}$,
 and
 \item
-\Vinst{cuz} is a top-down or bottom-up cause
-of \Vinst{effect}.
+\Veim{cuz} is a top-down or bottom-up cause
+of \Veim{effect}.
 \end{itemize}
 
 A \dfn{silo},
@@ -5851,7 +5853,7 @@ is called the
 \xdfn{bottom}{bottom (of silo)}
 of \var{s1},
 and
-\var{s1}\big[\xxsubtract{\Vsize{\var{s1}}}{1}\big]
+$\var{s1}\big[ \, \xxsubtract{\Vsize{\var{s1}}}{1} \, \big]$
 is the
 \xdfn{top}{top (of silo)}
 of \var{s1}.
@@ -5966,9 +5968,9 @@ which shows the theorem.
 Every silo layer
 \begin{itemize}
 \item
-is a read EIM and
-has one bottom-up silo cause
-and no top-down silo causes; or
+is a read EIM,
+has no bottom-up or
+top-down causes;
 \item
 is a null-scan EIM and
 has at least one top-down silo cause
@@ -5983,6 +5985,10 @@ and no top-down silo causes.
 \begin{proof}
 TODO
 \end{proof}
+
+Notice that, since a read EIM has no causes,
+if a read EIM is present in a silo it must be the bottom
+of that silo.
 
 \begin{theorem}
 \ttitle{Silo layer telluric prefix}
@@ -6062,31 +6068,23 @@ directly from Theorem
 \end{proof}
 
 \begin{lemma}
+
+TODO: Recheck this.
+
 \label{lem:silo-reflection-nt}
 Let \el{silo}{\Vincr{i}},
 \Vel{silo}{i},
 be two silo layers.
-\begin{align}
+\begin{multline}
 \label{eq:lem-silo-reflection-nt-3}
-& \begin{aligned}
-& \text{If \Predot{\el{silo}{\Vincr{i}}} is a non-terminal,}
+\text{If \Predot{\el{silo}{\Vincr{i}}} is a non-terminal,}
 \\
-& \qquad \text{then
+\text{then
 $\op{Valid-eq}{\el{silo}{\Vincr{i}}} \xderives{1} \op{Valid-eq}{\el{silo}{\var{i}}}.$}
-\end{aligned}
-\\
-\label{eq:lem-silo-reflection-nt-6}
-& \begin{aligned}
-& \text{If $\op{Valid-eq}{\el{silo}{\Vincr{i}}} \xderives{0} \op{Valid-eq}{\el{silo}{\var{i}}}$},
-\\
-& \qquad \text{then \Predot{\el{silo}{\Vincr{i}}} is a nulling terminal.}
-\end{aligned}
-\end{align}
+\end{multline}
 \end{lemma}
 
 \begin{proof}
-We first show
-\eqref{eq:lem-silo-reflection-nt-3}.
 Without loss of generality, we let
 \begin{equation}
 \label{eq:lem-silo-reflection-nt-10}
@@ -6116,7 +6114,7 @@ it has an equivalent EIM which is,
 without loss of generality,
 \begin{equation}
 \label{eq:lem-silo-reflection-nt-12}
-\Vel{silo}{i} = \bigl[[\Vsym{B} \de \Vstr{B-rhs} \mydot ], \var{b}, \var{c} \bigr]
+\Vel{silo}{i} = \bigl[[\Vsym{B} \de \Vstr{B-rhs} \mydot ], \var{b}, \var{c} \bigr].
 \end{equation}
 The validity equivalent of
 \eqref{eq:lem-silo-reflection-nt-10}
@@ -6138,78 +6136,99 @@ Combining
 and
 \eqref{eq:lem-silo-reflection-nt-16},
 we have
-\begin{align}
+\begin{equation}
 \label{eq:lem-silo-reflection-nt-20}
-& \Vsym{A} \\
-\label{eq:lem-silo-reflection-nt-26}
-\derives \; & \Vmk{a} \Vstr{pre-B} \Vsym{B} \Vmk{c} \Vstr{post-B} \\
-\label{eq:lem-silo-reflection-nt-28}
+\begin{aligned}
+& \Vsym{A}
+  && \\
+\derives \; & \Vmk{a} \Vstr{pre-B} \Vsym{B} \Vmk{c} \Vstr{post-B}
+  && \text{Step \var{s}} \\
 \derives \; & \ldots \Vmk{b} \Vstr{B-rhs} \Vmk{c} \ldots
-\end{align}
+  && \text{Step \Vincr{s}},
+\end{aligned}
+\end{equation}
+where we have added step numbers for convenience,
+and without loss of generalization.
 Recall that our convention is to say that the derivation step of an EIM
 layer is the second step of its derivation move,
 so that the derivation step for
 \eqref{eq:lem-silo-reflection-nt-10} is at
-\eqref{eq:lem-silo-reflection-nt-26}
+Step \var{s},
 and the derivation step for
 \eqref{eq:lem-silo-reflection-nt-12} is at
-\eqref{eq:lem-silo-reflection-nt-28}.
-\eqref{eq:lem-silo-reflection-nt-26} derives
-\eqref{eq:lem-silo-reflection-nt-28} in one step,
+Step \Vincr{s}.
+Clearly,
+Step \var{s} derives Step \Vincr{s} in one step,
 which shows \eqref{eq:lem-silo-reflection-nt-3}.
+\end{proof}
 
-It remains to show
-\eqref{eq:lem-silo-reflection-nt-6}.
-Again, we assume
-\eqref{eq:lem-silo-reflection-nt-10}.
-Previously, we assumed
-\eqref{eq:lem-silo-reflection-nt-11}
-by assumption for
-\eqref{eq:lem-silo-reflection-nt-3}.
-We again assume
-\eqref{eq:lem-silo-reflection-nt-11},
-but this time for a reductio.
-As before, the bottom-up cause is
-\eqref{eq:lem-silo-reflection-nt-16},
+\begin{lemma}
+\label{lem:silo-reflection-nulling1}
+Let \el{silo}{\Vincr{i}},
+\Vel{silo}{i},
+be two silo layers.
+\begin{equation}
+\label{eq:lem-silo-reflection-nulling1-6}
+\begin{aligned}
+\text{If $\op{Valid-eq}{\el{silo}{\Vincr{i}}} \xderives{0} \op{Valid-eq}{\el{silo}{\var{i}}}$},
+\\
+\qquad \text{then \Predot{\el{silo}{\Vincr{i}}} is a nulling terminal.}
+\end{aligned}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Without loss of generality, we let
+\begin{equation}
+\label{eq:lem-silo-reflection-nulling1-10}
+\el{silo}{\Vincr{i}}
+= \bigl[ [\Vsym{A} \de \Vstr{pre-B} \Vsym{B} \mydot \Vstr{post-B}], \var{a}, \var{c} \bigr].
+\end{equation}
+We assume
+\begin{equation}
+\label{eq:lem-silo-reflection-nulling1-11}
+\text{\Vsym{B} is a non-terminal.}
+\end{equation}
+for a reductio.
+The bottom-up cause is
+\begin{equation}
+\label{eq:lem-silo-reflection-nulling1-12}
+\Vel{silo}{i} = \bigl[[\Vsym{B} \de \Vstr{B-rhs} \mydot ], \var{b}, \var{c} \bigr].
+\end{equation}
+and its validity equivalent is
+\begin{equation}
+\label{eq:lem-silo-reflection-nulling1-16}
+\Vsym{B} \derives \Vmk{b} \Vstr{B-rhs} \Vmk{c},
+\end{equation}
 which implies that
 \begin{equation}
-\label{eq:lem-silo-reflection-nt-38}
+\label{eq:lem-silo-reflection-nulling1-38}
 \text{$[ \Vsym{B} \de \Vstr{B-rhs} ]$ is a rule of \Cg.}
 \end{equation}
 
-We left \el{silo}{\Vincr{i}} and
-\Vel{silo}{i} unchanged from
-\eqref{eq:lem-silo-reflection-nt-10}
-and
-\eqref{eq:lem-silo-reflection-nt-12},
-and therefore the merged validity equivalents of
-\el{silo}{\Vincr{i}} and
-\Vel{silo}{i} also take the same
-form.
+TODO: Fix this
+
 In case nulling symbols are significant,
 we restate
-\eqref{eq:lem-silo-reflection-nt-20},
-\eqref{eq:lem-silo-reflection-nt-26},
-and
-\eqref{eq:lem-silo-reflection-nt-28}
+\eqref{eq:lem-silo-reflection-nulling1-20}
 here,
 without location markers or
 simplifications:
 \begin{align}
-\label{eq:lem-silo-reflection-nt-40}
+\notag
 & \Vsym{A} \\
-\label{eq:lem-silo-reflection-nt-42}
+\label{eq:lem-silo-reflection-nulling1-42}
 \derives \; & \Vstr{pre-B} \Vsym{B} \Vstr{post-B} \\
-\label{eq:lem-silo-reflection-nt-44}
+\label{eq:lem-silo-reflection-nulling1-44}
 \xderives{0} \; & \Vstr{pre-B} \Vstr{B-rhs} \Vstr{post-B}
 \end{align}
-Note that we have changed the derivation from
-\eqref{eq:lem-silo-reflection-nt-42}
+Notice that the derivation from
+\eqref{eq:lem-silo-reflection-nulling1-42}
 to
-\eqref{eq:lem-silo-reflection-nt-44},
-to state that it takes place in zero steps,
+\eqref{eq:lem-silo-reflection-nulling1-44},
+takes place in zero steps,
 as required by assumption for
-\eqref{eq:lem-silo-reflection-nt-6}.
+\eqref{eq:lem-silo-reflection-nulling1-6}.
 Following the implications,
 \begin{align}
 &
@@ -6218,9 +6237,9 @@ Following the implications,
 \xderives{0} \Vstr{pre-B} \Vstr{B-rhs} \Vstr{post-B}
 \end{multlined}
 &&
-\eqref{eq:lem-silo-reflection-nt-6},
-\eqref{eq:lem-silo-reflection-nt-42},
-\eqref{eq:lem-silo-reflection-nt-44}
+\eqref{eq:lem-silo-reflection-nulling1-6},
+\eqref{eq:lem-silo-reflection-nulling1-42},
+\eqref{eq:lem-silo-reflection-nulling1-44}
 \\
 \therefore \quad &
 \begin{multlined}
@@ -6233,20 +6252,47 @@ Following the implications,
 \Vsym{B} = \Vstr{B-rhs}
 &&
 \notag \\
-\label{eq:lem-silo-reflection-nt-50}
+\label{eq:lem-silo-reflection-nulling1-50}
 \therefore \quad &
 \text{$[ \Vsym{B} \de \Vsym{B} ]$ is a rule of \Cg.}
 &&
-\eqref{eq:lem-silo-reflection-nt-38},
-\eqref{eq:lem-silo-reflection-nt-50}
+\eqref{eq:lem-silo-reflection-nulling1-38},
+\eqref{eq:lem-silo-reflection-nulling1-50}
 \end{align}
 But the rule of
-\eqref{eq:lem-silo-reflection-nt-50}
+\eqref{eq:lem-silo-reflection-nulling1-50}
 is a cycle and cycles are not allowed in Marpa grammars.
-This concludes the reductio,
-and shows
-\eqref{eq:lem-silo-reflection-nt-6}
-and the theorem.
+This concludes the reductio.
+Our assumption for the reduction was
+\eqref{eq:lem-silo-reflection-nulling1-11},
+so we conclude that
+\Vsym{B} is a terminal.
+
+We have shown that \Vsym{B} is a terminal,
+but it
+remains to show that \Vsym{B} is a nulling terminal.
+We assume for a reductio that \Vsym{B} is a telluric
+terminal.
+And
+From
+\eqref{eq:lem-silo-reflection-nulling1-10},
+we see, if \Vsym{B} 
+is a telluric terminal,
+\el{silo}{\Vincr{i}} is a read EIM.
+But by Theorem
+\ref{t:silo-causes},
+we know that a read EIM has no causes.
+If \el{silo}{\Vincr{i}} has no causes,
+by the definition of a silo,
+there is no
+silo element \Vel{silo}{i}.
+But, by assumption
+for
+\eqref{eq:lem-silo-reflection-nulling1-6}
+
+\eqref{eq:lem-silo-reflection-nulling1-6},
+we must show 
+
 \end{proof}
 
 \begin{lemma}
@@ -6287,7 +6333,7 @@ if $\var{hi} \ge \var{a} > \var{x}$
 \eqref{eq:lem-silo-reflection-nulling-induction-20}
 for $\var{x} = \Vdecr{hi}$
 follows from
-Lemma \ref{lem:silo-reflection-nt},
+Lemma \ref{lem:silo-reflection-nulling1},
 and we take this as the basis of the induction.
 
 For the step,
@@ -6313,7 +6359,7 @@ assumption for the step to
 \text{\Predot{\Vel{silo}{a}} is nulling.}
 }
 \end{multline}
-Lemma \ref{lem:silo-reflection-nt}
+Lemma \ref{lem:silo-reflection-nulling1}
 shows us that
 \begin{multline}
 \label{eq:lem-silo-reflection-nulling-induction-33}
