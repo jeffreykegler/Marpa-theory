@@ -7001,7 +7001,8 @@ such that
 We number altitudes starting with 1, so that
 we may reserve altitude 0
 for non-EIM causes, such as terminal instances.
-Notice that,state in many of the
+Notice that,
+in some of the
 cases
 of Definition
 \ref{def:altitude},
@@ -7028,7 +7029,7 @@ An ethereal closure is the transitive closure of the
 the \var{predict-op} and \var{null-scan-op}
 relations.
 Our proof will be by induction on the number of
-applications of
+iterations of
 \var{epsilon-op}.
 Recall from
 \eqref{eq:def-epsilon-op}
@@ -7040,10 +7041,6 @@ By Theorem
 \ref{t:ethereal-closure},
 we know that
 \Valid{\var{epsilon-op}(\var{desc})}.
-We write $\myfnname{epsilon-op}^{\displaystyle (\var{n})}(\var{x})$
-for ``$\myfnname{epsilon-op}$ applied to its result
-\var{n} times,
-with \var{x} as the argument of the first call''.
 For the purpose of this proof, we define
 \begin{equation}
 \label{eq:altitude-from-telluric-base-20}
@@ -7068,16 +7065,16 @@ Our induction hypothesis is
 \begin{equation}
 \label{eq:altitude-from-telluric-base-10}
 \tag{IND}
-\forall \, \Veim{eim}, \var{eim} \in \Vel{eims}{i} \implies \Alt{\var{eim}} = \Alt{\Veim{base}}
+\forall \, \Veim{eim}, \var{eim} \in \Vel{eims}{x} \implies \Alt{\var{eim}} = \Alt{\Veim{base}}
 \end{equation}
 As the basis of the induction, we note that the altitude of \Veim{base} is self-identical
 to show
-\eqref{eq:altitude-from-telluric-base-10} for $\var{i} = 0$.
+\eqref{eq:altitude-from-telluric-base-10} for $\var{x} = 0$.
 
 For the step of the induction, we assume
 \eqref{eq:altitude-from-telluric-base-10} for \var{i}
 to show
-\eqref{eq:altitude-from-telluric-base-10} for $\var{i}+1$.
+\eqref{eq:altitude-from-telluric-base-10} for $\var{x}+1$.
 From
 \eqref{eq:altitude-from-telluric-base-20},
 we know that
@@ -7094,11 +7091,29 @@ we know that
 \end{multlined}
 \right).
 \end{multline}
-The step for the induction,
-\eqref{eq:altitude-from-telluric-base-10} for $\var{i}+1$, follows from
-\eqref{eq:altitude-from-telluric-base-5}
+We see from the defintion of altitude that it is always the least
+of the possible alternative, and that it is non-decreasing,
+so that
+\begin{equation}
+\label{eq:altitude-from-telluric-base-32}
+\Vel{eims}{i} \le \el{eims}{\Vincr{i}}.
+\end{equation}
+By
+\eqref{eq:altitude-from-telluric-base-5},
+\eqref{eq:altitude-from-telluric-base-30},
 and
-\eqref{eq:altitude-from-telluric-base-30}.
+\eqref{eq:altitude-from-telluric-base-32},
+\begin{equation}
+\label{eq:altitude-from-telluric-base-33}
+\Veim{desc2} \in \el{eims}{\var{i}+1} 
+\implies
+\Alt{\var{desc2}} = \Alt{\var{desc1}}
+\end{equation}
+
+Since \var{desc2} was chosen without last of generality,
+the step for the induction,
+\eqref{eq:altitude-from-telluric-base-10} for $\var{i}+1$, follows from
+\eqref{eq:altitude-from-telluric-base-33}.
 This shows the induction and the theorem.
 \end{proof}
 
@@ -7112,6 +7127,8 @@ altitude.
 This follows directly from
 Theorem \ref{t:altitude-from-telluric-base}.
 \end{proof}
+
+TODO: Recheck from here.
 
 \begin{theorem}
 \label{t:altitude-is-finite}
