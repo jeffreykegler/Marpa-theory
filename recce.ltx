@@ -6960,110 +6960,53 @@ the reductio and theorem.
 
 \section{Altitude}
 
-In \Earley,
-a long right recursion
-created sequences of Earley items
-at every EORR.
-The EIM's in each EORR set formed chains.
-Within these chains, each EIM caused the next one.
-We will now investigate, in some detail,
-the cause-and-effect relationships of EIM's
-at a single parse location.
-
-From Section \ref{ch:earley-items},
-we recall the idea of
-top-down and bottom-up causes.
-We note that every
-bottom-up cause has the same
-right location as its effect.
-In addition, null-scan EIM's
-have the same right location as
-their top-down causes.
-
-We will begin our investigation by defining
-the concept of parse instance
-``altitude'' in terms of EIM causes and effects.
-
 \begin{definition}
 \dtitle{Altitude}
 \label{def:altitude}
-We write \Alt{\Vinst{inst}} for the altitude of \Vinst{inst}.
+We write \Alt{\Vinst{inst}} for the
+\xdfn{altitude}{altitude (of an EIM)}
+of \Vinst{inst}.
 \begin{sloppypar}
 \begin{FlushLeft}
 \begin{enumerate}
 \item
-\label{case:def-altitude-ethereal}
-The altitude of an ethereal cause is 0.
-\item
-\label{case:def-altitude-nulling}
-The altitude of a nulling terminal symbol instance is 0.
-\item
-\label{case:def-altitude-terminal}
-The altitude of a telluric terminal symbol instance is 0.
-\item
 \label{case:def-altitude-start}
 The altitude of the start rule is 1.
 \item
-\label{case:def-altitude-prediction}
-The altitude of a prediction, \Veim{pred},
-is
-\begin{equation*}
-\Big\lfloor \Alt{\Veim{top}}
-  \; \Big| \; \text{\var{top} is a silo (top-down) cause of \Veim{pred}}
-\Big\rfloor .
-\end{equation*}
-\item
 \label{case:def-altitude-read}
-The altitude of a read EIM, \Veim{read}, is
-\begin{equation*}
-\Alt{\Vinst{up}}+1,
-\end{equation*}
-where
-\Vinst{up} is the silo (bottom-up) cause of \Veim{read}.
-Since the bottom-up cause of a read EIM is always
-a terminal symbol instance,
-the altitude of a read EIM will always be 1.
+The altitude of a read EIM is 1.
 \item
-\label{case:def-altitude-unmemoized}
+\label{case:def-altitude-bump}
 The altitude of an unmemoized reduction EIM, \Veim{unmemo}
-is
-\begin{equation*}
-\Big\lfloor \Alt{\Veim{up}}+1
-  \; \Big| \; \text{\var{up} is a silo (bottom-up) cause of \Veim{unmemo}}
-\Big\rfloor .
-\end{equation*}
+is the least \Alt{\Veim{up}}+1
+such that \Veim{up} is a silo cause of \Veim{unmemo}.
 \item
-\label{case:def-altitude-memoized}
-The altitude of an memoized reduction EIM, \Veim{memo}
-is
-\begin{equation*}
-\Big\lfloor \Alt{\Veim{up}}
-  \; \Big| \; \text{\var{up} is a silo (bottom-up) cause of \Veim{memo}}
-\Big\rfloor .
-\end{equation*}
-\item
-\label{case:def-altitude-null-scan}
-The altitude of a null-scan EIM, \Veim{ns},
-is
-\begin{equation*}
-\Big\lfloor \Alt{\Veim{top}}
-  \; \Big| \; \text{\var{top} is a silo (top-down) cause of \Veim{ns}}
-\Big\rfloor .
-\end{equation*}
-This case applies if \Veim{ns} is memoized,
-if \Veim{top} is memoized, or if both
-\Veim{ns} and \Veim{top}
-are memoized.
+\label{case:def-altitude-other}
+Let \Veim{other} be a
+a memoized EIM,
+a predicted EIM,
+or a null-scan EIM.
+The altitude of
+\Veim{other}
+is the least \Alt{\Veim{cuz}}
+such that
+\Veim{cuz} is a silo cause of \Veim{other}.
 \end{enumerate}
-\par
-\end{FlushLeft}
 
+\end{FlushLeft}
 \end{sloppypar}
 
 \end{definition}
 
-Note our use of the floor notation in
-Definition \ref{def:altitude}.
+We number altitudes starting with 1, so that
+we may reserve altitude 0
+for non-EIM causes, such as terminal instances.
+Notice that,state in many of the
+cases
+of Definition
+\ref{def:altitude},
+we state that the altitude is the least
+of one or more choices.
 EIM's can have multiple top-down causes,
 and multiple bottom-up causes.
 Where this results in a choice of altitudes,
