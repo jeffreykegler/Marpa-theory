@@ -388,7 +388,7 @@ including in production environments.
 Many of the ideas in the parsing literature
 satisfy theoretical criteria,
 but in practice turn out to face significant obstacles.
-An algorithm may be as fast as reported, but may turn 
+An algorithm may be as fast as reported, but may turn
 out not to allow
 adequate error reporting.
 Or a modification may speed up the recognizer,
@@ -418,7 +418,7 @@ that technique is not in Marpa as implemented.
 As implemented,
 Marpa parses
 all ``proper'' context-free grammars.
-The 
+The
 proper context-free grammars are those which
 are free of cycles,
 unproductive symbols,
@@ -453,7 +453,7 @@ are scanned,
 Marpa's parse engine makes available
 its
 information about the state of the parse so far.
-This information is 
+This information is
 in useful form,
 and can be accessed efficiently.
 
@@ -1029,7 +1029,7 @@ and a dedicated acceptance symbol,
 such that
 for all \Vrule{x},
 \[
-\Vsym{accept} \notin \RHS{\Vrule{x}} 
+\Vsym{accept} \notin \RHS{\Vrule{x}}
 \]
 and
 \[
@@ -1079,7 +1079,7 @@ of which the actual input is just one element.
 Reasoning about the set of inputs possible based on what has been
 seen so far plays little role in
 traditional deterministic parsers,
-which do limited tracking  
+which do limited tracking
 of input already seen,
 and have even less of an idea of the inputs not yet seen.
 But Marpa is left-eidetic ---
@@ -1500,7 +1500,7 @@ The location marker notation is intuitive and based on the
 traditional notation for derivations,
 but, since it is new, we will present examples.
 For the examples of this section,
-we 
+we
 start with the traditional derivation
 \begin{gather*}
 \Vstr{A} \\
@@ -1691,7 +1691,7 @@ $\var{tell-cnt} = \bigop{T}{\Vstr{sf}@\var{x}}$.
 We have
 \begin{equation}
 \label{eq:location-marker-cycle-17}
-\var{tell-cnt} = \bigop{T}{\Vstr{sf}@\var{x}} 
+\var{tell-cnt} = \bigop{T}{\Vstr{sf}@\var{x}}
 = \bigop{T}{\Vstr{sf}@\var{y}}
 \end{equation}
 by the self-identity of \Vstr{sf}.
@@ -1713,7 +1713,7 @@ $\var{sf}@\var{x}$ must derive
 \xxsubtract{\var{tell-cnt}}{\var{n}}
 telluric symbols.
 This means that, if $\var{n} > 1$,
-at least one telluric symbol in 
+at least one telluric symbol in
 $\var{sf}@\var{x}$
 derives
 zero telluric symbols in $\var{sf}@\var{y}$.
@@ -1725,7 +1725,7 @@ $\var{sf}@\var{x}$ must be nulling.
 But telluric symbols are never nulling,
 which shows the inner reductio.
 We conclude from the inner reductio that
-no telluric symbol in 
+no telluric symbol in
 $\bigop{T}{\Vstr{sf}@\var{x}}$
 derives more than one telluric symbol in
 $\bigop{T}{\Vstr{sf}@\var{y}}$.
@@ -1749,7 +1749,7 @@ Recall our earlier assumption
 in the outer reductio
 that \Vsym{tell} is an arbitrary
 telluric symbol in \var{sf}@\var{x}
-and 
+and
 \var{descs}@\var{y}
 its descendants.
 We know from
@@ -1793,7 +1793,7 @@ as
 \label{eq:location-marker-cycle-24}
 \Vsym{tell} \deplus \Vstr{nulL} \Vsym{tell} \Vstr{nulR} = \Vstr{descs}
 \end{equation}
-where 
+where
 $\Vstr{nulL} = \Vstr{nulR} = \epsilon$.
 But, by the definition of cyclic,
 \eqref{eq:location-marker-cycle-24}
@@ -1949,7 +1949,7 @@ left to right.
 \item
 For every index \var{i},
 the \var{i}'th symbol instance in the internal input sequence
-must match 
+must match
 the \var{i}'th symbol instance in the external input sequence.
 \item Every brick traveral must translate to an external rule
 instance,
@@ -2181,7 +2181,7 @@ is a dotted rule
 with a dot position greater than zero.
 A
 \xdfn{completed dotted rule}{completed (dotted rule)},
-or a 
+or a
 \xdfn{completion}{completion (dotted rule)},
 is a dotted rule with its dot
 position after the end of its RHS,
@@ -2472,7 +2472,7 @@ We now proceed by overlapping cases.
 In the first case,
 the dot in \Vdr{dr2} comes at or after the dot in \Vdr{dr1}.
 Since \Vdr{dr2} is ethererally equivalent
-to 
+to
 \eqref{eq:eth-eq-share-telluric-base-10},
 we have,
 if we rewrite \Vstr{post1}
@@ -3430,7 +3430,7 @@ Then \Veim{down} has a valid null-scan effect:
 
 \begin{proof}
 \Veim{down} is valid by assumption, so
-from 
+from
 \eqref{eq:null-scan-from-down-cause-5}
 we have
 \begin{equation}
@@ -4878,14 +4878,14 @@ We use this as the basis of the induction.
 
 For the step of the induction we assume
 \begin{equation}
-\tag{ASM}
+\tag{STEP}
 \label{t:deriv-tether-30}
 \text{\eqref{t:deriv-tether-20} and \eqref{t:deriv-tether-22}
 for $\var{x} = \var{i}$.}
 \end{equation}
 and we seek to show
 \begin{equation}
-\tag{STEP}
+\tag{GOAL}
 \label{t:deriv-tether-35}
 \text{
 \eqref{t:deriv-tether-20} and \eqref{t:deriv-tether-22}
@@ -5889,7 +5889,7 @@ of \eqref{eq:silo-location-7}
 is by induction.
 We take as the induction hypothesis,
 \begin{equation}
-\tag{HYP}
+\tag{IND}
 \label{eq:silo-location-10}
 \Right{\el{silo}{0}} =
 \Right{\Vel{silo}{x}}
@@ -6037,7 +6037,7 @@ and
 such that
 \begin{equation}
 \label{eq:silo-read-eim-layer-20}
-\tag{RAD}
+\tag{RAA}
 \begin{gathered}
 \Vel{silo}{x} = \Vel{silo}{y} \; \land \; \var{x} \neq \var{y}, \\
 \text{where \Vel{silo}{x} is a read EIM.}
@@ -6377,7 +6377,7 @@ We assume for a reductio that \Vsym{B} is a telluric
 terminal.
 From
 \eqref{eq:lem-silo-reflection-nulling1-10},
-we see, if \Vsym{B} 
+we see, if \Vsym{B}
 is a telluric terminal,
 \el{silo}{\Vincr{i}} is a read EIM.
 But by Theorem
@@ -6439,7 +6439,7 @@ we proceed by induction,
 taking as the hypothesis:
 \begin{multline}
 \label{eq:lem-silo-reflection-nulling-induction-20}
-\tag{HYP}
+\tag{IND}
 \text{If $\op{Valid-eq}{\Vel{silo}{hi}} \xderives{0} \op{Valid-eq}{\Vel{silo}{x}}$,} \\
 \text{then for all \var{a},} \quad
 \var{hi} \ge \var{a} > \var{x} \implies \Predot{\Vel{silo}{a}} = \epsilon.
@@ -6538,7 +6538,7 @@ Since \Vsym{B} is nulling,
 we know from Theorem \ref{t:silo-causes},
 that \Vel{silo}{i}, its silo cause,
 is its top-down cause.
-From 
+From
 Definition \ref{def:causes},
 the definition of causes,
 we know that
@@ -6605,7 +6605,7 @@ Then
 The proof is by induction, where the induction
 hypothesis is
 \begin{equation}
-\tag{HYP}
+\tag{IND}
 \label{eq:silo-reflection-10}
 \op{Valid-eq}{\Vel{silo}{hi}} \destar
 \op{Valid-eq}{\Vel{silo}{x}}.
@@ -6623,7 +6623,7 @@ for $\var{x} = \var{i}$ to show
 for $\var{x} = \Vdecr{i}$.
 The assumption for the step is
 \begin{equation}
-\tag{STEPASM}
+\tag{STEP}
 \label{eq:silo-reflection-20}
 \op{Valid-eq}{\Vel{silo}{hi}} \destar
 \op{Valid-eq}{\Vel{silo}{i}}.
@@ -6732,7 +6732,7 @@ Without loss of generalization,
 let $\var{hi} \ge \var{lo}$.
 We assume for a reductio that
 \begin{equation}
-\tag{RAD}
+\tag{RAA}
 \label{eq:silo-layer-unique-10}
 \text{$\Vel{silo}{hi} = \Vel{silo}{lo}$ and $\var{hi} \neq \var{lo}$}
 \end{equation}
@@ -6757,7 +6757,7 @@ and non-trivial derivations.
 \textbf{Trivial derivation}:
 We assume for an inner reductio that
 \begin{equation}
-\tag{RAD1}
+\tag{RAA1}
 \label{eq:silo-layer-unique-30}
 \op{Valid-eq}{\Vel{silo}{hi}} \xderives{0}
 \op{Valid-eq}{\Vel{silo}{lo}}
@@ -7067,7 +7067,7 @@ we know that
 Our induction hypothesis is
 \begin{equation}
 \label{eq:altitude-from-telluric-base-10}
-\tag{HYP}
+\tag{IND}
 \forall \, \Veim{eim}, \var{eim} \in \Vel{eims}{i} \implies \Alt{\var{eim}} = \Alt{\Veim{base}}
 \end{equation}
 As the basis of the induction, we note that the altitude of \Veim{base} is self-identical
