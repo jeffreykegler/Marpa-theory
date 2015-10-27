@@ -4841,7 +4841,8 @@ the following algorithm:
 \EndWhile
 \label{line:eim-tether-90}
 \EndProcedure
-\end{algorithmic}
+\end{algorithmic}%
+\index{recce-theorems}{Construction: Construct tether}
 
 \textbf{``Only if'', first requirement}:
 We have
@@ -5804,13 +5805,9 @@ his title.
 \begin{definition}
 \dtitle{Silo}
 \label{def:silo}
-A rule is
-\xdfn{silo-eligible}{silo-eligible (rule)}
-if and only if it is right-recursive.
 A dotted rule is
 \xdfn{silo-eligible}{silo-eligible (dotted rule)}
-if and only if its rule is silo-eligible,
-and it is quasi-complete.
+if and only if it is quasi-complete.
 An Earley item
 is
 \xdfn{silo-eligible}{silo-eligible (EIM)}
@@ -6956,6 +6953,61 @@ derivations.
 We now have
 both cases,
 the reductio and theorem.
+\end{proof}
+
+\begin{theorem}
+\label{t:quasi-confirmed-eim-has-silo}
+Every quasi-confirmed EIM has
+a silo of finite length,
+whose bottom is a read EIM.
+\end{theorem}
+
+\begin{proof}
+Let,
+without loss of generality,
+\Veim{quasi} be a quasi-confirmed EIM.
+By the definition of silo,
+the sequence consisting only of 
+\Veim{quasi} is a silo.
+
+It remains to show that \Veim{quasi}
+has a silo whose bottom is a read EIM,
+and which is of finite length.
+Consider the construction
+\begin{algorithmic}[1]
+\Function{Construct silo}{\Veim{quasi}}
+\State $\el{seq}{0} \gets \Veim{quasi}$
+\label{line:construct-silo-10}
+\State $\var{ix} \gets 0$
+\While{ \Vel{seq}{ix} has a silo cause}
+\label{line:construct-silo-20}
+\State Let \Veim{tdcuz} be a silo cause of \Vel{seq}{ix}
+\State $\var{ix} \gets \Vincr{ix}$
+\State $\Vel{silo}{ix} \gets \Veim{tdcuz}$
+\EndWhile
+\State Let \var{silo} be \var{seq} \ldots
+\State \ldots{} renumbered to conform to silo conventions
+\State Return \var{silo}
+\label{line:construct-silo-90}
+\EndFunction
+\end{algorithmic}%
+\index{recce-theorems}{Construction: Construct tether}
+
+
+By Theorem
+\ref{t:es-count}, the number of Earley items
+with a single right location is finite.
+By Theorem
+\ref{t:silo-location},
+all the layers of a silo share the same right location.
+So either a silo has finite length, or the same layer
+occurs more than once in a silo.
+But, by Theorem
+\ref{t:silo-layer-unique} no silo layer occurs
+more than once in a silo.
+So a silo must have a finite length.
+
+TODO: Finish
 \end{proof}
 
 \section{Altitude}
