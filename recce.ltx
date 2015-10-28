@@ -807,8 +807,9 @@ $\LHS{\Vrule{r}}$ and $\RHS{\Vrule{r}}$, respectively.
 
 Occasionally, we will need to look at the RHS of a rule
 symbol by symbol.
-$\var{RHS}(\Vdr{dr}, \var{i})$
-is the \var{i}'th symbol on the RHS,
+$\var{RHS}(\Vrule{r}, \var{i})$
+is the \var{i}'th symbol on the RHS
+of \Vrule{r},
 where the numbering is zero-based.
 
 The rules imply the traditional rewriting system.
@@ -3222,18 +3223,19 @@ of the terminal symbol instance \Vinst{x}.
 \end{definition}
 
 \begin{definition}
+\label{def:validity-of-non-terminal}
 \qdtitle{Validity of non-terminal symbols}
 If \Vsym{N} is a non-terminal symbol,
 we say that
 \begin{equation}
 \label{eq:def-non-terminal-validity-10}
-[\var{i}]\, \Vsym{N} \,[\var{j}]
+\Vinst{N-ins} = [\var{i}]\, \Vsym{N} \,[\var{j}]
 \end{equation}
 is
 \xdfn{valid}{valid (non-terminal symbol)}
 if and only if
 it is the LHS of a valid, completed EIM.
-\Vsym{N} is also considered to be the
+\Vinst{N-ins} is considered to be the
 \xdfn{derivation validity equivalent}{derivation validity equivalent
   (of non-terminal symbol)}
 of itself.
@@ -3257,8 +3259,6 @@ of a non-terminal symbol.
 If a parse instance is a symbol instance or
 a complete EIM,
 its ``symbolic equivalent'' is defined.
-We write the symbolic equivalent of \Vinst{x}
-as \Symbol{\var{x}}.
 If the parse instance is a symbol instance,
 it is its own \dfn{symbolic equivalent}.
 If the parse instance is a complete EIM,
@@ -3266,13 +3266,15 @@ its \dfn{symbolic equivalent} is the instance
 of its LHS symbol
 with the same left and right locations
 as the EIM.
-
-A symbol instance has an EIM equivalent if and only if
-it is a non-terminal symbol instance.
-An
+We also write the symbolic
+equivalent of \var{x} as
+$\var{Sym-Eq}(\var{x})$.%
+\index{recce-notation}{Sym-eq(x)@\Vop{Sym-eq}{x}}
+We say that \Veim{eim} is the
 \dfn{EIM equivalent}
-is always a complete EIM.
-An complete EIM always has a symbolic equivalent.
+of \Vinst{x} if and only if
+\Vinst{x} is the symbolic equivalent of
+\Veim{eim}.
 \end{definition}
 
 By way of illustration,
@@ -3293,7 +3295,10 @@ then the symbolic equivalent of \Veim{up} is
 \begin{theorem}
 \ttitle{Symbolic equivalent from complete EIM}
 \label{t:valid-symbolic-equivalent-from-eim}
-If a complete EIM is valid, its symbolic equivalent is valid.
+A valid, complete EIM has a valid symbolic equivalent,
+\Vinst{symeq};
+and \Symbol{\Vinst{symeq}} is
+a non-terminal.
 \end{theorem}
 
 \begin{proof}
@@ -3307,7 +3312,7 @@ let the complete  EIM be
 \end{equation}
 \eqref{eq:valid-symbolic-equivalent-from-eim-10}
 is valid by assumption for the theorem,
-so we have
+so we have the valid derivations,
 \begin{alignat}{3}
 & \Vsym{up} && \derives
 [ \var{i}]\, \Vstr{up-rhs} \,[\var{j}] \\
@@ -3318,10 +3323,41 @@ so we have
 \therefore \quad
 & [\var{i}]\, \Vsym{up} \,[\var{j}] &&
 \end{alignat}
+We have shown that
 \eqref{eq:valid-symbolic-equivalent-from-eim-20}
-is valid and the symbol equivalent of
-\Veim{up},
-which shows the theorem.
+is valid.
+Let \Vinst{symeq} be
+the parse instance of
+\eqref{eq:valid-symbolic-equivalent-from-eim-20},
+so that
+$\Vinst{symeq} 
+= [\var{i}]\, \Vsym{up} \,[\var{j}].$
+From the definition of symbolic equivalent we
+see that
+\Vinst{symeq}
+is the symbolic equivalent of
+\Veim{up}.
+
+It remains to show that
+\Symbol{\Vinst{symeq}} is a non-terminal.
+We note that
+$\Symbol{\Vinst{symeq}} = \LHS{\Veim{up}}$,
+and with this, we have the theorem.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Symbolic equivalent from complete EIM}
+\label{t:eim-equivalent-from-non-terminal}
+A valid instance, \Vinst{x}, has an valid EIM equivalent if
+and only if \Symbol{\Vinst{x}} is a non-terminal.
+\end{theorem}
+
+\begin{proof}
+We have the ``if'' direction directly from the
+definition of validity for non-terminal parse instances,
+Theorem
+\ref{t:valid-symbolic-equivalent-from-eim}
+shows the ``only if'' direction.
 \end{proof}
 
 We say that a bottom-up cause is \dfn{symbolic},
@@ -3780,7 +3816,8 @@ bottom-up cause of \Veim{effect}.
 Since \Vsym{term} is a terminal
 it cannot appear on the LHS of a rule.
 Since \Vsym{term} cannot be the LHS of a rule,
-by the definition of EIM equivalent,
+by Theorem
+\ref{t:eim-equivalent-from-non-terminal},
 \Vinst{inst} has no EIM equivalent.
 Let
 \begin{equation}
@@ -5177,7 +5214,7 @@ Therefore there will be a tether element above it,
 Call
 \el{teth}{\Vdecr{base-ix}}, \Veim{prev}.
 \Veim{prev} will not be at \Vloc{i}, otherwise it would
-have been first tether element encountered at \Vloc{i}.
+have been the first tether element encountered at \Vloc{i}.
 So we have
 \begin{equation}
 \label{eq:eim-has-telluric-base-20}
@@ -5317,7 +5354,12 @@ Since
 $\Symbol{\var{up1}} = \Symbol{\var{up2}}$,
 and every symbol is either a terminal or a non-terminal,
 two up-causes cannot differ in whether they have an EIM equivalent.
-If \var{up1} has no EIM equivalent,
+Theorem
+\ref{t:eim-equivalent-from-non-terminal}
+shows that an parse instance has an EIM equivalent
+if and only if its symbol is a non-terminal,
+so we know that
+if \var{up1} has no EIM equivalent,
 then \var{up2} has no EIM equivalent.
 But if both
 \var{up1} and
@@ -7345,17 +7387,27 @@ that its bottom-up cause, \Vinst{up},
 is a symbol instance
 and that
 \begin{equation}
+\label{eq:altitude-is-finite-10}
 \Symbol{\Vinst{up}} = \Predot{\Veim{tell}}.
 \end{equation}
 Since \Veim{up} is a reduction,
 \Predot{\Veim{tell}} is a non-terminal,
-and \Vinst{up} has a complete EIM equivalent.
+so that
+from \eqref{eq:altitude-is-finite-10},
+we know that
+\Symbol{\Vinst{up}} is a non-terminal.
+Since \Symbol{\Vinst{up}} is a non-terminal,
+by Theorem
+\ref{t:eim-equivalent-from-non-terminal},
+we know that
+\Vinst{up} has a complete EIM equivalent.
+
 Call the EIM equivalent of \Vinst{up},
 \Veim{up}.
 Since \Veim{up} is complete,
-it is quasi-complete, so that
+it is quasi-complete so that,
 by Theorem
-\ref{t:quasi-complete-altitude}
+\ref{t:quasi-complete-altitude},
 the altitude of \Veim{up} is defined
 and finite.
 By the definition of an altitude cause,
@@ -7509,6 +7561,7 @@ Earley item
 at its top''.
 
 To define \var{leo-stip} more formally,
+recall that
 we write $\var{Sym-Eq}(\Vinst{x})$ for the symbolic
 equivalent of the parse instance \Vinst{x}.
 Where a Leo memo is
