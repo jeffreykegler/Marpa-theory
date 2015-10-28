@@ -292,7 +292,9 @@ The Marpa recognizer is the first
 practical implementation
 of the improvements
 to Earley's algorithm found in
-Joop Leo's 1991 paper.
+Joop Leo's%
+\index{recce-general}{Leo, Joop}
+1991 paper.
 Marpa has a new parse engine that
 allows the user to alternate
 between Earley-style syntax-driven parsing,
@@ -5703,7 +5705,8 @@ the maximum size of Earley set \Vloc{i} is therefore
 
 \section{The history of a conjecture}
 
-Jay Earley~\cite[p. 60]{Earley1968}
+Jay Earley~\cite[p. 60]{Earley1968}%
+\index{recce-general}{Earley, Jay}
 conjectured that \Earley{} could be
 modified to be \On{} for
 all deterministic context-free grammars (DCFG's).
@@ -5714,7 +5717,9 @@ Earley left the field shortly thereafter ---
 by 1973 he had earned a second Ph.D. and
 was a practicing psychotherapist in California.
 
-In the late 1980's, Joop Leo also conjectured that
+In the late 1980's, Joop Leo%
+\index{recce-general}{Leo, Joop}
+also conjectured that
 Earley's algorithm could be modified to be linear for all
 DCFG's.
 Leo was initially unaware of Earley's earlier conjecture ---
@@ -5786,7 +5791,9 @@ the time and space complexity of
 a right recursion become
 $\On{} = \On{} + \On{}$.
 
-Joop Leo showed that,
+Joop Leo%
+\index{recce-general}{Leo, Joop}
+showed that,
 with his modification, Earley's algorithm
 is \On{} for all LR-regular grammars.
 LR-regular is LR where lookahead
@@ -6969,30 +6976,9 @@ without loss of generality,
 By the definition of silo,
 the sequence consisting only of 
 \Veim{quasi} is a silo.
-
-It remains to show that \Veim{quasi}
-has a silo whose bottom is a read EIM,
-and which is of finite length.
-Consider the construction
-\begin{algorithmic}[1]
-\Function{Construct silo}{\Veim{quasi}}
-\State $\el{seq}{0} \gets \Veim{quasi}$
-\label{line:construct-silo-10}
-\State $\var{ix} \gets 0$
-\While{ \Vel{seq}{ix} has a silo cause}
-\label{line:construct-silo-20}
-\State Let \Veim{tdcuz} be a silo cause of \Vel{seq}{ix}
-\State $\var{ix} \gets \Vincr{ix}$
-\State $\Vel{silo}{ix} \gets \Veim{tdcuz}$
-\EndWhile
-\State Let \var{silo} be \var{seq} \ldots
-\State \ldots{} renumbered to conform to silo conventions
-\State Return \var{silo}
-\label{line:construct-silo-90}
-\EndFunction
-\end{algorithmic}%
-\index{recce-theorems}{Construction: Construct tether}
-
+It remains to show that 
+\Veim{quasi} has a silo of finite length
+whose bottom is a read EIM.
 
 By Theorem
 \ref{t:es-count}, the number of Earley items
@@ -7003,11 +6989,29 @@ all the layers of a silo share the same right location.
 So either a silo has finite length, or the same layer
 occurs more than once in a silo.
 But, by Theorem
-\ref{t:silo-layer-unique} no silo layer occurs
+\ref{t:silo-layer-unique},
+no silo layer occurs
 more than once in a silo.
 So a silo must have a finite length.
 
-TODO: Finish
+Since every silo with \Veim{quasi} at the top
+has a finite length,
+there are one or more silos which have a maximum
+length.
+Assume, for a reductio,
+that \Veim{bot} is the bottom of one of these maximum
+length silos, and that it is not
+a read EIM.
+Since it is not a read EIM,
+by Theorem \ref{t:silo-causes},
+\Veim{bot} has a silo cause.
+Therefore
+a silo layer could be added below \Veim{bot}.
+But if a silo layer could be added below \Veim{bot},
+then \Veim{bot} is not at the bottom of one of the silos
+of maximum length,
+which is contrary to assumption for the reductio.
+We conclude that \Veim{bot} is a read EIM.
 \end{proof}
 
 \section{Altitude}
@@ -7018,6 +7022,18 @@ TODO: Finish
 We write \Alt{\Vinst{inst}} for the
 \xdfn{altitude}{altitude (of an EIM)}
 of \Vinst{inst}.
+
+An EIM, \Veim{up}, is an
+\dfn{altitude cause}
+of a reduction EIM, \Veim{red},
+if and only  if \Veim{up} is a bottom-up cause of
+\Veim{red}.
+An EIM, \Veim{down}, is an
+\dfn{altitude cause}
+of an ethereal EIM, \Veim{eth},
+if and only  if \Veim{down} is a top-down cause of
+\Veim{eth}.
+
 \begin{sloppypar}
 \begin{FlushLeft}
 \begin{enumerate}
@@ -7030,19 +7046,20 @@ The altitude of a read EIM is 1.
 \item
 \label{case:def-altitude-bump}
 The altitude of an unmemoized reduction EIM, \Veim{unmemo}
-is the least \Alt{\Veim{up}}+1
-such that \Veim{up} is a silo cause of \Veim{unmemo}.
+is the least \Alt{\Veim{cuz}}+1
+such that \Veim{cuz} is an altitude cause
+of \Veim{unmemo}.
 \item
 \label{case:def-altitude-other}
-Let \Veim{other} be a
-a memoized EIM,
+Let \Veim{epsop} be an
+unmemoized EIM,
 a predicted EIM,
 or a null-scan EIM.
 The altitude of
 \Veim{other}
 is the least \Alt{\Veim{cuz}}
 such that
-\Veim{cuz} is a silo cause of \Veim{other}.
+\Veim{cuz} is an altitude cause of \Veim{other}.
 \end{enumerate}
 
 \end{FlushLeft}
@@ -7191,6 +7208,8 @@ TODO: ? Redo to cover valid parse instance?
 \end{theorem}
 
 \begin{proof}
+By Theorem
+\ref{t:quasi-confirmed-eim-has-silo},
 TODO
 \end{proof}
 
@@ -9958,15 +9977,20 @@ and Theorem \ref{t:ambiguous-tries}.
 \chapter{Acknowledgements}
 \label{ch:Acknowledgements}
 
-Ruslan Shvedov and
-Ruslan Zakirov
+Ruslan Shvedov%
+\index{recce-general}{Shvedov, Ruslan}
+and
+Ruslan Zakirov%
+\index{recce-general}{Zakirov, Ruslan}
 made many useful suggestions
 that are incorporated in this paper.
 Many members of the Marpa community
 have helped me in many ways,
 and it is risky
 to single out one of them.
-But Ron Savage has been unstinting in
+But Ron Savage%
+\index{recce-general}{Savage, Ron}
+has been unstinting in
 his support.
 
 \bibliographystyle{plain}
