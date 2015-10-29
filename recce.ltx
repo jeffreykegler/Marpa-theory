@@ -3269,7 +3269,7 @@ as the EIM.
 We also write the symbolic
 equivalent of \var{x} as
 $\var{Sym-Eq}(\var{x})$.%
-\index{recce-notation}{Sym-eq(x)@\Vop{Sym-eq}{x}}
+\index{recce-notation}{Sym-Eq(x)@\Vop{Sym-Eq}{x}}
 We say that \Veim{eim} is the
 \dfn{EIM equivalent}
 of \Vinst{x} if and only if
@@ -5860,6 +5860,39 @@ which is why Leo only claims
 the weaker \LRk{} bound in
 his title.
 
+Summarizing Leo's method,
+it consists of spotting potential right recursions
+and memoizing them.
+Leo restricts the memoization to situations where
+the right recursion is unambiguous.
+Potential right recursions are memoized by
+Earley set, using what Leo called
+``transitive items''.
+In this document Leo's ``transitive items''
+will be called Leo memos.
+
+Implementation of Leo memoization
+will be considered in full detail,
+and its correctness proved,
+in Section \ref{ch:recce}.
+In this chapter, we develop the
+concepts behind Leo memoization.
+We define, at an abstract level,
+the data structures
+that Leo memoization requires,
+and we demonstrate their basic properties.
+
+Summarizing Leo's method,
+it consists of spotting potential right recursions
+and memoizing them.
+Leo restricts the memoization to situations where
+the right recursion is unambiguous.
+Potential right recursions are memoized by
+Earley set, using what Leo called
+``transitive items''.
+In this document Leo's ``transitive items''
+will be called Leo memos.
+
 \section{Silos}
 
 \begin{definition}
@@ -6018,6 +6051,18 @@ It remains to show
 \eqref{eq:silo-location-4},
 which shows the theorem.
 \end{proof}
+
+We say that \Right{\Vel{sil}{0}}
+is the
+\xdfn{location}{location (of a silo)}.
+From Theorem 
+\ref{t:silo-location}
+we know that the location of the silo will
+be the right locaiton of each of its layers.
+We also write the
+location of silo \var{sil}
+as \Right{\var{sil}}.%
+\index{recce-notation}{Right(silo)@\Right{\var{silo}}}
 
 \begin{theorem}
 \label{t:silo-causes}
@@ -7464,36 +7509,30 @@ TODO
 
 \section{Leo memos}
 
-Implementation of Leo memoization
-will be considered in full detail,
-and its correctness proved,
-in Section \ref{ch:recce}.
-In this chapter, we develop the
-concepts behind Leo memoization.
-We define, at an abstract level,
-the data structures
-that Leo memoization requires,
-and we show their basic properties.
-
-Summarizing Leo's method,
-it consists of spotting potential right recursions
-and memoizing them.
-Leo restricts the memoization to situations where
-the right recursion is unambiguous.
-Potential right recursions are memoized by
-Earley set, using what Leo called
-``transitive items''.
 In this document Leo's ``transitive items''
 will be called Leo memos.
-
 Leo memos have type \type{LEO}.
 In each Earley set, there is at most one Leo memo per symbol.
-A Leo memo is the 4-tuple
+A Leo memo is the 5-tuple
 \begin{equation}
 \label{eq:def-leo-memo-10}
-\Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{current} ]
+\Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{memloc}, \Vleo{next} ]
 \end{equation}
-where \Vsym{transition} is the transition symbol.
+In \eqref{eq:def-leo-memo-10}
+\Vsym{transition} is the
+\dfn{Leo transition symbol}
+or
+\xdfn{transition symbol}{transition symbol (of a Leo memo)}.
+\Vleo{leo} is considered to be located at \Vloc{memloc},
+and \Vloc{memloc} is called the
+\xdfn{current location}{current location (of a Leo memo)}
+of \Vleo{leo}.
+We will sometimes speak of \Vleo{leo} as being in the
+Earley set at \Vloc{memloc},
+although \Vleo{leo} is \textbf{not}
+an Earley item,
+and therefore, strictly speaking,
+not in any Earley set.
 For \Vleo{leo} as in
 \eqref{eq:def-leo-memo-10},
 we write
@@ -7501,8 +7540,74 @@ we write
 \Symbol{\Vleo{leo}} & = \Vsym{transition}, \\
 \DR{\Vleo{leo}} & = \Vdr{top}, \\
 \Origin{\Vleo{leo}} & = \Vorig{top} \\
-\text{and \Current{\Veim{x}}} & = \Vloc{x}.
+\text{and \Current{\Vleo{leo}}} & = \Vloc{memloc}.
 \end{alignat*}
+
+Intuitively, \Vleo{leo},
+the Leo memo of
+\eqref{eq:def-leo-memo-10}
+states an intent to memoize
+certain layers of silos occuring after
+\Vloc{memloc}.
+The elements \Vsym{transition}, \Vdr{top}, are \Vorig{top} are
+used to define which silo layers will be memoized.
+As silos are encountered they can grow in height,
+and \Vleo{next} is a link
+connecting \Vleo{leo} to a previous silo.
+
+The silo layers which \Vleo{leo} will cause to be
+memoized
+are the
+\xdfn{inner}{inner (layers of a Leo section)}
+layers of a
+\xdfn{Leo section}{Leo section (of a silo)}.
+Each Leo section is a part of a silo,
+and has a top layer,
+a bottom layer,
+and zero or more inner layers.
+It follows from this that every Leo section
+contains at least two EIM's.
+
+Where the silo is \var{silo},
+the
+\xdfn{top}{top (of a Leo section)}
+of the Leo section targeted by \Vleo{leo}
+will be
+\begin{equation}
+\Vop{Leo-top}{silo} = \big[ \Vdr{top}, \Vorig{top}, \Right{\var{silo}} \big].
+\end{equation}
+where
+\Vdr{top} and \Vorig{top}
+are as in
+\eqref{eq:def-leo-memo-10},
+and \Right{\var{silo}} \big]
+is the location of \var{silo}.
+Note that this definition makes
+\myfnname{Silo-top} a ``relocatable''
+definition ---
+one that can defines an top of silos at
+multiple locations.
+
+We also define
+the
+\xdfn{bottom}{bottom (of a Leo section)}
+of a Leo section
+in relocatable fashion
+as
+\begin{equation*}
+\Vop{Leo-bot}{silo} = \Veim{leo-bottom}
+\end{equation*}
+such that
+\begin{gather*}
+\op{Sym-Eq}{\Veim{leo-bottom}} = \Vmk{memloc} \Vsym{transition} \Vmk{reloc}, \\
+\text{where $\Vloc{reloc} = \Right{\var{silo}}$} \\
+\text{
+  and \Vloc{memloc} and
+  \Vsym{transition}
+  are as in
+  \eqref{eq:def-leo-memo-10}.
+}
+\end{gather*}
 
 We now define a ``Leo stipulation'',
 \var{leo-stip}.
