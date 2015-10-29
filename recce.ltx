@@ -7459,40 +7459,7 @@ most recent unmemoized bottom-up cause in its silo.
 \end{theorem}
 
 \begin{proof}
-TODO: Do I need to revise this?
-
-Let \var{silo} be an altitude silo
-Let $\Veim{top} = \var{silo}[\var{n}]$
-be an unmemoized reduction.
-Let $\Veim{bottom} = \Vel{silo}{m}$
-be its most recent unmemoized bottom-up cause.
-That is,
-\begin{multline}
-\var{m} < \var{n}, \\
-\text{$\neg \Memoized{\Vel{silo}{m}}$ and} \\
-\forall\;\var{i}, \var{m} < \var{i} < \var{n},
-\Memoized{\var{silo}[\var{i}]}
-\end{multline}
-
-By the
-Definition \ref{def:altitude} (``altitude'')
-for
-unmemoized reductions,
-$\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\Vdecr{n}]} + 1$.
-
-TODO: Rewrite, making the induction explicit.
-
-For $\var{silo}[\var{i}], \var{m} < \var{i} < \var{n}$,
-$\var{silo}[\var{i}]$ is either a reduction or a null-scan,
-and is memoized,
-so that by the Definition \ref{def:altitude},
-$\Alt{\var{silo}[\var{i}]} = \Alt{\var{silo}[\Vdecr{i}]}$.
-Therefore
-\[\Alt{\var{silo}[\var{n}]} = \Alt{\var{silo}[\var{m}]} + 1\]
-and
-\begin{equation*}
-\Alt{\Veim{top}} = \Alt{\Veim{bottom}} + 1.\qedhere
-\end{equation*}
+TODO
 \end{proof}
 
 \section{Leo memos}
