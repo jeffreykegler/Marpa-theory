@@ -322,15 +322,15 @@ If this revision is not the latest, please ignore it.
 If this does seems to be the latest version,
 and you are adventurous,
 then read on.
-
 Chapters
 \ref{ch:introduction},
 \ref{ch:preliminaries},
 \ref{ch:rewrite},
 \ref{ch:dotted},
 \ref{ch:earley-items},
+\ref{ch:tethers}
 and
-\ref{ch:earley-implementation}
+\ref{ch:earley-tables}
 are in the ``advanced draft'' stage.
 Advanced draft chapters are still subject to revision,
 but the author hopes they are stable enough
@@ -344,6 +344,8 @@ chapters in advanced draft status
 will change dramatically.
 
 Chapters
+\ref{ch:silos},
+\ref{ch:altitude},
 \ref{ch:leo},
 \ref{ch:pseudocode},
 \ref{ch:correctness},
@@ -649,7 +651,7 @@ to get exactly the language that the precedenced rule specifies,
 while the user of the yacc equivalent must hope their
 syntax falls within the limits of LALR.
 
-\section{The organization of this document}
+\section{How to read this document}
 
 Chapter
 \ref{ch:preliminaries} describes the notation and conventions
@@ -659,9 +661,20 @@ grammar rewrites.
 The next three sections develop the ideas for Earley's algorithm.
 Chapter \ref{ch:dotted} describes dotted rules.
 Chapter \ref{ch:earley-items} describes Earley items.
-Chapter \ref{ch:earley-implementation} describes Earley sets
-and
-develops the rest of the basic ideas behind Earley implementations.
+Chapter \ref{ch:tethers} introduces tethers,
+which are chains of top-down causation.
+Chapter \ref{ch:earley-tables} describes
+the remaining ideas behind
+basic Earley implementations,
+including
+Earley sets
+and Earley tables.
+Chapter \ref{ch:silos} introduces silos.
+Like tethers, silos are chains of causation,
+but unlike tethers, in silos the causation is
+largely bottom-up.
+Chapter \ref{ch:altitude} introduces the related idea
+of the ``altitude'' of Earley items.
 
 Chapter \ref{ch:leo} describes Leo's modification
 to Earley's algorithm.
@@ -674,6 +687,75 @@ Chapter \ref{ch:linear} sets out our linear
 time and space complexity results.
 Chapter \ref{ch:other-complexity} presents out
 other complexity results.
+
+Because of its immediate practical applications,
+we expect this document to be of interest to many
+who do not ordinarily read documents with this
+level of mathematical apparatus.
+For those readers, we offer some suggestions
+which will be well known to our more mathematical
+readers.
+
+In most fields, texts are intended to be,
+and often are, read through to the end,
+starting at page one.
+A monograph of this kind is rarely
+read that way.
+Even the most mathematical sophisticated
+reader will skip most or all
+of the proofs
+on a first reading.
+And a mathematically inclined
+reader will usually
+not read a proof line-by-line
+unless and until her previous readings
+have convinced her that the proof
+is of sufficient
+interest to deserve this kind of
+attention.
+
+This is not to say that we think
+that the proofs are unimportant.
+The proofs explore how our ideas
+and claims
+are connected to each other.
+There is a theoretical satisfaction in
+this deeper level of knowledge.
+And the proofs
+increase our
+assurance that our claims are, in fact, true.
+
+But the proofs are also of practical use,
+even to the programmer who is willing to
+take our word for everything in these pages.
+If, when coding,
+the programmer only knows ``what'' and ``how'',
+he will find it hard to keep all of this materinal
+in his mind at once.
+If the programmer knows,
+not just ``what'' and ``how'',
+but ``why'',
+he will understand the connections among
+these ideas.
+When the programmer
+understands ``why'',
+the book is always open in front of him,
+turned to whatever page it is that
+he needs.
+
+We expect
+most readers of this monograph
+to have a practical bent.
+For those readers,
+one way to start is to read the preliminary
+material for as long as it seems relevant,
+skipping the proofs.
+When impatience for something ``closer to
+the metal'' arises,
+this reader should
+jump ahead
+to the pseudocode in
+Chapter \ref{ch:pseudocode}.
 
 \chapter{Preliminaries}
 \label{ch:preliminaries}
@@ -4320,7 +4402,222 @@ the induction,
 and the theorem.
 \end{proof}
 
-\section{Tethers}
+\section{Ambiguity}
+
+\begin{theorem}
+\ttitle{Multiple top-down causes make a grammar ambiguous}
+\label{t:multi-down-cause-ambiguous}
+If any Earley item has more than one top-down cause,
+the grammar is ambiguous.
+\end{theorem}
+
+\begin{proof}
+Assume for a reductio, that \Veim{effect} has more than one top-down cause
+but that \Cg{} is not ambiguous.
+Without loss of generality,
+let \Veim{effect} be
+\begin{equation}
+\label{eq:multi-down-cause-ambiguous-20}
+\Veim{effect} =
+[ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
+\end{equation}
+By the Definition \ref{def:causes},
+the dotted rule and origin of a top-down cause are determined by its effect,
+so that the two down-causes can differ only in their current position.
+Let the two top-down causes be
+\begin{gather*}
+\Veim{down1} = [ [ \Vsym{down} \derives \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j1} ] \\
+\Veim{down2} = [ [ \Vsym{down} \derives \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j2} ]
+\end{gather*}
+From these we get the two derivations:
+\begin{gather*}
+\Vsym{down} \derives \Vmk{i} \Vstr{pre} \Vmk{j1} \Vsym{A} \Vstr{post} \\
+\Vsym{down} \derives \Vmk{i} \Vstr{pre} \Vmk{j2} \Vsym{A} \Vstr{post}
+\end{gather*}
+These will be different factorings of the input if $\var{j1} \neq \var{j2}$.
+By assumption for the reductio, \Cg{} is not ambiguous,
+and therefore no derivation step can allow two different factorings of the input.
+So $\var{j1} = \var{j2}$.
+But then $\Veim{down1} = \Veim{down2}$, which is contrary to assumption
+for the reductio.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Multiple bottom-up causes make a grammar ambiguous}
+\label{t:multi-up-cause-ambiguous}
+If any Earley item has more than one bottom-up cause,
+the grammar is ambiguous.
+\end{theorem}
+
+\begin{proof}
+Assume for a reductio, that \Veim{effect} has more than one bottom-up cause
+but that \Cg{} is not ambiguous.
+Without loss of generality,
+let \Veim{effect} be
+\begin{equation}
+\label{eq:multi-up-cause-ambiguous-20}
+\Veim{effect} =
+\big[ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k}
+\big]
+\end{equation}
+and call the two differing up-causes, \Vinst{up1}
+and \Vinst{up2}.
+By Definition \ref{def:causes},
+the symbol and right location of a bottom-up cause are determined by its effect,
+so that
+\begin{gather}
+\label{eq:multi-up-cause-ambiguous-25}
+\Right{\var{up1}} = \Right{\var{up2}} \\
+\label{eq:multi-up-cause-ambiguous-26}
+\Symbol{\var{up1}} = \Symbol{\var{up2}}
+\end{gather}
+Therefore
+\Vinst{up1} and \Vinst{up2}
+can differ only in their left location, or in their EIM equivalent.
+
+By Theorem \ref{t:symbolic-causes-from-effect},
+up-causes must have matching down causes.
+By the definition of matching causes,
+if two up-causes differ in their left location,
+their matching down causes will differ in their right location.
+But by Theorem
+\ref{t:multi-down-cause-ambiguous},
+if an Earley item has more than one top-down cause,
+\Cg{} is ambiguous.
+This is contrary to assumption for the reductio.
+So we know that
+\begin{equation}
+\label{eq:multi-up-cause-ambiguous-28}
+\Left{\var{up1}} = \Left{\var{up2}}
+\end{equation}
+
+Since
+$\Symbol{\var{up1}} = \Symbol{\var{up2}}$,
+and every symbol is either a terminal or a non-terminal,
+two up-causes cannot differ in whether they have an EIM equivalent.
+Theorem
+\ref{t:eim-equivalent-from-non-terminal}
+shows that an parse instance has an EIM equivalent
+if and only if its symbol is a non-terminal,
+so we know that
+if \var{up1} has no EIM equivalent,
+then \var{up2} has no EIM equivalent.
+But if both
+\var{up1} and
+\var{up2} have no EIM equivalent,
+they consist entirely of their parse symbol instance,
+so that by
+\eqref{eq:multi-up-cause-ambiguous-25},
+\eqref{eq:multi-up-cause-ambiguous-26}
+and
+\eqref{eq:multi-up-cause-ambiguous-28},
+they are identical.
+
+It remains to examine the case where up-causes differ in their EIM equivalent.
+By
+\eqref{eq:multi-up-cause-ambiguous-25}
+and \eqref{eq:multi-up-cause-ambiguous-26}
+the symbol and right location of the two up-causes must be the same.
+By Definition \ref{def:causes},
+an EIM bottom-up cause must be a completion.
+By \eqref{eq:multi-up-cause-ambiguous-28}
+their left locations must be identical.
+So the two up-causes can differ only in the RHS of their dotted rule.
+
+\begin{sloppypar}
+Without loss of generalization,
+let the two differing up-causes be
+\begin{gather*}
+\Veim{up1} = \big[ [ \Vsym{up} \derives \Vstr{up-rhs1} \mydot ], \var{j}, \var{k}
+\big] \\
+\Veim{up2} = \big[ [ \Vsym{up} \derives \Vstr{up-rhs2} \mydot ], \var{j}, \var{k}
+\big]
+\end{gather*}
+From these we get the two derivations:
+\begin{gather*}
+\Vsym{up1} \derives \Vmk{j} \Vstr{up-rhs1} \Vmk{k} \\
+\Vsym{up1} \derives \Vmk{j} \Vstr{up-rhs2} \Vmk{k}
+\end{gather*}
+These will be different derivations of the input if
+$\Vstr{up-rhs1} \neq \Vstr{up-rhs2}.$
+By assumption for the reductio, \Cg{} is not ambiguous,
+and therefore no derivation step can allow two different sentential forms.
+So $\Vstr{up-rhs1} = \Vstr{up-rhs2}.$
+But then $\Veim{up1} = \Veim{up2}$, which is contrary to assumption
+for the reductio.\qedhere
+\end{sloppypar}
+\end{proof}
+
+\section{Fleeting and lasting}
+
+Recall that dotted rule notions applied to EIM's
+refer to the dotted rule of the EIM.
+Therefore, a fleeting EIM is an EIM
+with a nulling postdot symbol;
+and a lasting EIM is any EIM which is not
+a fleeting EIM.
+
+\begin{definition}
+\dtitle{Lasting equivalent}
+\label{def:lasting-equivalent-eim}
+Let
+\begin{equation*}
+\var{eim1} = [ \Vdr{dr1}, \Vorig{i}, \Vloc{j} ].
+\end{equation*}
+Let \Vdr{lasting1} be the lasting equivalent of \Vdr{dr1}.
+Then the lasting equivalent of \var{eim1}
+is
+\begin{equation*}
+[ \Vdr{lasting1}, \Vorig{i}, \Vloc{j} ].
+\end{equation*}
+We say that the \dfn{lasting effect} of a cause
+is the lasting equivalent of the effect of that cause.
+\end{definition}
+
+\begin{theorem}
+\ttitle{Valid EIMs have valid lasting equivalents}
+\label{t:lasting-valid-if-fleeting-valid}
+If an EIM is valid, so is its lasting equivalent.
+\end{theorem}
+
+\begin{proof}
+Without loss of generality,
+let the EIM be
+\begin{equation}
+\label{eq:lasting-valid-if-fleeting-valid-10}
+\Veim{fleet} =
+[ [ \Vsym{fleet} \de \Vstr{pre} \mydot \Vstr{nulls} \Vstr{post} ], \var{i}, \var{k} ]
+\end{equation}
+By \eqref{eq:lasting-valid-if-fleeting-valid-10}
+and the definition of EIM validity,
+\begin{multline}
+\label{eq:lasting-valid-if-fleeting-valid-20}
+\Vsym{fleet} \derives \Vmk{i} \Vstr{pre} \Vmk{k} \Vstr{nulls} \Vstr{post} \\
+\shoveleft{\qquad \text{where $\Vstr{nulls} \derives \epsilon$.}}
+\end{multline}
+From
+\eqref{eq:lasting-valid-if-fleeting-valid-20}, we know that
+\begin{equation*}
+\Vsym{fleet} \derives \Vmk{i} \Vstr{pre} \Vmk{k} \Vstr{nulls} \Vmk{k} \Vstr{post}
+\end{equation*}
+so that
+using the definition of EIM validity in the opposite direction,
+we know that
+\begin{equation}
+\label{eq:lasting-valid-if-fleeting-valid-25}
+\Veim{lasting} =
+[ [ \Vsym{fleet} \de \Vstr{pre} \Vstr{nulls} \mydot \Vstr{post} ], \var{i}, \var{k} ]
+\end{equation}
+is valid.
+By the definition of lasting equivalent EIM's,
+Definition \ref{def:lasting-equivalent-eim},
+\eqref{eq:lasting-valid-if-fleeting-valid-25} is
+the lasting equivalent of
+\eqref{eq:lasting-valid-if-fleeting-valid-10}.
+\end{proof}
+
+\chapter{Tethers}
+\label{ch:tethers}
 
 \begin{theorem}
 \ttitle{Right location of top-down cause}
@@ -5280,222 +5577,8 @@ and
 show the theorem.
 \end{proof}
 
-\section{Ambiguity}
-
-\begin{theorem}
-\ttitle{Multiple top-down causes make a grammar ambiguous}
-\label{t:multi-down-cause-ambiguous}
-If any Earley item has more than one top-down cause,
-the grammar is ambiguous.
-\end{theorem}
-
-\begin{proof}
-Assume for a reductio, that \Veim{effect} has more than one top-down cause
-but that \Cg{} is not ambiguous.
-Without loss of generality,
-let \Veim{effect} be
-\begin{equation}
-\label{eq:multi-down-cause-ambiguous-20}
-\Veim{effect} =
-[ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
-\end{equation}
-By the Definition \ref{def:causes},
-the dotted rule and origin of a top-down cause are determined by its effect,
-so that the two down-causes can differ only in their current position.
-Let the two top-down causes be
-\begin{gather*}
-\Veim{down1} = [ [ \Vsym{down} \derives \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j1} ] \\
-\Veim{down2} = [ [ \Vsym{down} \derives \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j2} ]
-\end{gather*}
-From these we get the two derivations:
-\begin{gather*}
-\Vsym{down} \derives \Vmk{i} \Vstr{pre} \Vmk{j1} \Vsym{A} \Vstr{post} \\
-\Vsym{down} \derives \Vmk{i} \Vstr{pre} \Vmk{j2} \Vsym{A} \Vstr{post}
-\end{gather*}
-These will be different factorings of the input if $\var{j1} \neq \var{j2}$.
-By assumption for the reductio, \Cg{} is not ambiguous,
-and therefore no derivation step can allow two different factorings of the input.
-So $\var{j1} = \var{j2}$.
-But then $\Veim{down1} = \Veim{down2}$, which is contrary to assumption
-for the reductio.
-\end{proof}
-
-\begin{theorem}
-\ttitle{Multiple bottom-up causes make a grammar ambiguous}
-\label{t:multi-up-cause-ambiguous}
-If any Earley item has more than one bottom-up cause,
-the grammar is ambiguous.
-\end{theorem}
-
-\begin{proof}
-Assume for a reductio, that \Veim{effect} has more than one bottom-up cause
-but that \Cg{} is not ambiguous.
-Without loss of generality,
-let \Veim{effect} be
-\begin{equation}
-\label{eq:multi-up-cause-ambiguous-20}
-\Veim{effect} =
-\big[ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k}
-\big]
-\end{equation}
-and call the two differing up-causes, \Vinst{up1}
-and \Vinst{up2}.
-By Definition \ref{def:causes},
-the symbol and right location of a bottom-up cause are determined by its effect,
-so that
-\begin{gather}
-\label{eq:multi-up-cause-ambiguous-25}
-\Right{\var{up1}} = \Right{\var{up2}} \\
-\label{eq:multi-up-cause-ambiguous-26}
-\Symbol{\var{up1}} = \Symbol{\var{up2}}
-\end{gather}
-Therefore
-\Vinst{up1} and \Vinst{up2}
-can differ only in their left location, or in their EIM equivalent.
-
-By Theorem \ref{t:symbolic-causes-from-effect},
-up-causes must have matching down causes.
-By the definition of matching causes,
-if two up-causes differ in their left location,
-their matching down causes will differ in their right location.
-But by Theorem
-\ref{t:multi-down-cause-ambiguous},
-if an Earley item has more than one top-down cause,
-\Cg{} is ambiguous.
-This is contrary to assumption for the reductio.
-So we know that
-\begin{equation}
-\label{eq:multi-up-cause-ambiguous-28}
-\Left{\var{up1}} = \Left{\var{up2}}
-\end{equation}
-
-Since
-$\Symbol{\var{up1}} = \Symbol{\var{up2}}$,
-and every symbol is either a terminal or a non-terminal,
-two up-causes cannot differ in whether they have an EIM equivalent.
-Theorem
-\ref{t:eim-equivalent-from-non-terminal}
-shows that an parse instance has an EIM equivalent
-if and only if its symbol is a non-terminal,
-so we know that
-if \var{up1} has no EIM equivalent,
-then \var{up2} has no EIM equivalent.
-But if both
-\var{up1} and
-\var{up2} have no EIM equivalent,
-they consist entirely of their parse symbol instance,
-so that by
-\eqref{eq:multi-up-cause-ambiguous-25},
-\eqref{eq:multi-up-cause-ambiguous-26}
-and
-\eqref{eq:multi-up-cause-ambiguous-28},
-they are identical.
-
-It remains to examine the case where up-causes differ in their EIM equivalent.
-By
-\eqref{eq:multi-up-cause-ambiguous-25}
-and \eqref{eq:multi-up-cause-ambiguous-26}
-the symbol and right location of the two up-causes must be the same.
-By Definition \ref{def:causes},
-an EIM bottom-up cause must be a completion.
-By \eqref{eq:multi-up-cause-ambiguous-28}
-their left locations must be identical.
-So the two up-causes can differ only in the RHS of their dotted rule.
-
-\begin{sloppypar}
-Without loss of generalization,
-let the two differing up-causes be
-\begin{gather*}
-\Veim{up1} = \big[ [ \Vsym{up} \derives \Vstr{up-rhs1} \mydot ], \var{j}, \var{k}
-\big] \\
-\Veim{up2} = \big[ [ \Vsym{up} \derives \Vstr{up-rhs2} \mydot ], \var{j}, \var{k}
-\big]
-\end{gather*}
-From these we get the two derivations:
-\begin{gather*}
-\Vsym{up1} \derives \Vmk{j} \Vstr{up-rhs1} \Vmk{k} \\
-\Vsym{up1} \derives \Vmk{j} \Vstr{up-rhs2} \Vmk{k}
-\end{gather*}
-These will be different derivations of the input if
-$\Vstr{up-rhs1} \neq \Vstr{up-rhs2}.$
-By assumption for the reductio, \Cg{} is not ambiguous,
-and therefore no derivation step can allow two different sentential forms.
-So $\Vstr{up-rhs1} = \Vstr{up-rhs2}.$
-But then $\Veim{up1} = \Veim{up2}$, which is contrary to assumption
-for the reductio.\qedhere
-\end{sloppypar}
-\end{proof}
-
-\section{Fleeting and lasting}
-
-Recall that dotted rule notions applied to EIM's
-refer to the dotted rule of the EIM.
-Therefore, a fleeting EIM is an EIM
-with a nulling postdot symbol;
-and a lasting EIM is any EIM which is not
-a fleeting EIM.
-
-\begin{definition}
-\dtitle{Lasting equivalent}
-\label{def:lasting-equivalent-eim}
-Let
-\begin{equation*}
-\var{eim1} = [ \Vdr{dr1}, \Vorig{i}, \Vloc{j} ].
-\end{equation*}
-Let \Vdr{lasting1} be the lasting equivalent of \Vdr{dr1}.
-Then the lasting equivalent of \var{eim1}
-is
-\begin{equation*}
-[ \Vdr{lasting1}, \Vorig{i}, \Vloc{j} ].
-\end{equation*}
-We say that the \dfn{lasting effect} of a cause
-is the lasting equivalent of the effect of that cause.
-\end{definition}
-
-\begin{theorem}
-\ttitle{Valid EIMs have valid lasting equivalents}
-\label{t:lasting-valid-if-fleeting-valid}
-If an EIM is valid, so is its lasting equivalent.
-\end{theorem}
-
-\begin{proof}
-Without loss of generality,
-let the EIM be
-\begin{equation}
-\label{eq:lasting-valid-if-fleeting-valid-10}
-\Veim{fleet} =
-[ [ \Vsym{fleet} \de \Vstr{pre} \mydot \Vstr{nulls} \Vstr{post} ], \var{i}, \var{k} ]
-\end{equation}
-By \eqref{eq:lasting-valid-if-fleeting-valid-10}
-and the definition of EIM validity,
-\begin{multline}
-\label{eq:lasting-valid-if-fleeting-valid-20}
-\Vsym{fleet} \derives \Vmk{i} \Vstr{pre} \Vmk{k} \Vstr{nulls} \Vstr{post} \\
-\shoveleft{\qquad \text{where $\Vstr{nulls} \derives \epsilon$.}}
-\end{multline}
-From
-\eqref{eq:lasting-valid-if-fleeting-valid-20}, we know that
-\begin{equation*}
-\Vsym{fleet} \derives \Vmk{i} \Vstr{pre} \Vmk{k} \Vstr{nulls} \Vmk{k} \Vstr{post}
-\end{equation*}
-so that
-using the definition of EIM validity in the opposite direction,
-we know that
-\begin{equation}
-\label{eq:lasting-valid-if-fleeting-valid-25}
-\Veim{lasting} =
-[ [ \Vsym{fleet} \de \Vstr{pre} \Vstr{nulls} \mydot \Vstr{post} ], \var{i}, \var{k} ]
-\end{equation}
-is valid.
-By the definition of lasting equivalent EIM's,
-Definition \ref{def:lasting-equivalent-eim},
-\eqref{eq:lasting-valid-if-fleeting-valid-25} is
-the lasting equivalent of
-\eqref{eq:lasting-valid-if-fleeting-valid-10}.
-\end{proof}
-
-\chapter{Earley implementations}
-\label{ch:earley-implementation}
+\chapter{Earley tables}
+\label{ch:earley-tables}
 
 In the context of a specific \Cg{},
 a specific \Cw{},
@@ -5780,147 +5863,8 @@ the maximum size of Earley set \Vloc{i} is therefore
 \end{equation*}
 \end{proof}
 
-\chapter{The Leo algorithm}
-\label{ch:leo}
-
-\section{The history of a conjecture}
-
-Jay Earley~\cite[p. 60]{Earley1968}%
-\index{recce-general}{Earley, Jay}
-conjectured that \Earley{} could be
-modified to be \On{} for
-all deterministic context-free grammars (DCFG's).
-(The DCFG's are the union of the
-\LRk{} grammars for all \var{k}.)
-He gave no details of the method he had in mind.
-Earley left the field shortly thereafter ---
-by 1973 he had earned a second Ph.D. and
-was a practicing psychotherapist in California.
-
-In the late 1980's, Joop Leo%
-\index{recce-general}{Leo, Joop}
-also conjectured that
-Earley's algorithm could be modified to be linear for all
-DCFG's.
-Leo was initially unaware of Earley's earlier conjecture ---
-he discovered it in the course of writing up his
-discovery.
-Leo published his method in~\cite{Leo1991}.
-
-The problem both invesigators noticed was that,
-while \Earley{} is \On{}
-for left recursion,
-and in fact very efficient,
-it is $\order{\var{n}^2}$ for right recursion.
-This is because all the EIM's necessary for a right
-recursion are created at every parse location
-where the right recursion might end.
-
-For simplicity,
-in the discussion of this section,
-we will assume that the grammar is unambiguous,
-or at least that it is not ambiguous in a way that affects
-the right recursion we are discussing.
-We will call each potential end location of a right recursion,
-an \dfn{EORR},
-and will will call
-the EIM's needed to represent the right recursion
-at an EORR, an \dfn{EORR set}.
-
-In \Earley,
-if the length of the right
-recursion at an EORR is \var{n}, then the EORR set contains \var{n} EIM's.
-The total number of EIM's in the EORR sets
-needed for a right recursion of length \var{n} is
-\[
-  \sum_{\var{i} = 1}^\var{n} \var{i} = \order{\var{n}^2}.
-\]
-Of these EIM's, only \var{n} will actually be needed ---
-the rest are useless.
-
-Leo's idea was to memoize the right recursions.
-With Leo memoization, each EORR set is represented by
-a pair of EIM's and a memo.
-There are \Oc{} Leo memos per Earley set,
-so the time and space complexity
-of an EORR set is \Oc{}.
-The time and space complexity of all the EORR
-sets in
-a right recursion of length \var{n} will
-be
-\[
-  \sum_{\var{i} = 1}^\var{n} 1 = \On.
-\]
-
-If, at evaluation time,
-it is desirable to expand the Leo memoizations,
-only the EORR set actually used in the parse
-needs to be expanded.
-All of the EIM's actually used in a right recursion
-will be in a single EORR set.
-The number of memoized
-EIM's that need to be expanded
-will be \On{},
-where \var{n} is the length of the recursion.
-As a result,
-even if the time and space
-required to expand Leo memoization
-during evaluation
-is taken into account,
-the time and space complexity of
-a right recursion become
-$\On{} = \On{} + \On{}$.
-
-Joop Leo%
-\index{recce-general}{Leo, Joop}
-showed that,
-with his modification, Earley's algorithm
-is \On{} for all LR-regular grammars.
-LR-regular is LR where lookahead
-is infinite length, but restricted to
-distinguishing between regular expressions.
-Earley did not claim \On{} for LR-regular
-because LR-regular was not introduced
-to the literature until 1973~\cite{Culik1973}.
-Even in 1991, LR-regular was not well-known,
-which is why Leo only claims
-the weaker \LRk{} bound in
-his title.
-
-Summarizing Leo's method,
-it consists of spotting potential right recursions
-and memoizing them.
-Leo restricts the memoization to situations where
-the right recursion is unambiguous.
-Potential right recursions are memoized by
-Earley set, using what Leo called
-``transitive items''.
-In this document Leo's ``transitive items''
-will be called Leo memos.
-
-Implementation of Leo memoization
-will be considered in full detail,
-and its correctness proved,
-in Section \ref{ch:recce}.
-In this chapter, we develop the
-concepts behind Leo memoization.
-We define, at an abstract level,
-the data structures
-that Leo memoization requires,
-and we demonstrate their basic properties.
-
-Summarizing Leo's method,
-it consists of spotting potential right recursions
-and memoizing them.
-Leo restricts the memoization to situations where
-the right recursion is unambiguous.
-Potential right recursions are memoized by
-Earley set, using what Leo called
-``transitive items''.
-In this document Leo's ``transitive items''
-will be called Leo memos.
-
-\section{Silos}
+\chapter{Silos}
+\label{ch:silos}
 
 \begin{definition}
 \dtitle{Silo}
@@ -7139,7 +7083,8 @@ which is contrary to assumption for the reductio.
 We conclude that \Veim{bot} is a read EIM.
 \end{proof}
 
-\section{Altitude}
+\chapter{Altitude}
+\label{ch:altitude}
 
 \begin{definition}
 \dtitle{Altitude}
@@ -7534,6 +7479,146 @@ most recent unmemoized bottom-up cause in its silo.
 TODO
 \end{proof}
 
+\chapter{The Leo algorithm}
+\label{ch:leo}
+
+\section{The history of a conjecture}
+
+Jay Earley~\cite[p. 60]{Earley1968}%
+\index{recce-general}{Earley, Jay}
+conjectured that \Earley{} could be
+modified to be \On{} for
+all deterministic context-free grammars (DCFG's).
+(The DCFG's are the union of the
+\LRk{} grammars for all \var{k}.)
+He gave no details of the method he had in mind.
+Earley left the field shortly thereafter ---
+by 1973 he had earned a second Ph.D. and
+was a practicing psychotherapist in California.
+
+In the late 1980's, Joop Leo%
+\index{recce-general}{Leo, Joop}
+also conjectured that
+Earley's algorithm could be modified to be linear for all
+DCFG's.
+Leo was initially unaware of Earley's earlier conjecture ---
+he discovered it in the course of writing up his
+discovery.
+Leo published his method in~\cite{Leo1991}.
+
+The problem both invesigators noticed was that,
+while \Earley{} is \On{}
+for left recursion,
+and in fact very efficient,
+it is $\order{\var{n}^2}$ for right recursion.
+This is because all the EIM's necessary for a right
+recursion are created at every parse location
+where the right recursion might end.
+
+For simplicity,
+in the discussion of this section,
+we will assume that the grammar is unambiguous,
+or at least that it is not ambiguous in a way that affects
+the right recursion we are discussing.
+We will call each potential end location of a right recursion,
+an \dfn{EORR},
+and will will call
+the EIM's needed to represent the right recursion
+at an EORR, an \dfn{EORR set}.
+
+In \Earley,
+if the length of the right
+recursion at an EORR is \var{n}, then the EORR set contains \var{n} EIM's.
+The total number of EIM's in the EORR sets
+needed for a right recursion of length \var{n} is
+\[
+  \sum_{\var{i} = 1}^\var{n} \var{i} = \order{\var{n}^2}.
+\]
+Of these EIM's, only \var{n} will actually be needed ---
+the rest are useless.
+
+Leo's idea was to memoize the right recursions.
+With Leo memoization, each EORR set is represented by
+a pair of EIM's and a memo.
+There are \Oc{} Leo memos per Earley set,
+so the time and space complexity
+of an EORR set is \Oc{}.
+The time and space complexity of all the EORR
+sets in
+a right recursion of length \var{n} will
+be
+\[
+  \sum_{\var{i} = 1}^\var{n} 1 = \On.
+\]
+
+If, at evaluation time,
+it is desirable to expand the Leo memoizations,
+only the EORR set actually used in the parse
+needs to be expanded.
+All of the EIM's actually used in a right recursion
+will be in a single EORR set.
+The number of memoized
+EIM's that need to be expanded
+will be \On{},
+where \var{n} is the length of the recursion.
+As a result,
+even if the time and space
+required to expand Leo memoization
+during evaluation
+is taken into account,
+the time and space complexity of
+a right recursion become
+$\On{} = \On{} + \On{}$.
+
+Joop Leo%
+\index{recce-general}{Leo, Joop}
+showed that,
+with his modification, Earley's algorithm
+is \On{} for all LR-regular grammars.
+LR-regular is LR where lookahead
+is infinite length, but restricted to
+distinguishing between regular expressions.
+Earley did not claim \On{} for LR-regular
+because LR-regular was not introduced
+to the literature until 1973~\cite{Culik1973}.
+Even in 1991, LR-regular was not well-known,
+which is why Leo only claims
+the weaker \LRk{} bound in
+his title.
+
+Summarizing Leo's method,
+it consists of spotting potential right recursions
+and memoizing them.
+Leo restricts the memoization to situations where
+the right recursion is unambiguous.
+Potential right recursions are memoized by
+Earley set, using what Leo called
+``transitive items''.
+In this document Leo's ``transitive items''
+will be called Leo memos.
+
+Implementation of Leo memoization
+will be considered in full detail,
+and its correctness proved,
+in Section \ref{ch:recce}.
+In this chapter, we develop the
+concepts behind Leo memoization.
+We define, at an abstract level,
+the data structures
+that Leo memoization requires,
+and we demonstrate their basic properties.
+
+Summarizing Leo's method,
+it consists of spotting potential right recursions
+and memoizing them.
+Leo restricts the memoization to situations where
+the right recursion is unambiguous.
+Potential right recursions are memoized by
+Earley set, using what Leo called
+``transitive items''.
+In this document Leo's ``transitive items''
+will be called Leo memos.
+
 \section{Leo memos}
 
 In this document Leo's ``transitive items''
@@ -7873,13 +7958,15 @@ all of its causes are unmemoized.
 
 \begin{proof}
 TODO.
+
+TODO: In these, pay attention to possibility of
+overlapping Leo sections.
 \end{proof}
 
 \begin{theorem}
-\label{t:memoized-causes}
-If an effect is memoized,
-it is either the top EIM of a Leo memo,
-or it has a silo cause that is memoized.
+\label{t:leo-top-never-memoized},
+The top EIM of a Leo section
+is never memoized.
 \end{theorem}
 
 \begin{proof}
@@ -8476,7 +8563,7 @@ we can state that
 \begin{equation}
 \label{eq:reduction-op-correct-12}
 \myparbox{
-if the causes are valid, every attempt to
+if the causes are valid, every attempt
 by Algorithm \ref{alg:leo-reduction-op} to
 add their effect EIM adds
 the ethereal closure of the effect EIM.
@@ -8611,7 +8698,7 @@ of EIM's in
 $\var{iter}[\var{i}]$ are unmemoized.
 We need to show that all of the EIM's in
 $\var{iter}[\var{i}+1]$ are unmemoized.
-By Theorem \ref{t:memoized-causes},
+By Theorem \ref{t:leo-top-never-memoized},
 every memoized
 effect either has a memoized cause,
 or else has a Leo memo.
