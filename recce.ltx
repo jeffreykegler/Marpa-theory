@@ -8486,48 +8486,41 @@ Overhead may be charged to the Earley set at \Vloc{i}.
 This section is devoted to showing that
 Algorithm \ref{alg:reduction-pass} is correct.
 
-\begin{theorem}
-\label{t:reduction-op-correct}
-Assume that
-\begin{equation}
-\label{eq:reduction-op-correct-5}
-\myparbox{
-for all locations \Vloc{h},
-and all symbols in \Cg{}, \Vsym{sym},
- if $\var{h} < \Vloc{current}$, then \Ves{h} is correct
-and $\var{transitions}(\var{h}, \Vsym{sym})$ is correct.
-}
-\end{equation}
-Also assume that
-\begin{equation}
-\label{eq:reduction-op-correct-8}
-\myparbox{the ethereal closure of the set of EIM's read at \Vloc{current} is correct.}
-\end{equation}
-Let \Veimset{reduced-base} be
-the set of
-unmemoized EIM's at \Vloc{current}
-which are reductions ---
-that is,
-EIM's whose bottom-up cause is an EIM.
-Let \Veimset{reduced-closure} be
-the ethereal closure of \Veimset{reduced}.
-If \eqref{eq:reduction-op-correct-5}
-and \eqref{eq:reduction-op-correct-8},
-then after Algorithm \ref{alg:reduction-pass}
-runs,
-the set of EIM's at \Vloc{current}
-is correct for membership in \Veimset{reduced-closure}.
-\end{theorem}
+\begin{observation}
+\label{obs:effect-eim}
+For the purposes of this section,
+we will call an EIM
+added by
+Algorithm \ref{alg:reduction-pass}
+a ``reduction pass effect''.
+From examining the pseudocode,
+we observe that reduction pass effects
+are added by
+Algorithm \ref{alg:reduction-pass}
+are added indirectly,
+by the calls of \call{Add EIM set}{}
+\begin{itemize}
+\item
+in Algorithm \ref{alg:earley-reduction-op}
+at line \ref{line:earley-reduction-op-20}; and
+\item
+in Algorithm \ref{alg:leo-reduction-op}
+at line \ref{line:leo-reduction-op-20}.
+\end{itemize}
+\end{observation}
+
+\begin{lemma}
+\label{lem:reduction-effect-validity}
+\ltitle{Reduction Effect validity}
+If the causes are valid, every attempt
+by Algorithm \ref{alg:leo-reduction-op} to
+add a reduction pass effect
+adds
+the ethereal closure of the
+reduction pass effect.
+\end{lemma}
 
 \begin{proof}
-EIM's added as a result of
-Algorithm \ref{alg:reduction-pass}
-are added by Algorithm \ref{alg:earley-reduction-op}
-at line \ref{line:earley-reduction-op-20};
-or by Algorithm \ref{alg:leo-reduction-op}
-at line \ref{line:leo-reduction-op-20}.
-
-\textbf{Effect validity}:
 From Theorem
 \ref{t:effect-from-symbolic-causes},
 we know that the telluric base EIM's we attempt to add
@@ -8562,18 +8555,43 @@ at line
 of Algorithm \ref{alg:leo-reduction-op}
 adds the ethereal closure of the telluric base EIM's
 added at those lines.
-Based what we have laid in this part of the proof
-on \textbf{effect validity},
-we can state that
+\end{proof}
+
+\begin{theorem}
+\label{t:reduction-op-correct}
+Assume that
 \begin{equation}
-\label{eq:reduction-op-correct-12}
+\label{eq:reduction-op-correct-5}
 \myparbox{
-if the causes are valid, every attempt
-by Algorithm \ref{alg:leo-reduction-op} to
-add their effect EIM adds
-the ethereal closure of the effect EIM.
+for all locations \Vloc{h},
+and all symbols in \Cg{}, \Vsym{sym},
+ if $\var{h} < \Vloc{current}$, then \Ves{h} is correct
+and $\var{transitions}(\var{h}, \Vsym{sym})$ is correct.
 }
 \end{equation}
+Also assume that
+\begin{equation}
+\label{eq:reduction-op-correct-8}
+\myparbox{the ethereal closure of the set of EIM's read at \Vloc{current} is correct.}
+\end{equation}
+Let \Veimset{reduced-base} be
+the set of
+unmemoized EIM's at \Vloc{current}
+which are reductions ---
+that is,
+EIM's whose bottom-up cause is an EIM.
+Let \Veimset{reduced-closure} be
+the ethereal closure of \Veimset{reduced}.
+If \eqref{eq:reduction-op-correct-5}
+and \eqref{eq:reduction-op-correct-8},
+then after Algorithm \ref{alg:reduction-pass}
+runs,
+the set of EIM's at \Vloc{current}
+is correct for membership in \Veimset{reduced-closure}.
+\end{theorem}
+
+\begin{proof}
+
 
 \textbf{Top-down correctness}:
 Consider an arbitrary top-down cause of
@@ -8669,7 +8687,7 @@ the top-down causes are valid by
 \eqref{eq:reduction-op-correct-21}
 and the bottom-up causes are valid by the assumption for the
 induction step so that,
-using effect-correctness \eqref{eq:reduction-op-correct-12},
+Lemma \ref{lem:reduction-effect-validity}
 we see that
 \begin{equation}
 \label{eq:reduction-op-correct-23}
@@ -8686,7 +8704,7 @@ are unmemoized.
 Again using
 \eqref{eq:reduction-op-correct-21},
 the induction step,
-and \eqref{eq:reduction-op-correct-12},
+and Lemma \ref{lem:reduction-effect-validity},
 we see that all of the causes
 of EIM's in
 $\var{iter}[\var{i}]$ are unmemoized.
