@@ -8431,6 +8431,9 @@ EIM's read at \Vloc{i},
 as required for the theorem.
 \end{proof}
 
+\section{Reduction pass complexity}
+\label{p:reduction-op-complexity}
+
 \begin{algorithm}[th]
 \caption{Reduction pass}
 \label{alg:reduction-pass}
@@ -8453,13 +8456,9 @@ as required for the theorem.
 \end{algorithm}%
 \index{recce-theorems}{Algorithm: Reduction pass}
 
-\section{Reduction pass}
-
-\subsection{Reduction pass complexity}
-\label{p:reduction-op-complexity}
-
 The loop over \Vtable{i} must also include
-any items added by \call{Reduce one up-cause}{}.
+any items added
+by Algorithm \ref{alg:reduction-pass}.
 This can be done by implementing \Vtable{i} as an ordered
 set and adding new items at the end.
 
@@ -8467,19 +8466,25 @@ Exclusive time is clearly \Oc{} per
 \Veim{work},
 and is charged to the \Veim{work}.
 Additionally,
-some of the time required by
-\call{Reduce one up-cause}{} is caller-included,
+some of the time required
+by Algorithm \ref{alg:reduction-pass}
+is caller-included,
 and therefore charged to this procedure.
-Inclusive time from \call{Reduce one up-cause}{}
+Inclusive time from
+by Algorithm \ref{alg:reduction-pass}
 is \Oc{} per call,
 as will be seen in section \ref{p:reduce-one-up-cause},
 and is charged to the \Veim{work}
 that is current
-during that call to \call{Reduce one up-cause}{}.
+during that call to
+by Algorithm \ref{alg:reduction-pass}.
 Overhead may be charged to the Earley set at \Vloc{i}.
 
-\subsection{Reduction pass correctness}
+\section{Reduction pass correctness}
 \label{p:reduction-op-correct}
+
+This section is devoted to showing that
+Algorithm \ref{alg:reduction-pass} is correct.
 
 \begin{theorem}
 \label{t:reduction-op-correct}
@@ -8574,30 +8579,19 @@ the ethereal closure of the effect EIM.
 Consider an arbitrary top-down cause of
 a reduced EIM at \Vloc{current}.
 Call this EIM, \Veim{down}.
-From line \ref{line:reduction-pass-20}
-of Algorithm \ref{alg:reduction-pass},
-we see that \Veim{up},
-the bottom-up cause of a reduced EIM,
-must be a completed EIM.
-Call the length of \Veim{up}, \var{len}.
-Since all EIM's are telluric,
+Because \Veim{down} is the top-down cause
+of a reduced EIM
+Theorem
+\ref{t:right-location-of-top-down-cause}
+tells us that
 \begin{equation}
-\label{eq:reduction-op-correct-15}
-\var{len} \ge 1.
-\end{equation}
-Using Theorem
-\ref{t:symbolic-causes-from-effect},
-we see that the right location of top-down cause must be
-\begin{align}
 \label{eq:reduction-op-correct-18}
-& \Right{\Veim{down}} = \var{current} \subtract \var{len} & \\
-\therefore \quad &
-\Right{\Veim{down}} = \var{current} \subtract 1 \qquad & \text{using \eqref{eq:reduction-op-correct-15}} \\
-\therefore \quad & \Right{\Veim{down}} < \var{current}, &
-\end{align}
-and from
+\Right{\Veim{down}} < \Vloc{current}.
+\end{equation}
+From
 \eqref{eq:reduction-op-correct-5},
-an assumption for the theorem,
+an assumption for the theorem, and
+\eqref{eq:reduction-op-correct-18}
 we see that \Veim{down} is correct.
 Since the choice of \Veim{down} as a top-down cause at
 \Vloc{current} was without loss of generality,
