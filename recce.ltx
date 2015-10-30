@@ -7688,11 +7688,8 @@ An EIM is
 its dotted rule is Leo-eligible,
 and it is postdot-unique.
 
-Before moving on,
-we should note
-that,
-in Leo's original algorithm,
-and in earley versions of the Marpa algorithm,
+In Leo's original algorithm,
+and in early versions of the Marpa algorithm,
 all rules were treated
 as Leo-eligible,
 not just those rules which are
@@ -7712,6 +7709,63 @@ By restricting Leo memoization to right-recursive rules,
 \Marpa{} incurs the cost of Leo memoization only in cases
 where EORR sets can grow infinitely
 large.
+
+Let, without loss of generality,
+\begin{equation}
+\Veim{basis} = \left[
+  \begin{gathered}
+     [ \Vsym{A} \de \Vstr{prefix} \mydot \Vstr{nul1} \Vsym{trans} \Vstr{nul2} ], \\
+     \Vloc{i}, \qquad \Vloc{j}
+  \end{gathered}
+\right]
+\end{equation}
+be a Leo-eligible rule.
+If
+for some \Vdr{top}, \Vorig{top},
+the Leo item
+\begin{equation}
+  \Vleo{down} = [ \Vsym{A}, \Vdr{top}, \Vorig{top}, \Vloc{i} ],
+\end{equation}
+is valid and exists,
+then
+\begin{equation}
+  \Vleo{eff} = [ \Vsym{trans}, \Vdr{top}, \Vorig{top}, \Vloc{j} ]
+\end{equation}
+is a valid Leo item at \Vloc{j}.
+We say the \Vleo{down} is the
+\xdfn{top-down cause}{top-down cause (of a Leo item)}
+of \Veim{eff},
+that \Veim{basis} is the
+\xdfn{basis}{basis (of a Leo item)}
+or
+\xdfn{bottom-up cause}{bottom-up cause (of a Leo item)}
+of \Veim{eff},
+and that \Veim{eff} is
+the 
+\xdfn{effect}{effect (Leo item)}
+of \Veim{basis} and \Vleo{down}.
+If there is no \Vdr{top}, \Vorig{top},
+such that
+\begin{equation}
+  \Vleo{down} = [ \Vsym{A}, \Vdr{top}, \Vorig{top}, \Vloc{i} ],
+\end{equation}
+exists,
+then
+\begin{equation}
+  \Vleo{eff} = [ \Vsym{trans}, \Vdr{A}, \Vorig{i}, \Vloc{j} ]
+\end{equation}
+is a valid Leo item at \Vloc{j},
+and we say that
+that \Veim{basis} is the
+\xdfn{basis}{basis (of a Leo item)}
+or
+\xdfn{bottom-up cause}{bottom-up cause (of a Leo item)}
+of \Veim{eff},
+that \Veim{eff} has no top-down cause,
+and that \Veim{eff} is
+the 
+\xdfn{effect}{effect (Leo item)}
+of \Veim{basis}.
 
 TODO: Finish this section
 
