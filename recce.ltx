@@ -165,6 +165,7 @@
 \newcommand{\DR}[1]{\ensuremath{\myfnname{DR}(#1)}}
 \newcommand{\Current}[1]{\ensuremath{\myfnname{Current}(#1)}}
 \newcommand{\Valid}[1]{\ensuremath{\myfnname{Valid}(#1)}}
+\newcommand{\Memoable}[1]{\ensuremath{\myfnname{Memoable}(#1)}}
 \newcommand{\Memoized}[1]{\ensuremath{\myfnname{Memoized}(#1)}}
 \newcommand{\Symbol}[1]{\ensuremath{\myfnname{Symbol}(#1)}}
 \newcommand{\LeoUnique}[1]{\myfnname{Leo-Unique}(#1)}
@@ -5562,6 +5563,14 @@ can be memoized.
 To say that \Veim{x} is memoized,
 we also say \Memoized{\Veim{x}}.
 
+The memozations discussion in this document
+will all be optional ---
+their omission will not affect correctness.
+An EIM wich could be memozied is said to be
+\dfn{memoable}.
+To say that \Veim{x} is memoable,
+we also write \Memoable{\Veim{x}}.
+
 A set of EIM's (not necessarily an Earley set)
 is \dfn{consistent} if and only if all of its
 EIM's are valid and unmemoized.
@@ -7642,11 +7651,10 @@ Then
 \end{gathered}
 \end{equation}
 
-We now look at the conditions under which Leo memos are made,
-and
-the conditions under which
+We now look at the conditions under which Leo memos become valid.
 Leo stipulation are enforced.
-We will say that \Vdr{q} is a \dfn{quasi-penult}
+Recall that
+we say that \Vdr{q} is a \dfn{quasi-penult}
 if and only if it is
 \begin{equation*}
 \begin{split}
@@ -7680,30 +7688,32 @@ An EIM is
 its dotted rule is Leo-eligible,
 and it is postdot-unique.
 
-TODO: Finish this section
-
-TODO: Do I need a theorem to connect Leo-eligible with Leo-memoable?
-
-In Leo's original algorithm, any penult
-was treated as a potential right-recursion.
-\Marpa{} applies the Leo memoizations in more restricted circumstances.
-For \Marpa{} to consider a dotted rule
-\begin{equation*}
-\Vdr{candidate} = [\Vrule{candidate}, \var{i}]
-\end{equation*}
-for Leo memoization,
-\Vdr{candidate} must be a penult and
-\Vrule{candidate} must be right-recursive.
-
-By restricting Leo memoization to right-recursive rules,
-\Marpa{} incurs the cost of Leo memoization only in cases
-where Leo sequences could be infinitely
-long.
-This more careful targeting of the memoization is for efficiency reasons.
+Before moving on,
+we should note
+that,
+in Leo's original algorithm,
+and in earley versions of the Marpa algorithm,
+all rules were treated
+as Leo-eligible,
+not just those rules which are
+right-recursive.
+Experience with Marpa showed that,
+while the costs of Leo memoization are
+quite manageable,
+they do exist,
+so that it makes sense to
+target Leo memoization carefully.
 If all penults are memoized,
 many memoizations will be performed where
 the longest potential Leo sequence is short,
-and the payoff is therefore very limited.
+and the payoff from Leo memoization
+is therefore very limited.
+By restricting Leo memoization to right-recursive rules,
+\Marpa{} incurs the cost of Leo memoization only in cases
+where EORR sets can grow infinitely
+large.
+
+TODO: Finish this section
 
 \begin{theorem}
 \label{t:leo-quasi-complete}
