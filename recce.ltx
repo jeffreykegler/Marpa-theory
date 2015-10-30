@@ -2192,6 +2192,17 @@ for example,
 \begin{equation*}
 \Vdr{completed} = [\Vsym{A} \de \Vstr{alpha} \mydot ].
 \end{equation*}
+A
+\xdfn{penultimate dotted rule}{penultimate (dotted rule)},
+or a
+\xdfn{penult}{penult (dotted rule)},
+is a dotted rule with exactly one symbol
+between its
+dot position and the end of its RHS,
+for example,
+\begin{equation*}
+\Vdr{penult} = [\Vsym{A} \de \Vstr{alpha} \mydot \Vsym{B} ].
+\end{equation*}
 
 \section{Quasi-types}
 
@@ -2202,17 +2213,24 @@ Intuitively, if a dotted rule is of the kind ``X'',
 then a quasi-X dotted rule is a dotted rule that would be
 of kind X, if it were not for its nulling symbols.
 
-A dotted rule which has only nulling symbols after the dot
+A dotted rule which has only nulling symbols in its dot
+suffix
 is
 \xdfn{quasi-complete}{quasi-complete (dotted rule)}.
 A quasi-complete dotted rule is called an
-\xdfn{quasi-completion}{quasi-completion(dotted rule)}.
+\xdfn{quasi-completion}{quasi-completion (dotted rule)}.
+A dotted rule which has exactly one telluric symbol in
+its dot suffix is
+\xdfn{quasi-penultimate}{quasi-penultimate (dotted rule)}.
+A quasi-penultimate dotted rule is called an
+\xdfn{quasi-penult}{quasi-penult (dotted rule)}.
 If a dotted rule is not quasi-complete,
 it is said to be
 \xdfn{quasi-incomplete}{quasi-incomplete (dotted rule)},
 or a
 \xdfn{quasi-incompletion}{quasi-incompletion (dotted rule)}.
 These definitions may be satisfied vacuously:
+for example,
 all completions are quasi-completions.
 
 If
@@ -7516,7 +7534,7 @@ In each Earley set, there is at most one Leo memo per symbol.
 A Leo memo is the 5-tuple
 \begin{equation}
 \label{eq:def-leo-memo-10}
-\Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{memloc}, \Vleo{next} ]
+\Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{memloc} ]
 \end{equation}
 In \eqref{eq:def-leo-memo-10}
 \Vsym{transition} is the
@@ -7551,9 +7569,6 @@ certain layers of silos occuring after
 \Vloc{memloc}.
 The elements \Vsym{transition}, \Vdr{top}, are \Vorig{top} are
 used to define which silo layers will be memoized.
-As silos are encountered they can grow in height,
-and \Vleo{next} is a link
-connecting \Vleo{leo} to a previous silo.
 
 The silo layers which \Vleo{leo} will cause to be
 memoized
@@ -7609,79 +7624,23 @@ such that
 }
 \end{gather*}
 
-We now define a ``Leo stipulation'',
-\var{leo-stip}.
-Intuitively, \op{leo-stip}{\Vloc{tbd}}
-states the following:
-
-`` In the context of \eqref{eq:def-leo-memo-10},
-consider a location \Vloc{tbd}.
-Suppose that at \Vloc{tbd},
-we find the following symbol instance
+We are now in a position to state
+exactly which EIM's are memoized as the result of
+a Leo item.
+Let the Leo item be
 \begin{equation}
-\label{eq:def-leo-memo-13}
-  \Vinst{bottom} = \Vmk{current} \Vsym{transition} \Vmk{tbd}.
+  \Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{memloc} ].
 \end{equation}
-Then we will memoize the section of any silo from \Vinst{bottom}
-at the bottom,
-to the
-Earley item
+Then
 \begin{equation}
-\label{eq:def-leo-memo-16}
-  \Veim{top} = \big[ \Vdr{top}, \Vorig{top}, \Vloc{tbd} \big]
+\begin{gathered}
+\forall \; \var{i} : \var{botix} < \var{i} < \var{topix} \implies
+\Memoized{\Vel{slo}{i}} \\
+\text{where \var{slo} is a silo such that $\Right{\var{slo}} > \Vloc{memloc}$,} \\
+\Vel{slo}{botix} = \Vop{Leo-bot}{slo} \\
+\text{and} \quad \Vel{slo}{topix} = \Vop{Leo-top}{slo}
+\end{gathered}
 \end{equation}
-at its top''.
-
-To define \var{leo-stip} more formally,
-recall that
-we write $\var{Sym-Eq}(\Vinst{x})$ for the symbolic
-equivalent of the parse instance \Vinst{x}.
-Where a Leo memo is
-\eqref{eq:def-leo-memo-10},
-its ``Leo stipulation'', \op{leo-stip}{\Vloc{tbd}}, is
-\begin{equation}
-\label{eq:def-leo-memo-20}
-\lambda \Vloc{tbd}
-\left(
-\begin{aligned}
-& \text{for all \var{i} and for every silo at \Vloc{tbd}, \var{silo},}
-\\
-& \;\; \left(
-\begin{aligned}
-& \Vinst{bottom} = \Vmk{current} \Vsym{transition} \Vmk{tbd} \\
-\land \; &
-\Veim{top} = [ \Vdr{top}, \Vorig{top}, \Vloc{tbd} ], \\
-\land \; &
-\Vinst{bottom} = \var{Sym-Eq}(\Vel{silo}{x}) \\
-\land \; &
-\Vel{silo}{y} = \Veim{top} \\
-\land \; &
-\var{x} < \var{i} < \var{y}
-\end{aligned}
-\right) \\
-& \qquad \implies \Memoized{\Vel{silo}{i}}
-\end{aligned}
-\right)
-\end{equation}
-
-We are now in a position to state the meaning
-of the Leo memo
-in \eqref{eq:def-leo-memo-10}:
-\begin{equation}
-\Vleo{leo} \equiv \forall \, \Vloc{tbd}, \var{leo-stip}(\var{tbd}).
-\end{equation}
-
-The parse instances from \Vinst{bottom} to \Vinst{top}
-form what is called a \dfn{Leo path}.
-\Vinst{top} is always an Earley item,
-and is called the
-\xdfn{top EIM}{top EIM (of Leo path)}
-of the Leo path.
-\Vinst{bottom} is called the
-\xdfn{bottom}{bottom (of Leo path)}.
-The Leo memo may be spoken of a ``belonging to'' the Earley
-set at \Vloc{current}, although strictly an Earley set
-consists only of Earley items.
 
 We now look at the conditions under which Leo memos are made,
 and
