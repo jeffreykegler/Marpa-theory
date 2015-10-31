@@ -38,6 +38,7 @@
 
 \newcommand{\todo}[1]{\par{\large\textbf Todo: #1}\par}
 \newcommand{\myfnname}[1]{\texttt{#1}}
+\newcommand{\myopname}[1]{\texttt{#1}}
 \newcommand{\myfn}[2]{\ensuremath{\myfnname{#1}(#2)}}
 % definitions for "elements"
 \newcommand{\el}[2]{\ensuremath{\texttt{#1}[#2]}}
@@ -7479,7 +7480,7 @@ most recent unmemoized bottom-up cause in its silo.
 TODO
 \end{proof}
 
-\chapter{The Leo algorithm}
+\chapter{Leo memos}
 \label{ch:leo}
 
 \section{The history of a conjecture}
@@ -7619,17 +7620,27 @@ Earley set, using what Leo called
 In this document Leo's ``transitive items''
 will be called Leo memos.
 
-\section{Leo memos}
+\section{Definition}
 
 In this document Leo's ``transitive items''
 will be called Leo memos.
 Leo memos have type \type{LEO}.
 In each Earley set, there is at most one Leo memo per symbol.
-A Leo memo is the 5-tuple
+A Leo memo is the 4-tuple
 \begin{equation}
 \label{eq:def-leo-memo-10}
-\Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{memloc} ]
+\Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{memloc} ].
 \end{equation}
+For \Vleo{leo} as in
+\eqref{eq:def-leo-memo-10},
+we write
+\begin{alignat*}{1}
+\Symbol{\Vleo{leo}} & = \Vsym{transition}, \\
+\DR{\Vleo{leo}} & = \Vdr{top}, \\
+\Origin{\Vleo{leo}} & = \Vorig{top} \\
+\text{and \Current{\Vleo{leo}}} & = \Vloc{memloc}.
+\end{alignat*}
+
 In \eqref{eq:def-leo-memo-10}
 \Vsym{transition} is the
 \dfn{Leo transition symbol}
@@ -7645,24 +7656,21 @@ although \Vleo{leo} is \textbf{not}
 an Earley item,
 and therefore, strictly speaking,
 not in any Earley set.
-For \Vleo{leo} as in
-\eqref{eq:def-leo-memo-10},
-we write
-\begin{alignat*}{1}
-\Symbol{\Vleo{leo}} & = \Vsym{transition}, \\
-\DR{\Vleo{leo}} & = \Vdr{top}, \\
-\Origin{\Vleo{leo}} & = \Vorig{top} \\
-\text{and \Current{\Vleo{leo}}} & = \Vloc{memloc}.
-\end{alignat*}
 
 Intuitively, \Vleo{leo},
 the Leo memo of
 \eqref{eq:def-leo-memo-10}
 states an intent to memoize
 certain layers of silos occuring after
-\Vloc{memloc}.
-The elements \Vsym{transition}, \Vdr{top}, are \Vorig{top} are
+\Current{\Vleo{leo}}.
+The elements
+\Symbol{\Vleo{leo}},
+\DR{\Vleo{leo}},
+and \Origin{\Vleo{leo}}
+are
 used to define which silo layers will be memoized.
+
+\section{Leo sections}
 
 The silo layers which \Vleo{leo} will cause to be
 memoized
@@ -7689,19 +7697,13 @@ where
 \Vdr{top} and \Vorig{top}
 are as in
 \eqref{eq:def-leo-memo-10},
-and \Right{\var{silo}} \big]
+and \Right{\var{silo}}
 is the location of \var{silo}.
-Note that this definition makes
-\myfnname{Silo-top} a ``relocatable''
-definition ---
-one that can defines an top of silos at
-multiple locations.
 
 We also define
 the
 \xdfn{bottom}{bottom (of a Leo section)}
 of a Leo section
-in relocatable fashion
 as
 \begin{equation*}
 \Vop{Leo-bot}{silo} = \Veim{leo-bottom}
@@ -7735,6 +7737,8 @@ Then
 \text{and} \quad \Vel{slo}{topix} = \Vop{Leo-top}{slo}
 \end{gathered}
 \end{equation}
+
+\section{Leo memo validity}
 
 We now look at the conditions under which Leo memos become valid.
 Leo stipulation are enforced.
@@ -7829,6 +7833,7 @@ and that \Veim{eff} is
 the 
 \xdfn{effect}{effect (Leo item)}
 of \Veim{basis} and \Vleo{down}.
+
 If there is no \Vdr{top}, \Vorig{top},
 such that
 \begin{equation}
@@ -7839,20 +7844,21 @@ then
 \begin{equation}
   \Vleo{eff} = [ \Vsym{trans}, \Vdr{A}, \Vorig{i}, \Vloc{j} ]
 \end{equation}
-is a valid Leo item at \Vloc{j},
+is a valid Leo item at \Vloc{j}.
+When there is no \Vdr{top},
 and we say that
+that \Veim{eff} has no top-down cause,
 that \Veim{basis} is the
 \xdfn{basis}{basis (of a Leo item)}
 or
 \xdfn{bottom-up cause}{bottom-up cause (of a Leo item)}
 of \Veim{eff},
-that \Veim{eff} has no top-down cause,
 and that \Veim{eff} is
 the 
 \xdfn{effect}{effect (Leo item)}
 of \Veim{basis}.
 
-TODO: Finish this section
+TODO: Finish this chapter
 
 \begin{theorem}
 \label{t:leo-quasi-complete}
