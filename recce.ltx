@@ -8485,6 +8485,39 @@ Overhead may be charged to the Earley set at \Vloc{i}.
 
 This section is devoted to showing that
 Algorithm \ref{alg:reduction-pass} is correct.
+In proving this, we will repeatedly employ two
+``environmental''
+assumptions.
+Later we will show that both of those
+assumptions are guaranteed
+by the caller of
+Algorithm \ref{alg:reduction-pass}.
+For now, we will assume them explicitly
+when needed.
+
+The first ``environmental'' assumption is
+\begin{equation}
+\label{eq:reduction-op-correct-5}
+\tag{ENV1}
+\begin{aligned}
+& \text{for all locations \Vloc{h},
+and all symbols in \Cg{}, \Vsym{sym},
+} \\
+& \text{if $\var{h} < \Vloc{current}$,} \\
+& \text{then-\Ves{h} is correct} \\
+& \qquad \qquad
+  \text{and $\var{transitions}(\var{h}, \Vsym{sym})$ is correct.}
+\end{aligned}
+\end{equation}
+and the second ``environmental'' assumption is
+\begin{equation}
+\label{eq:reduction-op-correct-8}
+\tag{ENV2}
+\begin{aligned}
+& \text{the ethereal closure of the set} \\
+& \qquad \qquad \text{of EIM's read at \Vloc{current} is correct.}
+\end{aligned}
+\end{equation}
 
 \begin{observation}
 \label{obs:effect-eim}
@@ -8559,21 +8592,6 @@ added at those lines.
 
 \begin{theorem}
 \label{t:reduction-op-correct}
-Assume that
-\begin{equation}
-\label{eq:reduction-op-correct-5}
-\myparbox{
-for all locations \Vloc{h},
-and all symbols in \Cg{}, \Vsym{sym},
- if $\var{h} < \Vloc{current}$, then \Ves{h} is correct
-and $\var{transitions}(\var{h}, \Vsym{sym})$ is correct.
-}
-\end{equation}
-Also assume that
-\begin{equation}
-\label{eq:reduction-op-correct-8}
-\myparbox{the ethereal closure of the set of EIM's read at \Vloc{current} is correct.}
-\end{equation}
 Let \Veimset{reduced-base} be
 the set of
 unmemoized EIM's at \Vloc{current}
