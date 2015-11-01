@@ -3377,6 +3377,10 @@ We say that \Veim{eim} is the
 of \Vinst{x} if and only if
 \Vinst{x} is the symbolic equivalent of
 \Veim{eim}.
+We also write the EIM
+equivalent of \Vinst{x} as
+$\var{EIM-Eq}(\var{x})$.%
+\index{recce-notation}{EIM-Eq(x)@\Vop{EIM-Eq}{x}}
 \end{definition}
 
 By way of illustration,
@@ -5893,6 +5897,10 @@ and
 \Veim{cuz} is a top-down or bottom-up cause
 of \Veim{effect}.
 \end{itemize}
+If \Veim{cuz} is the silo cause of \Veim{effect},
+we say that \Veim{effect} is the
+\dfn{silo effect}
+of \Veim{cuz}.
 
 A \dfn{silo},
 call it \var{s1},
@@ -6043,7 +6051,7 @@ Every silo layer
 \begin{itemize}
 \item
 is a read EIM,
-has no bottom-up or
+and has no bottom-up or
 top-down causes;
 \item
 is a null-scan EIM and
@@ -7122,7 +7130,7 @@ such that \Veim{cuz} is an altitude cause
 of \Veim{unmemo}.
 \item
 \label{case:def-altitude-other}
-Let \Veim{epsop} be an
+Let \Veim{other} be an
 unmemoized EIM,
 a predicted EIM,
 or a null-scan EIM.
@@ -7670,78 +7678,16 @@ and \Origin{\Vleo{leo}}
 are
 used to define which silo layers will be memoized.
 
-\section{Leo sections}
-
-The silo layers which \Vleo{leo} will cause to be
-memoized
-are the
-\xdfn{inner}{inner (layers of a Leo section)}
-layers of a
-\xdfn{Leo section}{Leo section (of a silo)}.
-Each Leo section is a part of a silo,
-and has a top layer,
-a bottom layer,
-and zero or more inner layers.
-It follows from this that every Leo section
-contains at least two EIM's.
-
-Where the silo is \var{silo},
-the
-\xdfn{top}{top (of a Leo section)}
-of the Leo section targeted by \Vleo{leo}
-will be
-\begin{equation}
-\Vop{Leo-top}{silo} = \big[ \Vdr{top}, \Vorig{top}, \Right{\var{silo}} \big].
-\end{equation}
-where
-\Vdr{top} and \Vorig{top}
-are as in
-\eqref{eq:def-leo-memo-10},
-and \Right{\var{silo}}
-is the location of \var{silo}.
-
-We also define
-the
-\xdfn{bottom}{bottom (of a Leo section)}
-of a Leo section
-as
-\begin{equation*}
-\Vop{Leo-bot}{silo} = \Veim{leo-bottom}
-\end{equation*}
-such that
-\begin{gather*}
-\op{Sym-Eq}{\Veim{leo-bottom}} = \Vmk{memloc} \Vsym{transition} \Vmk{reloc}, \\
-\text{where $\Vloc{reloc} = \Right{\var{silo}}$} \\
-\text{
-  and \Vloc{memloc} and
-  \Vsym{transition}
-  are as in
-  \eqref{eq:def-leo-memo-10}.
-}
-\end{gather*}
-
-We are now in a position to state
-exactly which EIM's are memoized as the result of
-a Leo item.
-Let the Leo item be
-\begin{equation}
-  \Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{memloc} ].
-\end{equation}
-Then
-\begin{equation}
-\begin{gathered}
-\forall \; \var{i} : \var{botix} < \var{i} < \var{topix} \implies
-\Memoized{\Vel{slo}{i}} \\
-\text{where \var{slo} is a silo such that $\Right{\var{slo}} > \Vloc{memloc}$,} \\
-\Vel{slo}{botix} = \Vop{Leo-bot}{slo} \\
-\text{and} \quad \Vel{slo}{topix} = \Vop{Leo-top}{slo}
-\end{gathered}
-\end{equation}
+\DR{\Vleo{leo}} must be a completion.
+Since a completion is uniquely determined by a rule,
+that element of the Leo memos could be represented by
+a rule, instead of a dotted rule.
+We will find working with the dotted rule
+more convenient.
 
 \section{Leo memo validity}
 
 We now look at the conditions under which Leo memos become valid.
-Leo stipulation are enforced.
 Recall that
 we say that \Vdr{q} is a \dfn{quasi-penult}
 if and only if it is
@@ -7765,15 +7711,21 @@ for all \Veim{eim} in the parse,
  \Current{\var{eim}} \neq \Current{\var{uniq}}.
 \end{multline*}
 
-EIM's are only Leo memoized if they are \dfn{Leo-eligible}.
-A rule is \dfn{Leo-eligible} if and only if it is right
+An EIM can be the basis of a Leo memo
+only if it is
+Leo-eligible.
+A rule is
+\xdfn{Leo-eligible}{Leo-eligible (rule)}
+if and only if it is right
 recursive.
 A dotted rule is
-\dfn{Leo-eligible} if and only if
+\xdfn{Leo-eligible}{Leo-eligible (dotted rule)}
+if and only if
 its rule is Leo-eligible,
 and it is a quasi-penult.
 An EIM is
-\dfn{Leo-eligible} if and only if
+\xdfn{Leo-eligible}{Leo-eligible (EIM)}
+if and only if
 its dotted rule is Leo-eligible,
 and it is postdot-unique.
 
@@ -7808,6 +7760,7 @@ Let, without loss of generality,
   \end{gathered}
 \right]
 \end{equation}
+where $\Vstr{nul1} = \Vstr{nul2} = \epsilon$,
 be a Leo-eligible rule.
 If
 for some \Vdr{top}, \Vorig{top},
@@ -7857,6 +7810,220 @@ and that \Veim{eff} is
 the 
 \xdfn{effect}{effect (Leo item)}
 of \Veim{basis}.
+
+\begin{theorem}
+\label{t:leo-transition-symbol-non-terminal}
+The transition symbol of a valid Leo memo
+must be a non-terminal.
+\end{theorem}
+
+\begin{proof}
+To be the basis of a Leo memo,
+a rule must be right-recursive.
+By the definition of validity for a Leo memo,
+the rule of the basis must be of the form
+\begin{equation}
+\Vrule{r} = [ \Vsym{A} \de \Vstr{prefix} \Vstr{nul1} \Vsym{trans} \Vstr{nul2} ],
+\end{equation}
+where $\Vstr{nul1} = \Vstr{nul2} = \epsilon$,
+and
+where
+\begin{gather}
+\label{eq:leo-transition-symbol-non-terminal-20}
+\text{\Vrule{r} is Leo-eligible,} \\
+\label{eq:leo-transition-symbol-non-terminal-23}
+\text{and \Vsym{trans} is the transition symbol of the Leo memo.}
+\end{gather}
+By 
+\eqref{eq:leo-transition-symbol-non-terminal-20},
+\Vrule{r} is Leo-eligible,
+and therefore \Vrule{r} must be right-recursive.
+By the definition of right-recursive,
+\Vrule{r} is right-recursive only if
+\Vsym{trans} is right-recursive.
+To be right-recursive, \Vsym{trans}
+must be a non-terminal.
+By \eqref{eq:leo-transition-symbol-non-terminal-23},
+\Vsym{trans} is the transition symbol.
+\end{proof}
+
+\section{Leo sections}
+
+The silo layers which \Vleo{leo} will cause to be
+memoized
+are the
+\xdfn{inner}{inner (layers of a Leo section)}
+layers of a
+\xdfn{Leo section}{Leo section (of a silo)}.
+Each Leo section is a part of a silo,
+and has a top layer,
+a bottom layer,
+and zero or more inner layers.
+It follows from this that every Leo section
+contains at least two EIM's.
+
+Where the silo is \var{silo},
+the
+\xdfn{top}{top (of a Leo section)}
+of the Leo section targeted by \Vleo{leo}
+will be
+\begin{equation}
+\Vop{Leo-top}{silo} = \big[ \Vdr{top}, \Vorig{top}, \Right{\var{silo}} \big].
+\end{equation}
+where
+\Vdr{top} and \Vorig{top}
+are as in
+\eqref{eq:def-leo-memo-10},
+and \Right{\var{silo}} is the location of \var{silo}.
+
+Let $\Vloc{reloc} = \Right{\var{silo}}$
+and 
+let \Vloc{memloc} and \Vsym{transition}
+be as in \eqref{eq:def-leo-memo-10}.
+Theorems
+\ref{t:eim-equivalent-from-non-terminal}
+and
+\ref{t:leo-transition-symbol-non-terminal}
+guarantee that
+the symbol instance
+\[
+  \Vinst{trans} = \Vmk{memloc} \Vsym{transition} \Vmk{reloc}
+\]
+has an EIM equivalent.
+We therefore can define
+\xdfn{bottom}{bottom (of a Leo section)}
+of a Leo section
+as
+\Vop{Leo-bot}{silo}
+such that
+\begin{gather*}
+\Vop{Leo-bot}{silo} = \op{EIM-Eq}{\Vinst{trans}}.
+\end{gather*}
+
+We are now in a position to state
+exactly which EIM's are memoized as the result of
+a Leo item.
+Let the Leo item be
+\begin{equation}
+  \Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{memloc} ].
+\end{equation}
+Then
+\begin{equation}
+\begin{gathered}
+\forall \; \var{i} : \var{botix} < \var{i} < \var{topix} \implies
+\Memoized{\Vel{slo}{i}} \\
+\text{where \var{slo} is a silo such that $\Right{\var{slo}} > \Vloc{memloc}$,} \\
+\Vel{slo}{botix} = \Vop{Leo-bot}{slo} \\
+\text{and} \quad \Vel{slo}{topix} = \Vop{Leo-top}{slo}
+\end{gathered}
+\end{equation}
+
+\begin{theorem}
+Every EIM in a Leo section is a null-scan
+or a reduction.
+\end{theorem}
+
+\begin{proof}
+By the definition of a Leo section,
+every EIM in a Leo section is a silo layer.
+From Theorem
+\ref{t:silo-causes}
+we know that a silo layer must
+be a read EIM, a reduction EIM
+or a null-scan EIM.
+
+It remains to show that a read EIM
+cannot be in a Leo section.
+By the definition of a read EIM,
+its predot symbol is a terminal.
+By the definition of a silo,
+all of its EIMS are quasi-complete.
+and so the dotted rule
+of the read EIM would have to 
+be of the form
+\begin{equation}
+[ \Vsym{A} \de \Vstr{prefix} \Vsym{term} \mydot \Vstr{nul2} ],
+\end{equation}
+where \Vsym{term} is a terminal, and
+where $\Vstr{nul2} = \epsilon$.
+
+TODO: Finish this.
+\end{proof}
+
+\section{Recreating a Leo section}
+
+While Marpa is a parser implementation,
+including evalution,
+this document does not usually deal with
+evaluation issues.
+We will make an exception for
+Leo memoization,
+however.
+It is not immediately obvious that the
+Leo memoization can be easily
+reversed,
+and we will show this.
+
+\begin{lemma}
+\label{lem:leo-deterministic-effect}
+If \Vinst{x} is in a Leo section,
+and not the top,
+then it has a unique silo effect.
+\end{lemma}
+
+\begin{proof}
+TODO
+\end{proof}
+
+\begin{algorithm}[th]
+\caption{Reconstruct memoized EIM's}
+\label{alg:reconstruct-memoized-eims}
+\begin{algorithmic}[1]
+\Procedure{Reconstruct memoized EIM's}{\Vleo{leo}}
+\State $\Veim{top} \gets \Vop{Leo-top}{leo}$
+\State $\Vinst{scuz} \gets \op{EIM-Eq}{\Vop{Leo-bot}{leo}}$
+\State $\Vloc{here} \gets \Right{\Vleo{leo}}$
+\While{ true }
+\label{line:eim-tether-20}
+\State \Veim{new-scuz} $\gets$ silo effect of \Veim{scuz}
+\State \ldots{} using Lemma \ref{lem:leo-deterministic-effect}
+\If{\Veim{new-scuz} = \Veim{top}}
+\State return
+\EndIf
+\State Add \Veim{new-scuz} to \Vel{table}{here}
+\State $\qquad$ but only if it has never been added before
+\State \Veim{scuz} = \Veim{new-scuz}
+\EndWhile
+% \label{line:eim-tether-90}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}%
+\index{recce-theorems}{Construction: Reconstruct memoized EIM's}
+
+\begin{theorem}
+\label{t:leo-reconstruction-correct}
+Algorithm
+\ref{alg:reconstruct-memoized-eims}
+is correct.
+\end{theorem}
+
+\begin{proof}
+TODO: In particular, prove that it terminates.
+TODO: ... and that the bottom *has* an EIM equivalent.
+
+TODO.
+\end{proof}
+
+\begin{theorem}
+Let \Vleo{leo} be a Leo memo,
+whose Leo section is of height \var{n}.
+Then \Vleo{leo} will be the lowest
+of a sequence of \Vdecr{n} Leo memos.
+\end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
 
 TODO: Finish this chapter
 
