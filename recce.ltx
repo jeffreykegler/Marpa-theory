@@ -7919,35 +7919,25 @@ Then
 \end{equation}
 
 \begin{theorem}
-Every EIM in a Leo section is a null-scan
-or a reduction.
+Every EIM in a Leo section is a null-scan,
+a read or
+a reduction.
+Also, if a read EIM is in a Leo section,
+it must be the bottom of the Leo section.
 \end{theorem}
 
 \begin{proof}
 By the definition of a Leo section,
 every EIM in a Leo section is a silo layer.
 From Theorem
-\ref{t:silo-causes}
-we know that a silo layer must
-be a read EIM, a reduction EIM
-or a null-scan EIM.
-
-It remains to show that a read EIM
-cannot be in a Leo section.
-By the definition of a read EIM,
-its predot symbol is a terminal.
-By the definition of a silo,
-all of its EIMS are quasi-complete.
-and so the dotted rule
-of the read EIM would have to 
-be of the form
-\begin{equation}
-[ \Vsym{A} \de \Vstr{prefix} \Vsym{term} \mydot \Vstr{nul2} ],
-\end{equation}
-where \Vsym{term} is a terminal, and
-where $\Vstr{nul2} = \epsilon$.
-
-TODO: Finish this.
+\ref{t:silo-read-eim-layer},
+we know that, if a read EIM is in
+a silo, it is the bottom of the silo.
+A Leo section, by its definition,
+is a section of a silo,
+so that if a Leo section
+contains a read EIM,
+it is the bottom of the Leo section.
 \end{proof}
 
 \section{Recreating a Leo section}
