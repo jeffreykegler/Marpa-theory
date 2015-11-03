@@ -17,6 +17,7 @@
 \usepackage{algorithm}
 
 \makeindex{recce-general}
+\makeindex{recce-algorithms}
 \makeindex{recce-theorems}
 \makeindex{recce-definitions}
 \makeindex{recce-notation}
@@ -2670,7 +2671,7 @@ the ethereal closure has finite time complexity.
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}%
-\index{recce-theorems}{Algorithm: Add a generation to the ethereal closure}
+\index{recce-algorithms}{Add a generation to the ethereal closure}
 
 \begin{algorithm}[!htp]
 \caption{Create ethereal closure}
@@ -2688,7 +2689,7 @@ the ethereal closure has finite time complexity.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}%
-\index{recce-theorems}{Algorithm: Create ethereal closure}
+\index{recce-algorithms}{Create ethereal closure}
 
 Algorithm \ref{alg:ethereal-closure}
 is not actually used by any
@@ -7095,6 +7096,8 @@ We conclude that \Veim{bot} is a read EIM.
 \chapter{Altitude}
 \label{ch:altitude}
 
+TODO: Delete this chapter?
+
 \begin{definition}
 \dtitle{Altitude}
 \label{def:altitude}
@@ -7954,12 +7957,102 @@ Leo memoization can be easily
 reversed,
 and we will show this.
 
-\begin{lemma}
-\label{lem:leo-deterministic-effect}
-If \Vinst{x} is in a Leo section,
-and not the top,
-then it has a unique silo effect.
-\end{lemma}
+\begin{observation}
+\label{obs:unique-leo-section-effect}
+Recall the definition of silo effect.
+The effect of a Leo section layer is its silo effect.
+A Leo section layer may be a complete or an incomplete
+EIM.
+
+Let the Leo section be at \Vloc{k}.
+Let the Leo section layer be a completion
+and therefore
+\begin{gather}
+\label{eq:obs-unique-leo-section-effect-10}
+\Veim{cls} = \big[
+  [ \Vsym{A} \de \Vstr{A-rhs} \mydot ], \Vloc{j}, \Vloc{k}.
+\big] \\
+\text{for some \Vloc{j}, \Vloc{k}}
+\notag \\
+\text{and some rule $[\Vsym{A} \de \Vstr{A-rhs}] \in \Crules$}
+\notag
+\end{gather}
+Then the silo effect and Leo section effect
+of \Veim{cls}
+is
+\begin{gather}
+\label{eq:-obs-unique-leo-section-effect-20}
+\Veim{ceff} = \big[
+  [ \Vsym{B} \de \Vstr{s1} \Vsym{A} \mydot \Vstr{nuls} ],
+  \Vloc{i}, \Vloc{k}
+\big] \\
+\text{for some \Vloc{i},}
+\notag \\
+\text{and some rule $[\Vsym{B} \de \Vstr{s1} \Vsym{A} \Vstr{nuls}] \in \Crules$}
+\notag \\
+\text{where $\Vstr{nuls} = \epsilon$}
+\notag
+\end{gather}
+
+Let the Leo section layer be a incompletion.
+Again, we let the Leo section be at \Vloc{k}.
+Every section layer is a silo layer and therefore is
+a quasi-complete EIM,
+so that we let be the incomplete Leo section layer be
+\begin{gather}
+\label{eq:obs-unique-leo-section-effect-30}
+\Veim{qls} = \big[
+  [ \Vsym{A} \de \Vstr{pref} \mydot \Vsym{nul} \Vstr{nuls} ], \Vloc{k}, \Vloc{k}.
+\big] \\
+\text{for some rule $[\Vsym{A} \de \Vstr{pref} \Vsym{nul} \Vstr{nuls} ] \in \Crules$}
+\notag \\
+\text{where $\Vsym{nul} = \epsilon$ and $\Vstr{nuls} = \epsilon$}
+\notag
+\end{gather}
+Then the silo effect and Leo section effect
+of \Veim{qls}
+is
+\begin{equation}
+\label{eq:-obs-unique-leo-section-effect-40}
+\Veim{qeff} = \big[
+  [ \Vsym{A} \de \Vstr{pref} \Vsym{nul} \mydot \Vstr{nuls} ],
+  \Vloc{k}, \Vloc{k}
+\big]
+\end{equation}
+\end{observation}
+
+\begin{theorem}
+\label{t:leo-deterministic-effect}
+Let \Veim{ls} be a layer in a Leo section.
+If \Veim{ls} is not the top layer,
+then it has a unique silo effect
+as described in Observation
+\ref{obs:unique-leo-section-effect}.
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
+\begin{theorem}
+\label{t:leo-section-valid}
+Let \Vleo{memo} be a Leo memo,
+and \Veim{bot} a matching EIM.
+Then
+\begin{itemize}
+\item
+there is a unique Leo section for
+\Vleo{memo} and \Veim{bot};
+\item
+the top layer of that Leo section is
+\Vop{Leo-top}{leo}; and
+\item
+for every layer other than the top,
+if that layer is a complete EIM,
+its top down cause is the basis
+of an valid and existing Leo memo.
+\end{itemize}
+\end{theorem}
 
 \begin{proof}
 TODO
@@ -7974,9 +8067,9 @@ TODO
 \State $\Vinst{scuz} \gets \op{EIM-Eq}{\Vop{Leo-bot}{leo}}$
 \State $\Vloc{here} \gets \Right{\Vleo{leo}}$
 \While{ true }
-\label{line:eim-tether-20}
+% \label{line:reconstruct-memoized-eims-20}
 \State \Veim{new-scuz} $\gets$ silo effect of \Veim{scuz}
-\State \ldots{} using Lemma \ref{lem:leo-deterministic-effect}
+\State \ldots{} using Theorem \ref{t:leo-deterministic-effect}
 \If{\Veim{new-scuz} = \Veim{top}}
 \State return
 \EndIf
@@ -7984,7 +8077,7 @@ TODO
 \State $\qquad$ but only if it has never been added before
 \State \Veim{scuz} = \Veim{new-scuz}
 \EndWhile
-% \label{line:eim-tether-90}
+% \label{line:reconstruct-memoized-eims-90}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}%
@@ -8298,7 +8391,7 @@ Per-set-lists will be described in Section \ref{s:per-set-lists}.
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}%
-\index{recce-theorems}{Algorithm: Marpa Top-level}
+\index{recce-algorithms}{Marpa Top-level}
 
 \section{Top-level code}
 
@@ -8426,7 +8519,7 @@ of Algorithm \ref{alg:initial}.
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}%
-\index{recce-theorems}{Algorithm: Read pass}
+\index{recce-algorithms}{Read pass}
 
 \section{Read pass}
 \label{p:read-op}
@@ -8617,7 +8710,7 @@ as required for the theorem.
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}%
-\index{recce-theorems}{Algorithm: Reduction pass}
+\index{recce-algorithms}{Reduction pass}
 
 The loop over \Vtable{i} must also include
 any items added
@@ -9209,7 +9302,7 @@ is correct for \Veimset{reduced-closure}.
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}%
-\index{recce-theorems}{Algorithm: Memoize transitions}
+\index{recce-algorithms}{Memoize transitions}
 
 \section{Memoize transitions}
 
@@ -9289,7 +9382,7 @@ TODO: Make sure this accounts for the completeness of all top-down causes.
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}%
-\index{recce-theorems}{Algorithm: Reduce one op-cause}
+\index{recce-algorithms}{Reduce one op-cause}
 
 \section{Reduce one up-cause}
 \label{p:reduce-one-up-cause}
@@ -9327,7 +9420,7 @@ Overhead is \Oc{} and caller-included.
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}%
-\index{recce-theorems}{Algorithm: Earley reduction operation}
+\index{recce-algorithms}{Earley reduction operation}
 
 \section{Earley Reduction operation}
 \label{p:reduction-op}
@@ -9350,7 +9443,7 @@ attempt.
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}%
-\index{recce-theorems}{Algorithm: Leo reduction operation}
+\index{recce-algorithms}{Leo reduction operation}
 
 \section{Leo reduction operation}
 \label{p:leo-op}
@@ -9388,7 +9481,7 @@ attempt.
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}%
-\index{recce-theorems}{Algorithm: Add EIM set}
+\index{recce-algorithms}{Add EIM set}
 
 \section{Adding a set of Earley items}
 \label{p:add-eim-set}
@@ -10680,11 +10773,25 @@ Klaus Wich.
 
 \end{thebibliography}
 
-% \printindex
-\Printindex{recce-general}{General index}
-\Printindex{recce-theorems}{Index of algorithms, theorems, and lemmas}
-\Printindex{recce-definitions}{Index of abbreviations and definitions}
-\Printindex{recce-notation}{Index of notation}
+\clearpage
+\def\indexname{General index}
+\printindex{recce-general}
+
+\clearpage
+\def\indexname{Index of algorithms}
+\printindex{recce-algorithms}
+
+\clearpage
+\def\indexname{Index of theorems, and lemmas}
+\printindex{recce-theorems}
+
+\clearpage
+\def\indexname{Index of abbreviations and definitions}
+\printindex{recce-definitions}
+
+\clearpage
+\def\indexname{Index of notation}
+\printindex{recce-notation}
 
 \tableofcontents
 

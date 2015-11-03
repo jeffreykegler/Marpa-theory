@@ -15,7 +15,7 @@
 
 # See below for the list Debian packages required to 'make' this
 
-.phony: all clean
+.phony: all clean recce-indexes quick
 
 LATEX = pdflatex
 MAKEINDEX = makeindex
@@ -24,45 +24,38 @@ MAKEINDEX = makeindex
 .SUFFIXES: .pdf .ltx .ind .idx
 
 .idx.ind:
-	$(MAKEINDEX) $*
-
-.ltx.pdf:
+	$(MAKEINDEX) -t recce.log -p any $*
 
 # temporary, during heavy development of theory doc
 quick:
 	$(LATEX) recce.ltx
-	$(MAKE) recce-general.ind
-	$(MAKE) recce-theorems.ind
-	$(MAKE) recce-definitions.ind
-	$(MAKE) recce-notation.ind
+	$(MAKE) recce-indexes
+
+recce-indexes:
+	if ! test -f $(basename $<).idx ; then touch $(basename $<).idx; fi
+	makeindex -t recce-general.ilg -o recce-general.ind recce-general.idx
+	makeindex -t recce-algorithms.ilg -o recce-algorithms.ind recce-algorithms.idx
+	makeindex -t recce-theorems.ilg -o recce-theorems.ind recce-theorems.idx
+	makeindex -t recce-definitions.ilg -o recce-definitions.ind recce-definitions.idx
+	makeindex -t recce-notation.ilg -o recce-notation.ind recce-notation.idx
 
 all: ah2002_notes.pdf recce.pdf
 
-recce.pdf: recce.ltx recce-general.idx recce-theorems.idx recce-definitions.idx recce-notation.idx
+recce.pdf: recce.ltx
 	$(LATEX) recce.ltx
-	$(MAKE) recce-general.ind
-	$(MAKE) recce-theorems.ind
-	$(MAKE) recce-definitions.ind
-	$(MAKE) recce-notation.ind
 	$(LATEX) recce.ltx
-	$(MAKE) recce-general.ind
-	$(MAKE) recce-theorems.ind
-	$(MAKE) recce-definitions.ind
-	$(MAKE) recce-notation.ind
+	$(MAKE) recce-indexes
 	$(LATEX) recce.ltx
-	$(MAKE) recce-general.ind
-	$(MAKE) recce-theorems.ind
-	$(MAKE) recce-definitions.ind
-	$(MAKE) recce-notation.ind
 
 ah2002_notes.pdf: ah2002_notes.ltx
 
 clean:
 	rm -f recce.aux recce.pdf recce.toc recce.out \
-	  recce-definitions.idx recce-definitions.ilg recce-definitions.ind \
-	  recce-general.idx recce-general.ilg \
-	  recce-theorems.idx recce-theorems.ilg \
-	  recce-notation.idx recce-notation.ilg
+	  recce-definitions.idx recce-idx.ilg \
+	  recce-general.idx \
+	  recce-algorithms.idx \
+	  recce-theorems.idx \
+	  recce-notation.idx 
 
 # Requires these Debian packages (as of Thu Sep 17 10:11:18 PDT 2015)
 # ii  texlive-base                    2014.20141024-2      all                  TeX Live: Essential programs and files
