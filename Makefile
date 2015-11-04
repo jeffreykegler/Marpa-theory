@@ -21,10 +21,7 @@ LATEX = pdflatex
 MAKEINDEX = makeindex
 
 .SUFFIXES:
-.SUFFIXES: .pdf .ltx .ind .idx
-
-.idx.ind:
-	$(MAKEINDEX) -t recce.log -p any $*
+.SUFFIXES: .pdf .ltx .ind .idx .ilg
 
 # temporary, during heavy development of theory doc
 quick:
@@ -32,12 +29,10 @@ quick:
 	$(MAKE) recce-indexes
 
 recce-indexes:
-	if ! test -f $(basename $<).idx ; then touch $(basename $<).idx; fi
-	makeindex -t recce-general.ilg -o recce-general.ind recce-general.idx
-	makeindex -t recce-algorithms.ilg -o recce-algorithms.ind recce-algorithms.idx
-	makeindex -t recce-theorems.ilg -o recce-theorems.ind recce-theorems.idx
-	makeindex -t recce-definitions.ilg -o recce-definitions.ind recce-definitions.idx
-	makeindex -t recce-notation.ilg -o recce-notation.ind recce-notation.idx
+	for ix in definitions general algorithms theorems notation; do \
+	  if ! test -f recce-$$ix.idx ; then touch recce-$$ix.idx; fi; \
+	  makeindex -t recce-$$ix.ilg -o recce-$$ix.ind recce-$$ix.idx; \
+	done
 
 all: ah2002_notes.pdf recce.pdf
 
@@ -50,12 +45,10 @@ recce.pdf: recce.ltx
 ah2002_notes.pdf: ah2002_notes.ltx
 
 clean:
-	rm -f recce.aux recce.pdf recce.toc recce.out \
-	  recce-definitions.idx recce-idx.ilg \
-	  recce-general.idx \
-	  recce-algorithms.idx \
-	  recce-theorems.idx \
-	  recce-notation.idx 
+	rm -f recce.aux recce.pdf recce.toc recce.out
+	for ix in definitions general algorithms theorems notation; do \
+	    rm -f recce-$$ix.ind recce-$$ix.ilg; \
+	done
 
 # Requires these Debian packages (as of Thu Sep 17 10:11:18 PDT 2015)
 # ii  texlive-base                    2014.20141024-2      all                  TeX Live: Essential programs and files

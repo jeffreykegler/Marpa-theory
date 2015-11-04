@@ -7707,12 +7707,13 @@ That is,
 \Veim{uniq} is \dfn{postdot-unique}
 if and only if
 for all \Veim{eim} in the parse,
-\begin{multline*}
+\begin{multline}
+\label{eq:def-postdot-unique}
 \Postdot{\var{eim}} = \Postdot{\var{uniq}} \\
 \implies  \var{eim} = \var{uniq}
 \; \vee \;
  \Current{\var{eim}} \neq \Current{\var{uniq}}.
-\end{multline*}
+\end{multline}
 
 An EIM can be the basis of a Leo memo
 only if it is
@@ -8021,16 +8022,85 @@ is
 \end{equation}
 \end{observation}
 
+TODO: Prove Leo section layer has Leo-eligible top-down cause?
+
 \begin{theorem}
 \label{t:leo-deterministic-effect}
-Let \Veim{ls} be a layer in a Leo section.
+Let \Veim{ls} be a valid layer in a Leo section.
 If \Veim{ls} is not the top layer,
-then it has a exactly one silo effect,
+then it has exactly one valid silo effect,
 which is as described in Observation
 \ref{obs:unique-leo-section-effect}.
 \end{theorem}
 
 \begin{proof}
+We proceed by cases, depending on whether
+\Veim{ls} is complete or incomplete.
+If \Veim{ls} is complete,
+let it be,
+without loss of generalization,
+as in \eqref{eq:obs-unique-leo-section-effect-10}.
+By Theorem
+\ref{t:effect-from-symbol},
+it as a valid effect of the form in
+as in \eqref{eq:obs-unique-leo-section-effect-20}.
+
+For the case where \Veim{ls} is complete,
+it remains to show that the effect is unique.
+Assume that there are two effects of the
+form in \eqref{eq:obs-unique-leo-section-effect-20}.
+Without loss of generality, let them be
+\begin{gather}
+\Veim{eff1} = \big[
+  [ \Vsym{B1} \de \Vstr{s1} \Vsym{A} \mydot \Vstr{nuls1} ],
+  \Vloc{i1}, \Vloc{k}
+\big]
+\\
+\Veim{eff2} = \big[
+  [ \Vsym{B2} \de \Vstr{s2} \Vsym{A} \mydot \Vstr{nuls2} ],
+  \Vloc{i2}, \Vloc{k}
+\big]
+\end{gather}
+From \eqref{eq:obs-unique-leo-section-effect-10},
+we know that $\Left{\Veim{ls}} = \Vloc{j}$,
+so that,
+using
+Theorem \ref{t:symbolic-causes-from-effect},
+we know the matching top-down causes of
+\Veim{eff1} and \Veim{eff2} are valid,
+and are
+\begin{gather}
+\Veim{td1} = \big[
+  [ \Vsym{B1} \de \Vstr{s1} \mydot \Vsym{A} \Vstr{nuls1} ],
+  \Vloc{i1}, \Vloc{j}
+\big]
+\\
+\Veim{td2} = \big[
+  [ \Vsym{B2} \de \Vstr{s2} \mydot \Vsym{A} \Vstr{nuls2} ],
+  \Vloc{i2}, \Vloc{j}
+\big]
+\end{gather}
+Since \Veim{td1} and \Veim{td2} are Leo-eligible,
+they must be postdot-unique.
+
+TODO: Why do I know the above?
+
+By \eqref{eq:def-postdot-unique},
+the definition of postdot unique,
+we have then that
+\begin{equation}
+\label{eq:leo-deterministic-effect-25}
+\Veim{td1} = \Veim{td2}.
+\end{equation}
+Since the choice of
+\Veim{td1} and \Veim{td2}
+was without loss of generality,
+this shows that any two effects of a
+complete \Veim{ls} are identical.
+In others word, if \Veim{ls} is complete,
+its effect is unique.
+This shows the case.
+
 TODO
 \end{proof}
 
