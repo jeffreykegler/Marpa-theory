@@ -7755,65 +7755,101 @@ By restricting Leo memoization to right-recursive rules,
 where EORR sets can grow infinitely
 large.
 
+\begin{definition}
+\label{def:basis-of-leo-item}
+\dtitle{Basis of a Leo item}
 Let, without loss of generality,
+a Leo-eligible EIM be
 \begin{equation}
+\label{eq:def-basis-of-leo-item-5}
 \Veim{basis} = \left[
   \begin{gathered}
-     [ \Vsym{A} \de \Vstr{prefix} \mydot \Vstr{nul1} \Vsym{trans} \Vstr{nul2} ], \\
+     [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{trans} \Vstr{nul2} ], \\
      \Vloc{i}, \qquad \Vloc{j}
   \end{gathered}
 \right]
 \end{equation}
-where $\Vstr{nul1} = \Vstr{nul2} = \epsilon$,
-be a Leo-eligible rule.
-If
-for some \Vdr{top}, \Vorig{top},
-the Leo item
+where $\Vstr{nul2} = \epsilon$.
+For any Leo item of the form
 \begin{equation}
-  \Vleo{down} = [ \Vsym{A}, \Vdr{top}, \Vorig{top}, \Vloc{i} ],
+\label{eq:def-basis-of-leo-item-10}
+  \Vleo{eff} = [ \Vsym{trans}, \Vdr{tbd}, \Vorig{tbd}, \Vloc{j} ]
 \end{equation}
-is valid and exists,
-then
-\begin{equation}
-  \Vleo{eff} = [ \Vsym{trans}, \Vdr{top}, \Vorig{top}, \Vloc{j} ]
-\end{equation}
-is a valid Leo item at \Vloc{j}.
-We say the \Vleo{down} is the
-\xdfn{top-down cause}{top-down cause (of a Leo item)}
-of \Veim{eff},
-that \Veim{basis} is the
+for some \Vdr{tdb} and \Vorig{tdb},
+we say that \Veim{basis} is the
 \xdfn{basis}{basis (of a Leo item)}
 or
 \xdfn{bottom-up cause}{bottom-up cause (of a Leo item)}
-of \Veim{eff},
-and that \Veim{eff} is
-the 
-\xdfn{effect}{effect (Leo item)}
-of \Veim{basis} and \Vleo{down}.
-
-If there is no \Vdr{top}, \Vorig{top},
-such that
-\begin{equation}
-  \Vleo{down} = [ \Vsym{A}, \Vdr{top}, \Vorig{top}, \Vloc{i} ],
-\end{equation}
-exists,
-then
-\begin{equation}
-  \Vleo{eff} = [ \Vsym{trans}, \Vdr{A}, \Vorig{i}, \Vloc{j} ]
-\end{equation}
-is a valid Leo item at \Vloc{j}.
-When there is no \Vdr{top},
-and we say that
-that \Veim{eff} has no top-down cause,
-that \Veim{basis} is the
-\xdfn{basis}{basis (of a Leo item)}
-or
-\xdfn{bottom-up cause}{bottom-up cause (of a Leo item)}
-of \Veim{eff},
-and that \Veim{eff} is
-the 
+of \Vleo{eff}
+and that \Vleo{eff} is the
 \xdfn{effect}{effect (Leo item)}
 of \Veim{basis}.
+\end{definition}
+
+\begin{definition}
+\label{def:down-cause-of-leo-item}
+\dtitle{Top-down cause of an Leo item}
+Let
+\begin{equation*}
+\Veim{basis} = [ \Vdr{basis}, \Vloc{i}, \Vloc{j} ]
+\end{equation*}
+be the basis of a Leo item, call it \Vleo{eff}.
+If there is a Leo item of the form
+\begin{equation*}
+\Vleo{down} = [ \LHS{\Vdr{basis}}, \Vdr{td-top}, \Vorig{td-top}, \Vloc{i} ],
+\end{equation*}
+for some \Vdr{td-top} and \Vorig{td-top},
+then
+we say that
+\Vleo{down} is the
+\xdfn{top-down cause}{top-down cause (of a Leo item)}
+of \Vleo{eff};
+and that \Vleo{eff} is the
+\xdfn{effect}{effect (Leo item)}
+of \Vleo{down}.
+If there is no Leo item of the form of
+\Vleo{down},
+then we say that \Vleo{eff} has no
+top-down cause.
+\end{definition}
+
+TODO: Prove top-down cause is unique?
+
+\begin{definition}
+\label{def:validity-of-leo-item}
+\dtitle{Validity of an Leo item}
+Let \Vleo{eff} be a Leo item
+with a valid basis, \Veim{basis}.
+\Veim{eff} is said to be
+\xdfn{valid}{valid (Leo item)}
+in two cases.
+If \Veim{eff} has a top-down cause,
+\Vleo{down},
+then \Vleo{eff} is valid if and only if
+\begin{equation}
+\label{eq:def-validity-of-leo-item-15}
+\Vleo{eff} = \left[
+  \begin{gathered}
+  \Postdot{\Veim{basis}}, \DR{\Vleo{down}}, \\
+  \Origin{\Vleo{down}}, \Current{\Veim{basis}}
+  \end{gathered}
+\right].
+\end{equation}
+
+If a Leo item has no top-down cause
+then \Vleo{eff} is valid if and only if
+\begin{equation}
+\label{eq:def-validity-of-leo-item-20}
+\Vleo{eff} = \left[
+  \begin{gathered}
+  \Postdot{\Veim{basis}}, \Vdr{complete-basis}, \\
+  \Origin{\Veim{basis}}, \Current{\Veim{basis}}
+  \end{gathered}
+\right],
+\end{equation}
+where \Vdr{complete-basis} is the dotted rule that is completion of the rule in
+\Veim{basis}.
+\end{definition}
 
 \begin{theorem}
 \label{t:leo-transition-symbol-non-terminal}
@@ -8025,6 +8061,35 @@ is
 TODO: Prove Leo section layer has Leo-eligible top-down cause?
 
 \begin{theorem}
+\label{t:leo-section-valid}
+Let \Vleo{memo} be a Leo memo,
+and \Veim{bot} a matching EIM.
+Then
+there is a Leo section for
+\Vleo{memo} and \Veim{bot}
+such that every layer
+is either
+\begin{itemize}
+\item
+the top layer, that is,
+\Vop{Leo-top}{leo}; or
+\item
+an incomplete EIM; or
+\item
+a complete EIM with
+a Leo-eligible top-down cause
+that
+is the basis of a valid and existing
+Leo memo
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
+
+\begin{theorem}
 \label{t:leo-deterministic-effect}
 Let \Veim{ls} be a valid layer in a Leo section.
 If \Veim{ls} is not the top layer,
@@ -8101,30 +8166,6 @@ In others word, if \Veim{ls} is complete,
 its effect is unique.
 This shows the case.
 
-TODO
-\end{proof}
-
-\begin{theorem}
-\label{t:leo-section-valid}
-Let \Vleo{memo} be a Leo memo,
-and \Veim{bot} a matching EIM.
-Then
-\begin{itemize}
-\item
-there is a unique Leo section for
-\Vleo{memo} and \Veim{bot};
-\item
-the top layer of that Leo section is
-\Vop{Leo-top}{leo}; and
-\item
-for every layer other than the top,
-if that layer is a complete EIM,
-its top down cause is the basis
-of an valid and existing Leo memo.
-\end{itemize}
-\end{theorem}
-
-\begin{proof}
 TODO
 \end{proof}
 
