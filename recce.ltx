@@ -2099,12 +2099,17 @@ We write
 \Vop{Dotix}{x}%
 \index{recce-notation}{Dotix(x)@\Vop{Dotix}{x}}
 for the dot index of dotted rule
-\Vdr{x}.
+\Vdr{x},
+and \Vop{Rule}{x}%
+\index{recce-notation}{Rule(x)@\Vop{Rule}{x}}
+for the rule of the dotted rule.
 For example, where \Vdr{dr} is as in
 \eqref{eq:def-dotted-rule-10},
-\[
-  \op{Dotix}{\Vdr{dr}} = 2.
-\]
+\begin{gather*}
+  \op{Dotix}{\Vdr{dr}} = 2 \\
+  \text{and} \quad
+\op{Rule}{\Vdr{dr}} = [\Vsym{A} \de \Vsym{X} \Vsym{Y} \Vsym{Z}].
+\end{gather*}
 
 In the discussions to follow
 we will often refer to the
@@ -6425,7 +6430,6 @@ Following the implications,
 \xderives{0} \Vstr{pre-B} \Vstr{B-rhs} \Vstr{post-B}
 \end{multlined}
 &&
-\eqref{eq:lem-silo-reflection-nulling1-6},
 \eqref{eq:lem-silo-reflection-nulling1-42},
 \eqref{eq:lem-silo-reflection-nulling1-44}
 \\
@@ -6452,7 +6456,7 @@ But the rule of
 \eqref{eq:lem-silo-reflection-nulling1-50}
 is a cycle and cycles are not allowed in Marpa grammars.
 This concludes the reductio.
-Our assumption for the reduction was
+Our assumption for the reductio was
 \eqref{eq:lem-silo-reflection-nulling1-11},
 so we conclude that
 \begin{equation}
@@ -7100,402 +7104,99 @@ which is contrary to assumption for the reductio.
 We conclude that \Veim{bot} is a read EIM.
 \end{proof}
 
-\chapter{Altitude}
-\label{ch:altitude}
+The following theorem will prove useful when counting the
+layers in a silo.
 
-TODO: Delete this chapter?
+\begin{theorem}
+\ttitle{Consecutive incomplete silo layers}
+\label{consecutive-incomplete-silo-layers}
+The number of consecutive incomplete silo layers
+is at most \var{k},
+where \var{k} is the maximum length of a rule.
+\end{theorem}
 
-\begin{definition}
-\dtitle{Altitude}
-\label{def:altitude}
-We write \Alt{\Vinst{inst}} for the
-\xdfn{altitude}{altitude (of an EIM)}
-of \Vinst{inst}.
-
-An EIM, \Veim{up}, is an
-\dfn{altitude cause}
-of a reduction EIM, \Veim{red},
-if and only  if \Veim{up} is a bottom-up cause of
-\Veim{red}.
-An EIM, \Veim{down}, is an
-\dfn{altitude cause}
-of an ethereal EIM, \Veim{eth},
-if and only  if \Veim{down} is a top-down cause of
-\Veim{eth}.
-
-\begin{sloppypar}
-\begin{FlushLeft}
-\begin{enumerate}
-\item
-\label{case:def-altitude-start}
-The altitude of the start rule is 1.
-\item
-\label{case:def-altitude-read}
-The altitude of a read EIM is 1.
-\item
-\label{case:def-altitude-bump}
-The altitude of an unmemoized reduction EIM, \Veim{unmemo}
-is the least \Alt{\Veim{cuz}}+1
-such that \Veim{cuz} is an altitude cause
-of \Veim{unmemo}.
-\item
-\label{case:def-altitude-other}
-Let \Veim{other} be an
-unmemoized EIM,
-a predicted EIM,
-or a null-scan EIM.
-The altitude of
-\Veim{other}
-is the least \Alt{\Veim{cuz}}
+\begin{proof}
+For a reduction, let there be \Vincr{k} consecutive
+incomplete layers in the silo \var{slo}.
+By the definition of a silo, all of its layers are
+quasi-complete.
+Let the first layer in the consecutive
+series of incomplete silo layers be
+\Vel{slo}{lo}
+and let the last one be
+\Vel{slo}{hi}.
+By assumption, for all \var{a},
+$\var{lo} \le \var{a} < \var{hi}$,
+we have that \Vel{slo}{a} is incomplete.
+Since \Vel{slo}{a} is incomplete,
+it cannot be a bottom-up cause,
+so it is a top-down cause.
+By the definition of top-down cause,
+it and its effect share the same rule and origin.
+Therefore,
+for every \var{b} and \var{c}
 such that
-\Veim{cuz} is an altitude cause of \Veim{other}.
-\end{enumerate}
-
-\end{FlushLeft}
-\end{sloppypar}
-
-\end{definition}
-
-We number altitudes starting with 1, so that
-we may reserve altitude 0
-for non-EIM causes, such as terminal instances.
-Notice that,
-in some of the
-cases
-of Definition
-\ref{def:altitude},
-we state that the altitude is the least
-of one or more choices.
-EIM's can have multiple top-down causes,
-and multiple bottom-up causes.
-Where this results in a choice of altitudes,
-the alititude is always the minimum of the choices.
-
-\begin{theorem}
-\ttitle{Silo cause is altitude cause}
-\label{t:silo-cause-is-altitude-cause}
-Every silo cause is an altitude cause.
-\end{theorem}
-
-\begin{proof}
-Silo elements, by the definition
-of a silo, are quasi-complete,
-and therefore must be read EIM's,
-reduction EIM's
-or null-scan EIM's.
-From
-Theorem \ref{t:silo-causes},
-we see that only reduction EIM'S
-and null-scan EIM's have silo causes.
-This shows the theorem vacuously for
-the start EIM, predicted EIM's
-and read EIM's.
-
-In the cause of a reduction EIM,
-its silo causes are its bottom-up causes.
-From Definition 
-\ref{def:altitude} (``altitude cause''),
-we see that a reduction EIM's altitude causes
-are its bottom-up causes.
-This shows theorem for reduction EIM's.
-
-In the cause of a null-scan EIM,
-its silo causes are its top-down causes.
-From Definition 
-\ref{def:altitude} (``altitude cause''),
-we see that a reduction EIM's altitude causes
-are its top-down causes.
-This shows theorem for its last case,
-that of null-scan EIM's.
-\end{proof}
-
-\begin{theorem}
-\label{t:altitude-from-telluric-base}
-The altitude of
-a valid EIM is that of the telluric base
-of its ethereal closure.
-\end{theorem}
-
-\begin{proof}
-By Theorem \ref{t:eim-has-telluric-base}
-we know that a valid EIM has a valid telluric base.
-Call the telluric base of the ethereal closure, \Veim{base}.
-
-An ethereal closure is the transitive closure of the
-the \var{predict-op} and \var{null-scan-op}
-relations.
-Our proof will be by induction on the number of
-iterations of
-\var{epsilon-op}.
-Recall from
-\eqref{eq:def-epsilon-op}
-that
+$\var{lo} \le \var{b} < \var{hi}$
+and
+$\var{lo} \le \var{c} < \var{hi}$,
+we have
 \begin{equation}
-\var{epsilon-op} \defined \var{predict-op} \cup \var{null-scan-op}.
+\label{consecutive-incomplete-silo-layers-10}
+\begin{gathered}
+\Origin{\Vel{slo}{b}} = \Origin{\Vel{slo}{c}} \\
+\text{and} \quad \op{Rule}{\Vel{slo}{b}} = \op{Rule}{\Vel{slo}{c}},
+\end{gathered}
 \end{equation}
-By Theorem
-\ref{t:ethereal-closure},
-we know that
-\Valid{\var{epsilon-op}(\var{desc})}.
-For the purpose of this proof, we define
+Further, since
+\Vel{slo}{b} and \Vel{slo}{c}
+are in the same silo,
+by the definition of a silo, we have
 \begin{equation}
-\label{eq:altitude-from-telluric-base-20}
-\Vel{eims}{x} = \left\lbrace \var{eim} \;
-\middle| \;
-\begin{multlined}
-\Veim{eim} = \\
-    {\myfnname{epsilon-op}^{\displaystyle (\var{x})}}(\Veim{base})
-\end{multlined}
-\right\rbrace
+\label{consecutive-incomplete-silo-layers-15}
+\Current{\Vel{slo}{b}} = \Current{\Vel{slo}{c}}.
 \end{equation}
-By Definition \ref{def:altitude} for
-the altitude of
-predictions and null-scans,
-we know that
-\begin{equation}
-\label{eq:altitude-from-telluric-base-5}
-\Alt{\var{epsilon-op}(\var{desc})} = \Alt{\var{desc}}.
-\end{equation}
-
-Our induction hypothesis is
-\begin{equation}
-\label{eq:altitude-from-telluric-base-10}
-\tag{IND}
-\forall \, \Veim{eim}, \var{eim} \in \Vel{eims}{x} \implies \Alt{\var{eim}} = \Alt{\Veim{base}}
-\end{equation}
-As the basis of the induction, we note that the altitude of \Veim{base} is self-identical
-to show
-\eqref{eq:altitude-from-telluric-base-10} for $\var{x} = 0$.
-
-For the step of the induction, we assume
-\eqref{eq:altitude-from-telluric-base-10} for \var{i}
-to show
-\eqref{eq:altitude-from-telluric-base-10} for $\var{x}+1$.
-From
-\eqref{eq:altitude-from-telluric-base-20},
-we know that
-\begin{multline}
-\label{eq:altitude-from-telluric-base-30}
-\Veim{desc2} \in \el{eims}{\var{i}+1} \\
-\implies
-\left(
-\exists \, \Veim{desc1}
-\; \middle| \;
-\begin{multlined}
-\var{desc1} \in \Vel{eims}{i}  \\
-\text{and $\var{desc2} = \var{epsilon-op}(\var{desc1})$}
-\end{multlined}
-\right).
-\end{multline}
-We see from the defintion of altitude that it is always the least
-of the possible alternative, and that it is non-decreasing,
+From Theorem \ref{t:silo-telluric-prefix},
+we know the every silo layer has
+a telluric prefix,
 so that
 \begin{equation}
-\label{eq:altitude-from-telluric-base-32}
-\Vel{eims}{i} \le \el{eims}{\Vincr{i}}.
+\label{consecutive-incomplete-silo-layers-20}
+\op{Dotix}{\Vel{slo}{b}} \neq 0 \; \land \;
+\op{Dotix}{\Vel{slo}{c}} \neq 0
 \end{equation}
-By
-\eqref{eq:altitude-from-telluric-base-5},
-\eqref{eq:altitude-from-telluric-base-30},
+Combining
+\eqref{consecutive-incomplete-silo-layers-10},
+\eqref{consecutive-incomplete-silo-layers-15}
 and
-\eqref{eq:altitude-from-telluric-base-32},
-\begin{equation}
-\label{eq:altitude-from-telluric-base-33}
-\Veim{desc2} \in \el{eims}{\var{i}+1} 
-\implies
-\Alt{\var{desc2}} = \Alt{\var{desc1}}
-\end{equation}
-
-Since \var{desc2} was chosen without last of generality,
-the step for the induction,
-\eqref{eq:altitude-from-telluric-base-10} for $\var{i}+1$, follows from
-\eqref{eq:altitude-from-telluric-base-33}.
-This shows the induction and the theorem.
-\end{proof}
-
-\begin{theorem}
-\ttitle{Ethereal altitude}
-\label{t:ethereal-altitude}
-All the EIM's in an ethereal closure have the same
-altitude.
-\end{theorem}
-
-\begin{proof}
-This theorem follows directly from
-Theorem \ref{t:altitude-from-telluric-base}.
-\end{proof}
-
-\begin{theorem}
-\ttitle{Quasi-complete altitude}
-\label{t:quasi-complete-altitude}
-Altitude is finite and defined for every
-quasi-complete EIM.
-\end{theorem}
-
-\begin{proof}
-Let \Veim{quasi} be a quasi-complete EIM
-and let \var{silo} be a silo of height \var{h},
-such that
-\begin{gather}
-\Vel{silo}{\Vdecr{h}} = \Veim{quasi} \\
-\text{and} \quad \el{silo}{0} = \Veim{bot},
-\end{gather}
-where \Veim{bot} is a read EIM.
-By Theorem 
-\ref{t:quasi-confirmed-eim-has-silo},
-there is at least one such silo.
-
-We show the theorem by induction,
-where the induction hypothesis is
-\begin{equation}
-\tag{HYP}
-\label{eq:quasi-complete-altitude-10}
-\text{\Alt{\Vel{silo}{x}} is defined and finite.}
-\end{equation}
-Since
-\el{silo}{0} is a read EIM,
-we know that the altitude of \el{silo}{0}
-is 1,
-directly from the definition of altitude.
-This gives us
-\eqref{eq:quasi-complete-altitude-10} for
-$\var{x} = 0$,
-and we take this as the basis of the induction.
-
-For the step of the induction, we assume
-\eqref{eq:quasi-complete-altitude-10} for
-$\var{x} = \var{i}$,
-to show
-\eqref{eq:quasi-complete-altitude-10} for
-$\var{x} = \Vincr{i}$.
-By Theorem
-\ref{t:silo-read-eim-layer},
-we know that
-\el{silo}{\Vincr{i}} is not a read EIM,
-and therefore by Theorem
-\ref{t:silo-cause-is-altitude-cause},
-we know that the altitude cause of
-\el{silo}{\Vincr{i}} is
-\Vel{silo}{i}.
-Since
-\el{silo}{\Vincr{i}} is a silo layer
-but not a read EIM,
-it is a null-scan EIM or a reduction EIM.
-From the definition of altitude, we see that
-the altitude of
-a null-scan EIM or a reduction EIM
-is defined and finite, if the altitude of
-its altitude cause is defined and finite,
-that is, if
-\begin{equation}
-\label{eq:quasi-complete-altitude-20}
-\text{\Alt{\Vel{silo}{i}} is defined and finite.}
-\end{equation}
-\eqref{eq:quasi-complete-altitude-20}
-was our assumption for the step,
-and this gives us the step, the induction
-and the theorem.
-\end{proof}
-
-\begin{theorem}
-\label{t:altitude-is-finite}
-If \Veim{eim} is a valid EIM,
-its altitude is defined and finite.
-\end{theorem}
-
-\begin{proof}
-We first show that altitude is defined
-and finite for telluric EIM's.
-We proceed by cases, depending on the
-type of telluric \Veim{tell}.
-If \Veim{tell} is the start EIM
-or a read EIM, we know its altitude is
-1 directly
-from the definition of altitude,
-which gives us the theorem for those
-two cases.
-
-The remaining case is where
-\Veim{tell} is a reduction.
-Using
-Theorem \ref{t:symbolic-causes-from-effect}, we know
-that its bottom-up cause, \Vinst{up},
-is a symbol instance
+\eqref{consecutive-incomplete-silo-layers-20}
+we see that
+\Vel{slo}{b} and \Vel{slo}{c}
+can differ only in their dot positions,
 and that
 \begin{equation}
-\label{eq:altitude-is-finite-10}
-\Symbol{\Vinst{up}} = \Predot{\Veim{tell}}.
+\label{consecutive-incomplete-silo-layers-25}
+\forall \; \var{a} : 1 \le \op{Dotix}{\el{slo}{a}} \le \var{k}.
 \end{equation}
-Since \Veim{up} is a reduction,
-\Predot{\Veim{tell}} is a non-terminal,
-so that
-from \eqref{eq:altitude-is-finite-10},
-we know that
-\Symbol{\Vinst{up}} is a non-terminal.
-Since \Symbol{\Vinst{up}} is a non-terminal,
-by Theorem
-\ref{t:eim-equivalent-from-non-terminal},
-we know that
-\Vinst{up} has a complete EIM equivalent.
-
-Call the EIM equivalent of \Vinst{up},
-\Veim{up}.
-Since \Veim{up} is complete,
-it is quasi-complete so that,
-by Theorem
-\ref{t:quasi-complete-altitude},
-the altitude of \Veim{up} is defined
-and finite.
-By the definition of an altitude cause,
-the altitude cause of a reduction is its
-bottom-up cause, in this case, \Veim{up}.
-By the definition of altitude, if the
-altitude cause of a reduction is defined
-and finite,
-then the reduction has a defined and
-finite altitude.
-This shows the last
-case of telluric EIM's ---
-that of reduction EIM's.
-
-We have shown that
+(Recall that \var{k} was, by assumption for the theorem,
+the maximum length of a rule in \Cg{}.
+Assume for a reductio that
 \begin{equation}
-\label{eq:altitude-is-finite-20}
-\myparbox{
-altitude is defined and
-finite for all telluric EIM's.
-}
+\label{consecutive-incomplete-silo-layers-28}
+\tag{RAA}
+\xxsubtract{\var{hi}}{\var{lo}} \ge \var{k}
 \end{equation}
-We now are in a position to show that
-altitude is defined and finite for an
-arbitrary EIM.
-By Theorem
-\ref{t:altitude-from-telluric-base},
-the altitude of an EIM is
-defined and finite if the altitude of
-its telluric base is.
-By Theorem \ref{t:eim-has-telluric-base},
-every EIM is in the ethereal closure
-of some telluric base.
-The telluric base of an ethereal closure
-must be a telluric EIM.
-\eqref{eq:altitude-is-finite-20} shows that
-the altitude of a telluric EIM
-is defined and finite.
-This shows that the altitude of an
-arbitary EIM is defined and finite,
-which was the theorem.
-\end{proof}
-
-\begin{theorem}
-\label{t:leo-silo-altitude}
-The altitude of an unmemoized quasi-confirmed
-EIM is one plus that of the
-most recent unmemoized bottom-up cause in its silo.
-\end{theorem}
-
-\begin{proof}
-TODO
+From \eqref{consecutive-incomplete-silo-layers-28},
+it follows that
+\begin{multline}
+\label{consecutive-incomplete-silo-layers-30}
+\exists \; \var{b}, \var{c} : \Vel{slo}{b} = \Vel{slo}{c}.
+\end{multline}
+But, by Theorem
+\ref{t:silo-layer-unique},
+\eqref{consecutive-incomplete-silo-layers-30}
+is impossible, which shows the reductio.
+Therefore
+$\xxsubtract{\var{hi}}{\var{lo}} < \var{k}$.
 \end{proof}
 
 \chapter{Leo memos}
@@ -8403,6 +8104,404 @@ No prediction is memoized.
 
 \begin{proof}
 TODO.
+\end{proof}
+
+\chapter{Altitude}
+\label{ch:altitude}
+
+TODO: Delete this chapter?
+
+\begin{definition}
+\dtitle{Altitude}
+\label{def:altitude}
+We write \Alt{\Vinst{inst}} for the
+\xdfn{altitude}{altitude (of an EIM)}
+of \Vinst{inst}.
+
+An EIM, \Veim{up}, is an
+\dfn{altitude cause}
+of a reduction EIM, \Veim{red},
+if and only  if \Veim{up} is a bottom-up cause of
+\Veim{red}.
+An EIM, \Veim{down}, is an
+\dfn{altitude cause}
+of an ethereal EIM, \Veim{eth},
+if and only  if \Veim{down} is a top-down cause of
+\Veim{eth}.
+
+\begin{sloppypar}
+\begin{FlushLeft}
+\begin{enumerate}
+\item
+\label{case:def-altitude-start}
+The altitude of the start rule is 1.
+\item
+\label{case:def-altitude-read}
+The altitude of a read EIM is 1.
+\item
+\label{case:def-altitude-bump}
+The altitude of an unmemoized reduction EIM, \Veim{unmemo}
+is the least \Alt{\Veim{cuz}}+1
+such that \Veim{cuz} is an altitude cause
+of \Veim{unmemo}.
+\item
+\label{case:def-altitude-other}
+Let \Veim{other} be an
+unmemoized EIM,
+a predicted EIM,
+or a null-scan EIM.
+The altitude of
+\Veim{other}
+is the least \Alt{\Veim{cuz}}
+such that
+\Veim{cuz} is an altitude cause of \Veim{other}.
+\end{enumerate}
+
+\end{FlushLeft}
+\end{sloppypar}
+
+\end{definition}
+
+We number altitudes starting with 1, so that
+we may reserve altitude 0
+for non-EIM causes, such as terminal instances.
+Notice that,
+in some of the
+cases
+of Definition
+\ref{def:altitude},
+we state that the altitude is the least
+of one or more choices.
+EIM's can have multiple top-down causes,
+and multiple bottom-up causes.
+Where this results in a choice of altitudes,
+the alititude is always the minimum of the choices.
+
+\begin{theorem}
+\ttitle{Silo cause is altitude cause}
+\label{t:silo-cause-is-altitude-cause}
+Every silo cause is an altitude cause.
+\end{theorem}
+
+\begin{proof}
+Silo elements, by the definition
+of a silo, are quasi-complete,
+and therefore must be read EIM's,
+reduction EIM's
+or null-scan EIM's.
+From
+Theorem \ref{t:silo-causes},
+we see that only reduction EIM'S
+and null-scan EIM's have silo causes.
+This shows the theorem vacuously for
+the start EIM, predicted EIM's
+and read EIM's.
+
+In the cause of a reduction EIM,
+its silo causes are its bottom-up causes.
+From Definition 
+\ref{def:altitude} (``altitude cause''),
+we see that a reduction EIM's altitude causes
+are its bottom-up causes.
+This shows theorem for reduction EIM's.
+
+In the cause of a null-scan EIM,
+its silo causes are its top-down causes.
+From Definition 
+\ref{def:altitude} (``altitude cause''),
+we see that a reduction EIM's altitude causes
+are its top-down causes.
+This shows theorem for its last case,
+that of null-scan EIM's.
+\end{proof}
+
+\begin{theorem}
+\label{t:altitude-from-telluric-base}
+The altitude of
+a valid EIM is that of the telluric base
+of its ethereal closure.
+\end{theorem}
+
+\begin{proof}
+By Theorem \ref{t:eim-has-telluric-base}
+we know that a valid EIM has a valid telluric base.
+Call the telluric base of the ethereal closure, \Veim{base}.
+
+An ethereal closure is the transitive closure of the
+the \var{predict-op} and \var{null-scan-op}
+relations.
+Our proof will be by induction on the number of
+iterations of
+\var{epsilon-op}.
+Recall from
+\eqref{eq:def-epsilon-op}
+that
+\begin{equation}
+\var{epsilon-op} \defined \var{predict-op} \cup \var{null-scan-op}.
+\end{equation}
+By Theorem
+\ref{t:ethereal-closure},
+we know that
+\Valid{\var{epsilon-op}(\var{desc})}.
+For the purpose of this proof, we define
+\begin{equation}
+\label{eq:altitude-from-telluric-base-20}
+\Vel{eims}{x} = \left\lbrace \var{eim} \;
+\middle| \;
+\begin{multlined}
+\Veim{eim} = \\
+    {\myfnname{epsilon-op}^{\displaystyle (\var{x})}}(\Veim{base})
+\end{multlined}
+\right\rbrace
+\end{equation}
+By Definition \ref{def:altitude} for
+the altitude of
+predictions and null-scans,
+we know that
+\begin{equation}
+\label{eq:altitude-from-telluric-base-5}
+\Alt{\var{epsilon-op}(\var{desc})} = \Alt{\var{desc}}.
+\end{equation}
+
+Our induction hypothesis is
+\begin{equation}
+\label{eq:altitude-from-telluric-base-10}
+\tag{IND}
+\forall \, \Veim{eim}, \var{eim} \in \Vel{eims}{x} \implies \Alt{\var{eim}} = \Alt{\Veim{base}}
+\end{equation}
+As the basis of the induction, we note that the altitude of \Veim{base} is self-identical
+to show
+\eqref{eq:altitude-from-telluric-base-10} for $\var{x} = 0$.
+
+For the step of the induction, we assume
+\eqref{eq:altitude-from-telluric-base-10} for \var{i}
+to show
+\eqref{eq:altitude-from-telluric-base-10} for $\var{x}+1$.
+From
+\eqref{eq:altitude-from-telluric-base-20},
+we know that
+\begin{multline}
+\label{eq:altitude-from-telluric-base-30}
+\Veim{desc2} \in \el{eims}{\var{i}+1} \\
+\implies
+\left(
+\exists \, \Veim{desc1}
+\; \middle| \;
+\begin{multlined}
+\var{desc1} \in \Vel{eims}{i}  \\
+\text{and $\var{desc2} = \var{epsilon-op}(\var{desc1})$}
+\end{multlined}
+\right).
+\end{multline}
+We see from the defintion of altitude that it is always the least
+of the possible alternative, and that it is non-decreasing,
+so that
+\begin{equation}
+\label{eq:altitude-from-telluric-base-32}
+\Vel{eims}{i} \le \el{eims}{\Vincr{i}}.
+\end{equation}
+By
+\eqref{eq:altitude-from-telluric-base-5},
+\eqref{eq:altitude-from-telluric-base-30},
+and
+\eqref{eq:altitude-from-telluric-base-32},
+\begin{equation}
+\label{eq:altitude-from-telluric-base-33}
+\Veim{desc2} \in \el{eims}{\var{i}+1} 
+\implies
+\Alt{\var{desc2}} = \Alt{\var{desc1}}
+\end{equation}
+
+Since \var{desc2} was chosen without last of generality,
+the step for the induction,
+\eqref{eq:altitude-from-telluric-base-10} for $\var{i}+1$, follows from
+\eqref{eq:altitude-from-telluric-base-33}.
+This shows the induction and the theorem.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Ethereal altitude}
+\label{t:ethereal-altitude}
+All the EIM's in an ethereal closure have the same
+altitude.
+\end{theorem}
+
+\begin{proof}
+This theorem follows directly from
+Theorem \ref{t:altitude-from-telluric-base}.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Quasi-complete altitude}
+\label{t:quasi-complete-altitude}
+Altitude is finite and defined for every
+quasi-complete EIM.
+\end{theorem}
+
+\begin{proof}
+Let \Veim{quasi} be a quasi-complete EIM
+and let \var{silo} be a silo of height \var{h},
+such that
+\begin{gather}
+\Vel{silo}{\Vdecr{h}} = \Veim{quasi} \\
+\text{and} \quad \el{silo}{0} = \Veim{bot},
+\end{gather}
+where \Veim{bot} is a read EIM.
+By Theorem 
+\ref{t:quasi-confirmed-eim-has-silo},
+there is at least one such silo.
+
+We show the theorem by induction,
+where the induction hypothesis is
+\begin{equation}
+\tag{HYP}
+\label{eq:quasi-complete-altitude-10}
+\text{\Alt{\Vel{silo}{x}} is defined and finite.}
+\end{equation}
+Since
+\el{silo}{0} is a read EIM,
+we know that the altitude of \el{silo}{0}
+is 1,
+directly from the definition of altitude.
+This gives us
+\eqref{eq:quasi-complete-altitude-10} for
+$\var{x} = 0$,
+and we take this as the basis of the induction.
+
+For the step of the induction, we assume
+\eqref{eq:quasi-complete-altitude-10} for
+$\var{x} = \var{i}$,
+to show
+\eqref{eq:quasi-complete-altitude-10} for
+$\var{x} = \Vincr{i}$.
+By Theorem
+\ref{t:silo-read-eim-layer},
+we know that
+\el{silo}{\Vincr{i}} is not a read EIM,
+and therefore by Theorem
+\ref{t:silo-cause-is-altitude-cause},
+we know that the altitude cause of
+\el{silo}{\Vincr{i}} is
+\Vel{silo}{i}.
+Since
+\el{silo}{\Vincr{i}} is a silo layer
+but not a read EIM,
+it is a null-scan EIM or a reduction EIM.
+From the definition of altitude, we see that
+the altitude of
+a null-scan EIM or a reduction EIM
+is defined and finite, if the altitude of
+its altitude cause is defined and finite,
+that is, if
+\begin{equation}
+\label{eq:quasi-complete-altitude-20}
+\text{\Alt{\Vel{silo}{i}} is defined and finite.}
+\end{equation}
+\eqref{eq:quasi-complete-altitude-20}
+was our assumption for the step,
+and this gives us the step, the induction
+and the theorem.
+\end{proof}
+
+\begin{theorem}
+\label{t:altitude-is-finite}
+If \Veim{eim} is a valid EIM,
+its altitude is defined and finite.
+\end{theorem}
+
+\begin{proof}
+We first show that altitude is defined
+and finite for telluric EIM's.
+We proceed by cases, depending on the
+type of telluric \Veim{tell}.
+If \Veim{tell} is the start EIM
+or a read EIM, we know its altitude is
+1 directly
+from the definition of altitude,
+which gives us the theorem for those
+two cases.
+
+The remaining case is where
+\Veim{tell} is a reduction.
+Using
+Theorem \ref{t:symbolic-causes-from-effect}, we know
+that its bottom-up cause, \Vinst{up},
+is a symbol instance
+and that
+\begin{equation}
+\label{eq:altitude-is-finite-10}
+\Symbol{\Vinst{up}} = \Predot{\Veim{tell}}.
+\end{equation}
+Since \Veim{up} is a reduction,
+\Predot{\Veim{tell}} is a non-terminal,
+so that
+from \eqref{eq:altitude-is-finite-10},
+we know that
+\Symbol{\Vinst{up}} is a non-terminal.
+Since \Symbol{\Vinst{up}} is a non-terminal,
+by Theorem
+\ref{t:eim-equivalent-from-non-terminal},
+we know that
+\Vinst{up} has a complete EIM equivalent.
+
+Call the EIM equivalent of \Vinst{up},
+\Veim{up}.
+Since \Veim{up} is complete,
+it is quasi-complete so that,
+by Theorem
+\ref{t:quasi-complete-altitude},
+the altitude of \Veim{up} is defined
+and finite.
+By the definition of an altitude cause,
+the altitude cause of a reduction is its
+bottom-up cause, in this case, \Veim{up}.
+By the definition of altitude, if the
+altitude cause of a reduction is defined
+and finite,
+then the reduction has a defined and
+finite altitude.
+This shows the last
+case of telluric EIM's ---
+that of reduction EIM's.
+
+We have shown that
+\begin{equation}
+\label{eq:altitude-is-finite-20}
+\myparbox{
+altitude is defined and
+finite for all telluric EIM's.
+}
+\end{equation}
+We now are in a position to show that
+altitude is defined and finite for an
+arbitrary EIM.
+By Theorem
+\ref{t:altitude-from-telluric-base},
+the altitude of an EIM is
+defined and finite if the altitude of
+its telluric base is.
+By Theorem \ref{t:eim-has-telluric-base},
+every EIM is in the ethereal closure
+of some telluric base.
+The telluric base of an ethereal closure
+must be a telluric EIM.
+\eqref{eq:altitude-is-finite-20} shows that
+the altitude of a telluric EIM
+is defined and finite.
+This shows that the altitude of an
+arbitary EIM is defined and finite,
+which was the theorem.
+\end{proof}
+
+\begin{theorem}
+\label{t:leo-silo-altitude}
+The altitude of an unmemoized quasi-confirmed
+EIM is one plus that of the
+most recent unmemoized bottom-up cause in its silo.
+\end{theorem}
+
+\begin{proof}
+TODO
 \end{proof}
 
 \chapter{The Marpa Recognizer}
