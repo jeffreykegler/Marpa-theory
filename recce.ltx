@@ -6103,7 +6103,7 @@ This shows
 \eqref{eq:silo-read-eim-layer-1}.
 
 Recall that
-silo layer indexes must are
+silo layer indexes are
 consecutive integers starting at zero.
 \eqref{eq:silo-read-eim-layer-2}
 follows from this observation
@@ -6189,17 +6189,17 @@ there must be a telluric symbol before \Vloc{k}.
 Therefore, without loss of generality, a silo layer is
 \begin{equation}
 \label{eq:no-silo-at-0-10}
-\big[ [ \Vsym{A} \de \Vstr{pre} \Vsym{tell} \mydot \Vstr{nulls} ], \Vloc{i}, \Vloc{k} \big]
+\big[ [ \Vsym{A} \de \Vstr{fore} \Vsym{tell} \mydot \Vstr{suffix} ], \Vloc{i}, \Vloc{k} \big]
 \end{equation}
 for some \Vloc{i},
 and some rule
 \[
-  [ \Vsym{A} \de \Vstr{pre} \Vsym{tell} \Vstr{nulls} ] \in \Crules
+  [ \Vsym{A} \de \Vstr{fore} \Vsym{tell} \Vstr{suffix} ] \in \Crules
 \]
 where \Vsym{tell} is telluric.
 By the definition of EIM validity, we know that
 \begin{align}
-& \Vmk{i} \Vstr{pre} \Vsym{tell} \Vmk{k} &&
+& \Vmk{i} \Vstr{fore} \Vsym{tell} \Vmk{k} &&
   \text{\eqref{eq:no-silo-at-0-10}}
 \notag
 \\
@@ -6371,12 +6371,19 @@ We assume
 \text{\Vsym{B} is a non-terminal.}
 \end{equation}
 for a reductio.
-The bottom-up cause is
+If \Vsym{B} is a non-terminal, by
+the definition of validity for a non-terminal symbol instance,
+we know that its parse instance has an EIM equivalent,
+so that the bottom-up cause
+of \eqref{eq:lem-silo-reflection-nulling1-10}
+is, without loss of generality,
 \begin{equation}
 \label{eq:lem-silo-reflection-nulling1-12}
 \Vel{silo}{i} = \bigl[[\Vsym{B} \de \Vstr{B-rhs} \mydot ], \var{b}, \var{c} \bigr].
 \end{equation}
-and its validity equivalent is
+The validity equivalent
+of \eqref{eq:lem-silo-reflection-nulling1-12}
+is
 \begin{equation}
 \label{eq:lem-silo-reflection-nulling1-16}
 \Vsym{B} \derives \Vmk{b} \Vstr{B-rhs} \Vmk{c},
