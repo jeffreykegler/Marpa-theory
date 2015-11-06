@@ -7459,7 +7459,7 @@ and the payoff from Leo memoization
 is therefore very limited.
 By restricting Leo memoization to right-recursive rules,
 \Marpa{} incurs the cost of Leo memoization only in cases
-where EORR sets can grow infinitely
+where EORR sets can grow arbitrarily
 large.
 
 \begin{definition}
@@ -7483,7 +7483,7 @@ For any Leo item of the form
   \Vleo{eff} = [ \Vsym{trans}, \Vdr{tbd}, \Vorig{tbd}, \Vloc{j} ]
 \end{equation}
 for some \Vdr{tdb} and \Vorig{tdb},
-we say that \Veim{basis} is the
+we say that \Veim{basis} is a
 \xdfn{basis}{basis (of a Leo item)}
 or
 \xdfn{bottom-up cause}{bottom-up cause (of a Leo item)}
@@ -7508,7 +7508,7 @@ If there is a Leo item of the form
 for some \Vdr{td-top} and \Vorig{td-top},
 then
 we say that
-\Vleo{down} is the
+\Vleo{down} is a
 \xdfn{top-down cause}{top-down cause (of a Leo item)}
 of \Vleo{eff};
 and that \Vleo{eff} is the
@@ -7527,12 +7527,17 @@ TODO: Prove top-down cause is unique?
 \dtitle{Validity of an Leo item}
 Let \Vleo{eff} be a Leo item
 with a valid basis, \Veim{basis}.
-\Veim{eff} is said to be
+\Vleo{eff} is said to be
 \xdfn{valid}{valid (Leo item)}
-in two cases.
-If \Veim{eff} has a top-down cause,
-\Vleo{down},
-then \Vleo{eff} is valid if and only if
+if and only if it falls into one to
+two cases.
+
+\textbf{Case 1}:
+In the first case,
+\Vleo{eff} has a top-down cause,
+call it \Vleo{down}.
+In this case,
+\Vleo{eff} is valid if and only if
 \begin{equation}
 \label{eq:def-validity-of-leo-item-15}
 \Vleo{eff} = \left[
@@ -7543,8 +7548,11 @@ then \Vleo{eff} is valid if and only if
 \right].
 \end{equation}
 
-If a Leo item has no top-down cause
-then \Vleo{eff} is valid if and only if
+\textbf{Case 2}:
+In the second case,
+\Vleo{eff} has no top-down cause.
+In this case,
+\Vleo{eff} is valid if and only if
 \begin{equation}
 \label{eq:def-validity-of-leo-item-20}
 \Vleo{eff} = \left[
@@ -7570,9 +7578,9 @@ a rule must be right-recursive.
 By the definition of validity for a Leo memo,
 the rule of the basis must be of the form
 \begin{equation}
-\Vrule{r} = [ \Vsym{A} \de \Vstr{prefix} \Vstr{nul1} \Vsym{trans} \Vstr{nul2} ],
+\Vrule{r} = [ \Vsym{A} \de \Vstr{prefix} \Vsym{trans} \Vstr{nul} ],
 \end{equation}
-where $\Vstr{nul1} = \Vstr{nul2} = \epsilon$,
+where $\Vstr{nul} = \epsilon$,
 and
 where
 \begin{gather}
