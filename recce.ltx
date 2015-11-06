@@ -2098,11 +2098,11 @@ between \Vsym{Y} and \Vsym{Z}.
 We write
 \Vop{Dotix}{x}%
 \index{recce-notation}{Dotix(x)@\Vop{Dotix}{x}}
-for the dot index of dotted rule
+for the dot index of
 \Vdr{x},
 and \Vop{Rule}{x}%
 \index{recce-notation}{Rule(x)@\Vop{Rule}{x}}
-for the rule of the dotted rule.
+for the rule of \Vdr{x}.
 For example, where \Vdr{dr} is as in
 \eqref{eq:def-dotted-rule-10},
 \begin{gather*}
@@ -2118,7 +2118,8 @@ The dot location should not be confused with the
 dot index.
 Dot locations will be locations in the input,
 and will require the dotted rule
-to be placed in a context as will be explained in
+to be placed in the context of an input,
+as will be explained in
 Chapter \ref{ch:earley-items}.
 
 We will sometimes write the dotted rule as a duple,
@@ -5916,6 +5917,8 @@ where
 \el{s1}{\Vincr{i}}.
 \end{definition}
 
+Note that this definition implies that any subsequence of a silo
+is also a silo.
 We call an element of a silo,
 a
 \xdfn{layer}{layer (of silo)}.
@@ -7116,87 +7119,83 @@ where \var{k} is the maximum length of a rule.
 \end{theorem}
 
 \begin{proof}
-For a reduction, let there be \Vincr{k} consecutive
+For a reductio, let there be \Vincr{k} consecutive
 incomplete layers in the silo \var{slo}.
-By the definition of a silo, all of its layers are
-quasi-complete.
-Let the first layer in the consecutive
-series of incomplete silo layers be
-\Vel{slo}{lo}
-and let the last one be
-\Vel{slo}{hi}.
-By assumption, for all \var{a},
-$\var{lo} \le \var{a} < \var{hi}$,
-we have that \Vel{slo}{a} is incomplete.
-Since \Vel{slo}{a} is incomplete,
-it cannot be a bottom-up cause,
-so it is a top-down cause.
+Let the subsequence of \var{slo} containing only these \Vincr{k}
+consecutive layers be \var{ss}.
+By the definition of silo, \var{ss} is also a silo.
+
+By the definition of a silo, all of the layers in \var{ss}
+are quasi-complete.
+By assumption for the reductio,
+all of the layers in \var{ss} are incomplete.
+An incomplete EIM cannot be a bottom-up cause,
+so every layer in \var{ss}, except the top layer,
+is the top-down cause of the next layer.
 By the definition of top-down cause,
-it and its effect share the same rule and origin.
-Therefore,
-for every \var{b} and \var{c}
-such that
-$\var{lo} \le \var{b} < \var{hi}$
-and
-$\var{lo} \le \var{c} < \var{hi}$,
+a top-down cause and its effect share the same rule and origin,
+so that
+for every 
+\Vel{ss}{b} and \Vel{ss}{c},
 we have
 \begin{equation}
 \label{consecutive-incomplete-silo-layers-10}
 \begin{gathered}
-\Origin{\Vel{slo}{b}} = \Origin{\Vel{slo}{c}} \\
-\text{and} \quad \op{Rule}{\Vel{slo}{b}} = \op{Rule}{\Vel{slo}{c}},
+\Origin{\Vel{ss}{b}} = \Origin{\Vel{ss}{c}} \\
+\text{and} \quad \op{Rule}{\Vel{ss}{b}} = \op{Rule}{\Vel{ss}{c}},
 \end{gathered}
 \end{equation}
 Further, since
-\Vel{slo}{b} and \Vel{slo}{c}
+\Vel{ss}{b} and \Vel{ss}{c},
 are in the same silo,
 by the definition of a silo, we have
 \begin{equation}
 \label{consecutive-incomplete-silo-layers-15}
-\Current{\Vel{slo}{b}} = \Current{\Vel{slo}{c}}.
+\Current{\Vel{ss}{b}} = \Current{\Vel{ss}{c}}.
 \end{equation}
-From Theorem \ref{t:silo-telluric-prefix},
+Combining
+\eqref{consecutive-incomplete-silo-layers-10}
+and
+\eqref{consecutive-incomplete-silo-layers-15}
+we see that the layers in \var{ss} differ only
+in their dot index.
+
+Recall that \var{k} was, by assumption for the theorem,
+the maximum length of a rule in \Cg{}.
+The dot index ranges from the beginning of a rule
+until the position after its last symbol.
+\begin{equation}
+\label{consecutive-incomplete-silo-layers-20}
+\forall \; \var{a} : 0 \le \op{Dotix}{\Vel{slo}{a}} \le \var{k}.
+\end{equation}
+Also,
 we know the every silo layer has
 a telluric prefix,
 so that
 \begin{equation}
-\label{consecutive-incomplete-silo-layers-20}
-\op{Dotix}{\Vel{slo}{b}} \neq 0 \; \land \;
-\op{Dotix}{\Vel{slo}{c}} \neq 0
-\end{equation}
-Combining
-\eqref{consecutive-incomplete-silo-layers-10},
-\eqref{consecutive-incomplete-silo-layers-15}
-and
-\eqref{consecutive-incomplete-silo-layers-20}
-we see that
-\Vel{slo}{b} and \Vel{slo}{c}
-can differ only in their dot positions,
-and that
-\begin{equation}
 \label{consecutive-incomplete-silo-layers-25}
-\forall \; \var{a} : 1 \le \op{Dotix}{\el{slo}{a}} \le \var{k}.
+\forall \; \var{a} : \op{Dotix}{\Vel{slo}{a}} \neq 0.
 \end{equation}
-(Recall that \var{k} was, by assumption for the theorem,
-the maximum length of a rule in \Cg{}.
-Assume for a reductio that
+Using
+\eqref{consecutive-incomplete-silo-layers-20}
+and
+\eqref{consecutive-incomplete-silo-layers-25},
+we see that
+there can be at most \var{k} distinct layers in
+\var{ss}.
+Since, by assumption for the reductio, the length
+of \var{ss} was \Vincr{k},
+that means there must be
+\Vel{slo}{b} and \Vel{slo}{c}
+such that
 \begin{equation}
 \label{consecutive-incomplete-silo-layers-28}
-\tag{RAA}
-\xxsubtract{\var{hi}}{\var{lo}} \ge \var{k}
+\Vel{slo}{b} = \Vel{slo}{c} \; \land \; \var{b} \neq \var{c}.
 \end{equation}
-From \eqref{consecutive-incomplete-silo-layers-28},
-it follows that
-\begin{multline}
-\label{consecutive-incomplete-silo-layers-30}
-\exists \; \var{b}, \var{c} : \Vel{slo}{b} = \Vel{slo}{c}.
-\end{multline}
 But, by Theorem
 \ref{t:silo-layer-unique},
-\eqref{consecutive-incomplete-silo-layers-30}
+\eqref{consecutive-incomplete-silo-layers-28}
 is impossible, which shows the reductio.
-Therefore
-$\xxsubtract{\var{hi}}{\var{lo}} < \var{k}$.
 \end{proof}
 
 \chapter{Leo memos}
