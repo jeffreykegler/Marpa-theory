@@ -880,6 +880,8 @@ When a string contains only terminals, we also write its length
 in symbols as
 \Vsize{input}.%
 \index{recce-notation}{\Pipe{}str\Pipe{}@\Vsize{str} (size of a string of terminals)}
+The length of a string which contains non-terminals will be defined later,
+when we discuss inputs.
 
 \Vruleset{rules} is a set of rules (type \type{RULE}),
 where a rule is a duple
@@ -3641,7 +3643,7 @@ which shows the theorem.
 \end{proof}
 
 \begin{theorem}
-\ttitle{Iterative Null-scan from top-down cause}
+\ttitle{Iterative null-scan from top-down cause}
 \label{t:iterative-null-scan-from-down-cause}
 Let
 \begin{equation}
@@ -7640,16 +7642,16 @@ selectively omit valid Leo memos.
 We therefore will distinquish between
 valid Leo memos
 and
-\xdfn{realized}{realized (Leo memo)}
+\xdfn{instantiated}{instantiated (Leo memo)}
 Leo memos.
-All realized Leo memos are valid.
-A valid Leo memo may or may not be realized,
+All instantiated Leo memos are valid.
+A valid Leo memo may or may not be instantiated,
 depending on the implementation.
 
 \begin{theorem}
 \label{t:leo-transition-symbol-non-terminal}
 The transition symbol of a valid Leo memo
-must be a non-terminal.
+must be a non-terminal other than the accept symbol.
 \end{theorem}
 
 \begin{proof}
@@ -7675,11 +7677,24 @@ By
 and therefore \Vrule{r} must be right-recursive.
 By the definition of right-recursive,
 \Vrule{r} is right-recursive only if
-\Vsym{trans} is right-recursive.
+\begin{equation}
+\label{eq:leo-transition-symbol-non-terminal-26}
+\text{\Vsym{trans} is right-recursive}.
+\end{equation}
 To be right-recursive, \Vsym{trans}
 must be a non-terminal.
 By \eqref{eq:leo-transition-symbol-non-terminal-23},
 \Vsym{trans} is the transition symbol.
+
+It remains
+to show that $\Vsym{trans} \neq \Vsym{accept}$.
+By its definition, \Vsym{accept} occurs only on the
+LHS of the accept rule,
+and therefore \Vsym{accept} is not right recursive.
+Using this fact and
+\eqref{eq:leo-transition-symbol-non-terminal-26},
+we see that
+$\Vsym{trans} \neq \Vsym{accept}$.
 \end{proof}
 
 \section{Leo sections}
@@ -7695,7 +7710,7 @@ we say that the symbol instance
 \index{recce-notation}{Leo-bot(x)@\Vop{Leo-bot}{x}}
 is a
 \xdfn{bottom}{bottom (of a Leo silo)}
-of \Vleo{leo} at \Vloc{i}.
+EIM of \Vleo{leo} at \Vloc{i}.
 
 Where \Vleo{leo} is a Leo memo,
 \Vdr{top} = \DR{\Vleo{leo}}
@@ -7708,6 +7723,7 @@ we say that
 \index{recce-notation}{Leo-top(x)@\Vop{Leo-top}{x}}
 is the
 \xdfn{top}{top (of a Leo silo)}
+EIM
 of the Leo silo for \Vleo{leo}
 at \Vloc{i}.
 
@@ -7716,7 +7732,7 @@ Let
 \begin{equation*}
 \Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{i} ]
 \end{equation*}
-be a realized Leo memo and \Vinst{lb} a valid matching bottom.
+be an instantiated Leo memo and \Vinst{lb} a valid matching bottom.
 Then there is a silo whose bottom is an EIM equivalent of \Vinst{lb}
 and whose top is 
 \Vop{Leo-top}{\Vleo{leo}, \Vloc{i}}.
