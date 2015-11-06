@@ -7566,6 +7566,17 @@ where \Vdr{complete-basis} is the dotted rule that is completion of the rule in
 \Veim{basis}.
 \end{definition}
 
+In this document, we will want to allow for implementations which
+selectively omit valid Leo memos.
+We therefore will distinquish between
+valid Leo memos
+and
+\xdfn{realized}{realized (Leo memo)}
+Leo memos.
+All realized Leo memos are valid.
+A valid Leo memo may or may not be realized,
+depending on the implementation.
+
 \begin{theorem}
 \label{t:leo-transition-symbol-non-terminal}
 The transition symbol of a valid Leo memo
@@ -7604,6 +7615,70 @@ By \eqref{eq:leo-transition-symbol-non-terminal-23},
 
 \section{Leo sections}
 
+Where \Vleo{leo} is a Leo memo,
+\Vloc{memloc} = \Current{\Vleo{leo}}
+and
+\Vsym{t} = \Symbol{\Vleo{leo}},
+we say that the symbol instance
+\[
+  \Vinst{lb} = \Vmk{memloc} \Vsym{transition} \Vmk{reloc}
+\]
+is a
+\xdfn{matching bottom}{matching bottom (of a Leo memo)}.
+
+Where \Vleo{leo} is a Leo memo,
+\Vdr{top} = \DR{\Vleo{leo}}
+and
+\Vorig{top} = \Origin{\Vleo{leo}},
+let its
+\xdfn{top}{top (of a Leo section)}
+be
+\begin{equation}
+\Vop{Leo-top}{\Vleo{leo}, \Vloc{i}} = \big[ \Vdr{top}, \Vorig{top}, \Vloc{i} \big].
+\end{equation}
+
+\begin{theorem}
+Let
+\begin{equation}
+\label{eq:def-leo-memo-10}
+\Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{i} ]
+\end{equation}
+be a realized Leo memo and \Vinst{lb} a valid matching bottom.
+Then there is a silo whose bottom is an EIM equivalent of \Vinst{lb}
+and whose top is 
+\Vop{Leo-top}{\Vleo{leo}, \Vloc{i}}.
+\end{theorem}
+
+\begin{proof}
+Theorems
+\ref{t:eim-equivalent-from-non-terminal}
+and
+\ref{t:leo-transition-symbol-non-terminal}
+guarantee that \Vinst{lb}
+has an EIM equivalent.
+
+TODO: Finish.
+\end{proof}
+
+Let $\Vloc{reloc} = \Right{\var{silo}}$
+and 
+let \Vloc{memloc} and \Vsym{transition}
+be as in \eqref{eq:def-leo-memo-10}.
+We therefore can define
+\xdfn{bottom}{bottom (of a Leo section)}
+of a Leo section
+as
+\Vop{Leo-bot}{silo}
+such that
+\begin{gather*}
+\Vop{Leo-bot}{silo} = \op{EIM-Eq}{\Vinst{trans}}.
+\end{gather*}
+
+Where
+is a Leo memo,
+
+TODO: Revise from here.
+
 The silo layers which \Vleo{leo} will cause to be
 memoized
 are the
@@ -7631,29 +7706,6 @@ are as in
 \eqref{eq:def-leo-memo-10},
 and \Right{\var{silo}} is the location of \var{silo}.
 
-Let $\Vloc{reloc} = \Right{\var{silo}}$
-and 
-let \Vloc{memloc} and \Vsym{transition}
-be as in \eqref{eq:def-leo-memo-10}.
-Theorems
-\ref{t:eim-equivalent-from-non-terminal}
-and
-\ref{t:leo-transition-symbol-non-terminal}
-guarantee that
-the symbol instance
-\[
-  \Vinst{trans} = \Vmk{memloc} \Vsym{transition} \Vmk{reloc}
-\]
-has an EIM equivalent.
-We therefore can define
-\xdfn{bottom}{bottom (of a Leo section)}
-of a Leo section
-as
-\Vop{Leo-bot}{silo}
-such that
-\begin{gather*}
-\Vop{Leo-bot}{silo} = \op{EIM-Eq}{\Vinst{trans}}.
-\end{gather*}
 
 We are now in a position to state
 exactly which EIM's are memoized as the result of
