@@ -7733,9 +7733,10 @@ Let
 \Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{i} ]
 \end{equation*}
 be an instantiated Leo memo and \Vinst{lb} a valid matching bottom.
-Then there is a silo whose bottom is an EIM equivalent of \Vinst{lb}
+Then for every EIM equivalent of \Vinst{lb}, call it \Veim{lb},
+there is a silo whose bottom is \Veim{lb}
 and whose top is 
-\Vop{Leo-top}{\Vleo{leo}, \Vloc{i}}.
+\Vop{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}.
 \end{theorem}
 
 \begin{proof}
