@@ -16,6 +16,9 @@
 \usepackage{algpseudocode}
 \usepackage{algorithm}
 
+% for escaping in index commands ...
+%    the quote sign does not seem to work in amsmidx
+\newcommand{\Pipe}{\char‘\|}
 \makeindex{recce-general}
 \makeindex{recce-algorithms}
 \makeindex{recce-theorems}
@@ -873,6 +876,10 @@ the sets of terminals and non-terminals:
 \[ \Vsymset{vocab} = \Vsymset{nt} \cup \Vsymset{term}. \]
 If a string of symbols contains only terminal symbols,
 that string is called a \dfn{sentence}.
+When a string contains only terminals, we also write its length
+in symbols as
+\Vsize{input}.%
+\index{recce-notation}{\Pipe{}str\Pipe{}@\Vsize{str} (size of a string of terminals)}
 
 \Vruleset{rules} is a set of rules (type \type{RULE}),
 where a rule is a duple
@@ -888,14 +895,31 @@ of \Vrule{r}.
 of \Vrule{r}.
 The LHS and RHS of \Vrule{r} may also be
 referred to as
-$\LHS{\Vrule{r}}$ and $\RHS{\Vrule{r}}$, respectively.
+$\LHS{\Vrule{r}}$%
+\index{recce-notation}{LHS(r)@\Vop{LHS}{rule}}
+and
+$\RHS{\Vrule{r}}$,%
+\index{recce-notation}{RHS(r)@\Vop{RHS}{rule}}
+and
+respectively.
 
+Where \Vrule{r} is a rule,
+\Vsize{\Vrule{r}}%
+\index{recce-notation}{\Pipe{}rule\Pipe{}@\Vsize{rule} (size of a rule)}
+is the length of its RHS, in symbols.
 Occasionally, we will need to look at the RHS of a rule
 symbol by symbol.
-$\var{RHS}(\Vrule{r}, \var{i})$
+\op{RHS}{\Vrule{r}, \var{i}}%
+\index{recce-notation}{RHS(r, ix)@\op{RHS}{\Vrule{r}, \var{ix}}}
 is the \var{i}'th symbol on the RHS
-of \Vrule{r},
-where the numbering is zero-based.
+of \Vrule{r}.
+The numbering is zero-based,
+so that
+\op{RHS}{\Vrule{r}, 0}
+is the first symbol on the RHS of \Vrule{r},
+and
+\op{RHS}{\Vrule{r}, \Vdecr{\Vsize{\Vrule{r}}}}
+is the last symbol on the RHS of \Vrule{r}.
 
 The rules imply the traditional rewriting system.
 We write
@@ -1136,7 +1160,9 @@ that is, that it is derivable from the start symbol.
 Let the actual input to
 the parse be \Cw{} such that $\Cw \in \myL{\Cg}$.
 Locations in the input will be of type \type{LOC}.
-Let \Vsize{w} be the length of the input, counted in symbols.
+Let \Vsize{w}%
+\index{recce-notation}{\Pipe{}input\Pipe{}@\Vsize{input} (size of an input)}
+be the length of the input, counted in symbols.
 When we state our complexity results later,
 they will often be in terms of $\var{n}$,
 where $\var{n} = \Vsize{w}$.
@@ -2070,8 +2096,9 @@ of the external rule RHS.
 \section{Definition}
 
 Let $\Vrule{r} \in \Crules$
-be a rule,
-and $\Vsize{r}$ the length of its RHS.
+be a rule.
+Recall that \Vsize{r}
+is the length of its RHS.
 A dotted rule (type \type{DR}) is a duple, $[\Vrule{r}, \var{dotix}]$,
 where $0 \le \var{dotix} \le \size{\Vrule{r}}$.
 The
@@ -3611,6 +3638,46 @@ follows from
 \eqref{eq:null-scan-from-down-cause-10},
 by EIM validity,
 which shows the theorem.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Iterative Null-scan from top-down cause}
+\label{t:iterative-null-scan-from-down-cause}
+Let
+\begin{equation}
+\label{eq:iterative-null-scan-from-down-cause-5}
+\Veim{down} = \big[ [ \Vrule{r}, \var{lo} ], \var{i}, \var{k} \big],
+\end{equation}
+be a valid EIM.
+Let the series \var{ns} be such that
+\begin{equation}
+\begin{aligned}
+\label{eq:iterative-null-scan-from-down-cause-8}
+& \el{ns}{0} = \Veim{down} \quad \text{and} \\
+& \qquad \forall \; \var{a} : 0 \le \var{a} < \xxsubtract{\var{hi}}{\var{lo}}
+\implies \\
+& \qquad \qquad \left(
+\begin{gathered}
+\Vop{RHS}{\Vrule{r}, \var{lo}+\var{a}} = \epsilon \\
+\land \quad \el{ns}{\Vincr{a}} =
+\big[ [ \Vrule{r}, \var{lo}+\var{a}+1 ], \var{i}, \var{k} \big]
+\end{gathered}
+\right).
+\end{aligned}
+\end{equation}
+Then every EIM in \var{ns} is
+valid, and
+for all \var{a}
+such that 
+$0 \le \var{a} \le \xxsubtract{\Vsize{ns}}{2}$,
+\Vel{ns}{a} is the top-down cause of
+\el{ns}{\Vincr{a}}.
+\end{theorem}
+
+\begin{proof}
+This theorem follows from Theorem
+\ref{t:null-scan-from-down-cause}
+by iteration.
 \end{proof}
 
 \begin{theorem}
@@ -5632,7 +5699,9 @@ intended,
 \Vtable{k}, or \Ves{k}, will symbolize Earley set \Vloc{k}
 in that recognizer's table of Earley sets.
 If \Ees{\var{working}} is an Earley set,
-$\size{\Ees{\var{working}}}$ is the number of Earley items
+$\size{\Ees{\var{working}}}$%
+\index{recce-notation}{\Pipe{}es\Pipe{}@\Vsize{es} (size of an Earley set)}
+is the number of Earley items
 in \Ees{\var{working}}.
 
 \Rtablesize{\alg{Recce}} is the total number
@@ -7620,29 +7689,33 @@ Where \Vleo{leo} is a Leo memo,
 and
 \Vsym{t} = \Symbol{\Vleo{leo}},
 we say that the symbol instance
-\[
-  \Vinst{lb} = \Vmk{memloc} \Vsym{transition} \Vmk{reloc}
-\]
+\begin{equation*}
+  \Vinst{lb} = \Vmk{memloc} \Vsym{transition} \Vmk{i}
+\end{equation*}%
+\index{recce-notation}{Leo-bot(x)@\Vop{Leo-bot}{x}}
 is a
-\xdfn{matching bottom}{matching bottom (of a Leo memo)}.
+\xdfn{bottom}{bottom (of a Leo silo)}
+of \Vleo{leo} at \Vloc{i}.
 
 Where \Vleo{leo} is a Leo memo,
 \Vdr{top} = \DR{\Vleo{leo}}
 and
 \Vorig{top} = \Origin{\Vleo{leo}},
-let its
-\xdfn{top}{top (of a Leo section)}
-be
+we say that
 \begin{equation}
 \Vop{Leo-top}{\Vleo{leo}, \Vloc{i}} = \big[ \Vdr{top}, \Vorig{top}, \Vloc{i} \big].
-\end{equation}
+\end{equation}%
+\index{recce-notation}{Leo-top(x)@\Vop{Leo-top}{x}}
+is the
+\xdfn{top}{top (of a Leo silo)}
+of the Leo silo for \Vleo{leo}
+at \Vloc{i}.
 
 \begin{theorem}
 Let
-\begin{equation}
-\label{eq:def-leo-memo-10}
+\begin{equation*}
 \Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{i} ]
-\end{equation}
+\end{equation*}
 be a realized Leo memo and \Vinst{lb} a valid matching bottom.
 Then there is a silo whose bottom is an EIM equivalent of \Vinst{lb}
 and whose top is 
