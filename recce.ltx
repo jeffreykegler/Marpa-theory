@@ -1261,26 +1261,65 @@ More formally,
 a symbol instance is a triple whose elements
 are a left location, a symbol name and a right location.
 We often represent symbol instances in the form
-\[\Vmkl{j} \Vsym{up} \Vmkr{k}.\]
+\begin{equation*}
+\Vinst{inst} = \Vmkl{j} \Vsym{up} \Vmkr{k}.
+\end{equation*}%
+\index{recce-notation}{[]inst[]@\Vmkl{j} \Vsym{up} \Vmkr{k} (symbol instance)}
 \Vmk{j} and \Vmk{k} are always optional.
+We also write
+\begin{itemize}
+\item
+\Left{\Vinst{inst}}%
+\index{recce-notation}{Left(x)@\Left{\Vinst{inst}}}
+for \var{j},
+the left location of \Vinst{inst};
+\item
+\Right{\Vinst{inst}}%
+\index{recce-notation}{Right(x)@\Right{\Vinst{inst}}}
+for \var{k},
+the right location of \Vinst{inst};
+\item
+\Symbol{\Vinst{inst}}%
+\index{recce-notation}{Symbol(x)@\Symbol{\Vinst{inst}}}
+for \Vsym{up},
+the symbol name of \Vinst{inst};
+\item
+\Vsize{\Vsym{inst}}%
+\index{recce-notation}{\Pipe{}inst\Pipe{})@\Vsize{\Vinst{inst}}}
+for \xxsubtract{\var{k}}{\var{j}},
+the length of \Vinst{inst} in terms of input symbols; and
+\item
+\Vsize{\Vsym{A}}%
+\index{recce-notation}{\Pipe{}sym\Pipe{})@\Vsize{\Vsym{A}}}
+for \Vsize{\Vinst{inst}},
+where $\Symbol{\Vinst{inst}} = \Vsym{A}$,
+and the left and right locations of \Vinst{inst}
+are understood from the context.
+\end{itemize}
 
-% do not do this until the last revision
-% \begin{sloppypar}
-We write \Left{\Vinst{inst}} for the left location of \Vinst{inst},
-\Right{\Vinst{inst}} for the right location of \Vinst{inst},
-and \Symbol{\Vinst{inst}} for the symbol name of \Vinst{inst}.
-When \Vstr{si} is a sequence of symbol instances of length \Vsize{si},
-and $\var{last} = \decr{\Vsize{si}}$,
+When \Vstr{si} is a sequence of symbol instances of length \Vsize{si}
+whose indexes are 0 \ldots{} \var{last},
 we will write
-\Symbol{\Vstr{si}} for
-\[
+\Symbol{\Vstr{si}}%
+\index{recce-notation}{Symbol(str)@\Symbol{\Vstr{str}}}
+for
+\begin{equation*}
 \Symbol{\el{si}{0}}, \;\;
 \Symbol{\el{si}{1}}, \;\;
 \ldots \;\;
 \Symbol{\Vel{si}{last}}.
-\]
-
-% \end{sloppypar}
+\end{equation*}
+We will write \Vsize{\Vstr{si}}%
+\index{recce-notation}{\Pipe{}str\Pipe{})@
+	\Vsize{\Vstr{str}} (length of a sentential form in terms of the input)}
+for
+\begin{equation*}
+\sum_{\var{i}=0}^\var{last} \Symbol{\Vel{si}{i}}.
+\end{equation*}
+Note that \Vsize{\Vstr{si}} is the length of the string
+in terms of input symbols, and is, in general,
+not a count of the
+symbols in \Vstr{si}.
 
 At some points, such as when we translate a derivation
 to other notation,
