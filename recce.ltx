@@ -3683,6 +3683,61 @@ by iteration.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Iterative completion from null-scan cause}
+\label{t:iterative-completion-from-null-scan-cause}
+Let
+\begin{equation}
+\label{eq:iterative-null-scan-from-down-cause-5}
+\Veim{down} = \big[ [ \Vrule{r}, \var{lo} ], \var{i}, \var{k} \big],
+\end{equation}
+be a valid quasi-complete EIM.
+Let the series \var{ns} be such that
+\begin{equation}
+\begin{aligned}
+\label{eq:iterative-null-scan-from-down-cause-8}
+& \el{ns}{0} = \Veim{down} \quad \text{and} \\
+& \qquad \forall \; \var{a} : 0 \le \var{a} < (\xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}})
+\implies \\
+& \qquad \qquad
+\el{ns}{\Vincr{a}} =
+\big[ [ \Vrule{r}, \var{lo}+\var{a}+1 ], \var{i}, \var{k} \big].
+\end{aligned}
+\end{equation}
+Then
+\begin{itemize}
+\item
+every EIM in \var{ns} is
+valid;
+\item
+$\var{ns}\big[ \decr{\Vsize{\Vrule{r}}} \big]$
+is a completion; and
+\item
+for all \var{a}
+such that 
+$0 \le \var{a} \le \xxsubtract{\Vsize{\Vrule{r}}}{2}$,
+\Vel{ns}{a} is the top-down cause of
+\el{ns}{\Vincr{a}}.
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+Since
+\Veim{down} is, by assumption for the theorem,
+quasi-complete,
+we know that
+\begin{equation}
+\label{eq:iterative-completion-from-null-scan-cause-10}
+\forall \; \var{a} : 0 \le \var{a} < \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}
+\implies
+\Vop{RHS}{\Vrule{r}, \var{lo}+\var{a}} = \epsilon
+\end{equation}
+The theorem follows from
+\eqref{eq:iterative-completion-from-null-scan-cause-10}
+and Theorem
+\ref{t:iterative-null-scan-from-down-cause}.
+\end{proof}
+
+\begin{theorem}
 \ttitle{Causes of confirmed effect}
 \label{t:symbolic-causes-from-effect}
 If
@@ -7728,6 +7783,8 @@ of the Leo silo for \Vleo{leo}
 at \Vloc{i}.
 
 \begin{theorem}
+\ttitle{Leo silo validity}
+\label{t:leo-silo-validity}
 Let
 \begin{equation*}
 \Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{i} ]
@@ -7736,7 +7793,7 @@ be an instantiated Leo memo and \Vinst{lb} a valid matching bottom.
 Then for every EIM equivalent of \Vinst{lb}, call it \Veim{lb},
 there is a silo whose bottom is \Veim{lb}
 and whose top is 
-\Vop{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}.
+\op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}.
 \end{theorem}
 
 \begin{proof}
@@ -7745,7 +7802,42 @@ Theorems
 and
 \ref{t:leo-transition-symbol-non-terminal}
 guarantee that \Vinst{lb}
-has an EIM equivalent.
+has a least one EIM equivalent.
+Call an EIM equivalent of \Vinst{lb},
+\Veim{lb}.
+\begin{align}
+\label{t:leo-silo-validity-10}
+& \Symbol{\Vinst{lb}} = \Symbol{\Vleo{leo}} &&
+\begin{gathered}
+\text{Def of} \\
+\text{matching bottom}
+\end{gathered}
+\\
+\label{t:leo-silo-validity-13}
+& \Symbol{\Vinst{lb}} = \Symbol{\Veim{lb}} &&
+\begin{gathered}
+\text{Def of} \\
+\text{symbolic equivalent}
+\end{gathered}
+\\
+\label{t:leo-silo-validity-16}
+& \Symbol{\Vleo{leo}} \neq \Vsym{accept} &&
+\text{Th \ref{t:leo-transition-symbol-non-terminal}}
+\\
+\label{t:leo-silo-validity-19}
+& \Symbol{\Veim{lb}} \neq \Vsym{accept} &&
+\eqref{t:leo-silo-validity-10},
+\eqref{t:leo-silo-validity-13},
+\eqref{t:leo-silo-validity-16}
+\end{align}
+
+From Theorem
+\ref{t:effect-from-symbol}
+and \eqref{t:leo-silo-validity-19}
+we see that \Veim{lb} has a valid top-down cause
+and a valid effect.
+Call the effect,
+\Veim{curreff}.
 
 TODO: Finish.
 \end{proof}
