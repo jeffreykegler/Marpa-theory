@@ -143,6 +143,11 @@
 \newcommand{\Vmkr}[1]{\mkdelim \Vmk{#1}}
 \newcommand{\Vmkm}[1]{\mkdelim \Vmk{#1} \mkdelim}
 
+\newcommand{\firstix}[1]{\ensuremath{\lfloor{#1}\rfloor}}
+\newcommand{\Vfirstix}[1]{\firstix{\var{#1}}}
+\newcommand{\lastix}[1]{\ensuremath{\lceil{#1}\rceil}}
+\newcommand{\Vlastix}[1]{\lastix{\var{#1}}}
+
 \newcommand{\alg}[1]{\ensuremath{\textsc{#1}}}
 \newcommand{\Earley}{\ensuremath{\alg{Earley}}}
 \newcommand{\Leo}{\ensuremath{\alg{Leo}}}
@@ -847,6 +852,14 @@ we will abbreviate
 ``theorem'' as \dfn{Th},
 and
 ``definition'' as \dfn{Def}.
+
+Unless otherwise specified, the indexes
+of a sequence are consecutive integers.
+Where \var{seq} is a sequence,
+we write \Vfirstix{seq}
+for its first index,
+and \Vlastix{seq}
+for its last index.
 
 \section{Grammars}
 
@@ -3743,37 +3756,80 @@ Let the series \var{ns} be such that
 \end{aligned}
 \end{equation}
 Then
-\begin{itemize}
-\item
-every EIM in \var{ns} is
-valid;
-\item
-$\var{ns}\big[ \decr{\Vsize{\Vrule{r}}} \big]$
-is a completion; and
-\item
-for all \var{a}
-such that 
-$0 \le \var{a} \le \xxsubtract{\Vsize{\Vrule{r}}}{2}$,
+\begin{align}
+\label{eq:iterative-completion-from-null-scan-cause-10}
+& \text{every EIM in \var{ns} is valid}
+\\
+\label{eq:iterative-completion-from-null-scan-cause-12}
+& \text{$\var{ns}\big[ \decr{\Vsize{\Vrule{r}}} \big]$
+is a completion}
+\\
+\label{eq:iterative-completion-from-null-scan-cause-14}
+& \text{\var{ns} contains at most \Vsize{\Vrule{r}}
+incomplete EIM's}
+\\
+\label{eq:iterative-completion-from-null-scan-cause-16}
+& \begin{multlined}
+\forall \; \var{a} :
+0 \le \var{a} \le \xxsubtract{\Vsize{\Vrule{r}}}{2} \\
+\implies
+\text{
 \Vel{ns}{a} is the top-down cause of
-\el{ns}{\Vincr{a}}.
-\end{itemize}
+\el{ns}{\Vincr{a}}}
+\end{multlined}
+\\
+\label{eq:iterative-completion-from-null-scan-cause-18}
+& \begin{multlined}
+\forall \; \var{a} :
+0 \le \var{a} \le \xxsubtract{\Vsize{\Vrule{r}}}{2} \\
+\implies
+\Right{\Vel{ns}{a}} = \Right{\el{ns}{\Vincr{a}}}
+\end{multlined}
+\end{align}
 \end{theorem}
 
 \begin{proof}
+
+TODO: Prove the two new requirements.
+
 Since
 \Veim{down} is, by assumption for the theorem,
 quasi-complete,
 we know that
 \begin{equation}
-\label{eq:iterative-completion-from-null-scan-cause-10}
+\label{eq:iterative-completion-from-null-scan-cause-20}
 \forall \; \var{a} : 0 \le \var{a} < \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}
 \implies
 \Vop{RHS}{\Vrule{r}, \var{lo}+\var{a}} = \epsilon
 \end{equation}
-The theorem follows from
+In the requirements for the theorem,
 \eqref{eq:iterative-completion-from-null-scan-cause-10}
+and
+\eqref{eq:iterative-completion-from-null-scan-cause-16}
+follow from
+\eqref{eq:iterative-completion-from-null-scan-cause-20}
 and Theorem
 \ref{t:iterative-null-scan-from-down-cause}.
+From
+\eqref{eq:iterative-completion-from-down-cause-8},
+we can see that
+\begin{equation}
+\op{Dotix}{\var{ns}\big[\Vlastix{ns}\big]} = \Vsize{\Vrule{r}}
+\end{equation}
+which shows
+\eqref{eq:iterative-completion-from-null-scan-cause-12}.
+It is also evident from
+\eqref{eq:iterative-completion-from-down-cause-8}
+that \var{ns} contains at most \Vsize{\Vrule{r}} elements,
+and since we have seen that one of them is a completion,
+we have
+\eqref{eq:iterative-completion-from-null-scan-cause-14}.
+Finally, we see from
+\eqref{eq:iterative-completion-from-null-scan-cause-12}
+that, for every element of \var{ns},
+its right location is \Vloc{k},
+which gives us
+\eqref{eq:iterative-completion-from-null-scan-cause-18}.
 \end{proof}
 
 \begin{theorem}
@@ -6082,12 +6138,17 @@ where
 \el{s1}{\Vincr{i}}.
 \end{definition}
 
-Note that this definition implies that any subsequence of a silo
+This definition implies that any subsequence of a silo
 is also a silo.
+Also, any two overlapping silos can be composed,
+and the result will be a silo.
+
 We call an element of a silo,
 a
 \xdfn{layer}{layer (of silo)}.
-We write \Vsize{\var{s1}} for the number
+We write \Vsize{\var{s1}}%
+\index{recce-notation}{\Pipe{}silo\Pipe{}@\Vsize{silo} (size of a silo)}
+for the number
 of elements in silo \var{s1}.
 Our indexing convention is to use
 consecutive non-negative integers for silo layers,
@@ -6097,7 +6158,7 @@ is called the
 \xdfn{bottom}{bottom (of silo)}
 of \var{s1},
 and
-$\var{s1}\big[ \, \xxsubtract{\Vsize{\var{s1}}}{1} \, \big]$
+$\var{s1}\big[ \, \Vlastix{s1} \, \big]$
 is the
 \xdfn{top}{top (of silo)}
 of \var{s1}.
@@ -7281,6 +7342,8 @@ layers in a silo.
 The number of consecutive incomplete silo layers
 is at most \var{k},
 where \var{k} is the maximum length of a rule.
+
+TODO: Delete this, as duplicating
 \end{theorem}
 
 \begin{proof}
