@@ -153,37 +153,36 @@
 \newcommand{\Leo}{\ensuremath{\alg{Leo}}}
 \newcommand{\Marpa}{\ensuremath{\alg{Marpa}}}
 
+\newcommand{\Alt}[1]{\ensuremath{\myfnname{Alt}(#1)}}
 \newcommand{\Cdr}{\var{dr}}
 \newcommand{\Cg}{\var{g}}
-\newcommand{\Cw}{\var{w}}
-\newcommand{\CW}{\ensuremath{\mathbb W}}
-\newcommand{\CVw}[1]{\ensuremath{\sym{\Cw[\var{#1}]}}}
 \newcommand{\Crules}{\var{rules}}
-\newcommand{\GOTO}{\ensuremath{\myfnname{GOTO}}}
-\newcommand{\Alt}[1]{\ensuremath{\myfnname{Alt}(#1)}}
-\newcommand{\Next}[1]{\myfnname{Next}(#1)}
-\newcommand{\Prev}[1]{\myfnname{Prev}(#1)}
-\newcommand{\Predict}[1]{\myfnname{Predict}(#1)}
-\newcommand{\Left}[1]{\ensuremath{\myfnname{Left}(#1)}}
-\newcommand{\Right}[1]{\ensuremath{\myfnname{Right}(#1)}}
-\newcommand{\Predot}[1]{\ensuremath{\myfnname{Predot}(#1)}}
-\newcommand{\Postdot}[1]{\ensuremath{\myfnname{Postdot}(#1)}}
-\newcommand{\Penult}[1]{\myfnname{Penult}(#1)}
-\newcommand{\LHS}[1]{\ensuremath{\myfnname{LHS}(#1)}}
-\newcommand{\RHS}[1]{\ensuremath{\myfnname{RHS}(#1)}}
-\newcommand{\Origin}[1]{\ensuremath{\myfn{Origin}{#1}}}
-\newcommand{\DR}[1]{\ensuremath{\myfnname{DR}(#1)}}
 \newcommand{\Current}[1]{\ensuremath{\myfnname{Current}(#1)}}
-\newcommand{\Valid}[1]{\ensuremath{\myfnname{Valid}(#1)}}
+\newcommand{\CVw}[1]{\ensuremath{\sym{\Cw[\var{#1}]}}}
+\newcommand{\CW}{\ensuremath{\mathbb W}}
+\newcommand{\Cw}{\var{w}}
+\newcommand{\Dotix}[1]{\ensuremath{\myfnname{Dotix}(#1)}}
+\newcommand{\DR}[1]{\ensuremath{\myfnname{DR}(#1)}}
+\newcommand{\GOTO}{\ensuremath{\myfnname{GOTO}}}
+\newcommand{\ID}[1]{\myfnname{ID}(#1)}
+\newcommand{\Layer}[1]{\ensuremath{\myfnname{Layer}(#1)}}
+\newcommand{\Left}[1]{\ensuremath{\myfnname{Left}(#1)}}
+\newcommand{\LHS}[1]{\ensuremath{\myfnname{LHS}(#1)}}
 \newcommand{\Memoable}[1]{\ensuremath{\myfnname{Memoable}(#1)}}
 \newcommand{\Memoized}[1]{\ensuremath{\myfnname{Memoized}(#1)}}
-\newcommand{\Symbol}[1]{\ensuremath{\myfnname{Symbol}(#1)}}
-\newcommand{\LeoUnique}[1]{\myfnname{Leo-Unique}(#1)}
-\newcommand{\ID}[1]{\myfnname{ID}(#1)}
-\newcommand{\PSL}[2]{\myfnname{PSL}[#1][#2]}
 \newcommand{\myL}[1]{\myfnname{L}(#1)}
-\newcommand{\Deriv}[1]{\ensuremath{\myfnname{Deriv}(#1)}}
-\newcommand{\Layer}[1]{\ensuremath{\myfnname{Layer}(#1)}}
+\newcommand{\Next}[1]{\myfnname{Next}(#1)}
+\newcommand{\Origin}[1]{\ensuremath{\myfn{Origin}{#1}}}
+\newcommand{\Penult}[1]{\myfnname{Penult}(#1)}
+\newcommand{\Postdot}[1]{\ensuremath{\myfnname{Postdot}(#1)}}
+\newcommand{\Predict}[1]{\myfnname{Predict}(#1)}
+\newcommand{\Predot}[1]{\ensuremath{\myfnname{Predot}(#1)}}
+\newcommand{\Prev}[1]{\myfnname{Prev}(#1)}
+\newcommand{\PSL}[2]{\myfnname{PSL}[#1][#2]}
+\newcommand{\RHS}[1]{\ensuremath{\myfnname{RHS}(#1)}}
+\newcommand{\Right}[1]{\ensuremath{\myfnname{Right}(#1)}}
+\newcommand{\Symbol}[1]{\ensuremath{\myfnname{Symbol}(#1)}}
+\newcommand{\Valid}[1]{\ensuremath{\myfnname{Valid}(#1)}}
 
 \newcommand\Ctables{\var{tables}}
 \newcommand\Vtables[1]{\Ctables[\alg{#1}]}
@@ -3767,18 +3766,26 @@ Let the series \var{ns} be such that
 \end{equation}
 Then we have all of the following:
 \begin{align}
+\label{eq:iterative-completion-from-null-scan-cause-9}
+& \text{\var{ns} contains at most \Vsize{\Vrule{r}}
+  elements
+}
+\\
 \label{eq:iterative-completion-from-null-scan-cause-10}
-& \text{$\var{ns}\big[ \decr{\Vsize{\Vrule{r}}} \big]$
-is a completion}
+& \text{$\var{ns}\big[ \Vlastix{ns} \big]$
+  is a completion
+}
 \\
 \label{eq:iterative-completion-from-null-scan-cause-12}
-& \text{\var{ns} contains at most \Vsize{\Vrule{r}}
-incomplete EIM's}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} < \Vlastix{ns} \\
+& \quad \implies \text{\Vel{ns}{a} is an incomplete EIM}
+\end{aligned}
 \\
 \label{eq:iterative-completion-from-null-scan-cause-14}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns}
-	\implies \Valid{\Vel{ns}{a}}
+  \implies \Valid{\Vel{ns}{a}}
 \end{aligned}
 \\
 \label{eq:iterative-completion-from-null-scan-cause-16}
@@ -7366,21 +7373,152 @@ We conclude that \Veim{bot} is a read EIM.
 \begin{theorem}
 \ttitle{Quasi-completion silo}
 \label{quasi-completion-silo}
-If \Veim{qc} be a valid quasi-completion,
-then \Veim{qc} is the bottom of a silo whose
-top layer is a valid completion and whose
-other layers, if any,
-are valid incompletions.
-Also, the height of this silo
-is at most \var{k},
-where \var{k} is the maximum length of a rule.
+Let \Veim{qc} be a valid quasi-completion.
+Then
+\begin{align}
+\label{eq:quasi-completion-silo-5}
+& \text{\Veim{qc} is the bottom of a silo,
+  call it \var{slo}
+}
+\\
+\label{eq:quasi-completion-silo-9}
+& \text{\var{slo} contains at most \Vsize{\Vrule{r}}
+  elements
+}
+\\
+\label{eq:quasi-completion-silo-10}
+& \text{$\var{slo}\big[ \Vlastix{ns} \big]$
+  is a completion
+}
+\\
+\label{eq:quasi-completion-silo-12}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} < \Vlastix{slo} \\
+& \quad \implies \text{\Vel{slo}{a} is an incomplete EIM}
+\end{aligned}
+\\
+\label{eq:quasi-completion-silo-14}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo}
+  \implies \Valid{\Vel{slo}{a}}
+\end{aligned}
+\\
+\label{eq:quasi-completion-silo-18}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo} \\
+& \qquad \implies \op{Rule}{\el{slo}{0}} = \op{Rule}{\Vel{slo}{a}}
+\end{aligned}
+\\
+\label{eq:quasi-completion-silo-20}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{slo}} \\
+& \qquad \implies \text{\Vel{ns}{a} is the top-down cause of
+	\el{ns}{\Vincr{a}}
+}
+\end{aligned}
+\\
+\label{eq:quasi-completion-silo-22}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{slo}} \\
+& \qquad \implies \text{\el{slo}{\Vincr{a}}
+	is the unique effect of \Vel{slo}{a}
+}
+\end{aligned}
+\end{align}
 \end{theorem}
 
 \begin{proof}
-This theorem follows from
+We know by assumption that \el{slo}{0} is quasi-complete,
+and therefore
+\begin{equation}
+\label{eq:quasi-completion-silo-30}
+\forall \; \var{ix} :
+\var{ix} \ge \Dotix{\el{slo}{0}} \implies
+\RHS{\el{slo}{0}, \var{ix}} = \epsilon
+\end{equation}
+Let \Vel{slo}{i} be a layer of \var{slo}.
+From 
+\eqref{eq:iterative-completion-from-null-scan-cause-16}
+and
+\eqref{eq:iterative-completion-from-null-scan-cause-18},
+of Theorem 
+\ref{t:iterative-completion-from-null-scan-cause}
+we know that \Vel{slo}{i}
+shares the same rule,
+and that
+the $\Right{\Vel{slo}{i}} = \Right{\el{slo}{0}}$.
+From these considerations, it follows that
+the input length of any symbols between the dot
+in \Vel{slo}{i}
+and the dot in \el{slo}{0} must be zero length:
+\begin{equation}
+\label{eq:quasi-completion-silo-33}
+\begin{aligned}
+& \forall \; \var{ix} :
+\Dotix{\Vel{slo}{i}} \le \var{ix} < \Dotix{\el{slo}{0}} \\
+& \qquad \implies
+\RHS{\el{slo}{0}, \var{ix}} = \epsilon
+\end{aligned}
+\end{equation}
+(In fact,
+$\Dotix{\Vel{slo}{i}} \ge \Dotix{\el{slo}{0}}$,
+but we find it easier to get the result without showing this.)
+From
+\eqref{eq:quasi-completion-silo-30}
+and
+\eqref{eq:quasi-completion-silo-33}
+it follows that
+\begin{equation}
+  \label{eq:quasi-completion-silo-36}
+  \forall \; \var{ix} :
+  \var{ix} \ge \Dotix{\Vel{slo}{i}} \implies
+  \RHS{\el{slo}{0}, \var{ix}} = \epsilon
+\end{equation}
+which shows that
+\Vel{slo}{i} is quasi-complete.
+Since our choice of \var{i} was without loss
+of generalization, we see that
+\begin{equation}
+  \label{eq:quasi-completion-silo-39}
+  \text{every element
+  of \var{slo} is quasi-complete.}
+\end{equation}
+
+From
+\eqref{eq:iterative-completion-from-null-scan-cause-16}
+and
+\eqref{eq:iterative-completion-from-null-scan-cause-20}
+of
 Theorem
 \ref{t:iterative-completion-from-null-scan-cause},
-and the definition of a silo.
+\eqref{eq:quasi-completion-silo-39}
+and the definition of a silo,
+we have
+\eqref{eq:quasi-completion-silo-5}.
+\eqref{eq:quasi-completion-silo-9}
+of this theorem follows from
+\eqref{eq:iterative-completion-from-null-scan-cause-9}
+of Theorem
+\ref{t:iterative-completion-from-null-scan-cause}.
+\eqref{eq:quasi-completion-silo-10}
+follows from
+\eqref{eq:iterative-completion-from-null-scan-cause-10};
+\eqref{eq:quasi-completion-silo-12}
+from
+\eqref{eq:iterative-completion-from-null-scan-cause-12};
+\eqref{eq:quasi-completion-silo-14}
+from
+\eqref{eq:iterative-completion-from-null-scan-cause-14};
+\eqref{eq:quasi-completion-silo-18}
+from
+\eqref{eq:iterative-completion-from-null-scan-cause-18};
+\eqref{eq:quasi-completion-silo-20}
+from
+\eqref{eq:iterative-completion-from-null-scan-cause-20};
+and
+\eqref{eq:quasi-completion-silo-22}
+from
+\eqref{eq:iterative-completion-from-null-scan-cause-22}.
 \end{proof}
 
 \begin{theorem}
