@@ -3663,7 +3663,8 @@ Let
 \end{equation}
 be a valid EIM
 where $\Vsym{nul} = \epsilon$.
-Then \Veim{down} has a valid null-scan effect:
+Then \Veim{down} has a
+unique valid null-scan effect:
 \begin{equation}
 \label{eq:null-scan-from-down-cause-8}
 \Veim{down} = \big[ [ \Vsym{A} \de \Vstr{prf} \Vsym{nul} \mydot \Vstr{suf} ],
@@ -3690,8 +3691,13 @@ to the other side of the nulling symbol produces
 \eqref{eq:null-scan-from-down-cause-8}
 follows from
 \eqref{eq:null-scan-from-down-cause-10},
-by EIM validity,
-which shows the theorem.
+by EIM validity.
+By the definition of top-down cause,
+all the effects of
+\eqref{eq:null-scan-from-down-cause-5}
+must have take the exact form of
+\eqref{eq:null-scan-from-down-cause-8},
+which shows that it is unique.
 \end{proof}
 
 \begin{theorem}
@@ -3719,13 +3725,17 @@ Let the series \var{ns} be such that
 \right).
 \end{aligned}
 \end{equation}
-Then every EIM in \var{ns} is
-valid, and
+Then
+every EIM in \var{ns} is
+valid.
+Also,
 for all \var{a}
 such that 
-$0 \le \var{a} \le \xxsubtract{\Vsize{ns}}{2}$,
+$0 \le \var{a} \le \decr{\Vlastix{ns}}$,
 \Vel{ns}{a} is the top-down cause of
-\el{ns}{\Vincr{a}}.
+\el{ns}{\Vincr{a}};
+and \el{ns}{\Vincr{a}}
+is the unique effect of \Vel{ns}{a}.
 \end{theorem}
 
 \begin{proof}
@@ -3739,14 +3749,14 @@ by iteration.
 \label{t:iterative-completion-from-null-scan-cause}
 Let
 \begin{equation}
-\label{eq:iterative-completion-from-down-cause-5}
+\label{eq:iterative-completion-from-null-scan-cause-5}
 \Veim{down} = \big[ [ \Vrule{r}, \var{lo} ], \var{i}, \var{k} \big],
 \end{equation}
 be a valid quasi-complete EIM.
 Let the series \var{ns} be such that
 \begin{equation}
 \begin{aligned}
-\label{eq:iterative-completion-from-down-cause-8}
+\label{eq:iterative-completion-from-null-scan-cause-8}
 & \el{ns}{0} = \Veim{down} \quad \text{and} \\
 & \qquad \forall \; \var{a} : 0 \le \var{a} < (\xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}})
 \implies \\
@@ -3755,80 +3765,99 @@ Let the series \var{ns} be such that
 \big[ [ \Vrule{r}, \var{lo}+\var{a}+1 ], \var{i}, \var{k} \big].
 \end{aligned}
 \end{equation}
-Then
+Then we have all of the following:
 \begin{align}
 \label{eq:iterative-completion-from-null-scan-cause-10}
-& \text{every EIM in \var{ns} is valid}
-\\
-\label{eq:iterative-completion-from-null-scan-cause-12}
 & \text{$\var{ns}\big[ \decr{\Vsize{\Vrule{r}}} \big]$
 is a completion}
 \\
-\label{eq:iterative-completion-from-null-scan-cause-14}
+\label{eq:iterative-completion-from-null-scan-cause-12}
 & \text{\var{ns} contains at most \Vsize{\Vrule{r}}
 incomplete EIM's}
 \\
+\label{eq:iterative-completion-from-null-scan-cause-14}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns}
+	\implies \Valid{\Vel{ns}{a}}
+\end{aligned}
+\\
 \label{eq:iterative-completion-from-null-scan-cause-16}
-& \begin{multlined}
-\forall \; \var{a} :
-0 \le \var{a} \le \xxsubtract{\Vsize{\Vrule{r}}}{2} \\
-\implies
-\text{
-\Vel{ns}{a} is the top-down cause of
-\el{ns}{\Vincr{a}}}
-\end{multlined}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns} \\
+& \qquad \implies \Right{\el{ns}{0}} = \Right{\Vel{ns}{a}}
+\end{aligned}
 \\
 \label{eq:iterative-completion-from-null-scan-cause-18}
-& \begin{multlined}
-\forall \; \var{a} :
-0 \le \var{a} \le \xxsubtract{\Vsize{\Vrule{r}}}{2} \\
-\implies
-\Right{\Vel{ns}{a}} = \Right{\el{ns}{\Vincr{a}}}
-\end{multlined}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns} \\
+& \qquad \implies \op{Rule}{\el{ns}{0}} = \op{Rule}{\Vel{ns}{a}}
+\end{aligned}
+\\
+\label{eq:iterative-completion-from-null-scan-cause-20}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{ns}} \\
+& \qquad \implies \text{\Vel{ns}{a} is the top-down cause of
+	\el{ns}{\Vincr{a}}
+}
+\end{aligned}
+\\
+\label{eq:iterative-completion-from-null-scan-cause-22}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{ns}} \\
+& \qquad \implies \text{\el{ns}{\Vincr{a}}
+	is the unique effect of \Vel{ns}{a}
+}
+\end{aligned}
 \end{align}
 \end{theorem}
 
 \begin{proof}
-
-TODO: Prove the two new requirements.
 
 Since
 \Veim{down} is, by assumption for the theorem,
 quasi-complete,
 we know that
 \begin{equation}
-\label{eq:iterative-completion-from-null-scan-cause-20}
+\label{eq:iterative-completion-from-null-scan-cause-30}
 \forall \; \var{a} : 0 \le \var{a} < \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}
 \implies
 \Vop{RHS}{\Vrule{r}, \var{lo}+\var{a}} = \epsilon
 \end{equation}
 In the requirements for the theorem,
-\eqref{eq:iterative-completion-from-null-scan-cause-10}
-and
-\eqref{eq:iterative-completion-from-null-scan-cause-16}
-follow from
+\eqref{eq:iterative-completion-from-null-scan-cause-14},
 \eqref{eq:iterative-completion-from-null-scan-cause-20}
+and
+\eqref{eq:iterative-completion-from-null-scan-cause-22}
+follow from
+\eqref{eq:iterative-completion-from-null-scan-cause-30}
 and Theorem
 \ref{t:iterative-null-scan-from-down-cause}.
+
 From
-\eqref{eq:iterative-completion-from-down-cause-8},
+\eqref{eq:iterative-completion-from-null-scan-cause-8},
 we can see that
-\begin{equation}
-\op{Dotix}{\var{ns}\big[\Vlastix{ns}\big]} = \Vsize{\Vrule{r}}
-\end{equation}
+\begin{align*}
+\op{Dotix}{\var{ns}\big[\Vlastix{ns}\big]} 
+& = \var{lo} + (\decr{( \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}) }) + 1 \\
+& = \Vrule{r}
+\end{align*}
 which shows
-\eqref{eq:iterative-completion-from-null-scan-cause-12}.
+\eqref{eq:iterative-completion-from-null-scan-cause-10}.
 It is also evident from
-\eqref{eq:iterative-completion-from-down-cause-8}
-that \var{ns} contains at most \Vsize{\Vrule{r}} elements,
+\eqref{eq:iterative-completion-from-null-scan-cause-8}
+that \var{ns} contains
+at most \incr{\Vsize{\Vrule{r}}} elements,
 and since we have seen that one of them is a completion,
 we have
-\eqref{eq:iterative-completion-from-null-scan-cause-14}.
+\eqref{eq:iterative-completion-from-null-scan-cause-12}.
 Finally, we see from
-\eqref{eq:iterative-completion-from-null-scan-cause-12}
+\eqref{eq:iterative-completion-from-null-scan-cause-8}
 that, for every element of \var{ns},
-its right location is \Vloc{k},
+its right location is \Vloc{k}
+and its rule is \Vrule{r},
 which gives us
+\eqref{eq:iterative-completion-from-null-scan-cause-16}
+and
 \eqref{eq:iterative-completion-from-null-scan-cause-18}.
 \end{proof}
 
@@ -6140,7 +6169,7 @@ where
 
 This definition implies that any subsequence of a silo
 is also a silo.
-Also, any two overlapping silos can be composed,
+Also, if any two overlapping silos are overlaid,
 and the result will be a silo.
 
 We call an element of a silo,
@@ -7333,8 +7362,26 @@ which is contrary to assumption for the reductio.
 We conclude that \Veim{bot} is a read EIM.
 \end{proof}
 
-The following theorem will prove useful when counting the
-layers in a silo.
+
+\begin{theorem}
+\ttitle{Quasi-completion silo}
+\label{quasi-completion-silo}
+If \Veim{qc} be a valid quasi-completion,
+then \Veim{qc} is the bottom of a silo whose
+top layer is a valid completion and whose
+other layers, if any,
+are valid incompletions.
+Also, the height of this silo
+is at most \var{k},
+where \var{k} is the maximum length of a rule.
+\end{theorem}
+
+\begin{proof}
+This theorem follows from
+Theorem
+\ref{t:iterative-completion-from-null-scan-cause},
+and the definition of a silo.
+\end{proof}
 
 \begin{theorem}
 \ttitle{Consecutive incomplete silo layers}
@@ -7854,20 +7901,20 @@ we see that
 $\Vsym{trans} \neq \Vsym{accept}$.
 \end{proof}
 
-\section{Leo sections}
+\section{Leo silos}
 
 Where \Vleo{leo} is a Leo memo,
-\Vloc{memloc} = \Current{\Vleo{leo}}
+$\Vloc{memloc} = \Current{\Vleo{leo}}$
 and
-\Vsym{t} = \Symbol{\Vleo{leo}},
+$\Symbol{\Vleo{leo}} = \Vsym{t}$,
 we say that the symbol instance
 \begin{equation*}
-  \Vinst{lb} = \Vmk{memloc} \Vsym{transition} \Vmk{i}
+  \Vinst{lb} = \Vmk{memloc} \Vsym{t} \Vmk{i}
 \end{equation*}%
 \index{recce-notation}{Leo-bot(x)@\Vop{Leo-bot}{x}}
 is a
 \xdfn{bottom}{bottom (of a Leo silo)}
-EIM of \Vleo{leo} at \Vloc{i}.
+EIM matching \Vleo{leo} at \Vloc{i}.
 
 Where \Vleo{leo} is a Leo memo,
 \Vdr{top} = \DR{\Vleo{leo}}
@@ -7881,7 +7928,7 @@ we say that
 is the
 \xdfn{top}{top (of a Leo silo)}
 EIM
-of the Leo silo for \Vleo{leo}
+matching \Vleo{leo}
 at \Vloc{i}.
 
 \begin{theorem}
