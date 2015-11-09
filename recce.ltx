@@ -7375,6 +7375,27 @@ the reductio and theorem.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Silos are finite}
+\label{t:silo-finite}
+Every silo is of finite height.
+\end{theorem}
+
+\begin{proof}
+By Theorem
+\ref{t:es-count}, the number of Earley items
+with a single right location is finite.
+By Theorem
+\ref{t:silo-location},
+all the layers of a silo share the same right location.
+So either a silo has finite length, or the same layer
+occurs more than once in a silo.
+But, by Theorem
+\ref{t:silo-layer-unique},
+no silo layer occurs
+more than once in a silo.
+\end{proof}
+
+\begin{theorem}
 \label{t:quasi-confirmed-eim-has-silo}
 Every quasi-confirmed EIM has
 a silo of finite length,
@@ -7392,20 +7413,10 @@ It remains to show that
 \Veim{quasi} has a silo of finite length
 whose bottom is a read EIM.
 
-By Theorem
-\ref{t:es-count}, the number of Earley items
-with a single right location is finite.
-By Theorem
-\ref{t:silo-location},
-all the layers of a silo share the same right location.
-So either a silo has finite length, or the same layer
-occurs more than once in a silo.
-But, by Theorem
-\ref{t:silo-layer-unique},
-no silo layer occurs
-more than once in a silo.
-So a silo must have a finite length.
 
+By Theorem
+\ref{t:silo-finite}
+a silo must have a finite length.
 Since every silo with \Veim{quasi} at the top
 has a finite length,
 there are one or more silos which have a maximum
@@ -7485,70 +7496,15 @@ Then
 \end{theorem}
 
 \begin{proof}
-We know by assumption that \el{slo}{0} is quasi-complete,
-and therefore
-\begin{equation}
-\label{eq:quasi-completion-silo-30}
-\forall \; \var{ix} :
-\var{ix} \ge \Dotix{\el{slo}{0}} \implies
-\RHS{\el{slo}{0}, \var{ix}} = \epsilon
-\end{equation}
-Let \Vel{slo}{i} be a layer of \var{slo}.
-From 
-\eqref{eq:iterative-completion-from-null-scan-cause-16}
-and
-\eqref{eq:iterative-completion-from-null-scan-cause-18},
-of Theorem 
-\ref{t:iterative-completion-from-null-scan-cause}
-we know that \Vel{slo}{i}
-shares the same rule,
-and that
-the $\Right{\Vel{slo}{i}} = \Right{\el{slo}{0}}$.
-From these considerations, it follows that
-the input length of any symbols between the dot
-in \Vel{slo}{i}
-and the dot in \el{slo}{0} must be zero length:
-\begin{equation}
-\label{eq:quasi-completion-silo-33}
-\begin{aligned}
-& \forall \; \var{ix} :
-\Dotix{\Vel{slo}{i}} \le \var{ix} < \Dotix{\el{slo}{0}} \\
-& \qquad \implies
-\RHS{\el{slo}{0}, \var{ix}} = \epsilon
-\end{aligned}
-\end{equation}
-(In fact,
-$\Dotix{\Vel{slo}{i}} \ge \Dotix{\el{slo}{0}}$,
-but we find it easier to get the result without showing this.)
-From
-\eqref{eq:quasi-completion-silo-30}
-and
-\eqref{eq:quasi-completion-silo-33}
-it follows that
-\begin{equation}
-  \label{eq:quasi-completion-silo-36}
-  \forall \; \var{ix} :
-  \var{ix} \ge \Dotix{\Vel{slo}{i}} \implies
-  \RHS{\el{slo}{0}, \var{ix}} = \epsilon
-\end{equation}
-which shows that
-\Vel{slo}{i} is quasi-complete.
-Since our choice of \var{i} was without loss
-of generalization, we see that
-\begin{equation}
-  \label{eq:quasi-completion-silo-39}
-  \text{every element
-  of \var{slo} is quasi-complete.}
-\end{equation}
-
-From
-\eqref{eq:iterative-completion-from-null-scan-cause-16}
-and
-\eqref{eq:iterative-completion-from-null-scan-cause-20}
-of
+By the assumption for the theorem, \el{slo}{0} is quasi-complete.
+This this,
 Theorem
 \ref{t:iterative-completion-from-null-scan-cause},
-\eqref{eq:quasi-completion-silo-39}
+(in particular
+\eqref{eq:iterative-completion-from-null-scan-cause-13},
+\eqref{eq:iterative-completion-from-null-scan-cause-16}
+and
+\eqref{eq:iterative-completion-from-null-scan-cause-20})
 and the definition of a silo,
 we have
 \eqref{eq:quasi-completion-silo-5}.
@@ -8175,13 +8131,20 @@ Call an EIM equivalent of \Vinst{lb},
 \eqref{t:leo-silo-validity-16}
 \end{align}
 
-From Theorem
-\ref{t:effect-from-symbol}
-and \eqref{t:leo-silo-validity-19}
-we see that \Veim{lb} has a valid top-down cause
-and a valid effect.
-Call the effect,
-\Veim{curreff}.
+As an EIM equivalent,
+\Veim{lb} is complete,
+and therefore quasi-complete,
+so that,
+by the definition of a silo,
+it is in a silo,
+if only the trivial silo containing just itself.
+By Theorem
+\ref{t:silo-finite}, any silo containing
+\Veim{lb} must be finite,
+and therefore must have a top layer.
+
+It remains to show that that top layer is
+\op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}.
 
 TODO: Finish.
 \end{proof}
