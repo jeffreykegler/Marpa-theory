@@ -7951,43 +7951,49 @@ TODO: Prove top-down cause is unique?
 \begin{definition}
 \label{def:validity-of-leo-item}
 \dtitle{Validity of an Leo item}
-Let \Vleo{eff} be a Leo item
-with a valid basis, \Veim{basis}.
-\Vleo{eff} is said to be
+Let \Vleo{eff} be a Leo item.
+\Vleo{eff} is
 \xdfn{valid}{valid (Leo item)}
-if and only if it falls into one to
+if and only if
+it falls into one to
 two cases.
 
 \textbf{Case 1}:
 In the first case,
-\Vleo{eff} has a top-down cause,
+\Vleo{eff} has a
+a valid basis, call it \Veim{basis},
+top-down cause,
 call it \Vleo{down}.
 In this case,
 \Vleo{eff} is valid if and only if
-\begin{equation}
-\label{eq:def-validity-of-leo-item-15}
+\begin{equation*}
 \Vleo{eff} = \left[
   \begin{gathered}
   \Postdot{\Veim{basis}}, \DR{\Vleo{down}}, \\
   \Origin{\Vleo{down}}, \Current{\Veim{basis}}
   \end{gathered}
 \right].
-\end{equation}
+\end{equation*}
 
 \textbf{Case 2}:
 In the second case,
-\Vleo{eff} has no top-down cause.
+\Vleo{eff} has a
+a valid basis, call it \Veim{basis},
+and has no top-down cause.
 In this case,
 \Vleo{eff} is valid if and only if
-\begin{equation}
-\label{eq:def-validity-of-leo-item-20}
+\begin{equation*}
 \Vleo{eff} = \left[
   \begin{gathered}
-  \Postdot{\Veim{basis}}, \DR{\Veim{basis}}, \\
+  \Postdot{\Veim{basis}},
+  \Next{\DR{\Veim{basis}}}, \\
   \Origin{\Veim{basis}}, \Current{\Veim{basis}}
   \end{gathered}
 \right].
-\end{equation}
+\end{equation*}
+
+Note that, in either case,
+\Vleo{eff} has a valid basis.
 \end{definition}
 
 In this document, we will want to allow for implementations which
@@ -8000,6 +8006,26 @@ Leo memos.
 All instantiated Leo memos are valid.
 A valid Leo memo may or may not be instantiated,
 depending on the implementation.
+
+\begin{definition}
+\dtitle{Matching Leo item}
+A Leo memo, call it \Vleo{leo},
+and an EIM, call it \Veim{eim},
+are said to
+\xdfn{match}{match (of Leo memo and EIM)}
+if and only if
+\begin{gather*}
+\text{\Veim{eim} is a completion,} \\
+\Symbol{\Vleo{leo}} = \LHS{\Veim{eim}} \quad \text{and} \\
+\Current{\Vleo{leo}} = \Left{\Veim{eim}}.
+\end{gather*}
+We also say that \Vleo{leo} is the
+\xdfn{matching}{matching (Leo item) [of an EIM]}
+Leo memo of \Veim{eim}
+and that \Veim{eim} is the
+\xdfn{matching}{matching (EIM) [of an Leo memo]}
+EIM of \Vleo{leo}.
+\end{definition}
 
 \begin{theorem}
 \label{t:leo-transition-symbol-non-terminal}
@@ -8080,10 +8106,98 @@ EIM
 matching \Vleo{leo}
 at \Vloc{i}.
 
-\begin{theorem}
-\end{theorem}
+\begin{lemma}
+\label{lem:leo-memo-effect}
+Let \Vleo{leo} be a valid Leo memo
+and \Veim{up} be a matching, valid EIM.
+Then
+\begin{gather}
+\label{eq:lem-leo-memo-effect-10}
+\myparbox{\Veim{up} has a valid effect, call
+it \Veim{eff},
+} \\
+\label{eq:lem-leo-memo-effect-11}
+\myparbox{\Veim{eff} is the only effect
+of \op{Sym-Eq}{\Veim{up}},
+} \\
+\label{eq:lem-leo-memo-effect-12}
+\myparbox{\Veim{eff} is right recursive, and}
+\\
+\label{eq:lem-leo-memo-effect-14}
+\myparbox{either \Veim{eff} is the top of the Leo silo,
+or it has a matching Leo memo.}
+\end{gather}
+\end{lemma}
 
 \begin{proof}
+Since \Veim{leo} is valid, by the definition of
+Leo memo validity,
+it has a valid basis, call it \Veim{basis}.
+Without loss of generality, let
+\begin{equation}
+\label{eq:lem-leo-memo-effect-20}
+\Veim{basis} = \left[
+  \begin{gathered}
+     [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{trans} \Vstr{nul2} ], \\
+     \Vloc{i}, \qquad \Vloc{j}
+  \end{gathered}
+\right]
+\end{equation}
+where $\Vstr{nul2} = \epsilon$,
+and $\Symbol{\Vleo{leo}} = \Vsym{trans}$.
+Since \Veim{up},
+by assumption for the theorem matches
+\Vleo{leo},
+we have
+\begin{equation}
+\label{eq:lem-leo-memo-effect-23}
+\Symbol{\Veim{up}} = \Vsym{trans}.
+\end{equation}
+Using theorem
+\ref{t:effect-from-symbolic-causes},
+from \eqref{eq:lem-leo-memo-effect-20}
+and
+\eqref{eq:lem-leo-memo-effect-23}
+we see that
+\begin{equation}
+\label{eq:lem-leo-memo-effect-30}
+\Veim{eff} = \left[
+  \begin{gathered}
+     [ \Vsym{A} \de \Vstr{prefix} \Vsym{trans} \mydot \Vstr{nul2} ], \\
+     \Vloc{i}, \qquad \Vloc{j}
+  \end{gathered}
+\right]
+\end{equation}
+is valid,
+which shows
+\eqref{eq:lem-leo-memo-effect-10}.
+
+By the definition of the basis of a Leo memo,
+\Veim{basis} must be postdot-unique ---
+that is there can be no distinct EIM, call it \Veim{basis2},
+such that
+\begin{gather*}
+\Current{\Veim{basis}} = \Current{\Veim{basis2}} \quad \text{and} \\
+\Postdot{\Veim{basis}} = \Postdot{\Veim{basis2}}.
+\end{gather*}
+So, by the definition of matching causes, \Veim{basis}
+is the only top-down cause matching \Veim{up}.
+Since an effect is completely determined by the symbolic equivalent
+of its bottom-up cause and its top-down cause, this
+gives us 
+\eqref{eq:lem-leo-memo-effect-11}.
+
+By the definition of the basis of a Leo memo,
+\Veim{basis} must be right-recursive.
+\Veim{basis} and \Veim{eff} share the same rule,
+so \Veim{eff} is right recursive,
+which shows
+\eqref{eq:lem-leo-memo-effect-12}.
+
+To show
+\eqref{eq:lem-leo-memo-effect-14}
+we proceed by cases, based on whether
+or not \Vleo{leo} has a top-down cause.
 TODO
 \end{proof}
 
