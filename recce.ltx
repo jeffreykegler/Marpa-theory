@@ -3782,6 +3782,12 @@ Then we have all of the following:
 & \quad \implies \text{\Vel{ns}{a} is an incomplete EIM}
 \end{aligned}
 \\
+\label{eq:iterative-completion-from-null-scan-cause-13}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns} \\
+& \quad \implies \text{\Vel{ns}{a} is an quasi-complete EIM}
+\end{aligned}
+\\
 \label{eq:iterative-completion-from-null-scan-cause-14}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns}
@@ -3843,29 +3849,80 @@ and Theorem
 From
 \eqref{eq:iterative-completion-from-null-scan-cause-8},
 we can see that
-\begin{align*}
+\begin{gather*}
+\Vlastix{ns} = \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}, \quad 
+\text{so that}  \\
+\begin{aligned}
 \op{Dotix}{\var{ns}\big[\Vlastix{ns}\big]} 
 & = \var{lo} + (\decr{( \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}) }) + 1 \\
-& = \Vrule{r}
-\end{align*}
+& = \Vsize{\Vrule{r}}
+\end{aligned}
+\end{gather*}
 which shows
 \eqref{eq:iterative-completion-from-null-scan-cause-10}.
-It is also evident from
-\eqref{eq:iterative-completion-from-null-scan-cause-8}
-that \var{ns} contains
-at most \incr{\Vsize{\Vrule{r}}} elements,
-and since we have seen that one of them is a completion,
-we have
+Simlarly,
+we see
+from
+\eqref{eq:iterative-completion-from-null-scan-cause-8},
+\begin{equation*}
+\begin{aligned}
+&& \var{ix} & < \Vlastix{ns} \\
+\implies && \op{Dotix}{\Vel{ns}{ix}}
+& < \var{lo} + (\decr{( \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}) }) + 1 \\
+\implies && \op{Dotix}{\Vel{ns}{ix}}
+& < \Vsize{\Vrule{r}}
+\end{aligned}
+\end{equation*}
+shows
 \eqref{eq:iterative-completion-from-null-scan-cause-12}.
-Finally, we see from
+
+We see from
 \eqref{eq:iterative-completion-from-null-scan-cause-8}
 that, for every element of \var{ns},
-its right location is \Vloc{k}
-and its rule is \Vrule{r},
+is an EIM which varies only it its dot index,
 which gives us
 \eqref{eq:iterative-completion-from-null-scan-cause-16}
 and
 \eqref{eq:iterative-completion-from-null-scan-cause-18}.
+From
+\eqref{eq:iterative-completion-from-null-scan-cause-8},
+we also see that
+\begin{equation}
+\var{ix} > 0 \implies \Dotix{\Vel{ns}{ix}} > \Dotix{\el{ns}{0}}
+\end{equation}
+so that using
+\eqref{eq:iterative-completion-from-null-scan-cause-30},
+\begin{equation}
+\label{eq:iterative-completion-from-null-scan-cause-40}
+\begin{gathered}
+\forall \; \var{nsix}, \var{rhix} :
+0 \le \var{nsix} \le \Vlastix{ns} \\
+\land \;
+\Dotix{\Vel{ns}{nsix}} \le \var{rhix} \le \Vsize{\Vrule{r}} \\
+\implies
+\Vop{RHS}{\Vrule{r}, \var{rhix}} = \epsilon
+\end{gathered}
+\end{equation}
+and since every layer of \var{ns} shares the same rule,
+\eqref{eq:iterative-completion-from-null-scan-cause-40}
+shows
+\eqref{eq:iterative-completion-from-null-scan-cause-13}.
+
+From \eqref{eq:iterative-completion-from-null-scan-cause-8},
+we know that every layer of \var{ns} differs in its dot index.
+As we already noted, the layer of \var{ns} differs
+only in their dot index.
+There are at most
+distinct dot \incr{\Vsize{\Vrule{r}}} indexes.
+By 
+\eqref{eq:iterative-completion-from-null-scan-cause-13},
+every layer is quasi-complete,
+so that no layer is a prediction,
+and therefore no layer uses dot index 0.
+So that there are at most
+\Vsize{\Vrule{r}} layers in \var{ns},
+which shows
+\eqref{eq:iterative-completion-from-null-scan-cause-9}.
 \end{proof}
 
 \begin{theorem}
