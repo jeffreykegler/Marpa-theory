@@ -8164,7 +8164,7 @@ we see that
 \Veim{eff} = \left[
   \begin{gathered}
      [ \Vsym{A} \de \Vstr{prefix} \Vsym{trans} \mydot \Vstr{nul2} ], \\
-     \Vloc{i}, \qquad \Vloc{j}
+     \Vloc{i}, \qquad \Right{\Veim{up}}
   \end{gathered}
 \right]
 \end{equation}
@@ -8198,6 +8198,32 @@ To show
 \eqref{eq:lem-leo-memo-effect-14}
 we proceed by cases, based on whether
 or not \Vleo{leo} has a top-down cause.
+If \Vleo{leo} has no top-down cause,
+then, by the definition of Leo memo validity
+and the definition of 
+\myfnname{Leo-top},
+we know that
+\begin{multline}
+\label{eq:lem-leo-memo-effect-35}
+\Vop{Leo-top}{\Vleo{leo}, \Right{\Veim{up}}} = \\
+	\big[ \Next{\DR{\Veim{basis}}}, \Origin{\Veim{basis}}, \Right{\Veim{up}} \big].
+\end{multline}
+Using
+\eqref{eq:lem-leo-memo-effect-20}
+and
+comparing
+\eqref{eq:lem-leo-memo-effect-30}
+\eqref{eq:lem-leo-memo-effect-35}
+we see that
+\begin{equation}
+\Veim{eff} = \Vop{Leo-top}{\Vleo{leo}, \Right{\Veim{up}}}.
+\end{equation}
+This shows our first case.
+
+In our second case,
+\Vleo{leo} has a top-down cause.
+
+
 TODO
 \end{proof}
 
