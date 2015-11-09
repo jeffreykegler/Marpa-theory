@@ -8221,10 +8221,43 @@ we see that
 This shows our first case.
 
 In our second case,
-\Vleo{leo} has a top-down cause.
-
-
-TODO
+\Vleo{leo} has a top-down cause,
+call it \Vleo{cuz}.
+From the definition of a Leo memo's top-down
+cause,
+we know that
+\begin{equation}
+\label{eq:lem-leo-memo-effect-40}
+\begin{gathered}
+\Symbol{\Vleo{cuz}} = \LHS{\Veim{basis}}
+\text{and} \quad \\
+\Current{\Vleo{cuz}} = \Origin{\Veim{basis}}.
+\end{gathered}
+\end{equation}
+From 
+\eqref{eq:lem-leo-memo-effect-20}
+and
+\eqref{eq:lem-leo-memo-effect-30}
+we know that
+\begin{equation}
+\label{eq:lem-leo-memo-effect-43}
+\begin{gathered}
+\LHS{\Veim{basis}} = \LHS{\Veim{eff}}
+\text{and} \quad \\
+\Origin{\Veim{basis}}  = \Origin{\Veim{eff}}.
+\end{gathered}
+\end{equation}
+From
+\eqref{eq:lem-leo-memo-effect-40}
+and
+\eqref{eq:lem-leo-memo-effect-43}
+and the definition of ``matching''
+for Leo memos and EIM's,
+we see that \Vleo{cuz}
+matches \Veim{eff}.
+This shows our second case,
+\eqref{eq:lem-leo-memo-effect-14}
+and the theorem.
 \end{proof}
 
 \begin{theorem}
