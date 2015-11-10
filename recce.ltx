@@ -8269,9 +8269,21 @@ Let
 \end{equation*}
 be an instantiated Leo memo and \Vinst{lb} a valid matching bottom.
 Then for every EIM equivalent of \Vinst{lb}, call it \Veim{lb},
-there is a silo whose bottom is \Veim{lb}
-and whose top is 
-\op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}.
+\begin{gather}
+\label{t:leo-silo-validity-2}
+\myparbox{there is a silo,
+call it \var{slo}, whose bottom is \Veim{lb};}
+\\
+\label{t:leo-silo-validity-4}
+\myparbox{the top of \var{slo} is 
+\op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}};}
+\\
+\label{t:leo-silo-validity-6}
+\myparbox{every layer of \var{slo} above the bottom is right-recursive; and}
+\\
+\label{t:leo-silo-validity-8}
+\myparbox{every layer of \var{slo} below the top has exactly one effect.}
+\end{gather}
 \end{theorem}
 
 \begin{proof}
@@ -8279,10 +8291,15 @@ Theorems
 \ref{t:eim-equivalent-from-non-terminal}
 and
 \ref{t:leo-transition-symbol-non-terminal}
-guarantee that \Vinst{lb}
-has a least one EIM equivalent.
-Call an EIM equivalent of \Vinst{lb},
-\Veim{lb}.
+guarantee that
+\Vinst{lb} has at least one valid EIM equivalent,
+call it \Veim{lb},
+such that
+\begin{equation}
+\label{t:leo-silo-validity-9}
+\Valid{\Veim{lb}}
+\end{equation}
+
 \begin{align}
 \label{t:leo-silo-validity-10}
 & \Symbol{\Vinst{lb}} = \Symbol{\Vleo{leo}} &&
@@ -8316,13 +8333,70 @@ so that,
 by the definition of a silo,
 it is in a silo,
 if only the trivial silo containing just itself.
+This shows
+\eqref{t:leo-silo-validity-2}.
+
+Let the index of the top of the \var{slo} be
+\var{topix}.
+We next proceed by finite induction,
+and for this purpose, we will consider
+layers of \var{slo} above \var{topix}.
+We take as the induction hypothesis
+hypothesis being
+\begin{gather}
+\label{t:leo-silo-validity-25}
+\tag{IND1}
+0 \le \var{x} \le \var{topix}
+\implies \Valid{\Vel{slo}{x}}
+\\
+\label{t:leo-silo-validity-28}
+\tag{IND2}
+0 < \var{x} \le \var{topix}
+\implies \text{\Vel{slo}{x} is right recursive}
+\\
+\label{t:leo-silo-validity-31}
+\tag{IND3}
+0 < \var{x} \le \var{topix}
+\implies \text{\Vel{slo}{x}
+	is the unique effect of
+	\el{slo}{\Vdecr{x}}}
+\end{gather}
+For $\var{x} = 0$,
+we have
+\eqref{t:leo-silo-validity-25} from
+\eqref{t:leo-silo-validity-9},
+and we have
+\eqref{t:leo-silo-validity-28}
+and
+\eqref{t:leo-silo-validity-31}
+vacuously.
+We take this as the basis of our induction.
+
+For the step of the induction, we assume
+\eqref{t:leo-silo-validity-25},
+\eqref{t:leo-silo-validity-28}
+and
+\eqref{t:leo-silo-validity-31}
+for \var{x} = \var{i},
+to show
+\begin{equation}
+\label{t:leo-silo-validity-34}
+\tag{STEP}
+\text{\eqref{t:leo-silo-validity-25},
+\eqref{t:leo-silo-validity-28}
+and
+\eqref{t:leo-silo-validity-31}
+for $\var{x} = \Vincr{i}$.}
+\end{equation}
+
+
+TODO: Revise from here
+
 By Theorem
 \ref{t:silo-finite}, any silo containing
 \Veim{lb} must be finite,
 and therefore must have a top layer.
 
-Call the silo with \Veim{lb} as its bottom,
-\var{slo}.
 It remains to show that the top layer of \var{slo} is
 \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}.
 Assume, for a reductio, that
