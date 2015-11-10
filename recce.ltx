@@ -8300,32 +8300,6 @@ such that
 \Valid{\Veim{lb}}
 \end{equation}
 
-\begin{align}
-\label{t:leo-silo-validity-10}
-& \Symbol{\Vinst{lb}} = \Symbol{\Vleo{leo}} &&
-\begin{gathered}
-\text{Def of} \\
-\text{matching bottom}
-\end{gathered}
-\\
-\label{t:leo-silo-validity-13}
-& \Symbol{\Vinst{lb}} = \Symbol{\Veim{lb}} &&
-\begin{gathered}
-\text{Def of} \\
-\text{symbolic equivalent}
-\end{gathered}
-\\
-\label{t:leo-silo-validity-16}
-& \Symbol{\Vleo{leo}} \neq \Vsym{accept} &&
-\text{Th \ref{t:leo-transition-symbol-non-terminal}}
-\\
-\label{t:leo-silo-validity-19}
-& \Symbol{\Veim{lb}} \neq \Vsym{accept} &&
-\eqref{t:leo-silo-validity-10},
-\eqref{t:leo-silo-validity-13},
-\eqref{t:leo-silo-validity-16}
-\end{align}
-
 As an EIM equivalent,
 \Veim{lb} is complete,
 and therefore quasi-complete,
@@ -8343,24 +8317,26 @@ and for this purpose, we will consider
 layers of \var{slo} above \var{topix}.
 We take as the induction hypothesis
 hypothesis being
-\begin{gather}
+\begin{align}
 \label{t:leo-silo-validity-25}
 \tag{IND1}
 0 \le \var{x} \le \var{topix}
-\implies \Valid{\Vel{slo}{x}}
+& \implies \Valid{\Vel{slo}{x}}
 \\
 \label{t:leo-silo-validity-28}
 \tag{IND2}
 0 < \var{x} \le \var{topix}
-\implies \text{\Vel{slo}{x} is right recursive}
+& \implies \text{\Vel{slo}{x} is right recursive}
 \\
 \label{t:leo-silo-validity-31}
 \tag{IND3}
 0 < \var{x} \le \var{topix}
-\implies \text{\Vel{slo}{x}
-	is the unique effect of
-	\el{slo}{\Vdecr{x}}}
-\end{gather}
+& \implies
+\begin{multlined}
+\text{\Vel{slo}{x} is} \\
+\text{the unique effect of \el{slo}{\Vdecr{x}}}
+\end{multlined}
+\end{align}
 For $\var{x} = 0$,
 we have
 \eqref{t:leo-silo-validity-25} from
@@ -8388,7 +8364,63 @@ and
 \eqref{t:leo-silo-validity-31}
 for $\var{x} = \Vincr{i}$.}
 \end{equation}
+Within the step, we proceed by cases.
 
+\textbf{Step case 1}: For the case where $\var{i} \ge \var{topix}$,
+we have
+\eqref{t:leo-silo-validity-34}
+vacuously.
+
+\textbf{Step case 2}: We next consider
+the case where $\var{i} \le \var{topix}$
+and \Vel{slo}{i} is incomplete.
+By assumption for the step 
+\Vel{slo}{i} is a valid silo layer,
+and therefore a quasi-completion.
+Since
+\Vel{slo}{i} is a valid quasi-completion,
+we can use
+Theorem 
+\ref{quasi-completion-silo}.
+\label{eq:quasi-completion-silo-14}
+of
+Theorem 
+\ref{quasi-completion-silo}
+tells us that
+\el{slo}{\Vincr{i}} is valid,
+which shows
+\eqref{t:leo-silo-validity-25}.
+
+\eqref{eq:quasi-completion-silo-18}
+of
+Theorem 
+\ref{quasi-completion-silo} tells us that
+the rule of \Vel{silo}{i}
+is the rule of 
+the rule of \el{silo}{\Vincr{i}}.
+Since the 
+the rule of \Vel{silo}{i}
+is right recursive by assumption for the step,
+we have
+\eqref{t:leo-silo-validity-28}.
+
+By assumption for the case,
+\Vel{slo}{i} is not complete,
+so that
+\eqref{eq:quasi-completion-silo-22}
+of
+Theorem 
+\ref{quasi-completion-silo} tells us that
+the unique effect of \Vel{silo}{i}
+is \el{silo}{\Vincr{i}}.
+This shows
+\eqref{t:leo-silo-validity-34},
+the step, for this case.
+
+\textbf{Step case 3}: Finally,
+we consider
+the case where $\var{i} \le \var{topix}$
+and \Vel{slo}{i} is complete.
 
 TODO: Revise from here
 
