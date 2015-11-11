@@ -8731,7 +8731,7 @@ Assume for the case that
 Since
 \Vel{mslo}{maxix} has a matching Leo memo,
 by
-Lemma \label{lem:leo-memo-effect},
+Lemma \ref{lem:leo-memo-effect},
 it has a silo effect.
 So there is another silo, call it \var{mslo2},
 such that
@@ -8784,11 +8784,11 @@ that are
 That is, if \var{slo} is a Leo silo,
 Let the Leo item be
 \begin{equation}
-  \forall \; \var{a} : \firstix{slo} < \var{a} < \lastix{slo}
+  \forall \; \var{a} : \Vfirstix{slo} < \var{a} < \Vlastix{slo}
   \implies \Memoable{\Vel{slo}{a}}.
 \end{equation}
-Unless stated otherwise
-When we call an EIM
+Unless stated otherwise,
+when we call an EIM
 \dfn{memoable},
 we mean that it is Leo memoable.
 \end{definition}
@@ -8842,7 +8842,8 @@ which shows its correctness.
 \While{ true }
 % \label{line:reconstruct-memoized-eims-20}
 \State \Veim{new-scuz} $\gets$ silo effect of \Veim{scuz}
-\State \ldots{} using Theorem \ref{t:leo-deterministic-effect}
+\State
+\Comment silo effect is unique per Theorem \ref{t:leo-silo-validity}
 \If{\Veim{new-scuz} = \Veim{top}}
 \State return
 \EndIf
@@ -8934,14 +8935,11 @@ Therefore no EIM in Earley set 0
 is memoized.
 \end{proof}
 
-TODO: Finish this chapter
-
 \begin{theorem}
 \label{t:ethereal-closure-is-Leo-disjoint}
-Let \Veim{eim2}
-be an EIM in the ethereal closure of \Veim{eim1}.
-Then \Veim{eim1} is Leo-memoized if and only if
-\Veim{eim2} is Leo-memoized.
+An EIM in the ethereal closure of \Veim{eim1}
+is Leo-memoized if and only if
+\Veim{eim1} is Leo-memoized.
 \end{theorem}
 
 \begin{proof}
@@ -8963,31 +8961,6 @@ all of its causes are unmemoized.
 
 \begin{proof}
 TODO.
-
-TODO: In these, pay attention to possibility of
-overlapping Leo silos.
-\end{proof}
-
-\begin{theorem}
-\label{t:leo-top-never-memoized},
-The top EIM of a Leo silo
-is never memoized.
-\end{theorem}
-
-\begin{proof}
-TODO.
-\end{proof}
-
-\begin{theorem}
-\label{t:leo-top-from-memo}
-Let \Vleo{memo} be a Leo memo
-and \Veim{up} a matching EIM with altitude \var{i}.
-Their \Veim{effect} is valid, unmemoized,
-and has altitude $\var{i}+1$.
-\end{theorem}
-
-\begin{proof}
-TODO.
 \end{proof}
 
 \begin{theorem}
@@ -8998,7 +8971,15 @@ will be valid and unmemoized.
 \end{theorem}
 
 \begin{proof}
-TODO.
+Let \Vleo{leo} be a Leo item and
+\Veim{up} a valid EIM that 
+matches it.
+By Theorem \ref{t:leo-silo-validity}
+there is a valid silo with \Veim{up}
+as its bottom.
+A bottom EIM is not memoable.
+If an EIM is not memoable in any of
+its occurrences, then it is not memoized.
 \end{proof}
 
 \begin{theorem}
@@ -9007,24 +8988,13 @@ The accept EIM is never memoized.
 \end{theorem}
 
 \begin{proof}
-TODO.
-\end{proof}
-
-Omission of a memoization does not affect correctness,
-so \Marpa{}'s restriction of Leo memoization
-preserves the correctness as shown in Leo~\cite{Leo1991}.
-Later in this document we will
-show that this change also leaves
-the complexity results of
-Leo~\cite{Leo1991} intact.
-
-\begin{theorem}
-\label{t:memo-omission}
-Omission of a Leo memo adds at most one EIM per parse location.
-\end{theorem}
-
-\begin{proof}
-TODO.
+By definition of the accept EIM,
+its LHS never occurs on a RHS.
+The accept EIM is therefore not right recursive.
+All memoable EIM's are inner layers of Leo silos,
+and all inner layers of Leo silos are right
+recursive.
+Therefore the accept EIM is never memoized.
 \end{proof}
 
 \begin{theorem}
@@ -9033,7 +9003,9 @@ No prediction is memoized.
 \end{theorem}
 
 \begin{proof}
-TODO.
+This theorem follows from
+Theorem \ref{t:leo-quasi-complete}
+and Theorem \ref{t:quasi-drs-disjoint}.
 \end{proof}
 
 \chapter{Altitude}
@@ -9965,7 +9937,7 @@ at line
 of Algorithm \ref{alg:earley-reduction-op}
 are valid if their causes are valid.
 From Theorem
-\ref{t:leo-top-from-memo},
+\ref{t:leo-silo-validity},
 we know that the telluric base EIM's we attempt to add
 at line
 \ref{line:leo-reduction-op-20}
@@ -10131,7 +10103,7 @@ of EIM's in
 $\var{iter}[\var{i}]$ are unmemoized.
 We need to show that all of the EIM's in
 $\var{iter}[\var{i}+1]$ are unmemoized.
-By Theorem \ref{t:leo-top-never-memoized},
+By Theorem \ref{t:memoized-effects},
 every memoized
 effect either has a memoized cause,
 or else has a Leo memo.
@@ -10143,7 +10115,7 @@ From line
 of Algorithm
 \ref{alg:reduce-one-up-cause}
 and from Theorem
-\ref{t:leo-top-from-memo},
+\ref{t:leo-silo-validity},
 we see that if \Veim{x} has a Leo memo,
 line \ref{line:reduce-one-up-cause-30}
 of Algorithm
@@ -10193,7 +10165,7 @@ the ethereal closure of
 the Leo reduced EIM's whose bottom-up cause
 is in $\var{iter}[\var{i}]$.
 By Theorems
-\ref{t:leo-top-from-memo}
+\ref{t:leo-silo-validity}
 and \ref{t:ethereal-altitude},
 the EIM's of
 Case \ref{case:reduction-op-correct-24}
