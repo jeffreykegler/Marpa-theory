@@ -6218,7 +6218,9 @@ and
 \Veim{cuz} is a top-down or bottom-up cause
 of \Veim{effect}.
 \end{itemize}
-If \Veim{cuz} is the silo cause of \Veim{effect},
+If \Veim{cuz} is the
+\dfn{silo cause}
+of \Veim{effect},
 we say that \Veim{effect} is the
 \dfn{silo effect}
 of \Veim{cuz}.
@@ -7465,10 +7467,22 @@ Then
 & \quad \implies \text{\Vel{slo}{a} is an incomplete EIM}
 \end{aligned}
 \\
+\label{eq:quasi-completion-silo-13}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo} \\
+& \quad \implies \text{\Vel{slo}{a} is a quasi-complete EIM}
+\end{aligned}
+\\
 \label{eq:quasi-completion-silo-14}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo}
   \implies \Valid{\Vel{slo}{a}}
+\end{aligned}
+\\
+\label{eq:quasi-completion-silo-16}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo} \\
+& \qquad \implies \op{Right}{\el{slo}{0}} = \op{Right}{\Vel{slo}{a}}
 \end{aligned}
 \\
 \label{eq:quasi-completion-silo-18}
@@ -7481,6 +7495,14 @@ Then
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{slo}} \\
 & \qquad \implies \text{\Vel{ns}{a} is the top-down cause of
+	\el{ns}{\Vincr{a}}
+}
+\end{aligned}
+\\
+\label{eq:quasi-completion-silo-21}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{slo}} \\
+& \qquad \implies \text{\Vel{ns}{a} is the silo cause of
 	\el{ns}{\Vincr{a}}
 }
 \end{aligned}
@@ -7508,29 +7530,47 @@ and
 and the definition of a silo,
 we have
 \eqref{eq:quasi-completion-silo-5}.
+Requirement
 \eqref{eq:quasi-completion-silo-9}
 of this theorem follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-9}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause}.
+Requirement
 \eqref{eq:quasi-completion-silo-10}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-10};
 \eqref{eq:quasi-completion-silo-12}
 from
 \eqref{eq:iterative-completion-from-null-scan-cause-12};
+\eqref{eq:quasi-completion-silo-13}
+from
+\eqref{eq:iterative-completion-from-null-scan-cause-13};
 \eqref{eq:quasi-completion-silo-14}
 from
 \eqref{eq:iterative-completion-from-null-scan-cause-14};
+\eqref{eq:quasi-completion-silo-16}
+from
+\eqref{eq:iterative-completion-from-null-scan-cause-16};
 \eqref{eq:quasi-completion-silo-18}
 from
 \eqref{eq:iterative-completion-from-null-scan-cause-18};
+and
 \eqref{eq:quasi-completion-silo-20}
 from
-\eqref{eq:iterative-completion-from-null-scan-cause-20};
+\eqref{eq:iterative-completion-from-null-scan-cause-20}.
 and
+
+To show
+\eqref{eq:quasi-completion-silo-21},
+we use
+\eqref{eq:quasi-completion-silo-13},
+\eqref{eq:quasi-completion-silo-16}
+and
+\eqref{eq:quasi-completion-silo-20}.
+Requirement
 \eqref{eq:quasi-completion-silo-22}
-from
+follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-22}.
 \end{proof}
 
@@ -8116,6 +8156,10 @@ Then
 \myparbox{\Veim{up} has a valid effect, call
 it \Veim{eff},
 } \\
+\label{eq:lem-leo-memo-effect-10a}
+\myparbox{\Veim{eff} is a silo effect
+of \Veim{up},
+} \\
 \label{eq:lem-leo-memo-effect-11}
 \myparbox{\Veim{eff} is the only effect
 of \op{Sym-Eq}{\Veim{up}},
@@ -8159,18 +8203,48 @@ from \eqref{eq:lem-leo-memo-effect-20}
 and
 \eqref{eq:lem-leo-memo-effect-23}
 we see that
-\begin{equation}
+\begin{gather}
 \label{eq:lem-leo-memo-effect-30}
 \Veim{eff} = \left[
   \begin{gathered}
      [ \Vsym{A} \de \Vstr{prefix} \Vsym{trans} \mydot \Vstr{nul2} ], \\
      \Vloc{i}, \qquad \Right{\Veim{up}}
   \end{gathered}
-\right]
+\right] \quad \text{is valid, and}
+\\
+\label{eq:lem-leo-memo-effect-30a}
+\text{\Veim{up} is the bottom-up cause of \Veim{eff}.}
+\end{gather}
+\eqref{eq:lem-leo-memo-effect-30} shows
+requirement
+\eqref{eq:lem-leo-memo-effect-10}
+of the theorem.
+
+From 
+\eqref{eq:lem-leo-memo-effect-30},
+we see that
+\begin{gather}
+\label{eq:lem-leo-memo-effect-32a}
+\Right{\Veim{eff}} = \Right{\Veim{ep}}, \quad \text{and} \\
+\label{eq:lem-leo-memo-effect-32b}
+\text{\Veim{eff} is quasi-complete.}
+\end{gather}
+\Veim{eff} is the matching EIM of a Leo memo,
+so that, by the definition of an EIM matching a Leo
+memo, \Veim{eff} must be complete, and therefore
+\begin{equation}
+\label{eq:lem-leo-memo-effect-32c}
+\text{\Veim{eff} is quasi-complete.}
 \end{equation}
-is valid,
-which shows
-\eqref{eq:lem-leo-memo-effect-10}.
+From \eqref{eq:lem-leo-memo-effect-30a},
+\eqref{eq:lem-leo-memo-effect-32a},
+\eqref{eq:lem-leo-memo-effect-32b},
+and
+\eqref{eq:lem-leo-memo-effect-32c}
+we have
+requirement
+\eqref{eq:lem-leo-memo-effect-10a} of the
+theorem.
 
 By the definition of the basis of a Leo memo,
 \Veim{basis} must be postdot-unique ---
@@ -8185,17 +8259,23 @@ is the only top-down cause matching \Veim{up}.
 Since an effect is completely determined by the symbolic equivalent
 of its bottom-up cause and its top-down cause, this
 gives us 
-\eqref{eq:lem-leo-memo-effect-11}.
+Requirement
+\eqref{eq:lem-leo-memo-effect-11}
+of this theorem.
 
 By the definition of the basis of a Leo memo,
 \Veim{basis} must be right-recursive.
 \Veim{basis} and \Veim{eff} share the same rule,
 so \Veim{eff} is right recursive,
 which shows
-\eqref{eq:lem-leo-memo-effect-12}.
+Requirement
+\eqref{eq:lem-leo-memo-effect-12}
+of the theorem.
 
 To show
+Requirement
 \eqref{eq:lem-leo-memo-effect-14}
+of the theorem,
 we proceed by cases, based on whether
 or not \Vleo{leo} has a top-down cause.
 If \Vleo{leo} has no top-down cause,
@@ -8256,7 +8336,9 @@ for Leo memos and EIM's,
 we see that \Vleo{cuz}
 matches \Veim{eff}.
 This shows our second case,
+Requirement
 \eqref{eq:lem-leo-memo-effect-14}
+of the theorem,
 and the theorem.
 \end{proof}
 
@@ -8380,9 +8462,7 @@ and therefore a quasi-completion.
 Since
 \Vel{slo}{i} is a valid quasi-completion,
 we can use
-Theorem 
-\ref{quasi-completion-silo}.
-\label{eq:quasi-completion-silo-14}
+\eqref{eq:quasi-completion-silo-14}
 of
 Theorem 
 \ref{quasi-completion-silo}
