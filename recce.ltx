@@ -7442,7 +7442,7 @@ We conclude that \Veim{bot} is a read EIM.
 
 \begin{theorem}
 \ttitle{Quasi-completion silo}
-\label{quasi-completion-silo}
+\label{t:quasi-completion-silo}
 Let \Veim{qc} be a valid quasi-completion.
 Then
 \begin{align}
@@ -8149,7 +8149,8 @@ at \Vloc{i}.
 \begin{lemma}
 \label{lem:leo-memo-effect}
 Let \Vleo{leo} be a valid Leo memo
-and \Veim{up} be a matching, valid EIM.
+and \Veim{up} be a valid, complete, EIM
+such that \Vleo{leo} matches \Veim{up}.
 Then
 \begin{gather}
 \label{eq:lem-leo-memo-effect-10}
@@ -8160,13 +8161,13 @@ it \Veim{eff},
 \myparbox{\Veim{eff} is a silo effect
 of \Veim{up},
 } \\
-\label{eq:lem-leo-memo-effect-11}
-\myparbox{\Veim{eff} is the only effect
-of \op{Sym-Eq}{\Veim{up}},
-} \\
 \label{eq:lem-leo-memo-effect-12}
 \myparbox{\Veim{eff} is right recursive, and}
 \\
+\label{eq:lem-leo-memo-effect-13}
+\myparbox{\Veim{eff} is the only effect
+of \op{Sym-Eq}{\Veim{up}},
+} \\
 \label{eq:lem-leo-memo-effect-14}
 \myparbox{either \Veim{eff} is the top of the Leo silo,
 or it has a matching Leo memo.}
@@ -8247,6 +8248,15 @@ requirement
 theorem.
 
 By the definition of the basis of a Leo memo,
+\Veim{basis} must be right-recursive.
+\Veim{basis} and \Veim{eff} share the same rule,
+so \Veim{eff} is right recursive,
+which shows
+Requirement
+\eqref{eq:lem-leo-memo-effect-12}
+of the theorem.
+
+By the definition of the basis of a Leo memo,
 \Veim{basis} must be postdot-unique ---
 that is there can be no distinct EIM, call it \Veim{basis2},
 such that
@@ -8260,17 +8270,8 @@ Since an effect is completely determined by the symbolic equivalent
 of its bottom-up cause and its top-down cause, this
 gives us 
 Requirement
-\eqref{eq:lem-leo-memo-effect-11}
+\eqref{eq:lem-leo-memo-effect-13}
 of this theorem.
-
-By the definition of the basis of a Leo memo,
-\Veim{basis} must be right-recursive.
-\Veim{basis} and \Veim{eff} share the same rule,
-so \Veim{eff} is right recursive,
-which shows
-Requirement
-\eqref{eq:lem-leo-memo-effect-12}
-of the theorem.
 
 To show
 Requirement
@@ -8444,11 +8445,22 @@ if only the trivial silo containing just itself.
 This shows
 \eqref{t:leo-silo-validity-2}.
 
-Let the index of the top of the \var{slo} be
-\var{topix}.
-We next proceed by finite induction,
-and for this purpose, we will consider
-layers of \var{slo} above \var{topix}.
+Let
+\var{topix} and \Veim{top} be
+such that
+\begin{equation}
+\Veim{top} = \Vel{slo}{topix} = \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}
+\end{equation}
+We need to ensure that our notation
+does not assume that \Veim{top} is a layer of
+\var{slo},
+since we have yet to prove this.
+If \Veim{top} is not a layer of \var{slo}
+we say \var{topix} is undefined
+and that, for every integer \var{i},
+$\var{i} < \var{topix}$.
+
+We next proceed by finite induction.
 We take as the induction hypothesis
 \begin{align}
 \label{t:leo-silo-validity-25}
@@ -8466,8 +8478,8 @@ We take as the induction hypothesis
 0 < \var{x} \le \var{topix}
 & \implies
 \begin{multlined}
-\text{\Vel{slo}{x} is} \\
-\text{the unique effect of \el{slo}{\Vdecr{x}}}
+\text{\Vel{slo}{x} is the unique effect} \\
+\text{of \el{slo}{\Vdecr{x}}, and}
 \end{multlined}
 \\
 \label{t:leo-silo-validity-32}
@@ -8490,7 +8502,8 @@ By assumption for the theorem,
 $\el{slo}{0} = \Veim{lb}$,
 which gives us
 \eqref{t:leo-silo-validity-32}.
-We take this as the basis of our induction.
+We take $\var{x} = 0$
+as the basis of our induction.
 
 For the step of the induction, we assume
 \eqref{t:leo-silo-validity-25},
@@ -8529,7 +8542,7 @@ we can use
 \eqref{eq:quasi-completion-silo-14}
 of
 Theorem 
-\ref{quasi-completion-silo}
+\ref{t:quasi-completion-silo}
 tells us that
 \el{slo}{\Vincr{i}} is valid,
 which shows
@@ -8538,7 +8551,7 @@ which shows
 \eqref{eq:quasi-completion-silo-18}
 of
 Theorem 
-\ref{quasi-completion-silo} tells us that
+\ref{t:quasi-completion-silo} tells us that
 the rule of \Vel{silo}{i}
 is the rule of 
 the rule of \el{silo}{\Vincr{i}}.
@@ -8554,7 +8567,7 @@ so that
 \eqref{eq:quasi-completion-silo-22}
 of
 Theorem 
-\ref{quasi-completion-silo} tells us that
+\ref{t:quasi-completion-silo} tells us that
 the unique effect of \Vel{silo}{i}
 is \el{silo}{\Vincr{i}}.
 This shows
@@ -8580,89 +8593,195 @@ This shows the step, for this case.
 we consider
 the case where $\var{i} \le \var{topix}$
 and \Vel{slo}{i} is complete.
+Since \Vel{slo}{i} is complete,
+Lemma \ref{lem:leo-memo-effect} applies,
+and we have
+\eqref{t:leo-silo-validity-25},
+\eqref{t:leo-silo-validity-28},
+\eqref{t:leo-silo-validity-31}
+and
+\eqref{t:leo-silo-validity-32}
+of the induction hypothesis for this case
+from
+\eqref{eq:lem-leo-memo-effect-10},
+\eqref{eq:lem-leo-memo-effect-12},
+\eqref{eq:lem-leo-memo-effect-13}
+and
+\eqref{eq:lem-leo-memo-effect-14}
+of
+Lemma \ref{lem:leo-memo-effect}.
+This shows shows the final case of the induction
+step, and therefore the step and the induction.
 
+The induction shows Requirements
+\eqref{t:leo-silo-validity-6}
+and
+\eqref{t:leo-silo-validity-8}
+of the theorem
+and
+\begin{equation}
+\label{t:leo-silo-validity-36}
+\forall \var{x} : 0 \le \var{x} < \var{topix}
+\implies
+\text{\Vel{slo}{x} has a matching Leo memo}
+\end{equation}
 
+It remains to show that there is
+a \var{slo} such that one of its layers is
+\begin{equation}
+\label{t:leo-silo-validity-36a}
+\op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}.
+\end{equation}
+which is Requirement
+\eqref{t:leo-silo-validity-4}
+of the theorem.
+We assume, for a reductio, that there is no such silo.
+
+For the purpose of this proof, we will call a silo ``maximal''
+if it is not a proper subsequence of any larger silo.
+Every silo has at least one maximal silo,
+though in the trivial case
+a silo is its own maximal silo.
+Let a maximal silo of \var{slo} be \var{mslo}.
 By Theorem
 \ref{t:silo-finite}, any silo containing
 \Veim{lb} must be finite,
-and therefore must have a top layer.
-
-It remains to show that the top layer of \var{slo} is
-\op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}.
-Assume, for a reductio, that
+and so that \var{mslo} must have a highest layer.
+Let the index of that highest layer be \var{maxix}.
+By assumption for the reductio,
+\var{mslo} 
+does not contain
+\eqref{t:leo-silo-validity-36a}
+so that, in particular,
 \begin{equation}
-\label{t:leo-silo-validity-23}
+\label{t:leo-silo-validity-37}
 \tag{RAA}
-\el{slo}{\Vlastix{slo}} \neq
+\Vel{mslo}{maxix} \neq
 \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}.
 \end{equation}
 
-TODO: Finish.
+From
+\eqref{t:leo-silo-validity-36},
+we see that \Vel{slo}{maxix} has
+a matching Leo memo.
+We consider two cases, based on whether
+\Vel{mslo}{maxix} is complete or incomplete.
+
+\textbf{Case 1}:
+Assume for the case that
+\Vel{mslo}{maxix} is incomplete.
+If
+\Vel{mslo}{maxix} is a 
+quasi-complete silo layer,
+by
+Theorem
+\ref{t:quasi-completion-silo},
+it is the bottom of some silo,
+call it \var{slo1}, such that 
+\begin{equation}
+\label{t:leo-silo-validity-40}
+\text{\el{slo1}{\Vlastix{slo1}} is a completion}
+\end{equation}
+Since 
+$\Vel{mslo}{maxix} = \el{slo1}{0}$ is the bottom
+of \var{slo1},
+we have
+\begin{equation}
+\label{t:leo-silo-validity-42}
+\Vel{mslo}{maxix} \le \el{slo1}{\Vlastix{slo1}}.
+\end{equation}
+\var{slo1} and \var{mslo} overlap in
+$\Vel{mslo}{maxix} = \el{slo1}{0}$,
+so we can compose them into a new silo, \var{slo2},
+such that
+\begin{equation}
+\label{t:leo-silo-validity-43}
+\begin{gathered}
+\Vel{mslo}{maxix} = \el{slo1}{0} = \el{slo2}{\Vlastix{slo1}}
+	\quad \text{and} \\
+\el{slo1}{\Vlastix{slo1}} = \el{slo2}{\Vlastix{slo2}}.
+\end{gathered}
+\end{equation}
+By assumption for the case \Vel{mslo}{maxix} is incomplete,
+so that
+from \eqref{t:leo-silo-validity-40}
+we know that
+\begin{equation}
+\label{t:leo-silo-validity-46}
+\Vel{mslo}{maxix} \neq \el{slo1}{\Vlastix{slo1}}.
+\end{equation}
+From
+\eqref{t:leo-silo-validity-40}
+and
+\eqref{t:leo-silo-validity-46}
+we see that
+\begin{equation}
+\label{t:leo-silo-validity-49}
+\Vel{mslo}{maxix} < \el{slo1}{\Vlastix{slo1}}.
+\end{equation}
+But, by assumption for the reductio,
+\Vel{mslo}{maxix} has no silo layer above it.
+This contradiction shows this Case 1 of the reductio.
+
+\textbf{Case 2}:
+Assume for the case that
+\Vel{mslo}{maxix} is complete.
+Since
+\Vel{mslo}{maxix} has a matching Leo memo,
+by
+Lemma \label{lem:leo-memo-effect},
+it has a silo effect.
+So there is another silo, call it \var{mslo2},
+such that
+there is a silo layer
+\el{mslo2}{\Vincr{maxix}}.
+This means that \var{mslo} is a proper
+subsequence of \var{mslo2}.
+But by assumption, \var{mslo2} was what we call
+for this proof,
+``maximal'',
+and therefore not a proper subsequence of any
+other silo.
+This contradiction shows this Case 1 of the reductio
+and the reductio.
+
+From the reductio, we see that \var{slo}
+must contain 
+\eqref{t:leo-silo-validity-36a},
+the top item for \Vleo{leo}.
+This shows Requirement
+\eqref{t:leo-silo-validity-4}
+and the theorem.
 \end{proof}
 
-Let $\Vloc{reloc} = \Right{\var{silo}}$
-and 
-let \Vloc{memloc} and \Vsym{transition}
-be as in \eqref{eq:def-leo-memo-10}.
-We therefore can define
-\xdfn{bottom}{bottom (of a Leo section)}
-of a Leo section
-as
-\Vop{Leo-bot}{silo}
-such that
-\begin{gather*}
-\Vop{Leo-bot}{silo} = \op{EIM-Eq}{\Vinst{trans}}.
-\end{gather*}
-
-Where
-is a Leo memo,
-
-TODO: Revise from here.
-
-The silo layers which \Vleo{leo} will cause to be
-memoized
-are the
-\xdfn{inner}{inner (layers of a Leo section)}
-layers of a
-\xdfn{Leo section}{Leo section (of a silo)}.
-Each Leo section is a part of a silo,
-and has a top layer,
-a bottom layer,
-and zero or more inner layers.
-It follows from this that every Leo section
-contains at least two EIM's.
-
-Where the silo is \var{silo},
-the
-\xdfn{top}{top (of a Leo section)}
-of the Leo section targeted by \Vleo{leo}
-will be
-\begin{equation}
-\Vop{Leo-top}{silo} = \big[ \Vdr{top}, \Vorig{top}, \Right{\var{silo}} \big].
-\end{equation}
+\begin{definition}
+\dtitle{Leo silo}
+Let \Vleo{l} be a Leo memo
+\dfn{Leo silo}
+is a silo whose bottom is the matching bottom
+of a Leo memo,
+and whose top is
+\[
+\op{Leo-top}{\Vleo{leo}, \Vloc{i}},
+\]
 where
-\Vdr{top} and \Vorig{top}
-are as in
-\eqref{eq:def-leo-memo-10},
-and \Right{\var{silo}} is the location of \var{silo}.
+\Vloc{i} is the location
+of the silo.
+\end{definition}
 
-
-We are now in a position to state
-exactly which EIM's are memoized as the result of
-a Leo item.
+If a layer of a Leo silo is not its
+top or its bottom layer
+we say that it is an
+\xdfn{inner}{inner (layer of a Leo silo)}
+layer.
+It is the
+inner layers of a silo
+that are memoable.
+That is, if \var{slo} is a Leo silo,
 Let the Leo item be
 \begin{equation}
-  \Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{memloc} ].
-\end{equation}
-Then
-\begin{equation}
-\begin{gathered}
-\forall \; \var{i} : \var{botix} < \var{i} < \var{topix} \implies
-\Memoized{\Vel{slo}{i}} \\
-\text{where \var{slo} is a silo such that $\Right{\var{slo}} > \Vloc{memloc}$,} \\
-\Vel{slo}{botix} = \Vop{Leo-bot}{slo} \\
-\text{and} \quad \Vel{slo}{topix} = \Vop{Leo-top}{slo}
-\end{gathered}
+  \forall \; \var{a} : \firstix{slo} < \var{a} < \lastix{slo}
+  \implies \Memoable{\Vel{slo}{a}}.
 \end{equation}
 
 \begin{theorem}
@@ -8696,185 +8815,10 @@ evaluation issues.
 We will make an exception for
 Leo memoization,
 however.
-It is not immediately obvious that the
-Leo memoization can be easily
-reversed,
-and we will show this.
-
-\begin{observation}
-\label{obs:unique-leo-section-effect}
-Recall the definition of silo effect.
-The effect of a Leo section layer is its silo effect.
-A Leo section layer may be a complete or an incomplete
-EIM.
-
-Let the Leo section be at \Vloc{k}.
-Let the Leo section layer be a completion
-and therefore
-\begin{gather}
-\label{eq:obs-unique-leo-section-effect-10}
-\Veim{cls} = \big[
-  [ \Vsym{A} \de \Vstr{A-rhs} \mydot ], \Vloc{j}, \Vloc{k}.
-\big] \\
-\text{for some \Vloc{j}, \Vloc{k}}
-\notag \\
-\text{and some rule $[\Vsym{A} \de \Vstr{A-rhs}] \in \Crules$}
-\notag
-\end{gather}
-Then the silo effect and Leo section effect
-of \Veim{cls}
-is
-\begin{gather}
-\label{eq:obs-unique-leo-section-effect-20}
-\Veim{ceff} = \big[
-  [ \Vsym{B} \de \Vstr{s1} \Vsym{A} \mydot \Vstr{nuls} ],
-  \Vloc{i}, \Vloc{k}
-\big] \\
-\text{for some \Vloc{i},}
-\notag \\
-\text{and some rule $[\Vsym{B} \de \Vstr{s1} \Vsym{A} \Vstr{nuls}] \in \Crules$}
-\notag \\
-\text{where $\Vstr{nuls} = \epsilon$}
-\notag
-\end{gather}
-
-Let the Leo section layer be a incompletion.
-Again, we let the Leo section be at \Vloc{k}.
-Every section layer is a silo layer and therefore is
-a quasi-complete EIM,
-so that we let be the incomplete Leo section layer be
-\begin{gather}
-\label{eq:obs-unique-leo-section-effect-30}
-\Veim{qls} = \big[
-  [ \Vsym{A} \de \Vstr{pref} \mydot \Vsym{nul} \Vstr{nuls} ], \Vloc{k}, \Vloc{k}.
-\big] \\
-\text{for some rule $[\Vsym{A} \de \Vstr{pref} \Vsym{nul} \Vstr{nuls} ] \in \Crules$}
-\notag \\
-\text{where $\Vsym{nul} = \epsilon$ and $\Vstr{nuls} = \epsilon$}
-\notag
-\end{gather}
-Then the silo effect and Leo section effect
-of \Veim{qls}
-is
-\begin{equation}
-\label{eq:-obs-unique-leo-section-effect-40}
-\Veim{qeff} = \big[
-  [ \Vsym{A} \de \Vstr{pref} \Vsym{nul} \mydot \Vstr{nuls} ],
-  \Vloc{k}, \Vloc{k}
-\big]
-\end{equation}
-\end{observation}
-
-TODO: Prove Leo section layer has Leo-eligible top-down cause?
-
-\begin{theorem}
-\label{t:leo-section-valid}
-Let \Vleo{memo} be a Leo memo,
-and \Veim{bot} a matching EIM.
-Then
-there is a Leo section for
-\Vleo{memo} and \Veim{bot}
-such that every layer
-is either
-\begin{itemize}
-\item
-the top layer, that is,
-\Vop{Leo-top}{leo}; or
-\item
-an incomplete EIM; or
-\item
-a complete EIM with
-a Leo-eligible top-down cause
-that
-is the basis of a valid and existing
-Leo memo
-\end{itemize}
-\end{theorem}
-
-\begin{proof}
-TODO
-\end{proof}
-
-
-\begin{theorem}
-\label{t:leo-deterministic-effect}
-Let \Veim{ls} be a valid layer in a Leo section.
-If \Veim{ls} is not the top layer,
-then it has exactly one valid silo effect,
-which is as described in Observation
-\ref{obs:unique-leo-section-effect}.
-\end{theorem}
-
-\begin{proof}
-We proceed by cases, depending on whether
-\Veim{ls} is complete or incomplete.
-If \Veim{ls} is complete,
-let it be,
-without loss of generalization,
-as in \eqref{eq:obs-unique-leo-section-effect-10}.
-By Theorem
-\ref{t:effect-from-symbol},
-it as a valid effect of the form in
-as in \eqref{eq:obs-unique-leo-section-effect-20}.
-
-For the case where \Veim{ls} is complete,
-it remains to show that the effect is unique.
-Assume that there are two effects of the
-form in \eqref{eq:obs-unique-leo-section-effect-20}.
-Without loss of generality, let them be
-\begin{gather}
-\Veim{eff1} = \big[
-  [ \Vsym{B1} \de \Vstr{s1} \Vsym{A} \mydot \Vstr{nuls1} ],
-  \Vloc{i1}, \Vloc{k}
-\big]
-\\
-\Veim{eff2} = \big[
-  [ \Vsym{B2} \de \Vstr{s2} \Vsym{A} \mydot \Vstr{nuls2} ],
-  \Vloc{i2}, \Vloc{k}
-\big]
-\end{gather}
-From \eqref{eq:obs-unique-leo-section-effect-10},
-we know that $\Left{\Veim{ls}} = \Vloc{j}$,
-so that,
-using
-Theorem \ref{t:symbolic-causes-from-effect},
-we know the matching top-down causes of
-\Veim{eff1} and \Veim{eff2} are valid,
-and are
-\begin{gather}
-\Veim{td1} = \big[
-  [ \Vsym{B1} \de \Vstr{s1} \mydot \Vsym{A} \Vstr{nuls1} ],
-  \Vloc{i1}, \Vloc{j}
-\big]
-\\
-\Veim{td2} = \big[
-  [ \Vsym{B2} \de \Vstr{s2} \mydot \Vsym{A} \Vstr{nuls2} ],
-  \Vloc{i2}, \Vloc{j}
-\big]
-\end{gather}
-Since \Veim{td1} and \Veim{td2} are Leo-eligible,
-they must be postdot-unique.
-
-TODO: Why do I know the above?
-
-By \eqref{eq:def-postdot-unique},
-the definition of postdot unique,
-we have then that
-\begin{equation}
-\label{eq:leo-deterministic-effect-25}
-\Veim{td1} = \Veim{td2}.
-\end{equation}
-Since the choice of
-\Veim{td1} and \Veim{td2}
-was without loss of generality,
-this shows that any two effects of a
-complete \Veim{ls} are identical.
-In others word, if \Veim{ls} is complete,
-its effect is unique.
-This shows the case.
-
-TODO
-\end{proof}
+The following algorithm summarizes
+Theorem
+\ref{t:leo-silo-validity},
+which shows its correctness.
 
 \begin{algorithm}[th]
 \caption{Reconstruct memoized EIM's}
@@ -8900,31 +8844,6 @@ TODO
 \end{algorithmic}
 \end{algorithm}%
 \index{recce-theorems}{Construction: Reconstruct memoized EIM's}
-
-\begin{theorem}
-\label{t:leo-reconstruction-correct}
-Algorithm
-\ref{alg:reconstruct-memoized-eims}
-is correct.
-\end{theorem}
-
-\begin{proof}
-TODO: In particular, prove that it terminates.
-TODO: ... and that the bottom *has* an EIM equivalent.
-
-TODO.
-\end{proof}
-
-\begin{theorem}
-Let \Vleo{leo} be a Leo memo,
-whose Leo section is of height \var{n}.
-Then \Vleo{leo} will be the lowest
-of a sequence of \Vdecr{n} Leo memos.
-\end{theorem}
-
-\begin{proof}
-TODO.
-\end{proof}
 
 TODO: Finish this chapter
 
@@ -11611,6 +11530,8 @@ We therefore conclude that the length of a right derivation
 must be less than or equal to \var{c},
 unless at least one step of that derivation uses a right recursive rule.
 \end{proof}
+
+TODO: Account for effect of not-memoizing at location 0.
 
 \begin{theorem}
 For every LR-regular grammar,
