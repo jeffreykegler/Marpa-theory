@@ -5970,7 +5970,8 @@ Chapter \ref{ch:leo}
 will show one way in which Earley items
 can be memoized.
 To say that \Veim{x} is memoized,
-we also say \Memoized{\Veim{x}}.
+we also say \Memoized{\Veim{x}}.%
+\index{recce-notation}{Memoized(x)@\Memoized{\var{eim}}}
 
 The memozations discussion in this document
 will all be optional ---
@@ -5978,7 +5979,8 @@ their omission will not affect correctness.
 An EIM wich could be memozied is said to be
 \dfn{memoable}.
 To say that \Veim{x} is memoable,
-we also write \Memoable{\Veim{x}}.
+we also write \Memoable{\Veim{x}}.%
+\index{recce-notation}{Memoable(x)@\Memoable{\var{eim}}}
 
 A set of EIM's (not necessarily an Earley set)
 is \dfn{consistent} if and only if all of its
@@ -7986,7 +7988,7 @@ then we say that \Vleo{eff} has no
 top-down cause.
 \end{definition}
 
-TODO: Prove top-down cause is unique?
+% TODO: Prove top-down cause is unique?
 
 \begin{definition}
 \label{def:validity-of-leo-item}
@@ -8769,6 +8771,7 @@ where
 of the silo.
 \end{definition}
 
+\begin{definition}
 If a layer of a Leo silo is not its
 top or its bottom layer
 we say that it is an
@@ -8776,37 +8779,45 @@ we say that it is an
 layer.
 It is the
 inner layers of a silo
-that are memoable.
+that are
+\dfn{Leo memoable}.
 That is, if \var{slo} is a Leo silo,
 Let the Leo item be
 \begin{equation}
   \forall \; \var{a} : \firstix{slo} < \var{a} < \lastix{slo}
   \implies \Memoable{\Vel{slo}{a}}.
 \end{equation}
+Unless stated otherwise
+When we call an EIM
+\dfn{memoable},
+we mean that it is Leo memoable.
+\end{definition}
 
 \begin{theorem}
-Every EIM in a Leo section is a null-scan,
+\ttitle{EIM's in Leo silos}
+\label{t:eims-in-leo-silos}
+Every EIM in a Leo silo is a null-scan,
 a read or
 a reduction.
-Also, if a read EIM is in a Leo section,
-it must be the bottom of the Leo section.
+Also, if a read EIM is in a Leo silo,
+it must be the bottom of the Leo silo.
 \end{theorem}
 
 \begin{proof}
-By the definition of a Leo section,
-every EIM in a Leo section is a silo layer.
+By the definition of a Leo silo,
+every EIM in a Leo silo is a silo layer.
 From Theorem
 \ref{t:silo-read-eim-layer},
 we know that, if a read EIM is in
 a silo, it is the bottom of the silo.
-A Leo section, by its definition,
+A Leo silo, by its definition,
 is a section of a silo,
-so that if a Leo section
+so that if a Leo silo
 contains a read EIM,
-it is the bottom of the Leo section.
+it is the bottom of the Leo silo.
 \end{proof}
 
-\section{Recreating a Leo section}
+\section{Recreating a Leo silo}
 
 While Marpa is a parser implementation,
 including evalution,
@@ -8845,8 +8856,6 @@ which shows its correctness.
 \end{algorithm}%
 \index{recce-theorems}{Construction: Reconstruct memoized EIM's}
 
-TODO: Finish this chapter
-
 \begin{theorem}
 \label{t:leo-quasi-complete}
 Only quasi-complete EIM's are
@@ -8854,17 +8863,14 @@ Leo-memoized.
 \end{theorem}
 
 \begin{proof}
-TODO.
-\end{proof}
-
-\begin{theorem}
-\label{t:leo-telluric-base}
-If an EIM is memoized,
-its telluric base is also Leo-memoized.
-\end{theorem}
-
-\begin{proof}
-TODO.
+An EIM is memoized only if it is memoable.
+All Leo memoable items are,
+by the definition of Leo memoable,
+inner layers of
+Leo silos.
+All silo layers are,
+by the definition of a silo,
+quasi-complete.
 \end{proof}
 
 \begin{theorem}
@@ -8878,10 +8884,14 @@ are never Leo-memoized.
 Assume for a reductio,
 that an EIM in the ethereal closure of a read EIM
 is memoized.
-Then, by Theorem \ref{t:leo-telluric-base},
-its telluric base must be memoized.
-This telluric base will be a read EIM.
-Call this EIM, \Veim{scanned}.
+Call a read EIM, \Veim{scanned}.
+By Theorem
+\ref{t:eims-in-leo-silos}
+\Veim{scanned},
+if it is in a Leo silo
+is the bottom of the silo.
+The bottom of a silo is not memoable,
+and therefore a read EIM is never memoized.
 
 By the definition of a read EIM,
 the predot symbol of \Veim{scanned}
@@ -8924,6 +8934,8 @@ Therefore no EIM in Earley set 0
 is memoized.
 \end{proof}
 
+TODO: Finish this chapter
+
 \begin{theorem}
 \label{t:ethereal-closure-is-Leo-disjoint}
 Let \Veim{eim2}
@@ -8953,12 +8965,12 @@ all of its causes are unmemoized.
 TODO.
 
 TODO: In these, pay attention to possibility of
-overlapping Leo sections.
+overlapping Leo silos.
 \end{proof}
 
 \begin{theorem}
 \label{t:leo-top-never-memoized},
-The top EIM of a Leo section
+The top EIM of a Leo silo
 is never memoized.
 \end{theorem}
 
