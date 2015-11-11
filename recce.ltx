@@ -8342,6 +8342,58 @@ of the theorem,
 and the theorem.
 \end{proof}
 
+\begin{lemma}
+\label{lem:leo-memo-of-incompletion}
+Let \Veim{cuz} be an EIM which is quasi-complete,
+but incomplete;
+let
+\Vleo{l}
+be a Leo memo matching \Veim{cuz};
+and
+let \Veim{eff} be an effect of
+\Veim{cuz}.
+Then \Vleo{l} matches \Veim{eff}.
+\end{lemma}
+
+\begin{proof}
+Since, by assumption for the theorem,
+\Veim{cuz} is incomplete, it has a postdot symbol.
+Since, by assumption for the theorem,
+\Veim{cuz} is quasi-complete, the postdot symbol must be nulling.
+By Theorem
+\ref{t:null-scan-from-down-cause},
+\begin{equation}
+\label{eq:lem-leo-memo-of-incompletion-10}
+\begin{aligned}
+\Left{\Veim{cuz}} & = \Left{\Veim{eff}} \\
+\land \quad \LHS{\Veim{cuz}} & = \LHS{\Veim{eff}}.
+\end{aligned}
+\end{equation}
+By assumption for the theorem
+and the definition of a matching Leo memo
+\begin{equation}
+\label{eq:lem-leo-memo-of-incompletion-20}
+\begin{aligned}
+\Left{\Veim{cuz}} & = \Current{\Vleo{l}} \\
+\land \quad \LHS{\Veim{cuz}} & = \Symbol{\Vleo{l}}.
+\end{aligned}
+\end{equation}
+Combining
+\eqref{eq:lem-leo-memo-of-incompletion-10}
+and
+\eqref{eq:lem-leo-memo-of-incompletion-20},
+\begin{equation}
+\label{eq:lem-leo-memo-of-incompletion-30}
+\begin{aligned}
+\Left{\Veim{eff}} & = \Current{\Vleo{l}} \\
+\land \quad \LHS{\Veim{eff}} & = \Symbol{\Vleo{l}}.
+\end{aligned}
+\end{equation}
+By the definition of a matching Leo memo,
+\eqref{eq:lem-leo-memo-of-incompletion-30}
+tells us the \Vleo{l} matches \Veim{cuz}
+\end{proof}
+
 \begin{theorem}
 \ttitle{Leo silo validity}
 \label{t:leo-silo-validity}
@@ -8398,7 +8450,6 @@ We next proceed by finite induction,
 and for this purpose, we will consider
 layers of \var{slo} above \var{topix}.
 We take as the induction hypothesis
-hypothesis being
 \begin{align}
 \label{t:leo-silo-validity-25}
 \tag{IND1}
@@ -8418,6 +8469,12 @@ hypothesis being
 \text{\Vel{slo}{x} is} \\
 \text{the unique effect of \el{slo}{\Vdecr{x}}}
 \end{multlined}
+\\
+\label{t:leo-silo-validity-32}
+\tag{IND4}
+0 \le \var{x} < \var{topix}
+& \implies
+\text{\Vel{slo}{x} has a matching Leo memo}
 \end{align}
 For $\var{x} = 0$,
 we have
@@ -8428,27 +8485,34 @@ and we have
 and
 \eqref{t:leo-silo-validity-31}
 vacuously.
+By assumption for the theorem,
+\Vleo{leo} is a Leo memo matching
+$\el{slo}{0} = \Veim{lb}$,
+which gives us
+\eqref{t:leo-silo-validity-32}.
 We take this as the basis of our induction.
 
 For the step of the induction, we assume
 \eqref{t:leo-silo-validity-25},
-\eqref{t:leo-silo-validity-28}
-and
+\eqref{t:leo-silo-validity-28},
 \eqref{t:leo-silo-validity-31}
+and
+\eqref{t:leo-silo-validity-32}
 for \var{x} = \var{i},
 to show
 \begin{equation}
 \label{t:leo-silo-validity-34}
 \tag{STEP}
 \text{\eqref{t:leo-silo-validity-25},
-\eqref{t:leo-silo-validity-28}
-and
+\eqref{t:leo-silo-validity-28},
 \eqref{t:leo-silo-validity-31}
+and
+\eqref{t:leo-silo-validity-32}
 for $\var{x} = \Vincr{i}$.}
 \end{equation}
 Within the step, we proceed by cases.
 
-\textbf{Step case 1}: For the case where $\var{i} \ge \var{topix}$,
+\textbf{Step case 1}: For the case where $\var{i} > \var{topix}$,
 we have
 \eqref{t:leo-silo-validity-34}
 vacuously.
@@ -8494,6 +8558,12 @@ Theorem
 the unique effect of \Vel{silo}{i}
 is \el{silo}{\Vincr{i}}.
 This shows
+\eqref{t:leo-silo-validity-31}
+for this case.
+
+TODO: Revise from here
+
+This shows
 \eqref{t:leo-silo-validity-34},
 the step, for this case.
 
@@ -8502,7 +8572,6 @@ we consider
 the case where $\var{i} \le \var{topix}$
 and \Vel{slo}{i} is complete.
 
-TODO: Revise from here
 
 By Theorem
 \ref{t:silo-finite}, any silo containing
