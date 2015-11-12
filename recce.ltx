@@ -3700,232 +3700,6 @@ which shows that it is unique.
 \end{proof}
 
 \begin{theorem}
-\ttitle{Iterative null-scan from top-down cause}
-\label{t:iterative-null-scan-from-down-cause}
-Let
-\begin{equation}
-\label{eq:iterative-null-scan-from-down-cause-5}
-\Veim{down} = \big[ [ \Vrule{r}, \var{lo} ], \var{i}, \var{k} \big],
-\end{equation}
-be a valid EIM.
-Let the series \var{ns} be such that
-\begin{equation}
-\begin{aligned}
-\label{eq:iterative-null-scan-from-down-cause-8}
-& \el{ns}{0} = \Veim{down} \quad \text{and} \\
-& \qquad \forall \; \var{a} : 0 \le \var{a} < \xxsubtract{\var{hi}}{\var{lo}}
-\implies \\
-& \qquad \qquad \left(
-\begin{gathered}
-\Vop{RHS}{\Vrule{r}, \var{lo}+\var{a}} = \epsilon \\
-\land \quad \el{ns}{\Vincr{a}} =
-\big[ [ \Vrule{r}, \var{lo}+\var{a}+1 ], \var{i}, \var{k} \big]
-\end{gathered}
-\right).
-\end{aligned}
-\end{equation}
-Then
-every EIM in \var{ns} is
-valid.
-Also,
-for all \var{a}
-such that 
-$0 \le \var{a} \le \decr{\Vlastix{ns}}$,
-\Vel{ns}{a} is the top-down cause of
-\el{ns}{\Vincr{a}};
-and \el{ns}{\Vincr{a}}
-is the unique effect of \Vel{ns}{a}.
-\end{theorem}
-
-\begin{proof}
-This theorem follows from Theorem
-\ref{t:null-scan-from-down-cause}
-by iteration.
-\end{proof}
-
-\begin{theorem}
-\ttitle{Iterative completion from null-scan cause}
-\label{t:iterative-completion-from-null-scan-cause}
-Let
-\begin{equation}
-\label{eq:iterative-completion-from-null-scan-cause-5}
-\Veim{down} = \big[ [ \Vrule{r}, \var{lo} ], \var{i}, \var{k} \big],
-\end{equation}
-be a valid quasi-complete EIM.
-Let the series \var{ns} be such that
-\begin{equation}
-\begin{aligned}
-\label{eq:iterative-completion-from-null-scan-cause-8}
-& \el{ns}{0} = \Veim{down} \quad \text{and} \\
-& \qquad \forall \; \var{a} : 0 \le \var{a} < (\xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}})
-\implies \\
-& \qquad \qquad
-\el{ns}{\Vincr{a}} =
-\big[ [ \Vrule{r}, \var{lo}+\var{a}+1 ], \var{i}, \var{k} \big].
-\end{aligned}
-\end{equation}
-Then we have all of the following:
-\begin{align}
-\label{eq:iterative-completion-from-null-scan-cause-9}
-& \text{\var{ns} contains at most \Vsize{\Vrule{r}}
-  elements
-}
-\\
-\label{eq:iterative-completion-from-null-scan-cause-10}
-& \text{$\var{ns}\big[ \Vlastix{ns} \big]$
-  is a completion
-}
-\\
-\label{eq:iterative-completion-from-null-scan-cause-12}
-& \begin{aligned}
-& \forall \var{a} : 0 \le \var{a} < \Vlastix{ns} \\
-& \quad \implies \text{\Vel{ns}{a} is an incomplete EIM}
-\end{aligned}
-\\
-\label{eq:iterative-completion-from-null-scan-cause-13}
-& \begin{aligned}
-& \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns} \\
-& \quad \implies \text{\Vel{ns}{a} is an quasi-complete EIM}
-\end{aligned}
-\\
-\label{eq:iterative-completion-from-null-scan-cause-14}
-& \begin{aligned}
-& \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns}
-  \implies \Valid{\Vel{ns}{a}}
-\end{aligned}
-\\
-\label{eq:iterative-completion-from-null-scan-cause-16}
-& \begin{aligned}
-& \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns} \\
-& \qquad \implies \Right{\el{ns}{0}} = \Right{\Vel{ns}{a}}
-\end{aligned}
-\\
-\label{eq:iterative-completion-from-null-scan-cause-18}
-& \begin{aligned}
-& \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns} \\
-& \qquad \implies \op{Rule}{\el{ns}{0}} = \op{Rule}{\Vel{ns}{a}}
-\end{aligned}
-\\
-\label{eq:iterative-completion-from-null-scan-cause-20}
-& \begin{aligned}
-& \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{ns}} \\
-& \qquad \implies \text{\Vel{ns}{a} is the top-down cause of
-	\el{ns}{\Vincr{a}}
-}
-\end{aligned}
-\\
-\label{eq:iterative-completion-from-null-scan-cause-22}
-& \begin{aligned}
-& \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{ns}} \\
-& \qquad \implies \text{\el{ns}{\Vincr{a}}
-	is the unique effect of \Vel{ns}{a}
-}
-\end{aligned}
-\end{align}
-\end{theorem}
-
-\begin{proof}
-
-Since
-\Veim{down} is, by assumption for the theorem,
-quasi-complete,
-we know that
-\begin{equation}
-\label{eq:iterative-completion-from-null-scan-cause-30}
-\forall \; \var{a} : 0 \le \var{a} < \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}
-\implies
-\Vop{RHS}{\Vrule{r}, \var{lo}+\var{a}} = \epsilon
-\end{equation}
-In the requirements for the theorem,
-\eqref{eq:iterative-completion-from-null-scan-cause-14},
-\eqref{eq:iterative-completion-from-null-scan-cause-20}
-and
-\eqref{eq:iterative-completion-from-null-scan-cause-22}
-follow from
-\eqref{eq:iterative-completion-from-null-scan-cause-30}
-and Theorem
-\ref{t:iterative-null-scan-from-down-cause}.
-
-From
-\eqref{eq:iterative-completion-from-null-scan-cause-8},
-we can see that
-\begin{gather*}
-\Vlastix{ns} = \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}, \quad 
-\text{so that}  \\
-\begin{aligned}
-\op{Dotix}{\var{ns}\big[\Vlastix{ns}\big]} 
-& = \var{lo} + (\decr{( \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}) }) + 1 \\
-& = \Vsize{\Vrule{r}}
-\end{aligned}
-\end{gather*}
-which shows
-\eqref{eq:iterative-completion-from-null-scan-cause-10}.
-Simlarly,
-we see
-from
-\eqref{eq:iterative-completion-from-null-scan-cause-8},
-\begin{equation*}
-\begin{aligned}
-&& \var{ix} & < \Vlastix{ns} \\
-\implies && \op{Dotix}{\Vel{ns}{ix}}
-& < \var{lo} + (\decr{( \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}) }) + 1 \\
-\implies && \op{Dotix}{\Vel{ns}{ix}}
-& < \Vsize{\Vrule{r}}
-\end{aligned}
-\end{equation*}
-shows
-\eqref{eq:iterative-completion-from-null-scan-cause-12}.
-
-We see from
-\eqref{eq:iterative-completion-from-null-scan-cause-8}
-that, for every element of \var{ns},
-is an EIM which varies only it its dot index,
-which gives us
-\eqref{eq:iterative-completion-from-null-scan-cause-16}
-and
-\eqref{eq:iterative-completion-from-null-scan-cause-18}.
-From
-\eqref{eq:iterative-completion-from-null-scan-cause-8},
-we also see that
-\begin{equation}
-\var{ix} > 0 \implies \Dotix{\Vel{ns}{ix}} > \Dotix{\el{ns}{0}}
-\end{equation}
-so that using
-\eqref{eq:iterative-completion-from-null-scan-cause-30},
-\begin{equation}
-\label{eq:iterative-completion-from-null-scan-cause-40}
-\begin{gathered}
-\forall \; \var{nsix}, \var{rhix} :
-0 \le \var{nsix} \le \Vlastix{ns} \\
-\land \;
-\Dotix{\Vel{ns}{nsix}} \le \var{rhix} \le \Vsize{\Vrule{r}} \\
-\implies
-\Vop{RHS}{\Vrule{r}, \var{rhix}} = \epsilon
-\end{gathered}
-\end{equation}
-and since every layer of \var{ns} shares the same rule,
-\eqref{eq:iterative-completion-from-null-scan-cause-40}
-shows
-\eqref{eq:iterative-completion-from-null-scan-cause-13}.
-
-From \eqref{eq:iterative-completion-from-null-scan-cause-8},
-we know that every layer of \var{ns} differs in its dot index.
-As we already noted, the layer of \var{ns} differs
-only in their dot index.
-There are at most
-distinct dot \incr{\Vsize{\Vrule{r}}} indexes.
-By 
-\eqref{eq:iterative-completion-from-null-scan-cause-13},
-every layer is quasi-complete,
-so that no layer is a prediction,
-and therefore no layer uses dot index 0.
-So that there are at most
-\Vsize{\Vrule{r}} layers in \var{ns},
-which shows
-\eqref{eq:iterative-completion-from-null-scan-cause-9}.
-\end{proof}
-
-\begin{theorem}
 \ttitle{Causes of confirmed effect}
 \label{t:symbolic-causes-from-effect}
 If
@@ -4469,8 +4243,11 @@ of \Veim{effect}:
 \notag \\
 \label{eq:def-epsilon-op}
 \var{epsilon-op} \; & \defined \var{predict-op} \cup \var{null-scan-op}
-, \; \text{and} \\
-\var{ethereal-closure} \; & \defined \var{epsilon-op}^\ast.
+\\
+\var{fleeting-closure} \; & \defined \var{null-scan-op}^\ast
+\; \text{and}
+\notag \\
+\var{ethereal-closure} \; & \defined \var{epsilon-op}^\ast
 \notag
 \end{align}
 
@@ -4726,6 +4503,277 @@ the induction,
 and the theorem.
 \end{proof}
 
+\section{Fleeting and lasting}
+
+Recall that dotted rule notions applied to EIM's
+refer to the dotted rule of the EIM.
+Therefore, a fleeting EIM is an EIM
+with a nulling postdot symbol;
+and a lasting EIM is any EIM which is not
+a fleeting EIM.
+
+\begin{definition}
+\dtitle{Lasting equivalent}
+\label{def:lasting-equivalent-eim}
+Let
+\begin{equation*}
+\var{eim1} = [ \Vdr{dr1}, \Vorig{i}, \Vloc{j} ].
+\end{equation*}
+Let \Vdr{lasting1} be the lasting equivalent of \Vdr{dr1}.
+Then the lasting equivalent of \var{eim1}
+is
+\begin{equation*}
+[ \Vdr{lasting1}, \Vorig{i}, \Vloc{j} ].
+\end{equation*}
+We say that the \dfn{lasting effect} of a cause
+is the lasting equivalent of the effect of that cause.
+\end{definition}
+
+\section{Fleeting closure}
+
+We defined \op{fleeting-closure}{\Veim{x}}
+as a set, but we often find it convenient to treat it
+as the sequence,
+such that if
+\begin{equation*}
+\var{ns} = \op{fleeting-closure}{\Veim{x}},
+\end{equation*}
+then
+\begin{equation*}
+\Vop{ns}{i} = 
+    {\myfnname{null-scan-op}^{\displaystyle (\var{i})}}(\Veim{x}).
+\end{equation*}
+By the definition of \myfnname{null-scan-op}, this means that if
+\begin{equation*}
+\Veim{x} = \big[ [ \Vrule{r}, \var{lo} ], \var{i}, \var{k} \big]
+\end{equation*}
+and
+\begin{equation*}
+\forall \; \var{a} : \var{lo} \le \var{a} < \var{hi}
+   \implies \Vop{RHS}{\Vrule{r}, \var{a}} = \epsilon
+\end{equation*}
+then
+\begin{equation*}
+\begin{aligned}
+& \el{ns}{0} = \Veim{x} \quad \text{and} \\
+& \qquad \forall \; \var{a} : 0 \le \var{a} < \xxsubtract{\var{hi}}{\var{lo}}
+\implies \\
+& \qquad \qquad \left(
+\begin{gathered}
+\el{ns}{\Vincr{a}} =
+\big[ [ \Vrule{r}, \var{lo}+\var{a}+1 ], \var{i}, \var{k} \big]
+\end{gathered}
+\right).
+\end{aligned}
+\end{equation*}
+
+\begin{theorem}
+\ttitle{Iterative null-scan from top-down cause}
+\label{t:iterative-null-scan-from-down-cause}
+Let \var{ns} be a fleeting closure.
+Then every EIM in \var{ns} is
+valid.
+Also,
+for all \var{a}
+such that 
+$0 \le \var{a} \le \decr{\Vlastix{ns}}$,
+\Vel{ns}{a} is the top-down cause of
+\el{ns}{\Vincr{a}};
+and \el{ns}{\Vincr{a}}
+is the unique effect of \Vel{ns}{a}.
+\end{theorem}
+
+\begin{proof}
+This theorem follows from Theorem
+\ref{t:null-scan-from-down-cause}
+by iteration.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Iterative completion from null-scan cause}
+\label{t:iterative-completion-from-null-scan-cause}
+Let
+\begin{equation}
+\label{eq:iterative-completion-from-null-scan-cause-5}
+\Veim{down} = \big[ [ \Vrule{r}, \var{lo} ], \var{i}, \var{k} \big],
+\end{equation}
+be a valid quasi-complete EIM,
+and let the series \var{ns} be the fleeting closure of \Veim{down}.
+Then we have all of the following:
+\begin{align}
+\label{eq:iterative-completion-from-null-scan-cause-9}
+& \text{\var{ns} contains at most \Vsize{\Vrule{r}}
+  elements
+}
+\\
+\label{eq:iterative-completion-from-null-scan-cause-10}
+& \text{$\var{ns}\big[ \Vlastix{ns} \big]$
+  is a completion
+}
+\\
+\label{eq:iterative-completion-from-null-scan-cause-12}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} < \Vlastix{ns} \\
+& \quad \implies \text{\Vel{ns}{a} is an incomplete EIM}
+\end{aligned}
+\\
+\label{eq:iterative-completion-from-null-scan-cause-13}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns} \\
+& \quad \implies \text{\Vel{ns}{a} is an quasi-complete EIM}
+\end{aligned}
+\\
+\label{eq:iterative-completion-from-null-scan-cause-14}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns}
+  \implies \Valid{\Vel{ns}{a}}
+\end{aligned}
+\\
+\label{eq:iterative-completion-from-null-scan-cause-16}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns} \\
+& \qquad \implies \Right{\el{ns}{0}} = \Right{\Vel{ns}{a}}
+\end{aligned}
+\\
+\label{eq:iterative-completion-from-null-scan-cause-18}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns} \\
+& \qquad \implies \op{Rule}{\el{ns}{0}} = \op{Rule}{\Vel{ns}{a}}
+\end{aligned}
+\\
+\label{eq:iterative-completion-from-null-scan-cause-20}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{ns}} \\
+& \qquad \implies \text{\Vel{ns}{a} is the top-down cause of
+	\el{ns}{\Vincr{a}}
+}
+\end{aligned}
+\\
+\label{eq:iterative-completion-from-null-scan-cause-22}
+& \begin{aligned}
+& \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{ns}} \\
+& \qquad \implies \text{\el{ns}{\Vincr{a}}
+	is the unique effect of \Vel{ns}{a}
+}
+\end{aligned}
+\end{align}
+\end{theorem}
+
+\begin{proof}
+By assumption for the theorem
+\var{ns} is the fleeting closure of \Veim{down}
+we have,
+using 
+Theorem
+\ref{t:iterative-null-scan-from-down-cause},
+Requirements
+\eqref{eq:iterative-completion-from-null-scan-cause-14},
+\eqref{eq:iterative-completion-from-null-scan-cause-20}
+and
+\eqref{eq:iterative-completion-from-null-scan-cause-22}
+for the theorem.
+
+Because \Veim{down},
+is a quasi-completion,
+we know that
+\begin{multline}
+\label{eq:iterative-completion-from-null-scan-cause-8}
+\el{ns}{0} = \Veim{down} \\
+\text{and} \quad 
+	\forall \; \var{a} : 0 \le \var{a} < (\xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}})
+\\
+\implies
+\el{ns}{\Vincr{a}} =
+\big[ [ \Vrule{r}, \var{lo}+\var{a}+1 ], \var{i}, \var{k} \big].
+\end{multline}
+and
+\begin{equation}
+\label{eq:iterative-completion-from-null-scan-cause-9}
+\forall \; \var{a} : 0 \le \var{a} < (\xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}})
+	\implies \Vop{RHS}{\Vrule{r}, \var{lo}+\var{a}} = \epsilon
+\end{equation}
+
+From
+\eqref{eq:iterative-completion-from-null-scan-cause-8},
+we can see that
+\begin{gather*}
+\Vlastix{ns} = \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}, \quad 
+\text{so that}  \\
+\begin{aligned}
+\op{Dotix}{\var{ns}\big[\Vlastix{ns}\big]} 
+& = \var{lo} + (\decr{( \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}) }) + 1 \\
+& = \Vsize{\Vrule{r}}
+\end{aligned}
+\end{gather*}
+which shows
+\eqref{eq:iterative-completion-from-null-scan-cause-10}.
+Simlarly,
+we see
+from
+\eqref{eq:iterative-completion-from-null-scan-cause-8},
+\begin{equation*}
+\begin{aligned}
+&& \var{ix} & < \Vlastix{ns} \\
+\implies && \op{Dotix}{\Vel{ns}{ix}}
+& < \var{lo} + (\decr{( \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}) }) + 1 \\
+\implies && \op{Dotix}{\Vel{ns}{ix}}
+& < \Vsize{\Vrule{r}}
+\end{aligned}
+\end{equation*}
+shows
+\eqref{eq:iterative-completion-from-null-scan-cause-12}.
+
+We see from
+\eqref{eq:iterative-completion-from-null-scan-cause-8}
+that every element of \var{ns},
+is an EIM which differs from
+the other elements of \var{ns}
+only in its dot index,
+which gives us
+\eqref{eq:iterative-completion-from-null-scan-cause-16}
+and
+\eqref{eq:iterative-completion-from-null-scan-cause-18}.
+From
+\eqref{eq:iterative-completion-from-null-scan-cause-8},
+we also see that
+\begin{equation}
+\var{ix} > 0 \implies \Dotix{\Vel{ns}{ix}} > \Dotix{\el{ns}{0}}
+\end{equation}
+so that using
+\eqref{eq:iterative-completion-from-null-scan-cause-9},
+\begin{equation}
+\label{eq:iterative-completion-from-null-scan-cause-40}
+\begin{gathered}
+\forall \; \var{nsix}, \var{rhix} :
+0 \le \var{nsix} \le \Vlastix{ns} \\
+\land \;
+\Dotix{\Vel{ns}{nsix}} \le \var{rhix} \le \Vsize{\Vrule{r}} \\
+\implies
+\Vop{RHS}{\Vrule{r}, \var{rhix}} = \epsilon
+\end{gathered}
+\end{equation}
+and since every layer of \var{ns} shares the same rule,
+\eqref{eq:iterative-completion-from-null-scan-cause-40}
+shows
+\eqref{eq:iterative-completion-from-null-scan-cause-13}.
+
+As we already noted, the layers of \var{ns} differ
+\textbf{only} in their dot index.
+There are at most
+distinct dot \incr{\Vsize{\Vrule{r}}} indexes.
+By 
+\eqref{eq:iterative-completion-from-null-scan-cause-13},
+every layer is quasi-complete,
+so that,
+by Theorem \ref{t:quasi-drs-disjoint},
+no layer is a prediction.
+Therefore no layer of \var{ns} uses dot index 0.
+So that there are at most
+\Vsize{\Vrule{r}} layers in \var{ns},
+which shows
+\eqref{eq:iterative-completion-from-null-scan-cause-9}.
+\end{proof}
+
 \section{Ambiguity}
 
 \begin{theorem}
@@ -4870,74 +4918,6 @@ So $\Vstr{up-rhs1} = \Vstr{up-rhs2}.$
 But then $\Veim{up1} = \Veim{up2}$, which is contrary to assumption
 for the reductio.\qedhere
 \end{sloppypar}
-\end{proof}
-
-\section{Fleeting and lasting}
-
-Recall that dotted rule notions applied to EIM's
-refer to the dotted rule of the EIM.
-Therefore, a fleeting EIM is an EIM
-with a nulling postdot symbol;
-and a lasting EIM is any EIM which is not
-a fleeting EIM.
-
-\begin{definition}
-\dtitle{Lasting equivalent}
-\label{def:lasting-equivalent-eim}
-Let
-\begin{equation*}
-\var{eim1} = [ \Vdr{dr1}, \Vorig{i}, \Vloc{j} ].
-\end{equation*}
-Let \Vdr{lasting1} be the lasting equivalent of \Vdr{dr1}.
-Then the lasting equivalent of \var{eim1}
-is
-\begin{equation*}
-[ \Vdr{lasting1}, \Vorig{i}, \Vloc{j} ].
-\end{equation*}
-We say that the \dfn{lasting effect} of a cause
-is the lasting equivalent of the effect of that cause.
-\end{definition}
-
-\begin{theorem}
-\ttitle{Valid EIMs have valid lasting equivalents}
-\label{t:lasting-valid-if-fleeting-valid}
-If an EIM is valid, so is its lasting equivalent.
-\end{theorem}
-
-\begin{proof}
-Without loss of generality,
-let the EIM be
-\begin{equation}
-\label{eq:lasting-valid-if-fleeting-valid-10}
-\Veim{fleet} =
-[ [ \Vsym{fleet} \de \Vstr{pre} \mydot \Vstr{nulls} \Vstr{post} ], \var{i}, \var{k} ]
-\end{equation}
-By \eqref{eq:lasting-valid-if-fleeting-valid-10}
-and the definition of EIM validity,
-\begin{multline}
-\label{eq:lasting-valid-if-fleeting-valid-20}
-\Vsym{fleet} \derives \Vmk{i} \Vstr{pre} \Vmk{k} \Vstr{nulls} \Vstr{post} \\
-\shoveleft{\qquad \text{where $\Vstr{nulls} \derives \epsilon$.}}
-\end{multline}
-From
-\eqref{eq:lasting-valid-if-fleeting-valid-20}, we know that
-\begin{equation*}
-\Vsym{fleet} \derives \Vmk{i} \Vstr{pre} \Vmk{k} \Vstr{nulls} \Vmk{k} \Vstr{post}
-\end{equation*}
-so that
-using the definition of EIM validity in the opposite direction,
-we know that
-\begin{equation}
-\label{eq:lasting-valid-if-fleeting-valid-25}
-\Veim{lasting} =
-[ [ \Vsym{fleet} \de \Vstr{pre} \Vstr{nulls} \mydot \Vstr{post} ], \var{i}, \var{k} ]
-\end{equation}
-is valid.
-By the definition of lasting equivalent EIM's,
-Definition \ref{def:lasting-equivalent-eim},
-\eqref{eq:lasting-valid-if-fleeting-valid-25} is
-the lasting equivalent of
-\eqref{eq:lasting-valid-if-fleeting-valid-10}.
 \end{proof}
 
 \chapter{Tethers}
@@ -9010,12 +8990,56 @@ is memoized.
 
 \begin{theorem}
 \label{t:ethereal-closure-memoization}
-An EIM in an ethereal closure
-is Leo-memoized only if
-its telluric base is Leo-memoized.
+An EIM in a fleeting closure
+is Leo-memoized if and only if
+all the other EIM's in the fleeting closure are
+memoized.
 \end{theorem}
 
 \begin{proof}
+By the definitions of \myfnname{Leo-top}
+and of the basis of a Leo memo,
+the predot symbol of the top item
+of a Leo silo is the transition symbol.
+By Theorem
+\ref{t:leo-transition-symbol-non-terminal},
+the transition symbol is telluric.
+So
+\begin{equation}
+\label{eq:ethereal-closure-memoization-10}
+\myparbox{
+the top item of a Leo silo must be
+a telluric base.
+}
+\end{equation}
+
+It remains to consider the case where there is more
+than one element in \var{fl}.
+By the definition of a fleeting closure,
+every layer of \var{ns} except \el{ns}{0}
+is the result of a null-scan,
+so that
+every layer of \var{ns} except \el{ns}{0}
+has a nulling predot symbol.
+Therefore only \el{ns}{0} can be a telluric base.
+Using
+\eqref{eq:ethereal-closure-memoization-10},
+we see that only \el{ns}{0} can be
+the top layer
+of a Leo silo.
+
+By the definition of a Leo silo, its bottom is
+a completed EIM.
+By the definition of a fleeting closure,
+every layer of \var{ns} except \el{ns}{\Vlastix{fl}}
+is the argument of a null-scan,
+so that
+every layer of \var{ns} except \el{ns}{\Vlastix{fl}}
+has a postdot symbol.
+Therefore only \el{ns}{\Vlastix{fl}} can be a completed EIM
+and only
+\el{ns}{\Vlastix{fl}} can be the bottom of a Leo silo.
+
 TODO: I think this is wrong.  Fix it.
 \end{proof}
 
@@ -10823,12 +10847,17 @@ on Algorithm \ref{alg:eim-set}.
 We note the
 Algorithm \ref{alg:eim-set} is only called when
 \Veim{base} is not Leo memoized.
-By Theorem \ref{t:ethereal-closure-memoization},
+By Theorem \ref{t:fleeting-closure-memoization},
 we see that if \Veim{base} is not Leo memoized,
-none of the other EIM's in its ethereal closure
+none of the other EIM's in its fleeting closure
 will be Leo memoized.
+By Theorem
+\ref{t:no-memoized-predictions},
+no prediction is ever memoized.
 Therefore,
 we may ignore Leo memoization in what follows.
+
+TODO: Check the above assertion.
 
 By inspection, we see that
 Algorithm \ref{alg:eim-set} adds items
