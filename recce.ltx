@@ -8814,10 +8814,11 @@ and the theorem.
 
 \begin{definition}
 \dtitle{Leo silo}
-Let \Vleo{l} be a Leo memo
+Let \Vleo{l} be a Leo memo.
+A
 \dfn{Leo silo}
 is a silo whose bottom is the matching bottom
-of a Leo memo,
+of \Vleo{l},
 and whose top is
 \[
 \op{Leo-top}{\Vleo{leo}, \Vloc{i}},
@@ -8828,6 +8829,7 @@ of the silo.
 \end{definition}
 
 \begin{definition}
+\dtitle{Memoable EIM's}
 If a layer of a Leo silo is not its
 top or its bottom layer
 we say that it is an
@@ -8847,6 +8849,21 @@ Unless stated otherwise,
 when we call an EIM
 \dfn{memoable},
 we mean that it is Leo memoable.
+\end{definition}
+
+\begin{definition}
+\dtitle{Memoized EIM's}
+An EIM is
+\dfn{memoized}
+if and only if
+\begin{itemize}
+\item
+all of its causes and effects occur only
+as part of Leo silos; and
+\item
+it is memoable in every Leo silo in
+which it occurs.
+\end{itemize}
 \end{definition}
 
 \begin{theorem}
@@ -8992,36 +9009,109 @@ is memoized.
 \end{proof}
 
 \begin{theorem}
-\label{t:ethereal-closure-is-Leo-disjoint}
-An EIM in the ethereal closure of \Veim{eim1}
-is Leo-memoized if and only if
-\Veim{eim1} is Leo-memoized.
+\label{t:ethereal-closure-memoization}
+An EIM in an ethereal closure
+is Leo-memoized only if
+its telluric base is Leo-memoized.
 \end{theorem}
 
 \begin{proof}
-TODO.
+TODO: I think this is wrong.  Fix it.
 \end{proof}
 
-A \dfn{non-trivial Leo top item} is
-is an unmemoized item with a memoized bottom-up
-cause.
+\begin{theorem}
+\ttitle{Only silo causes are memoized}
+\label{t:only-silo-causes-memoized}
+If \Veim{cuz} is memoized, whenever
+it is a cause, it is a Leo silo cause.
+\end{theorem}
+
+\begin{proof}
+By the definition of Leo memoized,
+every cause and effect of
+\Veim{cuz} must occur in a Leo silo.
+Also, \Veim{cuz} must be an inner layer
+in all of these Leo silos,
+and therefore it must have a silo effect.
+By Theorem \ref{t:leo-silo-validity},
+the effect of \Veim{cuz} will be unique.
+Call this unique effect, \Veim{eff}.
+\Veim{cuz} is a Leo silo cause of \Veim{eff}.
+So, since \Veim{eff} is the unique effect
+of \Veim{cuz}, \Veim{cuz} is a Leo silo cause
+whenever it is a cause.
+\end{proof}
 
 \begin{theorem}
 \label{t:memoized-effects}
-If an effect,
-other than
-a non-trivial Leo top item,
-is unmemoized,
-all of its causes are unmemoized.
+If an EIM is unmemoized,
+either it has an unmemoized silo cause
+or it is a top item in some Leo silo.
 \end{theorem}
 
 \begin{proof}
-TODO.
+Let \Veim{eff} and \Veim{cuz} be valid EIM's
+such that \Veim{cuz} is the cause of \Veim{eff}.
+Assume for a reductio that
+\begin{gather}
+\label{eq:memoized-effects-10}
+\myparbox{\Veim{eff} is unmemoized,
+} \\
+\label{eq:memoized-effects-12}
+\myparbox{\Veim{eff} is not the top item
+in any Leo silo; and
+} \\
+\label{eq:memoized-effects-14}
+\myparbox{\Veim{cuz} is memoized.
+}
+\end{gather}
+
+If \Veim{cuz} is memoized, it occurs only in Leo
+silos, and \Veim{cuz} is an inner layer in all of those Leo silos.
+By Theorem \ref{t:leo-silo-validity}
+an effect of an inner Leo silo layer is another Leo silo layer.
+So \Veim{eff} must be another Leo silo layer in every silo in
+which \Veim{cuz} occurs.
+By \eqref{eq:memoized-effects-12},
+an assumption for the reductio,
+\Veim{eff} is not the top layer in any of those Leo silos.
+Because in all of those Leo silos,
+\Veim{eff} is an effect of \Veim{cuz},
+\Veim{eff} is not the bottom layer in any of those Leo silos.
+Therefore \Veim{eff} is an inner layer in all of those Leo silos.
+Therefore \Veim{eff} is memoable in all of its occurrences in
+Leo silos.
+
+If \Veim{eff} never occurs without a Leo silo cause,
+then \Veim{eff} occurs only in Leo silos.
+Since \Veim{eff} is memoable in all of its occurrences in Leo silos,
+by the definition of memoized,
+\Veim{eff} must be memoized.
+But this contradicts
+assumption
+\ref{eq:memoized-effects-10}
+for the reductio.
+Therefore \Veim{eff} must have at least one matching cause pair,
+where neither of the causes is a Leo silo cause.
+
+By the definition of memoable, no cause is memoable unless it
+is a Leo silo cause.
+By the definition of memoized, no cause is memoized unless it
+is memoable in all of its occurrences.
+Therefore, if there is a cause pair for \Veim{eff},
+where neither of the two causes is a Leo silo cause,
+then
+neither of the two causes is memoized.
+But this contradicts assumption
+\eqref{eq:memoized-effects-14}
+for the reductio,
+which shows the reductio
+and the theorem.
 \end{proof}
 
 \begin{theorem}
 \label{t:leo-memo-from-top}
-Let \Veim{top} be a valid non-trivial Leo top item.
+Let \Veim{top} be a valid Leo top item.
 Then a bottom-up cause which matches its Leo memo
 will be valid and unmemoized.
 \end{theorem}
@@ -10162,10 +10252,11 @@ $\var{iter}[\var{i}+1]$ are unmemoized.
 By Theorem \ref{t:memoized-effects},
 every memoized
 effect either has a memoized cause,
-or else has a Leo memo.
+or else is a Leo top EIM.
 So if $\Veim{x} \in \var{iter}[\var{i}+1]$ is
 memoized,
-\Veim{x} must have a Leo memo.
+\Veim{x} must be a Leo top
+EIM, and therefore must have a Leo memo.
 From line
 \ref{line:reduce-one-up-cause-25}
 of Algorithm
@@ -10317,14 +10408,14 @@ is paired with the matching set of valid top-down causes.
 It remains to show that
 no unmemoized, valid EIM's are omitted
 from $\var{iter}[\var{i}+1]$
-because their causes
+because their silo causes
 are memoized.
 By Theorem
 \ref{t:memoized-effects},
-all valid unmemoized items have valid unmemoized causes except
-for non-trivial Leo top items.
+all valid unmemoized items have valid unmemoized silo causes except
+for Leo top items.
 Without loss of generality,
-let a non-trivial Leo top item be
+let a Leo top item be
 \Veim{top}.
 In the case of \Veim{top},
 by Theorem \ref{t:leo-memo-from-top},
@@ -10732,7 +10823,7 @@ on Algorithm \ref{alg:eim-set}.
 We note the
 Algorithm \ref{alg:eim-set} is only called when
 \Veim{base} is not Leo memoized.
-By Theorem \ref{t:ethereal-closure-is-Leo-disjoint},
+By Theorem \ref{t:ethereal-closure-memoization},
 we see that if \Veim{base} is not Leo memoized,
 none of the other EIM's in its ethereal closure
 will be Leo memoized.
