@@ -6397,7 +6397,121 @@ and no top-down silo causes.
 \end{theorem}
 
 \begin{proof}
-TODO
+\textbf{Read EIM}:
+Let \Veim{rd} be a quasi-complete read EIM.
+By the definition of causes,
+we know that
+the bottom-up cause of \Veim{rd} has
+no EIM equivalent and therefore is not
+a silo cause.
+Let \Veim{down} be the top-down cause of a
+read EIM.
+From Theorem
+\ref{t:down-cause-from-effect},
+we know that
+\begin{gather}
+\notag
+\Right{\Veim{down}} = \decr{\Right{\Veim{rd}}} \\
+\label{eq:silo-causes-20}
+\therefore \; \Right{\Veim{down}} \neq \decr{\Right{\Veim{rd}}}
+\end{gather}
+\eqref{eq:silo-causes-20} shows that \Veim{down}
+cannot be a silo cause of \Veim{rd}.
+
+\textbf{Null-scan EIM}:
+Let \Veim{ns} be a quasi-complete null-scan EIM.
+By the definition of causes,
+we know that
+the bottom-up cause of \Veim{ns} has
+no EIM equivalent and therefore is not
+a silo cause.
+Let \Veim{down} be the top-down cause of a
+read EIM.
+From Theorem
+\ref{t:down-cause-from-effect},
+we know that
+\begin{equation}
+\label{eq:silo-causes-30}
+\myparbox{$\Right{\Veim{down}} = \Right{\Veim{ns}}.$}
+\end{equation}
+The only symbol between the dot index of \Veim{down}
+and the dot index of \Veim{ns} is,
+by the definition of a null-scan EIM,
+a nulling symbol,
+so that if the dot suffix of \Veim{ns} contains
+only nulling symbols,
+the dot suffix of \Veim{ns} must also contain
+only nulling symbols.
+Therefore
+\begin{equation}
+\label{eq:silo-causes-33}
+\myparbox{\Veim{down} is quasi-complete.}
+\end{equation}
+From
+\eqref{eq:silo-causes-30}
+and
+\eqref{eq:silo-causes-33},
+we see that
+\Veim{down} is a silo cause
+of \Veim{ns}.
+
+\textbf{Reduction EIM}:
+Let \Veim{duct} be a reduction EIM,
+let its top-down cause be \Veim{down}
+and let the EIM equivalent of
+its bottom-up cause be \Veim{up}.
+By the definition of causes,
+we know that
+\begin{gather}
+\label{eq:silo-causes-36a}
+\myparbox{
+the bottom-up cause of \Veim{duct} is
+a completion,
+and is therefore quasi-complete;
+} \\
+\label{eq:silo-causes-36b}
+\myparbox{
+\Veim{duct} has an EIM equivalent,
+and
+} \\
+\label{eq:silo-causes-36c}
+\myparbox{
+$\Right{\Veim{up}} = \Right{\Veim{duct}}.$
+}
+\end{gather}
+From
+\eqref{eq:silo-causes-36a},
+\eqref{eq:silo-causes-36b}
+and
+\eqref{eq:silo-causes-36c},
+we see that
+\Veim{up}
+is
+a silo cause of \Veim{duct}.
+
+From Theorem
+\ref{t:down-cause-from-effect},
+we know that
+\begin{gather}
+\notag
+\Right{\Veim{down}} < \decr{\Right{\Veim{rd}}} \\
+\label{eq:silo-causes-40}
+\therefore \; \Right{\Veim{down}} \neq \decr{\Right{\Veim{rd}}}
+\end{gather}
+\eqref{eq:silo-causes-40} shows that \Veim{down}
+cannot be a silo cause of \Veim{rd}.
+
+\textbf{Prediction EIM}:
+By Theorem \ref{t:quasi-drs-disjoint},
+we see that a prediction is never quasi-complete,
+and therefore can never be a silo layer.
+
+\textbf{Start EIM}:
+By its definition, the start EIM has a telluric
+symbol in its dot suffix,
+and therefire is not quasi-complete.
+For this reason,
+the start EIM is never a silo layer.
 \end{proof}
 
 \begin{lemma}
@@ -7574,96 +7688,6 @@ Requirement
 \eqref{eq:quasi-completion-silo-22}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-22}.
-\end{proof}
-
-\begin{theorem}
-\ttitle{Consecutive incomplete silo layers}
-\label{consecutive-incomplete-silo-layers}
-The number of consecutive incomplete silo layers
-is at most \var{k},
-where \var{k} is the maximum length of a rule.
-
-TODO: Delete this, as duplicating
-\end{theorem}
-
-\begin{proof}
-For a reductio, let there be \Vincr{k} consecutive
-incomplete layers in the silo \var{slo}.
-Let the subsequence of \var{slo} containing only these \Vincr{k}
-consecutive layers be \var{ss}.
-By the definition of silo, \var{ss} is also a silo.
-
-By the definition of a silo, all of the layers in \var{ss}
-are quasi-complete.
-By assumption for the reductio,
-all of the layers in \var{ss} are incomplete.
-An incomplete EIM cannot be a bottom-up cause,
-so every layer in \var{ss}, except the top layer,
-is the top-down cause of the next layer.
-By the definition of top-down cause,
-a top-down cause and its effect share the same rule and origin,
-so that
-for every 
-\Vel{ss}{b} and \Vel{ss}{c},
-we have
-\begin{equation}
-\label{consecutive-incomplete-silo-layers-10}
-\begin{gathered}
-\Origin{\Vel{ss}{b}} = \Origin{\Vel{ss}{c}} \\
-\text{and} \quad \op{Rule}{\Vel{ss}{b}} = \op{Rule}{\Vel{ss}{c}},
-\end{gathered}
-\end{equation}
-Further, since
-\Vel{ss}{b} and \Vel{ss}{c},
-are in the same silo,
-by the definition of a silo, we have
-\begin{equation}
-\label{consecutive-incomplete-silo-layers-15}
-\Current{\Vel{ss}{b}} = \Current{\Vel{ss}{c}}.
-\end{equation}
-Combining
-\eqref{consecutive-incomplete-silo-layers-10}
-and
-\eqref{consecutive-incomplete-silo-layers-15}
-we see that the layers in \var{ss} differ only
-in their dot index.
-
-Recall that \var{k} was, by assumption for the theorem,
-the maximum length of a rule in \Cg{}.
-The dot index ranges from the beginning of a rule
-until the position after its last symbol.
-\begin{equation}
-\label{consecutive-incomplete-silo-layers-20}
-\forall \; \var{a} : 0 \le \op{Dotix}{\Vel{slo}{a}} \le \var{k}.
-\end{equation}
-Also,
-we know the every silo layer has
-a telluric prefix,
-so that
-\begin{equation}
-\label{consecutive-incomplete-silo-layers-25}
-\forall \; \var{a} : \op{Dotix}{\Vel{slo}{a}} \neq 0.
-\end{equation}
-Using
-\eqref{consecutive-incomplete-silo-layers-20}
-and
-\eqref{consecutive-incomplete-silo-layers-25},
-we see that
-there can be at most \var{k} distinct layers in
-\var{ss}.
-Since, by assumption for the reductio, the length
-of \var{ss} was \Vincr{k},
-that means there must be
-\Vel{slo}{b} and \Vel{slo}{c}
-such that
-\begin{equation}
-\label{consecutive-incomplete-silo-layers-28}
-\Vel{slo}{b} = \Vel{slo}{c} \; \land \; \var{b} \neq \var{c}.
-\end{equation}
-But, by Theorem
-\ref{t:silo-layer-unique},
-\eqref{consecutive-incomplete-silo-layers-28}
-is impossible, which shows the reductio.
 \end{proof}
 
 \chapter{Leo memos}
