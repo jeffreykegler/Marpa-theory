@@ -6456,7 +6456,7 @@ we see that
 of \Veim{ns}.
 
 \textbf{Reduction EIM}:
-Let \Veim{duct} be a reduction EIM,
+Let \Veim{duct} be a quasi-complete reduction EIM,
 let its top-down cause be \Veim{down}
 and let the EIM equivalent of
 its bottom-up cause be \Veim{up}.
@@ -6466,13 +6466,8 @@ we know that
 \label{eq:silo-causes-36a}
 \myparbox{
 the bottom-up cause of \Veim{duct} is
-a completion,
-and is therefore quasi-complete;
-} \\
-\label{eq:silo-causes-36b}
-\myparbox{
-\Veim{duct} has an EIM equivalent,
-and
+a complete EIM,
+and is therefore a quasi-complete EIM;
 } \\
 \label{eq:silo-causes-36c}
 \myparbox{
@@ -6480,8 +6475,7 @@ $\Right{\Veim{up}} = \Right{\Veim{duct}}.$
 }
 \end{gather}
 From
-\eqref{eq:silo-causes-36a},
-\eqref{eq:silo-causes-36b}
+\eqref{eq:silo-causes-36a}
 and
 \eqref{eq:silo-causes-36c},
 we see that
@@ -6494,9 +6488,9 @@ From Theorem
 we know that
 \begin{gather}
 \notag
-\Right{\Veim{down}} < \decr{\Right{\Veim{rd}}} \\
+\Right{\Veim{down}} < \Right{\Veim{rd}} \\
 \label{eq:silo-causes-40}
-\therefore \; \Right{\Veim{down}} \neq \decr{\Right{\Veim{rd}}}
+\therefore \; \Right{\Veim{down}} \neq \Right{\Veim{rd}}
 \end{gather}
 \eqref{eq:silo-causes-40} shows that \Veim{down}
 cannot be a silo cause of \Veim{rd}.
@@ -6509,7 +6503,7 @@ and therefore can never be a silo layer.
 \textbf{Start EIM}:
 By its definition, the start EIM has a telluric
 symbol in its dot suffix,
-and therefire is not quasi-complete.
+and therefore is not quasi-complete.
 For this reason,
 the start EIM is never a silo layer.
 \end{proof}
@@ -7634,60 +7628,98 @@ Then
 \end{theorem}
 
 \begin{proof}
-By the assumption for the theorem, \el{slo}{0} is quasi-complete.
-This this,
-Theorem
-\ref{t:iterative-completion-from-null-scan-cause},
-(in particular
+Requirement of the theorem
+\eqref{eq:quasi-completion-silo-5}
+follows from
+\begin{itemize}
+\item
+the assumption for the theorem that \el{slo}{0} is quasi-complete;
+\item
 \eqref{eq:iterative-completion-from-null-scan-cause-13},
 \eqref{eq:iterative-completion-from-null-scan-cause-16}
 and
-\eqref{eq:iterative-completion-from-null-scan-cause-20})
-and the definition of a silo,
-we have
-\eqref{eq:quasi-completion-silo-5}.
+\eqref{eq:iterative-completion-from-null-scan-cause-20}
+of Theorem
+\ref{t:iterative-completion-from-null-scan-cause};
+and
+\item
+the definition of a silo;
+\end{itemize}
+
+For the remaining requirements,
+\begin{itemize}
+\item
 Requirement
 \eqref{eq:quasi-completion-silo-9}
 of this theorem follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-9}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause}.
+\item
 Requirement
 \eqref{eq:quasi-completion-silo-10}
 follows from
-\eqref{eq:iterative-completion-from-null-scan-cause-10};
+\eqref{eq:iterative-completion-from-null-scan-cause-10}
+of Theorem
+\ref{t:iterative-completion-from-null-scan-cause};
+\item
+Requirement
 \eqref{eq:quasi-completion-silo-12}
-from
-\eqref{eq:iterative-completion-from-null-scan-cause-12};
+follows from
+\eqref{eq:iterative-completion-from-null-scan-cause-12}
+of Theorem
+\ref{t:iterative-completion-from-null-scan-cause};
+\item
+Requirement
 \eqref{eq:quasi-completion-silo-13}
-from
-\eqref{eq:iterative-completion-from-null-scan-cause-13};
+follows from
+\eqref{eq:iterative-completion-from-null-scan-cause-13}
+of Theorem
+\ref{t:iterative-completion-from-null-scan-cause};
+\item
+Requirement
 \eqref{eq:quasi-completion-silo-14}
-from
-\eqref{eq:iterative-completion-from-null-scan-cause-14};
+follows from
+\eqref{eq:iterative-completion-from-null-scan-cause-14}
+of Theorem
+\ref{t:iterative-completion-from-null-scan-cause};
+\item
+Requirement
 \eqref{eq:quasi-completion-silo-16}
-from
-\eqref{eq:iterative-completion-from-null-scan-cause-16};
+follows from
+\eqref{eq:iterative-completion-from-null-scan-cause-16}
+of Theorem
+\ref{t:iterative-completion-from-null-scan-cause};
+\item
+Requirement
 \eqref{eq:quasi-completion-silo-18}
-from
-\eqref{eq:iterative-completion-from-null-scan-cause-18};
-and
+follows from
+\eqref{eq:iterative-completion-from-null-scan-cause-18}
+of Theorem
+\ref{t:iterative-completion-from-null-scan-cause};
+\item
+Requirement
 \eqref{eq:quasi-completion-silo-20}
-from
-\eqref{eq:iterative-completion-from-null-scan-cause-20}.
-and
-
-To show
-\eqref{eq:quasi-completion-silo-21},
-we use
+follows from
+\eqref{eq:iterative-completion-from-null-scan-cause-20}
+of Theorem
+\ref{t:iterative-completion-from-null-scan-cause};
+\item
+Requirement
+\eqref{eq:quasi-completion-silo-21} follows from
 \eqref{eq:quasi-completion-silo-13},
 \eqref{eq:quasi-completion-silo-16}
 and
-\eqref{eq:quasi-completion-silo-20}.
+\eqref{eq:quasi-completion-silo-20};
+\item
 Requirement
 \eqref{eq:quasi-completion-silo-22}
 follows from
-\eqref{eq:iterative-completion-from-null-scan-cause-22}.
+\eqref{eq:iterative-completion-from-null-scan-cause-22}
+of Theorem
+\ref{t:iterative-completion-from-null-scan-cause}.
+\qedhere
+\end{itemize}
 \end{proof}
 
 \chapter{Leo memos}
