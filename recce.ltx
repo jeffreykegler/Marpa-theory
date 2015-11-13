@@ -143,9 +143,12 @@
 \newcommand{\Vmkr}[1]{\mkdelim \Vmk{#1}}
 \newcommand{\Vmkm}[1]{\mkdelim \Vmk{#1} \mkdelim}
 
-\newcommand{\firstix}[1]{\ensuremath{\lfloor{#1}\rfloor}}
-\newcommand{\Vfirstix}[1]{\firstix{\var{#1}}}
-\newcommand{\lastix}[1]{\ensuremath{\#{#1}}}
+\newcommand{\lastix}[1]{\ensuremath{
+% I want a hash sign to be a 'last index' operator, but
+% the regular hash sign is ungainly and not resizeable.
+% This tames it a bit.
+	{\protect\scalebox{0.8}{\protect\raisebox{0.4ex}{\#}}{#1}}
+}}
 \newcommand{\Vlastix}[1]{\lastix{\var{#1}}}
 
 \newcommand{\alg}[1]{\ensuremath{\textsc{#1}}}
@@ -854,11 +857,11 @@ and
 ``definition'' as \dfn{Def}.
 
 Unless otherwise specified, the indexes
-of a sequence are consecutive integers.
+of a sequence are consecutive integers,
+starting with zero.
 Where \var{seq} is a sequence,
-we write \Vfirstix{seq}
-for its first index,
-and \Vlastix{seq}
+we write
+\Vlastix{seq}
 for its last index.
 
 \section{Grammars}
@@ -8109,17 +8112,6 @@ In this case,
 \end{equation*}
 \end{definition}
 
-% TODO: Prove top-down cause is unique?
-% \begin{theorem}
-% A Leo item has at most one top-down cause.
-% \end{theorem}
-%
-% \begin{proof}
-% Assume, for a reductio,
-% that \Vleo{l} is a Leo item,
-% and that it has two distinct causes.
-% \end{proof}
-
 In this document, we will want to allow for implementations which
 selectively omit valid Leo memos.
 We therefore will distinquish between
@@ -8130,6 +8122,126 @@ Leo memos.
 All instantiated Leo memos are valid.
 A valid Leo memo may or may not be instantiated,
 depending on the implementation.
+
+\begin{definition}
+\dtitle{Leo catena}
+A
+\dfn{Leo catena},
+also called simply a
+\dfn{catena},
+is a sequence of Leo memos,
+such that each element of the sequence
+is the top-down cause of the previous element.
+\end{definition}
+
+\begin{lemma}
+\label{lem:leo-catena-cycle}
+In a Leo catena,
+no two elements with the same current location
+can have the same symbol.
+\end{lemma}
+
+\begin{proof}
+Let \Vleo{l1} be a Leo memo and
+let \Vleo{l2} be its top-down cause.
+its top-down cause.
+Assume for a reductio,
+\begin{gather}
+\label{eq:lem-leo-catena-cycle-10}
+\Current{\Vleo{l1}} = \Current{\Vleo{l2}} \quad \text{and} \\
+\label{eq:lem-leo-catena-cycle-13}
+\Symbol{\Vleo{l1}} = \Symbol{\Vleo{l2}}
+\end{gather}
+so that, without loss of generality,
+\begin{gather}
+\label{eq:lem-leo-catena-cycle-16}
+\Vleo{l1} = [ \Vsym{B}, \Vdr{top}, \Vorig{top}, \Vloc{k} ] \\
+\label{eq:lem-leo-catena-cycle-19}
+\Vleo{l2} = [ \Vsym{A}, \Vdr{top}, \Vorig{top}, \Vloc{k} ].
+\end{gather}
+From Theorem
+\ref{t:leo-basis-uniqueness},
+we know that \Vleo{l1} has a unique basis,
+call it \Veim{bas}.
+From the definition of the basis
+and the definition
+of the top-down cause of a Leo memo,
+we know that 
+\begin{gather}
+\label{eq:lem-leo-catena-cycle-22}
+\Symbol{\Vleo{l1}} = \Postdot{\Veim{bas}} = \Vsym{B} \\
+\label{eq:lem-leo-catena-cycle-25}
+\Current{\Vleo{l1}} = \Current{\Veim{bas}} \\
+\label{eq:lem-leo-catena-cycle-28}
+\Symbol{\Vleo{l2}} = \LHS{\Veim{bas}} = \Vsym{A} \quad \text{and} \\
+\label{eq:lem-leo-catena-cycle-31}
+\Current{\Vleo{l2}} = \Origin{\Veim{bas}}
+\end{gather}
+Useing
+\eqref{eq:lem-leo-catena-cycle-10},
+\eqref{eq:lem-leo-catena-cycle-25}
+and
+\eqref{eq:lem-leo-catena-cycle-31},
+we see that
+\begin{equation}
+\label{eq:lem-leo-catena-cycle-33}
+\Origin{\Veim{bas}} = \Current{\Veim{bas}},
+\end {equation}
+so that \Veim{bas} is a quasi-prediction.
+By the definition of the basis of a Leo memo,
+\Veim{bas} is quasi-complete,
+and combining
+that observation with
+\eqref{eq:lem-leo-catena-cycle-22},
+\eqref{eq:lem-leo-catena-cycle-28}
+and
+\eqref{eq:lem-leo-catena-cycle-33},
+we see that \Rule{\Veim{bas}}
+\begin{equation}
+\label{eq:lem-leo-catena-cycle-36}
+\Rule{\Veim{bas}} = [ \Vsym{A} \de \Vstr{nul1} \Vsym{B} \Vstr{nul2} ]
+\end{equation}
+where $\Vstr{nul1} = \Vstr{nul1} = \epsilon$.
+
+Let \var{cat} be a Leo catena.
+Since the choice of \Vleo{l1} and \Vleo{l2}
+was without loss of generality, we see from
+\eqref{eq:lem-leo-catena-cycle-36}
+that, for every
+\var{a} in \var{cat},
+\begin{equation}
+\label{eq:lem-leo-catena-cycle-39}
+\Symbol{\Vel{cat}{a}} \xderives{1} \Vstr{nul1} \Cat \Symbol{\Vel{cat}{\Vincr{a}}} \Cat \Vstr{nul2}
+\end{equation}
+for some \Vstr{nul1}, \Vstr{nul2}
+such that $\Vstr{nul1} = \Vstr{nul2} = \epsilon$, so that
+\begin{equation}
+\label{eq:lem-leo-catena-cycle-42}
+\Symbol{\Vel{cat}{a}} \xderives{1} \Symbol{\Vel{cat}{\Vincr{a}}}.
+\end{equation}
+
+From the definition of the basis
+and the definition
+of the top-down cause of a Leo memo,
+we know
+for all \var{a},
+\begin{gather*}
+\label{eq:lem-leo-catena-cycle-45}
+\Current{\Vel{cat}{a}} = \Current{\Veim{a-bas}} \\
+\label{eq:lem-leo-catena-cycle-48}
+\Current{\el{cat}{\Vincr{a}}} = \Origin{\Veim{a-bas}}
+\end{gather*}
+where \Veim{a-bas} is the basis of \Vel{cat}{a},
+so that
+\begin{equation}
+\myparbox{
+the current location of the Leo memos
+in a catena is non-decreasing.
+}
+\end{equation}
+
+TODO
+\end{proof}
 
 \begin{definition}
 \dtitle{Matching Leo item}
@@ -8951,7 +9063,7 @@ that are
 That is, if \var{slo} is a Leo silo,
 Let the Leo item be
 \begin{equation}
-  \forall \; \var{a} : \Vfirstix{slo} < \var{a} < \Vlastix{slo}
+  \forall \; \var{a} : 0 < \var{a} < \Vlastix{slo}
   \implies \Memoable{\Vel{slo}{a}}.
 \end{equation}
 Unless stated otherwise,
