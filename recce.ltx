@@ -7894,7 +7894,8 @@ used to define which silo layers will be memoized.
 
 \DR{\Vleo{leo}} must be a completion.
 Since a completion is uniquely determined by a rule,
-that element of the Leo memos could be represented by
+\DR{\Vleo{leo}}
+could be represented by
 a rule, instead of a dotted rule.
 We will find working with the dotted rule
 more convenient.
@@ -7955,7 +7956,7 @@ while the costs of Leo memoization are
 quite manageable,
 they do exist,
 so that it makes sense to
-target Leo memoization carefully.
+target Leo memoization.
 If all penults are memoized,
 many memoizations will be performed where
 the longest potential Leo sequence is short,
@@ -7997,15 +7998,51 @@ and that \Vleo{eff} is the
 of \Veim{basis}.
 \end{definition}
 
+\begin{theorem}
+\ttitle{Leo basis uniqueness}
+\label{t:leo-basis-uniqueness}
+The basis of a Leo memo is unique.
+\end{theorem}
+
+\begin{proof}
+Let \Vleo{l} be a Leo memo.
+Assume, for a reductio,
+that \Vleo{l} has two distinct basis EIM's.
+Call these EIM's, \Veim{b1} and \Veim{b2}.
+Then by the definition of the basis of a Leo memo,
+\Veim{b1} and \Veim{b2}.
+will be at the same location, \Current{\Vleo{l}},
+and will have the same postdot symbol, \Symbol{\Vleo{l}}.
+But then,
+by the definition of postdot-unique,
+neither
+\Veim{b1} or \Veim{b2}
+will be postdot-unique.
+If \Veim{b1} is not postdot-unique,
+it is not Leo-eligible.
+If \Veim{b1} is not Leo-eligible,
+it cannot, by the definition of the basis
+of a Leo memo, be the basis of a Leo memo.
+This contradicts the assumption for the reductio,
+and shows the reductio and the theorem.
+\end{proof}
+
 \begin{definition}
 \label{def:down-cause-of-leo-item}
 \dtitle{Top-down cause of an Leo item}
 Let
+and \Vleo{eff} be a Leo memo
 \begin{equation*}
 \Veim{basis} = [ \Vdr{basis}, \Vloc{i}, \Vloc{j} ]
 \end{equation*}
-be the basis of a Leo item, call it \Vleo{eff}.
-If there is a Leo item of the form
+be an EIM, and let
+\begin{equation}
+\label{eq:def-basis-of-leo-item-10}
+  \Vleo{eff} = [ \Vsym{trans}, \Vdr{tbd}, \Vorig{tbd}, \Vloc{j} ]
+\end{equation}
+be a Leo item,
+where \Veim{basis} is the basis of \Vleo{eff}.
+If there is a second Leo item
 \begin{equation*}
 \Vleo{down} = [ \LHS{\Vdr{basis}}, \Vdr{td-top}, \Vorig{td-top}, \Vloc{i} ],
 \end{equation*}
@@ -8024,24 +8061,25 @@ then we say that \Vleo{eff} has no
 top-down cause.
 \end{definition}
 
-% TODO: Prove top-down cause is unique?
-
 \begin{definition}
 \label{def:validity-of-leo-item}
 \dtitle{Validity of an Leo item}
-Let \Vleo{eff} be a Leo item.
+Let \Vleo{eff} be a Leo item,
+and let \Veim{basis} be a valid EIM
+which is the basis of \Vleo{eff}.
 \Vleo{eff} is
 \xdfn{valid}{valid (Leo item)}
 if and only if
-it falls into one to
-two cases.
+it falls into one of
+two cases,
+based on whether or not \Veim{eff}
+has a top-down cause.
 
 \textbf{Case 1}:
 In the first case,
-\Vleo{eff} has a
-a valid basis, call it \Veim{basis},
-top-down cause,
-call it \Vleo{down}.
+let \Vleo{eff} have
+a top-down cause,
+and let that top-down cause be \Vleo{down}.
 In this case,
 \Vleo{eff} is valid if and only if
 \begin{equation*}
@@ -8055,9 +8093,8 @@ In this case,
 
 \textbf{Case 2}:
 In the second case,
-\Vleo{eff} has a
-a valid basis, call it \Veim{basis},
-and has no top-down cause.
+let there be no
+top-down cause for \Vleo{eff}.
 In this case,
 \Vleo{eff} is valid if and only if
 \begin{equation*}
@@ -8069,10 +8106,18 @@ In this case,
   \end{gathered}
 \right].
 \end{equation*}
-
-Note that, in either case,
-\Vleo{eff} has a valid basis.
 \end{definition}
+
+% TODO: Prove top-down cause is unique?
+% \begin{theorem}
+% A Leo item has at most one top-down cause.
+% \end{theorem}
+% 
+% \begin{proof}
+% Assume, for a reductio,
+% that \Vleo{l} is a Leo item,
+% and that it has two distinct causes.
+% \end{proof}
 
 In this document, we will want to allow for implementations which
 selectively omit valid Leo memos.
@@ -8141,7 +8186,9 @@ By the definition of right-recursive,
 To be right-recursive, \Vsym{trans}
 must be a non-terminal.
 By \eqref{eq:leo-transition-symbol-non-terminal-23},
-\Vsym{trans} is the transition symbol.
+\Vsym{trans} is the transition symbol,
+and therefore the transition symbol must be a
+non-terminal.
 
 It remains
 to show that $\Vsym{trans} \neq \Vsym{accept}$.
@@ -8268,18 +8315,10 @@ we see that
 \label{eq:lem-leo-memo-effect-32b}
 \text{\Veim{eff} is quasi-complete.}
 \end{gather}
-\Veim{eff} is the matching EIM of a Leo memo,
-so that, by the definition of an EIM matching a Leo
-memo, \Veim{eff} must be complete, and therefore
-\begin{equation}
-\label{eq:lem-leo-memo-effect-32c}
-\text{\Veim{eff} is quasi-complete.}
-\end{equation}
 From \eqref{eq:lem-leo-memo-effect-30a},
-\eqref{eq:lem-leo-memo-effect-32a},
-\eqref{eq:lem-leo-memo-effect-32b},
+\eqref{eq:lem-leo-memo-effect-32a}
 and
-\eqref{eq:lem-leo-memo-effect-32c}
+\eqref{eq:lem-leo-memo-effect-32b}
 we have
 requirement
 \eqref{eq:lem-leo-memo-effect-10a} of the
@@ -8304,9 +8343,10 @@ such that
 \end{gather*}
 So, by the definition of matching causes, \Veim{basis}
 is the only top-down cause matching \Veim{up}.
-Since an effect is completely determined by the symbolic equivalent
-of its bottom-up cause and its top-down cause, this
-gives us 
+By the definition of a confirmed effect's causes,
+a confirmed effect is completely determined by the symbolic equivalent
+of its bottom-up cause and its top-down cause.
+From this, we have
 Requirement
 \eqref{eq:lem-leo-memo-effect-13}
 of this theorem.
@@ -8328,11 +8368,10 @@ we know that
 	\big[ \Next{\DR{\Veim{basis}}}, \Origin{\Veim{basis}}, \Right{\Veim{up}} \big].
 \end{multline}
 Using
-\eqref{eq:lem-leo-memo-effect-20}
-and
-comparing
+\eqref{eq:lem-leo-memo-effect-20},
 \eqref{eq:lem-leo-memo-effect-30}
-\eqref{eq:lem-leo-memo-effect-35}
+and
+\eqref{eq:lem-leo-memo-effect-35},
 we see that
 \begin{equation}
 \Veim{eff} = \Vop{Leo-top}{\Vleo{leo}, \Right{\Veim{up}}}.
@@ -8342,8 +8381,8 @@ This shows our first case.
 In our second case,
 \Vleo{leo} has a top-down cause,
 call it \Vleo{cuz}.
-From the definition of a Leo memo's top-down
-cause,
+From the definition of ``matching''
+for a Leo memo and its basis,
 we know that
 \begin{equation}
 \label{eq:lem-leo-memo-effect-40}
@@ -8430,7 +8469,7 @@ and
 \end{equation}
 By the definition of a matching Leo memo,
 \eqref{eq:lem-leo-memo-of-incompletion-30}
-tells us the \Vleo{l} matches \Veim{cuz}
+tells us the \Vleo{l} matches \Veim{cuz}.
 \end{proof}
 
 \begin{theorem}
