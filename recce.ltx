@@ -181,6 +181,7 @@
 \newcommand{\PSL}[2]{\myfnname{PSL}[#1][#2]}
 \newcommand{\RHS}[1]{\ensuremath{\myfnname{RHS}(#1)}}
 \newcommand{\Right}[1]{\ensuremath{\myfnname{Right}(#1)}}
+\newcommand{\Rule}[1]{\ensuremath{\myfnname{Rule}(#1)}}
 \newcommand{\Symbol}[1]{\ensuremath{\myfnname{Symbol}(#1)}}
 \newcommand{\Valid}[1]{\ensuremath{\myfnname{Valid}(#1)}}
 
@@ -7730,7 +7731,7 @@ he discovered it in the course of writing up his
 discovery.
 Leo published his method in~\cite{Leo1991}.
 
-The problem both invesigators noticed was that,
+The problem both investigators noticed was that,
 while \Earley{} is \On{}
 for left recursion,
 and in fact very efficient,
@@ -7957,7 +7958,7 @@ while the costs of Leo memoization are
 quite manageable,
 they do exist,
 so that it makes sense to
-target Leo memoization.
+target Leo memoization carefully.
 If all penults are memoized,
 many memoizations will be performed where
 the longest potential Leo sequence is short,
@@ -8037,10 +8038,9 @@ and \Vleo{eff} be a Leo memo
 \Veim{basis} = [ \Vdr{basis}, \Vloc{i}, \Vloc{j} ]
 \end{equation*}
 be an EIM, and let
-\begin{equation}
-\label{eq:def-basis-of-leo-item-10}
+\begin{equation*}
   \Vleo{eff} = [ \Vsym{trans}, \Vdr{tbd}, \Vorig{tbd}, \Vloc{j} ]
-\end{equation}
+\end{equation*}
 be a Leo item,
 where \Veim{basis} is the basis of \Vleo{eff}.
 If there is a second Leo item
@@ -8564,10 +8564,6 @@ We take as the induction hypothesis
 \end{align}
 We take $\var{x} = 0$
 as the basis of our induction.
-For $\var{x} = 0$,
-we have
-\eqref{t:leo-silo-validity-25} from
-\eqref{t:leo-silo-validity-9},
 By assumption for the theorem,
 \Vleo{leo} is a Leo memo matching
 $\el{slo}{0} = \Veim{lb}$,
@@ -8869,6 +8865,77 @@ Lemma \ref{lem:leo-memo-effect}.
 This shows shows the final case of the induction
 step, and therefore the step, the induction
 and the theorem.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Leo silo right recursion}
+\label{t:leo-silo-rr}
+Every layer of a Leo silo, except the bottom layer, is right-recursive.
+\end{theorem}
+
+\begin{proof}
+We proceed by induction.
+We take as the induction hypothesis
+\begin{align}
+\label{t:leo-silo-rr-28}
+\tag{IND}
+0 < \var{x} \le \var{topix}
+& \implies \text{\Vel{slo}{x} is right recursive}
+\end{align}
+We take $\var{x} = 0$
+as the basis of our induction.
+For $\var{x} = 0$,
+we have
+\eqref{t:leo-silo-rr-28}
+vacuously.
+
+For the step of the induction, we assume
+\eqref{t:leo-silo-rr-28}
+for \var{x} = \var{i},
+to show
+\eqref{t:leo-silo-rr-28}
+for $\var{x} = \Vincr{i}$.
+Within the step, we proceed by cases.
+
+\textbf{Step case 1}: For the case where $\var{i} > \var{topix}$,
+we have
+\eqref{t:leo-silo-rr-28}
+vacuously.
+
+\textbf{Step case 2}: We next consider
+the case where $\var{i} \le \var{topix}$
+and \Vel{slo}{i} is incomplete.
+\eqref{eq:quasi-completion-silo-18}
+of
+Theorem
+\ref{t:quasi-completion-silo} tells us that
+\[
+  \Rule{\Vel{silo}{i}} = \Rule{\el{silo}{\Vincr{i}}}.
+\]
+Since the
+the rule of \Vel{silo}{i}
+is right recursive by assumption for the step,
+we have
+\eqref{t:leo-silo-rr-28}
+for $\var{x} = \Vincr{i}$
+in this case.
+
+\textbf{Step case 3}: Finally,
+we consider
+the case where $\var{i} \le \var{topix}$
+and \Vel{slo}{i} is complete.
+Since \Vel{slo}{i} is complete,
+Lemma \ref{lem:leo-memo-effect} applies,
+and we have
+\eqref{t:leo-silo-rr-28}
+of the induction hypothesis for this case
+from
+\eqref{eq:lem-leo-memo-effect-12}
+of
+Lemma \ref{lem:leo-memo-effect}.
+This shows shows the final case of the induction
+step, and therefore the step, the induction
+and theorem.
 \end{proof}
 \begin{definition}
 \dtitle{Memoable EIM's}
