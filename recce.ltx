@@ -3523,7 +3523,7 @@ Let \Vinst{symeq} be
 the parse instance of
 \eqref{eq:valid-symbolic-equivalent-from-eim-20},
 so that
-$\Vinst{symeq} 
+$\Vinst{symeq}
 = [\var{i}]\, \Vsym{up} \,[\var{j}].$
 From the definition of symbolic equivalent we
 see that
@@ -4209,7 +4209,7 @@ shows
 and the theorem.
 \end{proof}
 
-\section{Ethereal closures}
+\section{Ethereal closure}
 
 In the following definitions,
 $\langle \Veim{down}, \Veim{effect} \rangle$
@@ -4540,7 +4540,7 @@ such that if
 \end{equation*}
 then
 \begin{equation*}
-\Vop{ns}{i} = 
+\Vop{ns}{i} =
     {\myfnname{null-scan-op}^{\displaystyle (\var{i})}}(\Veim{x}).
 \end{equation*}
 By the definition of \myfnname{null-scan-op}, this means that if
@@ -4575,7 +4575,7 @@ Then every EIM in \var{ns} is
 valid.
 Also,
 for all \var{a}
-such that 
+such that
 $0 \le \var{a} \le \decr{\Vlastix{ns}}$,
 \Vel{ns}{a} is the top-down cause of
 \el{ns}{\Vincr{a}};
@@ -4663,7 +4663,7 @@ Then we have all of the following:
 By assumption for the theorem
 \var{ns} is the fleeting closure of \Veim{down}
 we have,
-using 
+using
 Theorem
 \ref{t:iterative-null-scan-from-down-cause},
 Requirements
@@ -4679,7 +4679,7 @@ we know that
 \begin{multline}
 \label{eq:iterative-completion-from-null-scan-cause-28}
 \el{ns}{0} = \Veim{down} \\
-\text{and} \quad 
+\text{and} \quad
 	\forall \; \var{a} : 0 \le \var{a} < (\xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}})
 \\
 \implies
@@ -4697,10 +4697,10 @@ From
 \eqref{eq:iterative-completion-from-null-scan-cause-28},
 we can see that
 \begin{gather*}
-\Vlastix{ns} = \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}, \quad 
+\Vlastix{ns} = \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}, \quad
 \text{so that}  \\
 \begin{aligned}
-\op{Dotix}{\var{ns}\big[\Vlastix{ns}\big]} 
+\op{Dotix}{\var{ns}\big[\Vlastix{ns}\big]}
 & = \var{lo} + (\decr{( \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}) }) + 1 \\
 & = \Vsize{\Vrule{r}}
 \end{aligned}
@@ -4761,7 +4761,7 @@ As we already noted, the layers of \var{ns} differ
 \textbf{only} in their dot index.
 There are at most
 distinct dot \incr{\Vsize{\Vrule{r}}} indexes.
-By 
+By
 \eqref{eq:iterative-completion-from-null-scan-cause-13},
 every layer is quasi-complete,
 so that,
@@ -6347,7 +6347,7 @@ which shows the theorem.
 We say that \Right{\Vel{sil}{0}}
 is the
 \xdfn{location}{location (of a silo)}.
-From Theorem 
+From Theorem
 \ref{t:silo-location}
 we know that the location of the silo will
 be the right locaiton of each of its layers.
@@ -7499,9 +7499,9 @@ Let,
 without loss of generality,
 \Veim{quasi} be a quasi-confirmed EIM.
 By the definition of silo,
-the sequence consisting only of 
+the sequence consisting only of
 \Veim{quasi} is a silo.
-It remains to show that 
+It remains to show that
 \Veim{quasi} has a silo of finite length
 whose bottom is a read EIM.
 
@@ -8112,7 +8112,7 @@ In this case,
 % \begin{theorem}
 % A Leo item has at most one top-down cause.
 % \end{theorem}
-% 
+%
 % \begin{proof}
 % Assume, for a reductio,
 % that \Vleo{l} is a Leo item,
@@ -8173,7 +8173,7 @@ where
 \label{eq:leo-transition-symbol-non-terminal-23}
 \text{and \Vsym{trans} is the transition symbol of the Leo memo.}
 \end{gather}
-By 
+By
 \eqref{eq:leo-transition-symbol-non-terminal-20},
 \Vrule{r} is Leo-eligible,
 and therefore \Vrule{r} must be right-recursive.
@@ -8306,7 +8306,7 @@ requirement
 \eqref{eq:lem-leo-memo-effect-10}
 of the theorem.
 
-From 
+From
 \eqref{eq:lem-leo-memo-effect-30},
 we see that
 \begin{gather}
@@ -8359,7 +8359,7 @@ we proceed by cases, based on whether
 or not \Vleo{leo} has a top-down cause.
 If \Vleo{leo} has no top-down cause,
 then, by the definition of Leo memo validity
-and the definition of 
+and the definition of
 \myfnname{Leo-top},
 we know that
 \begin{multline}
@@ -8392,7 +8392,7 @@ we know that
 \Current{\Vleo{cuz}} = \Origin{\Veim{basis}}.
 \end{gathered}
 \end{equation}
-From 
+From
 \eqref{eq:lem-leo-memo-effect-20}
 and
 \eqref{eq:lem-leo-memo-effect-30}
@@ -8487,7 +8487,7 @@ Then for every EIM equivalent of \Vinst{lb}, call it \Veim{lb},
 call it \var{slo}, whose bottom is \Veim{lb};}
 \\
 \label{t:leo-silo-validity-4}
-\myparbox{the top of \var{slo} is 
+\myparbox{the top of \var{slo} is
 \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}};}
 \\
 \label{t:leo-silo-validity-6}
@@ -8610,7 +8610,7 @@ vacuously.
 \textbf{Step case 2}: We next consider
 the case where $\var{i} \le \var{topix}$
 and \Vel{slo}{i} is incomplete.
-By assumption for the step 
+By assumption for the step
 \Vel{slo}{i} is a valid silo layer,
 and therefore a quasi-completion.
 Since
@@ -8618,7 +8618,7 @@ Since
 we can use
 \eqref{eq:quasi-completion-silo-14}
 of
-Theorem 
+Theorem
 \ref{t:quasi-completion-silo}
 tells us that
 \el{slo}{\Vincr{i}} is valid,
@@ -8627,12 +8627,12 @@ which shows
 
 \eqref{eq:quasi-completion-silo-18}
 of
-Theorem 
+Theorem
 \ref{t:quasi-completion-silo} tells us that
 the rule of \Vel{silo}{i}
-is the rule of 
+is the rule of
 the rule of \el{silo}{\Vincr{i}}.
-Since the 
+Since the
 the rule of \Vel{silo}{i}
 is right recursive by assumption for the step,
 we have
@@ -8643,7 +8643,7 @@ By assumption for the case,
 so that
 \eqref{eq:quasi-completion-silo-22}
 of
-Theorem 
+Theorem
 \ref{t:quasi-completion-silo} tells us that
 the unique effect of \Vel{silo}{i}
 is \el{silo}{\Vincr{i}}.
@@ -8726,7 +8726,7 @@ By Theorem
 and so that \var{mslo} must have a highest layer.
 Let the index of that highest layer be \var{maxix}.
 By assumption for the reductio,
-\var{mslo} 
+\var{mslo}
 does not contain
 \eqref{t:leo-silo-validity-36a}
 so that, in particular,
@@ -8748,18 +8748,18 @@ We consider two cases, based on whether
 Assume for the case that
 \Vel{mslo}{maxix} is incomplete.
 If
-\Vel{mslo}{maxix} is a 
+\Vel{mslo}{maxix} is a
 quasi-complete silo layer,
 by
 Theorem
 \ref{t:quasi-completion-silo},
 it is the bottom of some silo,
-call it \var{slo1}, such that 
+call it \var{slo1}, such that
 \begin{equation}
 \label{t:leo-silo-validity-40}
 \text{\el{slo1}{\Vlastix{slo1}} is a completion}
 \end{equation}
-Since 
+Since
 $\Vel{mslo}{maxix} = \el{slo1}{0}$ is the bottom
 of \var{slo1},
 we have
@@ -8823,7 +8823,7 @@ This contradiction shows this Case 1 of the reductio
 and the reductio.
 
 From the reductio, we see that \var{slo}
-must contain 
+must contain
 \eqref{t:leo-silo-validity-36a},
 the top item for \Vleo{leo}.
 This shows Requirement
@@ -9181,7 +9181,7 @@ will be valid and unmemoized.
 
 \begin{proof}
 Let \Vleo{leo} be a Leo item and
-\Veim{up} a valid EIM that 
+\Veim{up} a valid EIM that
 matches it.
 By Theorem \ref{t:leo-silo-validity}
 there is a valid silo with \Veim{up}
@@ -9310,7 +9310,7 @@ and read EIM's.
 
 In the cause of a reduction EIM,
 its silo causes are its bottom-up causes.
-From Definition 
+From Definition
 \ref{def:altitude} (``altitude cause''),
 we see that a reduction EIM's altitude causes
 are its bottom-up causes.
@@ -9318,7 +9318,7 @@ This shows theorem for reduction EIM's.
 
 In the cause of a null-scan EIM,
 its silo causes are its top-down causes.
-From Definition 
+From Definition
 \ref{def:altitude} (``altitude cause''),
 we see that a reduction EIM's altitude causes
 are its top-down causes.
@@ -9418,7 +9418,7 @@ and
 \eqref{eq:altitude-from-telluric-base-32},
 \begin{equation}
 \label{eq:altitude-from-telluric-base-33}
-\Veim{desc2} \in \el{eims}{\var{i}+1} 
+\Veim{desc2} \in \el{eims}{\var{i}+1}
 \implies
 \Alt{\var{desc2}} = \Alt{\var{desc1}}
 \end{equation}
@@ -9458,7 +9458,7 @@ such that
 \text{and} \quad \el{silo}{0} = \Veim{bot},
 \end{gather}
 where \Veim{bot} is a read EIM.
-By Theorem 
+By Theorem
 \ref{t:quasi-confirmed-eim-has-silo},
 there is at least one such silo.
 
@@ -12118,7 +12118,7 @@ Klaus Wich.
 \printindex{recce-algorithms}
 
 \clearpage
-\def\indexname{Index of theorems, and lemmas}
+\def\indexname{Index of theorems and lemmas}
 \printindex{recce-theorems}
 
 \clearpage
