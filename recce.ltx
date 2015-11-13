@@ -145,7 +145,7 @@
 
 \newcommand{\firstix}[1]{\ensuremath{\lfloor{#1}\rfloor}}
 \newcommand{\Vfirstix}[1]{\firstix{\var{#1}}}
-\newcommand{\lastix}[1]{\ensuremath{\lceil{#1}\rceil}}
+\newcommand{\lastix}[1]{\ensuremath{\#{#1}}}
 \newcommand{\Vlastix}[1]{\lastix{\var{#1}}}
 
 \newcommand{\alg}[1]{\ensuremath{\textsc{#1}}}
@@ -6346,11 +6346,12 @@ which shows the theorem.
 
 We say that \Right{\Vel{sil}{0}}
 is the
-\xdfn{location}{location (of a silo)}.
+\xdfn{location}{location (of a silo)}
+of the silo \var{sil}.
 From Theorem
 \ref{t:silo-location}
 we know that the location of the silo will
-be the right locaiton of each of its layers.
+be the right location of each of its layers.
 We also write the
 location of silo \var{sil}
 as \Right{\var{sil}}.%
@@ -8472,6 +8473,22 @@ By the definition of a matching Leo memo,
 tells us the \Vleo{l} matches \Veim{cuz}.
 \end{proof}
 
+\begin{definition}
+\dtitle{Leo silo}
+Let \Vleo{l} be a Leo memo.
+A
+\dfn{Leo silo}
+is a silo whose bottom is the matching bottom
+of \Vleo{l},
+and whose top is
+\[
+\op{Leo-top}{\Vleo{leo}, \Vloc{i}},
+\]
+where
+\Vloc{i} is the location
+of the silo.
+\end{definition}
+
 \begin{theorem}
 \ttitle{Leo silo validity}
 \label{t:leo-silo-validity}
@@ -8481,54 +8498,47 @@ Let
 \end{equation*}
 be an instantiated Leo memo and \Vinst{lb} a valid matching bottom.
 Then for every EIM equivalent of \Vinst{lb}, call it \Veim{lb},
-\begin{gather}
-\label{t:leo-silo-validity-2}
-\myparbox{there is a silo,
-call it \var{slo}, whose bottom is \Veim{lb};}
-\\
-\label{t:leo-silo-validity-4}
-\myparbox{the top of \var{slo} is
-\op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}};}
-\\
-\label{t:leo-silo-validity-6}
-\myparbox{every layer of \var{slo} above the bottom is right-recursive; and}
-\\
-\label{t:leo-silo-validity-8}
-\myparbox{every layer of \var{slo} below the top has exactly one effect.}
-\end{gather}
+there is a Leo silo at \Current{\Veim{lb}}.
 \end{theorem}
 
 \begin{proof}
-Theorems
-\ref{t:eim-equivalent-from-non-terminal}
-and
-\ref{t:leo-transition-symbol-non-terminal}
-guarantee that
-\Vinst{lb} has at least one valid EIM equivalent,
-call it \Veim{lb},
-such that
+To show the theorem,
+we first show that there is at least one silo
+at \Current{\Veim{lb}}
+whose bottom is \Veim{lb}.
+The sequence of
+of length 1 and which contains only \Veim{lb}
+is, by the definition of silo
+and silo location,
+a silo at \Current{\Veim{lb}}.
+So there is at least one silo
+at \Current{\Veim{lb}}
+where \Veim{lb} is its bottom layer.
+
+To show that at least one of these silos is a Leo silo,
+we assume, without loss of generality,
+that \var{slo} is a silo
+where
 \begin{equation}
-\label{t:leo-silo-validity-9}
-\Valid{\Veim{lb}}
+\el{slo}{0} = \Veim{lb}.
 \end{equation}
+By the definition of silo location,
+the location of \var{slo} is
+\Current{\Veim{lb}}.
 
-As an EIM equivalent,
-\Veim{lb} is complete,
-and therefore quasi-complete,
-so that,
-by the definition of a silo,
-it is in a silo,
-if only the trivial silo containing just itself.
-This shows
-\eqref{t:leo-silo-validity-2}.
-
+To complete the proof,
+we need to show that
+\begin{equation}
+\el{slo}{\Vlastix{slo}} =
+\op{Leo-top}{\Vleo{leo}, \Current{\Veim{lb}}}.
+\end{equation}
 Let
 \var{topix} and \Veim{top} be
 such that
 \begin{equation}
 \Veim{top} = \Vel{slo}{topix} = \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}
 \end{equation}
-We need to ensure that our notation
+We must be careful to ensure that our notation
 does not assume that \Veim{top} is a layer of
 \var{slo},
 since we have yet to prove this.
@@ -8537,55 +8547,42 @@ we say \var{topix} is undefined
 and that, for every integer \var{i},
 $\var{i} < \var{topix}$.
 
-We next proceed by finite induction.
+We proceed by finite induction.
 We take as the induction hypothesis
 \begin{align}
 \label{t:leo-silo-validity-25}
 \tag{IND1}
 0 \le \var{x} \le \var{topix}
 & \implies \Valid{\Vel{slo}{x}}
-\\
-\label{t:leo-silo-validity-28}
-\tag{IND2}
-0 < \var{x} \le \var{topix}
-& \implies \text{\Vel{slo}{x} is right recursive}
-\\
-\label{t:leo-silo-validity-31}
-\tag{IND3}
-0 < \var{x} \le \var{topix}
-& \implies
-\begin{multlined}
-\text{\Vel{slo}{x} is the unique effect} \\
-\text{of \el{slo}{\Vdecr{x}}, and}
-\end{multlined}
+\quad \text{and}
 \\
 \label{t:leo-silo-validity-32}
-\tag{IND4}
+\tag{IND2}
 0 \le \var{x} < \var{topix}
 & \implies
 \text{\Vel{slo}{x} has a matching Leo memo}
 \end{align}
+We take $\var{x} = 0$
+as the basis of our induction.
 For $\var{x} = 0$,
 we have
 \eqref{t:leo-silo-validity-25} from
 \eqref{t:leo-silo-validity-9},
-and we have
-\eqref{t:leo-silo-validity-28}
-and
-\eqref{t:leo-silo-validity-31}
-vacuously.
 By assumption for the theorem,
 \Vleo{leo} is a Leo memo matching
 $\el{slo}{0} = \Veim{lb}$,
-which gives us
-\eqref{t:leo-silo-validity-32}.
-We take $\var{x} = 0$
-as the basis of our induction.
+and 
+\Veim{lb} is valid.
+This gives us
+\eqref{t:leo-silo-validity-25}
+and
+\eqref{t:leo-silo-validity-32}
+for
+$\var{x} = 0$,
+and the basis of our induction.
 
 For the step of the induction, we assume
-\eqref{t:leo-silo-validity-25},
-\eqref{t:leo-silo-validity-28},
-\eqref{t:leo-silo-validity-31}
+\eqref{t:leo-silo-validity-25}
 and
 \eqref{t:leo-silo-validity-32}
 for \var{x} = \var{i},
@@ -8593,9 +8590,7 @@ to show
 \begin{equation}
 \label{t:leo-silo-validity-34}
 \tag{STEP}
-\text{\eqref{t:leo-silo-validity-25},
-\eqref{t:leo-silo-validity-28},
-\eqref{t:leo-silo-validity-31}
+\text{\eqref{t:leo-silo-validity-25}
 and
 \eqref{t:leo-silo-validity-32}
 for $\var{x} = \Vincr{i}$.}
@@ -8623,33 +8618,9 @@ Theorem
 tells us that
 \el{slo}{\Vincr{i}} is valid,
 which shows
-\eqref{t:leo-silo-validity-25}.
-
-\eqref{eq:quasi-completion-silo-18}
-of
-Theorem
-\ref{t:quasi-completion-silo} tells us that
-the rule of \Vel{silo}{i}
-is the rule of
-the rule of \el{silo}{\Vincr{i}}.
-Since the
-the rule of \Vel{silo}{i}
-is right recursive by assumption for the step,
-we have
-\eqref{t:leo-silo-validity-28}.
-
-By assumption for the case,
-\Vel{slo}{i} is not complete,
-so that
-\eqref{eq:quasi-completion-silo-22}
-of
-Theorem
-\ref{t:quasi-completion-silo} tells us that
-the unique effect of \Vel{silo}{i}
-is \el{silo}{\Vincr{i}}.
-This shows
-\eqref{t:leo-silo-validity-31}
-for this case.
+\eqref{t:leo-silo-validity-25}
+for $\var{x} = \Vincr{i}$
+in this case.
 
 Again,
 by assumption for the case
@@ -8664,7 +8635,9 @@ Using these facts and Lemma
 \ref{lem:leo-memo-of-incompletion},
 we have
 \eqref{t:leo-silo-validity-32}
-This shows the step, for this case.
+for $\var{x} = \Vincr{i}$
+in this case.
+This shows the step for this case.
 
 \textbf{Step case 3}: Finally,
 we consider
@@ -8673,35 +8646,31 @@ and \Vel{slo}{i} is complete.
 Since \Vel{slo}{i} is complete,
 Lemma \ref{lem:leo-memo-effect} applies,
 and we have
-\eqref{t:leo-silo-validity-25},
-\eqref{t:leo-silo-validity-28},
-\eqref{t:leo-silo-validity-31}
+\eqref{t:leo-silo-validity-25}
 and
 \eqref{t:leo-silo-validity-32}
-of the induction hypothesis for this case
+for $\var{x} = \Vincr{i}$
+in this case
 from
-\eqref{eq:lem-leo-memo-effect-10},
-\eqref{eq:lem-leo-memo-effect-12},
-\eqref{eq:lem-leo-memo-effect-13}
+\eqref{eq:lem-leo-memo-effect-10}
 and
 \eqref{eq:lem-leo-memo-effect-14}
 of
 Lemma \ref{lem:leo-memo-effect}.
 This shows shows the final case of the induction
 step, and therefore the step and the induction.
-
-The induction shows Requirements
-\eqref{t:leo-silo-validity-6}
-and
-\eqref{t:leo-silo-validity-8}
-of the theorem
-and
-\begin{equation}
+The induction shows
+\begin{gather}
+\label{t:leo-silo-validity-35}
+\forall \var{x} : 0 \le \var{x} \le \var{topix}
+\implies \Valid{\Vel{slo}{x}}
+\quad \text{and}
+\\
 \label{t:leo-silo-validity-36}
 \forall \var{x} : 0 \le \var{x} < \var{topix}
 \implies
-\text{\Vel{slo}{x} has a matching Leo memo}
-\end{equation}
+\text{\Vel{slo}{x} has a matching Leo memo.}
+\end{gather}
 
 It remains to show that there is
 a \var{slo} such that one of its layers is
@@ -8709,9 +8678,6 @@ a \var{slo} such that one of its layers is
 \label{t:leo-silo-validity-36a}
 \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}.
 \end{equation}
-which is Requirement
-\eqref{t:leo-silo-validity-4}
-of the theorem.
 We assume, for a reductio, that there is no such silo.
 
 For the purpose of this proof, we will call a silo ``maximal''
@@ -8732,7 +8698,6 @@ does not contain
 so that, in particular,
 \begin{equation}
 \label{t:leo-silo-validity-37}
-\tag{RAA}
 \Vel{mslo}{maxix} \neq
 \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}.
 \end{equation}
@@ -8754,29 +8719,29 @@ by
 Theorem
 \ref{t:quasi-completion-silo},
 it is the bottom of some silo,
-call it \var{slo1}, such that
+call it \var{hislo}, such that
 \begin{equation}
 \label{t:leo-silo-validity-40}
-\text{\el{slo1}{\Vlastix{slo1}} is a completion}
+\text{\el{hislo}{\Vlastix{hislo}} is a completion}
 \end{equation}
 Since
-$\Vel{mslo}{maxix} = \el{slo1}{0}$ is the bottom
-of \var{slo1},
+$\Vel{mslo}{maxix} = \el{hislo}{0}$ is the bottom
+of \var{hislo},
 we have
 \begin{equation}
 \label{t:leo-silo-validity-42}
-\Vel{mslo}{maxix} \le \el{slo1}{\Vlastix{slo1}}.
+\Vel{mslo}{maxix} \le \el{hislo}{\Vlastix{hislo}}.
 \end{equation}
-\var{slo1} and \var{mslo} overlap in
-$\Vel{mslo}{maxix} = \el{slo1}{0}$,
-so we can compose them into a new silo, \var{slo2},
+\var{hislo} and \var{mslo} overlap in
+$\Vel{mslo}{maxix} = \el{hislo}{0}$,
+so we can compose them into a new silo, \var{nuslo},
 such that
 \begin{equation}
 \label{t:leo-silo-validity-43}
 \begin{gathered}
-\Vel{mslo}{maxix} = \el{slo1}{0} = \el{slo2}{\Vlastix{slo1}}
+\Vel{mslo}{maxix} = \el{hislo}{0} = \el{nuslo}{\Vlastix{mslo}}
 	\quad \text{and} \\
-\el{slo1}{\Vlastix{slo1}} = \el{slo2}{\Vlastix{slo2}}.
+\el{hislo}{\Vlastix{hislo}} = \el{nuslo}{\Vlastix{nuslo}}.
 \end{gathered}
 \end{equation}
 By assumption for the case \Vel{mslo}{maxix} is incomplete,
@@ -8785,7 +8750,7 @@ from \eqref{t:leo-silo-validity-40}
 we know that
 \begin{equation}
 \label{t:leo-silo-validity-46}
-\Vel{mslo}{maxix} \neq \el{slo1}{\Vlastix{slo1}}.
+\Vel{mslo}{maxix} \neq \el{hislo}{\Vlastix{hislo}}.
 \end{equation}
 From
 \eqref{t:leo-silo-validity-40}
@@ -8794,11 +8759,11 @@ and
 we see that
 \begin{equation}
 \label{t:leo-silo-validity-49}
-\Vel{mslo}{maxix} < \el{slo1}{\Vlastix{slo1}}.
+\Vel{mslo}{maxix} < \el{hislo}{\Vlastix{hislo}}.
 \end{equation}
 But, by assumption for the reductio,
 \Vel{mslo}{maxix} has no silo layer above it.
-This contradiction shows this Case 1 of the reductio.
+This contradiction shows Case 1 of the reductio.
 
 \textbf{Case 2}:
 Assume for the case that
@@ -8826,26 +8791,8 @@ From the reductio, we see that \var{slo}
 must contain
 \eqref{t:leo-silo-validity-36a},
 the top item for \Vleo{leo}.
-This shows Requirement
-\eqref{t:leo-silo-validity-4}
-and the theorem.
+This shows the theorem.
 \end{proof}
-
-\begin{definition}
-\dtitle{Leo silo}
-Let \Vleo{l} be a Leo memo.
-A
-\dfn{Leo silo}
-is a silo whose bottom is the matching bottom
-of \Vleo{l},
-and whose top is
-\[
-\op{Leo-top}{\Vleo{leo}, \Vloc{i}},
-\]
-where
-\Vloc{i} is the location
-of the silo.
-\end{definition}
 
 \begin{definition}
 \dtitle{Memoable EIM's}
