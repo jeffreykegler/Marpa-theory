@@ -8683,13 +8683,13 @@ We assume, for a reductio, that there is no such silo.
 For the purpose of this proof, we will call a silo ``maximal''
 if it is not a proper subsequence of any larger silo.
 Every silo has at least one maximal silo,
-though in the trivial case
+since in the trivial case
 a silo is its own maximal silo.
 Let a maximal silo of \var{slo} be \var{mslo}.
 By Theorem
 \ref{t:silo-finite}, any silo containing
 \Veim{lb} must be finite,
-and so that \var{mslo} must have a highest layer.
+so that \var{mslo} must have a highest layer.
 Let the index of that highest layer be \var{maxix}.
 By assumption for the reductio,
 \var{mslo}
@@ -8794,6 +8794,82 @@ the top item for \Vleo{leo}.
 This shows the theorem.
 \end{proof}
 
+\begin{theorem}
+\ttitle{Leo silo effects are unique}
+\label{t:leo-silo-uniq-effect}
+Every layer of a Leo silo, except the top layer,
+has exactly one effect.
+\end{theorem}
+
+\begin{proof}
+We proceed by induction.
+We take as the induction hypothesis
+\begin{equation}
+\label{t:leo-silo-uniq-effect-31}
+\tag{IND}
+\begin{alignedat}{1}
+& 0 < \var{x} \le \var{topix} \\
+& \qquad \implies
+\text{\Vel{slo}{x} is the unique effect
+  of \el{slo}{\Vdecr{x}}}
+\end{alignedat}
+\end{equation}
+We take $\var{x} = 0$
+as the basis of our induction.
+For $\var{x} = 0$,
+we have
+\eqref{t:leo-silo-uniq-effect-31}
+vacuously.
+
+For the step of the induction, we assume
+\eqref{t:leo-silo-uniq-effect-31}
+for \var{x} = \var{i},
+to show
+\eqref{t:leo-silo-uniq-effect-31}
+for $\var{x} = \Vincr{i}$.
+Within the step, we proceed by cases.
+
+\textbf{Step case 1}: For the case where $\var{i} > \var{topix}$,
+we have
+\eqref{t:leo-silo-uniq-effect-31}
+for $\var{x} = \Vincr{i}$
+vacuously.
+
+\textbf{Step case 2}: We next consider
+the case where $\var{i} \le \var{topix}$
+and \Vel{slo}{i} is incomplete.
+By assumption for the case,
+\Vel{slo}{i} is not complete,
+so that
+\eqref{eq:quasi-completion-silo-22}
+of
+Theorem
+\ref{t:quasi-completion-silo} tells us that
+the unique effect of \Vel{silo}{i}
+is \el{silo}{\Vincr{i}}.
+This shows
+\eqref{t:leo-silo-uniq-effect-31}
+for $\var{x} = \Vincr{i}$
+in this case.
+
+\textbf{Step case 3}: Finally,
+we consider
+the case where $\var{i} \le \var{topix}$
+and \Vel{slo}{i} is complete.
+Since \Vel{slo}{i} is complete,
+Lemma \ref{lem:leo-memo-effect} applies,
+and we have
+\eqref{t:leo-silo-uniq-effect-31}
+for $\var{x} = \Vincr{i}$
+in this case
+from
+\eqref{eq:lem-leo-memo-effect-13}
+of
+Lemma \ref{lem:leo-memo-effect}.
+This shows shows the final case of the induction
+step, and therefore the step, the induction
+and the theorem.
+\end{proof}
 \begin{definition}
 \dtitle{Memoable EIM's}
 If a layer of a Leo silo is not its
