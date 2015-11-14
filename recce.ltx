@@ -8562,6 +8562,68 @@ and \Vleo{cuz2} are distinct.
 So this gives us the reductio and the theorem.
 \end{proof}
 
+\begin{theorem}
+\label{t:leo-memo-uniqueness}
+Let \Vsym{A} be a symbol in a grammar
+and \Vloc{i} a location in a parse.
+There is at most one valid Leo memo with
+symbol \Vsym{A} at location \Vloc{i}.
+That is,
+\begin{multline}
+\forall \; \Vleo{l1}, \Vleo{l2} : \Valid{\Vleo{l1}} \; \land \; \Valid{\Vleo{l2}}
+\\
+\land \; \Current{\Vleo{l1}} = \Current{\Vleo{l2}}
+\\
+\implies \Symbol{\Vleo{l1}} \neq \Symbol{\Vleo{l2}}.
+\end{multline}
+\end{theorem}
+
+\begin{proof}
+From Theorem
+\ref{t:leo-down-uniqueness}
+we know that every Leo memo either has one top-down cause or
+none.
+Let \Vleo{eff} be a Leo memo,
+and \Vleo{cuz} its top-down cause.
+For the purposes of this proof,
+we define the function \myfnname{Depth} as follows
+\begin{equation*}
+\op{Depth}{\Veim{eff}} =
+\begin{cases}
+\text{0, if \Vleo{eff} has no top-down cause} \\
+\text{\op{Depth}{\Vleo{cuz}}+1, otherwise}
+\end{cases}
+\end{equation*}
+and we call \op{Depth}{\Vleo{l}} the ``depth'' of
+\Vleo{l}.
+
+Consider an arbitrary Leo memo, call it \Vleo{l}.
+The proof proceed by induction on the depth of \Vleo{l}.
+We take as our induction hypothesis that
+\begin{multline}
+\label{eq:leo-memo-uniqueness-15}
+\tag{IND}
+\text{For all valid Leo memos of depth \var{x},} \\
+\Current{\Vleo{l1}} = \Current{\Vleo{l2}} \\
+\implies \Symbol{\Vleo{l1}} \neq \Symbol{\Vleo{l2}}.
+\end{multline}
+
+\textbf{Basis of the induction}:
+We take 
+\eqref{eq:leo-memo-uniqueness-15}
+for $\var{x} = 0$ as the basis of our induction.
+By Theorem
+\ref{t:leo-basis-uniqueness},
+\Vleo{l}, has a unique basis EIM, call it \Veim{bas}.
+By assumption for the basis of the induction,
+\Vleo{l} has a depth of 0,
+and therefore \Vleo{l} has no top-down cause.
+By the definition of validity for a Leo memo,
+when a Leo memo has no top-down 
+its basis completely determines all four of its elements,
+
+TODO
+\end{proof}
 \section{Leo silos}
 
 Where \Vleo{leo} is a Leo memo,
