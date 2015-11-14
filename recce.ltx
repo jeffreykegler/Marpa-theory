@@ -8124,126 +8124,6 @@ A valid Leo memo may or may not be instantiated,
 depending on the implementation.
 
 \begin{definition}
-\dtitle{Leo catena}
-A
-\dfn{Leo catena},
-also called simply a
-\dfn{catena},
-is a sequence of Leo memos,
-such that each element of the sequence
-is the top-down cause of the previous element.
-\end{definition}
-
-\begin{lemma}
-\label{lem:leo-catena-cycle}
-In a Leo catena,
-no two elements with the same current location
-can have the same symbol.
-\end{lemma}
-
-\begin{proof}
-Let \Vleo{l1} be a Leo memo and
-let \Vleo{l2} be its top-down cause.
-its top-down cause.
-Assume for a reductio,
-\begin{gather}
-\label{eq:lem-leo-catena-cycle-10}
-\Current{\Vleo{l1}} = \Current{\Vleo{l2}} \quad \text{and} \\
-\label{eq:lem-leo-catena-cycle-13}
-\Symbol{\Vleo{l1}} = \Symbol{\Vleo{l2}}
-\end{gather}
-so that, without loss of generality,
-\begin{gather}
-\label{eq:lem-leo-catena-cycle-16}
-\Vleo{l1} = [ \Vsym{B}, \Vdr{top}, \Vorig{top}, \Vloc{k} ] \\
-\label{eq:lem-leo-catena-cycle-19}
-\Vleo{l2} = [ \Vsym{A}, \Vdr{top}, \Vorig{top}, \Vloc{k} ].
-\end{gather}
-From Theorem
-\ref{t:leo-basis-uniqueness},
-we know that \Vleo{l1} has a unique basis,
-call it \Veim{bas}.
-From the definition of the basis
-and the definition
-of the top-down cause of a Leo memo,
-we know that 
-\begin{gather}
-\label{eq:lem-leo-catena-cycle-22}
-\Symbol{\Vleo{l1}} = \Postdot{\Veim{bas}} = \Vsym{B} \\
-\label{eq:lem-leo-catena-cycle-25}
-\Current{\Vleo{l1}} = \Current{\Veim{bas}} \\
-\label{eq:lem-leo-catena-cycle-28}
-\Symbol{\Vleo{l2}} = \LHS{\Veim{bas}} = \Vsym{A} \quad \text{and} \\
-\label{eq:lem-leo-catena-cycle-31}
-\Current{\Vleo{l2}} = \Origin{\Veim{bas}}
-\end{gather}
-Useing
-\eqref{eq:lem-leo-catena-cycle-10},
-\eqref{eq:lem-leo-catena-cycle-25}
-and
-\eqref{eq:lem-leo-catena-cycle-31},
-we see that
-\begin{equation}
-\label{eq:lem-leo-catena-cycle-33}
-\Origin{\Veim{bas}} = \Current{\Veim{bas}},
-\end {equation}
-so that \Veim{bas} is a quasi-prediction.
-By the definition of the basis of a Leo memo,
-\Veim{bas} is quasi-complete,
-and combining
-that observation with
-\eqref{eq:lem-leo-catena-cycle-22},
-\eqref{eq:lem-leo-catena-cycle-28}
-and
-\eqref{eq:lem-leo-catena-cycle-33},
-we see that \Rule{\Veim{bas}}
-\begin{equation}
-\label{eq:lem-leo-catena-cycle-36}
-\Rule{\Veim{bas}} = [ \Vsym{A} \de \Vstr{nul1} \Vsym{B} \Vstr{nul2} ]
-\end{equation}
-where $\Vstr{nul1} = \Vstr{nul1} = \epsilon$.
-
-Let \var{cat} be a Leo catena.
-Since the choice of \Vleo{l1} and \Vleo{l2}
-was without loss of generality, we see from
-\eqref{eq:lem-leo-catena-cycle-36}
-that, for every
-\var{a} in \var{cat},
-\begin{equation}
-\label{eq:lem-leo-catena-cycle-39}
-\Symbol{\Vel{cat}{a}} \xderives{1} \Vstr{nul1} \Cat \Symbol{\Vel{cat}{\Vincr{a}}} \Cat \Vstr{nul2}
-\end{equation}
-for some \Vstr{nul1}, \Vstr{nul2}
-such that $\Vstr{nul1} = \Vstr{nul2} = \epsilon$, so that
-\begin{equation}
-\label{eq:lem-leo-catena-cycle-42}
-\Symbol{\Vel{cat}{a}} \xderives{1} \Symbol{\Vel{cat}{\Vincr{a}}}.
-\end{equation}
-
-From the definition of the basis
-and the definition
-of the top-down cause of a Leo memo,
-we know
-for all \var{a},
-\begin{gather*}
-\label{eq:lem-leo-catena-cycle-45}
-\Current{\Vel{cat}{a}} = \Current{\Veim{a-bas}} \\
-\label{eq:lem-leo-catena-cycle-48}
-\Current{\el{cat}{\Vincr{a}}} = \Origin{\Veim{a-bas}}
-\end{gather*}
-where \Veim{a-bas} is the basis of \Vel{cat}{a},
-so that
-\begin{equation}
-\myparbox{
-the current location of the Leo memos
-in a catena is non-decreasing.
-}
-\end{equation}
-
-TODO
-\end{proof}
-
-\begin{definition}
 \dtitle{Matching Leo item}
 A Leo memo, call it \Vleo{leo},
 and an EIM, call it \Veim{eim},
@@ -8312,6 +8192,171 @@ Using this fact and
 \eqref{eq:leo-transition-symbol-non-terminal-26},
 we see that
 $\Vsym{trans} \neq \Vsym{accept}$.
+\end{proof}
+
+\section{Leo catena}
+
+\begin{definition}
+\dtitle{Leo catena}
+A
+\dfn{Leo catena},
+also called simply a
+\dfn{catena},
+is a sequence of Leo memos,
+where each element of the sequence
+is the top-down cause of the previous element.
+\end{definition}
+
+\begin{lemma}
+\label{lem:leo-catena-non-increasing-location}
+The current location of the Leo memos in a Leo catena
+is non-increasing.
+\end{lemma}
+
+\begin{proof}
+Let \var{cat} be a catena.
+From the definition of the basis
+and the definition
+of the top-down cause of a Leo memo,
+we know
+for all \var{a},
+\begin{gather}
+\label{eq:lem-leo-catena-non-increasing-location-10}
+\Current{\Vel{cat}{a}} = \Current{\Veim{a-bas}} \\
+\label{eq:lem-leo-catena-non-increasing-location-12}
+\Current{\el{cat}{\Vincr{a}}} = \Origin{\Veim{a-bas}}
+\end{gather}
+where \Veim{a-bas} is the basis of \Vel{cat}{a}.
+From the definition of location in a parse,
+and the definition of an EIM,
+we know that
+\begin{equation}
+\label{eq:lem-leo-catena-non-increasing-location-20}
+\forall \; \Veim{x} : \Origin{\Veim{x}} \le \Current{\Veim{x}}
+\end{equation}
+The lemma follows from
+\eqref{eq:lem-leo-catena-non-increasing-location-10}
+and
+\eqref{eq:lem-leo-catena-non-increasing-location-20}.
+\end{proof}
+
+\begin{lemma}
+\label{lem:leo-catena-cycle}
+In a Leo catena,
+no two elements with the same current location
+can have the same symbol.
+\end{lemma}
+
+\begin{proof}
+Let \var{cat} be a catena.
+Assume, for a reductio, that
+\begin{gather}
+\label{eq:lem-leo-catena-cycle-5}
+\forall \; \var{x}, \var{y} : \Current{\Vel{cat}{x}} = \Current{\Vel{cat}{y}} \quad \text{and} \\
+\label{eq:lem-leo-catena-cycle-7}
+\exists \; \var{x}, \var{y} : \var{x} \neq \var{y} \; \land \; \Symbol{\Vel{cat}{x}} = \Symbol{\Vel{cat}{y}}
+\end{gather}
+Consider some choice of \var{a}
+which is such that
+$0 \le \var{a} < \Vlastix{cat}$,
+but which
+is otherwise arbitrary.
+
+By the definition of a catena,
+\el{cat}{\Vincr{a}}
+is the top-down cause
+of 
+\Vel{cat}{a}.
+From
+\eqref{eq:lem-leo-catena-cycle-5},
+an assumption for the reductio,
+we have
+\begin{equation}
+\label{eq:lem-leo-catena-cycle-10}
+\Current{\Vleo{l1}} = \Current{\Vleo{l2}}.
+\end{equation}
+From Theorem
+\ref{t:leo-basis-uniqueness},
+we know that \Vleo{l1} has a unique basis.
+Let \Veim{bas} be the basis of \Vleo{l1}.
+From the considerations in this paragraph,
+we can state,
+without loss of generality,
+that
+\begin{align}
+\label{eq:lem-leo-catena-cycle-16}
+& \begin{multlined}
+\Vel{cat}{a}= \\
+[ \Postdot{\Veim{bas}}, \Vdr{top}, \Vorig{top}, \Current{\Veim{bas}} ]
+\end{multlined} \\
+\label{eq:lem-leo-catena-cycle-19}
+& \begin{multlined}
+\text{and} \quad \el{cat}{\Vincr{a}}= \\
+[ \LHS{\Veim{bas}}, \Vdr{top}, \Vorig{top}, \Origin{\Veim{bas}} ].
+\end{multlined}
+\end{align}
+
+Using
+\eqref{eq:lem-leo-catena-cycle-10},
+\eqref{eq:lem-leo-catena-cycle-16}
+and
+\eqref{eq:lem-leo-catena-cycle-19},
+we see that
+\begin{equation}
+\label{eq:lem-leo-catena-cycle-33}
+\Origin{\Veim{bas}} = \Current{\Veim{bas}},
+\end {equation}
+so that \Veim{bas} is a quasi-prediction.
+By the definition of the basis of a Leo memo,
+\Veim{bas} is quasi-complete.
+Combining the observations in this paragraph
+with
+\eqref{eq:lem-leo-catena-cycle-16}
+and
+\eqref{eq:lem-leo-catena-cycle-19},
+we see that
+\begin{multline}
+\label{eq:lem-leo-catena-cycle-36}
+\Rule{\Veim{bas}} = [ \Vsym{A} \de \Vstr{nul1} \Vsym{B} \Vstr{nul2} ] \\
+\text{where $\el{cat}{\Vincr{a}} = \Vsym{A}$ and $\Vel{cat}{a} = \Vsym{B}$} \\
+\text{and $\Vstr{nul1} = \Vstr{nul1} = \epsilon$.}
+\end{multline}
+
+Since the choice of \var{a} was without loss of generality,
+we have that,
+for every \var{a} such that $0 \le \var{a} < \Vlastix{cat}$,
+there is some
+\Vstr{nul1} and some \Vstr{nul2}
+such that $\Vstr{nul1} = \Vstr{nul2} = \epsilon$,
+and
+\begin{equation}
+\label{eq:lem-leo-catena-cycle-39}
+\begin{aligned}
+\Symbol{\Vel{cat}{a}} & \derives \Vstr{nul1} \Cat \Symbol{\el{cat}{\Vincr{a}}} \Cat \Vstr{nul2} \\
+& \xderives{0} \Symbol{\el{cat}{\Vincr{a}}}.
+\end{aligned}
+\end{equation}
+
+From
+\eqref{eq:lem-leo-catena-cycle-39}, we see that
+for every \var{a} such that $0 \le \var{a} < \Vlastix{cat}$,
+\begin{equation}
+\label{eq:lem-leo-catena-cycle-42}
+\Symbol{\Vel{cat}{a}} \derives \Symbol{\el{cat}{\Vincr{a}}}.
+\end{equation}
+Combining
+\eqref{eq:lem-leo-catena-cycle-19}
+and
+\eqref{eq:lem-leo-catena-cycle-42},
+we have
+\begin{gather*}
+\exists \var{a}, \var{b} : \Symbol{\Vel{cat}{a}} \deplus \Symbol{\Vel{cat}{b}} \quad \text{and} \\
+ \Symbol{\Vel{cat}{a}} = \Symbol{\Vel{cat}{b}},
+\end{gather*}
+which is a cycle.
+Cycles are forbidden in Marpa grammars.
+This contradiction shows the reductio
+and the theorem.
 \end{proof}
 
 \section{Leo silos}
