@@ -8488,6 +8488,80 @@ From Theorem
 and the definition of \myfnname{Leo-top}.
 \end{proof}
 
+\begin{theorem}
+\ttitle{Leo top-down uniqueness}
+\label{t:leo-down-uniqueness}
+Every valid Leo memo has at most one top-down cause.
+\end{theorem}
+
+\begin{proof}
+Let
+\begin{equation}
+\label{eq:leo-down-uniqueness-10}
+\Vleo{eff} = [ \Vsym{sym}, \Vdr{dr}, \Vloc{orig}, \Vloc{curr} ]
+\end{equation}
+be a Leo memo.
+Assume, for a reductio,
+that \Vleo{eff} has two distinct top-down causes.
+Let these be
+\begin{gather}
+\label{eq:leo-down-uniqueness-13}
+\Vleo{cuz1} = [ \Vsym{sym1}, \Vdr{dr1}, \Vloc{orig1}, \Vloc{curr1} ] \quad \text{and} \\
+\label{eq:leo-down-uniqueness-16}
+\Vleo{cuz2} = [ \Vsym{sym2}, \Vdr{dr2}, \Vloc{orig2}, \Vloc{curr2} ].
+\end{gather}
+\Vleo{cuz1} and \Vleo{cuz2} are, by assumption for
+the reductio,
+top-down causes of \Vleo{eff}.
+By the definition of a catena, a Leo top-down cause is in
+the same catena as its effect,
+so that
+using
+Theorem \ref{t:catena-top-elements-identical},
+\eqref{eq:leo-down-uniqueness-10}
+\eqref{eq:leo-down-uniqueness-13}
+and
+\eqref{eq:leo-down-uniqueness-16},
+we have
+\begin{gather*}
+\Vdr{dr} = \Vdr{dr1} \; \land \; \Vdr{dr} = \Vdr{dr2} \quad \text{and} \\
+\Vloc{orig} = \Vloc{orig1} \; \land \; \Vloc{orig} = \Vloc{orig2}
+\end{gather*}
+and therefore
+\begin{equation}
+\label{eq:leo-down-uniqueness-20}
+\Vdr{dr1} = \Vdr{dr2} \; \land \; \Vloc{orig1} = \Vloc{orig2}.
+\end{equation}
+From Theorem
+\ref{t:leo-basis-uniqueness},
+we know that \Vleo{eff} has a unique basis,
+call it \Veim{bas}.
+and by the definition of a Leo top-down cause,
+we know that
+\begin{gather*}
+\LHS{\Veim{bas}} = \Vsym{sym1} \; \land \; \LHS{\Veim{bas}} = \Vsym{sym2} \quad \text{and} \\
+\Origin{\Veim{bas}} = \Vloc{curr1} \; \land \; \Origin{\Veim{bas}} = \Vloc{curr2}.
+\end{gather*}
+so that
+\begin{equation}
+\label{eq:leo-down-uniqueness-25}
+\Vsym{sym1} = \Vsym{sym2} \; \land \; \Vloc{curr1} = \Vloc{curr2}.
+\end{equation}
+From
+\eqref{eq:leo-down-uniqueness-13},
+\eqref{eq:leo-down-uniqueness-16},
+\eqref{eq:leo-down-uniqueness-20}
+and
+\eqref{eq:leo-down-uniqueness-25},
+we have
+\[
+\Vleo{cuz1} = \Vleo{cuz2}.
+\]
+But we assumed for the reductio that \Vleo{cuz1}
+and \Vleo{cuz2} are distinct.
+So this gives us the reductio and the theorem.
+\end{proof}
+
 \section{Leo silos}
 
 Where \Vleo{leo} is a Leo memo,
