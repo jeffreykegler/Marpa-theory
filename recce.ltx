@@ -8359,6 +8359,135 @@ This contradiction shows the reductio
 and the theorem.
 \end{proof}
 
+\begin{theorem}
+\ttitle{Leo catenas are finite}
+\label{t:leo-catenas-are-finite}
+Every Leo catena has a finite length.
+\end{theorem}
+
+\begin{proof}
+Let \var{cat} be a catena,
+and let $\Current{\el{cat}{0}} = \var{i}$.
+By Lemma
+\ref{lem:leo-catena-non-increasing-location},
+the location of the elements of \var{cat} is non-increasing,
+so that \var{cat} has elements at at most \Vincr{i} locations.
+
+By Lemma
+\ref{lem:leo-catena-cycle},
+if any two catena elements
+are distinct, but at a single location,
+they cannot share the same transition symbol.
+The number of symbols in a Marpa grammar is a fixed
+constant that depends on the grammar.
+Let the number of symbols in \Cg{} be \var{sym-cnt}.
+
+From the foregoing, we see that there are at most
+$(\Vincr{i}) \times \var{sym-cnt}$ elements in \var{cat}.
+Since the choice of \var{cat} was arbitrary,
+the theorem follows.
+\end{proof}
+
+\begin{theorem}
+\label{t:catena-top-elements-identical}
+In a catena, the dotted rule and origin elements
+of every element are the same.
+That is,
+\begin{multline*}
+\forall \; \var{a}, \var{b} : 0 \le \var{a} \le \Vlastix{cat}
+  \; \land \; 0 \le \var{b} \le \Vlastix{cat} \\
+\implies
+\DR{\Vel{cat}{a}} = \DR{\Vel{cat}{b}}
+\; \land \;
+\Origin{\Vel{cat}{a}} = \Origin{\Vel{cat}{b}}
+\end{multline*}
+\end{theorem}
+
+\begin{proof}
+Let \var{cat} be a Leo catena.
+The proof is by induction,
+where the induction hypothesis
+is
+\begin{equation}
+\tag{IND}
+\label{eq:catena-top-elements-identical-10}
+0 \le \var{x} < \Vlastix{cat} \implies
+\DR{\Vel{cat}{x}} = \DR{\el{cat}{0}}
+\; \land \;
+\Origin{\Vel{cat}{x}} = \Origin{\el{cat}{0}}.
+\end{equation}
+We have
+\eqref{eq:catena-top-elements-identical-10}
+vacuously for $\var{x} = 0$,
+and we take this as the basis of the induction.
+
+For the step
+we assume
+\eqref{eq:catena-top-elements-identical-10}
+for $\var{x} = \var{i}$,
+to show
+\eqref{eq:catena-top-elements-identical-10}
+for $\var{x} = \Vincr{i}$.
+
+If $\var{i} \ge \Vlastix{cat}$, we have the
+step vacuously.
+Otherwise,
+\el{cat}{\Vincr{i}} is the top-down cause of
+\Vel{cat}{i}.
+The assumption for the step is
+\begin{equation}
+\label{eq:catena-top-elements-identical-12}
+\DR{\Vel{cat}{i}} = \DR{\el{cat}{0}}
+\; \land \;
+\Origin{\Vel{cat}{i}} = \Origin{\el{cat}{0}}.
+\end{equation}
+By the definition of validity for a Leo memo,
+\begin{equation}
+\label{eq:catena-top-elements-identical-15}
+\begin{gathered}
+\DR{\Vel{cat}{i}} = \DR{\el{cat}{\Vincr{i}}} \\
+\land \;
+\Origin{\Vel{cat}{i}} = \Origin{\el{cat}{\Vincr{i}}}.
+\end{gathered}
+\end{equation}
+The step for the non-vacuous case follows from
+\eqref{eq:catena-top-elements-identical-12}
+and
+\eqref{eq:catena-top-elements-identical-15}.
+This shows the step and the induction.
+
+The induction shows that
+\begin{multline*}
+\forall \; \var{a} : 0 \le \var{a} \le \Vlastix{cat} \\
+\implies
+\DR{\Vel{cat}{a}} = \DR{\el{cat}{0}} \\
+\land \;
+\Origin{\Vel{cat}{a}} = \Origin{\Vel{cat}{0}},
+\end{multline*}
+and the theorem follows immediately.
+\end{proof}
+
+\begin{theorem}
+\label{t:catena-determines-leo-top}
+Given a specific choice of location,
+every element of a Leo catena has the same
+Leo top item.
+That is,
+\begin{multline*}
+\forall \; \var{a}, \var{b} \Vloc{i} : 0 \le \var{a} \le \Vlastix{cat}
+  \; \land \; 0 \le \var{b} \le \Vlastix{cat} \\
+\implies
+\op{Leo-top}{\Vel{cat}{a}, \Vloc{i}}
+= \op{Leo-top}{\Vel{cat}{b}, \Vloc{i}}
+\end{multline*}
+\end{theorem}
+
+\begin{proof}
+From Theorem
+\ref{t:catena-top-elements-identical}
+and the definition of \myfnname{Leo-top}.
+\end{proof}
+
 \section{Leo silos}
 
 Where \Vleo{leo} is a Leo memo,
