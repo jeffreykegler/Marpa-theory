@@ -8003,6 +8003,74 @@ and that \Vleo{eff} is the
 of \Veim{basis}.
 \end{definition}
 
+\begin{lemma}
+\label{t:leo-basis-symloc-uniqueness}
+Let
+\Vleo{l1}, \Vleo{l2}
+be two Leo memos 
+such that
+\begin{equation}
+\label{eq:leo-basis-symloc-uniqueness-10}
+\begin{gathered}
+\Current{\Vleo{l1}} = \Current{\Vleo{l2}} \\
+\; \land \; \Symbol{\Vleo{l1}} = \Symbol{\Vleo{l2}}.
+\end{gathered}
+\end{equation}
+Let \Veim{b1} be the EIM basis of \Vleo{l1} and
+let \Veim{b2} be the EIM basis of \Vleo{l2}.
+Then $\Veim{b1} = \Veim{b2}$.
+\end{lemma}
+
+\begin{proof}
+Assume, for a reductio,
+that
+\eqref{eq:leo-basis-symloc-uniqueness-10}
+holds, and
+that $\Veim{b1} \neq \Veim{b2}$.
+By the definition of the basis of a Leo memo,
+\begin{equation}
+\label{eq:leo-basis-symloc-uniqueness-16}
+\begin{gathered}
+\Current{\Veim{b1}} = \Current{\Vleo{l1}} \\
+\; \land \;
+\Postdot{\Veim{b1}} = \Symbol{\Vleo{l1}}
+\\
+\land \; \Current{\Veim{b2}} = \Current{\Vleo{l2}} \\
+\; \land \;
+\Postdot{\Veim{b2}} = \Symbol{\Vleo{l2}}
+\end{gathered}
+\end{equation}
+so that,
+using 
+\eqref{eq:leo-basis-symloc-uniqueness-10}
+we have
+\begin{equation}
+\label{eq:leo-basis-symloc-uniqueness-22}
+\begin{gathered}
+\Current{\Veim{b1}} = \Current{\Veim{b2}} \\
+\; \land \; \Postdot{\Veim{b1}} = \Postdot{\Vleo{b2}}.
+\end{gathered}
+\end{equation}
+
+But,
+in the light of
+\eqref{eq:leo-basis-symloc-uniqueness-22},
+if $\Veim{b1} \neq \Veim{b2}$,
+as we assumed for the reductio,
+then neither
+\Veim{b1} or \Veim{b2}
+will be postdot-unique
+according to the definition of postdot-unique.
+If \Veim{b1} is not postdot-unique,
+it is not Leo-eligible.
+If \Veim{b1} is not Leo-eligible,
+it cannot, by the definition of the basis
+of a Leo memo, be the basis of a Leo memo.
+So we must have
+$\Veim{b1} = \Veim{b2}$.
+This shows the reductio and the theorem.
+\end{proof}
+
 \begin{theorem}
 \ttitle{Leo basis uniqueness}
 \label{t:leo-basis-uniqueness}
@@ -8010,26 +8078,9 @@ The basis of a Leo memo is unique.
 \end{theorem}
 
 \begin{proof}
-Let \Vleo{l} be a Leo memo.
-Assume, for a reductio,
-that \Vleo{l} has two distinct basis EIM's.
-Call these EIM's, \Veim{b1} and \Veim{b2}.
-Then by the definition of the basis of a Leo memo,
-\Veim{b1} and \Veim{b2}.
-will be at the same location, \Current{\Vleo{l}},
-and will have the same postdot symbol, \Symbol{\Vleo{l}}.
-But then,
-by the definition of postdot-unique,
-neither
-\Veim{b1} or \Veim{b2}
-will be postdot-unique.
-If \Veim{b1} is not postdot-unique,
-it is not Leo-eligible.
-If \Veim{b1} is not Leo-eligible,
-it cannot, by the definition of the basis
-of a Leo memo, be the basis of a Leo memo.
-This contradicts the assumption for the reductio,
-and shows the reductio and the theorem.
+This theorem follows from
+Lemma
+\ref{t:leo-basis-symloc-uniqueness}.
 \end{proof}
 
 \begin{definition}
@@ -8612,6 +8663,14 @@ We take as our induction hypothesis that
 We take 
 \eqref{eq:leo-memo-uniqueness-15}
 for $\var{x} = 0$ as the basis of our induction.
+We assume, for a reductio, that there are two distinct
+Leo memos with depth 0,
+where
+\begin{equation}
+\label{eq:leo-memo-uniqueness-18}
+\Current{\Vleo{l1}} = \Current{\Vleo{l2}} \\
+\land \; \Symbol{\Vleo{l1}} = \Symbol{\Vleo{l2}}.
+\end{equation}
 By Theorem
 \ref{t:leo-basis-uniqueness},
 \Vleo{l}, has a unique basis EIM, call it \Veim{bas}.
