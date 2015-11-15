@@ -8004,7 +8004,7 @@ of \Veim{basis}.
 \end{definition}
 
 \begin{lemma}
-\label{t:leo-basis-symloc-uniqueness}
+\label{lem:leo-basis-symloc-uniqueness}
 Let
 \Vleo{l1}, \Vleo{l2}
 be two Leo memos 
@@ -8080,7 +8080,7 @@ The basis of a Leo memo is unique.
 \begin{proof}
 This theorem follows from
 Lemma
-\ref{t:leo-basis-symloc-uniqueness}.
+\ref{lem:leo-basis-symloc-uniqueness}.
 \end{proof}
 
 \begin{definition}
@@ -8440,18 +8440,20 @@ the theorem follows.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Leo catena elements share common dotted rule and origin}
 \label{t:catena-top-elements-identical}
 In a catena, the dotted rule and origin elements
 of every element are the same.
 That is,
-\begin{multline*}
-\forall \; \var{a}, \var{b} : 0 \le \var{a} \le \Vlastix{cat}
-  \; \land \; 0 \le \var{b} \le \Vlastix{cat} \\
-\implies
+for all
+\var{a}, \var{b}
+such that $0 \le \var{a} \le \Vlastix{cat}$
+and $0 \le \var{b} \le \Vlastix{cat}$,
+\begin{equation*}
 \DR{\Vel{cat}{a}} = \DR{\Vel{cat}{b}}
 \; \land \;
 \Origin{\Vel{cat}{a}} = \Origin{\Vel{cat}{b}}
-\end{multline*}
+\end{equation*}
 \end{theorem}
 
 \begin{proof}
@@ -8461,11 +8463,17 @@ where the induction hypothesis
 is
 \begin{equation}
 \tag{IND}
+\begin{gathered}
 \label{eq:catena-top-elements-identical-10}
-0 \le \var{x} < \Vlastix{cat} \implies
-\DR{\Vel{cat}{x}} = \DR{\el{cat}{0}}
-\; \land \;
-\Origin{\Vel{cat}{x}} = \Origin{\el{cat}{0}}.
+0 \le \var{x} < \Vlastix{cat} \\
+\implies
+\left(
+\begin{gathered}
+\DR{\Vel{cat}{x}} = \DR{\el{cat}{0}} \\
+\land \; \Origin{\Vel{cat}{x}} = \Origin{\el{cat}{0}}.
+\end{gathered}
+\right)
+\end{gathered}
 \end{equation}
 We have
 \eqref{eq:catena-top-elements-identical-10}
@@ -8524,13 +8532,13 @@ Given a specific choice of location,
 every element of a Leo catena has the same
 Leo top item.
 That is,
-\begin{multline*}
-\forall \; \var{a}, \var{b} \Vloc{i} : 0 \le \var{a} \le \Vlastix{cat}
+\begin{gather*}
+\forall \; \var{a}, \var{b}, \Vloc{i} : 0 \le \var{a} \le \Vlastix{cat}
   \; \land \; 0 \le \var{b} \le \Vlastix{cat} \\
 \implies
 \op{Leo-top}{\Vel{cat}{a}, \Vloc{i}}
 = \op{Leo-top}{\Vel{cat}{b}, \Vloc{i}}
-\end{multline*}
+\end{gather*}
 \end{theorem}
 
 \begin{proof}
@@ -8648,13 +8656,13 @@ we define the function \myfnname{Depth} as follows
 and we call \op{Depth}{\Vleo{l}} the ``depth'' of
 \Vleo{l}.
 
-Consider an arbitrary Leo memo, call it \Vleo{l}.
-The proof proceed by induction on the depth of \Vleo{l}.
+The proof proceeds by induction on the depth of the Leo memos.
 We take as our induction hypothesis that
 \begin{multline}
 \label{eq:leo-memo-uniqueness-15}
 \tag{IND}
-\text{For all valid Leo memos of depth \var{x},} \\
+\text{For \Vleo{l1}, \Vleo{l2},} \\
+\text{two distinct and valid Leo memos of depth \var{x},} \\
 \Current{\Vleo{l1}} = \Current{\Vleo{l2}} \\
 \implies \Symbol{\Vleo{l1}} \neq \Symbol{\Vleo{l2}}.
 \end{multline}
@@ -8663,26 +8671,153 @@ We take as our induction hypothesis that
 We take 
 \eqref{eq:leo-memo-uniqueness-15}
 for $\var{x} = 0$ as the basis of our induction.
-We assume, for a reductio, that there are two distinct
-Leo memos with depth 0,
-where
-\begin{equation}
+We assume, for a reductio, that \Vleo{l1}
+and \Vleo{l2}
+are two distinct valid Leo memos with depth 0,
+such that
+\begin{multline}
 \label{eq:leo-memo-uniqueness-18}
-\Current{\Vleo{l1}} = \Current{\Vleo{l2}} \\
-\land \; \Symbol{\Vleo{l1}} = \Symbol{\Vleo{l2}}.
+\Current{\Vleo{l1}} = \Current{\Vleo{l2}} = \Vsym{A} \\
+\land \; \Symbol{\Vleo{l1}} = \Symbol{\Vleo{l2}} = \Vloc{k}
+\end{multline}
+Then, without loss of generality,
+\begin{equation}
+\label{eq:leo-memo-uniqueness-20}
+\begin{gathered}
+\Vleo{l1} = [ \Vsym{A}, \Vdr{dr1}, \Vloc{orig1}, \Vloc{k} ] \\
+\text{and} \quad \Vleo{l2} = [ \Vsym{A}, \Vdr{dr2}, \Vloc{orig2}, \Vloc{k} ]
+\end{gathered}
 \end{equation}
-By Theorem
-\ref{t:leo-basis-uniqueness},
-\Vleo{l}, has a unique basis EIM, call it \Veim{bas}.
+From Lemma
+\ref{lem:leo-basis-symloc-uniqueness}
+and \eqref{eq:leo-memo-uniqueness-18},
+we see that
+\Vleo{l1} and \Vleo{l2} share one basis EIM, call it \Veim{bas}.
 By assumption for the basis of the induction,
 \Vleo{l} has a depth of 0,
-and therefore \Vleo{l} has no top-down cause.
-By the definition of validity for a Leo memo,
-when a Leo memo has no top-down 
-its basis completely determines all four of its elements,
+so that
+by the definition of validity for a Leo memo,
+\begin{equation}
+\label{eq:leo-memo-uniqueness-23}
+\begin{gathered}
+\Vdr{dr1} = \Next{\DR{\Veim{bas}}} = \Vdr{dr2} \\
+\text{and} \quad \Vloc{orig1} = \Origin{\Veim{bas}} = \Vloc{orig2}
+\end{gathered}
+\end{equation}
+But from
+\eqref{eq:leo-memo-uniqueness-20}
+and
+\eqref{eq:leo-memo-uniqueness-23}
+we see that
+\begin{equation}
+\label{eq:leo-memo-uniqueness-26}
+    \Vleo{l1} = \Vleo{l2}.
+\end{equation}
+But 
+\eqref{eq:leo-memo-uniqueness-26}
+contradicts
+our assumption for the reductio,
+that \Vleo{l1} and \Vleo{l2} are distinct.
+This shows the reductio,
+\eqref{eq:leo-memo-uniqueness-15}
+for $\var{x} = 0$,
+and the basis of the induction.
 
-TODO
+\textbf{Step of the induction}:
+For the step of the induction,
+we assume
+\eqref{eq:leo-memo-uniqueness-15}
+for $\var{x} = \var{i}$,
+to show
+\eqref{eq:leo-memo-uniqueness-15}
+for $\var{x} = \Vincr{i}$.
+We proceed in much the same way as we
+proceeded in
+the basis of the induction.
+We assume, for a reductio, that \Vleo{l1}
+and \Vleo{l2}
+are two distinct valid Leo memos with depth 0,
+such that
+\begin{multline}
+\label{eq:leo-memo-uniqueness-30}
+\Current{\Vleo{l1}} = \Current{\Vleo{l2}} = \Vsym{A} \\
+\land \; \Symbol{\Vleo{l1}} = \Symbol{\Vleo{l2}} = \Vloc{k}
+\end{multline}
+Then, without loss of generality,
+\begin{equation}
+\label{eq:leo-memo-uniqueness-33}
+\begin{gathered}
+\Vleo{l1} = [ \Vsym{A}, \Vdr{dr1}, \Vloc{orig1}, \Vloc{k} ] \\
+\text{and} \quad \Vleo{l2} = [ \Vsym{A}, \Vdr{dr2}, \Vloc{orig2}, \Vloc{k} ]
+\end{gathered}
+\end{equation}
+From Lemma
+\ref{lem:leo-basis-symloc-uniqueness}
+and \eqref{eq:leo-memo-uniqueness-30},
+we see that
+\Vleo{l1} and \Vleo{l2} share one basis EIM, call it \Veim{bas}.
+Let the top-down cause of \Vleo{l1} be \Vleo{cuz1},
+and let the top-down cause of \Vleo{l2} be \Vleo{cuz2}.
+By the definition of a Leo top-down cause,
+we know that
+\begin{gather}
+\Current{\Vleo{cuz1}} = \Origin{\Veim{bas}} \\
+\land \; \Symbol{\Vleo{cuz1}} = \LHS{\Veim{bas}} \\
+\land \; \Current{\Vleo{cuz2}} = \Origin{\Veim{bas}} \\
+\land \; \Symbol{\Vleo{cuz2}} = \LHS{\Veim{bas}},
+\end{gather}
+so that
+\begin{equation}
+\label{eq:leo-memo-uniqueness-40}
+\begin{gathered}
+\Current{\Vleo{cuz1}} = \Current{\Vleo{cuz2}} \\
+\land \; \Symbol{\Vleo{cuz1}} = \Symbol{\Vleo{cuz2}}.
+\end{gathered}
+\end{equation}
+From
+\eqref{eq:leo-memo-uniqueness-40}
+and Lemma
+\ref{lem:leo-basis-symloc-uniqueness},
+we see that \Vleo{l1} and \Vleo{l2} share
+the same top-down cause:
+\begin{equation}
+\label{eq:leo-memo-uniqueness-41}
+\Vleo{cuz1} = \Vleo{cuz2}.
+\end{equation}
+From
+\eqref{eq:leo-memo-uniqueness-41}
+and
+the definition of Leo memo validity for the case
+when a Leo memo has a top-down cause,
+we know that
+\begin{equation}
+\label{eq:leo-memo-uniqueness-43}
+\begin{gathered}
+\Vdr{dr1} = \DR{\Vleo{cuz1}} = \Vdr{dr2} \\
+\text{and} \quad \Vloc{orig1} = \Origin{\Vleo{cuz1}} = \Vloc{orig2}
+\end{gathered}
+\end{equation}
+Combining
+\eqref{eq:leo-memo-uniqueness-43}
+with
+\eqref{eq:leo-memo-uniqueness-33},
+we see, just as we saw in the basis of this induction, that
+\begin{equation}
+\label{eq:leo-memo-uniqueness-46}
+    \Vleo{l1} = \Vleo{l2}.
+\end{equation}
+But again,
+\eqref{eq:leo-memo-uniqueness-46}
+contradicts
+our assumption for the reductio,
+that \Vleo{l1} and \Vleo{l2} are distinct.
+This shows the reductio,
+\eqref{eq:leo-memo-uniqueness-15}
+for $\var{x} = \Vincr{i}$,
+the step of the induction,
+and the theorem.
 \end{proof}
+
 \section{Leo silos}
 
 Where \Vleo{leo} is a Leo memo,
