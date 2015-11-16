@@ -9872,19 +9872,13 @@ top or its bottom layer
 we say that it is an
 \xdfn{inner}{inner (layer of a Leo silo)}
 layer.
-It is the
-inner layers of a silo
-that are
-\dfn{Leo memoable}.
-That is, if \var{slo} is a Leo silo,
-\begin{equation}
-  \forall \; \var{a} : 0 < \var{a} < \Vlastix{slo}
-  \implies \Memoable{\Vel{slo}{a}}.
-\end{equation}
-Unless stated otherwise,
-when we call an EIM
+A layer of a Leo silo is
+\dfn{Leo memoable},
+or more simply,
 \dfn{memoable},
-we mean that it is Leo memoable.
+if and only if every layer in its fleeting closure
+is an inner layer.
+\end{equation}
 \end{definition}
 
 \begin{definition}
