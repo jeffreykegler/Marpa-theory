@@ -8007,7 +8007,7 @@ of \Veim{basis}.
 \label{lem:leo-basis-symloc-uniqueness}
 Let
 \Vleo{l1}, \Vleo{l2}
-be two Leo memos 
+be two Leo memos
 such that
 \begin{equation}
 \label{eq:leo-basis-symloc-uniqueness-10}
@@ -8041,7 +8041,7 @@ By the definition of the basis of a Leo memo,
 \end{gathered}
 \end{equation}
 so that,
-using 
+using
 \eqref{eq:leo-basis-symloc-uniqueness-10}
 we have
 \begin{equation}
@@ -8675,7 +8675,7 @@ We take as our induction hypothesis that
 \end{multline}
 
 \textbf{Basis of the induction}:
-We take 
+We take
 \eqref{eq:leo-memo-uniqueness-15}
 for $\var{x} = 0$ as the basis of our induction.
 We assume, for a reductio, that \Vleo{l1}
@@ -8720,7 +8720,7 @@ we see that
 \label{eq:leo-memo-uniqueness-26}
     \Vleo{l1} = \Vleo{l2}.
 \end{equation}
-But 
+But
 \eqref{eq:leo-memo-uniqueness-26}
 contradicts
 our assumption for the reductio,
@@ -8894,6 +8894,30 @@ is the
 EIM
 matching \Vleo{leo}
 at \Vloc{i}.
+
+\begin{definition}
+\dtitle{Silo layers by level}
+If a layer of a Leo silo is not its
+top or its bottom layer,
+we say that it is an
+\xdfn{inner}{inner (layer of a Leo silo)}
+layer.
+If a layer of a Leo silo is not an
+inner layer,
+we say that it is an
+\xdfn{outer}{outer (layer of a Leo silo)}
+layer.
+If a layer of a Leo silo is not its
+top layer,
+we say that it is an
+\xdfn{lower}{lower (layer of a Leo silo)}
+layer.
+If a layer of a Leo silo is not its
+bottom layer,
+we say that it is an
+\xdfn{upper}{upper (layer of a Leo silo)}
+layer.
+\end{definition}
 
 \begin{lemma}
 \label{lem:leo-memo-effect}
@@ -9235,13 +9259,13 @@ $\var{i} < \var{topix}$.
 We proceed by finite induction.
 We take as the induction hypothesis
 \begin{align}
-\label{t:leo-silo-validity-25}
+\label{eq:leo-silo-validity-25}
 \tag{IND1}
 0 \le \var{x} \le \var{topix}
 & \implies \Valid{\Vel{slo}{x}}
 \quad \text{and}
 \\
-\label{t:leo-silo-validity-32}
+\label{eq:leo-silo-validity-32}
 \tag{IND2}
 0 \le \var{x} < \var{topix}
 & \implies
@@ -9255,32 +9279,32 @@ $\el{slo}{0} = \Veim{lb}$,
 and
 \Veim{lb} is valid.
 This gives us
-\eqref{t:leo-silo-validity-25}
+\eqref{eq:leo-silo-validity-25}
 and
-\eqref{t:leo-silo-validity-32}
+\eqref{eq:leo-silo-validity-32}
 for
 $\var{x} = 0$,
 and the basis of our induction.
 
 For the step of the induction, we assume
-\eqref{t:leo-silo-validity-25}
+\eqref{eq:leo-silo-validity-25}
 and
-\eqref{t:leo-silo-validity-32}
+\eqref{eq:leo-silo-validity-32}
 for \var{x} = \var{i},
 to show
 \begin{equation}
-\label{t:leo-silo-validity-34}
+\label{eq:leo-silo-validity-34}
 \tag{STEP}
-\text{\eqref{t:leo-silo-validity-25}
+\text{\eqref{eq:leo-silo-validity-25}
 and
-\eqref{t:leo-silo-validity-32}
+\eqref{eq:leo-silo-validity-32}
 for $\var{x} = \Vincr{i}$.}
 \end{equation}
 Within the step, we proceed by cases.
 
 \textbf{Step case 1}: For the case where $\var{i} > \var{topix}$,
 we have
-\eqref{t:leo-silo-validity-34}
+\eqref{eq:leo-silo-validity-34}
 vacuously.
 
 \textbf{Step case 2}: We next consider
@@ -9299,7 +9323,7 @@ Theorem
 tells us that
 \el{slo}{\Vincr{i}} is valid,
 which shows
-\eqref{t:leo-silo-validity-25}
+\eqref{eq:leo-silo-validity-25}
 for $\var{x} = \Vincr{i}$
 in this case.
 
@@ -9315,7 +9339,7 @@ Also by assumption for the step,
 Using these facts and Lemma
 \ref{lem:leo-memo-of-incompletion},
 we have
-\eqref{t:leo-silo-validity-32}
+\eqref{eq:leo-silo-validity-32}
 for $\var{x} = \Vincr{i}$
 in this case.
 This shows the step for this case.
@@ -9327,9 +9351,9 @@ and \Vel{slo}{i} is complete.
 Since \Vel{slo}{i} is complete,
 Lemma \ref{lem:leo-memo-effect} applies,
 and we have
-\eqref{t:leo-silo-validity-25}
+\eqref{eq:leo-silo-validity-25}
 and
-\eqref{t:leo-silo-validity-32}
+\eqref{eq:leo-silo-validity-32}
 for $\var{x} = \Vincr{i}$
 in this case
 from
@@ -9342,12 +9366,12 @@ This shows shows the final case of the induction
 step, and therefore the step and the induction.
 The induction shows
 \begin{gather}
-\label{t:leo-silo-validity-35}
+\label{eq:leo-silo-validity-35}
 \forall \var{x} : 0 \le \var{x} \le \var{topix}
 \implies \Valid{\Vel{slo}{x}}
 \quad \text{and}
 \\
-\label{t:leo-silo-validity-36}
+\label{eq:leo-silo-validity-36}
 \forall \var{x} : 0 \le \var{x} < \var{topix}
 \implies
 \text{\Vel{slo}{x} has a matching Leo memo.}
@@ -9356,7 +9380,7 @@ The induction shows
 It remains to show that there is
 a \var{slo} such that one of its layers is
 \begin{equation}
-\label{t:leo-silo-validity-36a}
+\label{eq:leo-silo-validity-36a}
 \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}.
 \end{equation}
 We assume, for a reductio, that there is no such silo.
@@ -9375,16 +9399,16 @@ Let the index of that highest layer be \var{maxix}.
 By assumption for the reductio,
 \var{mslo}
 does not contain
-\eqref{t:leo-silo-validity-36a}
+\eqref{eq:leo-silo-validity-36a}
 so that, in particular,
 \begin{equation}
-\label{t:leo-silo-validity-37}
+\label{eq:leo-silo-validity-37}
 \Vel{mslo}{maxix} \neq
 \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}.
 \end{equation}
 
 From
-\eqref{t:leo-silo-validity-36},
+\eqref{eq:leo-silo-validity-36},
 we see that \Vel{slo}{maxix} has
 a matching Leo memo.
 We consider two cases, based on whether
@@ -9402,7 +9426,7 @@ Theorem
 it is the bottom of some silo,
 call it \var{hislo}, such that
 \begin{equation}
-\label{t:leo-silo-validity-40}
+\label{eq:leo-silo-validity-40}
 \text{\el{hislo}{\Vlastix{hislo}} is a completion}
 \end{equation}
 Since
@@ -9410,7 +9434,7 @@ $\Vel{mslo}{maxix} = \el{hislo}{0}$ is the bottom
 of \var{hislo},
 we have
 \begin{equation}
-\label{t:leo-silo-validity-42}
+\label{eq:leo-silo-validity-42}
 \Vel{mslo}{maxix} \le \el{hislo}{\Vlastix{hislo}}.
 \end{equation}
 \var{hislo} and \var{mslo} overlap in
@@ -9418,7 +9442,7 @@ $\Vel{mslo}{maxix} = \el{hislo}{0}$,
 so we can compose them into a new silo, \var{nuslo},
 such that
 \begin{equation}
-\label{t:leo-silo-validity-43}
+\label{eq:leo-silo-validity-43}
 \begin{gathered}
 \Vel{mslo}{maxix} = \el{hislo}{0} = \el{nuslo}{\Vlastix{mslo}}
 	\quad \text{and} \\
@@ -9427,19 +9451,19 @@ such that
 \end{equation}
 By assumption for the case \Vel{mslo}{maxix} is incomplete,
 so that
-from \eqref{t:leo-silo-validity-40}
+from \eqref{eq:leo-silo-validity-40}
 we know that
 \begin{equation}
-\label{t:leo-silo-validity-46}
+\label{eq:leo-silo-validity-46}
 \Vel{mslo}{maxix} \neq \el{hislo}{\Vlastix{hislo}}.
 \end{equation}
 From
-\eqref{t:leo-silo-validity-40}
+\eqref{eq:leo-silo-validity-40}
 and
-\eqref{t:leo-silo-validity-46}
+\eqref{eq:leo-silo-validity-46}
 we see that
 \begin{equation}
-\label{t:leo-silo-validity-49}
+\label{eq:leo-silo-validity-49}
 \Vel{mslo}{maxix} < \el{hislo}{\Vlastix{hislo}}.
 \end{equation}
 But, by assumption for the reductio,
@@ -9470,7 +9494,7 @@ and the reductio.
 
 From the reductio, we see that \var{slo}
 must contain
-\eqref{t:leo-silo-validity-36a},
+\eqref{eq:leo-silo-validity-36a},
 the top item for \Vleo{leo}.
 This shows the theorem.
 \end{proof}
@@ -9478,7 +9502,7 @@ This shows the theorem.
 \begin{theorem}
 \ttitle{Leo silo effects are unique}
 \label{t:leo-silo-uniq-effect}
-Every layer of a Leo silo, if it is not the top layer,
+Every lower layer of a Leo silo
 has exactly one effect.
 \end{theorem}
 
@@ -9486,7 +9510,7 @@ has exactly one effect.
 We proceed by induction.
 We take as the induction hypothesis
 \begin{equation}
-\label{t:leo-silo-uniq-effect-31}
+\label{eq:leo-silo-uniq-effect-31}
 \tag{IND}
 \begin{alignedat}{1}
 & 0 < \var{x} \le \var{topix} \\
@@ -9499,20 +9523,20 @@ We take $\var{x} = 0$
 as the basis of our induction.
 For $\var{x} = 0$,
 we have
-\eqref{t:leo-silo-uniq-effect-31}
+\eqref{eq:leo-silo-uniq-effect-31}
 vacuously.
 
 For the step of the induction, we assume
-\eqref{t:leo-silo-uniq-effect-31}
+\eqref{eq:leo-silo-uniq-effect-31}
 for \var{x} = \var{i},
 to show
-\eqref{t:leo-silo-uniq-effect-31}
+\eqref{eq:leo-silo-uniq-effect-31}
 for $\var{x} = \Vincr{i}$.
 Within the step, we proceed by cases.
 
 \textbf{Step case 1}: For the case where $\var{i} > \var{topix}$,
 we have
-\eqref{t:leo-silo-uniq-effect-31}
+\eqref{eq:leo-silo-uniq-effect-31}
 for $\var{x} = \Vincr{i}$
 vacuously.
 
@@ -9529,7 +9553,7 @@ Theorem
 the unique effect of \Vel{silo}{i}
 is \el{silo}{\Vincr{i}}.
 This shows
-\eqref{t:leo-silo-uniq-effect-31}
+\eqref{eq:leo-silo-uniq-effect-31}
 for $\var{x} = \Vincr{i}$
 in this case.
 
@@ -9540,7 +9564,7 @@ and \Vel{slo}{i} is complete.
 Since \Vel{slo}{i} is complete,
 Lemma \ref{lem:leo-memo-effect} applies,
 and we have
-\eqref{t:leo-silo-uniq-effect-31}
+\eqref{eq:leo-silo-uniq-effect-31}
 for $\var{x} = \Vincr{i}$
 in this case
 from
@@ -9562,7 +9586,7 @@ Every layer of a Leo silo, except the bottom layer, is right-recursive.
 We proceed by induction.
 We take as the induction hypothesis
 \begin{align}
-\label{t:leo-silo-rr-28}
+\label{eq:leo-silo-rr-28}
 \tag{IND}
 0 < \var{x} \le \var{topix}
 & \implies \text{\Vel{slo}{x} is right recursive}
@@ -9571,20 +9595,20 @@ We take $\var{x} = 0$
 as the basis of our induction.
 For $\var{x} = 0$,
 we have
-\eqref{t:leo-silo-rr-28}
+\eqref{eq:leo-silo-rr-28}
 vacuously.
 
 For the step of the induction, we assume
-\eqref{t:leo-silo-rr-28}
+\eqref{eq:leo-silo-rr-28}
 for \var{x} = \var{i},
 to show
-\eqref{t:leo-silo-rr-28}
+\eqref{eq:leo-silo-rr-28}
 for $\var{x} = \Vincr{i}$.
 Within the step, we proceed by cases.
 
 \textbf{Step case 1}: For the case where $\var{i} > \var{topix}$,
 we have
-\eqref{t:leo-silo-rr-28}
+\eqref{eq:leo-silo-rr-28}
 vacuously.
 
 \textbf{Step case 2}: We next consider
@@ -9601,7 +9625,7 @@ Since the
 the rule of \Vel{silo}{i}
 is right recursive by assumption for the step,
 we have
-\eqref{t:leo-silo-rr-28}
+\eqref{eq:leo-silo-rr-28}
 for $\var{x} = \Vincr{i}$
 in this case.
 
@@ -9612,7 +9636,7 @@ and \Vel{slo}{i} is complete.
 Since \Vel{slo}{i} is complete,
 Lemma \ref{lem:leo-memo-effect} applies,
 and we have
-\eqref{t:leo-silo-rr-28}
+\eqref{eq:leo-silo-rr-28}
 of the induction hypothesis for this case
 from
 \eqref{eq:lem-leo-memo-effect-12}
@@ -9628,8 +9652,7 @@ and theorem.
 \label{t:leo-silo-catena}
 \begin{gather}
 \myparbox{
-Every layer of a Leo silo,
-if it is not the top layer,
+Every lower layer of a Leo silo
 has a matching Leo memo.
 } \\
 \myparbox{
@@ -9637,8 +9660,7 @@ The Leo top-down causes of a silo form a catena.
 } \\
 \myparbox{
 The length of the catena is equal to the number
-of complete EIM's in the layers of the silo
-below the top layer.
+of complete EIM's in the lower layers of the silo.
 }
 \end{gather}
 \end{theorem}
@@ -9658,12 +9680,12 @@ is the number of inner layers in the silo
 We proceed by induction.
 We take as the induction hypothesis
 \begin{gather}
-\label{t:leo-silo-catena-10}
+\label{eq:leo-silo-catena-10}
 \tag{IND1}
 0 \le \var{x} < \var{topix}
 \implies \Vop{LM}{\Vel{slo}{x}} \neq \Lambda
 \\[1.5ex]
-\label{t:leo-silo-catena-12}
+\label{eq:leo-silo-catena-12}
 \tag{IND2}
 \begin{multlined}
 0 \le \var{x} < \var{topix} \implies
@@ -9687,30 +9709,30 @@ there
 is a Leo memo matching
 \el{slo}{0},
 which gives us
-\eqref{t:leo-silo-catena-10}.
+\eqref{eq:leo-silo-catena-10}.
 The single element sequence
 \var{cat} = [ \el{slo}{0} ]
 satisfies
-\eqref{t:leo-silo-catena-12}
+\eqref{eq:leo-silo-catena-12}
 trivially.
 
 For the step of the induction, we assume
-\eqref{t:leo-silo-catena-10}
+\eqref{eq:leo-silo-catena-10}
 and
-\eqref{t:leo-silo-catena-12}
+\eqref{eq:leo-silo-catena-12}
 for \var{x} = \var{i},
 to show
-\eqref{t:leo-silo-catena-10}
+\eqref{eq:leo-silo-catena-10}
 and
-\eqref{t:leo-silo-catena-12}
+\eqref{eq:leo-silo-catena-12}
 for $\var{x} = \Vincr{i}$.
 Within the step, we proceed by cases.
 
 \textbf{Step case 1}: For the case where $\Vincr{i} \ge \var{topix}$,
 we have
-\eqref{t:leo-silo-catena-10}
+\eqref{eq:leo-silo-catena-10}
 and
-\eqref{t:leo-silo-catena-12}
+\eqref{eq:leo-silo-catena-12}
 vacuously.
 
 \textbf{Step case 2}: We next consider
@@ -9725,33 +9747,33 @@ Also by assumption for the step,
 Using these facts and Lemma
 \ref{lem:leo-memo-of-incompletion},
 we have
-\eqref{t:leo-silo-catena-10}.
+\eqref{eq:leo-silo-catena-10}.
 From Lemma
 \ref{lem:leo-memo-of-incompletion},
 we know that
 \begin{equation}
-\label{t:leo-silo-catena-16}
+\label{eq:leo-silo-catena-16}
 \el{cat}{\Vlastix{cat}} =
 \op{LM}{\Vel{slo}{i}} = \op{LM}{\el{slo}{\Vincr{i}}}
 \end{equation}
-and, because 
+and, because
 \el{slo}{\Vincr{i}}
 is not a complete EIM,
 \begin{equation}
-\label{t:leo-silo-catena-18}
-\op{InCmps}{\var{slo}, \var{x}} = 
+\label{eq:leo-silo-catena-18}
+\op{InCmps}{\var{slo}, \var{x}} =
 \op{InCmps}{\var{slo}, \Vincr{x}}.
 \end{equation}
 From
-\eqref{t:leo-silo-catena-16}
+\eqref{eq:leo-silo-catena-16}
 and
-\eqref{t:leo-silo-catena-18}
+\eqref{eq:leo-silo-catena-18}
 we see that
 the same catena
 that satisfies
-\eqref{t:leo-silo-catena-12} for $\var{x} = \var{i}$
+\eqref{eq:leo-silo-catena-12} for $\var{x} = \var{i}$
 also satisfies
-\eqref{t:leo-silo-catena-12} for $\var{x} = \Vincr{i}$.
+\eqref{eq:leo-silo-catena-12} for $\var{x} = \Vincr{i}$.
 This shows the step for this case.
 
 \textbf{Step case 3}: Finally,
@@ -9761,21 +9783,21 @@ and \Vel{slo}{i} is complete.
 Since \Vel{slo}{i} is complete,
 Lemma \ref{lem:leo-memo-effect} applies,
 and we have
-\eqref{t:leo-silo-catena-10}
+\eqref{eq:leo-silo-catena-10}
 of the induction hypothesis for this case
 from
 \eqref{eq:lem-leo-memo-effect-14}
 of
 Lemma \ref{lem:leo-memo-effect}.
 To show
-\eqref{t:leo-silo-catena-12} for $\var{x} = \Vincr{i}$,
+\eqref{eq:leo-silo-catena-12} for $\var{x} = \Vincr{i}$,
 we use
 \eqref{eq:lem-leo-memo-effect-15}
 of
 Lemma \ref{lem:leo-memo-effect}.
 This tells us that
 \begin{equation}
-\label{t:leo-silo-catena-20}
+\label{eq:leo-silo-catena-20}
 \myparbox{
 \op{LM}{\el{slo}{\Vincr{i}}}
 is the top-down cause of
@@ -9785,19 +9807,19 @@ is the top-down cause of
 By assumption for the step, we have a catena,
 call it \var{cat1}, such that
 \begin{equation}
-\label{t:leo-silo-catena-22}
+\label{eq:leo-silo-catena-22}
 \el{cat1}{\Vlastix{cat1}} = \op{LM}{\Vel{slo}{i}}.
 \end{equation}
 From
-\eqref{t:leo-silo-catena-20}
+\eqref{eq:leo-silo-catena-20}
 and
-\eqref{t:leo-silo-catena-22}
+\eqref{eq:leo-silo-catena-22}
 we know that
 we can form a new catena,
 call it \var{cat2},
 such that
 \begin{equation}
-\label{t:leo-silo-catena-24}
+\label{eq:leo-silo-catena-24}
 \Vel{cat2}{ix} =
 \begin{cases}
 \text{\Vel{cat1}{ix}, if $0 \le \var{ix} \le \Vlastix{cat1}$} \\
@@ -9807,10 +9829,10 @@ such that
 \end{equation}
 \var{cat2}
 From
-\eqref{t:leo-silo-catena-24}
+\eqref{eq:leo-silo-catena-24}
 we see that
 \begin{equation}
-\label{t:leo-silo-catena-27}
+\label{eq:leo-silo-catena-27}
 \el{cat2}{\Vlastix{cat2}} = \op{LM}{\el{slo}{\Vincr{i}}}.
 \end{equation}
 
@@ -9818,22 +9840,22 @@ By assumption for the case,
 \el{slo}{\Vincr{i}}
 was a completion
 and $\Vincr{i} \neq \var{topix}$,
-so that 
+so that
 \el{slo}{\Vincr{i}} is not the top layer.
 From the considerations in the paragraph,
 we see that
 \begin{align}
-\label{t:leo-silo-catena-26}
+\label{eq:leo-silo-catena-26}
 &
 \op{InCmps}{\var{slo}, \Vincr{x}}
 =
 \Vincr{\op{InCmps}{\var{slo}, \var{x}}} &&
 \\
-\label{t:leo-silo-catena-28}
+\label{eq:leo-silo-catena-28}
 & \Vlastix{cat2} = \Vincr{\Vlastix{cat1}}
-&& \eqref{t:leo-silo-catena-24}
+&& \eqref{eq:leo-silo-catena-24}
 \\
-\label{t:leo-silo-catena-30}
+\label{eq:leo-silo-catena-30}
 & \op{InCmps}{\var{slo}, \var{x}}
 = \Vincr{\Vlastix{cat1}}
 &&
@@ -9842,24 +9864,24 @@ we see that
 & \quad \text{the Step}
 \end{aligned}
 \\
-\label{t:leo-silo-catena-32}
+\label{eq:leo-silo-catena-32}
 & \op{InCmps}{\var{slo}, \Vincr{x}}
 = \Vincr{\Vlastix{cat2}}
 &&
-\eqref{t:leo-silo-catena-26},
-\eqref{t:leo-silo-catena-28},
-\eqref{t:leo-silo-catena-30}
+\eqref{eq:leo-silo-catena-26},
+\eqref{eq:leo-silo-catena-28},
+\eqref{eq:leo-silo-catena-30}
 \end{align}
 
 From
-\eqref{t:leo-silo-catena-27}
+\eqref{eq:leo-silo-catena-27}
 and
-\eqref{t:leo-silo-catena-32}
+\eqref{eq:leo-silo-catena-32}
 we see that the \var{cat2}
 of
-\eqref{t:leo-silo-catena-24}
+\eqref{eq:leo-silo-catena-24}
 satisfies
-\eqref{t:leo-silo-catena-12} for $\var{x} = \Vincr{i}$.
+\eqref{eq:leo-silo-catena-12} for $\var{x} = \Vincr{i}$.
 This
 shows shows the final case of the induction
 step, and therefore the step and the induction.
@@ -9867,19 +9889,17 @@ step, and therefore the step and the induction.
 
 \begin{definition}
 \dtitle{Memoable EIM's}
-If a layer of a Leo silo is not its
-top or its bottom layer
-we say that it is an
-\xdfn{inner}{inner (layer of a Leo silo)}
-layer.
 A layer of a Leo silo is
 \dfn{Leo memoable},
 or more simply,
 \dfn{memoable},
 if and only if every layer in its fleeting closure
 is an inner layer.
-\end{equation}
 \end{definition}
+
+This definition reflects the fact that the Marpa
+implementation records all the EIM's in a fleeting
+closure together.
 
 \begin{definition}
 \dtitle{Memoized EIM's}
@@ -9921,24 +9941,46 @@ it is the bottom of the Leo silo.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Leo silo minimum height}:
+\label{leo-silo-minimum-height}
 Every Leo silo contains a least two layers.
 \end{theorem}
 
 \begin{proof}
-TODO
+By theorem
+\ref{t:leo-silo-catena},
+every Leo silo has a catena consisting of
+of all of its Leo memos.
+By the same theorem,
+every Leo silo has a completion
+for every element of its catena,
+plus a top layer.
+Every Leo silo, by definition has a bottom
+layer with a matching Leo memo,
+so every Leo silo has a catena whose length
+is at least 1.
+A Leo silo therefore contains at least
+one completion corresponding to a
+Leo memo catena,
+plus the top layer.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Silo outer layer distinctness}:
 The top and bottom layer of a Leo silo
-are different.
+are distinct.
 \end{theorem}
 
 \begin{proof}
-TODO
+This theorem follows from
+Theorems
+\ref{leo-silo-minimum-height}
+and
+\ref{t:silo-layer-unique}.
 \end{proof}
 
 \begin{theorem}
-If a inner layer occurs in two different Leo silos,
+If a lower layer occurs in two different Leo silos,
 then both silos have the same top element.
 \end{theorem}
 
