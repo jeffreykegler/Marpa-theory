@@ -6245,6 +6245,7 @@ is the
 of \var{s1}.
 
 \begin{theorem}
+\ttitle{Silo location uniqueness}
 \label{t:silo-location}
 Let \Vel{silo}{i}
 and
@@ -8533,27 +8534,6 @@ and the theorem follows immediately.
 \end{proof}
 
 \begin{theorem}
-\label{t:catena-determines-leo-top}
-Given a specific choice of location,
-every element of a Leo catena has the same
-Leo top item.
-That is,
-\begin{gather*}
-\forall \; \var{a}, \var{b}, \Vloc{i} : 0 \le \var{a} \le \Vlastix{cat}
-  \; \land \; 0 \le \var{b} \le \Vlastix{cat} \\
-\implies
-\op{Leo-top}{\Vel{cat}{a}, \Vloc{i}}
-= \op{Leo-top}{\Vel{cat}{b}, \Vloc{i}}
-\end{gather*}
-\end{theorem}
-
-\begin{proof}
-From Theorem
-\ref{t:catena-top-elements-identical}
-and the definition of \myfnname{Leo-top}.
-\end{proof}
-
-\begin{theorem}
 \ttitle{Leo top-down uniqueness}
 \label{t:leo-down-uniqueness}
 Every valid Leo memo has at most one top-down cause.
@@ -8826,7 +8806,7 @@ and the theorem.
 \end{proof}
 
 \begin{theorem}
-\ttitle{Leo memos match uniquely}
+\ttitle{Leo memo uniqueness}
 \label{t:leo-memos-match-uniquely}
 Every EIM has at most one matching Leo memo.
 \end{theorem}
@@ -8896,6 +8876,22 @@ matching \Vleo{leo}
 at \Vloc{i}.
 
 \begin{definition}
+\dtitle{Leo silo}
+Let \Vleo{l} be a Leo memo.
+A
+\dfn{Leo silo}
+is a silo whose bottom is the matching bottom
+of \Vleo{l},
+and whose top is
+\[
+\op{Leo-top}{\Vleo{leo}, \Vloc{i}},
+\]
+where
+\Vloc{i} is the location
+of the silo.
+\end{definition}
+
+\begin{definition}
 \dtitle{Silo layers by level}
 If a layer of a Leo silo is not its
 top or its bottom layer,
@@ -8918,6 +8914,27 @@ we say that it is an
 \xdfn{upper}{upper (layer of a Leo silo)}
 layer.
 \end{definition}
+
+\begin{theorem}
+\label{t:catena-determines-leo-top}
+Given a specific choice of location,
+every element of a Leo catena has the same
+Leo top item.
+That is,
+\begin{gather*}
+\forall \; \var{a}, \var{b}, \Vloc{i} : 0 \le \var{a} \le \Vlastix{cat}
+  \; \land \; 0 \le \var{b} \le \Vlastix{cat} \\
+\implies
+\op{Leo-top}{\Vel{cat}{a}, \Vloc{i}}
+= \op{Leo-top}{\Vel{cat}{b}, \Vloc{i}}
+\end{gather*}
+\end{theorem}
+
+\begin{proof}
+From Theorem
+\ref{t:catena-top-elements-identical}
+and the definition of \myfnname{Leo-top}.
+\end{proof}
 
 \begin{lemma}
 \label{lem:leo-memo-effect}
@@ -9176,22 +9193,6 @@ By the definition of a matching Leo memo,
 \eqref{eq:lem-leo-memo-of-incompletion-30}
 tells us the \Vleo{l} matches \Veim{cuz}.
 \end{proof}
-
-\begin{definition}
-\dtitle{Leo silo}
-Let \Vleo{l} be a Leo memo.
-A
-\dfn{Leo silo}
-is a silo whose bottom is the matching bottom
-of \Vleo{l},
-and whose top is
-\[
-\op{Leo-top}{\Vleo{leo}, \Vloc{i}},
-\]
-where
-\Vloc{i} is the location
-of the silo.
-\end{definition}
 
 \begin{theorem}
 \ttitle{Leo silo validity}
@@ -9980,12 +9981,91 @@ and
 \end{proof}
 
 \begin{theorem}
+\ttitle{Silos with common lower layers share their top layer}
+\label{silo-common-lower-layers-share-top}
 If a lower layer occurs in two different Leo silos,
 then both silos have the same top element.
 \end{theorem}
 
 \begin{proof}
+Let \var{slo1} and \var{slo2} be two silos
+that share a common EIM, call it \var{eim}
+Assume for a reductio, that
+\begin{equation}
+\label{silo-common-lower-layers-share-top-10}
+   \el{slo1}{\Vlastix{slo}} \neq \el{slo2}{\Vlastix{slo}}
+\end{equation}
+For a reduction
+From theorem
+\ref{t:silo-location},
+and by the definition of silo location,
+we know that a silo shares
+its location
+with every EIM in the silo, so that
+both silos have the same location:
+\begin{equation}
+\label{silo-common-lower-layers-share-top-15}
+    \Current{\Veim{eim}} = \Right{\Veim{slo1}} = \Right{\Veim{slo2}}.
+\end{equation}
+
+By Theorem
+\ref{t:leo-silo-catena}
+a lower EIM
+must have a matching Leo memo.
+\ref{t:leo-memos-match-uniquely}
+that matching Leo memo is unique.
+Let \Vleo{leo} be the Leo memo that matches \Veim{eim}.
+By Theorem
+\ref{t:leo-silo-catena},
+\begin{equation}
+\label{silo-common-lower-layers-share-top-18}
+\Vleo{leo} \in \var{cat1}
+\; \land \;
+\Vleo{leo} \in \var{cat2},
+\end{equation}
+where \var{cat1} is the catena for \var{slo1}
+and \var{cat2} is the catena for \var{slo2}.
+
+By Theorem
+\ref{t:catena-top-elements-identical}, all catena elements contain
+the same dotted rule and origin.
+Since by
+\eqref{silo-common-lower-layers-share-top-18},
+\var{cat1} and \var{cat2} share an element,
+\begin{multline}
+\label{silo-common-lower-layers-share-top-21}
+\forall \; \Vleo{l1}, \Vleo{l2} : \\
+\Vleo{l1} \in (\var{cat1} \cup \var{cat2})
+\; \land \;
+\Vleo{l2} \in (\var{cat1} \cup \var{cat2}) \\
+\implies
+\left(
+\begin{gathered}
+\DR{\Vleo{leo1}} = \DR{\Vleo{leo2}} \\
+\land \quad \Origin{\Vleo{leo1}} = \Origin{\Vleo{leo2}}
+\end{gathered}
+\right)
+\end{multline}
+From
+\eqref{silo-common-lower-layers-share-top-21}
+and the definition of a Leo top layer,
+\begin{multline}
+\label{silo-common-lower-layers-share-top-24}
+\forall \; \Vleo{l1}, \Vleo{l2} : \\
+\Vleo{l1} \in (\var{cat1} \cup \var{cat2})
+\; \land \;
+\Vleo{l2} \in (\var{cat1} \cup \var{cat2}) \\
+\implies
+\op{Leo-top}{\Vleo{l1}, \Vloc{i}}
+= \op{Leo-top}{\leo{l2}, \Vloc{i}}
+\end{multline}
+From
+\eqref{silo-common-lower-layers-share-top-24}
+we see that,
+whenever any lower layer in either \var{slo1} or \var{slo2}
+
 TODO
+
 \end{proof}
 
 \section{Recreating a Leo silo}
