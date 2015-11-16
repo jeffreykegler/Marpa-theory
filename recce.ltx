@@ -8622,6 +8622,7 @@ So this gives us the reductio and the theorem.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Leo memos are unique for location and symbol}
 \label{t:leo-memo-uniqueness}
 Let \Vsym{A} be a symbol in a grammar
 and \Vloc{i} a location in a parse.
@@ -8818,6 +8819,46 @@ the step of the induction,
 and the theorem.
 \end{proof}
 
+\begin{theorem}
+\ttitle{Leo memos match uniquely}
+\label{eq:leo-memos-match-uniquely}
+Every EIM has at most one matching Leo memo.
+\end{theorem}
+
+\begin{proof}
+Suppose, for a reduction,
+that two distinct Leo memos match a single EIM.
+Let, without loss of generality, the Leo memos be
+\begin{gather*}
+\Vleo{l1} = [ \Vsym{sym1}, \Vdr{dr1}, \Vorig{orig1}, \Vloc{curr1} ] \quad \text{and} \\
+\Vleo{l2} = [ \Vsym{sym2}, \Vdr{dr2}, \Vorig{orig2}, \Vloc{curr2} ].
+\end{gather*}
+and let the EIM be \Veim{eim}.
+By the definition of ``matching'' for a Leo memo and an EIM,
+we have
+\begin{gather*}
+\Symbol{\Vleo{l1}} = \LHS{\Veim{eim}} \quad \text{and} \\
+\Current{\Vleo{l1}} = \Left{\Veim{eim}} \quad \text{and} \\
+\Symbol{\Vleo{l2}} = \LHS{\Veim{eim}} \quad \text{and} \\
+\Current{\Vleo{l2}} = \Left{\Veim{eim}},
+\end{gather*}
+so that
+\begin{gather*}
+\Symbol{\Vleo{l1}} = \Symbol{\Vleo{l2}} \quad \text{and} \\
+\Current{\Vleo{l1}} = \Current{\Vleo{l2}}.
+\end{gather*}
+From Theorem
+\eqref{t:leo-memo-uniqueness}
+it follows that
+\begin{equation}
+\label{eq:leo-memos-match-uniquely-20}
+\Vleo{l1} = \Vleo{l2}
+\end{equation}
+\eqref{eq:leo-memos-match-uniquely-20} contradicts
+our assumption for the reductio,
+and shows the theorem.
+\end{proof}
+
 \section{Leo silos}
 
 Where \Vleo{leo} is a Leo memo,
@@ -8873,6 +8914,10 @@ of \op{Sym-Eq}{\Veim{up}},
 \label{eq:lem-leo-memo-effect-14}
 \myparbox{either \Veim{eff} is the top of the Leo silo,
 or it has a matching Leo memo.}
+\\
+\label{eq:lem-leo-memo-effect-15}
+\myparbox{If \Veim{eff} has a matching Leo memo,
+that Leo memo is the top-down cause of \Vleo{leo}.}
 \end{gather}
 \end{lemma}
 
@@ -8969,13 +9014,20 @@ Requirement
 of this theorem.
 
 To show
-Requirement
+Requirements
 \eqref{eq:lem-leo-memo-effect-14}
+and
+\eqref{eq:lem-leo-memo-effect-15}
 of the theorem,
 we proceed by cases, based on whether
 or not \Vleo{leo} has a top-down cause.
 If \Vleo{leo} has no top-down cause,
-then, by the definition of Leo memo validity
+we have
+\eqref{eq:lem-leo-memo-effect-15}
+vacuously.
+It remains to show
+\eqref{eq:lem-leo-memo-effect-14}.
+By the definition of Leo memo validity
 and the definition of
 \myfnname{Leo-top},
 we know that
@@ -9030,9 +9082,15 @@ and the definition of ``matching''
 for Leo memos and EIM's,
 we see that \Vleo{cuz}
 matches \Veim{eff}.
+From Theorem
+\ref{eq:leo-memos-match-uniquely}
+we know that \Vleo{cuz} is the unique
+top-down cause of \Veim{eff}.
 This shows our second case,
-Requirement
+Requirements
 \eqref{eq:lem-leo-memo-effect-14}
+and
+\eqref{eq:lem-leo-memo-effect-15}
 of the theorem,
 and the theorem.
 \end{proof}
@@ -9553,6 +9611,163 @@ This shows shows the final case of the induction
 step, and therefore the step, the induction
 and theorem.
 \end{proof}
+
+\begin{theorem}
+\ttitle{Every Leo silo has a catena}
+\label{t:leo-silo-catena}
+Every layer of a Leo silo,
+except the top layer,
+has a Leo memo that is its
+matching Leo top-down cause.
+Additionally,
+the Leo top-down causes of a silo form a catena.
+\end{theorem}
+
+\begin{proof}
+Let \var{slo} be a Leo silo.
+For the purposes of this proof,
+let \myfnname{LM}
+be a partial function such that \op{LM}{\Vleo{l}}
+is
+the Leo memo of \Vleo{l}.
+
+We proceed by induction.
+We take as the induction hypothesis
+\begin{gather}
+\label{t:leo-silo-catena-10}
+\tag{IND1}
+0 \le \var{x} < \var{topix}
+\implies \Vop{LM}{\Vel{slo}{x}} \neq \Lambda
+\\
+\label{t:leo-silo-catena-12}
+\tag{IND2}
+0 \le \var{x} < \var{topix}
+\implies
+\begin{multlined}
+\text{there exists a catena \var{cat} such that} \\
+\Vop{LM}{\Vel{slo}{x}} = \el{cat}{\Vlastix{cat}}
+\end{multlined}
+\end{gather}
+
+We take $\var{x} = 0$
+as the basis of our induction.
+By assumption for the theorem,
+\var{slo} is a Leo silo,
+so that, by the definition of a Leo silo,
+there
+is a Leo memo matching
+\el{slo}{0},
+which gives us
+\eqref{t:leo-silo-catena-10}.
+The single element sequence
+\var{cat} = [ \el{slo}{0} ]
+satisfies
+\eqref{t:leo-silo-catena-12}
+trivially.
+
+For the step of the induction, we assume
+\eqref{t:leo-silo-catena-10}
+and
+\eqref{t:leo-silo-catena-12}
+for \var{x} = \var{i},
+to show
+\eqref{t:leo-silo-catena-10}
+and
+\eqref{t:leo-silo-catena-12}
+for $\var{x} = \Vincr{i}$.
+Within the step, we proceed by cases.
+
+\textbf{Step case 1}: For the case where $\var{i} \ge \var{topix}$,
+we have
+\eqref{t:leo-silo-catena-10}
+and
+\eqref{t:leo-silo-catena-12}
+vacuously.
+
+\textbf{Step case 2}: We next consider
+the case where $\var{i} < \var{topix}$
+and \Vel{slo}{i} is incomplete.
+Since \Vel{slo}{i} is,
+by assumption for the step,
+a silo layer,
+it is quasi-complete.
+Also by assumption for the step,
+\Vel{slo}{i} has a matching Leo memo.
+Using these facts and Lemma
+\ref{lem:leo-memo-of-incompletion},
+we have
+\eqref{t:leo-silo-catena-10}.
+From Lemma
+\ref{lem:leo-memo-of-incompletion},
+we know that
+$\op{LM}{\Vel{slo}{i}} = \op{LM}{\el{slo}{\Vincr{i}}}$,
+so that the same catena
+that satisfies
+\eqref{t:leo-silo-catena-12} for $\var{x} = \var{i}$
+also satisfies
+\eqref{t:leo-silo-catena-12} for $\var{x} = \Vincr{i}$.
+This shows the step for this case.
+
+\textbf{Step case 3}: Finally,
+we consider
+the case where $\var{i} < \var{topix}$
+and \Vel{slo}{i} is complete.
+Since \Vel{slo}{i} is complete,
+Lemma \ref{lem:leo-memo-effect} applies,
+and we have
+\eqref{t:leo-silo-catena-10}
+of the induction hypothesis for this case
+from
+\eqref{eq:lem-leo-memo-effect-14}
+of
+Lemma \ref{lem:leo-memo-effect}.
+To show
+\eqref{t:leo-silo-catena-12} for $\var{x} = \Vincr{i}$,
+we use
+\eqref{eq:lem-leo-memo-effect-15}
+of
+Lemma \ref{lem:leo-memo-effect}.
+This tells us that
+\begin{equation}
+\label{t:leo-silo-catena-20}
+\myparbox{
+\op{LM}{\el{slo}{\Vincr{i}}}
+is the top-down cause of
+\op{LM}{\Vel{slo}{i}}.
+}
+\end{equation}
+By assumption for the step, we have a catena,
+call it \var{cat1}, such that
+\begin{equation}
+\label{t:leo-silo-catena-22}
+\el{cat1}{\Vlastix{cat1}} = \op{LM}{\Vel{slo}{i}}.
+\end{equation}
+From
+\eqref{t:leo-silo-catena-20}
+and
+\eqref{t:leo-silo-catena-22}
+we know that
+we can form a new catena,
+call it \var{cat2},
+such that
+\begin{equation}
+\label{t:leo-silo-catena-24}
+\Vel{cat2}{ix} =
+\begin{cases}
+\text{\Vel{cat1}{ix}, if $0 \le \var{ix} \le \Vlastix{cat1}$} \\
+\text{\op{LM}{\el{slo}{\Vincr{i}}},
+	if $\var{ix} = \Vincr{\Vlastix{cat1}}$}
+\end{cases}
+\end{equation}
+\var{cat2}
+statisfies
+\eqref{t:leo-silo-catena-12} for $\var{x} = \Vincr{i}$.
+
+This
+shows shows the final case of the induction
+step, and therefore the step and the induction.
+\end{proof}
+
 \begin{definition}
 \dtitle{Memoable EIM's}
 If a layer of a Leo silo is not its
@@ -9565,7 +9780,6 @@ inner layers of a silo
 that are
 \dfn{Leo memoable}.
 That is, if \var{slo} is a Leo silo,
-Let the Leo item be
 \begin{equation}
   \forall \; \var{a} : 0 < \var{a} < \Vlastix{slo}
   \implies \Memoable{\Vel{slo}{a}}.
