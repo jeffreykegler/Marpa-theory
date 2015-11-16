@@ -8162,17 +8162,23 @@ In this case,
 \right].
 \end{equation*}
 \end{definition}
-
-In this document, we will want to allow for implementations which
-selectively omit valid Leo memos.
-We therefore will distinquish between
-valid Leo memos
-and
+In this document,
+we will sometimes also call a valid Leo memo an
 \xdfn{instantiated}{instantiated (Leo memo)}
-Leo memos.
-All instantiated Leo memos are valid.
-A valid Leo memo may or may not be instantiated,
-depending on the implementation.
+Leo memo.
+
+% TODO -- deal more carefully with
+% instantiation
+% in a later revision
+%
+% we will want to allow for implementations which
+% selectively omit valid Leo memos.
+% We therefore will distinquish between
+% valid Leo memos
+% and
+% All instantiated Leo memos are valid.
+% A valid Leo memo may or may not be instantiated,
+% depending on the implementation.
 
 \begin{definition}
 \dtitle{Matching Leo item}
@@ -8622,7 +8628,7 @@ So this gives us the reductio and the theorem.
 \end{proof}
 
 \begin{theorem}
-\ttitle{Leo memos are unique for location and symbol}
+\ttitle{Leo memos are unique by location and symbol}
 \label{t:leo-memo-uniqueness}
 Let \Vsym{A} be a symbol in a grammar
 and \Vloc{i} a location in a parse.
@@ -9180,9 +9186,14 @@ To show the theorem,
 we first show that there is at least one silo
 at \Current{\Veim{lb}}
 whose bottom is \Veim{lb}.
-The sequence of
-of length 1 and which contains only \Veim{lb}
-is, by the definition of silo
+The sequence
+\[
+ [ \quad \Veim{lb} \quad ],
+\]
+that is,
+the sequence containing only
+\Veim{lb} is,
+by the definition of silo
 and silo location,
 a silo at \Current{\Veim{lb}}.
 So there is at least one silo
@@ -9467,7 +9478,7 @@ This shows the theorem.
 \begin{theorem}
 \ttitle{Leo silo effects are unique}
 \label{t:leo-silo-uniq-effect}
-Every layer of a Leo silo, except the top layer,
+Every layer of a Leo silo, if it is not the top layer,
 has exactly one effect.
 \end{theorem}
 
@@ -9615,21 +9626,34 @@ and theorem.
 \begin{theorem}
 \ttitle{Every Leo silo has a catena}
 \label{t:leo-silo-catena}
+\begin{gather}
+\myparbox{
 Every layer of a Leo silo,
-except the top layer,
-has a Leo memo that is its
-matching Leo top-down cause.
-Additionally,
-the Leo top-down causes of a silo form a catena.
+if it is not the top layer,
+has a matching Leo memo.
+} \\
+\myparbox{
+The Leo top-down causes of a silo form a catena.
+} \\
+\myparbox{
+The length of the catena is equal to the number
+of complete EIM's in the layers of the silo
+below the top layer.
+}
+\end{gather}
 \end{theorem}
 
 \begin{proof}
 Let \var{slo} be a Leo silo.
 For the purposes of this proof,
 let \myfnname{LM}
-be a partial function such that \op{LM}{\Vleo{l}}
+be a partial function such that \op{LM}{\Veim{eim}}
 is
 the Leo memo of \Vleo{l}.
+Also, let \myfnname{InCmps} be a function
+such that \op{InCmps}{\var{slo}, \var{x}}
+is the number of inner layers in the silo
+\var{slo} that are complete EIM's.
 
 We proceed by induction.
 We take as the induction hypothesis
@@ -9638,14 +9662,19 @@ We take as the induction hypothesis
 \tag{IND1}
 0 \le \var{x} < \var{topix}
 \implies \Vop{LM}{\Vel{slo}{x}} \neq \Lambda
-\\
+\\[1.5ex]
 \label{t:leo-silo-catena-12}
 \tag{IND2}
-0 \le \var{x} < \var{topix}
-\implies
 \begin{multlined}
-\text{there exists a catena \var{cat} such that} \\
-\Vop{LM}{\Vel{slo}{x}} = \el{cat}{\Vlastix{cat}}
+0 \le \var{x} < \var{topix} \implies
+\exists \; \var{cat} \quad \text{such that} \\[.5ex]
+\qquad \qquad \left(
+\begin{aligned}
+& \text{\var{cat} is a catena} \\
+\land \; & \Vop{LM}{\Vel{slo}{x}} = \el{cat}{\Vlastix{cat}} \\
+\land \; & \op{InCmps}{\var{slo}, \var{x}} = \Vincr{\Vlastix{cat}}
+\end{aligned}
+\right)
 \end{multlined}
 \end{gather}
 
@@ -9677,7 +9706,7 @@ and
 for $\var{x} = \Vincr{i}$.
 Within the step, we proceed by cases.
 
-\textbf{Step case 1}: For the case where $\var{i} \ge \var{topix}$,
+\textbf{Step case 1}: For the case where $\Vincr{i} \ge \var{topix}$,
 we have
 \eqref{t:leo-silo-catena-10}
 and
@@ -9685,7 +9714,7 @@ and
 vacuously.
 
 \textbf{Step case 2}: We next consider
-the case where $\var{i} < \var{topix}$
+the case where $\Vincr{i} < \var{topix}$
 and \Vel{slo}{i} is incomplete.
 Since \Vel{slo}{i} is,
 by assumption for the step,
@@ -9700,8 +9729,25 @@ we have
 From Lemma
 \ref{lem:leo-memo-of-incompletion},
 we know that
-$\op{LM}{\Vel{slo}{i}} = \op{LM}{\el{slo}{\Vincr{i}}}$,
-so that the same catena
+\begin{equation}
+\label{t:leo-silo-catena-16}
+\el{cat}{\Vlastix{cat}} =
+\op{LM}{\Vel{slo}{i}} = \op{LM}{\el{slo}{\Vincr{i}}}
+\end{equation}
+and, because 
+\el{slo}{\Vincr{i}}
+is not a complete EIM,
+\begin{equation}
+\label{t:leo-silo-catena-18}
+\op{InCmps}{\var{slo}, \var{x}} = 
+\op{InCmps}{\var{slo}, \Vincr{x}}.
+\end{equation}
+From
+\eqref{t:leo-silo-catena-16}
+and
+\eqref{t:leo-silo-catena-18}
+we see that
+the same catena
 that satisfies
 \eqref{t:leo-silo-catena-12} for $\var{x} = \var{i}$
 also satisfies
@@ -9710,7 +9756,7 @@ This shows the step for this case.
 
 \textbf{Step case 3}: Finally,
 we consider
-the case where $\var{i} < \var{topix}$
+the case where $\Vincr{i} < \var{topix}$
 and \Vel{slo}{i} is complete.
 Since \Vel{slo}{i} is complete,
 Lemma \ref{lem:leo-memo-effect} applies,
@@ -9760,9 +9806,60 @@ such that
 \end{cases}
 \end{equation}
 \var{cat2}
-statisfies
-\eqref{t:leo-silo-catena-12} for $\var{x} = \Vincr{i}$.
+From
+\eqref{t:leo-silo-catena-24}
+we see that
+\begin{equation}
+\label{t:leo-silo-catena-27}
+\el{cat2}{\Vlastix{cat2}} = \op{LM}{\el{slo}{\Vincr{i}}}.
+\end{equation}
 
+By assumption for the case,
+\el{slo}{\Vincr{i}}
+was a completion
+and $\Vincr{i} \neq \var{topix}$,
+so that 
+\el{slo}{\Vincr{i}} is not the top layer.
+From the considerations in the paragraph,
+we see that
+\begin{align}
+\label{t:leo-silo-catena-26}
+&
+\op{InCmps}{\var{slo}, \Vincr{x}}
+=
+\Vincr{\op{InCmps}{\var{slo}, \var{x}}} &&
+\\
+\label{t:leo-silo-catena-28}
+& \Vlastix{cat2} = \Vincr{\Vlastix{cat1}}
+&& \eqref{t:leo-silo-catena-24}
+\\
+\label{t:leo-silo-catena-30}
+& \op{InCmps}{\var{slo}, \var{x}}
+= \Vincr{\Vlastix{cat1}}
+&&
+\begin{aligned}
+& \text{ASM for} \\
+& \quad \text{the Step}
+\end{aligned}
+\\
+\label{t:leo-silo-catena-32}
+& \op{InCmps}{\var{slo}, \Vincr{x}}
+= \Vincr{\Vlastix{cat2}}
+&&
+\eqref{t:leo-silo-catena-26},
+\eqref{t:leo-silo-catena-28},
+\eqref{t:leo-silo-catena-30}
+\end{align}
+
+From
+\eqref{t:leo-silo-catena-27}
+and
+\eqref{t:leo-silo-catena-32}
+we see that the \var{cat2}
+of
+\eqref{t:leo-silo-catena-24}
+satisfies
+\eqref{t:leo-silo-catena-12} for $\var{x} = \Vincr{i}$.
 This
 shows shows the final case of the induction
 step, and therefore the step and the induction.
@@ -9827,6 +9924,32 @@ is a section of a silo,
 so that if a Leo silo
 contains a read EIM,
 it is the bottom of the Leo silo.
+\end{proof}
+
+\begin{theorem}
+Every Leo silo contains a least two layers.
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
+\begin{theorem}
+The top and bottom layer of a Leo silo
+are different.
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
+\begin{theorem}
+If a inner layer occurs in two different Leo silos,
+then both silos have the same top element.
+\end{theorem}
+
+\begin{proof}
+TODO
 \end{proof}
 
 \section{Recreating a Leo silo}
