@@ -1227,8 +1227,8 @@ We will call the current set of inputs, \CW{}.
 \Cw \in \CW \quad \text{and} \quad \CW{} \subseteq \myL{\Cg}.
 \end{equation*}
 We say that \CW{} is
-\xdfn{seen between}{seen between \var{i} to \var{j} (re a set of inputs)}
-from \Vloc{i} to \Vloc{j} if and only if,
+\xdfn{seen from}{seen from \var{i} to \var{j} [re an input set]}
+\Vloc{i} to \Vloc{j} if and only if,
 for all \Vstr{w1}, \Vstr{w2}
 \begin{equation*}
 \Vstr{w1} \in \CW \land \Vstr{w2} \in \CW
@@ -1241,11 +1241,11 @@ Most parsing, including Earley parsing, takes place from left-to-right,
 and Marpa examines its input from left to right.
 We say that
 \CW{} is
-\xdfn{seen to}{seen to \var{j} (re a set of inputs)}
+\xdfn{seen to}{seen to \var{j} [of a input set]}
 \var{j},
 or that
 \CW{} is
-\xdfn{seen as far as}{seen as far as \var{j} (re a set of inputs)}
+\xdfn{seen as far as}{seen as far as \var{j} [re an input set]}
 \var{j},
 if \CW{} is seen between locations 0 and \Vloc{j}.
 In this document we will usually speak of input sets that are seen
@@ -1264,9 +1264,9 @@ instead of saying that \CW{} is seen as far as \Vloc{k},
 we may say the ``the input is seen as far as \Vloc{k}''.
 
 We will say that a derivation is
-\xdfn{fully seen}{fully seen (of a derivation)},
+\xdfn{fully seen}{fully seen [re a derivation]},
 or more simply
-\xdfn{full}{full (of a derivation)},
+\xdfn{full}{full [of a derivation]},
 if its last step is \Cw{}.
 Intuitively, a \dfn{symbol instance} is
 a symbol in the context of a parse.
@@ -1423,7 +1423,7 @@ otherwise, \var{d} expands the rightmost non-terminal symbol
 instance.
 \end{itemize}
 We say that \var{d} is
-\xdfn{focused within}{focused within (a symbol instance, said of a derivation}
+\xdfn{focused within}{focused within [re a symobl instance and a derivation]}
 a symbol instance \Vinst{si}
 if and only if it is
 focused at some \Vloc{k} such
@@ -1432,7 +1432,7 @@ that
 \Left{\var{si}} \le \Vloc{k} < \Right{\var{si}}.
 \]
 We say that \var{d} is
-\xdfn{focused within}{focused within (an EIM, said of a derivation)}
+\xdfn{focused within}{focused within [re an EIM and a derivation]}
 \Veim{eim}
 if and only if it is
 focused at some \Vloc{k} such that
@@ -2419,7 +2419,7 @@ If
 \end{equation*}
 is a pair of dotted rules,
 we say that \Vdr{completion} is the
-\xdfn{completion dotted rule}{completion (dotted rule, of another dotted rule)}
+\xdfn{completion dotted rule}{completion (dotted rule) [re another dotted rule]}
 of the quasi-completion \Vdr{quasi}.
 
 A dotted rule which has only nulling symbols before the dot
@@ -3044,11 +3044,11 @@ above.
 \begin{definition}
 Following the convention for dotted rules,
 EIM's are
-\xdfn{telluric}{telluric (of an EIM)}
+\xdfn{telluric}{telluric (EIM)}
 if they are the start EIM,
 a read EIM or a reduction EIM.
 An EIM is
-\xdfn{ethereal}{ethereal (of an EIM)}
+\xdfn{ethereal}{ethereal (EIM)}
 if it is not telluric.
 \end{definition}
 
@@ -3068,7 +3068,8 @@ an Earley item
 \label{eq:def-eim-valid-5}
 \bigl[[\Vsym{A} \de \Vstr{predot} \mydot \Vstr{postdot}], \var{i}, \var{j} \bigr]
 \end{equation}
-is \dfn{valid}
+is
+\xdfn{valid}{valid (EIM)}
 if and only if
 \begin{equation}
 \label{eq:def-eim-valid-10}
@@ -3118,12 +3119,12 @@ be its validity equivalent.
 Then we say that the derivation step
 Step \var{s}
 is the
-\xdfn{LHS step}{LHS step (of an EIM)}
+\xdfn{LHS step}{LHS step [re an EIM]}
 of \Veim{eim}.
 We say that the derivation step
 Step \Vincr{s}
 is the
-\xdfn{RHS step}{RHS step (of an EIM)}
+\xdfn{RHS step}{RHS step [re of an EIM]}
 of \Veim{eim}.
 When we refer to the ``step'' associated with an
 EIM without specifing whether LHS or RHS,
@@ -3139,23 +3140,23 @@ We say that
 \Vmk{i} \Vsym{A} \Vmk{k}
 \]
 is the
-\xdfn{LHS derivation symbol instance}{LHS derivation symbol instance (of an EIM)},
+\xdfn{LHS derivation symbol instance}{LHS derivation symbol instance [re an EIM]},
 or more simply
-\xdfn{LHS derivation instance}{LHS derivation instance (of an EIM)},
+\xdfn{LHS derivation instance}{LHS derivation instance [re an EIM]},
 of \Veim{eim}.
 We say that the derivation symbol instances in
 \[
 \Vmk{i} \Vstr{predot} \Vstr{postdot} \Vmk{k}
 \]
 are the
-\xdfn{RHS derivation symbol instances}{RHS derivation symbol instances (of an EIM)},
+\xdfn{RHS derivation symbol instances}{RHS derivation symbol instances [re an EIM]},
 or more simply
-\xdfn{RHS derivation instances}{RHS derivation instances (of an EIM)},
+\xdfn{RHS derivation instances}{RHS derivation instances [re an EIM]},
 of \Veim{eim}.
 And we say that \Vloc{j} is the
-\xdfn{dot location in the derivation}{dot location in the derivation (of an EIM)},
+\xdfn{dot location in the derivation}{dot location in the derivation [re an EIM]},
 or when it is clear in context,
-the \xdfn{dot location}{dot location (of an EIM in a derivation)},
+the \xdfn{dot location}{dot location [re an EIM in a derivation]},
 of \Veim{eim}.
 
 We will write \Vop{Valid-eq}{x}%
@@ -3400,13 +3401,13 @@ if and only if
 \end{equation}
 \eqref{eq:def-terminal-validity-10}
 is considered to be the
-\xdfn{derivation validity equivalent}{derivation validity equivalent (terminal symbol, of itself)}
+\xdfn{derivation validity equivalent}{derivation validity equivalent (terminal symbol) [re itself]}
 of itself.
 When it is clear in context,
 we will also call
 \eqref{eq:def-terminal-validity-10}
 the
-\xdfn{validity equivalent}{validity equivalent (terminal symbol, of itself)}
+\xdfn{validity equivalent}{validity equivalent (terminal symbol) [re itself]}
 of itself.
 Overloading our previous use of \myfnname{Valid-eq},
 we write \Vop{Valid-eq}{x}%
@@ -3710,7 +3711,7 @@ follows from
 by EIM validity.
 
 The proof of the ``only if'' direction is symmetric.
-The 
+The
 \Veim{down} is valid by assumption, so
 from
 \eqref{eq:null-scan-from-down-cause-5}
@@ -4583,9 +4584,8 @@ a
 \xdfn{lasting base}{lasting base (EIM)}
 EIM
 is an EIM
-whose dotted rule is a lasting base,
-and
-any EIM which is not a lasting base
+whose dotted rule is a lasting base.
+Any EIM which is not a lasting base
 is a
 \xdfn{fleeting base}{fleeting base (EIM)}.
 
@@ -4626,35 +4626,74 @@ then
 \end{equation*}
 
 \begin{theorem}
-\ttitle{Fleeting closure validity}
-\label{t:fleeting-closure-validity}
+Every EIM has a lasting base.
+\end{theorem}
+
+\begin{proof}
+We proceed by cases, the trivial ones first.
+Let \Veim{eim} be an EIM.
+If \Veim{eim} has no predot symbol, by the definition of lasting
+base, \Veim{eim} its own lasting base.
+If \Veim{eim} has a predot symbol that is not nulling,
+by the definition of lasting
+base, \Veim{eim} is its own lasting base.
+
+It remains to consider the non-trivial case,
+where \Veim{eim} has a nulling predot symbol.
+
+TODO
+\end{proof}
+
+\begin{theorem}
+\ttitle{Partial Fleeting closure validity}
+\label{t:partial-fleeting-closure-validity}
 
 TODO: Revise
 
 Let \Veim{eim} be a valid EIM,
-let \var{ns} be its fleeting closure,
-let \Veim{bas} be the lasting base of \Veim{eim}
-and let \var{bns} be the fleeting closure
-of \Veim{bas}.
+and let \var{ns} be its fleeting closure.
 Then
 every
-EIM in \var{ns} or in \var{bns} is
-valid.
-% \item
-% for all \var{a}
-% such that
-% $0 \le \var{a} \le \decr{\Vlastix{ns}}$,
-% \Vel{ns}{a} is the unique top-down cause of
-% \el{ns}{\Vincr{a}}; and
-% \item
-% \el{ns}{\Vincr{a}}
-% is the unique effect of \Vel{ns}{a}.
+EIM in \var{ns}
+valid;
+for all \var{a}
+such that
+$0 \le \var{a} \le \decr{\Vlastix{ns}}$,
+\Vel{ns}{a} is the unique top-down cause of
+\el{ns}{\Vincr{a}}; and
+\item
+\el{ns}{\Vincr{a}}
+is the unique effect of \Vel{ns}{a}.
 \end{theorem}
 
 \begin{proof}
 This theorem follows from Theorem
 \ref{t:null-scan-from-down-cause}
 by iteration.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Fleeting closure validity}
+\label{t:full-fleeting-closure-validity}
+Let \Veim{eim} be a valid EIM,
+let \Veim{bas} be the lasting base of \Veim{eim}
+and let \var{bns} be the fleeting closure
+of \Veim{bas}.
+Then
+every
+EIM in \var{bns} is
+valid.
+for all \var{a}
+such that
+$0 \le \var{a} \le \decr{\Vlastix{bns}}$,
+\Vel{bns}{a} is the unique top-down cause of
+\el{bns}{\Vincr{a}}; and
+\el{bns}{\Vincr{a}}
+is the unique effect of \Vel{bns}{a}.
+\end{theorem}
+
+\begin{proof}
+TODO
 \end{proof}
 
 \begin{theorem}
@@ -5776,12 +5815,12 @@ Theorem \ref{t:deriv-tether}
 If \var{hi} and \var{lo} are
 tether indexes such that $\var{hi} > \var{lo}$,
 we say that \Vel{teth}{lo} is
-\xdfn{below}{below (in a tether)}
+\xdfn{below}{below [in a tether]}
 \Vel{teth}{hi};
 and that the direction from
 \Vel{teth}{hi} to
 \Vel{teth}{lo} is
-\xdfn{downward}{downward (in a tether)}.
+\xdfn{downward}{downward [in a tether]}.
 
 \begin{theorem}
 \label{t:non-decreasing-location}
@@ -6292,7 +6331,7 @@ the result will be a silo.
 
 We call an element of a silo,
 a
-\xdfn{layer}{layer (of silo)}.
+\xdfn{layer}{layer (EIM) [re a silo]}.
 We write \Vsize{\var{s1}}%
 \index{recce-notation}{\Pipe{}silo\Pipe{}@\Vsize{silo} (size of a silo)}
 for the number
@@ -6302,12 +6341,12 @@ consecutive non-negative integers for silo layers,
 started at zero.
 \el{s1}{0}
 is called the
-\xdfn{bottom}{bottom (of silo)}
+\xdfn{bottom}{bottom (EIM) [re a silo]}
 of \var{s1},
 and
 $\var{s1}\big[ \, \Vlastix{s1} \, \big]$
 is the
-\xdfn{top}{top (of silo)}
+\xdfn{top}{top (EIM) [re a silo]}
 of \var{s1}.
 
 \begin{theorem}
@@ -6417,7 +6456,7 @@ which shows the theorem.
 
 We say that \Right{\Vel{sil}{0}}
 is the
-\xdfn{location}{location (of a silo)}
+\xdfn{location}{location [re a silo]}
 of the silo \var{sil}.
 From Theorem
 \ref{t:silo-location}
@@ -7941,10 +7980,10 @@ In \eqref{eq:def-leo-memo-10}
 \Vsym{transition} is the
 \dfn{Leo transition symbol}
 or
-\xdfn{transition symbol}{transition symbol (of a Leo memo)}.
+\xdfn{transition symbol}{transition symbol [re a Leo memo]}.
 \Vleo{leo} is considered to be located at \Vloc{memloc},
 and \Vloc{memloc} is called the
-\xdfn{current location}{current location (of a Leo memo)}
+\xdfn{current location}{current location [re a Leo memo]}
 of \Vleo{leo}.
 We will sometimes speak of \Vleo{leo} as being in the
 Earley set at \Vloc{memloc},
@@ -8042,12 +8081,12 @@ where EORR sets can grow arbitrarily
 large.
 
 \begin{definition}
-\label{def:basis-of-leo-item}
-\dtitle{Basis of a Leo item}
+\label{def:basis-of-leo-memo}
+\dtitle{Basis of a Leo memo}
 Let, without loss of generality,
 a Leo-eligible EIM be
 \begin{equation}
-\label{eq:def-basis-of-leo-item-5}
+\label{eq:def-basis-of-leo-memo-5}
 \Veim{basis} = \left[
   \begin{gathered}
      [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{trans} \Vstr{nul2} ], \\
@@ -8056,19 +8095,19 @@ a Leo-eligible EIM be
 \right]
 \end{equation}
 where $\Vstr{nul2} = \epsilon$.
-For any Leo item of the form
+For any Leo memo of the form
 \begin{equation}
-\label{eq:def-basis-of-leo-item-10}
+\label{eq:def-basis-of-leo-memo-10}
   \Vleo{eff} = [ \Vsym{trans}, \Vdr{tbd}, \Vorig{tbd}, \Vloc{j} ]
 \end{equation}
 for some \Vdr{tdb} and \Vorig{tdb},
 we say that \Veim{basis} is a
-\xdfn{basis}{basis (of a Leo item)}
+\xdfn{basis}{basis (EIM) [re a Leo memo]}
 or
-\xdfn{bottom-up cause}{bottom-up cause (of a Leo item)}
+\xdfn{bottom-up cause}{bottom-up cause (of a Leo memo)}
 of \Vleo{eff}
 and that \Vleo{eff} is the
-\xdfn{effect}{effect (Leo item)}
+\xdfn{effect}{effect (Leo memo) [re an EIM]}
 of \Veim{basis}.
 \end{definition}
 
@@ -8153,8 +8192,8 @@ Lemma
 \end{proof}
 
 \begin{definition}
-\label{def:down-cause-of-leo-item}
-\dtitle{Top-down cause of an Leo item}
+\label{def:down-cause-of-leo-memo}
+\dtitle{Top-down cause of an Leo memo}
 Let
 and \Vleo{eff} be a Leo memo
 \begin{equation*}
@@ -8164,9 +8203,9 @@ be an EIM, and let
 \begin{equation*}
   \Vleo{eff} = [ \Vsym{trans}, \Vdr{tbd}, \Vorig{tbd}, \Vloc{j} ]
 \end{equation*}
-be a Leo item,
+be a Leo memo,
 where \Veim{basis} is the basis of \Vleo{eff}.
-If there is a second Leo item
+If there is a second Leo memo
 \begin{equation*}
 \Vleo{down} = [ \LHS{\Vdr{basis}}, \Vdr{td-top}, \Vorig{td-top}, \Vloc{i} ],
 \end{equation*}
@@ -8174,25 +8213,25 @@ for some \Vdr{td-top} and \Vorig{td-top},
 then
 we say that
 \Vleo{down} is a
-\xdfn{top-down cause}{top-down cause (of a Leo item)}
+\xdfn{top-down cause}{top-down cause (Leo memo) [re a 2nd Leo memo]}
 of \Vleo{eff};
 and that \Vleo{eff} is the
-\xdfn{effect}{effect (Leo item)}
+\xdfn{effect}{effect (Leo memo) [re a 2nd Leo memo]}
 of \Vleo{down}.
-If there is no Leo item of the form of
+If there is no Leo memo of the form of
 \Vleo{down},
 then we say that \Vleo{eff} has no
 top-down cause.
 \end{definition}
 
 \begin{definition}
-\label{def:validity-of-leo-item}
-\dtitle{Validity of an Leo item}
-Let \Vleo{eff} be a Leo item,
+\label{def:validity-of-leo-memo}
+\dtitle{Validity of an Leo memo}
+Let \Vleo{eff} be a Leo memo,
 and let \Veim{basis} be a valid EIM
 which is the basis of \Vleo{eff}.
 \Vleo{eff} is
-\xdfn{valid}{valid (Leo item)}
+\xdfn{valid}{valid (Leo memo)}
 if and only if
 it falls into one of
 two cases,
@@ -8250,11 +8289,11 @@ Leo memo.
 % depending on the implementation.
 
 \begin{definition}
-\dtitle{Matching Leo item}
+\dtitle{Matching Leo memo}
 A Leo memo, call it \Vleo{leo},
 and an EIM, call it \Veim{eim},
 are said to
-\xdfn{match}{match (of Leo memo and EIM)}
+\xdfn{match}{match [re a Leo memo and an EIM]}
 if and only if
 \begin{gather*}
 \text{\Veim{eim} is a completion,} \\
@@ -8262,7 +8301,7 @@ if and only if
 \Current{\Vleo{leo}} = \Left{\Veim{eim}}.
 \end{gather*}
 We also say that \Vleo{leo} is the
-\xdfn{matching}{matching (Leo item) [of an EIM]}
+\xdfn{matching}{matching (Leo memo) [of an EIM]}
 Leo memo of \Veim{eim}
 and that \Veim{eim} is the
 \xdfn{matching}{matching (EIM) [of an Leo memo]}
@@ -8933,7 +8972,7 @@ we say that the symbol instance
 \end{equation*}%
 \index{recce-notation}{Leo-bot(x)@\Vop{Leo-bot}{x}}
 is a
-\xdfn{bottom}{bottom (of a Leo silo)}
+\xdfn{bottom}{bottom (EIM) [of a Leo silo]}
 EIM matching \Vleo{leo} at \Vloc{i}.
 
 Where \Vleo{leo} is a Leo memo,
@@ -8946,7 +8985,7 @@ we say that
 \end{equation}%
 \index{recce-notation}{Leo-top(x)@\Vop{Leo-top}{x}}
 is the
-\xdfn{top}{top (of a Leo silo)}
+\xdfn{top}{top (EIM) [of a Leo silo]}
 EIM
 matching \Vleo{leo}
 at \Vloc{i}.
@@ -10095,14 +10134,14 @@ such that contain, respectively, all the matching Leo memos
 of the layers of \var{aslo} and \var{bslo}:
 \begin{multline}
 \label{silo-common-lower-layers-share-top-21}
-\forall \; \var{i} \; \exists \; \Vleo{l}, \Veim{eim} 
+\forall \; \var{i} \; \exists \; \Vleo{l}, \Veim{eim}
 : 0 \le \var{i} < \Vlastix{aslo} \\
 \implies
 \Veim{eim} = \Vel{aslo}{i} \; \land \; \Match{\Vleo{l}}{\Veim{eim}}
 \; \land \; \Vleo{l} \in \var{acat} \\
 \shoveleft{
   \text{and} \quad
-  \forall \; \var{i} \; \exists \; \Vleo{l}, \Veim{eim} 
+  \forall \; \var{i} \; \exists \; \Vleo{l}, \Veim{eim}
   : 0 \le \var{i} < \Vlastix{bslo}
 } \\
 \implies
@@ -10174,7 +10213,7 @@ we have
 \op{Leo-top}{\Vleo{l1}, \Vloc{curr}}
 = \op{Leo-top}{\Vleo{l2}, \Vloc{curr}}
 \end{multline}
-In 
+In
 \eqref{silo-common-lower-layers-share-top-15},
 we showed that both silos must have the same location
 as their common layer: \Right{\Veim{comm}}.
@@ -10395,7 +10434,7 @@ all of the layers of \var{fcm} must be inner layers of a Leo silo.
 From Theorem
 \label{t:fleeting-closure-silo},
 applies so long as \el{fcm}{0} is a quasi-completion,
-so that \var{fcm} can be lengthened at the beginning 
+so that \var{fcm} can be lengthened at the beginning
 \item
 \var{fcm} can be lengthened at the beginning
 as far as its elements are a quasi-completions,
@@ -10414,7 +10453,7 @@ it can only be because some elements of \var{fcm} would be above the
 top of the Leo silo,
 or because some elements of
 \var{fcm} would be below the bottom of the Leo silo.
-But from 
+But from
 \eqref{t:fleeting-closure-memoization-10}
 we know that \var{fc} does not contain
 the top or the bottom of the Leo silo.
@@ -10559,7 +10598,7 @@ will be valid and unmemoized.
 \end{theorem}
 
 \begin{proof}
-Let \Vleo{leo} be a Leo item and
+Let \Vleo{leo} be a Leo memo and
 \Veim{up} a valid EIM that
 matches it.
 By Theorem \ref{t:leo-silo-validity}
@@ -10605,7 +10644,7 @@ TODO: Delete this chapter?
 \dtitle{Altitude}
 \label{def:altitude}
 We write \Alt{\Vinst{inst}} for the
-\xdfn{altitude}{altitude (of an EIM)}
+\xdfn{altitude}{altitude [re an EIM]}
 of \Vinst{inst}.
 
 An EIM, \Veim{up}, is an
@@ -12018,7 +12057,7 @@ The \var{transitions} table for \Ves{i}
 is built once all EIM's have been
 added to \Ves{i}.
 We first look at the resource,
-excluding the processing of Leo items.
+excluding the processing of Leo memos.
 The non-Leo processing can be done in
 a single pass over \Ves{i},
 in \Oc{} time per EIM.
