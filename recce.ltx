@@ -2626,7 +2626,17 @@ If \Vdr{base} is telluric, we say that
 \Vdr{base} is a \dfn{telluric base}.
 We call \Vdr{tell} a telluric base
 of a dotted rule \Vdr{dr2} if and only if
+it is telluric and
 \[ \Vdr{dr2} \in \var{ethereal-dr-closure}(\lbrace \Vdr{tell} \rbrace). \]
+If \Vdr{base} is not a null-scan, we say that
+\Vdr{base} is a \dfn{lasting base}.
+We call \Vdr{} a lasting base
+of a dotted rule \Vdr{dr2} if and only if
+it is not a null-scan and
+\[ \Vdr{dr2} \in \var{ethereal-dr-closure}(\lbrace \Vdr{tell} \rbrace). \]
+Every telluric base is a lasting base.
+However a prediction is a lasting base,
+so that not every lasting base is a telluric base.
 
 \section{Ethereal closures}
 
