@@ -9917,7 +9917,7 @@ or more simply,
 if and only if every layer in its fleeting closure
 is an inner layer.
 To say that
-We also \Veim{eim} is memoable in \var{slo},
+\Veim{eim} is memoable in \var{slo},
 we also write \Memoable{\Veim{eim}}{\var{slo}}%
 \index{recce-notation}{Memoable(eim,slo)@\Memoable{\var{eim}, \var{slo}}}.
 \end{definition}
@@ -10270,14 +10270,15 @@ we will
 assume that one of the two EIM's is memoized,
 and show that the other one must be.
 Without loss of generality, we assume that \Veim{e1}
-is memoized.
+is the EIM which is memoized.
 
 Since \Veim{e1} is memoized, by the definition of memoized,
-all of its occurrences must be memoable.
-Since the occurrence of \Veim{e1} is \var{fc} is memoable,
-by the definition of memoized,
-all of the layers of \var{fc} must be memoable.
-Since every layer of \var{fc} is memoable, by the definition of memoable,
+it must be memoable
+in every silo in which it occurs.
+Since the occurrence of \Veim{e1} in \var{fc} is memoable
+wherever it occurs,
+including in \var{fc},
+then, by the definition of memoable,
 \begin{equation}
 \label{t:fleeting-closure-memoization-10}
 \myparbox{
@@ -10285,20 +10286,77 @@ all of the layers of \var{fc} must be inner layers of a Leo silo.
 }
 \end{equation}
 
-Let \var{fcm} be the ``maximal'' fleeting closure that contains \var{fc}.
+From
+\eqref{t:fleeting-closure-memoization-10}
+we know that \var{fc} must be entirely contained in a Leo silo,
+call it \var{lslo}.
+Let \var{fcm} be the longest fleeting closure
+that contains \var{fc}.
+and is contained inside \var{lslo}.
+From Theorem
+\label{t:fleeting-closure-silo},
+we know that
+\begin{itemize}
+\item
+each element of \var{fcm} is uniquely determined by the one
+one before it, if there is one.
+\item
+each element of \var{fcm} is uniquely determined by the one
+one after it, if there is one.
+\end{itemize}
+
+We now must show that, like \var{fc}, \var{fcm}
+contains only the inner layers of a Leo silo.
+Suppose for a reductio, that \var{fcm} contains an outer
+layer.
+\begin{align}
+\notag
+& \Veim{e1} \in \var{fc} \\
+\notag
+\therefore \; & \Veim{e1} \in \var{fcm} \\
+\intertext{and because \Veim{e1} is in a fleeting closure that contains
+an outer item.}
+\notag
+& \neg \Memoable{\var{e1}}{\var{fcm}} \\
+\label{t:fleeting-closure-memoization-15}
+\therefore \; & \neg \Memoized{\var{e1}}
+\end{align}
+\eqref{t:fleeting-closure-memoization-15} contradicts our
+assumption for the reductio, so we know that
+\begin{equation}
+\label{t:fleeting-closure-memoization-20}
+\myparbox{
+all of the layers of \var{fcm} must be inner layers of a Leo silo.
+}
+\end{equation}
+
+From Theorem
+\label{t:fleeting-closure-silo},
+applies so long as \el{fcm}{0} is a quasi-completion,
+so that \var{fcm} can be lengthened at the beginning 
+\item
+\var{fcm} can be lengthened at the beginning
+as far as its elements are a quasi-completions,
+we know that \el{fcm}{\Vlastix{fcm}}, if it is not
+
+the top
+\var{fcm} is finite
+and is a deterministic series of cause and effect
+that begin with a telluric EIM and ends with a complete EIM.
+
 \var{fcm} contains all the EIM's in the fleeting closure,
 so that the telluric base of the fleeting closure is \el{fcm}{0}
 and a complete EIM is \el{fcm}{\Vlastix{fc}}.
 If $\var{fc} \neq \var{fcm}$,
-it can only be because some elements of \var{fcm} are above the
+it can only be because some elements of \var{fcm} would be above the
 top of the Leo silo,
 or because some elements of
-\var{fcm} are below the bottom of the Leo silo.
+\var{fcm} would be below the bottom of the Leo silo.
 But from 
 \eqref{t:fleeting-closure-memoization-10}
 we know that \var{fc} does not contain
-the top or the bottom of the Leo silo,
-much less any layers above the top,
+the top or the bottom of the Leo silo.
+and therefore less any layers above the top,
 or below the bottom.
 Therefore $\var{fc} = \var{fcm}$.
 
