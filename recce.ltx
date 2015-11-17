@@ -4589,7 +4589,7 @@ Also,
 for all \var{a}
 such that
 $0 \le \var{a} \le \decr{\Vlastix{ns}}$,
-\Vel{ns}{a} is the top-down cause of
+\Vel{ns}{a} is the unique top-down cause of
 \el{ns}{\Vincr{a}};
 and \el{ns}{\Vincr{a}}
 is the unique effect of \Vel{ns}{a}.
@@ -4656,7 +4656,8 @@ Then we have all of the following:
 \label{eq:iterative-completion-from-null-scan-cause-20}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{ns}} \\
-& \qquad \implies \text{\Vel{ns}{a} is the top-down cause of
+& \qquad \implies \text{\Vel{ns}{a} is the
+  unique top-down cause of
 	\el{ns}{\Vincr{a}}
 }
 \end{aligned}
@@ -7543,73 +7544,72 @@ We conclude that \Veim{bot} is a read EIM.
 
 
 \begin{theorem}
-\ttitle{Quasi-completion silo}
-\label{t:quasi-completion-silo}
+\ttitle{Fleeting closure silo}
+\label{t:fleeting-closure-silo}
 Let \Veim{qc} be a valid quasi-completion.
-Then
+Then there is a silo, call it \var{slo},
+such that
 \begin{align}
-\label{eq:quasi-completion-silo-5}
-& \text{\Veim{qc} is the bottom of a silo,
-  call it \var{slo}
-}
+\label{eq:fleeting-closure-silo-5}
+& \el{slo}{0} = \Veim{qc}
 \\
-\label{eq:quasi-completion-silo-9}
+\label{eq:fleeting-closure-silo-9}
 & \text{\var{slo} contains at most \Vsize{\Vrule{r}}
   elements
 }
 \\
-\label{eq:quasi-completion-silo-10}
+\label{eq:fleeting-closure-silo-10}
 & \text{$\var{slo}\big[ \Vlastix{ns} \big]$
   is a completion
 }
 \\
-\label{eq:quasi-completion-silo-12}
+\label{eq:fleeting-closure-silo-12}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} < \Vlastix{slo} \\
 & \quad \implies \text{\Vel{slo}{a} is an incomplete EIM}
 \end{aligned}
 \\
-\label{eq:quasi-completion-silo-13}
+\label{eq:fleeting-closure-silo-13}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo} \\
 & \quad \implies \text{\Vel{slo}{a} is a quasi-complete EIM}
 \end{aligned}
 \\
-\label{eq:quasi-completion-silo-14}
+\label{eq:fleeting-closure-silo-14}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo}
   \implies \Valid{\Vel{slo}{a}}
 \end{aligned}
 \\
-\label{eq:quasi-completion-silo-16}
+\label{eq:fleeting-closure-silo-16}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo} \\
 & \qquad \implies \op{Right}{\el{slo}{0}} = \op{Right}{\Vel{slo}{a}}
 \end{aligned}
 \\
-\label{eq:quasi-completion-silo-18}
+\label{eq:fleeting-closure-silo-18}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo} \\
 & \qquad \implies \op{Rule}{\el{slo}{0}} = \op{Rule}{\Vel{slo}{a}}
 \end{aligned}
 \\
-\label{eq:quasi-completion-silo-20}
+\label{eq:fleeting-closure-silo-20}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{slo}} \\
-& \qquad \implies \text{\Vel{ns}{a} is the top-down cause of
-	\el{ns}{\Vincr{a}}
+& \qquad \implies \text{\Vel{ns}{a} is the unique
+  top-down cause of \el{ns}{\Vincr{a}}
 }
 \end{aligned}
 \\
-\label{eq:quasi-completion-silo-21}
+\label{eq:fleeting-closure-silo-21}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{slo}} \\
-& \qquad \implies \text{\Vel{ns}{a} is the silo cause of
-	\el{ns}{\Vincr{a}}
+& \qquad \implies \text{\Vel{ns}{a} is
+  the unique silo cause of \el{ns}{\Vincr{a}}
 }
 \end{aligned}
 \\
-\label{eq:quasi-completion-silo-22}
+\label{eq:fleeting-closure-silo-22}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{slo}} \\
 & \qquad \implies \text{\el{slo}{\Vincr{a}}
@@ -7621,7 +7621,7 @@ Then
 
 \begin{proof}
 Requirement of the theorem
-\eqref{eq:quasi-completion-silo-5}
+\eqref{eq:fleeting-closure-silo-5}
 follows from
 \begin{itemize}
 \item
@@ -7642,70 +7642,70 @@ For the remaining requirements,
 \begin{itemize}
 \item
 Requirement
-\eqref{eq:quasi-completion-silo-9}
+\eqref{eq:fleeting-closure-silo-9}
 of this theorem follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-9}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause}.
 \item
 Requirement
-\eqref{eq:quasi-completion-silo-10}
+\eqref{eq:fleeting-closure-silo-10}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-10}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause};
 \item
 Requirement
-\eqref{eq:quasi-completion-silo-12}
+\eqref{eq:fleeting-closure-silo-12}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-12}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause};
 \item
 Requirement
-\eqref{eq:quasi-completion-silo-13}
+\eqref{eq:fleeting-closure-silo-13}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-13}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause};
 \item
 Requirement
-\eqref{eq:quasi-completion-silo-14}
+\eqref{eq:fleeting-closure-silo-14}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-14}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause};
 \item
 Requirement
-\eqref{eq:quasi-completion-silo-16}
+\eqref{eq:fleeting-closure-silo-16}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-16}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause};
 \item
 Requirement
-\eqref{eq:quasi-completion-silo-18}
+\eqref{eq:fleeting-closure-silo-18}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-18}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause};
 \item
 Requirement
-\eqref{eq:quasi-completion-silo-20}
+\eqref{eq:fleeting-closure-silo-20}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-20}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause};
 \item
 Requirement
-\eqref{eq:quasi-completion-silo-21} follows from
-\eqref{eq:quasi-completion-silo-13},
-\eqref{eq:quasi-completion-silo-16}
+\eqref{eq:fleeting-closure-silo-21} follows from
+\eqref{eq:fleeting-closure-silo-13},
+\eqref{eq:fleeting-closure-silo-16}
 and
-\eqref{eq:quasi-completion-silo-20};
+\eqref{eq:fleeting-closure-silo-20};
 \item
 Requirement
-\eqref{eq:quasi-completion-silo-22}
+\eqref{eq:fleeting-closure-silo-22}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-22}
 of Theorem
@@ -9335,10 +9335,10 @@ and therefore a quasi-completion.
 Since
 \Vel{slo}{i} is a valid quasi-completion,
 we can use
-\eqref{eq:quasi-completion-silo-14}
+\eqref{eq:fleeting-closure-silo-14}
 of
 Theorem
-\ref{t:quasi-completion-silo}
+\ref{t:fleeting-closure-silo}
 tells us that
 \el{slo}{\Vincr{i}} is valid,
 which shows
@@ -9441,7 +9441,7 @@ If
 quasi-complete silo layer,
 by
 Theorem
-\ref{t:quasi-completion-silo},
+\ref{t:fleeting-closure-silo},
 it is the bottom of some silo,
 call it \var{hislo}, such that
 \begin{equation}
@@ -9565,10 +9565,10 @@ and \Vel{slo}{i} is incomplete.
 By assumption for the case,
 \Vel{slo}{i} is not complete,
 so that
-\eqref{eq:quasi-completion-silo-22}
+\eqref{eq:fleeting-closure-silo-22}
 of
 Theorem
-\ref{t:quasi-completion-silo} tells us that
+\ref{t:fleeting-closure-silo} tells us that
 the unique effect of \Vel{silo}{i}
 is \el{silo}{\Vincr{i}}.
 This shows
@@ -9633,10 +9633,10 @@ vacuously.
 \textbf{Step case 2}: We next consider
 the case where $\var{i} \le \var{topix}$
 and \Vel{slo}{i} is incomplete.
-\eqref{eq:quasi-completion-silo-18}
+\eqref{eq:fleeting-closure-silo-18}
 of
 Theorem
-\ref{t:quasi-completion-silo} tells us that
+\ref{t:fleeting-closure-silo} tells us that
 \[
   \Rule{\Vel{silo}{i}} = \Rule{\el{silo}{\Vincr{i}}}.
 \]
