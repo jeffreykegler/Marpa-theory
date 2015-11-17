@@ -3660,55 +3660,114 @@ which is what we needed to show for the theorem.
 \ttitle{Null-scan from top-down cause}
 \label{t:null-scan-from-down-cause}
 Let
+\[
+[ \Vsym{A} \de \Vstr{prf} \Vsym{nul} \Vstr{suf} ]
+\]
+be a rule in \Cg{}
+such that
+$\Vsym{nul} = \epsilon$.
+Then, for some \Vloc{i}, \Vloc{k},
 \begin{equation}
 \label{eq:null-scan-from-down-cause-5}
 \Veim{down} = \big[ [ \Vsym{A} \de \Vstr{prf} \mydot \Vsym{nul} \Vstr{suf} ],
-\var{i}, \var{k} \big],
+\var{i}, \var{k} \big]
 \end{equation}
-be a valid EIM
-where $\Vsym{nul} = \epsilon$.
-Then \Veim{down} has a
-unique valid null-scan effect:
+is valid
+if and only if
 \begin{equation}
 \label{eq:null-scan-from-down-cause-8}
 \Veim{eff} = \big[ [ \Vsym{A} \de \Vstr{prf} \Vsym{nul} \mydot \Vstr{suf} ],
-\var{i}, \var{k} \big].
+\var{i}, \var{k} \big]
 \end{equation}
-Also, \Veim{down} is the unique top-down cause of \Veim{eff}.
+is valid.
+Also,
+\Veim{down} is the unique valid top-down cause of \Veim{eff};
+and
+\Veim{eff} is the unique valid effect of \Veim{down}.
 \end{theorem}
 
 \begin{proof}
+To show the ``if'' direction, we assume
+\eqref{eq:null-scan-from-down-cause-8}.
+Using the definition of EIM validity
+and
+\eqref{eq:null-scan-from-down-cause-8},
+we see that
+\begin{equation}
+\label{eq:null-scan-from-down-cause-20}
+\Vsym{A} \derives \Vmk{i} \Vstr{prf} \Vsym{nul} \Vmk{k} \Vstr{suf}.
+\end{equation}
+Moving \Vmk{k} in
+\eqref{eq:null-scan-from-down-cause-20}
+to the other side of the nulling symbol produces
+\begin{equation}
+\label{eq:null-scan-from-down-cause-23}
+\Vsym{A} \derives \Vmk{i} \Vstr{prf} \Vmk{k} \Vsym{nul} \Vstr{suf}.
+\end{equation}
+\eqref{eq:null-scan-from-down-cause-5}
+follows from
+\eqref{eq:null-scan-from-down-cause-23},
+by EIM validity.
+
+The proof of the ``only if'' direction is symmetric.
+The 
 \Veim{down} is valid by assumption, so
 from
 \eqref{eq:null-scan-from-down-cause-5}
 we have
 \begin{equation}
-\label{eq:null-scan-from-down-cause-12}
-\Vsym{down} \derives \Vmk{i} \Vstr{prf} \Vmk{j} \Vsym{nul} \Vstr{suf}.
+\label{eq:null-scan-from-down-cause-30}
+\Vsym{A} \derives \Vmk{i} \Vstr{prf} \Vmk{k} \Vsym{nul} \Vstr{suf}.
 \end{equation}
-Moving \Vmk{j} in
-\eqref{eq:null-scan-from-down-cause-12}
+Moving \Vmk{k} in
+\eqref{eq:null-scan-from-down-cause-30}
 to the other side of the nulling symbol produces
 \begin{equation}
-\label{eq:null-scan-from-down-cause-10}
-\Vsym{down} \derives \Vmk{i} \Vstr{prf} \Vsym{nul} \Vmk{j} \Vstr{suf},
+\label{eq:null-scan-from-down-cause-33}
+\Vsym{A} \derives \Vmk{i} \Vstr{prf} \Vsym{nul} \Vmk{k} \Vstr{suf},
 \end{equation}
 \eqref{eq:null-scan-from-down-cause-8}
 follows from
-\eqref{eq:null-scan-from-down-cause-10},
+\eqref{eq:null-scan-from-down-cause-33}
 by EIM validity.
 
-By the definition of top-down cause,
-all the effects of \Veim{down}
-must have the same dotted rule, origin and current location as \Veim{eff}.
-Therefore, the effect of
-a null-scan is unique.
+By the definition of top-down cause applied to a null-scan,
+we see that,
+if \Veim{cuz} is a valid top-down cause of
+a null-scan effect,
+then that effect must be
+\begin{equation}
+\notag
+\label{eq:null-scan-from-down-cause-40}
+     \Veim{eff} =
+\left[
+\begin{gathered}
+\Next{\DR{\Veim{cuz}}}, \\
+\Origin{\Veim{cuz}}, \Current{\Veim{cuz}}
+\end{gathered}
+\right],
+\end{equation}
+so that \Veim{eff} is a function of \Veim{cuz}
+and therefore unique.
 
-Also by the definition of top-down cause,
-all of the top-down causes of \Veim{eff}
-must have the same dotted rule, origin and current location as \Veim{down}.
-From this it can seen that the top-down cause of
-a null-scan is unique.
+Again considering
+the definition of top-down causes as applied to null-scans,
+we see that
+if \Veim{eff} is a valid null-scanned effect,
+then its top-down cause must be
+\begin{equation}
+\notag
+\label{eq:null-scan-from-down-cause-45}
+     \Veim{cuz} =
+\left[
+\begin{gathered}
+\Prev{\DR{\Veim{eff}}}, \\
+\Origin{\Veim{eff}}, \Current{\Veim{eff}}
+\end{gathered}
+\right],
+\end{equation}
+so that \Veim{cuz} is a function of \Veim{eff}
+and therefore unique.
 \end{proof}
 
 \begin{theorem}
