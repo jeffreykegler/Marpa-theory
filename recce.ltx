@@ -2463,36 +2463,35 @@ the dotted rule might be a quasi-prediction,
 but it cannot be a quasi-completion.
 \end{proof}
 
-\section{Fleeting and lasting}
+\section{Fleeting and lasting bases}
 
 We also divide dotted rules into two disjoint classes
 based on their postdot symbol.
-A dotted rule with a null postdot symbol is called \dfn{fleeting}.
-Any other dotted rule is called \dfn{lasting}.
-A completion is always a lasting dotted rule.
+A dotted rule with a null predot symbol is called a
+\xdfn{fleeting base}{fleeting base (dotted rule)}.
+Any other dotted rule is called
+\xdfn{lasting base}{lasting base (dotted rule)}.
+A prediction is always a lasting base.
 
-Every dotted rule has a lasting equivalent.
-If the dotted rule is lasting, it is its own \dfn{lasting equvialent}.
-If the dotted rule is fleeting and quasi-incomplete,
-so that without loss of generality it is
+Every dotted rule has a lasting base.
+If
+\[
+  \Predot{\Vdr{dr}} \neq \epsilon \; \lor \;
+  \Predot{\Vdr{dr}} = \Lambda,
+\]
+then \Vdr{dr} is its own lasting base.
+If $\Predot{\Vdr{dr}} = \epsilon$ so that,
+without loss of generality,
 \begin{equation}
-[\Vsym{A} \de \Vstr{alpha} \mydot \Vstr{nulls} \cat \Vsym{B} \cat \Vstr{after} ]
+\Vdr{dr} = [\Vsym{A} \de \Vstr{alpha} \Vstr{nulls} \Vsym{nul} \mydot \Vstr{after} ]
 \end{equation}
-where $\Vstr{nulls} = \epsilon$,
-and $\Vsym{B}$ is a telluric symbol,
-then its \dfn{lasting equivalent} is
+where $\Vstr{nulls} = \epsilon$
+and $\Vsym{nul} = \epsilon$,
+then the
+\xdfn{lasting base}{lasting base (dotted rule) [of another dotted rule]}.
+of \Vdr{dr} is
 \begin{equation}
-[\Vsym{A} \de \Vstr{alpha} \cat \Vstr{nulls} \mydot \Vsym{B} \cat \Vstr{after} ].
-\end{equation}
-If the dotted rule is fleeting and quasi-complete,
-so that without loss of generality it is
-\begin{equation}
-[\Vsym{A} \de \Vstr{alpha} \mydot \Vstr{nulls} ]
-\end{equation}
-where $\Vstr{nulls} = \epsilon$,
-then its \dfn{lasting equivalent} is
-\begin{equation}
-[\Vsym{A} \de \Vstr{alpha} \cat \Vstr{nulls} \mydot ].
+[\Vsym{A} \de \Vstr{alpha} \mydot \Vstr{nulls} \Vsym{nul} \Vstr{after} ].
 \end{equation}
 
 \section{The transition function}
@@ -2628,15 +2627,6 @@ We call \Vdr{tell} a telluric base
 of a dotted rule \Vdr{dr2} if and only if
 it is telluric and
 \[ \Vdr{dr2} \in \var{ethereal-dr-closure}(\lbrace \Vdr{tell} \rbrace). \]
-If \Vdr{base} is not a null-scan, we say that
-\Vdr{base} is a \dfn{lasting base}.
-We call \Vdr{} a lasting base
-of a dotted rule \Vdr{dr2} if and only if
-it is not a null-scan and
-\[ \Vdr{dr2} \in \var{ethereal-dr-closure}(\lbrace \Vdr{tell} \rbrace). \]
-Every telluric base is a lasting base.
-However a prediction is a lasting base,
-so that not every lasting base is a telluric base.
 
 \section{Ethereal closures}
 
@@ -3016,7 +3006,7 @@ and a predicted EIM is an EIM with a predicted dotted rule.
 If
 \[\Veim{quasi} = [ \Vdr{quasi}, \var{i}, \var{j} ]\]
 is a quasi-complete EIM,
-then its lasting completion EIM is
+then its completion EIM is
 \[[ \Vdr{complete}, \var{i}, \var{j} ],\]
 where \Vdr{complete} is the completion dotted
 rule of \Vdr{quasi}.
@@ -4584,33 +4574,20 @@ the induction,
 and the theorem.
 \end{proof}
 
-\section{Fleeting and lasting}
+\section{Fleeting closures}
 
 Recall that dotted rule notions applied to EIM's
 refer to the dotted rule of the EIM.
-Therefore, a fleeting EIM is an EIM
-with a nulling postdot symbol;
-and a lasting EIM is any EIM which is not
-a fleeting EIM.
-
-\begin{definition}
-\dtitle{Lasting equivalent}
-\label{def:lasting-equivalent-eim}
-Let
-\begin{equation*}
-\var{eim1} = [ \Vdr{dr1}, \Vorig{i}, \Vloc{j} ].
-\end{equation*}
-Let \Vdr{lasting1} be the lasting equivalent of \Vdr{dr1}.
-Then the lasting equivalent of \var{eim1}
-is
-\begin{equation*}
-[ \Vdr{lasting1}, \Vorig{i}, \Vloc{j} ].
-\end{equation*}
-We say that the \dfn{lasting effect} of a cause
-is the lasting equivalent of the effect of that cause.
-\end{definition}
-
-\section{Fleeting closures}
+Accordingly,
+a
+\xdfn{lasting base}{lasting base (EIM)}
+EIM
+is an EIM
+whose dotted rule is a lasting base,
+and
+any EIM which is not a lasting base
+is a
+\xdfn{fleeting base}{fleeting base (EIM)}.
 
 We defined \op{fleeting-closure}{\Veim{x}}
 as a set, but we often find it convenient to treat it
@@ -4649,19 +4626,29 @@ then
 \end{equation*}
 
 \begin{theorem}
-\ttitle{Iterative null-scan from top-down cause}
-\label{t:iterative-null-scan-from-down-cause}
-Let \var{ns} be a fleeting closure.
-Then every EIM in \var{ns} is
+\ttitle{Fleeting closure validity}
+\label{t:fleeting-closure-validity}
+
+TODO: Revise
+
+Let \Veim{eim} be a valid EIM,
+let \var{ns} be its fleeting closure,
+let \Veim{bas} be the lasting base of \Veim{eim}
+and let \var{bns} be the fleeting closure
+of \Veim{bas}.
+Then
+every
+EIM in \var{ns} or in \var{bns} is
 valid.
-Also,
-for all \var{a}
-such that
-$0 \le \var{a} \le \decr{\Vlastix{ns}}$,
-\Vel{ns}{a} is the unique top-down cause of
-\el{ns}{\Vincr{a}};
-and \el{ns}{\Vincr{a}}
-is the unique effect of \Vel{ns}{a}.
+% \item
+% for all \var{a}
+% such that
+% $0 \le \var{a} \le \decr{\Vlastix{ns}}$,
+% \Vel{ns}{a} is the unique top-down cause of
+% \el{ns}{\Vincr{a}}; and
+% \item
+% \el{ns}{\Vincr{a}}
+% is the unique effect of \Vel{ns}{a}.
 \end{theorem}
 
 \begin{proof}
@@ -4673,6 +4660,9 @@ by iteration.
 \begin{theorem}
 \ttitle{Iterative completion from null-scan cause}
 \label{t:iterative-completion-from-null-scan-cause}
+
+TODO: Revise
+
 Let
 \begin{equation}
 \label{eq:iterative-completion-from-null-scan-cause-5}
@@ -7615,6 +7605,9 @@ We conclude that \Veim{bot} is a read EIM.
 \begin{theorem}
 \ttitle{Fleeting closure silo}
 \label{t:fleeting-closure-silo}
+
+TODO: Revise
+
 Let \Veim{qc} be a valid quasi-completion.
 Then there is a silo, call it \var{slo},
 such that
