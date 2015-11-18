@@ -41,8 +41,8 @@
 % \DeclareMathSizes{24.88}{24.88}{24.88}{24.88}
 
 \newcommand{\todo}[1]{\par{\large\textbf Todo: #1}\par}
-\newcommand{\myfnname}[1]{\texttt{#1}}
-\newcommand{\myopname}[1]{\texttt{#1}}
+\newcommand{\myfnname}[1]{\ensuremath{\texttt{#1}}}
+\newcommand{\myopname}[1]{\ensuremath{\texttt{#1}}}
 \newcommand{\myfn}[2]{\ensuremath{\myfnname{#1}(#2)}}
 % definitions for "elements"
 \newcommand{\el}[2]{\ensuremath{\texttt{#1}[#2]}}
@@ -2465,15 +2465,40 @@ but it cannot be a quasi-completion.
 
 \section{Fleeting and lasting bases}
 
-We also divide dotted rules into two disjoint classes
-based on their postdot symbol.
 A dotted rule with a null predot symbol is called a
 \xdfn{fleeting base}{fleeting base (dotted rule)}.
 Any other dotted rule is called
 \xdfn{lasting base}{lasting base (dotted rule)}.
 A prediction is always a lasting base.
 
+Every dotted rule,
+even if it is not a lasting base itself,
+has a
+\xdfn{lasting base}{lasting base (dotted rule) [of another dotted rule]}
+\Vdr{bas} is the lasting base of \Vdr{dr}
+if and only if
+\Vdr{bas} is a lasting base,
+and
+\begin{equation}
+\label{eq:def-lasting-base-10}
+\forall \; \var{i} : 0 \le \var{i} < \Dotix{\Veim{dr}}
+\implies \RHS{\Vdr{dr}, \var{i}} = \epsilon
+\end{equation}
+Note that
+\ref{eq:def-lasting-base-10}
+may be satisfied vacuously ---
+a prediction is its own lasting base.
+
+\begin{theorem}
+\ttitle{Dotted rule lasting base}
+\label{dotted-rule-lasting-base}
 Every dotted rule has a lasting base.
+\end{theorem}
+
+\begin{proof}
+The lasting base of a dotted rule is another,
+not necessarily disinct, dotted rule.
+Let \Vdr{dr} be a dotted rule.
 If
 \[
   \Predot{\Vdr{dr}} \neq \epsilon \; \lor \;
@@ -2488,11 +2513,13 @@ without loss of generality,
 where $\Vstr{nulls} = \epsilon$
 and $\Vsym{nul} = \epsilon$,
 then the
-\xdfn{lasting base}{lasting base (dotted rule) [of another dotted rule]}.
+lasting base
 of \Vdr{dr} is
 \begin{equation}
-[\Vsym{A} \de \Vstr{alpha} \mydot \Vstr{nulls} \Vsym{nul} \Vstr{after} ].
+[\Vsym{A} \de \Vstr{alpha} \mydot \Vstr{nulls} \Vsym{nul} \Vstr{after} ]
+\qedhere
 \end{equation}
+\end{proof}
 
 \section{The transition function}
 
@@ -4626,29 +4653,79 @@ then
 \end{equation*}
 
 \begin{theorem}
-Every EIM has a lasting base.
+\ttitle{EIM lasting base}
+\label{t:eim-lasting-base}
+Every valid EIM has a valid lasting base,
+and every valid EIM is in the
+fleeting closure of its lasting base.
 \end{theorem}
 
 \begin{proof}
-We proceed by cases, the trivial ones first.
-Let \Veim{eim} be an EIM.
-If \Veim{eim} has no predot symbol, by the definition of lasting
-base, \Veim{eim} its own lasting base.
-If \Veim{eim} has a predot symbol that is not nulling,
-by the definition of lasting
-base, \Veim{eim} is its own lasting base.
+By the definition of a lasting base for an EIM,
+\begin{equation}
+\label{eq:eim-lasting-base-23}
+\begin{aligned}
+& \forall \; \var{a} : \Dotix{\Veim{bas}} \le \var{a} < \Dotix{\Veim{eim}} \\
+& \qquad \implies \RHS{\Veim{eim}, \var{a}} = \epsilon
+\end{aligned}
+\end{equation}
+and
+\begin{equation}
+\Dotix{\Veim{bas}} = 0 \; \lor \; \Predot{\Veim{bas}} \neq \epsilon.
+\end{equation}
 
-It remains to consider the non-trivial case,
-where \Veim{eim} has a nulling predot symbol.
+If
+$\Dotix{\Veim{eim}} = 0$ or $\Predot{\Veim{eim}} \neq \epsilon$,
+we know that \Veim{eim} is its own lasting base:
+$\Veim{bas} = \Veim{eim}$.
+And, since
+\[
+\myfnname{null-scan-op}^{\displaystyle (0)}(\Veim{bas}) = \Veim{eim}
+\]
+we also know that \Veim{eim} is in the fleeting closure of \Veim{bas}.
 
-TODO
+It remains to show the theorem where
+$\Dotix{\Veim{eim}} > 0$ and $\Predot{\Veim{eim}} = \epsilon$.
+By
+\eqref{eq:eim-lasting-base-23},
+we know that if
+\[
+\var{i} = \xxsubtract{\Dotix{\Veim{eim}}}{\Dotix{\Veim{bas}}}
+\]
+then
+all of the \myfnname{null-scan-op} operations are
+well-defined in
+\begin{equation}
+\label{eq:eim-lasting-base-27}
+\myfnname{null-scan-op}^{\displaystyle (\var{i})}(\Veim{bas}) = \Veim{eim}.
+\end{equation}
+
+From
+Theorem
+\ref{t:null-scan-from-down-cause}
+and the definition of \myfnname{null-scan-op},
+we know that, if $\Postdot{\Veim{down}} = \epsilon$,
+then
+\begin{equation}
+\label{eq:eim-lasting-base-30}
+\op{null-scan-op}{\Veim{down}} = \Veim{eim} \implies
+\Valid{\Veim{down}}.
+\end{equation}
+Using
+\eqref{eq:eim-lasting-base-23}
+and
+\eqref{eq:eim-lasting-base-30},
+we see that in
+\eqref{eq:eim-lasting-base-27},
+\Veim{bas} is valid.
+\eqref{eq:eim-lasting-base-27}
+shows directly that \Veim{eim} is in the fleeting closure
+of \Veim{bas}.
 \end{proof}
 
 \begin{theorem}
 \ttitle{Partial Fleeting closure validity}
 \label{t:partial-fleeting-closure-validity}
-
-TODO: Revise
 
 Let \Veim{eim} be a valid EIM,
 and let \var{ns} be its fleeting closure.
@@ -4667,9 +4744,18 @@ is the unique effect of \Vel{ns}{a}.
 \end{theorem}
 
 \begin{proof}
-This theorem follows from Theorem
-\ref{t:null-scan-from-down-cause}
-by iteration.
+A fleeting closure, by its definition,
+is zero or more iterations
+of the \myfnname{null-scan-op} operation.
+For zero operations, the theorem follows
+trivially.
+For a single operation,
+the theorem follows from Theorem
+\ref{t:null-scan-from-down-cause}.
+The general case can be shown by induction
+on the number of
+\myfnname{null-scan-op} operations
+in the fleeting closure.
 \end{proof}
 
 \begin{theorem}
@@ -4693,7 +4779,11 @@ is the unique effect of \Vel{bns}{a}.
 \end{theorem}
 
 \begin{proof}
-TODO
+This theorem follows from
+Theorems
+\ref{t:eim-lasting-base}
+and
+\ref{t:partial-fleeting-closure-validity}.
 \end{proof}
 
 \begin{theorem}
