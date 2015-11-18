@@ -48,6 +48,9 @@
 \newcommand{\el}[2]{\ensuremath{\texttt{#1}[#2]}}
 \newcommand{\Vel}[2]{\el{#1}{\var{#2}}}
 \newcommand{\op}[2]{\ensuremath{\texttt{#1}(#2)}}
+\newcommand{\iop}[3]{\ensuremath{
+  \myfnname{#1}^{\displaystyle #2}(#3)
+}}
 \newcommand{\bigop}[2]{\ensuremath{\texttt{#1}\big(#2\big)}}
 \newcommand{\Vop}[2]{\op{#1}{\var{#2}}}
 
@@ -4616,6 +4619,9 @@ Any EIM which is not a lasting base
 is a
 \xdfn{fleeting base}{fleeting base (EIM)}.
 
+TODO: null-scan-op as a function
+TODO: Check uses of null-scan-op, function vs. relation
+
 We defined \op{fleeting-closure}{\Veim{x}}
 as a set, but we often find it convenient to treat it
 as the sequence,
@@ -4655,7 +4661,7 @@ then
 \begin{theorem}
 \ttitle{EIM lasting base}
 \label{t:eim-lasting-base}
-Every valid EIM has a valid lasting base,
+Every valid EIM has a unique valid lasting base,
 and every valid EIM is in the
 fleeting closure of its lasting base.
 \end{theorem}
@@ -4679,12 +4685,13 @@ $\Dotix{\Veim{eim}} = 0$ or $\Predot{\Veim{eim}} \neq \epsilon$,
 we know that \Veim{eim} is its own lasting base:
 $\Veim{bas} = \Veim{eim}$.
 And, since
-\[
+\begin{equation}
+\label{eq:eim-lasting-base-25}
 \myfnname{null-scan-op}^{\displaystyle (0)}(\Veim{bas}) = \Veim{eim}
-\]
+\end{equation}
 we also know that \Veim{eim} is in the fleeting closure of \Veim{bas}.
 
-It remains to show the theorem where
+We now consider the case where
 $\Dotix{\Veim{eim}} > 0$ and $\Predot{\Veim{eim}} = \epsilon$.
 By
 \eqref{eq:eim-lasting-base-23},
@@ -4721,12 +4728,43 @@ we see that in
 \eqref{eq:eim-lasting-base-27}
 shows directly that \Veim{eim} is in the fleeting closure
 of \Veim{bas}.
+
+TODO: Fix this
+
+It remains to show that \Veim{bas} is unique.
+\eqref{eq:eim-lasting-base-25}
+and
+\eqref{eq:eim-lasting-base-27}
+show that
+\begin{equation}
+\iop{null-scan-op}{\var{i}}{\Veim{bas}} = \Veim{eim}.
+\end{equation}
+Assume for a reductio,
+that \Veim{bas1} and \Veim{bas2}
+are
+two different lasting bases
+of \Veim{eim}.
+Then
+\begin{equation}
+\iop{null-scan-op}{\var{i1}}{\Veim{bas1}} = \Veim{eim}
+= \iop{null-scan-op}{\var{i2}}{\Veim{bas2}}.
+\end{equation}
+Top-down cause and effect
+are unique
+by Theorem
+\ref{t:null-scan-from-down-cause},
+so that, by the definition of 
+\myfnname{null-scan-op},
+\myfnname{null-scan-op},
+
+
+TODO
+
 \end{proof}
 
 \begin{theorem}
-\ttitle{Partial Fleeting closure validity}
+\ttitle{Partial fleeting closure validity}
 \label{t:partial-fleeting-closure-validity}
-
 Let \Veim{eim} be a valid EIM,
 and let \var{ns} be its fleeting closure.
 Then
@@ -4738,7 +4776,6 @@ such that
 $0 \le \var{a} \le \decr{\Vlastix{ns}}$,
 \Vel{ns}{a} is the unique top-down cause of
 \el{ns}{\Vincr{a}}; and
-\item
 \el{ns}{\Vincr{a}}
 is the unique effect of \Vel{ns}{a}.
 \end{theorem}
@@ -4758,48 +4795,163 @@ on the number of
 in the fleeting closure.
 \end{proof}
 
+\begin{definition}
+The
+\dfn{maximal fleeting closure}
+of an EIM is the fleeting closure
+of its lasting base.
+\end{definition}
+
 \begin{theorem}
-\ttitle{Fleeting closure validity}
-\label{t:full-fleeting-closure-validity}
-Let \Veim{eim} be a valid EIM,
-let \Veim{bas} be the lasting base of \Veim{eim}
-and let \var{bns} be the fleeting closure
-of \Veim{bas}.
+\ttitle{Maximal fleeting closure validity}
+\label{t:maximal-fleeting-closure-validity}
+Let \Veim{eim} be a valid EIM.
 Then
-every
+\begin{gather}
+\label{t:maximal-fleeting-closure-validity-10}
+\myparbox{\Veim{eim}
+has exactly one 
+maximal fleeting closure,
+call it \var{bns};
+} \\
+\label{t:maximal-fleeting-closure-validity-13}
+\myparbox{every
 EIM in \var{bns} is
-valid
+valid;
+} \\
+\label{t:maximal-fleeting-closure-validity-16}
+\myparbox{
 for all \var{a}
 such that
 $0 \le \var{a} \le \decr{\Vlastix{bns}}$,
 \Vel{bns}{a} is the unique top-down cause of
 \el{bns}{\Vincr{a}}; and
+} \\
+\label{t:maximal-fleeting-closure-validity-19}
+\myparbox{
+for all \var{a}
+such that
+$0 \le \var{a} \le \decr{\Vlastix{bns}}$,
 \el{bns}{\Vincr{a}}
 is the unique effect of \Vel{bns}{a}.
+}
+\end{gather}
 \end{theorem}
 
 \begin{proof}
-This theorem follows from
 Theorems
 \ref{t:eim-lasting-base}
 and
-\ref{t:partial-fleeting-closure-validity}.
+\ref{t:partial-fleeting-closure-validity}
+show
+\eqref{t:maximal-fleeting-closure-validity-13},
+\eqref{t:maximal-fleeting-closure-validity-16},
+\eqref{t:maximal-fleeting-closure-validity-19}
+and
+that \Veim{eim} has at least one maximal
+fleeting closure.
+
+To prove
+\eqref{t:maximal-fleeting-closure-validity-13},
+and the theorem,
+it remains to show that that \Veim{eim}
+has at most one maximal fleeting closure.
+Let \var{mfc1} and \var{mfc2} be two maximal fleeting
+closures of \Veim{eim}.
+By the definition of a fleeting closure, it is the iteration
+of \myfnname{null-scan-op}.
+By the definition of
+\myfnname{null-scan-op},
+in
+$\Vop{null-scan-op}{\Veim{x}} = \Veim{y}$
+\var{y} differs from \var{x} only in that
+$\Dotix{\Veim{y}} = \Vincr{\Dotix{\Veim{x}}}$.
+Therefore, the elements of both
+\var{mfc1} and \var{mfc2} can be represented by
+their dot indexes.
+Every rule has a finite number of possible dot indexes,
+so that
+\var{mfc1} and \var{mfc2} are finite in length,
+and have a beginning and an end.
+
+For the purposes of this proof,
+let
+\op{f}{\var{i}} be
+\begin{equation}
+\big[ [ \Rule{\Veim{eim}}, \var{i} ], \Origin{\Veim{eim}},
+ \Current{\Veim{eim}} \big].
+\end{equation}
+
+TODO
+
+A closure ends if and only if its defining operation can
+no longer be applied.
+\myfnname{null-scan-op} requires that its operand
+have a nulling postdot symbol,
+so the last element of both
+\var{mfc1} and \var{mfc2} will be
+ is 
+an EIM \Veim{z} such that
+\[
+\forall \; \var{a}
+Postdot{\Veim{z}} = \Lambda \; \lor \; 
+\neg Postdot{\Veim{z}} = \epsilon
+\]
+it
+
+their dot indexes.
+The fleeting closures 
+$\Vop{null-scan-op}{x} = \var{y}$
+
+requires that the postdot symbol
+$\Postdot{\var{x}} = \epsilon$;
+and in its result,
+and
+$\Rule{\var{y}} = \Rule{\var{x}}$.
+The number of iterations of
+\myfnname{null-scan-op} is therefore limited by the
+number of nulling symbols in 
+\Rule{\var{x}}.
+The number of nulling symbols in a rule
+is finite,
+so
+\begin{equation}
+\label{t:maximal-fleeting-closure-validity-25}
+\myparbox{
+\var{mfc1} and \var{mfc2} are finite in length.
+}
+\end{equation}
+
+To do this,
+we will assume, for a reductio,
+that if \var{mfc1} and \var{mfc2}
+are two maximal fleeting closures
+for \var{eim}
+\begin{itemize}
+\item all of their elements are identical,
+\item both are finite,
+\item $\el{mfc1}{0} = \el{mfc2}{0}$, and
+\item $\el{mfc1}{\Vlastix{mfc1}} = \el{mfc2}{\Vlastix{mfc2}}$
+\end{itemize}
+
+TODO
 \end{proof}
 
 \begin{theorem}
+\end{theorem}
+\begin{theorem}
 \ttitle{Iterative completion from null-scan cause}
 \label{t:iterative-completion-from-null-scan-cause}
-
-TODO: Revise
-
 Let
 \begin{equation}
 \label{eq:iterative-completion-from-null-scan-cause-5}
 \Veim{down} = \big[ [ \Vrule{r}, \var{lo} ], \var{i}, \var{k} \big],
 \end{equation}
 be a valid quasi-complete EIM,
-and let the series \var{ns} be the fleeting closure of \Veim{down}.
-Then we have all of the following:
+and let \Veim{bas} be its lasting base.
+If the series \var{ns} is the fleeting closure of
+either \Veim{bas} or \Veim{down},
+then we have all of the following:
 \begin{align}
 \label{eq:iterative-completion-from-null-scan-cause-9}
 & \text{\var{ns} contains at most \Vsize{\Vrule{r}}
@@ -4861,12 +5013,46 @@ Then we have all of the following:
 \end{theorem}
 
 \begin{proof}
-By assumption for the theorem
-\var{ns} is the fleeting closure of \Veim{down}
-we have,
+We first consider \Veim{bas}.
+By assumption for the theorem,
+\Veim{bas} is the lasting base of \Veim{down}.
+By Theorem \ref{t:eim-lasting-base}, \Veim{down}
+has a valid lasting base:
+\begin{equation}
+\label{eq:iterative-completion-from-null-scan-cause-24a}
+\Valid{\Veim{down}}.
+\end{equation}
+By assumption for theorem, \Veim{down}
+is quasi-complete,
+so that, by the definition
+of quasi-complete, all the symbols
+in the dot suffix of \Veim{down}
+are nulling.
+By the definition of a lasting base,
+all of the symbols between
+\Dotix{\Veim{bas}}
+and
+\Dotix{\Veim{down}}
+are nulling.
+Therefore all of the symbols in the dot
+suffix of \Veim{bas} are nulling,
+so that, by the definition of quasi-complete,
+\begin{equation}
+\label{eq:iterative-completion-from-null-scan-cause-24b}
+\text{\Veim{bas} is quasi-complete.}
+\end{equation}
+
+We will next show the requirements of the theorem
+for \Veim{quasi},
+an EIM which is valid and quasi-complete,
+and which otherwise is chosen without
+loss of generality.
+Let
+\var{ns1} be the fleeting closure of \Veim{quasi}.
+We have,
 using
 Theorem
-\ref{t:iterative-null-scan-from-down-cause},
+\ref{t:partial-fleeting-closure-validity},
 Requirements
 \eqref{eq:iterative-completion-from-null-scan-cause-14},
 \eqref{eq:iterative-completion-from-null-scan-cause-20}
@@ -4874,17 +5060,17 @@ and
 \eqref{eq:iterative-completion-from-null-scan-cause-22}
 for the theorem.
 
-Because \Veim{down},
+Because \Veim{quasi},
 is a quasi-completion,
 we know that
 \begin{multline}
 \label{eq:iterative-completion-from-null-scan-cause-28}
-\el{ns}{0} = \Veim{down} \\
+\el{ns1}{0} = \Veim{quasi} \\
 \text{and} \quad
 	\forall \; \var{a} : 0 \le \var{a} < (\xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}})
 \\
 \implies
-\el{ns}{\Vincr{a}} =
+\el{ns1}{\Vincr{a}} =
 \big[ [ \Vrule{r}, \var{lo}+\var{a}+1 ], \var{i}, \var{k} \big].
 \end{multline}
 and
@@ -4898,10 +5084,10 @@ From
 \eqref{eq:iterative-completion-from-null-scan-cause-28},
 we can see that
 \begin{gather*}
-\Vlastix{ns} = \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}, \quad
+\Vlastix{ns1} = \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}, \quad
 \text{so that}  \\
 \begin{aligned}
-\op{Dotix}{\var{ns}\big[\Vlastix{ns}\big]}
+\op{Dotix}{\var{ns1}\big[\Vlastix{ns1}\big]}
 & = \var{lo} + (\decr{( \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}) }) + 1 \\
 & = \Vsize{\Vrule{r}}
 \end{aligned}
@@ -4914,10 +5100,10 @@ from
 \eqref{eq:iterative-completion-from-null-scan-cause-28},
 \begin{equation*}
 \begin{aligned}
-&& \var{ix} & < \Vlastix{ns} \\
-\implies && \op{Dotix}{\Vel{ns}{ix}}
+&& \var{ix} & < \Vlastix{ns1} \\
+\implies && \op{Dotix}{\Vel{ns1}{ix}}
 & < \var{lo} + (\decr{( \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}) }) + 1 \\
-\implies && \op{Dotix}{\Vel{ns}{ix}}
+\implies && \op{Dotix}{\Vel{ns1}{ix}}
 & < \Vsize{\Vrule{r}}
 \end{aligned}
 \end{equation*}
@@ -4926,9 +5112,9 @@ shows
 
 We see from
 \eqref{eq:iterative-completion-from-null-scan-cause-28}
-that every element of \var{ns},
+that every element of \var{ns1},
 is an EIM which differs from
-the other elements of \var{ns}
+the other elements of \var{ns1}
 only in its dot index,
 which gives us
 \eqref{eq:iterative-completion-from-null-scan-cause-16}
@@ -4938,7 +5124,7 @@ From
 \eqref{eq:iterative-completion-from-null-scan-cause-28},
 we also see that
 \begin{equation}
-\var{ix} > 0 \implies \Dotix{\Vel{ns}{ix}} > \Dotix{\el{ns}{0}}
+\var{ix} > 0 \implies \Dotix{\Vel{ns1}{ix}} > \Dotix{\el{ns1}{0}}
 \end{equation}
 so that using
 \eqref{eq:iterative-completion-from-null-scan-cause-30},
@@ -4946,19 +5132,19 @@ so that using
 \label{eq:iterative-completion-from-null-scan-cause-40}
 \begin{gathered}
 \forall \; \var{nsix}, \var{rhix} :
-0 \le \var{nsix} \le \Vlastix{ns} \\
+0 \le \var{nsix} \le \Vlastix{ns1} \\
 \land \;
-\Dotix{\Vel{ns}{nsix}} \le \var{rhix} \le \Vsize{\Vrule{r}} \\
+\Dotix{\Vel{ns1}{nsix}} \le \var{rhix} \le \Vsize{\Vrule{r}} \\
 \implies
 \Vop{RHS}{\Vrule{r}, \var{rhix}} = \epsilon
 \end{gathered}
 \end{equation}
-and since every layer of \var{ns} shares the same rule,
+and since every layer of \var{ns1} shares the same rule,
 \eqref{eq:iterative-completion-from-null-scan-cause-40}
 shows
 \eqref{eq:iterative-completion-from-null-scan-cause-13}.
 
-As we already noted, the layers of \var{ns} differ
+As we already noted, the layers of \var{ns1} differ
 \textbf{only} in their dot index.
 There are at most
 distinct dot \incr{\Vsize{\Vrule{r}}} indexes.
@@ -4968,11 +5154,27 @@ every layer is quasi-complete,
 so that,
 by Theorem \ref{t:quasi-drs-disjoint},
 no layer is a prediction.
-Therefore no layer of \var{ns} uses dot index 0.
+Therefore no layer of \var{ns1} uses dot index 0.
 So that there are at most
-\Vsize{\Vrule{r}} layers in \var{ns},
+\Vsize{\Vrule{r}} layers in \var{ns1},
 which shows
 \eqref{eq:iterative-completion-from-null-scan-cause-9}.
+With this, we have shown the last of the requirements
+for the theorem for \Veim{quasi}.
+
+We have shown the requirement for the theorem for \Veim{quasi},
+a valid quasi-complete EIM.
+By assumption for theorem, \Veim{down} is a valid quasi-complete
+EIM,
+and therefore we have shown the requirements
+for the theorem for \Veim{down}.
+From
+\eqref{eq:iterative-completion-from-null-scan-cause-24a}
+and
+\eqref{eq:iterative-completion-from-null-scan-cause-24b},
+we know that \Veim{bas} is a valid quasi-complete EIM,
+and therefore we have shown the requirements
+for the theorem for \Veim{bas} as well.
 \end{proof}
 
 \section{Ambiguity}
@@ -7730,77 +7932,72 @@ which is contrary to assumption for the reductio.
 We conclude that \Veim{bot} is a read EIM.
 \end{proof}
 
-
-\begin{theorem}
-\ttitle{Fleeting closure silo}
-\label{t:fleeting-closure-silo}
-
-TODO: Revise
-
-Let \Veim{qc} be a valid quasi-completion.
-Then there is a silo, call it \var{slo},
-such that
+\begin{definition}
+\dtitle{Fleeting closure silo properties}
+A
+\dfn{fleeting closure silo}
+has the following properties:
 \begin{align}
-\label{eq:fleeting-closure-silo-5}
-& \el{slo}{0} = \Veim{qc}
+\label{eq:fleeting-closure-silo-prop-5}
+& \text{\var{slo} contains at least one layer}
 \\
-\label{eq:fleeting-closure-silo-9}
-& \text{\var{slo} contains at most \Vsize{\Vrule{r}}
-  elements
+\label{eq:fleeting-closure-silo-prop-9}
+& \text{\var{slo} contains at most \Vsize{\Rule{\el{slo}{0}}}
+  layers
 }
 \\
-\label{eq:fleeting-closure-silo-10}
-& \text{$\var{slo}\big[ \Vlastix{ns} \big]$
+\label{eq:fleeting-closure-silo-prop-10}
+& \text{$\var{slo}\big[ \Vlastix{slo} \big]$
   is a completion
 }
 \\
-\label{eq:fleeting-closure-silo-12}
+\label{eq:fleeting-closure-silo-prop-12}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} < \Vlastix{slo} \\
 & \quad \implies \text{\Vel{slo}{a} is an incomplete EIM}
 \end{aligned}
 \\
-\label{eq:fleeting-closure-silo-13}
+\label{eq:fleeting-closure-silo-prop-13}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo} \\
 & \quad \implies \text{\Vel{slo}{a} is a quasi-complete EIM}
 \end{aligned}
 \\
-\label{eq:fleeting-closure-silo-14}
+\label{eq:fleeting-closure-silo-prop-14}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo}
   \implies \Valid{\Vel{slo}{a}}
 \end{aligned}
 \\
-\label{eq:fleeting-closure-silo-16}
+\label{eq:fleeting-closure-silo-prop-16}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo} \\
 & \qquad \implies \op{Right}{\el{slo}{0}} = \op{Right}{\Vel{slo}{a}}
 \end{aligned}
 \\
-\label{eq:fleeting-closure-silo-18}
+\label{eq:fleeting-closure-silo-prop-18}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo} \\
 & \qquad \implies \op{Rule}{\el{slo}{0}} = \op{Rule}{\Vel{slo}{a}}
 \end{aligned}
 \\
-\label{eq:fleeting-closure-silo-20}
+\label{eq:fleeting-closure-silo-prop-20}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{slo}} \\
-& \qquad \implies \text{\Vel{ns}{a} is the unique
-  top-down cause of \el{ns}{\Vincr{a}}
+& \qquad \implies \text{\Vel{slo}{a} is the unique
+  top-down cause of \el{slo}{\Vincr{a}}
 }
 \end{aligned}
 \\
-\label{eq:fleeting-closure-silo-21}
+\label{eq:fleeting-closure-silo-prop-21}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{slo}} \\
-& \qquad \implies \text{\Vel{ns}{a} is
-  the unique silo cause of \el{ns}{\Vincr{a}}
+& \qquad \implies \text{\Vel{slo}{a} is
+  the unique silo cause of \el{slo}{\Vincr{a}}
 }
 \end{aligned}
 \\
-\label{eq:fleeting-closure-silo-22}
+\label{eq:fleeting-closure-silo-prop-22}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{slo}} \\
 & \qquad \implies \text{\el{slo}{\Vincr{a}}
@@ -7808,10 +8005,23 @@ such that
 }
 \end{aligned}
 \end{align}
+\end{definition}
+
+\begin{theorem}
+\ttitle{Fleeting closure silo}
+\label{t:fleeting-closure-silo}
+Let \Veim{qc} be a valid quasi-completion.
+Then there is a silo, call it \var{slo},
+such that
+\begin{equation}
+\label{eq:fleeting-closure-silo-5}
+\el{slo}{0} = \Veim{qc}
+\end{equation}
+and \var{slo} is a
+fleeting closure silo.
 \end{theorem}
 
 \begin{proof}
-Requirement of the theorem
 \eqref{eq:fleeting-closure-silo-5}
 follows from
 \begin{itemize}
@@ -7829,80 +8039,135 @@ and
 the definition of a silo;
 \end{itemize}
 
-For the remaining requirements,
+For the fleeting closure silo properties,
 \begin{itemize}
 \item
-Requirement
-\eqref{eq:fleeting-closure-silo-9}
-of this theorem follows from
+Property
+\eqref{eq:fleeting-closure-silo-prop-5}
+follows from
+\eqref{eq:fleeting-closure-silo-5};
+\item
+Property
+\eqref{eq:fleeting-closure-silo-prop-9}
+follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-9}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause}.
 \item
-Requirement
-\eqref{eq:fleeting-closure-silo-10}
+Property
+\eqref{eq:fleeting-closure-silo-prop-10}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-10}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause};
 \item
-Requirement
-\eqref{eq:fleeting-closure-silo-12}
+Property
+\eqref{eq:fleeting-closure-silo-prop-12}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-12}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause};
 \item
-Requirement
-\eqref{eq:fleeting-closure-silo-13}
+Property
+\eqref{eq:fleeting-closure-silo-prop-13}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-13}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause};
 \item
-Requirement
-\eqref{eq:fleeting-closure-silo-14}
+Property
+\eqref{eq:fleeting-closure-silo-prop-14}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-14}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause};
 \item
-Requirement
-\eqref{eq:fleeting-closure-silo-16}
+Property
+\eqref{eq:fleeting-closure-silo-prop-16}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-16}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause};
 \item
-Requirement
-\eqref{eq:fleeting-closure-silo-18}
+Property
+\eqref{eq:fleeting-closure-silo-prop-18}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-18}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause};
 \item
-Requirement
-\eqref{eq:fleeting-closure-silo-20}
+Property
+\eqref{eq:fleeting-closure-silo-prop-20}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-20}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause};
 \item
-Requirement
-\eqref{eq:fleeting-closure-silo-21} follows from
-\eqref{eq:fleeting-closure-silo-13},
-\eqref{eq:fleeting-closure-silo-16}
+Property
+\eqref{eq:fleeting-closure-silo-prop-21} follows from
+\eqref{eq:fleeting-closure-silo-prop-13},
+\eqref{eq:fleeting-closure-silo-prop-16}
 and
-\eqref{eq:fleeting-closure-silo-20};
+\eqref{eq:fleeting-closure-silo-prop-20};
 \item
-Requirement
-\eqref{eq:fleeting-closure-silo-22}
+Property
+\eqref{eq:fleeting-closure-silo-prop-22}
 follows from
 \eqref{eq:iterative-completion-from-null-scan-cause-22}
 of Theorem
 \ref{t:iterative-completion-from-null-scan-cause}.
 \qedhere
 \end{itemize}
+\end{proof}
+
+\begin{theorem}
+\ttitle{Maximal fleeting closure silo}
+\label{t:maximal-fleeting-closure-silo}
+Let \Veim{qc} be a valid quasi-complete EIM,
+and let \Veim{bas} be its lasting base.
+Then there is a silo, call it \var{slo},
+such that
+\begin{equation}
+\notag
+\el{slo}{0} = \Veim{bas}
+\end{equation}
+and \var{slo} is a
+fleeting closure silo.
+\end{theorem}
+
+\begin{proof}
+By assumption for the theorem,
+\Veim{bas} is the lasting base of \Veim{qc}.
+By Theorem \ref{t:eim-lasting-base}, \Veim{qc}
+has a valid lasting base:
+\begin{equation}
+\label{eq:maximal-fleeting-closure-silo-10}
+\Valid{\Veim{qc}}.
+\end{equation}
+By assumption for theorem, \Veim{qc}
+is quasi-complete,
+so that, by the definition
+of quasi-complete, all the symbols
+in the dot suffix of \Veim{qc}
+are nulling.
+By the definition of a lasting base,
+all of the symbols between
+\Dotix{\Veim{bas}}
+and
+\Dotix{\Veim{qc}}
+are nulling.
+Therefore all of the symbols in the dot
+suffix of \Veim{bas} are nulling,
+so that, by the definition of quasi-complete,
+\begin{equation}
+\label{eq:maximal-fleeting-closure-silo-15}
+\text{\Veim{bas} is quasi-complete.}
+\end{equation}
+This theorem follows from
+\eqref{eq:maximal-fleeting-closure-silo-10},
+\eqref{eq:maximal-fleeting-closure-silo-15}
+and Theorem
+\ref{t:fleeting-closure-silo}.
 \end{proof}
 
 \chapter{Leo memos}
@@ -9526,7 +9791,7 @@ and therefore a quasi-completion.
 Since
 \Vel{slo}{i} is a valid quasi-completion,
 we can use
-\eqref{eq:fleeting-closure-silo-14}
+\eqref{eq:fleeting-closure-silo-prop-14}
 of
 Theorem
 \ref{t:fleeting-closure-silo}
@@ -9756,7 +10021,7 @@ and \Vel{slo}{i} is incomplete.
 By assumption for the case,
 \Vel{slo}{i} is not complete,
 so that
-\eqref{eq:fleeting-closure-silo-22}
+\eqref{eq:fleeting-closure-silo-prop-22}
 of
 Theorem
 \ref{t:fleeting-closure-silo} tells us that
@@ -9824,7 +10089,7 @@ vacuously.
 \textbf{Step case 2}: We next consider
 the case where $\var{i} \le \var{topix}$
 and \Vel{slo}{i} is incomplete.
-\eqref{eq:fleeting-closure-silo-18}
+\eqref{eq:fleeting-closure-silo-prop-18}
 of
 Theorem
 \ref{t:fleeting-closure-silo} tells us that
@@ -10485,7 +10750,7 @@ Let \var{fcm} be the longest fleeting closure
 that contains \var{fc}.
 and is contained inside \var{lslo}.
 From Theorem
-\label{t:fleeting-closure-silo},
+\ref{t:fleeting-closure-silo},
 we know that
 \begin{itemize}
 \item
@@ -10521,8 +10786,8 @@ all of the layers of \var{fcm} must be inner layers of a Leo silo.
 }
 \end{equation}
 
-From Theorem
-\label{t:fleeting-closure-silo},
+Theorem
+\ref{t:fleeting-closure-silo},
 applies so long as \el{fcm}{0} is a quasi-completion,
 so that \var{fcm} can be lengthened at the beginning
 \item
