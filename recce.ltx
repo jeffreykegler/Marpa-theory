@@ -4781,8 +4781,6 @@ we see that in
 shows directly that \Veim{eim} is in the fleeting closure
 of \Veim{bas}.
 
-TODO: Fix this
-
 It remains to show that \Veim{bas} is unique.
 \eqref{eq:eim-lasting-base-25}
 and
@@ -4792,8 +4790,8 @@ call it \Veim{bas},
 \Veim{eim} must be in its fleeting closure.
 so that
 \begin{equation}
-\el{ns}{0} = \Veim{bas} \; \land \;
-\exists \var{a} : \Vel{ns}{a} = \Veim{eim},
+\el{fc}{0} = \Veim{bas} \; \land \;
+\exists \var{a} : \Vel{fc}{a} = \Veim{eim},
 \end{equation}
 where \var{fc} is the fleeting closure of \Veim{bas}.
 
@@ -4804,14 +4802,126 @@ two different lasting bases
 of \Veim{eim}.
 Let the fleeting closure of \Veim{bas1} be \var{fc1}
 and let the fleeting closure of \Veim{bas2} be \var{fc2}.
-Then, for some \var{ix1}, \var{ix2},
+Using Theorem \ref{t:null-scan-arithmetic},
+we have, for some \var{ix1}, \var{ix2},
+\begin{multline}
+\label{t:eim-lasting-base-40}
+ \Veim{eim} = \Vel{ns1}{ix1} =
+\\
+\left[
+\begin{gathered}
+  [
+\Rule{\Veim{bas1}}, (\Dotix{\Veim{bas1}} + \var{ix1}) ], \\
+  \Origin{\Veim{bas1}},
+  \Current{\Veim{bas1}},
+\end{gathered}
+\right]
+\end{multline}
+and
+\begin{multline}
+\label{t:eim-lasting-base-42}
+ \Veim{eim} = \Vel{ns2}{ix2} =
+\\
+\left[
+\begin{gathered}
+  [
+\Rule{\Veim{bas2}}, (\Dotix{\Veim{bas2}} + \var{ix2}) ], \\
+  \Origin{\Veim{bas2}},
+  \Current{\Veim{bas2}},
+\end{gathered}
+\right]
+\end{multline}
+
+By assumption for the reductio,
 \begin{equation}
-\Vel{ns1}{ix1} =
-\Vel{ns2}{ix2} =
-\Veim{eim}.
+\label{eq:eim-lasting-base-48}
+\Veim{bas1} \neq \Veim{bas2}.
+\end{equation}
+From
+\eqref{t:eim-lasting-base-40}
+and
+\eqref{t:eim-lasting-base-42},
+we know that
+\begin{equation}
+\label{eq:eim-lasting-base-49}
+\begin{gathered}
+\Rule{\Veim{eim}}  = \Rule{\Veim{bas1}} \; \land \\
+\Origin{\Veim{eim}}  = \Origin{\Veim{bas1}} \; \land \\
+\Current{\Veim{eim}}  = \Current{\Veim{bas1}} \; \land \\
+\Rule{\Veim{eim}}  = \Rule{\Veim{bas2}} \; \land \\
+\Origin{\Veim{eim}}  = \Origin{\Veim{bas2}} \; \land \\
+\Current{\Veim{eim}}  = \Current{\Veim{bas2}},
+\end{gathered}
+\end{equation}
+so that
+\begin{equation}
+\label{eq:eim-lasting-base-50}
+\begin{gathered}
+\Rule{\Veim{bas1}}  = \Rule{\Veim{bas2}} \; \land \\
+\Origin{\Veim{bas1}}  = \Origin{\Veim{bas2}} \; \land \\
+\Current{\Veim{bas1}}  = \Current{\Veim{bas2}}.
+\end{gathered}
+\end{equation}
+From
+\eqref{eq:eim-lasting-base-50}
+we see that we have
+\eqref{eq:eim-lasting-base-48}
+only if
+\[
+ \Dotix{\Veim{bas1}} \neq \Dotix{\Veim{bas2}}.
+\]
+Without loss of generality, 
+we assume that
+\begin{equation}
+\label{eq:eim-lasting-base-52}
+ \Dotix{\Veim{bas1}} < \Dotix{\Veim{bas2}}.
 \end{equation}
 
-TODO: Finish.
+From
+\eqref{t:eim-lasting-base-40}
+and
+\eqref{t:eim-lasting-base-42},
+\begin{gather}
+\notag
+\Dotix{\Veim{eim}} = \Dotix{\Veim{bas2}} + \var{ix2} \\
+\label{eq:eim-lasting-base-54}
+\therefore \; \Dotix{\Veim{bas2}} < \Dotix{\Veim{eim}}
+\end{gather}
+
+By the definition of a lasting base for an EIM,
+\begin{equation}
+\label{eq:eim-lasting-base-55}
+\begin{aligned}
+& \forall \; \var{a} : \Dotix{\Veim{bas1}} \le \var{a} < \Dotix{\Veim{eim}} \\
+& \qquad \implies \RHS{\Veim{bas1}, \var{a}} = \epsilon
+\end{aligned}
+\end{equation}
+
+From
+\eqref{eq:eim-lasting-base-49}
+we have
+\begin{equation}
+\label{eq:eim-lasting-base-57}
+\Rule{\Veim{eim}} = \Rule{\Veim{bas1}} = \Rule{\Veim{bas2}}
+\end{equation}
+From
+\eqref{eq:eim-lasting-base-52},
+\eqref{eq:eim-lasting-base-54},
+\eqref{eq:eim-lasting-base-55}
+and
+\eqref{eq:eim-lasting-base-57},
+we see that
+\[
+    \Predot{\Veim{bas2}} = \epsilon.
+\]
+But by assumption for the reduction, \Veim{bas2} was
+a lasting base, and by the definition of a lasting base,
+a lasting base cannot have a nulling predot symbol.
+This contradiction shows the reductio,
+and we see that $\Veim{bas1} = \Veim{bas2}$.
+Since the choice of \Veim{bas1} and \Veim{bas2} was
+without loss of generality,
+we see that no EIM has more than one distinct lasting base.
 \end{proof}
 
 \begin{theorem}
@@ -4907,32 +5017,44 @@ To prove
 \eqref{t:maximal-fleeting-closure-validity-13},
 and the theorem,
 it remains to show that that \Veim{eim}
-has at most one maximal fleeting closure.
-Let \var{mfc1} and \var{mfc2} be two maximal fleeting
-closures of \Veim{eim}.
-By the definition of a fleeting closure, it is the iteration
-of \myfnname{null-scan-op}.
-By the definition of
-\myfnname{null-scan-op},
-in
-$\Vop{null-scan-op}{\Veim{x}} = \Veim{y}$
-\var{y} differs from \var{x} only in that
-$\Dotix{\Veim{y}} = \Vincr{\Dotix{\Veim{x}}}$.
-Therefore, the elements of both
-\var{mfc1} and \var{mfc2} can be represented by
-their dot indexes.
-Every rule has a finite number of possible dot indexes,
-so that
-\var{mfc1} and \var{mfc2} are finite in length,
-and have a beginning and an end.
+has at most one distinct maximal fleeting closure.
+To do this,
+we will assume, for a reductio,
+that if \var{mfc1} and \var{mfc2}
+are two maximal fleeting closures
+for \var{eim}
+\begin{gather}
+\label{t:maximal-fleeting-closure-validity-25}
+\text{\var{mfc1} and \var{mfc2} are finite,} \\
+\label{t:maximal-fleeting-closure-validity-27}
+\el{mfc1}{0} = \el{mfc2}{0}, \\
+\label{t:maximal-fleeting-closure-validity-29}
+\text{TODO elements identical} \\
+\label{t:maximal-fleeting-closure-validity-31}
+\text{TODO ??} \quad
+   \el{mfc1}{\Vlastix{mfc1}} = \el{mfc2}{\Vlastix{mfc2}}
+\end{gather}
 
-For the purposes of this proof,
-let
-\op{f}{\var{i}} be
-\begin{equation}
-\big[ [ \Rule{\Veim{eim}}, \var{i} ], \Origin{\Veim{eim}},
- \Current{\Veim{eim}} \big].
-\end{equation}
+From Theorem \ref{t:null-scan-arithmetic},
+we can see that every elements of a fleeting closure
+differ only in their dot indexes,
+and that every element of a fleeting closure has
+a distinct dot index.
+By Theorem \ref{t:null-scan-arithmetic},
+all the elements of a fleeting closure share the same rule,
+and rule allows at most a finite number of possible dot indexes.
+Therefore the number of elements in a fleeting closure
+is finite,
+which shows
+\eqref{t:maximal-fleeting-closure-validity-25}.
+
+By the definition of a maximal fleeting closure, its first
+element is a lasting base of \Veim{eim}.
+By Theorem
+\ref{t:eim-lasting-base},
+\Veim{eim} has at most one distinct lasting base,
+which shows
+\eqref{t:maximal-fleeting-closure-validity-27}.
 
 TODO
 
@@ -4949,44 +5071,6 @@ an EIM \Veim{z} such that
 Postdot{\Veim{z}} = \Lambda \; \lor \; 
 \neg Postdot{\Veim{z}} = \epsilon
 \]
-it
-
-their dot indexes.
-The fleeting closures 
-$\Vop{null-scan-op}{x} = \var{y}$
-
-requires that the postdot symbol
-$\Postdot{\var{x}} = \epsilon$;
-and in its result,
-and
-$\Rule{\var{y}} = \Rule{\var{x}}$.
-The number of iterations of
-\myfnname{null-scan-op} is therefore limited by the
-number of nulling symbols in 
-\Rule{\var{x}}.
-The number of nulling symbols in a rule
-is finite,
-so
-\begin{equation}
-\label{t:maximal-fleeting-closure-validity-25}
-\myparbox{
-\var{mfc1} and \var{mfc2} are finite in length.
-}
-\end{equation}
-
-To do this,
-we will assume, for a reductio,
-that if \var{mfc1} and \var{mfc2}
-are two maximal fleeting closures
-for \var{eim}
-\begin{itemize}
-\item all of their elements are identical,
-\item both are finite,
-\item $\el{mfc1}{0} = \el{mfc2}{0}$, and
-\item $\el{mfc1}{\Vlastix{mfc1}} = \el{mfc2}{\Vlastix{mfc2}}$
-\end{itemize}
-
-TODO
 \end{proof}
 
 \begin{theorem}
