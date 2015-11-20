@@ -4351,7 +4351,14 @@ of \Veim{effect}:
 \notag \\
 \var{ethereal-closure} \; & \defined \var{epsilon-op}^\ast
 \notag
-\end{align}
+\end{align}%
+\index{recce-notation}{predict-op@predict-op(eim1, eim2)}%
+\index{recce-notation}{read-op@read-op(eim1, eim2)}%
+\index{recce-notation}{reduction-op@reduction-op(eim1, eim2)}%
+\index{recce-notation}{epsilon-op@epsilon-op(eim1, eim2)}%
+\index{recce-notation}{null-scan-op@null-scan-op(eim1, eim2), as a relation}%
+\index{recce-notation}{fleeting-closure@fleeting-closure(eim1)}%
+\index{recce-notation}{ethereal-closure@ethereal-closure(eim1)}
 
 \begin{sloppypar}
 \begin{FlushLeft}
@@ -4619,44 +4626,89 @@ Any EIM which is not a lasting base
 is a
 \xdfn{fleeting base}{fleeting base (EIM)}.
 
-TODO: null-scan-op as a function
-TODO: Check uses of null-scan-op, function vs. relation
+In
+Theorem \ref{t:null-scan-from-down-cause}
+we showed that, for a null-scan,
+given a top-down cause,
+its effect is unique,
+so that \myfnname{null-scan-op} is a function.
+Theorem \ref{t:null-scan-from-down-cause}
+also showed that, for a null-scan,
+given an effect,
+its top-down cause is unique,
+so that the top-down function has an inverse.
+Accordingly, we will sometimes overload
+\myfnname{null-scan-op} and use it as a function,
+so that the two statements
+\[
+\op{null-scan-op}{\Veim{x}, \Veim{y}}
+\]
+and
+\[
+\op{null-scan-op}{\Veim{x}} = \Veim{y}
+\]%
+\index{recce-notation}{null-scan-op@null-scan-op(eim1), as a function}
+are equivalent.
 
 We defined \op{fleeting-closure}{\Veim{x}}
-as a set, but we often find it convenient to treat it
-as the sequence,
+as a set.
+But since
+\myfnname{null-scan-op} can be used as a function,
+but we can treat the fleeting closure as a sequence,
 such that if
 \begin{equation*}
 \var{ns} = \op{fleeting-closure}{\Veim{x}},
 \end{equation*}
 then
 \begin{equation*}
-\Vop{ns}{i} =
+\Vel{ns}{i} =
     {\myfnname{null-scan-op}^{\displaystyle (\var{i})}}(\Veim{x}).
 \end{equation*}
-By the definition of \myfnname{null-scan-op}, this means that if
-\begin{equation*}
-\Veim{x} = \big[ [ \Vrule{r}, \var{lo} ], \var{i}, \var{k} \big]
-\end{equation*}
-and
-\begin{equation*}
+
+\begin{theorem}
+\ttitle{Null scan arithmetic}
+\label{t:null-scan-arithmetic}
+If \var{fc} is the fleeting closure of \Veim{eim},
+then
+\[
+ \Vel{fc}{i} = \left[
+\begin{gathered}
+  [
+\Rule{\Veim{eim}}, (\Dotix{\Veim{eim}} + \var{i}) ], \\
+  \Origin{\Veim{eim}},
+  \Current{\Veim{eim}},
+\end{gathered}
+\right]
+\]
+\end{theorem}
+
+\begin{proof}
+Let, without loss of generality,
+\begin{gather*}
+\el{ns}{0} = \big[ [ \Vrule{r}, \var{lo} ], \var{i}, \var{k} \big]
+	\quad \text{and} \\
+\var{hi} = \var{lo} + \Vlastix{ns}.
+\end{gather*}
+By the definition of a fleeting closure
+and the definition of \myfnname{null-scan-op},
+we have
+\begin{gather*}
 \forall \; \var{a} : \var{lo} \le \var{a} < \var{hi}
    \implies \Vop{RHS}{\Vrule{r}, \var{a}} = \epsilon
-\end{equation*}
-then
-\begin{equation*}
+\quad \text{and} \\
 \begin{aligned}
-& \el{ns}{0} = \Veim{x} \quad \text{and} \\
-& \qquad \forall \; \var{a} : 0 \le \var{a} < \xxsubtract{\var{hi}}{\var{lo}}
+& \qquad \forall \; \var{b} : 0 \le \var{b} \le \xxsubtract{\var{hi}}{\var{lo}}
 \implies \\
 & \qquad \qquad \left(
 \begin{gathered}
-\el{ns}{\Vincr{a}} =
-\big[ [ \Vrule{r}, \var{lo}+\var{a}+1 ], \var{i}, \var{k} \big]
+\el{ns}{\var{b}} =
+\big[ [ \Vrule{r}, \var{lo}+\var{b} ], \var{i}, \var{k} \big]
 \end{gathered}
 \right).
+\qedhere
 \end{aligned}
-\end{equation*}
+\end{gather*}
+\end{proof}
 
 \begin{theorem}
 \ttitle{EIM lasting base}
@@ -4735,31 +4787,31 @@ It remains to show that \Veim{bas} is unique.
 \eqref{eq:eim-lasting-base-25}
 and
 \eqref{eq:eim-lasting-base-27}
-show that
+show that for any lasting base,
+call it \Veim{bas},
+\Veim{eim} must be in its fleeting closure.
+so that
 \begin{equation}
-\iop{null-scan-op}{\var{i}}{\Veim{bas}} = \Veim{eim}.
+\el{ns}{0} = \Veim{bas} \; \land \;
+\exists \var{a} : \Vel{ns}{a} = \Veim{eim},
 \end{equation}
+where \var{fc} is the fleeting closure of \Veim{bas}.
+
 Assume for a reductio,
 that \Veim{bas1} and \Veim{bas2}
 are
 two different lasting bases
 of \Veim{eim}.
-Then
+Let the fleeting closure of \Veim{bas1} be \var{fc1}
+and let the fleeting closure of \Veim{bas2} be \var{fc2}.
+Then, for some \var{ix1}, \var{ix2},
 \begin{equation}
-\iop{null-scan-op}{\var{i1}}{\Veim{bas1}} = \Veim{eim}
-= \iop{null-scan-op}{\var{i2}}{\Veim{bas2}}.
+\Vel{ns1}{ix1} =
+\Vel{ns2}{ix2} =
+\Veim{eim}.
 \end{equation}
-Top-down cause and effect
-are unique
-by Theorem
-\ref{t:null-scan-from-down-cause},
-so that, by the definition of 
-\myfnname{null-scan-op},
-\myfnname{null-scan-op},
 
-
-TODO
-
+TODO: Finish.
 \end{proof}
 
 \begin{theorem}
