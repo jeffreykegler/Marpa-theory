@@ -4728,7 +4728,7 @@ we have
 \begin{theorem}
 \ttitle{EIM lasting base}
 \label{t:eim-lasting-base}
-Every valid EIM has a unique valid lasting base,
+Every valid EIM has exactly one valid lasting base,
 and every valid EIM is in the
 fleeting closure of its lasting base.
 \end{theorem}
@@ -10915,6 +10915,40 @@ quasi-complete.
 \end{proof}
 
 \begin{theorem}
+\label{t:earley-set-0-is-Leo-free}
+No EIM in Earley set 0 is memoized.
+\end{theorem}
+
+\begin{proof}
+By definition,
+a quasi-complete EIM has at least one
+telluric predot symbol,
+so its current location cannot be location 0.
+Therefore no quasi-complete EIM occurs in
+Earley set 0.
+But,
+by Theorem \ref{t:leo-quasi-complete},
+only quasi-complete EIM's are memoized.
+Therefore no EIM in Earley set 0
+is memoized.
+\end{proof}
+
+\begin{theorem}
+\label{t:fleeting-closure-memoization}
+Let \Veim{x} and
+\Veim{y} be two EIM's in the same
+fleeting closure.
+Then
+\[
+\Memoized{\Veim{x}} \equiv \Memoized{\Veim{y}}.
+\]
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
+\begin{theorem}
 \label{t:read-eim-not-leo}
 Read EIM's and the EIM's in the
 ethereal closure of a read EIM
@@ -10937,201 +10971,8 @@ by the definition of ``Leo memoable'',
 the bottom layer is not Leo memoable.
 Therefore a read EIM is never memoized.
 
-TODO: fix this.
+TODO: Finish
 
-By the definition of a read EIM,
-the predot symbol of \Veim{scanned}
-is a terminal.
-Since \Veim{scanned} is memoized,
-by Theorem \ref{t:leo-quasi-complete},
-it must be quasi-complete, so the predot
-symbol of \Veim{scanned} must also be its penult.
-Therefore the quasi-penult of \Veim{scanned} is
-a terminal.
-
-Only EIM's with right recursive rules are memoized.
-From the definition of right recursion,
-a right recursive rule must have a right recursive
-symbol as its quasi-penult.
-But a terminal cannot be recursive symbol.
-
-Therefore \Veim{scanned} cannot have a right recursive rule,
-and therefore \Veim{scanned} is not memoized,
-which is contrary to the assumption for the reductio.
-This shows the reduction and the theorem.
-\end{proof}
-
-\begin{theorem}
-\label{t:earley-set-0-is-Leo-free}
-No EIM in Earley set 0 is memoized.
-\end{theorem}
-
-\begin{proof}
-By definition,
-a quasi-complete EIM has at least one
-telluric predot symbol,
-so its current location cannot be location 0.
-Therefore no quasi-complete EIM occurs in
-Earley set 0.
-But,
-by Theorem \ref{t:leo-quasi-complete},
-only quasi-complete EIM's are memoized.
-Therefore no EIM in Earley set 0
-is memoized.
-\end{proof}
-
-\begin{theorem}
-\label{t:fleeting-closure-memoization}
-If
-the telluric base of a fleeting closure
-is Leo-memoized,
-all the EIM's
-in the fleeting closure
-will be Leo-memoized.
-\end{theorem}
-
-\begin{proof}
-For this proof,
-let \op{In}{\Veim{eim}, \var{lslo}} indicate that \Veim{eim} is an inner layer
-of the Leo silo \var{lslo};
-and
-let \op{Fl}{\var{slo}} indicate that the silo \var{slo} (which will not be a Leo silo)
-is a fleeting closure.
-
-Let \Veim{e1}, \Veim{e2} be two EIM's in a fleeting closure,
-call it \var{fc}.
-To show the theorem,
-we will
-assume that one of the two EIM's is memoized,
-and show that the other one must be.
-Without loss of generality, we assume that \Veim{e1}
-is the EIM which is memoized.
-
-Since \Veim{e1} is memoized, by the definition of memoized,
-it must be memoable
-in every silo in which it occurs.
-Since the occurrence of \Veim{e1} in \var{fc} is memoable
-wherever it occurs,
-including in \var{fc},
-then, by the definition of memoable,
-\begin{equation}
-\label{t:fleeting-closure-memoization-10}
-\myparbox{
-all of the layers of \var{fc} must be inner layers of a Leo silo.
-}
-\end{equation}
-
-From
-\eqref{t:fleeting-closure-memoization-10}
-we know that \var{fc} must be entirely contained in a Leo silo,
-call it \var{lslo}.
-Let \var{fcm} be the longest fleeting closure
-that contains \var{fc}.
-and is contained inside \var{lslo}.
-From Theorem
-\ref{t:fleeting-closure-silo},
-we know that
-\begin{itemize}
-\item
-each element of \var{fcm} is uniquely determined by the one
-one before it, if there is one.
-\item
-each element of \var{fcm} is uniquely determined by the one
-one after it, if there is one.
-\end{itemize}
-
-We now must show that, like \var{fc}, \var{fcm}
-contains only the inner layers of a Leo silo.
-Suppose for a reductio, that \var{fcm} contains an outer
-layer.
-\begin{align}
-\notag
-& \Veim{e1} \in \var{fc} \\
-\notag
-\therefore \; & \Veim{e1} \in \var{fcm} \\
-\intertext{and because \Veim{e1} is in a fleeting closure that contains
-an outer item.}
-\notag
-& \neg \Memoable{\var{e1}}{\var{fcm}} \\
-\label{t:fleeting-closure-memoization-15}
-\therefore \; & \neg \Memoized{\var{e1}}
-\end{align}
-\eqref{t:fleeting-closure-memoization-15} contradicts our
-assumption for the reductio, so we know that
-\begin{equation}
-\label{t:fleeting-closure-memoization-20}
-\myparbox{
-all of the layers of \var{fcm} must be inner layers of a Leo silo.
-}
-\end{equation}
-
-Theorem
-\ref{t:fleeting-closure-silo},
-applies so long as \el{fcm}{0} is a quasi-completion,
-so that \var{fcm} can be lengthened at the beginning
-\item
-\var{fcm} can be lengthened at the beginning
-as far as its elements are a quasi-completions,
-we know that \el{fcm}{\Vlastix{fcm}}, if it is not
-
-the top
-\var{fcm} is finite
-and is a deterministic series of cause and effect
-that begin with a telluric EIM and ends with a complete EIM.
-
-\var{fcm} contains all the EIM's in the fleeting closure,
-so that the telluric base of the fleeting closure is \el{fcm}{0}
-and a complete EIM is \el{fcm}{\Vlastix{fc}}.
-If $\var{fc} \neq \var{fcm}$,
-it can only be because some elements of \var{fcm} would be above the
-top of the Leo silo,
-or because some elements of
-\var{fcm} would be below the bottom of the Leo silo.
-But from
-\eqref{t:fleeting-closure-memoization-10}
-we know that \var{fc} does not contain
-the top or the bottom of the Leo silo.
-and therefore less any layers above the top,
-or below the bottom.
-Therefore $\var{fc} = \var{fcm}$.
-
-TODO: show "constancy" more carefully.
-
-The sequence that is the maximal fleeting closure is constant,
-given its telluric base.
-Since it is constant,
-\var{fc} always contains the same elements,
-and therefore if any element of \var{fc} is present in
-a fleeting closure,
-that fleeting closure is equal to \var{fc}.
-
-By assumption for the theorem, \Veim{e1} and \Veim{e2}
-occur together in \var{fc}.
-Note that every EIM occurs in a fleeting closure,
-if only a trivial one which includes only one element.
-For the theorem,
-we assumed that \Veim{e2} occurs in the same fleeting closure
-with \Veim{e1}
-in at least one silo.
-We have shown that whenever \Veim{e1} occurs, the fleeting
-closure must be maximal, so that when \Veim{e1} is in a silo,
-it is always as part of the same fleeting closure as \Veim{e2}.
-
-Further, we have shown that any fleeting closure that contains
-\Veim{e1}
-and therefore any fleeting closure that contains
-\Veim{e2}
-must contain only inner layers of its Leo silo.
-Since \Veim{e2} occurs only in fleeting closures that contain
-only inner layers,
-by the definition of memoable,
-\Veim{e2} is memoable whenever it occurs in a Leo silo.
-Since
-\Veim{e2} is memoable whenever it occurs in a Leo silo,
-by the definition of memoized,
-\Veim{e2} is memoized.
-
-TODO: I think this is wrong.  Fix it.
 \end{proof}
 
 \begin{theorem}
