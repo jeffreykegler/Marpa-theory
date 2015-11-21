@@ -73,6 +73,8 @@
 \newcommand{\LRk}{\ensuremath{\var{LR}(\var{k})}}
 \newcommand{\inference}[2]{\genfrac{}{}{1pt}{}{#1}{#2}}
 
+\newcommand{\undefined}{\ensuremath{\perp}}
+
 % I use hyphens in variable names,
 % so I need to ensure that subtraction is
 % clearly distinguished by the typography
@@ -867,6 +869,19 @@ Where \var{seq} is a sequence,
 we write
 \Vlastix{seq}
 for its last index.
+
+We will use the symbol \undefined%
+\index{recce-notation}{"!@\undefined}
+to mean ``undefined''
+in various contexts.
+Particularly, we will write $\Vop{f}{x} = \undefined$ to
+say that ``the value of \myfnname{f} at \var{x} is undefined''.
+If a value is undefined,
+a second value is considered to be equal to it if and only if
+that second value is also undefined:
+\[
+   \var{x} \, = \, \undefined \;\; \implies \;\; (\var{x} \, = \, \var{y} \; \equiv \; \var{y} \, = \, \undefined).
+\]
 
 \section{Grammars}
 
@@ -2232,7 +2247,7 @@ Let
 \begin{cases}
 \begin{aligned}
 & \Vsym{B}, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{s1} \mydot \Vsym{B} \cat \Vstr{s2}]$} \\
-& \Lambda, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{rhs} \mydot]$}
+& \undefined, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{rhs} \mydot]$}
 \end{aligned}
 \end{cases} \\
 %
@@ -2240,7 +2255,7 @@ Let
 \begin{cases}
 \begin{aligned}
 & \Vsym{B}, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{s1} \cat \Vsym{B} \mydot \Vstr{s2}]$} \\
-& \Lambda, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \mydot \Vstr{rhs} ]$}
+& \undefined, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \mydot \Vstr{rhs} ]$}
 \end{aligned}
 \end{cases} \\
 %
@@ -2250,7 +2265,7 @@ Let
 \begin{aligned}
 & \qquad && \text{if $\Vdr{X} =
 [\Vsym{A} \de \Vstr{s1} \mydot \Vsym{B} \cat \Vstr{s2}]$} \\
-& \Lambda, && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{rhs} \mydot]$}
+& \undefined, && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{rhs} \mydot]$}
 \end{aligned}
 \end{cases} \\
 %
@@ -2260,7 +2275,7 @@ Let
 \begin{aligned}
 & \qquad && \text{if $\Vdr{X} =
 [\Vsym{A} \de \Vstr{s1} \cat \Vsym{B} \mydot \Vstr{s2}]$} \\
-& \Lambda, && \text{if $\Vdr{x} = [\Vsym{A} \de \mydot \Vstr{rhs} ]$}
+& \undefined, && \text{if $\Vdr{x} = [\Vsym{A} \de \mydot \Vstr{rhs} ]$}
 \end{aligned}
 \end{cases} \\
 %
@@ -2505,7 +2520,7 @@ Let \Vdr{dr} be a dotted rule.
 If
 \[
   \Predot{\Vdr{dr}} \neq \epsilon \; \lor \;
-  \Predot{\Vdr{dr}} = \Lambda,
+  \Predot{\Vdr{dr}} = \undefined,
 \]
 then \Vdr{dr} is its own lasting base.
 If $\Predot{\Vdr{dr}} = \epsilon$ so that,
@@ -2624,7 +2639,7 @@ Otherwise it is the empty set.
 \begin{cases}
 \begin{aligned}
 & \var{epsilon-op}^+(\lbrace \Vdr{base} \rbrace),
-  && \text{if $\Postdot{\Vdr{from}} \neq \Lambda$} \\
+  && \text{if $\Postdot{\Vdr{from}} \neq \undefined$} \\
 & \emptyset,
   && \text{otherwise}
 \end{aligned}
@@ -5014,67 +5029,195 @@ that \Veim{eim} has at least one maximal
 fleeting closure.
 
 To prove
-\eqref{t:maximal-fleeting-closure-validity-13},
+\eqref{t:maximal-fleeting-closure-validity-10}
 and the theorem,
-it remains to show that that \Veim{eim}
+it remains to show that \Veim{eim}
 has at most one distinct maximal fleeting closure.
 To do this,
-we will assume, for a reductio,
-that if \var{mfc1} and \var{mfc2}
+we will assume
+that \var{mfc1} and \var{mfc2}
 are two maximal fleeting closures
-for \var{eim}
-\begin{gather}
-\label{t:maximal-fleeting-closure-validity-25}
-\text{\var{mfc1} and \var{mfc2} are finite,} \\
-\label{t:maximal-fleeting-closure-validity-27}
-\el{mfc1}{0} = \el{mfc2}{0}, \\
-\label{t:maximal-fleeting-closure-validity-29}
-\text{TODO elements identical} \\
-\label{t:maximal-fleeting-closure-validity-31}
-\text{TODO ??} \quad
-   \el{mfc1}{\Vlastix{mfc1}} = \el{mfc2}{\Vlastix{mfc2}}
-\end{gather}
+such that
+\[
+\Veim{eim} \in \var{mfc1}
+\; \land \;
+\Veim{eim} \in \var{mfc2}
+\]
+to show that
+\begin{equation}
+\forall \; \var{a} : \Vel{mfc1}{a} = \Vel{mfc2}{a}.
+\end{equation}
 
-From Theorem \ref{t:null-scan-arithmetic},
-we can see that every elements of a fleeting closure
-differ only in their dot indexes,
-and that every element of a fleeting closure has
-a distinct dot index.
-By Theorem \ref{t:null-scan-arithmetic},
-all the elements of a fleeting closure share the same rule,
-and rule allows at most a finite number of possible dot indexes.
-Therefore the number of elements in a fleeting closure
-is finite,
-which shows
-\eqref{t:maximal-fleeting-closure-validity-25}.
+We proceed by induction,
+where
+\begin{equation}
+\label{t:maximal-fleeting-closure-validity-30}
+\tag{IND}
+\Vel{mfc1}{x} = \Vel{mfc2}{x}.
+\end{equation}
+is the induction hypothesis.
+Here \var{mfc1} and \var{mfc2} can be (and in fact always are)
+partial functions.
+Recall that we write $\Vel{fc}{x} = \undefined$ to
+say the ``\myfnname{f} is undefined at \var{x}''.
+Also recall that,
+for all \var{x}, \var{y},
+if $\var{x} = \undefined$,
+then $\var{x} \, = \, \var{y} \; \equiv \; \var{y} \, = \, \undefined$.
+
 
 By the definition of a maximal fleeting closure, its first
 element is a lasting base of \Veim{eim}.
 By Theorem
 \ref{t:eim-lasting-base},
 \Veim{eim} has at most one distinct lasting base,
-which shows
-\eqref{t:maximal-fleeting-closure-validity-27}.
-
-TODO
-
-A closure ends if and only if its defining operation can
-no longer be applied.
-\myfnname{null-scan-op} requires that its operand
-have a nulling postdot symbol,
-so the last element of both
-\var{mfc1} and \var{mfc2} will be
- is 
-an EIM \Veim{z} such that
+which shows that
 \[
-\forall \; \var{a}
-Postdot{\Veim{z}} = \Lambda \; \lor \; 
-\neg Postdot{\Veim{z}} = \epsilon
+\el{mfc1}{0} = \el{mfc2}{0}.
 \]
+which is 
+\eqref{t:maximal-fleeting-closure-validity-30}
+for $\var{x} = 0$.
+We take this as the basis of our induction.
+
+For the step of the induction, we
+assume
+\eqref{t:maximal-fleeting-closure-validity-30}
+for $\var{x} = \var{i}$,
+to show
+\eqref{t:maximal-fleeting-closure-validity-30}
+for $\var{x} = \Vincr{i}$.
+Within the step we proceed by cases,
+based on the value of \Vel{mfc1}{i}.
+In what follows, we will use the fact that
+a fleeting closure is defined in terms of
+\myfnname{null-scan-op},
+so that
+\begin{align}
+\label{t:maximal-fleeting-closure-validity-36}
+& \el{mfc1}{\Vincr{i}} = \op{null-scan-op}{\Vel{mfc1}{i}} &&
+\\
+\label{t:maximal-fleeting-closure-validity-38}
+& \el{mfc2}{\Vincr{i}} = \op{null-scan-op}{\Vel{mfc2}{i}} &&
+\end{align}
+
+In the first case
+\Vel{mfc1}{i} is defined,
+and
+$\Postdot{\Vel{mfc1}{i}} \neq \epsilon$.
+\begin{align}
+\label{t:maximal-fleeting-closure-validity-44}
+& \Vel{mfc1}{i} \neq \undefined && \text{case ASM}
+\\
+\label{t:maximal-fleeting-closure-validity-46}
+& \Postdot{\Vel{mfc1}{i}} \neq \epsilon && \text{case ASM}
+\\
+\label{t:maximal-fleeting-closure-validity-48}
+& \Vel{mfc2}{i} \neq \undefined &&
+\eqref{t:maximal-fleeting-closure-validity-44},
+\text{step ASM}
+\\
+\label{t:maximal-fleeting-closure-validity-50}
+& \Postdot{\Vel{mfc2}{i}} \neq \epsilon &&
+\eqref{t:maximal-fleeting-closure-validity-46},
+\text{step ASM}
+\end{align}
+Recalling that \myfnname{null-scan-op} is a null-scan,
+so that \op{null-scan-op}{\Veim{x}} is only defined if the postdot symbol of \Veim{x}
+is nulling,
+\begin{align}
+\label{t:maximal-fleeting-closure-validity-54}
+& \op{null-scan-op}{\Vel{mfc1}{i}} = \undefined &&
+\eqref{t:maximal-fleeting-closure-validity-46}
+\\
+\label{t:maximal-fleeting-closure-validity-56}
+& \op{null-scan-op}{\Vel{mfc2}{i}} = \undefined &&
+\eqref{t:maximal-fleeting-closure-validity-50}.
+\end{align}
+\begin{align}
+\label{t:maximal-fleeting-closure-validity-64}
+& \el{mfc1}{\Vincr{i}} = \undefined &&
+\eqref{t:maximal-fleeting-closure-validity-36},
+\eqref{t:maximal-fleeting-closure-validity-54}
+\\
+\label{t:maximal-fleeting-closure-validity-66}
+& \el{mfc2}{\Vincr{i}} = \undefined &&
+\eqref{t:maximal-fleeting-closure-validity-38},
+\eqref{t:maximal-fleeting-closure-validity-56}
+\\
+\label{t:maximal-fleeting-closure-validity-70}
+& \el{mfc1}{\Vincr{i}} = \el{mfc2}{\Vincr{i}}
+&&
+\eqref{t:maximal-fleeting-closure-validity-64},
+\eqref{t:maximal-fleeting-closure-validity-66}
+\end{align}
+\eqref{t:maximal-fleeting-closure-validity-70}
+shows the step for the first case.
+
+In the second case
+\Vel{mfc1}{i} is defined,
+and
+$\Postdot{\Vel{mfc1}{i}} = \epsilon$.
+\begin{align}
+\label{t:maximal-fleeting-closure-validity-74}
+& \Vel{mfc1}{i} \neq \undefined && \text{case ASM}
+\\
+\label{t:maximal-fleeting-closure-validity-76}
+& \Postdot{\Vel{mfc1}{i}} = \epsilon && \text{case ASM}
+\\
+\label{t:maximal-fleeting-closure-validity-78}
+& \Vel{mfc2}{i} \neq \undefined &&
+\eqref{t:maximal-fleeting-closure-validity-74},
+\text{step ASM}
+\\
+\label{t:maximal-fleeting-closure-validity-80}
+& \Postdot{\Vel{mfc2}{i}} = \epsilon &&
+\eqref{t:maximal-fleeting-closure-validity-76},
+\text{step ASM}
+\\
+\label{t:maximal-fleeting-closure-validity-82}
+& \Vel{mfc1}{i} = \Vel{mfc2}{i} &&
+\text{step ASM}
+\end{align}
+In Theorem
+\ref{t:null-scan-from-down-cause},
+we showed the \myfnname{null-scan-op} is a function,
+so that from
+\eqref{t:maximal-fleeting-closure-validity-36},
+\eqref{t:maximal-fleeting-closure-validity-38}
+and
+\eqref{t:maximal-fleeting-closure-validity-82}
+we have
+\[
+\el{mfc1}{\Vincr{i}} = \el{mfc2}{\Vincr{i}},
+\]
+which shows the step for the second case.
+
+In the third case,
+\Vel{mfc1}{i} is undefined.
+By assumption for the step,
+this means that
+\Vel{mfc2}{i} is also undefined,
+so that
+\begin{equation}
+\label{t:maximal-fleeting-closure-validity-90}
+\begin{gathered}
+  \el{mfc1}{\Vincr{i}} = \op{null-scan-op}{\Vel{mfc1}{i}} \\
+  = \el{mfc2}{\Vincr{i}} = \op{null-scan-op}{\Vel{mfc2}{i}} = \undefined,
+\end{gathered}
+\end{equation}
+\eqref{t:maximal-fleeting-closure-validity-90}
+shows the step for the third case.
+
+We have now shown the step of the induction for all three cases.
+This gives us the induction,
+\eqref{t:maximal-fleeting-closure-validity-10},
+and the theorem.
+
+TODO: Done?
+
 \end{proof}
 
-\begin{theorem}
-\end{theorem}
 \begin{theorem}
 \ttitle{Iterative completion from null-scan cause}
 \label{t:iterative-completion-from-null-scan-cause}
@@ -10294,7 +10437,7 @@ We take as the induction hypothesis
 \label{eq:leo-silo-catena-10}
 \tag{IND1}
 0 \le \var{x} < \var{topix}
-\implies \Vop{LM}{\Vel{slo}{x}} \neq \Lambda
+\implies \Vop{LM}{\Vel{slo}{x}} \neq \undefined
 \\[1.5ex]
 \label{eq:leo-silo-catena-12}
 \tag{IND2}
@@ -13005,12 +13148,12 @@ Marpa checks
 \var{time-stamp} = \PSL{\Ves{x}}{\ID{\Vdr{x}}}
 \end{equation*}
 If the entry has never been used,
-we assume that $\var{time-stamp} = \Lambda$.
-If $\var{time-stamp} \ne \Lambda \land \var{time-stamp} = \Vloc{j}$,
+we assume that $\var{time-stamp} = \undefined$.
+If $\var{time-stamp} \ne \undefined \land \var{time-stamp} = \Vloc{j}$,
 then \Veim{x} is not new,
 and will not be added to the Earley set.
 
-If $\Vloc{p} = \Lambda \lor \var{time-stamp} \ne \Vloc{j}$,
+If $\Vloc{p} = \undefined \lor \var{time-stamp} \ne \Vloc{j}$,
 then \Veim{x} is new.
 \Veim{x} is added to the Earley set,
 and a new time-stamp is set, as follow:

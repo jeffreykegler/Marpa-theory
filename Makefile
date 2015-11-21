@@ -43,8 +43,10 @@ recce.pdf: recce.ltx
 	$(LATEX) recce.ltx
 
 ah2002_notes.pdf: ah2002_notes.ltx
+	$(LATEX) ah2002_notes.ltx
 
 clean:
+	rm -f ah2002_notes.pdf
 	rm -f recce.aux recce.pdf recce.toc recce.out
 	for ix in definitions general algorithms theorems notation; do \
 	    rm -f recce-$$ix.ind recce-$$ix.ilg; \
