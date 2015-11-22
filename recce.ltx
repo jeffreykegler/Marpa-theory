@@ -8372,9 +8372,9 @@ By Theorem \ref{t:eim-lasting-base}, \Veim{qc}
 has a valid lasting base:
 \begin{equation}
 \label{eq:maximal-fleeting-closure-silo-10}
-\Valid{\Veim{qc}}.
+\Valid{\Veim{bas}}.
 \end{equation}
-By assumption for theorem, \Veim{qc}
+By assumption for the theorem, \Veim{qc}
 is quasi-complete,
 so that, by the definition
 of quasi-complete, all the symbols
@@ -8398,6 +8398,80 @@ This theorem follows from
 \eqref{eq:maximal-fleeting-closure-silo-15}
 and Theorem
 \ref{t:fleeting-closure-silo}.
+\end{proof}
+
+\begin{definition}
+\dtitle{Maximal silo}
+A
+\dfn{maximal silo}
+is a silo whose bottom layer has no silo cause,
+and whose top layer has no silo effect.
+\end{definition}
+
+\begin{theorem}
+Every quasi-complete EIM
+is in at least one finite maximal silo,
+whose bottom is a read EIM.
+\end{theorem}
+
+\begin{proof}
+Let \Veim{qc} be a valid quasi-complete EIM.
+We create, \var{maxslo}, a maximal silo,
+from \Veim{qc}
+using the following construction:
+\begin{itemize}
+\item
+\textbf{Step 1}:
+By Theorem
+\ref{t:quasi-confirmed-eim-has-silo},
+\Veim{qc} has at least one finite silo
+whose bottom is a read EIM.
+Initially, let \var{maxslo} be one of these silos.
+\item
+\textbf{Step 2}: If \el{maxslo}{\Vlastix{maxslo}} has no silo effect,
+we terminate the construction.
+\item
+\textbf{Step 3}: 
+Let \Veim{newlayer} be the silo effect of
+\el{maxslo}{\Vlastix{maxslo}}.
+Let \var{newslo} be
+\var{maxslo} with \Veim{newlayer} appended,
+that is
+\begin{equation}
+\notag
+\begin{gathered}
+\forall \; \var{i} : 0 \le \var{i} \le \Vlastix{maxslo} 
+\implies
+\Vel{newslo}{i} = \Vel{maxslo}{i}
+\quad \text{and}
+\\
+\Vel{newslo}{\Vincr{\Vlastix{maxslo}}} = \Veim{newlayer}
+\end{gathered}
+\end{equation}
+\item
+\textbf{Step 4}: 
+Let $\var{maxslo} \gets \var{newslo}$,
+and go to Step 2.
+\end{itemize}
+This construction either creates a \var{maxslo} whose top
+element has no silo effect,
+or it constructs a silo of infinite size.
+Since 
+by Theorem \ref{t:silo-finite},
+we know that all silos are finite,
+we can conclude that there is a \el{maxslo}{\Vlastix{maxslo}},
+and that it has no silo effect.
+
+Throughout the construction, \el{maxslo}{0}
+remains constant.
+The construction initialized
+\el{maxslo}{0} to a read EIM.
+Read EIM's,
+by Theorem \ref{t:silo-causes},
+have no silo cause.
+So,
+once the construction is complete,
+\el{maxslo}{0} has no silo cause.
 \end{proof}
 
 \chapter{Leo memos}
