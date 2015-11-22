@@ -7937,13 +7937,6 @@ we have
 \big[ [ \Vrule{r}, \Vdecr{ix} ], \Vorig{hi}, \Vloc{here} \big]
 \end{multlined}
 &&
-\\
-\label{eq:silo-layer-unique-52}
-& \begin{multlined}
-\el{silo}{\Vdecr{hi}} = \\
-\big[ [ \Vrule{r}, \Vdecr{ix} ], \Vorig{hi}, \Vloc{here} \big]
-\end{multlined}
-&& \eqref{eq:silo-layer-unique-43}, \eqref{eq:silo-layer-unique-49}
 \end{align}
 For this proof, let
 \[
@@ -7956,14 +7949,20 @@ For this proof, let
 \undefined, \quad \text{otherwise}
 \end{cases}
 \]
-From this definition of \myfnname{TDC} and
-\eqref{eq:silo-layer-unique-52}, we have
+From this definition of \myfnname{TDC},
+\eqref{eq:silo-layer-unique-43}
+and \eqref{eq:silo-layer-unique-49},
+we have
 \begin{multline}
 \label{eq:silo-layer-unique-55}
 \Predot{\Vel{silo}{hi}} = \epsilon  \\
 \implies
-\myfn{TDC}{\Vel{silo}{hi}} =
-\big[ [ \Vrule{r}, \Vdecr{ix} ], \Vorig{hi}, \Vloc{here} \big]
+\left(
+\begin{gathered}
+\el{silo}{\Vdecr{hi}} = \myfn{TDC}{\Vel{silo}{hi}} \\
+= \big[ [ \Vrule{r}, \Vdecr{ix} ], \Vorig{hi}, \Vloc{here} \big]
+\end{gathered}
+\right)
 \end{multline}
 
 By iteration of
@@ -7976,7 +7975,7 @@ we have
 \var{hi} \ge \var{a} > \var{lo} \implies
 \Predot{\Vel{silo}{a}} = \epsilon, \\
 \text{then} \quad
-\Vel{silo}{hi} =
+\Vel{silo}{lo} =
 \myfnname{TDC}^{\displaystyle (\xxsubtract{\var{hi}}{\var{lo}})}(\Vel{silo}{hi}) = \\
 \big[ [ \Vrule{r},
 \xxsubtract{\var{ix}}{
@@ -8096,7 +8095,8 @@ the reductio for trivial
 derivations.
 We now have
 both cases,
-the reductio and theorem.
+the reductio
+and therefore, the theorem.
 \end{proof}
 
 \begin{theorem}
