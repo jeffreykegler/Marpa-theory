@@ -6937,16 +6937,17 @@ Then
 
 \begin{proof}
 We first will show that
-\begin{multline}
+\begin{equation}
 \label{eq:silo-location-7}
+\begin{gathered}
 \forall \var{x} :
 0 \le \var{x}
-\le \Vel{silo}{top} \implies \\
+\le \Vel{silo}{\Vlastix{silo}} \\
+\implies 
 \Right{\Vel{silo}{0}} =
-\Right{\Vel{silo}{x}} \\
-\qquad \shoveleft{\text{where $\var{top} =
-\xxsubtract{\Vsize{\var{silo}}}{1}$}}.
-\end{multline}
+\Right{\Vel{silo}{x}}.
+\end{gathered}
+\end{equation}
 The proof
 of \eqref{eq:silo-location-7}
 is by induction.
@@ -7071,12 +7072,12 @@ read EIM.
 From Theorem
 \ref{t:down-cause-from-effect},
 we know that
-\begin{gather}
+\begin{align}
 \notag
-\Right{\Veim{down}} = \decr{\Right{\Veim{rd}}} \\
+& \Right{\Veim{down}} = \decr{\Right{\Veim{rd}}} \\
 \label{eq:silo-causes-20}
-\therefore \; \Right{\Veim{down}} \neq \decr{\Right{\Veim{rd}}}
-\end{gather}
+\therefore \;\; & \Right{\Veim{down}} \neq \Right{\Veim{rd}}.
+\end{align}
 \eqref{eq:silo-causes-20} shows that \Veim{down}
 cannot be a silo cause of \Veim{rd}.
 
@@ -7148,12 +7149,12 @@ a silo cause of \Veim{duct}.
 From Theorem
 \ref{t:down-cause-from-effect},
 we know that
-\begin{gather}
+\begin{align}
 \notag
-\Right{\Veim{down}} < \Right{\Veim{rd}} \\
+& \Right{\Veim{down}} < \Right{\Veim{rd}} \\
 \label{eq:silo-causes-40}
-\therefore \; \Right{\Veim{down}} \neq \Right{\Veim{rd}}
-\end{gather}
+\therefore \quad &  \Right{\Veim{down}} \neq \Right{\Veim{rd}}
+\end{align}
 \eqref{eq:silo-causes-40} shows that \Veim{down}
 cannot be a silo cause of \Veim{rd}.
 
@@ -7179,10 +7180,6 @@ Then
 \label{eq:silo-read-eim-layer-1}
 \var{i} = 0,
 \\
-\label{eq:silo-read-eim-layer-2}
-\nexists \;
-\Vel{silo}{j} :
-\var{j} < \var{i}, \quad \text{and}
 \\
 \label{eq:silo-read-eim-layer-3}
 \Vel{silo}{i} = \Vel{silo}{j} \implies \var{i} = \var{j}.
@@ -7202,68 +7199,6 @@ Our indexing convention is that 0 is the
 numerically the lowest index of the silo.
 This shows
 \eqref{eq:silo-read-eim-layer-1}.
-
-Recall that
-silo layer indexes are
-consecutive integers starting at zero.
-\eqref{eq:silo-read-eim-layer-2}
-follows from this observation
-and \eqref{eq:silo-read-eim-layer-1}.
-
-It remains to show
-\eqref{eq:silo-read-eim-layer-3}
-in the statement of the theorem.
-Suppose for a reductio
-that there are two silo layers,
-\Vel{silo}{x}
-and
-\Vel{silo}{y},
-such that
-\begin{equation}
-\label{eq:silo-read-eim-layer-20}
-\tag{RAA}
-\begin{gathered}
-\Vel{silo}{x} = \Vel{silo}{y} \; \land \; \var{x} \neq \var{y}, \\
-\text{where \Vel{silo}{x} is a read EIM.}
-\end{gathered}
-\end{equation}
-By
-\eqref{eq:silo-read-eim-layer-20},
-the assumption for the reductio,
-$\Vel{silo}{x} = \Vel{silo}{y}$,
-so that
-\begin{equation}
-\label{eq:silo-read-eim-layer-25}
-\text{\Vel{silo}{y} is a read EIM.}
-\end{equation}
-
-Above, we showed
-\eqref{eq:silo-read-eim-layer-1},
-so that it is available to show
-\eqref{eq:silo-read-eim-layer-3}.
-\begin{align}
-\label{eq:silo-read-eim-layer-28}
-& \var{x} = 0 &&
-\eqref{eq:silo-read-eim-layer-1},
-\eqref{eq:silo-read-eim-layer-20}
-\\
-\label{eq:silo-read-eim-layer-31}
-& \var{y} = 0 &&
-\eqref{eq:silo-read-eim-layer-1},
-\eqref{eq:silo-read-eim-layer-25}
-\\
-\label{eq:silo-read-eim-layer-34}
-& \var{x} = \var{y} &&
-\eqref{eq:silo-read-eim-layer-28},
-\eqref{eq:silo-read-eim-layer-31}
-\end{align}
-\eqref{eq:silo-read-eim-layer-34}
-contradicts
-\eqref{eq:silo-read-eim-layer-20}
-and shows the reductio.
-This in turn shows
-\eqref{eq:silo-read-eim-layer-3},
-which was the last requirement for the theorem.
 \end{proof}
 
 \begin{theorem}
@@ -7275,6 +7210,7 @@ Every layer of a silo at \Vloc{k} has a telluric symbol before
 
 \begin{proof}
 A silo layer must be quasi-complete,
+and no EIM in Marpa is nulling,
 so that there must be a telluric symbol before \Vloc{k}.
 \end{proof}
 
@@ -7469,7 +7405,10 @@ is
 We assume
 \begin{equation}
 \label{eq:lem-silo-reflection-nulling1-11}
-\text{\Vsym{B} is a non-terminal.}
+\begin{gathered}
+\text{\Vsym{B} is a non-terminal} \\
+\land \; \op{Valid-eq}{\el{silo}{\Vincr{i}}} \xderives{0} \op{Valid-eq}{\el{silo}{\var{i}}}
+\end{gathered}
 \end{equation}
 for a reductio.
 If \Vsym{B} is a non-terminal, by
@@ -7516,8 +7455,8 @@ Notice that the derivation from
 to
 \eqref{eq:lem-silo-reflection-nulling1-44}
 takes place in zero steps,
-as required by assumption for
-\eqref{eq:lem-silo-reflection-nulling1-6}.
+as required by
+\eqref{eq:lem-silo-reflection-nulling1-11}.
 Following the implications,
 \begin{align}
 &
@@ -7557,12 +7496,16 @@ Our assumption for the reductio was
 so we conclude that
 \begin{equation}
 \label{eq:lem-silo-reflection-nulling1-52}
-\text{\Vsym{B} is a terminal.}
+\begin{gathered}
+\op{Valid-eq}{\el{silo}{\Vincr{i}}} \xderives{0} \op{Valid-eq}{\el{silo}{\var{i}}} \\
+\implies \; \text{\Vsym{B} is a terminal.}
+\end{gathered}
 \end{equation}
 
-We have shown that \Vsym{B} is a terminal,
-but it
-remains to show that \Vsym{B} is a nulling terminal.
+\eqref{eq:lem-silo-reflection-nulling1-52}
+is close to the theorem, but the theorem requires that
+we show that
+\Vsym{B} is a \textbf{nulling} terminal.
 We assume for a reductio that \Vsym{B} is a telluric
 terminal.
 From
@@ -7585,7 +7528,10 @@ This contradiction shows the reductio,
 and we conclude that
 \begin{equation}
 \label{eq:lem-silo-reflection-nulling1-53}
-\text{\Vsym{B} is not a telluric terminal.}
+\begin{gathered}
+\op{Valid-eq}{\el{silo}{\Vincr{i}}} \xderives{0} \op{Valid-eq}{\el{silo}{\var{i}}} \\
+\implies \; \text{\Vsym{B} is not a telluric terminal.}
+\end{gathered}
 \end{equation}
 
 From
@@ -7598,9 +7544,12 @@ and
 \eqref{eq:lem-silo-reflection-nulling1-53}
 we conclude that
 \begin{equation}
-\text{\Predot{\el{silo}{\Vincr{i}}} is a nulling terminal,}
+\begin{gathered}
+\op{Valid-eq}{\el{silo}{\Vincr{i}}} \xderives{0} \op{Valid-eq}{\el{silo}{\var{i}}} \\
+\implies \; \text{\Predot{\el{silo}{\Vincr{i}}} is a nulling terminal,}
+\end{gathered}
 \end{equation}
-which shows the theorem.
+which is the theorem.
 \end{proof}
 
 \begin{lemma}
@@ -7614,17 +7563,17 @@ which shows the theorem.
 \end{lemma}
 
 \begin{proof}
-We proceed in two cases, depending on the relative
-values of \var{lo} and \var{lo}.
+We proceed in three cases, depending on the relative
+values of \var{hi} and \var{lo}.
 We take as our first case,
 $\var{lo} \ge \var{hi}$.
 For this case
 \eqref{eq:lem-silo-reflection-nulling-induction-10}
 follows vacuously.
 
-The second case remains:
+The third case remains:
 $\var{lo} < \var{hi}$.
-For it
+For this case
 we proceed by induction,
 taking as the hypothesis:
 \begin{multline}
@@ -7705,9 +7654,10 @@ have the theorem.
 
 \begin{lemma}
 \label{lem:silo-reflection-nulling}
-Let \el{silo}{\Vincr{i}},
+Let \el{silo}{\Vincr{i}} and
 \Vel{silo}{i},
 be two silo layers.
+Then
 \begin{multline*}
 \Predot{\el{silo}{\Vincr{i}}} = \epsilon \\
 \implies
@@ -7783,7 +7733,7 @@ it.
 Let \el{silo}{\var{hi}} and
 \Vel{silo}{lo}
 be two silo layers,
-such that $\var{lo} \le \var{hi}$.
+such that $\var{hi} \ge \var{lo}$.
 Then
 \begin{equation}
 \op{Valid-eq}{\Vel{silo}{hi}} \destar
@@ -7934,14 +7884,8 @@ we know that
 \op{Valid-eq}{\Vel{silo}{hi}} \destar
 \op{Valid-eq}{\Vel{silo}{lo}}.
 \end{equation}
-
-Even when two silo layers are different,
-their validity equivalents may
-may derive each other
-in zero steps ---
-in other words, they may be equal to each other.
-We call a derivation in zero steps, ``trivial''.
-We now proceed by cases: trivial derivations,
+Within the reductio,
+we proceed by cases: trivial derivations,
 and non-trivial derivations.
 
 \textbf{Trivial derivation}:
@@ -8001,10 +7945,17 @@ we have
 \end{multlined}
 && \eqref{eq:silo-layer-unique-43}, \eqref{eq:silo-layer-unique-49}
 \end{align}
-For this proof, let the function \myfn{TDC}{\Veim{eim}} be the
-top-down cause of \Veim{eim} for a null-scan,
-if \Predot{\Veim{eim}} is nulling,
-and undefined, otherwise.
+For this proof, let
+\[
+\myfn{TDC}{\Veim{eim}} \defined
+\begin{cases}
+\begin{aligned}
+\text{the top-down cause of \Veim{eim},} \\
+\text{if $\Predot{\Veim{eim}} = \epsilon$,}
+\end{aligned} \\
+\undefined, \quad \text{otherwise}
+\end{cases}
+\]
 From this definition of \myfnname{TDC} and
 \eqref{eq:silo-layer-unique-52}, we have
 \begin{multline}
