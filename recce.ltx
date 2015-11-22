@@ -10765,15 +10765,15 @@ and
 \end{proof}
 
 \begin{theorem}
-\ttitle{Silos with common lower layers share their top layer}
-\label{silo-common-lower-layers-share-top}
+\ttitle{Leo silos with common lower layers}
+\label{leo-silo-common-lower-layers}
 If a lower layer occurs in two Leo silos,
 then both silos have the same top element.
 \end{theorem}
 
 \begin{proof}
 Let \var{aslo} and \var{bslo} be two Leo silos
-that share a common EIM, call it \var{ceim}
+that share a common EIM, call it \var{ceim}.
 From theorem
 \ref{t:silo-location},
 and by the definition of silo location,
@@ -10782,17 +10782,23 @@ its location
 with every EIM in the silo, so that
 both silos have the same location:
 \begin{equation}
-\label{silo-common-lower-layers-share-top-15}
+\label{leo-silo-common-lower-layers-15}
     \Current{\Veim{eim}} = \Right{\Veim{aslo}} = \Right{\Veim{bslo}}.
 \end{equation}
 
 By Theorem
 \ref{t:leo-silo-catena}
-there are catenas \var{acat} and \var{bcat}
-such that contain, respectively, all the matching Leo memos
-of the layers of \var{aslo} and \var{bslo}:
+there is a catena \var{acat}
+that contains
+all the matching Leo memos
+of the layers of \var{aslo},
+and
+there is a catena \var{bcat}
+that contains
+all the matching Leo memos
+of the layers of \var{bslo}:
 \begin{multline}
-\label{silo-common-lower-layers-share-top-21}
+\label{leo-silo-common-lower-layers-21}
 \forall \; \var{i} \; \exists \; \Vleo{l}, \Veim{eim}
 : 0 \le \var{i} < \Vlastix{aslo} \\
 \implies
@@ -10809,9 +10815,9 @@ of the layers of \var{aslo} and \var{bslo}:
 \end{multline}
 Let \Vleo{cleo} be the Leo memo that matches \Veim{cleo}.
 From
-\eqref{silo-common-lower-layers-share-top-21} we have
+\eqref{leo-silo-common-lower-layers-21} we have
 \begin{equation}
-\label{silo-common-lower-layers-share-top-28}
+\label{leo-silo-common-lower-layers-28}
 \Vleo{cleo} \in \var{acat}
 \; \land \;
 \Vleo{cleo} \in \var{bcat}.
@@ -10821,11 +10827,11 @@ By Theorem
 \ref{t:catena-top-elements-identical}, all catena elements contain
 the same dotted rule and origin.
 Since by
-\eqref{silo-common-lower-layers-share-top-28},
+\eqref{leo-silo-common-lower-layers-28},
 \var{acat} and \var{bcat} share the element \Vleo{cleo},
 we know that
 \begin{multline}
-\label{silo-common-lower-layers-share-top-31}
+\label{leo-silo-common-lower-layers-31}
 \forall \; \Vleo{l1}, \Vleo{l2} : \\
 \Vleo{l1} \in (\var{acat} \cup \var{bcat})
 \; \land \;
@@ -10839,26 +10845,26 @@ we know that
 \right)
 \end{multline}
 From
-\eqref{silo-common-lower-layers-share-top-31}
+\eqref{leo-silo-common-lower-layers-31}
 and the definition of a Leo top layer,
 \begin{multline}
-\label{silo-common-lower-layers-share-top-34}
+\label{leo-silo-common-lower-layers-34}
 \forall \; \Vloc{curr}, \Vleo{l1}, \Vleo{l2} : \\
 \Vleo{l1} \in (\var{acat} \cup \var{bcat})
 \; \land \;
 \Vleo{l2} \in (\var{acat} \cup \var{bcat}) \\
 \implies
 \op{Leo-top}{\Vleo{l1}, \Vloc{curr}}
-= \op{Leo-top}{\leo{l2}, \Vloc{curr}}.
+= \op{Leo-top}{\Vleo{l2}, \Vloc{curr}}.
 \end{multline}
 
 Combining
-\eqref{silo-common-lower-layers-share-top-21}
+\eqref{leo-silo-common-lower-layers-21}
 with
-\eqref{silo-common-lower-layers-share-top-34},
+\eqref{leo-silo-common-lower-layers-34},
 we have
 \begin{multline}
-\label{silo-common-lower-layers-share-top-37}
+\label{leo-silo-common-lower-layers-37}
 \forall \; \Veim{eim1}, \Veim{eim2} \;
 \exists \; \Vleo{l1}, \Vleo{l2} : \\
 \Veim{eim1} \in (\var{aslo} \cup \var{bslo})
@@ -10873,11 +10879,11 @@ we have
 = \op{Leo-top}{\Vleo{l2}, \Vloc{curr}}
 \end{multline}
 In
-\eqref{silo-common-lower-layers-share-top-15},
+\eqref{leo-silo-common-lower-layers-15},
 we showed that both silos must have the same location
 as their common layer: \Right{\Veim{comm}}.
 Setting \Vloc{curr} in
-\eqref{silo-common-lower-layers-share-top-37}
+\eqref{leo-silo-common-lower-layers-37}
 to
 \Right{\Veim{comm}}, we have the theorem.
 \end{proof}
