@@ -3,6 +3,7 @@
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
 \documentclass[12pt,openany,twoside]{amsbook}
 % \RequirePackage[l2tabu, orthodox]{nag}
+\usepackage{microtype}
 \usepackage{ragged2e}
 \usepackage{mathtools}
 \usepackage{tikz-qtree}
@@ -15,6 +16,11 @@
 \usepackage[pdfpagelabels]{hyperref}
 \usepackage{algpseudocode}
 \usepackage{algorithm}
+
+% In "Writing a thesis with LATEX", Lapo F. Mori
+% says anything but '[tb]' and '[p]' for floats
+% is counterproductive.  I switched over based on
+% his suggestion, and he's absolutely right.
 
 % for escaping in index commands ...
 %    the quote sign does not seem to work in amsmidx
@@ -287,9 +293,7 @@
 % \makeindex
 \begin{document}
 
-\date{\today}
-
-\title{The Marpa recognizer: a simplification}
+\title{The Marpa book}
 
 \author{Jeffrey Kegler}
 \thanks{%
@@ -300,35 +304,35 @@ This document is licensed under
 a Creative Commons Attribution-NoDerivs 3.0 United States License.
 }
 
-\begin{abstract}
-\textbf{
-This is a draft.
-}
-Marpa is
-a practical and fully implemented
-algorithm for the recognition,
-parsing and evaluation of context-free grammars.
-The Marpa recognizer is the first
-practical implementation
-of the improvements
-to Earley's algorithm found in
-Joop Leo's%
-\index{recce-general}{Leo, Joop}
-1991 paper.
-Marpa has a new parse engine that
-allows the user to alternate
-between Earley-style syntax-driven parsing,
-and procedural parsing of the type available
-with recursive descent.
-Marpa is left-eidetic so that,
-unlike recursive descent,
-Marpa's procedural logic has available
-full information about
-the state of the parse so far.
-The Marpa recognizer described
-is a simplification of that
-in our 2013 paper~\cite{Marpa-2013}.
-\end{abstract}
+\thanks{\textbf{This is a draft.}}
+\thanks{Date: \today}
+
+% \begin{abstract}
+% Marpa is
+% a practical and fully implemented
+% algorithm for the recognition,
+% parsing and evaluation of context-free grammars.
+% The Marpa recognizer is the first
+% practical implementation
+% of the improvements
+% to Earley's algorithm found in
+% Joop Leo's%
+% \index{recce-general}{Leo, Joop}
+% 1991 paper.
+% Marpa has a new parse engine that
+% allows the user to alternate
+% between Earley-style syntax-driven parsing,
+% and procedural parsing of the type available
+% with recursive descent.
+% Marpa is left-eidetic so that,
+% unlike recursive descent,
+% Marpa's procedural logic has available
+% full information about
+% the state of the parse so far.
+% The Marpa recognizer described
+% is a simplification of that
+% in our 2013 paper~\cite{Marpa-2013}.
+% \end{abstract}
 
 \maketitle
 
@@ -2770,7 +2774,7 @@ we may want to compute it on the fly,
 and in any case,
 we certainly want to show that
 the ethereal closure has finite time complexity.
-\begin{algorithm}[!htp]
+\begin{algorithm}[tb]
 \caption{Add a generation to the ethereal closure}
 \label{alg:ethereal-generation}
 \begin{algorithmic}[1]
@@ -2809,7 +2813,7 @@ the ethereal closure has finite time complexity.
 \end{algorithm}%
 \index{recce-algorithms}{Add a generation to the ethereal closure}
 
-\begin{algorithm}[!htp]
+\begin{algorithm}[tb]
 \caption{Create ethereal closure}
 \label{alg:ethereal-closure}
 \begin{algorithmic}[1]
@@ -10900,7 +10904,7 @@ Theorem
 \ref{t:leo-silo-validity},
 which shows its correctness.
 
-\begin{algorithm}[th]
+\begin{algorithm}[tb]
 \caption{Reconstruct memoized EIM's}
 \label{alg:reconstruct-memoized-eims}
 \begin{algorithmic}[1]
@@ -11617,7 +11621,7 @@ a memoization of the Earley set's location as an integer,
 and a per-set-list.
 Per-set-lists will be described in Section \ref{s:per-set-lists}.
 
-\begin{algorithm}[th]
+\begin{algorithm}[tb]
 \caption{Marpa Top-level}
 \label{alg:top}
 \begin{algorithmic}[1]
@@ -11667,7 +11671,7 @@ full information about the current state of the parse,
 including which tokens are acceptable during the scanning phase.
 
 
-\begin{algorithm}[th]
+\begin{algorithm}[tb]
 \caption{Initialization}
 \label{alg:initial}
 \begin{algorithmic}[1]
@@ -11752,7 +11756,7 @@ in line
 of Algorithm \ref{alg:initial}.
 \end{proof}
 
-\begin{algorithm}[th]
+\begin{algorithm}[tb]
 \caption{Read pass}
 \label{alg:read-pass}
 \begin{algorithmic}[1]
@@ -11940,7 +11944,7 @@ as required for the theorem.
 \section{Reduction pass complexity}
 \label{p:reduction-op-complexity}
 
-\begin{algorithm}[th]
+\begin{algorithm}[tb]
 \caption{Reduction pass}
 \label{alg:reduction-pass}
 \begin{algorithmic}[1]
@@ -12532,7 +12536,7 @@ is correct for \Veimset{reduced-closure}.
 \end{sloppypar}
 \end{proof}
 
-\begin{algorithm}[th]
+\begin{algorithm}[tb]
 \caption{Memoize transitions}
 \label{alg:memoize-transitions}
 \begin{algorithmic}[1]
@@ -12607,7 +12611,7 @@ TODO: Make sure this accounts for the correctness of Leo memos.
 TODO: Make sure this accounts for the completeness of all top-down causes.
 \end{proof}
 
-\begin{algorithm}[th]
+\begin{algorithm}[tb]
 \caption{Reduce one up-cause}
 \label{alg:reduce-one-up-cause}
 \begin{algorithmic}[1]
@@ -12660,7 +12664,7 @@ for the loop over the EIM attempts
 is charged to each EIM attempt.
 Overhead is \Oc{} and caller-included.
 
-\begin{algorithm}[th]
+\begin{algorithm}[tb]
 \caption{Earley reduction operation}
 \label{alg:earley-reduction-op}
 \begin{algorithmic}[1]
@@ -12682,7 +12686,7 @@ called as part of an EIM attempt,
 and inclusive time and space is charged to the EIM
 attempt.
 
-\begin{algorithm}[th]
+\begin{algorithm}[tb]
 \caption{Leo reduction operation}
 \label{alg:leo-reduction-op}
 \begin{algorithmic}[1]
@@ -12705,7 +12709,7 @@ called as part of an EIM attempt,
 and inclusive time and space is charged to the EIM
 attempt.
 
-\begin{algorithm}[!htp]
+\begin{algorithm}[tb]
 \caption{Add EIM set}\label{alg:eim-set}
 \begin{algorithmic}[1]
 \Procedure{Add EIM set}{$\Vdr{base}, \Vloc{origin}, Vloc{i}$}
