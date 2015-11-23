@@ -1,0 +1,25 @@
+preamble "
+\\begingroup
+\\makeatletter
+  \\twocolumn[\\section*{Index of abbreviations and definitions}%
+    \\footnotesize
+    %%% ADDED
+A type name in parentheses
+after a definition
+indicates that the reference is to
+the definition as it applies to that type.
+``wrt'' abbreviates ``with respect to''.
+	\\vspace{2ex}
+    %%%
+    ]%
+  \\columnseprule\\z@ \\columnsep 35\\p@
+  \\thispagestyle{plain}%
+  \\let\\item\\@idxitem
+  \\parindent\\z@  \\parskip\\z@\\@plus.3\\p@\\relax
+  \\raggedright
+  \\hyphenpenalty\\@M
+  \\footnotesize
+\\makeatother
+"
+
+postamble "\\endgroup\n\\onecolumn\n"

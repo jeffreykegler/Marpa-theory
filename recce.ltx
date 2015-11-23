@@ -62,6 +62,11 @@
 
 % For a type name, when it occurs in text
 \newcommand{\type}[1]{\ensuremath{#1}}
+% For defining a type
+\newcommand{\dtype}[1]{\type{#1}%
+  \index{recce-definitions}{#1 (type)}%
+  \index{recce-notation}{#1@\ensuremath{\var{x}_{#1}} (#1 type)}%
+}
 
 \newcommand{\defined}{\underset{\text{def}}{\equiv}}
 \newcommand{\xdfn}[2]{\textbf{#1}\index{recce-definitions}{#2}}
@@ -891,7 +896,7 @@ that second value is also undefined:
 
 Where \Vsymset{syms} is non-empty set of symbols,
 let $\var{syms}^\ast$ be the set of all strings
-(type \type{STR}) formed
+(type \dtype{STR}) formed
 from those symbols.
 Let $\var{syms}^+$ be
 \begin{equation*}
@@ -922,7 +927,7 @@ in symbols as
 The length of a string which contains non-terminals will be defined later,
 when we discuss inputs.
 
-\Vruleset{rules} is a set of rules (type \type{RULE}),
+\Vruleset{rules} is a set of rules (type \dtype{RULE}),
 where a rule is a duple
 of the form $[\Vsym{lhs} \de \Vstr{rhs}]$,
 such that
@@ -1200,7 +1205,7 @@ that is, that it is derivable from the start symbol.
 
 Let the actual input to
 the parse be \Cw{} such that $\Cw \in \myL{\Cg}$.
-Locations in the input will be of type \type{LOC}.
+Locations in the input will be of type \dtype{LOC}.
 Let \Vsize{w}%
 \index{recce-notation}{\Pipe{}input\Pipe{}@\Vsize{input} (size of an input)}
 be the length of the input, counted in symbols.
@@ -1389,7 +1394,7 @@ for all \var{a} such that $0 \le \var{a} < \var{wlen}$,
 where \Vsym{a} is $\Cw[\var{a}]$,
 the symbol at location \Vloc{a} of the input.
 
-We will use type \type{STR} for sequences of symbol instances
+We will use type \dtype{STR} for sequences of symbol instances
 as well as symbols.
 We write \Vel{s1}{i} to refer
 to refer to the \var{i}'th symbol or symbol instance
@@ -2179,7 +2184,7 @@ Let $\Vrule{r} \in \Crules$
 be a rule.
 Recall that \Vsize{r}
 is the length of its RHS.
-A dotted rule (type \type{DR}) is a duple, $[\Vrule{r}, \var{dotix}]$,
+A dotted rule (type \dtype{DR}) is a duple, $[\Vrule{r}, \var{dotix}]$,
 where $0 \le \var{dotix} \le \size{\Vrule{r}}$.
 The
 \dfn{dot RHS index}
@@ -3013,7 +3018,8 @@ This shows the theorem.
 
 \section{Definition}
 
-An Earley item (type \type{EIM}) is a triple
+An Earley item (type \dtype{EIM})
+is a triple
 \[
     [\Vdr{dotted-rule}, \Vorig{x}, \Vloc{current} ]
 \]
@@ -3024,7 +3030,7 @@ started.
 (It is sometimes called the ``parent''.)
 The \dfn{current} or \dfn{dot location} is the location
 in the input, \Cw{}, of the dot position in \Vdr{dotted-rule}.
-For convenience, the type \type{ORIG} will be a synonym
+For convenience, the type \dtype{ORIG} will be a synonym
 for \type{LOC}, indicating that the variable designates
 the origin element of an Earley item.  Where
 \begin{gather*}
@@ -4371,13 +4377,13 @@ of \Veim{effect}:
 \var{ethereal-closure} \; & \defined \var{epsilon-op}^\ast
 \notag
 \end{align}%
-\index{recce-notation}{predict-op@predict-op(eim1, eim2)}%
-\index{recce-notation}{read-op@read-op(eim1, eim2)}%
-\index{recce-notation}{reduction-op@reduction-op(eim1, eim2)}%
-\index{recce-notation}{epsilon-op@epsilon-op(eim1, eim2)}%
-\index{recce-notation}{null-scan-op@null-scan-op(eim1, eim2), as a relation}%
-\index{recce-notation}{fleeting-closure@fleeting-closure(eim1)}%
-\index{recce-notation}{ethereal-closure@ethereal-closure(eim1)}
+\index{recce-notation}{predict-op@\op{predict-op}{\var{eim1}, \var{eim2}}}%
+\index{recce-notation}{read-op@\op{read-op}{\var{eim1}, \var{eim2}}}%
+\index{recce-notation}{reduction-op@\op{reduction-op}{\var{eim1}, \var{eim2}}}%
+\index{recce-notation}{epsilon-op@\op{epsilon-op}{\var{eim1}, \var{eim2}}}%
+\index{recce-notation}{null-scan-op@\op{null-scan-op}{\var{eim1}, \var{eim2}}!as a relation}%
+\index{recce-notation}{fleeting-closure@\op{fleeting-closure}{\var{eim}}}%
+\index{recce-notation}{ethereal-closure@\op{ethereal-closure}{\var{eim}}}
 
 \begin{sloppypar}
 \begin{FlushLeft}
@@ -4666,7 +4672,7 @@ and
 \[
 \op{null-scan-op}{\Veim{x}} = \Veim{y}
 \]%
-\index{recce-notation}{null-scan-op@null-scan-op(eim1), as a function}
+\index{recce-notation}{null-scan-op@\Vop{null-scan-op}{eim1}!as a function}
 are equivalent.
 
 We defined \op{fleeting-closure}{\Veim{x}}
@@ -6591,7 +6597,7 @@ one \dfn{Earley set} for each location of \Cw{}:
 \quad \text{where} \quad
 0 \le \Vloc{i} \le \size{\Cw}.
 \end{equation*}
-Earley sets are of type \type{ES}.
+Earley sets are of type \dtype{ES}.
 Earley sets are often named by their location,
 so that \Ves{i} means the Earley set at \Vloc{i}.
 The type designator \type{ES} is often omitted to avoid clutter,
@@ -8623,7 +8629,7 @@ will be called Leo memos.
 In this document, the ``transitive items''
 of~\cite{Leo1991}
 will be called Leo memos.
-Leo memos have type \type{LEO}.
+Leo memos have type \dtype{LEO}.
 In each Earley set, there is at most one Leo memo per symbol.
 A Leo memo is the 4-tuple
 \begin{equation}
@@ -8767,7 +8773,7 @@ or
 \xdfn{bottom-up cause}{bottom-up cause (of a Leo memo)}
 of \Vleo{eff}
 and that \Vleo{eff} is the
-\xdfn{effect}{effect (Leo memo) [re an EIM]}
+\xdfn{effect}{effect (Leo memo)!wrt an EIM}
 of \Veim{basis}.
 \end{definition}
 
@@ -8876,7 +8882,7 @@ we say that
 \xdfn{top-down cause}{top-down cause (Leo memo) [re a 2nd Leo memo]}
 of \Vleo{eff};
 and that \Vleo{eff} is the
-\xdfn{effect}{effect (Leo memo) [re a 2nd Leo memo]}
+\xdfn{effect}{effect (Leo memo)!wrt a 2nd Leo memo}
 of \Vleo{down}.
 If there is no Leo memo of the form of
 \Vleo{down},
@@ -10888,6 +10894,57 @@ Setting \Vloc{curr} in
 \eqref{leo-silo-common-lower-layers-37}
 to
 \Right{\Veim{comm}}, we have the theorem.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Leo inner and bottom layers}
+\label{t:leo-inner-and-bottom-layers}
+Let \var{slo} be a silo.
+Let \var{lsla} and \var{lslb} be Leo silos,
+such that \var{lsla} and \var{lslb} are subsequences
+of \var{slo}.
+Then the bottom layer of \var{lslb} is not an
+inner layer of \var{lsla}.
+\end{theorem}
+
+\begin{proof}
+Assume for a reductio,
+that
+\begin{equation}
+\label{eq:leo-inner-and-bottom-layers-10}
+   \el{lslb}{0} = \Vel{lsla}{aix} = \Vel{slo}{sloix} \\
+\end{equation}
+By assumption for the theorem,
+\begin{equation}
+\label{eq:leo-inner-and-bottom-layers-13}
+0 \le \var{aix} < \Vlastix{lsla}.
+\end{equation}
+Let \Vleo{lma0} be the matching Leo memo of \el{lsla}{0},
+and let \Vleo{lmb0} be the matching Leo memo of \el{lslb}{0},
+so that \Match{\Vleo{lma0}}{\el{lsla}{0}} and
+\Match{\Vleo{lmb0}}{\el{lslb}{0}}.
+\Vleo{lma0} and \Vleo{lmb0} are both Leo memos of lower layers
+of \var{lsla}, so that
+by Theorem ?,
+ther are in the same catena and
+by Theorem ?
+\begin{gather}
+   \DR{\Vleo{lma0}} = \DR{\Vleo{lmb0}} \quad \text{and} \\
+   \Origin{\Vleo{lma0}} = \Origin{\Vleo{lmb0}}.
+\end{gather}
+Let \Veim{basa} be the basis of \Vleo{lma0}
+and
+let \Veim{basb} be the basis of \Vleo{lmb0}.
+By the definition of validity for a Leo memo \ldots{}
+
+TODO
+
+% \begin{gathered}
+   % \DR{\el{lslb}{0}} = \DR{\Vel{lsla}{aix}} = \DR{\el{lsla}{0}} \quad \text{and} \\
+   % \Origin{\el{lslb}{0}} = \Origin{\Vel{lsla}{aix}} = \Origin{\el{lsla}{0}}
+% \end{gathered}
+Let \Veim{bas1} be the basis of the Leo memo 
+TODO
 \end{proof}
 
 \section{Recreating a Leo silo}
