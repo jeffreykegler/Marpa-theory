@@ -8596,8 +8596,8 @@ Implementation of Leo memoization
 will be considered in full detail,
 and its correctness proved,
 in Section \ref{ch:recce}.
-In this chapter, we develop the
-concepts behind Leo memoization.
+In this chapter, we develop
+a conceptual framework for Leo memoization.
 We define, at an abstract level,
 the data structures
 that Leo memoization requires,
@@ -8616,7 +8616,8 @@ will be called Leo memos.
 
 \section{Definition}
 
-In this document Leo's ``transitive items''
+In this document, the ``transitive items''
+of~\cite{Leo1991}
 will be called Leo memos.
 Leo memos have type \type{LEO}.
 In each Earley set, there is at most one Leo memo per symbol.
@@ -8635,11 +8636,25 @@ we write
 \text{and \Current{\Vleo{leo}}} & = \Vloc{memloc}.
 \end{alignat*}
 
+Intuitively, \Vleo{leo},
+the Leo memo of
+\eqref{eq:def-leo-memo-10}
+states an intent to memoize
+certain layers of silos occuring after
+\Current{\Vleo{leo}}.
 In \eqref{eq:def-leo-memo-10}
 \Vsym{transition} is the
 \dfn{Leo transition symbol}
 or
 \xdfn{transition symbol}{transition symbol [re a Leo memo]}.
+The elements
+\Symbol{\Vleo{leo}},
+\DR{\Vleo{leo}},
+and \Origin{\Vleo{leo}}
+are
+used to define which silo layers will be memoized.
+\DR{\Vleo{leo}} must be a quasi-completion.
+
 \Vleo{leo} is considered to be located at \Vloc{memloc},
 and \Vloc{memloc} is called the
 \xdfn{current location}{current location [re a Leo memo]}
@@ -8650,27 +8665,6 @@ although \Vleo{leo} is \textbf{not}
 an Earley item,
 and therefore, strictly speaking,
 not in any Earley set.
-
-Intuitively, \Vleo{leo},
-the Leo memo of
-\eqref{eq:def-leo-memo-10}
-states an intent to memoize
-certain layers of silos occuring after
-\Current{\Vleo{leo}}.
-The elements
-\Symbol{\Vleo{leo}},
-\DR{\Vleo{leo}},
-and \Origin{\Vleo{leo}}
-are
-used to define which silo layers will be memoized.
-
-\DR{\Vleo{leo}} must be a completion.
-Since a completion is uniquely determined by a rule,
-\DR{\Vleo{leo}}
-could be represented by
-a rule, instead of a dotted rule.
-We will find working with the dotted rule
-more convenient.
 
 \section{Leo memo validity}
 
@@ -8753,13 +8747,16 @@ a Leo-eligible EIM be
   \end{gathered}
 \right]
 \end{equation}
-where $\Vstr{nul2} = \epsilon$.
-For any Leo memo of the form
+where
+$\Vsym{trans} \neq \epsilon$
+and $\Vstr{nul2} = \epsilon$.
+Let \Vleo{eff} be a Leo memo.
+If
 \begin{equation}
 \label{eq:def-basis-of-leo-memo-10}
-  \Vleo{eff} = [ \Vsym{trans}, \Vdr{tbd}, \Vorig{tbd}, \Vloc{j} ]
+  \Symbol{\Vleo{eff}} = \Vsym{trans} \; \land \;
+  \Current{\Vleo{eff}} =  \Vloc{j}
 \end{equation}
-for some \Vdr{tdb} and \Vorig{tdb},
 we say that \Veim{basis} is a
 \xdfn{basis}{basis (EIM) [re a Leo memo]}
 or
@@ -8854,7 +8851,6 @@ Lemma
 \label{def:down-cause-of-leo-memo}
 \dtitle{Top-down cause of an Leo memo}
 Let
-and \Vleo{eff} be a Leo memo
 \begin{equation*}
 \Veim{basis} = [ \Vdr{basis}, \Vloc{i}, \Vloc{j} ]
 \end{equation*}
@@ -8864,11 +8860,12 @@ be an EIM, and let
 \end{equation*}
 be a Leo memo,
 where \Veim{basis} is the basis of \Vleo{eff}.
-If there is a second Leo memo
+Let \Vleo{down} be a Leo memo.
+If
 \begin{equation*}
-\Vleo{down} = [ \LHS{\Vdr{basis}}, \Vdr{td-top}, \Vorig{td-top}, \Vloc{i} ],
+  \Symbol{\Vleo{down}} = \LHS{\Vdr{basis}} \; \land \;
+  \Current{\Vleo{down}} =  \Vloc{i},
 \end{equation*}
-for some \Vdr{td-top} and \Vorig{td-top},
 then
 we say that
 \Vleo{down} is a
@@ -8899,9 +8896,9 @@ has a top-down cause.
 
 \textbf{Case 1}:
 In the first case,
-let \Vleo{eff} have
-a top-down cause,
-and let that top-down cause be \Vleo{down}.
+\Vleo{eff} has
+a top-down cause.
+Let that top-down cause be \Vleo{down}.
 In this case,
 \Vleo{eff} is valid if and only if
 \begin{equation*}
@@ -8915,7 +8912,7 @@ In this case,
 
 \textbf{Case 2}:
 In the second case,
-let there be no
+there is no
 top-down cause for \Vleo{eff}.
 In this case,
 \Vleo{eff} is valid if and only if
@@ -8970,10 +8967,12 @@ EIM of \Vleo{leo}.
 We also write \Match{\Vleo{l}}{\Veim{eim}} to
 indicate the Leo memo \Vleo{l} matches
 the EIM \Veim{eim}.
-Note that
-the relation \myfnname{Match} is overloaded,
-so that the kind of matching that it indicates
-depends on the type of its arguments.
+
+% I have yet to actually overload the Match operator
+% Note that
+% the relation \myfnname{Match} is overloaded,
+% so that the kind of matching that it indicates
+% depends on the type of its arguments.
 
 \begin{theorem}
 \label{t:leo-transition-symbol-non-terminal}
@@ -9059,9 +9058,8 @@ for all \var{a},
 \Current{\el{cat}{\Vincr{a}}} = \Origin{\Veim{a-bas}}
 \end{gather}
 where \Veim{a-bas} is the basis of \Vel{cat}{a}.
-From the definition of location in a parse,
-and the definition of an EIM,
-we know that
+No Marpa rule is nulling, and therefore no EIM
+is nulling, so that
 \begin{equation}
 \label{eq:lem-leo-catena-non-increasing-location-20}
 \forall \; \Veim{x} : \Origin{\Veim{x}} \le \Current{\Veim{x}}
