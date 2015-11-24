@@ -9234,8 +9234,8 @@ the theorem follows.
 In a catena, the dotted rule and origin elements
 of every element are the same.
 That is,
-for all
-\var{a}, \var{b}
+if \var{cat} is a catena,
+then for all \var{a}, \var{b}
 such that $0 \le \var{a} \le \Vlastix{cat}$
 and $0 \le \var{b} \le \Vlastix{cat}$,
 \begin{equation*}
@@ -10674,104 +10674,6 @@ shows shows the final case of the induction
 step, and therefore the step and the induction.
 \end{proof}
 
-\begin{definition}
-\dtitle{Memoable EIM's}
-Let \var{slo} be a silo and
-\Veim{eim} be an EIM.
-\Veim{eim} is said to be
-\dfn{Leo memoable} in \var{slo},
-or more simply,
-\dfn{memoable} in \var{slo},
-if and only if every layer in its fleeting closure
-is an inner layer.
-To say that
-\Veim{eim} is memoable in \var{slo},
-we also write \Memoable{\Veim{eim}}{\var{slo}}%
-\index{recce-notation}{Memoable(eim,slo)@\Memoable{\var{eim}, \var{slo}}}.
-\end{definition}
-
-This definition reflects the fact that the Marpa
-implementation records all the EIM's in a fleeting
-closure together.
-
-\begin{definition}
-\dtitle{Memoized EIM's}
-An EIM is
-\dfn{memoized}
-if and only if
-\begin{itemize}
-\item
-all of its causes and effects occur only
-as part of Leo silos; and
-\item
-it is memoable in every Leo silo in
-which it occurs.
-\end{itemize}
-\end{definition}
-
-\begin{theorem}
-\ttitle{EIM's in Leo silos}
-\label{t:eims-in-leo-silos}
-Every EIM in a Leo silo is a null-scan,
-a read or
-a reduction.
-Also, if a read EIM is in a Leo silo,
-it must be the bottom of the Leo silo.
-\end{theorem}
-
-\begin{proof}
-By the definition of a Leo silo,
-every EIM in a Leo silo is a silo layer.
-From Theorem
-\ref{t:silo-read-eim-layer},
-we know that, if a read EIM is in
-a silo, it is the bottom of the silo.
-A Leo silo, by its definition,
-is a section of a silo,
-so that if a Leo silo
-contains a read EIM,
-it is the bottom of the Leo silo.
-\end{proof}
-
-\begin{theorem}
-\ttitle{Leo silo minimum height}:
-\label{leo-silo-minimum-height}
-Every Leo silo contains a least two layers.
-\end{theorem}
-
-\begin{proof}
-By theorem
-\ref{t:leo-silo-catena},
-every Leo silo has a catena consisting of
-of all of its Leo memos.
-By the same theorem,
-every Leo silo has a completion
-for every element of its catena,
-plus a top layer.
-Every Leo silo, by definition has a bottom
-layer with a matching Leo memo,
-so every Leo silo has a catena whose length
-is at least 1.
-A Leo silo therefore contains at least
-one completion corresponding to a
-Leo memo catena,
-plus the top layer.
-\end{proof}
-
-\begin{theorem}
-\ttitle{Silo outer layer distinctness}:
-The top and bottom layer of a Leo silo
-are distinct.
-\end{theorem}
-
-\begin{proof}
-This theorem follows from
-Theorems
-\ref{leo-silo-minimum-height}
-and
-\ref{t:silo-layer-unique}.
-\end{proof}
-
 \begin{theorem}
 \ttitle{Leo silos with common lower layers}
 \label{leo-silo-common-lower-layers}
@@ -10896,96 +10798,103 @@ to
 \Right{\Veim{comm}}, we have the theorem.
 \end{proof}
 
+\begin{definition}
+\dtitle{Memoable EIM's}
+Let \var{slo} be a silo and
+\Veim{eim} be an EIM.
+\Veim{eim} is said to be
+\dfn{Leo memoable} in \var{slo},
+or more simply,
+\dfn{memoable} in \var{slo},
+if and only if every layer in its fleeting closure
+is an inner layer.
+To say that
+\Veim{eim} is memoable in \var{slo},
+we also write \Memoable{\Veim{eim}}{\var{slo}}%
+\index{recce-notation}{Memoable(eim,slo)@\Memoable{\var{eim}, \var{slo}}}.
+\end{definition}
+
+This definition reflects the fact that the Marpa
+implementation records all the EIM's in a fleeting
+closure together.
+
+\begin{definition}
+\dtitle{Memoized EIM's}
+An EIM is
+\dfn{memoized}
+if and only if
+\begin{itemize}
+\item
+all of its causes and effects occur only
+as part of Leo silos; and
+\item
+it is memoable in every Leo silo in
+which it occurs.
+\end{itemize}
+\end{definition}
+
 \begin{theorem}
-\ttitle{Leo inner and bottom layers}
-\label{t:leo-inner-and-bottom-layers}
-Let \var{slo} be a silo.
-Let \var{lsla} and \var{lslb} be Leo silos,
-such that \var{lsla} and \var{lslb} are subsequences
-of \var{slo}.
-Then the bottom layer of \var{lslb} is not an
-inner layer of \var{lsla}.
+\ttitle{EIM's in Leo silos}
+\label{t:eims-in-leo-silos}
+Every EIM in a Leo silo is a null-scan,
+a read or
+a reduction.
+Also, if a read EIM is in a Leo silo,
+it must be the bottom of the Leo silo.
 \end{theorem}
 
 \begin{proof}
-Assume for a reductio,
-that
-\begin{equation}
-\label{eq:leo-inner-and-bottom-layers-10}
-   \el{lslb}{0} = \Vel{lsla}{aix} = \Vel{slo}{sloix} \\
-\end{equation}
-By assumption for the theorem,
-\begin{equation}
-\label{eq:leo-inner-and-bottom-layers-13}
-0 \le \var{aix} < \Vlastix{lsla}.
-\end{equation}
-Let \Vleo{lma0} be the matching Leo memo of \el{lsla}{0},
-and let \Vleo{lmb0} be the matching Leo memo of \el{lslb}{0},
-so that \Match{\Vleo{lma0}}{\el{lsla}{0}} and
-\Match{\Vleo{lmb0}}{\el{lslb}{0}}.
-\Vleo{lma0} and \Vleo{lmb0} are both Leo memos of lower layers
-of \var{lsla}, so that
-by Theorem ?,
-ther are in the same catena and
-by Theorem ?
-\begin{gather}
-   \DR{\Vleo{lma0}} = \DR{\Vleo{lmb0}} \quad \text{and} \\
-   \Origin{\Vleo{lma0}} = \Origin{\Vleo{lmb0}}.
-\end{gather}
-Let \Veim{basa} be the basis of \Vleo{lma0}
-and
-let \Veim{basb} be the basis of \Vleo{lmb0}.
-By the definition of validity for a Leo memo \ldots{}
-
-TODO
-
-% \begin{gathered}
-   % \DR{\el{lslb}{0}} = \DR{\Vel{lsla}{aix}} = \DR{\el{lsla}{0}} \quad \text{and} \\
-   % \Origin{\el{lslb}{0}} = \Origin{\Vel{lsla}{aix}} = \Origin{\el{lsla}{0}}
-% \end{gathered}
-Let \Veim{bas1} be the basis of the Leo memo 
-TODO
+By the definition of a Leo silo,
+every EIM in a Leo silo is a silo layer.
+From Theorem
+\ref{t:silo-read-eim-layer},
+we know that, if a read EIM is in
+a silo, it is the bottom of the silo.
+A Leo silo, by its definition,
+is a section of a silo,
+so that if a Leo silo
+contains a read EIM,
+it is the bottom of the Leo silo.
 \end{proof}
 
-\section{Recreating a Leo silo}
+\begin{theorem}
+\ttitle{Leo silo minimum height}:
+\label{leo-silo-minimum-height}
+Every Leo silo contains a least two layers.
+\end{theorem}
 
-While Marpa is a parser implementation,
-including evalution,
-this document does not usually deal with
-evaluation issues.
-We will make an exception for
-Leo memoization,
-however.
-The following algorithm summarizes
-Theorem
-\ref{t:leo-silo-validity},
-which shows its correctness.
+\begin{proof}
+By theorem
+\ref{t:leo-silo-catena},
+every Leo silo has a catena consisting of
+of all of its Leo memos.
+By the same theorem,
+every Leo silo has a completion
+for every element of its catena,
+plus a top layer.
+Every Leo silo, by definition has a bottom
+layer with a matching Leo memo,
+so every Leo silo has a catena whose length
+is at least 1.
+A Leo silo therefore contains at least
+one completion corresponding to a
+Leo memo catena,
+plus the top layer.
+\end{proof}
 
-\begin{algorithm}[tb]
-\caption{Reconstruct memoized EIM's}
-\label{alg:reconstruct-memoized-eims}
-\begin{algorithmic}[1]
-\Procedure{Reconstruct memoized EIM's}{\Vleo{leo}}
-\State $\Veim{top} \gets \Vop{Leo-top}{leo}$
-\State $\Vinst{scuz} \gets \op{EIM-Eq}{\Vop{Leo-bot}{leo}}$
-\State $\Vloc{here} \gets \Right{\Vleo{leo}}$
-\While{ true }
-% \label{line:reconstruct-memoized-eims-20}
-\State \Veim{new-scuz} $\gets$ silo effect of \Veim{scuz}
-\State
-\Comment silo effect is unique per Theorem \ref{t:leo-silo-validity}
-\If{\Veim{new-scuz} = \Veim{top}}
-\State return
-\EndIf
-\State Add \Veim{new-scuz} to \Vel{table}{here}
-\State $\qquad$ but only if it has never been added before
-\State \Veim{scuz} = \Veim{new-scuz}
-\EndWhile
-% \label{line:reconstruct-memoized-eims-90}
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}%
-\index{recce-theorems}{Construction: Reconstruct memoized EIM's}
+\begin{theorem}
+\ttitle{Silo outer layer distinctness}:
+The top and bottom layer of a Leo silo
+are distinct.
+\end{theorem}
+
+\begin{proof}
+This theorem follows from
+Theorems
+\ref{leo-silo-minimum-height}
+and
+\ref{t:silo-layer-unique}.
+\end{proof}
 
 \begin{theorem}
 \label{t:leo-quasi-complete}
@@ -11199,6 +11108,46 @@ This theorem follows from
 Theorem \ref{t:leo-quasi-complete}
 and Theorem \ref{t:quasi-drs-disjoint}.
 \end{proof}
+
+\section{Recreating a Leo silo}
+
+While Marpa is a parser implementation,
+including evalution,
+this document does not usually deal with
+evaluation issues.
+We will make an exception for
+Leo memoization,
+however.
+The following algorithm summarizes
+Theorem
+\ref{t:leo-silo-validity},
+which shows its correctness.
+
+\begin{algorithm}[tb]
+\caption{Reconstruct memoized EIM's}
+\label{alg:reconstruct-memoized-eims}
+\begin{algorithmic}[1]
+\Procedure{Reconstruct memoized EIM's}{\Vleo{leo}}
+\State $\Veim{top} \gets \Vop{Leo-top}{leo}$
+\State $\Vinst{scuz} \gets \op{EIM-Eq}{\Vop{Leo-bot}{leo}}$
+\State $\Vloc{here} \gets \Right{\Vleo{leo}}$
+\While{ true }
+% \label{line:reconstruct-memoized-eims-20}
+\State \Veim{new-scuz} $\gets$ silo effect of \Veim{scuz}
+\State
+\Comment silo effect is unique per Theorem \ref{t:leo-silo-validity}
+\If{\Veim{new-scuz} = \Veim{top}}
+\State return
+\EndIf
+\State Add \Veim{new-scuz} to \Vel{table}{here}
+\State $\qquad$ but only if it has never been added before
+\State \Veim{scuz} = \Veim{new-scuz}
+\EndWhile
+% \label{line:reconstruct-memoized-eims-90}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}%
+\index{recce-theorems}{Construction: Reconstruct memoized EIM's}
 
 \chapter{Altitude}
 \label{ch:altitude}
