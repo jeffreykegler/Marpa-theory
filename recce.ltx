@@ -185,9 +185,13 @@
 \newcommand{\GOTO}{\ensuremath{\myfnname{GOTO}}}
 \newcommand{\ID}[1]{\myfnname{ID}(#1)}
 \newcommand{\Layer}[1]{\ensuremath{\myfnname{Layer}(#1)}}
+\newcommand{\Leosilo}[1]{\ensuremath{\myfnname{Leo-silo}(#1)}}
+\newcommand{\Maximal}[1]{\ensuremath{\myfnname{Maximal}(#1)}}
+\newcommand{\Maxleosilo}[1]{\ensuremath{\myfnname{Max-Leo-silo}(#1)}}
 \newcommand{\Left}[1]{\ensuremath{\myfnname{Left}(#1)}}
 \newcommand{\LHS}[1]{\ensuremath{\myfnname{LHS}(#1)}}
 \newcommand{\Match}[2]{\ensuremath{\myfnname{Match}(#1, #2)}}
+% TODO -- delete memoable?
 \newcommand{\Memoable}[2]{\ensuremath{\myfnname{Memoable}(#1, #2)}}
 \newcommand{\Memoized}[1]{\ensuremath{\myfnname{Memoized}(#1)}}
 \newcommand{\myL}[1]{\myfnname{L}(#1)}
@@ -4744,6 +4748,8 @@ fleeting closure of its lasting base.
 \end{theorem}
 
 \begin{proof}
+Let \Veim{eim} be a valid EIM,
+and \Veim{bas} its lasting base.
 By the definition of a lasting base for an EIM,
 \begin{equation}
 \label{eq:eim-lasting-base-23}
@@ -4786,7 +4792,8 @@ well-defined in
 
 From
 Theorem
-\ref{t:null-scan-from-down-cause}
+\ref{t:null-scan-from-down-cause},
+the assumption for that theorem that $\Valid{\Veim{eim}}$,
 and the definition of \myfnname{null-scan-op},
 we know that, if $\Postdot{\Veim{down}} = \epsilon$,
 then
@@ -5226,6 +5233,77 @@ and the theorem.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Fleeting closure maximization}
+\label{t:fleeting-closure-maximization}
+If two EIM's are in the same fleeting closure,
+then they are also in the same maximal fleeting closure.
+\end{theorem}
+
+\begin{proof}
+Let \Veim{eim1} and \Veim{eim2} be two EIM's
+in the same fleeting closure.
+Without loss of generality, we assume that
+\begin{equation}
+\label{eq:fleeting-closure-maximization-10}
+\Veim{eim2} = \iop{null-scan-op}{\var{y}}{\Veim{eim1}}
+\end{equation}
+By Theorem
+\ref{t:maximal-fleeting-closure-validity}
+an EIM is in
+exactly one maximal fleeting closure,
+so that
+\begin{gather}
+\notag
+\Veim{eim1} = \iop{null-scan-op}{\var{x}}{\Veim{bas1}} \\
+\label{eq:fleeting-closure-maximization-16}
+\text{and} \quad
+\Veim{eim2} = \iop{null-scan-op}{\var{z}}{\Veim{bas2}}
+\end{gather}
+where \Veim{bas1} and \Veim{bas2} are lasting bases.
+Since \myfnname{null-scan-op} is a function with an inverse,
+we know that
+\begin{gather}
+\notag
+\Veim{eim2} = \iop{null-scan-op}{\var{y}}{
+ \iop{null-scan-op}{\var{x}}{\Veim{bas1}}
+} \\
+\label{eq:fleeting-closure-maximization-19}
+\therefore \quad
+\Veim{eim2} = \iop{null-scan-op}{(\var{x}+\var{y})}{\Veim{bas1}}
+\end{gather}
+Since \Veim{bas1} is the lasting base of \Veim{eim1},
+\Veim{bas1} is a lasting base,
+so that by
+\eqref{eq:fleeting-closure-maximization-19}
+and the definition of the lasting base of an EIM,
+\Veim{bas1} is the lasting base of \Veim{eim2}.
+Since an EIM has at most one lasting base,
+we can conclude from
+\eqref{eq:fleeting-closure-maximization-16}
+and
+\eqref{eq:fleeting-closure-maximization-19}
+that $\var{x}+\var{y}=\var{z}$ and that
+\begin{equation}
+\label{eq:fleeting-closure-maximization-22}
+\Veim{bas1} = \Veim{bas2},
+\end{equation}
+
+From
+\eqref{eq:fleeting-closure-maximization-22}
+we see that \Veim{bas1} is the lasting base of both
+\Veim{eim1} and \Veim{eim2}.
+From Theorem
+\ref{t:maximal-fleeting-closure-validity},
+we know that \Veim{bas1} has exactly one maximal fleeting closure.
+By Theorem
+\ref{t:eim-lasting-base},
+every EIM is in the fleeting closure of its lasting base,
+so that 
+\Veim{eim1} and \Veim{eim2}
+are both in \var{mfc}.
+\end{proof}
+
+\begin{theorem}
 \ttitle{Iterative completion from null-scan cause}
 \label{t:iterative-completion-from-null-scan-cause}
 Let
@@ -5306,7 +5384,7 @@ By Theorem \ref{t:eim-lasting-base}, \Veim{down}
 has a valid lasting base:
 \begin{equation}
 \label{eq:iterative-completion-from-null-scan-cause-24a}
-\Valid{\Veim{down}}.
+\Valid{\Veim{bas}}.
 \end{equation}
 By assumption for theorem, \Veim{down}
 is quasi-complete,
@@ -8415,7 +8493,13 @@ is a silo whose bottom layer has no silo cause,
 and whose top layer has no silo effect.
 \end{definition}
 
+We sometimes write \Maximal{\var{slo}}%
+\index{recce-notation}{Maximal(slo)@\Maximal{\var{slo}}}
+so that the silo \var{slo} is maximal.
+
 \begin{theorem}
+\ttitle{EIM Maximal silo}
+\label{t:eim-maximal-silo}
 Every quasi-complete EIM
 is in at least one finite maximal silo,
 whose bottom is a read EIM.
@@ -8480,6 +8564,7 @@ So,
 once the construction is complete,
 \el{maxslo}{0} has no silo cause.
 \end{proof}
+
 
 \chapter{Leo memos}
 \label{ch:leo}
@@ -9668,9 +9753,9 @@ and whose top is
 where
 \Vloc{i} is the location
 of the silo.
-We write \Vop{Leo-silo}{slo} to indicate that \var{slo}
+We write \Vop{Leosilo}{slo} to indicate that \var{slo}
 is a Leo silo.%
-\index{recce-notation}{Leo-Silo(slo)@\Vop{Leo-Silo}{slo}}
+\index{recce-notation}{LeoSilo(slo)@\Vop{Leo-Silo}{slo}}
 \end{definition}
 
 
@@ -10864,19 +10949,20 @@ Intuitively, a Leo silo is maximal if no other Leo silo
 properly contains it.
 More formally,
 let \var{lsl1} be a Leo silo
-and let \var{maxslo} be a maximal silo which contains it.
+and let \var{slo} be a maximal silo which contains it.
 We say that
 \var{lsl1} is a
-\xdfn{maximal Leo silo}{maximal (Leo silo)}
-within \var{maxslo}
+\xdfn{maximal Leo silo}{maximal (Leo silo)}%
+\index{recce-notation}{Max-Leo-Silo(slo)@\Vop{Max-Leo-Silo}{slo}}
+within \var{slo}
 if and only if one of the following are true:
 \begin{itemize}
 \item
-\el{maxlsl}{0} has no silo cause.
+\el{lsl}{0} has no silo cause.
 \item
-Let \Veim{cuz} be the silo cause of \el{maxlsl}{0}.
+Let \Veim{cuz} be the silo cause of \el{lsl}{0}.
 There is no Leo silo, \var{lsl2}, such that
-$\var{lsl1} \subseteq \var{lsl2} \subseteq \var{maxslo}$ and
+$\var{lsl1} \subset \var{lsl2} \subseteq \var{slo}$ and
 $\Veim{cuz} \in \var{lsl2}$.
 \end{itemize}
 \end{definition}
@@ -10952,20 +11038,18 @@ if and only if
 \left(
 \begin{gathered}
 \exists \; \var{lsl} :
-\text{\var{lsl} is a Leo silo and} \\
+\Leosilo{\var{lsl}} \\
 \Veim{eim} \in \var{lsl} \; \land \;
 \var{lsl} \subseteq \var{maxslo}
 \end{gathered}
 \right)
 \end{aligned}
 \\
-\nexists \; \var{lsl} : \text{\var{lsl} is a Leo silo and
-	$\el{lsl}{\Vlastix{lsl}} \in \var{mfc}$
-}
+\nexists \; \var{lsl} : \Leosilo{\var{lsl}} \; \land \;
+	\el{lsl}{\Vlastix{lsl}} \in \var{mfc}
 \\
-\nexists \; \var{lsl} : \text{\var{lsl} is a maximal Leo silo and
-	$\el{lsl}{0} \in \var{mfc}$
-}
+\nexists \; \var{lsl} : \Maxleosilo{\var{lsl}} \; \land \;
+	\el{lsl}{0} \in \var{mfc}
 \end{gather}
 \end{definition}
 
@@ -11029,6 +11113,159 @@ Then
 \end{theorem}
 
 \begin{proof}
+Since \Veim{x} and \Veim{y} are in the same fleeting
+closure,
+by Theorem
+\ref{t:fleeting-closure-maximization}
+they are also in the same maximal fleeting closure.
+Call this \var{mfc}.
+
+We first consider the case where
+\var{mfc} contains the top of some Leo silo.
+By the definition of memoized,
+\begin{equation}
+\label{t:fleeting-closure-memoization-15}
+\neg \Memoized{\Veim{x}} \; \land \; \neg \Memoized{\Veim{y}},
+\end{equation}
+From \eqref{t:fleeting-closure-memoization-15}
+we have the theorem for this case.
+
+We next consider the case where
+\var{mfc} contains the bottom of some maximal Leo silo.
+Again,
+by the definition of memoized,
+\begin{equation}
+\label{t:fleeting-closure-memoization-17}
+\neg \Memoized{\Veim{x}} \; \land \; \neg \Memoized{\Veim{y}},
+\end{equation}
+and from \eqref{t:fleeting-closure-memoization-17}
+we have the theorem for this case.
+
+For the theorem,
+it remains to consider the case where
+\var{mfc} does not contain
+either
+the top of a Leo silo or
+the bottom of a maximal Leo silo.
+More formally, there is the case where we have both
+\begin{equation}
+\label{t:fleeting-closure-memoization-20}
+\begin{aligned}
+& \forall \var{lsl} \; \nexists \; \Veim{eim} :
+\Veim{eim} \in \var{mfc} 
+	\; \land \; \Maxleosilo{\var{lsl}} \\
+& \qquad \implies \Veim{eim} \neq \el{lsl}{0}
+\end{aligned}
+\end{equation}
+and
+\begin{equation}
+\label{t:fleeting-closure-memoization-23}
+\begin{aligned}
+& \forall \var{lsl} \; \nexists \; \Veim{eim} :
+\Veim{eim} \in \var{mfc} 
+	\; \land \; \Leosilo{\var{lsl}} \\
+& \qquad \implies \Veim{eim} \neq \el{lsl}{\Vlastix{lsl}}.
+\end{aligned}
+\end{equation}
+
+Let \var{slo} be a maximal
+silo containing \var{mfc}.
+Assume,
+for a reductio,
+the \var{mfc} contains two EIM's,
+one of which is inside a maximal Leo silo,
+and the other of which is outside the maximal Leo silo.
+More formally,
+let $\var{eim1} = \Vel{slo}{ix1}$
+and $\var{eim2} = \Vel{slo}{ix2}$
+be the two EIM's.
+Without loss of generality, let $\var{ix1} < \var{ix2}$.
+Let the maximal Leo silo be \var{mlsl},
+where
+\begin{equation}
+\Vel{mlsl}{0} = \Vel{slo}{lo}
+\; \land \; \Vel{mlsl}{\Vlastix{mlsl}} = \Vel{slo}{hi}.
+\end{equation}
+The assumption for the reductio is that exactly one of 
+\var{eim1} and \var{eim2} must be outside of \var{mlsl}:
+\begin{equation}
+\label{t:fleeting-closure-memoization-30}
+\begin{gathered}
+\var{lo} \le \var{ix1} \le \var{hi} < \Veim{ix2} \\
+\; \lor \;
+\Veim{ix1} < \var{lo} \le \var{ix2} \le \var{hi}.
+\end{gathered}
+\end{equation}
+By assumption for the reductio,
+\var{eim1} and \var{eim2} are elements of the
+sequence \var{mfc}.
+Therefore,
+if we let
+\begin{equation}
+\label{t:fleeting-closure-memoization-36}
+\begin{gathered}
+\Vel{slo}{mfc-lo} = \el{mfc}{0} \\
+\text{and} \quad \Vel{slo}{mfc-hi} = \el{mfc}{\Vlastix{mfc}}
+\end{gathered}
+\end{equation}
+then
+\begin{equation}
+\label{t:fleeting-closure-memoization-39}
+\var{mfc-lo} \le \var{ix1} \le \var{ix2} \le \var{mfc-hi}
+\end{equation}
+
+From \eqref{t:fleeting-closure-memoization-30}
+and \eqref{t:fleeting-closure-memoization-39},
+we see that
+\begin{equation}
+\label{t:fleeting-closure-memoization-42}
+\begin{gathered}
+\var{mfc-lo} \le \var{hi} \le \var{mfc-hi} \\
+\; \lor \;
+\var{mfc-lo} \le \var{lo} \le \var{mfc-hi},
+\end{gathered}
+\end{equation}
+so that either the top or the bottom of the maximal Leo silo \var{mlsl} is
+in \var{mfc}.
+But this is contrary to
+\eqref{t:fleeting-closure-memoization-20}
+and \eqref{t:fleeting-closure-memoization-23},
+which are assumptions
+for this case.
+This contradiction shows the reductio from which we conclude that
+\begin{multline}
+\label{t:fleeting-closure-memoization-47}
+\forall \; \var{mlsl} : \Maxleosilo{\var{mlsl}} \\
+\implies (\Veim{eim1} \in \var{mlsl} \equiv \Veim{eim2} \in \var{mlsl}).
+\end{multline}
+For the case, we assumed that a maximal \var{slo} that contained \var{mfc}
+but which was otherwise chosen without loss of generality.
+We can therefore generalize
+\eqref{t:fleeting-closure-memoization-47}
+to
+\begin{multline}
+\label{t:fleeting-closure-memoization-50}
+\forall \var{slo} : \Maximal{\var{slo}}
+\; \forall \; \var{mlsl} : \Maxleosilo{\var{mlsl}} \\
+\implies (\Veim{eim1} \in \var{mlsl} \equiv \Veim{eim2} \in \var{mlsl}).
+\end{multline}
+
+Distribution of the universal quantifier over implication
+is not a tautalogy, but it is valid in the forward direction,
+so that from
+\eqref{t:fleeting-closure-memoization-50}
+we may conclude
+\begin{multline}
+\label{t:fleeting-closure-memoization-53}
+\forall \var{slo} : \Maximal{\var{slo}}
+\; \forall \; \var{mlsl} : \Maxleosilo{\var{mlsl}}
+\Veim{eim1} \in \var{mlsl} \\
+\implies
+\forall \var{slo} : \Maximal{\var{slo}}
+\; \forall \; \var{mlsl} : \Maxleosilo{\var{mlsl}}
+\Veim{eim2} \in \var{mlsl}.
+\end{multline}
+
 TODO
 \end{proof}
 
