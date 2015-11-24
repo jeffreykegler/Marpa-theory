@@ -11170,6 +11170,12 @@ and
 
 Let \var{slo} be a maximal
 silo containing \var{mfc}.
+Let the maximal Leo silo be \var{mlsl},
+where
+\begin{equation}
+\Vel{mlsl}{0} = \Vel{slo}{lo}
+\; \land \; \Vel{mlsl}{\Vlastix{mlsl}} = \Vel{slo}{hi}.
+\end{equation}
 Assume,
 for a reductio,
 the \var{mfc} contains two EIM's,
@@ -11233,11 +11239,11 @@ and \eqref{t:fleeting-closure-memoization-23},
 which are assumptions
 for this case.
 This contradiction shows the reductio from which we conclude that
-\begin{multline}
+\begin{equation}
 \label{t:fleeting-closure-memoization-47}
-\forall \; \var{mlsl} : \Maxleosilo{\var{mlsl}} \\
 \implies (\Veim{eim1} \in \var{mlsl} \equiv \Veim{eim2} \in \var{mlsl}).
-\end{multline}
+\end{equation}
+
 For the case, we assumed that a maximal \var{slo} that contained \var{mfc}
 but which was otherwise chosen without loss of generality.
 We can therefore generalize
