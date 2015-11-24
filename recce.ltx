@@ -5223,9 +5223,6 @@ We have now shown the step of the induction for all three cases.
 This gives us the induction,
 \eqref{t:maximal-fleeting-closure-validity-10},
 and the theorem.
-
-TODO: Done?
-
 \end{proof}
 
 \begin{theorem}
@@ -10798,41 +10795,6 @@ to
 \Right{\Veim{comm}}, we have the theorem.
 \end{proof}
 
-\begin{definition}
-\dtitle{Memoable EIM's}
-Let \var{slo} be a silo and
-\Veim{eim} be an EIM.
-\Veim{eim} is said to be
-\dfn{Leo memoable} in \var{slo},
-or more simply,
-\dfn{memoable} in \var{slo},
-if and only if every layer in its fleeting closure
-is an inner layer.
-To say that
-\Veim{eim} is memoable in \var{slo},
-we also write \Memoable{\Veim{eim}}{\var{slo}}%
-\index{recce-notation}{Memoable(eim,slo)@\Memoable{\var{eim}, \var{slo}}}.
-\end{definition}
-
-This definition reflects the fact that the Marpa
-implementation records all the EIM's in a fleeting
-closure together.
-
-\begin{definition}
-\dtitle{Memoized EIM's}
-An EIM is
-\dfn{memoized}
-if and only if
-\begin{itemize}
-\item
-all of its causes and effects occur only
-as part of Leo silos; and
-\item
-it is memoable in every Leo silo in
-which it occurs.
-\end{itemize}
-\end{definition}
-
 \begin{theorem}
 \ttitle{EIM's in Leo silos}
 \label{t:eims-in-leo-silos}
@@ -10896,6 +10858,121 @@ and
 \ref{t:silo-layer-unique}.
 \end{proof}
 
+\begin{definition}
+\dtitle{Maximal Leo silo}
+Intuitively, a Leo silo is maximal if no other Leo silo
+properly contains it.
+More formally,
+let \var{lsl1} be a Leo silo
+and let \var{maxslo} be a maximal silo which contains it.
+We say that
+\var{lsl1} is a
+\xdfn{maximal Leo silo}{maximal (Leo silo)}
+within \var{maxslo}
+if and only if one of the following are true:
+\begin{itemize}
+\item
+\el{maxlsl}{0} has no silo cause.
+\item
+Let \Veim{cuz} be the silo cause of \el{maxlsl}{0}.
+There is no Leo silo, \var{lsl2}, such that
+$\var{lsl1} \subseteq \var{lsl2} \subseteq \var{maxslo}$ and
+$\Veim{cuz} \in \var{lsl2}$.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}
+For every Leo silo, there is a maximal Leo silo
+which contains it.
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
+% \begin{theorem}
+% If two Leo silos overlap,
+% either
+% \begin{itemize}
+% \item
+% the overlap is only of a single layer,
+% which is the top of one and the bottom of the other; or
+% \item
+% one Leo silo contains the other.
+% \end{itemize}
+% \end{theorem}
+%
+% \begin{proof}
+% TODO
+% \end{proof}
+
+\section{Memoized EIM's}
+
+% \begin{definition}
+% \dtitle{Memoable EIM's}
+% Let \var{slo} be a silo and
+% \Veim{eim} be an EIM.
+% \Veim{eim} is said to be
+% \dfn{Leo memoable} in \var{slo},
+% or more simply,
+% \dfn{memoable} in \var{slo},
+% if and only if every layer in its fleeting closure
+% is an inner layer.
+% To say that
+% \Veim{eim} is memoable in \var{slo},
+% we also write \Memoable{\Veim{eim}}{\var{slo}}%
+% \index{recce-notation}{Memoable(eim,slo)@\Memoable{\var{eim}, \var{slo}}}.
+% \end{definition}
+
+\begin{definition}
+\dtitle{Memoized EIM's}
+Intuitively, an EIM is memoized if
+\begin{itemize}
+\item
+it is always contained in a Leo silo,
+\item
+no element of its fleeting closure is the top
+of any Leo silo, and
+\item
+no element of its fleeting closure is the bottom
+of any \textbf{maximal} Leo silo.
+\end{itemize}
+More formally,
+let \Veim{eim} be an EIM
+and let \var{mfc} be the maximal fleeting closure
+which contains it.
+\Veim{eim} is
+\xdfn{memoized}{memoized (EIM)}
+if and only if
+\begin{gather}
+\begin{aligned}
+& \forall \; \var{maxslo} : \;
+\text{\var{maxslo} is a maximal silo} \\
+& \qquad \implies
+\left(
+\begin{gathered}
+\exists \; \var{lsl} :
+\text{\var{lsl} is a Leo silo and} \\
+\Veim{eim} \in \var{lsl} \; \land \;
+\var{lsl} \subseteq \var{maxslo}
+\end{gathered}
+\right)
+\end{aligned}
+\\
+\nexists \; \var{lsl} : \text{\var{lsl} is a Leo silo and
+	$\el{lsl}{\Vlastix{lsl}} \in \var{mfc}$
+}
+\\
+\nexists \; \var{lsl} : \text{\var{lsl} is a maximal Leo silo and
+	$\el{lsl}{0} \in \var{mfc}$
+}
+\end{gather}
+\end{definition}
+
+This definition reflects the fact that the Marpa
+implementation records all the EIM's in a fleeting
+closure together.
+
 \begin{theorem}
 \label{t:leo-quasi-complete}
 Only quasi-complete EIM's are
@@ -10903,14 +10980,22 @@ Leo-memoized.
 \end{theorem}
 
 \begin{proof}
-An EIM is memoized only if it is memoable.
-All Leo memoable items are,
-by the definition of Leo memoable,
-inner layers of
-Leo silos.
+By the definition of memoized, all memoized EIM's are
+silo layers.
 All silo layers are,
 by the definition of a silo,
 quasi-complete.
+\end{proof}
+
+\begin{theorem}
+\label{t:no-memoized-predictions}
+No prediction is memoized.
+\end{theorem}
+
+\begin{proof}
+This theorem follows from
+Theorem \ref{t:leo-quasi-complete}
+and Theorem \ref{t:quasi-drs-disjoint}.
 \end{proof}
 
 \begin{theorem}
@@ -11096,17 +11181,6 @@ All memoable EIM's are inner layers of Leo silos,
 and all inner layers of Leo silos are right
 recursive.
 Therefore the accept EIM is never memoized.
-\end{proof}
-
-\begin{theorem}
-\label{t:no-memoized-predictions}
-No prediction is memoized.
-\end{theorem}
-
-\begin{proof}
-This theorem follows from
-Theorem \ref{t:leo-quasi-complete}
-and Theorem \ref{t:quasi-drs-disjoint}.
 \end{proof}
 
 \section{Recreating a Leo silo}
