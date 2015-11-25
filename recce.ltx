@@ -8565,6 +8565,81 @@ once the construction is complete,
 \el{maxslo}{0} has no silo cause.
 \end{proof}
 
+\begin{theorem}
+\ttitle{Maximal fleeting silo in maximal silo}
+\label{t:maximal-fleeting-silo-in-maximal-silo}
+Let \var{mslo} be a maximal silo.
+Let \Veim{eim} be an EIM,
+such that $\Veim{eim} \in \var{mslo}$.
+Let \var{mfc} be the maximal fleeting closure of
+\Veim{eim}.
+Then $\var{mfc} \subseteq \var{mslo}$.
+\end{theorem}
+
+\begin{proof}
+By assumption for the theorem,
+\Veim{eim} is in a maximal silo,
+so that \Veim{eim} must be quasi-complete.
+
+We proceed by two inductions, one on the effects
+of \Veim{eim},
+the other on the causes of \Veim{eim}.
+We take as the induction hypothesis for both inductions
+\begin{equation}
+\tag{IND}
+\label{eq:maximal-fleeting-silo-in-maximal-silo-10}
+\Veim{x} \in \var{mfc} \implies
+\Veim{x} \in \var{mslo}
+\end{equation}
+By the definition of a maximal fleeting closure,
+an EIM is in its own maximal fleeting closure,
+so $\Veim{eim} \in \var{mfc}$.
+By assumption for the theorem, $\Veim{eim} \in \var{mslo}$.
+This gives us 
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-10}
+for $\var{x} = \var{eim}$, which we take as the
+basis of both inductions.
+
+Recall that the fleeting closure is defined in terms of
+\myfnname{null-scan-op},
+which we have show to be a function with an inverse.
+For the step of the forward induction,
+we assume
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-10}
+for $\var{x} = \iop{null-scan-op}{\var{i}}{\var{eim}}$,
+to show
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-10}
+for $\var{x} = \iop{null-scan-op}{\Vincr{i}}{\var{eim}}$.
+If
+\iop{null-scan-op}{\Vincr{i}}{\var{eim}} is undefined,
+we have
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-10}
+vacuously.
+Otherwise,
+\iop{null-scan-op}{\var{i}}{\var{eim}} has a silo effect,
+so that 
+\iop{null-scan-op}{\var{i}}{\var{eim}} cannot be the top of a maximal
+silo.
+By assumption for the step, there is some \var{ix}
+such that
+$\Vel{mslo}{ix} = \iop{null-scan-op}{\var{i}}{\var{eim}}$.
+\Vel{mslo}{\Vincr{ix}},
+by the definition of a silo 
+is the effect of
+\Vel{mslo}{\var{ix}}.
+The effect of 
+\iop{null-scan-op}{\var{i}}{\var{eim}} is unique,
+so that
+\begin{equation}
+\label{eq:maximal-fleeting-silo-in-maximal-silo-20}
+\Vel{mslo}{\Vincr{ix}} = \iop{null-scan-op}{\Vincr{i}}{\var{eim}}.
+\end{equation}
+This shows the step for the
+
+each
+
+TODO
+\end{proof}
 
 \chapter{Leo memos}
 \label{ch:leo}
