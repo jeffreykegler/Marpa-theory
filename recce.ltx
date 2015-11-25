@@ -1258,7 +1258,7 @@ We will call the current set of inputs, \CW{}.
 \Cw \in \CW \quad \text{and} \quad \CW{} \subseteq \myL{\Cg}.
 \end{equation*}
 We say that \CW{} is
-\xdfn{seen from}{seen from \var{i} to \var{j} [re an input set]}
+\xdfn{seen from}{seen from \var{i} to \var{j}!wrt an input set}
 \Vloc{i} to \Vloc{j} if and only if,
 for all \Vstr{w1}, \Vstr{w2}
 \begin{equation*}
@@ -1272,11 +1272,11 @@ Most parsing, including Earley parsing, takes place from left-to-right,
 and Marpa examines its input from left to right.
 We say that
 \CW{} is
-\xdfn{seen to}{seen to \var{j} [of a input set]}
+\xdfn{seen to}{seen to \var{j}!wrt a input set}
 \var{j},
 or that
 \CW{} is
-\xdfn{seen as far as}{seen as far as \var{j} [re an input set]}
+\xdfn{seen as far as}{seen as far as \var{j}!wrt an input set}
 \var{j},
 if \CW{} is seen between locations 0 and \Vloc{j}.
 In this document we will usually speak of input sets that are seen
@@ -1295,9 +1295,9 @@ instead of saying that \CW{} is seen as far as \Vloc{k},
 we may say the ``the input is seen as far as \Vloc{k}''.
 
 We will say that a derivation is
-\xdfn{fully seen}{fully seen [re a derivation]},
+\xdfn{fully seen}{fully seen!wrt a derivation},
 or more simply
-\xdfn{full}{full [of a derivation]},
+\xdfn{full}{full!wrt a derivation},
 if its last step is \Cw{}.
 Intuitively, a \dfn{symbol instance} is
 a symbol in the context of a parse.
@@ -1454,16 +1454,16 @@ otherwise, \var{d} expands the rightmost non-terminal symbol
 instance.
 \end{itemize}
 We say that \var{d} is
-\xdfn{focused within}{focused within [re a symobl instance and a derivation]}
+\xdfn{focused within}{focused within!wrt a symobl instance and a derivation}
 a symbol instance \Vinst{si}
 if and only if it is
 focused at some \Vloc{k} such
-that
+tha
 \[
 \Left{\var{si}} \le \Vloc{k} < \Right{\var{si}}.
 \]
-We say that \var{d} is
-\xdfn{focused within}{focused within [re an EIM and a derivation]}
+We say that \var{d} i
+\xdfn{focused within}{focused within!wrt an EIM and a derivation}
 \Veim{eim}
 if and only if it is
 focused at some \Vloc{k} such that
@@ -2450,7 +2450,7 @@ If
 \end{equation*}
 is a pair of dotted rules,
 we say that \Vdr{completion} is the
-\xdfn{completion dotted rule}{completion (dotted rule) [re another dotted rule]}
+\xdfn{completion dotted rule}{completion (dotted rule)!wrt another dotted rule}
 of the quasi-completion \Vdr{quasi}.
 
 A dotted rule which has only nulling symbols before the dot
@@ -2505,7 +2505,7 @@ A prediction is always a lasting base.
 Every dotted rule,
 even if it is not a lasting base itself,
 has a
-\xdfn{lasting base}{lasting base (dotted rule) [of another dotted rule]}
+\xdfn{lasting base}{lasting base (dotted rule)!wrt another dotted rule}
 \Vdr{bas} is the lasting base of \Vdr{dr}
 if and only if
 \Vdr{bas} is a lasting base,
@@ -3178,12 +3178,12 @@ be its validity equivalent.
 Then we say that the derivation step
 Step \var{s}
 is the
-\xdfn{LHS step}{LHS step [re an EIM]}
+\xdfn{LHS step}{LHS step!wrt an EIM}
 of \Veim{eim}.
 We say that the derivation step
 Step \Vincr{s}
 is the
-\xdfn{RHS step}{RHS step [re of an EIM]}
+\xdfn{RHS step}{RHS step!wrt an EIM}
 of \Veim{eim}.
 When we refer to the ``step'' associated with an
 EIM without specifing whether LHS or RHS,
@@ -3199,23 +3199,23 @@ We say that
 \Vmk{i} \Vsym{A} \Vmk{k}
 \]
 is the
-\xdfn{LHS derivation symbol instance}{LHS derivation symbol instance [re an EIM]},
+\xdfn{LHS derivation symbol instance}{LHS derivation symbol instance!wrt an EIM},
 or more simply
-\xdfn{LHS derivation instance}{LHS derivation instance [re an EIM]},
+\xdfn{LHS derivation instance}{LHS derivation instance!wrt an EIM},
 of \Veim{eim}.
 We say that the derivation symbol instances in
 \[
 \Vmk{i} \Vstr{predot} \Vstr{postdot} \Vmk{k}
 \]
 are the
-\xdfn{RHS derivation symbol instances}{RHS derivation symbol instances [re an EIM]},
+\xdfn{RHS derivation symbol instances}{RHS derivation symbol instances!wrt an EIM},
 or more simply
-\xdfn{RHS derivation instances}{RHS derivation instances [re an EIM]},
+\xdfn{RHS derivation instances}{RHS derivation instances!wrt an EIM},
 of \Veim{eim}.
 And we say that \Vloc{j} is the
-\xdfn{dot location in the derivation}{dot location in the derivation [re an EIM]},
+\xdfn{dot location in the derivation}{dot location in the derivation!wrt an EIM},
 or when it is clear in context,
-the \xdfn{dot location}{dot location [re an EIM in a derivation]},
+the \xdfn{dot location}{dot location!wrt an EIM in a derivation},
 of \Veim{eim}.
 
 We will write \Vop{Valid-eq}{x}%
@@ -3460,13 +3460,13 @@ if and only if
 \end{equation}
 \eqref{eq:def-terminal-validity-10}
 is considered to be the
-\xdfn{derivation validity equivalent}{derivation validity equivalent (terminal symbol) [re itself]}
+\xdfn{derivation validity equivalent}{derivation validity equivalent (terminal symbol)!wrt itself}
 of itself.
 When it is clear in context,
 we will also call
 \eqref{eq:def-terminal-validity-10}
 the
-\xdfn{validity equivalent}{validity equivalent (terminal symbol) [re itself]}
+\xdfn{validity equivalent}{validity equivalent (terminal symbol)!wrt itself}
 of itself.
 Overloading our previous use of \myfnname{Valid-eq},
 we write \Vop{Valid-eq}{x}%
@@ -6471,12 +6471,12 @@ Theorem \ref{t:deriv-tether}
 If \var{hi} and \var{lo} are
 tether indexes such that $\var{hi} > \var{lo}$,
 we say that \Vel{teth}{lo} is
-\xdfn{below}{below [in a tether]}
+\xdfn{below}{below!in a tether}
 \Vel{teth}{hi};
 and that the direction from
 \Vel{teth}{hi} to
 \Vel{teth}{lo} is
-\xdfn{downward}{downward [in a tether]}.
+\xdfn{downward}{downward!in a tether}.
 
 \begin{theorem}
 \label{t:non-decreasing-location}
@@ -6987,7 +6987,7 @@ the result will be a silo.
 
 We call an element of a silo,
 a
-\xdfn{layer}{layer (EIM) [re a silo]}.
+\xdfn{layer}{layer (EIM)!wrt a silo}.
 We write \Vsize{\var{s1}}%
 \index{recce-notation}{\Pipe{}silo\Pipe{}@\Vsize{silo} (size of a silo)}
 for the number
@@ -6997,12 +6997,12 @@ consecutive non-negative integers for silo layers,
 started at zero.
 \el{s1}{0}
 is called the
-\xdfn{bottom}{bottom (EIM) [re a silo]}
+\xdfn{bottom}{bottom (EIM)!wrt a silo}
 of \var{s1},
 and
 $\var{s1}\big[ \, \Vlastix{s1} \, \big]$
 is the
-\xdfn{top}{top (EIM) [re a silo]}
+\xdfn{top}{top (EIM)!wrt a silo}
 of \var{s1}.
 
 \begin{theorem}
@@ -7113,7 +7113,7 @@ which shows the theorem.
 
 We say that \Right{\Vel{sil}{0}}
 is the
-\xdfn{location}{location [re a silo]}
+\xdfn{location}{location!wrt a silo}
 of the silo \var{sil}.
 From Theorem
 \ref{t:silo-location}
@@ -8738,7 +8738,7 @@ In \eqref{eq:def-leo-memo-10}
 \Vsym{transition} is the
 \dfn{Leo transition symbol}
 or
-\xdfn{transition symbol}{transition symbol [re a Leo memo]}.
+\xdfn{transition symbol}{transition symbol!wrt a Leo memo}.
 The elements
 \Symbol{\Vleo{leo}},
 \DR{\Vleo{leo}},
@@ -8749,7 +8749,7 @@ used to define which silo layers will be memoized.
 
 \Vleo{leo} is considered to be located at \Vloc{memloc},
 and \Vloc{memloc} is called the
-\xdfn{current location}{current location [re a Leo memo]}
+\xdfn{current location}{current location!wrt a Leo memo}
 of \Vleo{leo}.
 We will sometimes speak of \Vleo{leo} as being in the
 Earley set at \Vloc{memloc},
@@ -8850,7 +8850,7 @@ If
   \Current{\Vleo{eff}} =  \Vloc{j}
 \end{equation}
 we say that \Veim{basis} is a
-\xdfn{basis}{basis (EIM) [re a Leo memo]}
+\xdfn{basis}{basis (EIM)!wrt a Leo memo}
 or
 \xdfn{bottom-up cause}{bottom-up cause (of a Leo memo)}
 of \Vleo{eff}
@@ -8961,7 +8961,7 @@ If
 then
 we say that
 \Vleo{down} is a
-\xdfn{top-down cause}{top-down cause (Leo memo) [re a 2nd Leo memo]}
+\xdfn{top-down cause}{top-down cause (Leo memo)!wrt a 2nd Leo memo}
 of \Vleo{eff};
 and that \Vleo{eff} is the
 \xdfn{effect}{effect (Leo memo)!wrt a 2nd Leo memo}
@@ -9041,7 +9041,7 @@ Leo memo.
 A Leo memo, call it \Vleo{leo},
 and an EIM, call it \Veim{eim},
 are said to
-\xdfn{match}{match [re a Leo memo and an EIM]}
+\xdfn{match}{match!between a Leo memo and an EIM}
 if and only if
 \begin{gather*}
 \text{\Veim{eim} is a completion,} \\
@@ -9049,10 +9049,10 @@ if and only if
 \Current{\Vleo{leo}} = \Left{\Veim{eim}}.
 \end{gather*}
 We also say that \Vleo{leo} is the
-\xdfn{matching}{matching (Leo memo) [of an EIM]}
+\xdfn{matching}{matching (Leo memo)!wrt an EIM}
 Leo memo of \Veim{eim}
 and that \Veim{eim} is the
-\xdfn{matching}{matching (EIM) [of an Leo memo]}
+\xdfn{matching}{matching (EIM)!wrt a Leo memo}
 EIM of \Vleo{leo}.
 \end{definition}
 
@@ -9721,7 +9721,7 @@ we say that the symbol instance
 \end{equation*}%
 \index{recce-notation}{Leo-bot(x)@\Vop{Leo-bot}{x}}
 is a
-\xdfn{bottom}{bottom (EIM) [of a Leo silo]}
+\xdfn{bottom}{bottom (EIM)!wrt a Leo silo}
 EIM matching \Vleo{leo} at \Vloc{i}.
 
 Where \Vleo{leo} is a Leo memo,
@@ -9734,7 +9734,7 @@ we say that
 \end{equation}%
 \index{recce-notation}{Leo-top(x)@\Vop{Leo-top}{x}}
 is the
-\xdfn{top}{top (EIM) [of a Leo silo]}
+\xdfn{top}{top (EIM)!wrt a Leo silo}
 EIM
 matching \Vleo{leo}
 at \Vloc{i}.
@@ -11538,7 +11538,7 @@ TODO: Delete this chapter?
 \dtitle{Altitude}
 \label{def:altitude}
 We write \Alt{\Vinst{inst}} for the
-\xdfn{altitude}{altitude [re an EIM]}
+\xdfn{altitude}{altitude!wrt an EIM}
 of \Vinst{inst}.
 
 An EIM, \Veim{up}, is an

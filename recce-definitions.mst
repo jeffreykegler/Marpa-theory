@@ -12,8 +12,8 @@ preamble "
        \\parbox[t]{24pc}{\\normalfont
 A type name in parentheses
 after a definition
-indicates that the reference is to
-the definition as it applies to that type.
+indicates that the
+definition applies to that type.
 ``wrt'' abbreviates ``with respect to''.
 %	\\vspace{2ex}
 % \indexintro
