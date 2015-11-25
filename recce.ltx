@@ -10968,6 +10968,15 @@ $\Veim{cuz} \in \var{lsl2}$.
 \end{definition}
 
 \begin{theorem}
+The top of every Leo silo
+is also the top of its maximal silo.
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
+\begin{theorem}
 For every Leo silo, there is a maximal Leo silo
 which contains it.
 \end{theorem}
@@ -11101,16 +11110,141 @@ Therefore no EIM in Earley set 0
 is memoized.
 \end{proof}
 
-\begin{theorem}
-\label{t:fleeting-closure-memoization}
-Let \Veim{x} and
-\Veim{y} be two EIM's in the same
-fleeting closure.
+\begin{lemma}
+\label{lem:sequence-overlap}
+Let two container sequences, call them \var{con} and \var{con2},
+be subsequences of \var{seq}.
+If \var{a}, \var{b} are two elements of \var{con},
+and
+the top and bottom of \var{con2} are not elements of \var{con},
 Then
 \[
-\Memoized{\Veim{x}} \equiv \Memoized{\Veim{y}}.
+\Veim{a} \in \var{con2} \equiv \Veim{b} \in \var{con2}.
 \]
-\end{theorem}
+\end{lemma}
+
+\begin{proof}
+Assume,
+for a reductio,
+that exactly one of \var{a} and \var{b}
+is an element of \var{con2}.
+Without loss of generalization, we formalize
+the assumption for the reductio as
+\begin{equation}
+\label{lem:sequence-overlap-18}
+	\var{a} \in \var{con2} \; \land \; \var{b} \notin \var{con2}.
+\end{equation}
+Since \var{con} and \var{con2} are,
+by assumption for the theorem, subsequences of \var{seq},
+let
+\begin{align}
+\label{lem:sequence-overlap-20}
+\var{a} & = \Vel{seq}{aix} \\
+\label{lem:sequence-overlap-22}
+\var{b} & = \Vel{seq}{bix} \\
+\label{lem:sequence-overlap-24}
+\Vel{con}{0} & = \Vel{seq}{loc} \\
+\label{lem:sequence-overlap-26}
+\Vel{con}{\Vlastix{con}} & = \Vel{seq}{hic} \\
+\label{lem:sequence-overlap-28}
+\Vel{con2}{0} & = \Vel{seq}{loc2} \\
+\label{lem:sequence-overlap-30}
+\Vel{con2}{\Vlastix{con2}} & = \Vel{seq}{hic2} 
+\end{align}
+
+We will find it useful to express facts about containment
+as relations among indexes of \var{seq}:
+\begin{align}
+\label{lem:sequence-overlap-32}
+& \var{a} \in \var{con} && \text{ASM Th} \\
+\label{lem:sequence-overlap-34}
+& \var{loc} \le \var{aix} \le \var{hic} &&
+\eqref{lem:sequence-overlap-24},
+\eqref{lem:sequence-overlap-26},
+\eqref{lem:sequence-overlap-32}
+\\
+\label{lem:sequence-overlap-36}
+& \var{b} \in \var{con} && \text{ASM Th} \\
+\label{lem:sequence-overlap-38}
+& \var{loc} \le \var{bix} \le \var{hic} &&
+\eqref{lem:sequence-overlap-24},
+\eqref{lem:sequence-overlap-26},
+\eqref{lem:sequence-overlap-36}
+\end{align}
+
+First, assume for an inner reductio that
+\begin{equation}
+\label{lem:sequence-overlap-50}
+\var{aix} \le \var{bix}
+\end{equation}
+From \eqref{lem:sequence-overlap-18},
+\eqref{lem:sequence-overlap-28},
+\eqref{lem:sequence-overlap-30}
+and \eqref{lem:sequence-overlap-50},
+we have
+\begin{equation}
+\label{lem:sequence-overlap-54}
+\begin{gathered}
+\var{loc2} \le \var{aix} \le \var{hic2} < \var{bix} \\
+\therefore \; \var{aix} \le \var{hic2} < \var{bix}.
+\end{gathered}
+\end{equation}
+Combining
+\eqref{lem:sequence-overlap-34}
+\eqref{lem:sequence-overlap-38}
+and
+\eqref{lem:sequence-overlap-54},
+we have
+\begin{align}
+\label{lem:sequence-overlap-57}
+& \var{loc} \le \var{aix} \le \var{hic2} < \var{bix} \le \var{hic} &&
+\\
+\label{lem:sequence-overlap-59}
+\therefore & \var{loc} \le \var{hic2} < \var{hic} &&
+\\
+\label{lem:sequence-overlap-61}
+\therefore & \el{con2}{\Vlastix{con2}} \in \var{con} &&
+\eqref{lem:sequence-overlap-24},
+\eqref{lem:sequence-overlap-26},
+\eqref{lem:sequence-overlap-30}
+\end{align}
+where 
+\eqref{lem:sequence-overlap-61} is contrary
+to assumption for theorem.
+This shows the inner reductio,
+from which we conclude that
+\eqref{lem:sequence-overlap-50} is false,
+and therefore that
+\begin{equation}
+\label{lem:sequence-overlap-70}
+\var{aix} > \var{bix}
+\end{equation}
+
+Again using \eqref{lem:sequence-overlap-18},
+\eqref{lem:sequence-overlap-28},
+and \eqref{lem:sequence-overlap-30},
+but this time with \eqref{lem:sequence-overlap-70},
+we have
+\begin{equation}
+\label{lem:sequence-overlap-73}
+\begin{gathered}
+\var{bix} < \var{loc2} \le \var{aix} \le \var{hic2} \\
+\therefore \; \var{bix} < \var{loc2} \le \var{aix}.
+\end{gathered}
+\end{equation}
+\end{proof}
+
+\begin{lemma}
+\label{lem:fleeting-closure-memoization}
+Let \Veim{x} and
+\Veim{y} be two EIM's in the same
+fleeting closure,
+and let \var{mlsl} be a maximal Leo silo.
+Then
+\[
+\Veim{eim1} \in \var{mlsl} \equiv \Veim{eim2} \in \var{mlsl}.
+\]
+\end{lemma}
 
 \begin{proof}
 Since \Veim{x} and \Veim{y} are in the same fleeting
@@ -11124,10 +11258,10 @@ We first consider the case where
 \var{mfc} contains the top of some Leo silo.
 By the definition of memoized,
 \begin{equation}
-\label{t:fleeting-closure-memoization-15}
+\label{eq:lem-fleeting-closure-memoization-15}
 \neg \Memoized{\Veim{x}} \; \land \; \neg \Memoized{\Veim{y}},
 \end{equation}
-From \eqref{t:fleeting-closure-memoization-15}
+From \eqref{eq:lem-fleeting-closure-memoization-15}
 we have the theorem for this case.
 
 We next consider the case where
@@ -11135,10 +11269,10 @@ We next consider the case where
 Again,
 by the definition of memoized,
 \begin{equation}
-\label{t:fleeting-closure-memoization-17}
+\label{eq:lem-fleeting-closure-memoization-17}
 \neg \Memoized{\Veim{x}} \; \land \; \neg \Memoized{\Veim{y}},
 \end{equation}
-and from \eqref{t:fleeting-closure-memoization-17}
+and from \eqref{eq:lem-fleeting-closure-memoization-17}
 we have the theorem for this case.
 
 For the theorem,
@@ -11149,7 +11283,7 @@ the top of a Leo silo or
 the bottom of a maximal Leo silo.
 More formally, there is the case where we have both
 \begin{equation}
-\label{t:fleeting-closure-memoization-20}
+\label{eq:lem-fleeting-closure-memoization-20}
 \begin{aligned}
 & \forall \var{lsl} \; \nexists \; \Veim{eim} :
 \Veim{eim} \in \var{mfc} 
@@ -11159,7 +11293,7 @@ More formally, there is the case where we have both
 \end{equation}
 and
 \begin{equation}
-\label{t:fleeting-closure-memoization-23}
+\label{eq:lem-fleeting-closure-memoization-23}
 \begin{aligned}
 & \forall \var{lsl} \; \nexists \; \Veim{eim} :
 \Veim{eim} \in \var{mfc} 
@@ -11195,7 +11329,7 @@ where
 The assumption for the reductio is that exactly one of 
 \var{eim1} and \var{eim2} must be outside of \var{mlsl}:
 \begin{equation}
-\label{t:fleeting-closure-memoization-30}
+\label{eq:lem-fleeting-closure-memoization-30}
 \begin{gathered}
 \var{lo} \le \var{ix1} \le \var{hi} < \Veim{ix2} \\
 \; \lor \;
@@ -11208,7 +11342,7 @@ sequence \var{mfc}.
 Therefore,
 if we let
 \begin{equation}
-\label{t:fleeting-closure-memoization-36}
+\label{eq:lem-fleeting-closure-memoization-36}
 \begin{gathered}
 \Vel{slo}{mfc-lo} = \el{mfc}{0} \\
 \text{and} \quad \Vel{slo}{mfc-hi} = \el{mfc}{\Vlastix{mfc}}
@@ -11216,15 +11350,15 @@ if we let
 \end{equation}
 then
 \begin{equation}
-\label{t:fleeting-closure-memoization-39}
+\label{eq:lem-fleeting-closure-memoization-39}
 \var{mfc-lo} \le \var{ix1} \le \var{ix2} \le \var{mfc-hi}
 \end{equation}
 
-From \eqref{t:fleeting-closure-memoization-30}
-and \eqref{t:fleeting-closure-memoization-39},
+From \eqref{eq:lem-fleeting-closure-memoization-30}
+and \eqref{eq:lem-fleeting-closure-memoization-39},
 we see that
 \begin{equation}
-\label{t:fleeting-closure-memoization-42}
+\label{eq:lem-fleeting-closure-memoization-42}
 \begin{gathered}
 \var{mfc-lo} \le \var{hi} \le \var{mfc-hi} \\
 \; \lor \;
@@ -11234,44 +11368,43 @@ we see that
 so that either the top or the bottom of the maximal Leo silo \var{mlsl} is
 in \var{mfc}.
 But this is contrary to
-\eqref{t:fleeting-closure-memoization-20}
-and \eqref{t:fleeting-closure-memoization-23},
+\eqref{eq:lem-fleeting-closure-memoization-20}
+and \eqref{eq:lem-fleeting-closure-memoization-23},
 which are assumptions
 for this case.
 This contradiction shows the reductio from which we conclude that
 \begin{equation}
-\label{t:fleeting-closure-memoization-47}
+\label{eq:lem-fleeting-closure-memoization-47}
 \implies (\Veim{eim1} \in \var{mlsl} \equiv \Veim{eim2} \in \var{mlsl}).
 \end{equation}
 
 For the case, we assumed that a maximal \var{slo} that contained \var{mfc}
 but which was otherwise chosen without loss of generality.
 We can therefore generalize
-\eqref{t:fleeting-closure-memoization-47}
+\eqref{eq:lem-fleeting-closure-memoization-47}
 to
 \begin{multline}
-\label{t:fleeting-closure-memoization-50}
+\label{eq:lem-fleeting-closure-memoization-50}
 \forall \var{slo} : \Maximal{\var{slo}}
 \; \forall \; \var{mlsl} : \Maxleosilo{\var{mlsl}} \\
 \implies (\Veim{eim1} \in \var{mlsl} \equiv \Veim{eim2} \in \var{mlsl}).
 \end{multline}
 
-Distribution of the universal quantifier over implication
-is not a tautalogy, but it is valid in the forward direction,
-so that from
-\eqref{t:fleeting-closure-memoization-50}
-we may conclude
-\begin{multline}
-\label{t:fleeting-closure-memoization-53}
-\forall \var{slo} : \Maximal{\var{slo}}
-\; \forall \; \var{mlsl} : \Maxleosilo{\var{mlsl}}
-\Veim{eim1} \in \var{mlsl} \\
-\implies
-\forall \var{slo} : \Maximal{\var{slo}}
-\; \forall \; \var{mlsl} : \Maxleosilo{\var{mlsl}}
-\Veim{eim2} \in \var{mlsl}.
-\end{multline}
+TODO
+\end{proof}
 
+\begin{theorem}
+\label{t:fleeting-closure-memoization}
+Let \Veim{x} and
+\Veim{y} be two EIM's in the same
+fleeting closure.
+Then
+\[
+\Memoized{\Veim{x}} \equiv \Memoized{\Veim{y}}.
+\]
+\end{theorem}
+
+\begin{proof}
 TODO
 \end{proof}
 
