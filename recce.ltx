@@ -11112,14 +11112,24 @@ is memoized.
 
 \begin{lemma}
 \label{lem:sequence-overlap}
-Let two container sequences, call them \var{con} and \var{con2},
-be subsequences of \var{seq}.
-If \var{a}, \var{b} are two elements of \var{con},
-and
-the top and bottom of \var{con2} are not elements of \var{con},
+If a ``container'' sequence does not contain the top or bottom
+of a second container sequence,
+then the second sequence either contains all the elements
+of the first one, or none of them.
+More formally, let \var{con}, \var{con2} and \var{seq} be sequences,
+and let \var{a} and \var{b} be elements,
+such that
+\begin{gather*}
+\var{con} \subseteq \var{seq}
+\; \land \; \var{con2} \subseteq \var{seq} \\
+\var{a} \in \var{con}
+\; \land \; \var{b} \in \var{con} \\
+\el{con2}{0} \notin \var{con}
+\; \land \; \el{con2}{\Vlastix{con2}} \notin \var{con}.
+\end{gather*}
 Then
 \[
-\Veim{a} \in \var{con2} \equiv \Veim{b} \in \var{con2}.
+\var{a} \in \var{con2} \equiv \var{b} \in \var{con2}.
 \]
 \end{lemma}
 
@@ -11172,7 +11182,7 @@ as relations among indexes of \var{seq}:
 \eqref{lem:sequence-overlap-36}
 \end{align}
 
-First, assume for an inner reductio that
+Assume for an inner reductio that
 \begin{equation}
 \label{lem:sequence-overlap-50}
 \var{aix} \le \var{bix}
@@ -11200,10 +11210,10 @@ we have
 & \var{loc} \le \var{aix} \le \var{hic2} < \var{bix} \le \var{hic} &&
 \\
 \label{lem:sequence-overlap-59}
-\therefore & \var{loc} \le \var{hic2} < \var{hic} &&
+\therefore \; & \var{loc} \le \var{hic2} < \var{hic} &&
 \\
 \label{lem:sequence-overlap-61}
-\therefore & \el{con2}{\Vlastix{con2}} \in \var{con} &&
+\therefore \; & \el{con2}{\Vlastix{con2}} \in \var{con} &&
 \eqref{lem:sequence-overlap-24},
 \eqref{lem:sequence-overlap-26},
 \eqref{lem:sequence-overlap-30}
@@ -11225,26 +11235,39 @@ Again using \eqref{lem:sequence-overlap-18},
 and \eqref{lem:sequence-overlap-30},
 but this time with \eqref{lem:sequence-overlap-70},
 we have
-\begin{equation}
+\begin{align}
 \label{lem:sequence-overlap-73}
-\begin{gathered}
-\var{bix} < \var{loc2} \le \var{aix} \le \var{hic2} \\
-\therefore \; \var{bix} < \var{loc2} \le \var{aix}.
-\end{gathered}
-\end{equation}
+& \var{bix} < \var{loc2} \le \var{aix} \le \var{hic2} \\
+\label{lem:sequence-overlap-75}
+\therefore \; & \var{bix} < \var{loc2} \le \var{aix} \\
+\label{lem:sequence-overlap-77}
+\therefore \; & \var{loc} \le \var{bix} \le \var{loc2} < \var{aix} \le \var{hic} &&
+\eqref{lem:sequence-overlap-34},
+\eqref{lem:sequence-overlap-38}
+\\
+\label{lem:sequence-overlap-79}
+\therefore \; & \var{loc} \le \var{loc2} < \var{hic} &&
+\\
+\label{lem:sequence-overlap-81}
+\therefore \; & \el{con2}{0} \in \var{con} &&
+\eqref{lem:sequence-overlap-24},
+\eqref{lem:sequence-overlap-26},
+\eqref{lem:sequence-overlap-28}
+\end{align}
+\eqref{lem:sequence-overlap-81} is contrary to assumption for the theorem,
+which shows the outer reductio and the theorem.
 \end{proof}
 
-\begin{lemma}
-\label{lem:fleeting-closure-memoization}
+\begin{theorem}
+\label{t:fleeting-closure-memoization}
 Let \Veim{x} and
 \Veim{y} be two EIM's in the same
-fleeting closure,
-and let \var{mlsl} be a maximal Leo silo.
+fleeting closure.
 Then
 \[
-\Veim{eim1} \in \var{mlsl} \equiv \Veim{eim2} \in \var{mlsl}.
+\Memoized{\Veim{x}} \equiv \Memoized{\Veim{y}}.
 \]
-\end{lemma}
+\end{theorem}
 
 \begin{proof}
 Since \Veim{x} and \Veim{y} are in the same fleeting
@@ -11310,73 +11333,8 @@ where
 \Vel{mlsl}{0} = \Vel{slo}{lo}
 \; \land \; \Vel{mlsl}{\Vlastix{mlsl}} = \Vel{slo}{hi}.
 \end{equation}
-Assume,
-for a reductio,
-the \var{mfc} contains two EIM's,
-one of which is inside a maximal Leo silo,
-and the other of which is outside the maximal Leo silo.
-More formally,
-let $\var{eim1} = \Vel{slo}{ix1}$
-and $\var{eim2} = \Vel{slo}{ix2}$
-be the two EIM's.
-Without loss of generality, let $\var{ix1} < \var{ix2}$.
-Let the maximal Leo silo be \var{mlsl},
-where
-\begin{equation}
-\Vel{mlsl}{0} = \Vel{slo}{lo}
-\; \land \; \Vel{mlsl}{\Vlastix{mlsl}} = \Vel{slo}{hi}.
-\end{equation}
-The assumption for the reductio is that exactly one of 
-\var{eim1} and \var{eim2} must be outside of \var{mlsl}:
-\begin{equation}
-\label{eq:lem-fleeting-closure-memoization-30}
-\begin{gathered}
-\var{lo} \le \var{ix1} \le \var{hi} < \Veim{ix2} \\
-\; \lor \;
-\Veim{ix1} < \var{lo} \le \var{ix2} \le \var{hi}.
-\end{gathered}
-\end{equation}
-By assumption for the reductio,
-\var{eim1} and \var{eim2} are elements of the
-sequence \var{mfc}.
-Therefore,
-if we let
-\begin{equation}
-\label{eq:lem-fleeting-closure-memoization-36}
-\begin{gathered}
-\Vel{slo}{mfc-lo} = \el{mfc}{0} \\
-\text{and} \quad \Vel{slo}{mfc-hi} = \el{mfc}{\Vlastix{mfc}}
-\end{gathered}
-\end{equation}
-then
-\begin{equation}
-\label{eq:lem-fleeting-closure-memoization-39}
-\var{mfc-lo} \le \var{ix1} \le \var{ix2} \le \var{mfc-hi}
-\end{equation}
 
-From \eqref{eq:lem-fleeting-closure-memoization-30}
-and \eqref{eq:lem-fleeting-closure-memoization-39},
-we see that
-\begin{equation}
-\label{eq:lem-fleeting-closure-memoization-42}
-\begin{gathered}
-\var{mfc-lo} \le \var{hi} \le \var{mfc-hi} \\
-\; \lor \;
-\var{mfc-lo} \le \var{lo} \le \var{mfc-hi},
-\end{gathered}
-\end{equation}
-so that either the top or the bottom of the maximal Leo silo \var{mlsl} is
-in \var{mfc}.
-But this is contrary to
-\eqref{eq:lem-fleeting-closure-memoization-20}
-and \eqref{eq:lem-fleeting-closure-memoization-23},
-which are assumptions
-for this case.
-This contradiction shows the reductio from which we conclude that
-\begin{equation}
-\label{eq:lem-fleeting-closure-memoization-47}
-\implies (\Veim{eim1} \in \var{mlsl} \equiv \Veim{eim2} \in \var{mlsl}).
-\end{equation}
+TODO: use lemma \ref{lem:sequence-overlap}
 
 For the case, we assumed that a maximal \var{slo} that contained \var{mfc}
 but which was otherwise chosen without loss of generality.
@@ -11390,21 +11348,6 @@ to
 \implies (\Veim{eim1} \in \var{mlsl} \equiv \Veim{eim2} \in \var{mlsl}).
 \end{multline}
 
-TODO
-\end{proof}
-
-\begin{theorem}
-\label{t:fleeting-closure-memoization}
-Let \Veim{x} and
-\Veim{y} be two EIM's in the same
-fleeting closure.
-Then
-\[
-\Memoized{\Veim{x}} \equiv \Memoized{\Veim{y}}.
-\]
-\end{theorem}
-
-\begin{proof}
 TODO
 \end{proof}
 
