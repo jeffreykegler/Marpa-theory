@@ -11657,6 +11657,7 @@ becomes
 \end{aligned}
 \end{equation}
 
+\textbf{Outer implication of case 3};
 To show the forward implication for the theorem,
 we assume
 \begin{equation}
@@ -11664,19 +11665,30 @@ we assume
 \Memoized{\Veim{x}}
 \end{equation}
 to show 
+\begin{equation}
+\label{eq:lem-fleeting-closure-memoization-26a}
 \Memoized{\Veim{y}}.
-Because this choice is without loss of generalization,
-this will also show the reverse implication.
+\end{equation}
+Note that \Veim{x} and \Veim{y} are symmetric here,
+so that the choice of the forward implication
+is without loss of generality.
 
-In the definition of memoized,
+We must show
+\Memoized{\Veim{y}}
+for $\Veim{eim} = \Veim{y}$
+for all three parts of the definition of memoized:
+\eqref{eq:def-memoized-eim-10},
+\eqref{eq:def-memoized-eim-20}
+and
+\eqref{eq:def-memoized-eim-30}.
 \eqref{eq:lem-fleeting-closure-memoization-20}
 shows
 \eqref{eq:def-memoized-eim-20}
-and
+for $\Veim{eim} = \Veim{y}$.
 \eqref{eq:lem-fleeting-closure-memoization-30}
 shows
-\eqref{eq:def-memoized-eim-30}.
-
+\eqref{eq:def-memoized-eim-30}
+for $\Veim{eim} = \Veim{y}$.
 To show the theorem, it remains to show
 \eqref{eq:def-memoized-eim-10} for $\Veim{eim} = \Veim{y}$
 under the assumption
@@ -11688,28 +11700,40 @@ TODO: fix this.
 
 \eqref{eq:def-memoized-eim-10}
 is an implication.
-To show it, we let \var{maxslo} be the maximal
-silo containing \var{mfc}, so that
-assume
+To show it,
+we create an inner implication
+by assuming
 \begin{equation}
 \label{eq:lem-fleeting-closure-memoization-30}
-\Maximal{\var{maxslo}} \; \land \; \var{mfc} \subseteq \var{maxslo}
+\Silo{\var{maxslo}}
+\; \land \; \Maximal{\var{maxslo}}
+\; \land \; \Veim{y} \in \var{maxslo}
 \end{equation}
-for an inner implication.
+to show that there is a \var{lsly} such that
+\begin{gather}
+\label{eq:lem-fleeting-closure-memoization-32}
+\Leosilo{\var{lsly}} \\
+\label{eq:lem-fleeting-closure-memoization-32a}
+\; \land \; \Veim{y} \in \var{lsly} \\
+\label{eq:lem-fleeting-closure-memoization-32b}
+\; \land \; \var{lsly} \subseteq \var{maxslo}
+\end{gather}
+
 From
 \eqref{eq:lem-fleeting-closure-memoization-26},
 \eqref{eq:lem-fleeting-closure-memoization-30}
 and the definition of memoized,
 we see that,
-under the current set of assumptions,
-there must exist some \var{lsl} such that
+under the current set of assumptions that,
+for \var{maxslo},
+there must exist some \var{lslx} such that
 \begin{gather}
 \label{eq:lem-fleeting-closure-memoization-33}
-\Leosilo{\var{lsl}} \\
+\Leosilo{\var{lslx}} \\
 \label{eq:lem-fleeting-closure-memoization-36}
-\land \; \Veim{x} \in \var{lsl} \\
+\land \; \Veim{x} \in \var{lslx} \\
 \label{eq:lem-fleeting-closure-memoization-37}
-\land \; \var{lsl} \subseteq \var{slo}
+\land \; \var{lslx} \subseteq \var{maxslo}
 \end{gather}
 
 By assumption for the theorem we know that
@@ -11719,57 +11743,89 @@ By assumption for the theorem we know that
 \label{eq:lem-fleeting-closure-memoization-42}
 \Veim{y} \in \var{mfc}
 \end{gather}
-and from the assumptions for the case
+
+From Theorem
+\ref{eq:maximal-fleeting-silo-in-maximal-silo-10}
+we know that if a maximal silo contains an EIM,
+it contains its entire maximal fleeting closure.
+So 
+from
+\eqref{eq:lem-fleeting-closure-memoization-30}
+and \eqref{eq:lem-fleeting-closure-memoization-42}
+we know that
+\begin{equation}
+\label{eq:lem-fleeting-closure-memoization-44}
+\var{mfc} \subseteq \var{maxslo}
+\end{equation}
+
+From the assumptions for the case
 \eqref{eq:lem-fleeting-closure-memoization-20}
 and \eqref{eq:lem-fleeting-closure-memoization-23}
 we have
 \begin{gather}
 \label{eq:lem-fleeting-closure-memoization-45}
-\el{lsl}{0} \notin \var{mfc} \\
+\el{lslx}{0} \notin \var{mfc} \\
 \label{eq:lem-fleeting-closure-memoization-47}
-\el{lsl}{\Vlastix{lsl}} \notin \var{mfc}
+\el{lslx}{\Vlastix{lslx}} \notin \var{mfc}
 \end{gather}
 
 Using Lemma \ref{lem:sequence-overlap} with
-\eqref{eq:lem-fleeting-closure-memoization-30},
-\eqref{eq:lem-fleeting-closure-memoization-36},
 \eqref{eq:lem-fleeting-closure-memoization-37},
 \eqref{eq:lem-fleeting-closure-memoization-40},
 \eqref{eq:lem-fleeting-closure-memoization-42},
+\eqref{eq:lem-fleeting-closure-memoization-44},
 \eqref{eq:lem-fleeting-closure-memoization-45}
 and \eqref{eq:lem-fleeting-closure-memoization-47},
 we obtain
 \begin{equation}
 \label{eq:lem-fleeting-closure-memoization-50}
-\Veim{y} \in \var{lsl}
+\Veim{x} \in \var{lslx} \equiv
+\Veim{y} \in \var{lslx}
 \end{equation}
 
-The implications of
-\eqref{eq:lem-fleeting-closure-memoization-30}
-included
-\eqref{eq:lem-fleeting-closure-memoization-33},
-\eqref{eq:lem-fleeting-closure-memoization-36},
-\eqref{eq:lem-fleeting-closure-memoization-37}
-so that
+From
+\eqref{eq:lem-fleeting-closure-memoization-36}
+and \eqref{eq:lem-fleeting-closure-memoization-50},
 we have
 \begin{equation}
-\label{eq:lem-fleeting-closure-memoization-53}
-\Maximal{\var{maxslo}}
-\implies
-\left(
-\begin{gathered}
-\exists \; \var{lsl} :
-\Leosilo{\var{lsl}} \\
-\Veim{y} \in \var{lsl} \; \land \;
-\var{lsl} \subseteq \var{maxslo}
-\end{gathered}
-\right)
+\label{eq:lem-fleeting-closure-memoization-50}
+\Veim{y} \in \var{lslx}.
 \end{equation}
 
-\eqref{eq:lem-fleeting-closure-memoization-53} is,
-in fact,
-\eqref{eq:def-memoized-eim-10} for $\Veim{eim} = \Veim{y}$,
-which was what we needed to show for the theorem.
+Recalling \eqref{eq:lem-fleeting-closure-memoization-32}
+and \eqref{eq:lem-fleeting-closure-memoization-32b},
+and using 
+\eqref{eq:lem-fleeting-closure-memoization-50},
+we have
+\begin{gather}
+\label{eq:lem-fleeting-closure-memoization-52}
+\Leosilo{\var{lslx}} \\
+\label{eq:lem-fleeting-closure-memoization-52a}
+\land \; \Veim{y} \in \var{lslx} \\
+\label{eq:lem-fleeting-closure-memoization-52b}
+\land \; \var{lslx} \subseteq \var{maxslo}
+\end{gather}
+
+We are now in a position to show that we have
+a \var{lsly} which satisfies
+\eqref{eq:lem-fleeting-closure-memoization-32}.
+We show this by setting \var{lsly} equal to \var{lslx}.
+This shows the inner implication,
+\eqref{eq:def-memoized-eim-10} for $\Veim{eim} = \Veim{y}$
+and
+This also shows 
+$\Memoized{\Veim{y}}$ and therefore the outer implication.
+
+\textbf{Conclusion}:
+The outer implication was a forward implication:
+\[
+\Memoized{\Veim{x}} \implies \Memoized{\Veim{y}}
+\]
+But, as noted, the order of \Veim{x} and \Veim{y} was
+chosen without loss of generalization,
+so we have also
+shown the reverse implication,
+Case 3, and the theorem.
 \end{proof}
 
 \begin{theorem}
