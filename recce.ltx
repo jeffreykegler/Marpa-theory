@@ -206,6 +206,7 @@
 \newcommand{\RHS}[1]{\ensuremath{\myfnname{RHS}(#1)}}
 \newcommand{\Right}[1]{\ensuremath{\myfnname{Right}(#1)}}
 \newcommand{\Rule}[1]{\ensuremath{\myfnname{Rule}(#1)}}
+\newcommand{\Silo}[1]{\ensuremath{\myfnname{Silo}(#1)}}
 \newcommand{\Symbol}[1]{\ensuremath{\myfnname{Symbol}(#1)}}
 \newcommand{\Valid}[1]{\ensuremath{\myfnname{Valid}(#1)}}
 
@@ -11296,39 +11297,49 @@ so that
 % \index{recce-notation}{Memoable(eim,slo)@\Memoable{\var{eim}, \var{slo}}}.
 % \end{definition}
 
+Intuitively, before memoizing an EIM we want to be sure
+of two things: that it can be restored,
+and that its memoization does not interfere with
+the restoration of any other memoized items.
+To do this, we require that it always occur
+as an inner layer of
+a Leo silo;
+and that it not be the top or bottom of a maximal
+Leo silo.
+
 \begin{definition}
 \dtitle{Memoized EIM's}
-Intuitively, an EIM is memoized if
-\begin{itemize}
-\item
-it is always contained in a Leo silo,
-\item
-no element of its fleeting closure is the top
-of any Leo silo, and
-\item
-no element of its fleeting closure is the bottom
-of any \textbf{maximal} Leo silo.
-\end{itemize}
-More formally,
-let \Veim{eim} be an EIM
+Let \Veim{eim} be an EIM
 and let \var{mfc} be the maximal fleeting closure
 which contains it.
 \Veim{eim} is
 \xdfn{memoized}{memoized (EIM)}
 if and only if
+all of the following are true:
 \begin{gather}
 \label{eq:def-memoized-eim-10}
 \begin{aligned}
 & \forall \; \var{maxslo} : \;
-\text{\var{maxslo} is a maximal silo} \\
-& \qquad \implies
+\left(
+\begin{multlined}
 \left(
 \begin{gathered}
-\exists \; \var{lsl} :
-\Leosilo{\var{lsl}} \\
-\Veim{eim} \in \var{lsl} \; \land \;
-\var{lsl} \subseteq \var{maxslo}
+\Silo{\var{maxslo}} \\
+\land \; \Maximal{\var{maxslo}} \\
+\land \; \Veim{eim} \in \var{maxslo}
 \end{gathered}
+\right)
+\\
+\implies
+\left(
+\exists \; \var{lsl} \; \middle| \;
+\begin{gathered}
+\Leosilo{\var{lsl}} \\
+\land \; \var{lsl} \subseteq \var{maxslo} \\
+\land \; \Veim{eim} \in \var{lsl}
+\end{gathered}
+\right)
+\end{multlined}
 \right)
 \end{aligned}
 \\
@@ -11342,9 +11353,34 @@ if and only if
 \end{gather}
 \end{definition}
 
-This definition reflects the fact that the Marpa
-implementation records all the EIM's in a fleeting
-closure together.
+There are several points to note about the formal definition
+of memoization.
+First,
+\eqref{eq:def-memoized-eim-20}
+requires
+that an EIM always occur as a layer of a Leo silo,
+but does not include
+the intuitive requirement that the EIM be an inner layer.
+This is because
+\eqref{eq:def-memoized-eim-20}
+and 
+\eqref{eq:def-memoized-eim-30}
+do that job adequately.
+
+Second,
+the intuitive requirement is that memoization
+must avoid the top of maximal Leo silos,
+but that requirement seems to be strengthened
+in \eqref{eq:def-memoized-eim-20}.
+But the two requirements are actually equivalent
+as Theorem
+\ref{t:leo-top-maximality} shows.
+
+Finally, the formal requirement treats all the
+EIM's in a fleeting closure as if they are
+memoized as a unit.
+This makes sense from an implementation point of
+view, and it is how Marpa is implemented.
 
 \begin{theorem}
 \label{t:leo-quasi-complete}
