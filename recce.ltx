@@ -163,7 +163,7 @@
 % I want a hash sign to be a 'last index' operator, but
 % the regular hash sign is ungainly and not resizeable.
 % This tames it a bit.
-	{\protect\scalebox{0.8}{\protect\raisebox{0.4ex}{\#}}{#1}}
+  {\protect\scalebox{0.8}{\protect\raisebox{0.4ex}{\#}}{#1}}
 }}
 \newcommand{\Vlastix}[1]{\lastix{\var{#1}}}
 
@@ -1359,7 +1359,7 @@ for
 \end{equation*}
 We will write \Vsize{\Vstr{si}}%
 \index{recce-notation}{\Pipe{}str\Pipe{})@
-	\Vsize{\Vstr{str}} (length of a sentential form in terms of the input)}
+  \Vsize{\Vstr{str}} (length of a sentential form in terms of the input)}
 for
 \begin{equation*}
 \sum_{\var{i}=0}^\var{last} \Symbol{\Vel{si}{i}}.
@@ -4694,6 +4694,32 @@ then
     {\myfnname{null-scan-op}^{\displaystyle (\var{i})}}(\Veim{x}).
 \end{equation*}
 
+We write the inverse of \myfnname{null-scan-op}
+as
+\[
+\iop{null-scan-op}{-1}{\Veim{eff}} = \Veim{cuz}.
+\]
+Both \myfnname{null-scan-op} and its inverse are
+partial functions.
+Using our notation for undefinedness,
+\[
+\begin{aligned}
+& \Veim{cuz} = \undefined \\
+\lor \; & \Postdot{\Veim{cuz}} = \undefined \\
+\lor \; & \Postdot{\Veim{cuz}} \neq \epsilon \\
+& \quad \implies \op{null-scan-op}{\Veim{cuz}} = \undefined.
+\end{aligned}
+\]
+and
+\[
+\begin{aligned}
+& \Veim{eff} = \undefined \\
+\lor \; & \Predot{\Veim{eff}} = \undefined \\
+\lor \; & \Predot{\Veim{eff}} \neq \epsilon \\
+& \quad \implies \iop{null-scan-op}{(-1)}{\Veim{eff}} = \undefined.
+\end{aligned}
+\]
+
 \begin{theorem}
 \ttitle{Null scan arithmetic}
 \label{t:null-scan-arithmetic}
@@ -4715,7 +4741,7 @@ then
 Let, without loss of generality,
 \begin{gather*}
 \el{ns}{0} = \big[ [ \Vrule{r}, \var{lo} ], \var{i}, \var{k} \big]
-	\quad \text{and} \\
+  \quad \text{and} \\
 \var{hi} = \var{lo} + \Vlastix{ns}.
 \end{gather*}
 By the definition of a fleeting closure
@@ -5362,7 +5388,7 @@ then we have all of the following:
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{ns}} \\
 & \qquad \implies \text{\Vel{ns}{a} is the
   unique top-down cause of
-	\el{ns}{\Vincr{a}}
+  \el{ns}{\Vincr{a}}
 }
 \end{aligned}
 \\
@@ -5370,7 +5396,7 @@ then we have all of the following:
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{ns}} \\
 & \qquad \implies \text{\el{ns}{\Vincr{a}}
-	is the unique effect of \Vel{ns}{a}
+  is the unique effect of \Vel{ns}{a}
 }
 \end{aligned}
 \end{align}
@@ -5431,7 +5457,7 @@ we know that
 \label{eq:iterative-completion-from-null-scan-cause-28}
 \el{ns1}{0} = \Veim{quasi} \\
 \text{and} \quad
-	\forall \; \var{a} : 0 \le \var{a} < (\xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}})
+  \forall \; \var{a} : 0 \le \var{a} < (\xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}})
 \\
 \implies
 \el{ns1}{\Vincr{a}} =
@@ -5441,7 +5467,7 @@ and
 \begin{equation}
 \label{eq:iterative-completion-from-null-scan-cause-30}
 \forall \; \var{a} : 0 \le \var{a} < (\xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}})
-	\implies \Vop{RHS}{\Vrule{r}, \var{lo}+\var{a}} = \epsilon
+  \implies \Vop{RHS}{\Vrule{r}, \var{lo}+\var{a}} = \epsilon
 \end{equation}
 
 From
@@ -6701,7 +6727,7 @@ of Earley items in all Earley sets for \alg{Recce},
 \begin{equation*}
 \Rtablesize{\alg{Recce}} =
      \sum\limits_{\Vloc{i}=0}^{\size{\Cw}}
-	{\bigsize{\EVtable{\alg{Recce}}{i}}}.
+  {\bigsize{\EVtable{\alg{Recce}}{i}}}.
 \end{equation*}
 For example,
 \Rtablesize{\Marpa} is the total number
@@ -8316,7 +8342,7 @@ has the following properties:
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{slo}} \\
 & \qquad \implies \text{\el{slo}{\Vincr{a}}
-	is the unique effect of \Vel{slo}{a}
+  is the unique effect of \Vel{slo}{a}
 }
 \end{aligned}
 \end{align}
@@ -8580,65 +8606,181 @@ Then $\var{mfc} \subseteq \var{mslo}$.
 By assumption for the theorem,
 \Veim{eim} is in a maximal silo,
 so that \Veim{eim} must be quasi-complete.
+Recall that the fleeting closure is defined in terms of
+\myfnname{null-scan-op},
+which we have shown to be a function with an inverse.
+If
+\[
+\begin{gathered}
+\Veim{cuz} \neq \undefined
+\land \; \Veim{eff} \neq \undefined \\
+\land \;  \Vop{null-scan-op}{\Veim{cuz}} = \Veim{eff},
+\end{gathered}
+\]
+we have,
+from Theorem \ref{t:null-scan-from-down-cause},
+\begin{gather}
+\label{eq:maximal-fleeting-silo-in-maximal-silo-4}
+\myparbox{$\Right{\Veim{cuz}} = \Right{\Veim{eff}}$;} \\
+\label{eq:maximal-fleeting-silo-in-maximal-silo-5}
+\myparbox{\Veim{cuz} is quasi-complete
+if and only if
+\Veim{eff} is quasi-complete; and
+} \\
+\label{eq:maximal-fleeting-silo-in-maximal-silo-6}
+\myparbox{\Veim{cuz} is the top-down cause of \Veim{eff}}.
+\end{gather}
+It follows
+from
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-4},
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-5},
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-6}
+and the definition of silo that
+\begin{gather}
+\label{eq:maximal-fleeting-silo-in-maximal-silo-10}
+\myparbox{
+if \Veim{cuz} is quasi-complete, \Veim{eff} is its
+silo effect, and
+} \\
+\label{eq:maximal-fleeting-silo-in-maximal-silo-12}
+\myparbox{
+if \Veim{eff} is quasi-complete, \Veim{cuz} is its
+silo cause.
+}
+\end{gather}
 
-We proceed by two inductions, one on the effects
+We proceed by two inductions, a forward
+induction on the effects
 of \Veim{eim},
-the other on the causes of \Veim{eim}.
+and a reverse induction on the causes of \Veim{eim}.
 We take as the induction hypothesis for both inductions
 \begin{equation}
 \tag{IND}
-\label{eq:maximal-fleeting-silo-in-maximal-silo-10}
+\label{eq:maximal-fleeting-silo-in-maximal-silo-20}
+\begin{gathered}
+\text{\Veim{x} is quasi-complete and} \\
 \Veim{x} \in \var{mfc} \implies
 \Veim{x} \in \var{mslo}
+\end{gathered}
 \end{equation}
 By the definition of a maximal fleeting closure,
 an EIM is in its own maximal fleeting closure,
 so $\Veim{eim} \in \var{mfc}$.
-By assumption for the theorem, $\Veim{eim} \in \var{mslo}$.
+By assumption for the theorem,
+\Veim{eim} is quasi-complete and
+$\Veim{eim} \in \var{mslo}$.
 This gives us 
-\eqref{eq:maximal-fleeting-silo-in-maximal-silo-10}
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-20}
 for $\var{x} = \var{eim}$, which we take as the
 basis of both inductions.
 
-Recall that the fleeting closure is defined in terms of
-\myfnname{null-scan-op},
-which we have show to be a function with an inverse.
 For the step of the forward induction,
 we assume
-\eqref{eq:maximal-fleeting-silo-in-maximal-silo-10}
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-20}
 for $\var{x} = \iop{null-scan-op}{\var{i}}{\var{eim}}$,
 to show
-\eqref{eq:maximal-fleeting-silo-in-maximal-silo-10}
-for $\var{x} = \iop{null-scan-op}{\Vincr{i}}{\var{eim}}$.
-If
-\iop{null-scan-op}{\Vincr{i}}{\var{eim}} is undefined,
-we have
-\eqref{eq:maximal-fleeting-silo-in-maximal-silo-10}
-vacuously.
-Otherwise,
-\iop{null-scan-op}{\var{i}}{\var{eim}} has a silo effect,
-so that 
-\iop{null-scan-op}{\var{i}}{\var{eim}} cannot be the top of a maximal
-silo.
-By assumption for the step, there is some \var{ix}
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-20}
+for $\var{x} = \iop{null-scan-op}{(\Vincr{i})}{\var{eim}}$.
+By assumption for the step, there is some \var{slix}
+and some \var{fcix}
 such that
-$\Vel{mslo}{ix} = \iop{null-scan-op}{\var{i}}{\var{eim}}$.
-\Vel{mslo}{\Vincr{ix}},
-by the definition of a silo 
-is the effect of
-\Vel{mslo}{\var{ix}}.
+\[
+\Vel{mfc}{fcix} = 
+\Vel{mslo}{slix} = \iop{null-scan-op}{\var{i}}{\var{eim}}.
+\]
+If
+\[
+\iop{null-scan-op}{(\Vincr{i})}{\var{eim}} = \undefined,
+\]
+we have
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-20}
+for $\var{x} = \iop{null-scan-op}{(\Vincr{i})}{\var{eim}}$,
+vacuously.
+Otherwise, by assumption for the step,
+\Vel{mfc}{fcix} is quasi-complete,
+so that
+by \eqref{eq:maximal-fleeting-silo-in-maximal-silo-10},
+\[
+  \Vel{mslo}{slix} = \iop{null-scan-op}{\var{i}}{\var{eim}}
+\]
+has a silo effect.
+Therefore, by the definition of a maximal silo,
+\Vel{mslo}{\var{slix}} cannot be the top of the maximal silo,
+and \Vel{mslo}{\Vincr{slix}} must have a defined value.
 The effect of 
 \iop{null-scan-op}{\var{i}}{\var{eim}} is unique,
 so that
 \begin{equation}
-\label{eq:maximal-fleeting-silo-in-maximal-silo-20}
-\Vel{mslo}{\Vincr{ix}} = \iop{null-scan-op}{\Vincr{i}}{\var{eim}}.
+\label{eq:maximal-fleeting-silo-in-maximal-silo-30}
+\Vel{mfc}{\Vincr{fcix}} =
+\Vel{mslo}{\Vincr{slix}} = \iop{null-scan-op}{(\Vincr{i})}{\var{eim}}.
 \end{equation}
-This shows the step for the
+And,
+from
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-5},
+we know that
+\iop{null-scan-op}{(\Vincr{i})}{\var{eim}}
+is quasi-complete.
+This shows the step for the forward induction,
+and the forward induction.
 
-each
-
-TODO
+It remains to show the step of the reverse induction.
+The reasoning is very similar to that for the step of
+the forward induction.
+We assume
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-20}
+for $\var{x} = \iop{null-scan-op}{\var{i}}{\var{eim}}$,
+to show
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-20}
+for $\var{x} = \iop{null-scan-op}{(\Vdecr{i})}{\var{eim}}$.
+Again, by assumption for the step,
+there is some \var{slix}
+and some \var{fcix}
+such that
+\[
+\Vel{mfc}{fcix} = 
+\Vel{mslo}{slix} = \iop{null-scan-op}{\var{i}}{\var{eim}}.
+\]
+If
+\[
+\iop{null-scan-op}{(\Vdecr{i})}{\var{eim}} = \undefined,
+\]
+we have
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-20}
+for $\var{x} = \iop{null-scan-op}{(\Vdecr{i})}{\var{eim}}$,
+vacuously.
+Otherwise, 
+\Vel{mfc}{fcix} is quasi-complete by assumption for the step,
+and it follows that from that and
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-12} that
+\Vel{mslo}{slix} has a silo cause.
+Since it has a silo cause,
+\Vel{mslo}{slix} cannot be the bottom of a maximal silo.
+The value of
+$\el{mfc}{\Vdecr{fcix}} = \iop{null-scan-op}{(\Vdecr{i})}{\var{eim}}$,
+is unique and is a silo cause,
+and 
+\el{mslo}{\Vdecr{slix}} must be the silo cause
+of
+\Vel{mslo}{slix},
+so that
+\begin{equation}
+\notag
+\el{mslo}{\Vdecr{slix}} =
+\el{mfc}{\Vdecr{fcix}} = \iop{null-scan-op}{(\Vdecr{i})}{\var{eim}}.
+\end{equation}
+For the step of the reverse induction,
+we also need to show that
+\label{eq:maximal-fleeting-silo-in-maximal-silo-30}
+\begin{equation}
+\label{eq:maximal-fleeting-silo-in-maximal-silo-50}
+\text{\iop{null-scan-op}{(\Vdecr{i})}{\var{eim}} is quasi-complete.}
+\end{equation}
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-50}
+follows from
+\eqref{eq:maximal-fleeting-silo-in-maximal-silo-5}
+and the assumption for the step.
+With this we have the step of reverse induction.
 \end{proof}
 
 \chapter{Leo memos}
@@ -10024,7 +10166,7 @@ we know that
 \begin{multline}
 \label{eq:lem-leo-memo-effect-35}
 \Vop{Leo-top}{\Vleo{leo}, \Right{\Veim{up}}} = \\
-	\big[ \Next{\DR{\Veim{basis}}}, \Origin{\Veim{basis}}, \Right{\Veim{up}} \big].
+  \big[ \Next{\DR{\Veim{basis}}}, \Origin{\Veim{basis}}, \Right{\Veim{up}} \big].
 \end{multline}
 Using
 \eqref{eq:lem-leo-memo-effect-20},
@@ -10389,7 +10531,7 @@ such that
 \label{eq:leo-silo-validity-43}
 \begin{gathered}
 \Vel{mslo}{maxix} = \el{hislo}{0} = \el{nuslo}{\Vlastix{mslo}}
-	\quad \text{and} \\
+  \quad \text{and} \\
 \el{hislo}{\Vlastix{hislo}} = \el{nuslo}{\Vlastix{nuslo}}.
 \end{gathered}
 \end{equation}
@@ -10768,7 +10910,7 @@ such that
 \begin{cases}
 \text{\Vel{cat1}{ix}, if $0 \le \var{ix} \le \Vlastix{cat1}$} \\
 \text{\op{LM}{\el{slo}{\Vincr{i}}},
-	if $\var{ix} = \Vincr{\Vlastix{cat1}}$}
+  if $\var{ix} = \Vincr{\Vlastix{cat1}}$}
 \end{cases}
 \end{equation}
 \var{cat2}
@@ -11192,11 +11334,11 @@ if and only if
 \\
 \label{eq:def-memoized-eim-20}
 \nexists \; \var{lsl} : \Leosilo{\var{lsl}} \; \land \;
-	\el{lsl}{\Vlastix{lsl}} \in \var{mfc}
+  \el{lsl}{\Vlastix{lsl}} \in \var{mfc}
 \\
 \label{eq:def-memoized-eim-30}
 \nexists \; \var{lsl} : \Maxleosilo{\var{lsl}} \; \land \;
-	\el{lsl}{0} \in \var{mfc}
+  \el{lsl}{0} \in \var{mfc}
 \end{gather}
 \end{definition}
 
@@ -11280,7 +11422,7 @@ Without loss of generalization, we formalize
 the assumption for the reductio as
 \begin{equation}
 \label{lem:sequence-overlap-18}
-	\var{a} \in \var{con2} \; \land \; \var{b} \notin \var{con2}.
+  \var{a} \in \var{con2} \; \land \; \var{b} \notin \var{con2}.
 \end{equation}
 Since \var{con} and \var{con2} are,
 by assumption for the theorem, subsequences of \var{seq},
@@ -11451,7 +11593,7 @@ More formally, there is the case where we have both
 \begin{aligned}
 & \forall \var{lsl} \; \nexists \; \Veim{eim} :
 \Veim{eim} \in \var{mfc} 
-	\; \land \; \Maxleosilo{\var{lsl}} \\
+  \; \land \; \Maxleosilo{\var{lsl}} \\
 & \qquad \implies \Veim{eim} \neq \el{lsl}{0}
 \end{aligned}
 \end{equation}
@@ -11461,7 +11603,7 @@ and
 \begin{aligned}
 & \forall \var{lsl} \; \nexists \; \Veim{eim} :
 \Veim{eim} \in \var{mfc} 
-	\; \land \; \Leosilo{\var{lsl}} \\
+  \; \land \; \Leosilo{\var{lsl}} \\
 & \qquad \implies \Veim{eim} \neq \el{lsl}{\Vlastix{lsl}}.
 \end{aligned}
 \end{equation}
@@ -11475,7 +11617,7 @@ becomes
 \begin{aligned}
 & \forall \var{lsl} \; \nexists \; \Veim{eim} :
 \Veim{eim} \in \var{mfc} 
-	\; \land \; \Maxleosilo{\var{lsl}} \\
+  \; \land \; \Maxleosilo{\var{lsl}} \\
 & \qquad \implies \Veim{eim} \neq \el{lsl}{\Vlastix{lsl}}.
 \end{aligned}
 \end{equation}
