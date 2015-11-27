@@ -187,7 +187,7 @@
 \newcommand{\Layer}[1]{\ensuremath{\myfnname{Layer}(#1)}}
 \newcommand{\Leosilo}[1]{\ensuremath{\myfnname{Leo-silo}(#1)}}
 \newcommand{\Maximal}[1]{\ensuremath{\myfnname{Maximal}(#1)}}
-\newcommand{\Maxleosilo}[1]{\ensuremath{\myfnname{Max-Leo-silo}(#1)}}
+\newcommand{\Maxleosilo}[2]{\ensuremath{\myfnname{Max-Leo-silo}(#1, #2)}}
 \newcommand{\Left}[1]{\ensuremath{\myfnname{Left}(#1)}}
 \newcommand{\LHS}[1]{\ensuremath{\myfnname{LHS}(#1)}}
 \newcommand{\Match}[2]{\ensuremath{\myfnname{Match}(#1, #2)}}
@@ -11374,48 +11374,47 @@ which contains it.
 \Veim{eim} is
 \xdfn{memoized}{memoized (EIM)}
 if and only if
-all of the following are true:
-\begin{gather}
+for every maximal silo,
+call it \var{maxslo},
+we have all
+of the following:
+\begin{align}
 \label{eq:def-memoized-eim-10}
+&
 \begin{aligned}
-& \forall \; \var{maxslo} : \;
-\left(
-\begin{multlined}
-\left(
+& \text{If $\Veim{eim} \in \var{maxslo}$ then} \\
+& \qquad \text{there is an \var{lsl} such that} \\
+& \qquad \qquad \left(
 \begin{gathered}
-\Silo{\var{maxslo}} \\
-\land \; \Maximal{\var{maxslo}} \\
-\land \; \Veim{eim} \in \var{maxslo}
-\end{gathered}
-\right)
-\\
-\implies
-\left(
-\exists \; \var{lsl} \; \middle| \;
-\begin{gathered}
-\Leosilo{\var{lsl}} \\
+\Leosilo{\var{lsl}}
 \land \; \var{lsl} \subseteq \var{maxslo} \\
-\land \; \Veim{eim} \in \var{lsl}
+\land \; \Veim{eim} \in \var{lsl}.
 \end{gathered}
-\right)
-\end{multlined}
 \right)
 \end{aligned}
 \\
 \label{eq:def-memoized-eim-20}
-\nexists \; \var{lsl} : \Leosilo{\var{lsl}} \; \land \;
-  \el{lsl}{\Vlastix{lsl}} \in \var{mfc}
+&
+\begin{aligned}
+& \text{There is no \var{lsl} such that} \\
+& \qquad \qquad
+\Maxleosilo{\var{lsl}}{\var{maxslo}} \; \land \;
+  \el{lsl}{\Vlastix{lsl}} \in \var{mfc}.
+\end{aligned}
 \\
 \label{eq:def-memoized-eim-30}
-\nexists \; \var{lsl} : \Maxleosilo{\var{lsl}} \; \land \;
-  \el{lsl}{0} \in \var{mfc}
-\end{gather}
+&
+\begin{aligned}
+& \text{There is no \var{lsl} such that} \\
+& \qquad \qquad
+\Maxleosilo{\var{lsl}}{\var{maxslo}} \; \land \;
+  \el{lsl}{0} \in \var{mfc}.
+\end{aligned}
+\end{align}
 \end{definition}
 
-There are several points to note about the formal definition
-of memoization.
-First,
-\eqref{eq:def-memoized-eim-20}
+Note that
+\eqref{eq:def-memoized-eim-10}
 requires
 that an EIM always occur as a layer of a Leo silo,
 but does not include
@@ -11425,17 +11424,11 @@ This is because
 and 
 \eqref{eq:def-memoized-eim-30}
 do that job adequately.
-
-Second,
-the intuitive requirement is that memoization
-must avoid the top of maximal Leo silos,
-but that requirement seems to be strengthened
-in \eqref{eq:def-memoized-eim-20}.
-But the two requirements are actually equivalent
-as Theorem
-\ref{t:leo-top-maximality} shows.
-
-Finally, the formal requirement treats all the
+Also note that
+\eqref{eq:def-memoized-eim-20}
+and 
+\eqref{eq:def-memoized-eim-30}
+treat all the
 EIM's in a fleeting closure as if they are
 memoized as a unit.
 This makes sense from an implementation point of
@@ -11659,9 +11652,19 @@ and \var{mfc} is the maximal fleeting closure of both
 \Veim{y}}
 \end{equation}
 
+For the purposes of this proof, we will say that
+the Leo silo \var{lsl} is ``potentially maximal'' if
+there is some \var{maxslo} such that
+\[
+\Silo{\var{maxslo}}
+\; \land \; \Maximal{\var{maxslo}}
+\; \land \; \Maxleosilo{\var{lsl}}{\var{maxslo}}.
+\]
+
 \textbf{Case 1}:
 We first consider the case where
-\var{mfc} contains the top of some Leo silo.
+\var{mfc} contains the top
+of a potentially maximal Leo silo.
 By the definition of memoized,
 \begin{equation}
 \label{eq:lem-fleeting-closure-memoization-15}
@@ -11672,7 +11675,8 @@ we have the theorem for this case.
 
 \textbf{Case 2}:
 We next consider the case where
-\var{mfc} contains the bottom of some maximal Leo silo.
+\var{mfc} contains the bottom of a
+potentially maximal Leo silo.
 Again,
 by the definition of memoized,
 \begin{equation}
@@ -11689,38 +11693,21 @@ it remains to consider the case where
 either
 the top of a Leo silo or
 the bottom of a maximal Leo silo.
-More formally, there is the case where we have both
+More formally, there is the case where we have
 \begin{equation}
 \label{eq:lem-fleeting-closure-memoization-20}
 \begin{aligned}
-& \forall \var{lsl} \; \nexists \; \Veim{eim} :
-\Veim{eim} \in \var{mfc} 
-  \; \land \; \Maxleosilo{\var{lsl}} \\
-& \qquad \implies \Veim{eim} \neq \el{lsl}{0}
-\end{aligned}
-\end{equation}
-and
-\begin{equation}
-\label{eq:lem-fleeting-closure-memoization-22}
+& \text{for all \var{maxslo}, \var{lsl} there is no \Veim{eim} such that} \\
+& \qquad
 \begin{aligned}
-& \forall \var{lsl} \; \nexists \; \Veim{eim} :
-\Veim{eim} \in \var{mfc} 
-  \; \land \; \Leosilo{\var{lsl}} \\
-& \qquad \implies \Veim{eim} \neq \el{lsl}{\Vlastix{lsl}}.
+& \Veim{eim} \in \var{mfc} \\
+\land \; & \Silo{\var{maxslo}} \; \land \; \Maximal{\var{maxslo}} \\
+\land \; & \Maxleosilo{\var{lsl}}{\var{maxsilo}} \\
+\land \; &
+(\Veim{eim} = \el{lsl}{0}
+\; \lor \;
+\Veim{eim} = \el{lsl}{\Vlastix{lsl}}).
 \end{aligned}
-\end{equation}
-From Theorem \ref{t:leo-top-maximality},
-we know that all Leo silo tops are maximal,
-so that
-\eqref{eq:lem-fleeting-closure-memoization-22}
-becomes
-\begin{equation}
-\label{eq:lem-fleeting-closure-memoization-23}
-\begin{aligned}
-& \forall \var{lsl} \; \nexists \; \Veim{eim} :
-\Veim{eim} \in \var{mfc} 
-  \; \land \; \Maxleosilo{\var{lsl}} \\
-& \qquad \implies \Veim{eim} \neq \el{lsl}{\Vlastix{lsl}}.
 \end{aligned}
 \end{equation}
 
@@ -11736,8 +11723,10 @@ to show
 \label{eq:lem-fleeting-closure-memoization-26a}
 \Memoized{\Veim{y}}.
 \end{equation}
-Note that \Veim{x} and \Veim{y} are symmetric here,
-so that the choice of the forward implication
+Note that the definitions and assumptions
+for \Veim{x} and \Veim{y} are symmetric,
+so that our choice to show the forward implication
+of the theorem
 is without loss of generality.
 
 We must show
