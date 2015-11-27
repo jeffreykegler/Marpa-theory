@@ -11729,13 +11729,24 @@ so that our choice to show the forward implication
 of the theorem
 is without loss of generality.
 
-We must show
-\Memoized{\Veim{y}}
-for all three parts of the definition of memoized:
-\eqref{eq:def-memoized-eim-10},
+To show
+\Memoized{\Veim{y}},
+we must prove that,
+for all maximal silos,
+we satisfy all three parts of the definition
+for $\Veim{eim} \gets \Veim{y}$.
+We proceed by assuming,
+without loss of generality,
+that \var{maxslo} is a maximal silo,
+and showing
+that we have \eqref{eq:def-memoized-eim-10}
+for $\Veim{eim} \gets \Veim{y}$;
 \eqref{eq:def-memoized-eim-20}
+for $\Veim{eim} \gets \Veim{y}$;
 and
-\eqref{eq:def-memoized-eim-30}.
+\eqref{eq:def-memoized-eim-30}
+for $\Veim{eim} \gets \Veim{y}$.
+
 \eqref{eq:lem-fleeting-closure-memoization-20}
 shows
 \eqref{eq:def-memoized-eim-20}
@@ -11744,14 +11755,10 @@ for $\Veim{eim} \gets \Veim{y}$.
 shows
 \eqref{eq:def-memoized-eim-30}
 for $\Veim{eim} \gets \Veim{y}$.
-To show the theorem, it remains to show
-\eqref{eq:def-memoized-eim-10} for $\Veim{eim} \gets \Veim{y}$
-under the assumption of
-\eqref{eq:lem-fleeting-closure-memoization-26}.
+It remains to show
+\eqref{eq:def-memoized-eim-10} for $\Veim{eim} \gets \Veim{y}$.
 
 \textbf{Inner implication of case 3}:
-
-TODO: fix this.
 
 \eqref{eq:def-memoized-eim-10}
 is an implication.
@@ -11760,9 +11767,7 @@ we create an inner implication
 by assuming
 \begin{equation}
 \label{eq:lem-fleeting-closure-memoization-30}
-\Silo{\var{maxslo}}
-\; \land \; \Maximal{\var{maxslo}}
-\; \land \; \Veim{y} \in \var{maxslo}
+\Veim{y} \in \var{maxslo}
 \end{equation}
 to show that there is a \var{lsly} such that
 \begin{gather}
@@ -11777,12 +11782,14 @@ to show that there is a \var{lsly} such that
 From Theorem
 \ref{t:maximal-fleeting-silo-in-maximal-silo}
 we know that if a maximal silo contains an EIM,
-it contains its entire maximal fleeting closure.
+it contains the entire maximal fleeting closure
+of that EIM.
 Therefore
 \begin{align}
 \label{eq:lem-fleeting-closure-memoization-32d}
 & \var{mfc} \subseteq \var{maxslo}.
 &&
+Th \ref{t:maximal-fleeting-silo-in-maximal-silo},
 \eqref{eq:lem-fleeting-closure-memoization-30},
 \eqref{eq:lem-fleeting-closure-memoization-13}
 \\
