@@ -8233,45 +8233,65 @@ more than once in a silo.
 \end{proof}
 
 \begin{theorem}
-\label{t:quasi-confirmed-eim-has-silo}
-Every quasi-confirmed EIM has
+\ttitle{Grounded silo}
+\label{t:grounded-silo}
+Every silo is part of
 a silo of finite length,
 whose bottom is a read EIM.
 \end{theorem}
 
 \begin{proof}
-Let,
-without loss of generality,
-\Veim{quasi} be a quasi-confirmed EIM.
-By the definition of silo,
-the sequence consisting only of
-\Veim{quasi} is a silo.
-It remains to show that
-\Veim{quasi} has a silo of finite length
-whose bottom is a read EIM.
-
-
+Let \var{slo} be a silo.
+Let \var{sloset}
+be the set of all silos of which \var{slo} is a part.
+\var{sloset} has at least one element
+--- \var{slo} itself.
 By Theorem
 \ref{t:silo-finite}
-a silo must have a finite length.
-Since every silo with \Veim{quasi} at the top
-has a finite length,
-there are one or more silos which have a maximum
-length.
+all of these silos in \var{sloset} have a finite length,
+so there is a finite maximum length for the silos 
+in \var{sloset}.
+Call this length \var{maxl}.
+There will be at least one silo,
+call it \var{gslo},
+such that
+$\var{gslo} \in \var{sloset}$
+and the length of \var{gslo} is \var{maxl}.
+
 Assume, for a reductio,
-that \Veim{bot} is the bottom of one of these maximum
-length silos, and that it is not
-a read EIM.
+that $\Veim{bot} = \el{gslo}{0}$
+is not a read EIM.
 Since it is not a read EIM,
 by Theorem \ref{t:silo-causes},
 \Veim{bot} has a silo cause.
 Therefore
 a silo layer could be added below \Veim{bot}.
 But if a silo layer could be added below \Veim{bot},
-then \Veim{bot} is not at the bottom of one of the silos
+then \Veim{bot} is not at the bottom of a silo
 of maximum length,
-which is contrary to assumption for the reductio.
-We conclude that \Veim{bot} is a read EIM.
+which is contrary to assumption for \var{gslo}.
+Since there was at least one silo \var{gslo} that satisfied
+the assumptions for \var{gslo},
+we conclude that \Veim{bot} is a read EIM.
+\end{proof}
+
+\begin{theorem}
+\ttitle{EIM grounded silo}
+\label{t:eim-grounded-silo}
+Every quasi-confirmed EIM has
+a silo of finite length,
+whose bottom is a read EIM.
+\end{theorem}
+
+\begin{proof}
+By the definition of silo,
+the sequence consisting only of
+\Veim{quasi} is a silo.
+This theorem follows from this
+observation
+and
+Theorem
+\ref{t:grounded-silo}.
 \end{proof}
 
 \begin{definition}
@@ -8522,53 +8542,55 @@ and whose top layer has no silo effect.
 
 We sometimes write \Maximal{\var{slo}}%
 \index{recce-notation}{Maximal(slo)@\Maximal{\var{slo}}}
-so that the silo \var{slo} is maximal.
+to say that the silo \var{slo} is maximal.
 
 \begin{theorem}
-\ttitle{EIM Maximal silo}
-\label{t:eim-maximal-silo}
-Every quasi-complete EIM
-is in at least one finite maximal silo,
+\ttitle{Maximal silo}
+\label{t:maximal-silo}
+Every silo is part of
+at least one finite maximal silo,
 whose bottom is a read EIM.
 \end{theorem}
 
 \begin{proof}
-Let \Veim{qc} be a valid quasi-complete EIM.
+TODO: fix
+Let \var{slo0} be a silo.
 We create, \var{maxslo}, a maximal silo,
-from \Veim{qc}
+from \var{slo}
 using the following construction:
 \begin{itemize}
 \item
 \textbf{Step 1}:
 By Theorem
-\ref{t:quasi-confirmed-eim-has-silo},
-\Veim{qc} has at least one finite silo
+\ref{t:grounded-silo},
+\var{slo0} is part of at least one finite silo
 whose bottom is a read EIM.
-Initially, let \var{maxslo} be one of these silos.
+Initially, let \var{workslo} be one of these silos.
 \item
-\textbf{Step 2}: If \el{maxslo}{\Vlastix{maxslo}} has no silo effect,
-we terminate the construction.
+\textbf{Step 2}: If \el{workslo}{\Vlastix{workslo}} has no silo effect,
+the let $\var{maxslo} \gets \var{workslo}$,
+and terminate the construction.
 \item
 \textbf{Step 3}:
 Let \Veim{newlayer} be the silo effect of
-\el{maxslo}{\Vlastix{maxslo}}.
+\el{workslo}{\Vlastix{workslo}}.
 Let \var{newslo} be
-\var{maxslo} with \Veim{newlayer} appended,
+\var{workslo} with \Veim{newlayer} appended,
 that is
 \begin{equation}
 \notag
 \begin{gathered}
-\forall \; \var{i} : 0 \le \var{i} \le \Vlastix{maxslo}
+\forall \; \var{i} : 0 \le \var{i} \le \Vlastix{workslo}
 \implies
-\Vel{newslo}{i} = \Vel{maxslo}{i}
+\Vel{newslo}{i} = \Vel{workslo}{i}
 \quad \text{and}
 \\
-\Vel{newslo}{\Vincr{\Vlastix{maxslo}}} = \Veim{newlayer}
+\Vel{newslo}{\Vincr{\Vlastix{workslo}}} = \Veim{newlayer}
 \end{gathered}
 \end{equation}
 \item
 \textbf{Step 4}:
-Let $\var{maxslo} \gets \var{newslo}$,
+Let $\var{workslo} \gets \var{newslo}$,
 and go to Step 2.
 \end{itemize}
 This construction either creates a \var{maxslo} whose top
@@ -8580,16 +8602,34 @@ we know that all silos are finite,
 we can conclude that there is a \el{maxslo}{\Vlastix{maxslo}},
 and that it has no silo effect.
 
-Throughout the construction, \el{maxslo}{0}
+Throughout the construction, \el{workslo}{0}
 remains constant.
 The construction initialized
-\el{maxslo}{0} to a read EIM.
+\el{workslo}{0} to a read EIM.
 Read EIM's,
 by Theorem \ref{t:silo-causes},
 have no silo cause.
-So,
 once the construction is complete,
+$\el{maxslo}{0} = \el{workslo}{0}$,
+and therefore
 \el{maxslo}{0} has no silo cause.
+\end{proof}
+
+\begin{theorem}
+\ttitle{EIM maximal silo}
+\label{t:eim-maximal-silo}
+Every quasi-complete EIM
+is in at least one finite maximal silo,
+whose bottom is a read EIM.
+\end{theorem}
+
+\begin{proof}
+Let \Veim{qc} be a valid quasi-complete EIM.
+By the definition of silo,
+the sequence consisting only of
+\Veim{qc} is a silo.
+This theorem follows from this observation,
+and Theorem \ref{t:maximal-silo}.
 \end{proof}
 
 \begin{theorem}
@@ -11590,7 +11630,14 @@ closure,
 by Theorem
 \ref{t:fleeting-closure-maximization}
 they are also in the same maximal fleeting closure.
-Call this \var{mfc}.
+Call this \var{mfc}, so that
+\begin{equation}
+\label{eq:lem-fleeting-closure-memoization-13}
+\myparbox{$\Veim{x} \in \var{mfc}, \Veim{x} \in \var{mfc}$
+and \var{mfc} is the maximal fleeting closure of both
+\Veim{x} and
+\Veim{y}}
+\end{equation}
 
 \textbf{Case 1}:
 We first consider the case where
@@ -11657,7 +11704,7 @@ becomes
 \end{aligned}
 \end{equation}
 
-\textbf{Outer implication of case 3};
+\textbf{Outer implication of case 3}:
 To show the forward implication for the theorem,
 we assume
 \begin{equation}
@@ -11675,7 +11722,6 @@ is without loss of generality.
 
 We must show
 \Memoized{\Veim{y}}
-for $\Veim{eim} = \Veim{y}$
 for all three parts of the definition of memoized:
 \eqref{eq:def-memoized-eim-10},
 \eqref{eq:def-memoized-eim-20}
@@ -11684,17 +11730,17 @@ and
 \eqref{eq:lem-fleeting-closure-memoization-20}
 shows
 \eqref{eq:def-memoized-eim-20}
-for $\Veim{eim} = \Veim{y}$.
+for $\Veim{eim} \gets \Veim{y}$.
 \eqref{eq:lem-fleeting-closure-memoization-30}
 shows
 \eqref{eq:def-memoized-eim-30}
-for $\Veim{eim} = \Veim{y}$.
+for $\Veim{eim} \gets \Veim{y}$.
 To show the theorem, it remains to show
-\eqref{eq:def-memoized-eim-10} for $\Veim{eim} = \Veim{y}$
-under the assumption
+\eqref{eq:def-memoized-eim-10} for $\Veim{eim} \gets \Veim{y}$
+under the assumption of
 \eqref{eq:lem-fleeting-closure-memoization-26}.
 
-\textbf{Inner implication of case 3};
+\textbf{Inner implication of case 3}:
 
 TODO: fix this.
 
@@ -11719,13 +11765,35 @@ to show that there is a \var{lsly} such that
 \; \land \; \var{lsly} \subseteq \var{maxslo}
 \end{gather}
 
-From
+From Theorem
+\ref{t:maximal-fleeting-silo-in-maximal-silo}
+we know that if a maximal silo contains an EIM,
+it contains its entire maximal fleeting closure.
+Therefore
+\begin{align}
+\label{eq:lem-fleeting-closure-memoization-32d}
+& \var{mfc} \subseteq \var{maxslo}.
+&&
+\eqref{eq:lem-fleeting-closure-memoization-30},
+\eqref{eq:lem-fleeting-closure-memoization-13}
+\\
+& \Veim{x} \in \var{mfc}
+&& \eqref{eq:lem-fleeting-closure-memoization-13}
+\\
+\label{eq:lem-fleeting-closure-memoization-32e}
+\therefore \;
+& \Veim{x} \in \var{maxslo}
+&& \eqref{eq:lem-fleeting-closure-memoization-32d}
+\end{align}
+In
 \eqref{eq:lem-fleeting-closure-memoization-26},
+we assumed $\Memoized{\Veim{x}}$ for the outer
+implication.
+From this,
+the definition of memoized,
 \eqref{eq:lem-fleeting-closure-memoization-30}
-and the definition of memoized,
-we see that,
-under the current set of assumptions that,
-for \var{maxslo},
+and \eqref{eq:lem-fleeting-closure-memoization-32e},
+we know that
 there must exist some \var{lslx} such that
 \begin{gather}
 \label{eq:lem-fleeting-closure-memoization-33}
@@ -11735,28 +11803,6 @@ there must exist some \var{lslx} such that
 \label{eq:lem-fleeting-closure-memoization-37}
 \land \; \var{lslx} \subseteq \var{maxslo}
 \end{gather}
-
-By assumption for the theorem we know that
-\begin{gather}
-\label{eq:lem-fleeting-closure-memoization-40}
-\Veim{x} \in \var{mfc} \\
-\label{eq:lem-fleeting-closure-memoization-42}
-\Veim{y} \in \var{mfc}
-\end{gather}
-
-From Theorem
-\ref{eq:maximal-fleeting-silo-in-maximal-silo-10}
-we know that if a maximal silo contains an EIM,
-it contains its entire maximal fleeting closure.
-So 
-from
-\eqref{eq:lem-fleeting-closure-memoization-30}
-and \eqref{eq:lem-fleeting-closure-memoization-42}
-we know that
-\begin{equation}
-\label{eq:lem-fleeting-closure-memoization-44}
-\var{mfc} \subseteq \var{maxslo}
-\end{equation}
 
 From the assumptions for the case
 \eqref{eq:lem-fleeting-closure-memoization-20}
@@ -11768,6 +11814,8 @@ we have
 \label{eq:lem-fleeting-closure-memoization-47}
 \el{lslx}{\Vlastix{lslx}} \notin \var{mfc}
 \end{gather}
+
+TODO: Huh?
 
 Using Lemma \ref{lem:sequence-overlap} with
 \eqref{eq:lem-fleeting-closure-memoization-37},
@@ -12261,7 +12309,7 @@ such that
 \end{gather}
 where \Veim{bot} is a read EIM.
 By Theorem
-\ref{t:quasi-confirmed-eim-has-silo},
+\ref{t:grounded-silo},
 there is at least one such silo.
 
 We show the theorem by induction,
