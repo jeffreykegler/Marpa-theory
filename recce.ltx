@@ -11209,12 +11209,12 @@ and let \var{slo} be a maximal silo which contains it.
 We say that
 \var{lsl1} is a
 \xdfn{maximal Leo silo}{maximal (Leo silo)}%
-\index{recce-notation}{Max-Leo-Silo(slo)@\Vop{Max-Leo-Silo}{slo}}
-within \var{slo}
+\index{recce-notation}{Max-Leo-Silo(lslo,slo)@\Vop{Max-Leo-Silo}{lslo,slo}}
+with respect to \var{slo}
 if and only if one of the following are true:
 \begin{itemize}
 \item
-\el{lsl}{0} has no silo cause.
+\el{lsl}{0} has no silo cause in \var{slo}.
 \item
 Let \Veim{cuz} be the silo cause of \el{lsl}{0}.
 There is no Leo silo, \var{lsl2}, such that
@@ -11226,30 +11226,36 @@ $\Veim{cuz} \in \var{lsl2}$.
 \begin{theorem}
 \ttitle{Every Leo silo has a maximal silo}
 \label{t:maximal-of-leo-silo}
-For every Leo silo, there is a maximal Leo silo
-which contains it.
+Let \var{maxslo} be a maximal silo,
+and let \var{lsl} be a Leo silo contained
+in \var{maxslo}.
+Then there is a maximal Leo silo with respect to \var{maxslo}
+that contains \var{lsl}.
 \end{theorem}
 
 \begin{proof}
-Let \var{lsl0} be a Leo silo.
 By the definition of maximal for a Leo silo,
-if \var{lsl0} is not its own maximal Leo silo,
-\var{lsl0} is part of a Leo silo that properly contains \var{lsl0}.
+if \var{lsl} is not its own maximal Leo silo with respect
+to \var{maxslo},
+then \var{lsl} is part of a Leo silo that properly contains \var{lsl}.
 
 Let \var{lsseq} be a sequence
-such that $\el{lsseq}{0} = \var{lsl0}$
+such that $\el{lsseq}{0} = \var{lsl}$
 and
-\el{lsseq}{\Vincr{i}} is a Leo silo which properly contains
-\Vel{lsseq}{i}.
-Every element of \var{lsseq} will contain \var{lsl0}
-as a proper subsequence and therefore, for all \var{i}, \
-if \Vel{lsseq}{i}
+\el{lsseq}{\Vincr{i}} is a Leo silo
+such that
+\[
+  \Vel{lsseq}{i} \subset \el{lsseq}{\Vincr{i}} \subseteq \var{maxslo}.
+\]
+If \Vel{lsseq}{i}
 and \el{lsseq}{\Vincr{i}} both exist,
 $\Vsize{\el{lsseq}{\Vincr{i}}} > \Vsize{\Vel{lsseq}{i}}$.
 By Theorem \ref{t:silo-finite},
 the size of any silo is finite,
-so there is maximum beyond which
-\Vsize{\Vel{lsseq}{i}} cannot grow.
+so that the size of \var{maxslo} is finite.
+Therefore, \Vsize{\var{maxslo}}
+is a maximum beyond which
+the elements of \var{lsseq} cannot grow.
 Since every element of \var{lsseq} must be properly larger
 than the previous one,
 the length of the sequence \var{lsseq} is finite.
@@ -11257,23 +11263,38 @@ So there is a last element of \var{lsseq}.
 
 We now consider the Leo silo \el{lsseq}{\Vlastix{lsseq}}.
 \el{lsseq}{\Vlastix{lsseq}}
-is not properly contained in any other Leo silo,
-and it properly contains \var{lsl0}.
-\el{lsseq}{\Vlastix{lsseq}} is therefore
-the maximal Leo silo for \var{lsl0}.
+is not properly contained in any other Leo silo.
+And, by the construction of \var{lsseq},
+\[
+\begin{gathered}
+\forall \; \var{i} : \var{lsl} \subseteq \Vel{lsseq}{i} \\
+\therefore \quad
+\var{lsl} \subseteq \el{lsseq}{\Vlastix{lsseq}}.
+\end{gathered}
+\]
+Therefore, by the definition of a maximal Leo silo,
+\el{lsseq}{\Vlastix{lsseq}} is 
+the maximal Leo silo for \var{lsl0} with respect
+to \var{maxslo}.
 \end{proof}
 
 \begin{theorem}
 \ttitle{Leo top maximality}
 \label{t:leo-top-maximality}
-The top of every Leo silo
-is also the top of its maximal silo.
+Let \var{maxslo} be a maximal silo,
+and let \var{lsl} be a Leo silo contained
+in \var{maxslo}.
+The top of a Leo silo
+is also the top of its Leo maximal silo with respect
+to \var{maxslo}.
 \end{theorem}
 
 \begin{proof}
-Let \var{lsl} be a Leo silo,
-and let \var{maxlsl} be its maximal Leo silo.
-By theorem
+By Theorem
+\ref{t:maximal-silo}, there is a \var{maxslo}.
+Let \var{maxlsl} be the maximal Leo silo of
+\var{lsl} with respect to \var{maxslo}.
+By Theorem
 \ref{t:maximal-of-leo-silo},
 \var{maxlsl} exists and
 \begin{equation}
