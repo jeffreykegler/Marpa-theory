@@ -11789,7 +11789,7 @@ Therefore
 \label{eq:lem-fleeting-closure-memoization-32d}
 & \var{mfc} \subseteq \var{maxslo}.
 &&
-Th \ref{t:maximal-fleeting-silo-in-maximal-silo},
+\text{Th \ref{t:maximal-fleeting-silo-in-maximal-silo}},
 \eqref{eq:lem-fleeting-closure-memoization-30},
 \eqref{eq:lem-fleeting-closure-memoization-13}
 \\
@@ -11807,90 +11807,128 @@ In
 we assumed $\Memoized{\Veim{x}}$ for the outer
 implication.
 From this,
-the definition of memoized,
-\eqref{eq:lem-fleeting-closure-memoization-30}
+the definition of memoized
 and \eqref{eq:lem-fleeting-closure-memoization-32e},
 we know that
 there must exist some \var{lslx} such that
-\begin{gather}
-\label{eq:lem-fleeting-closure-memoization-33}
-\Leosilo{\var{lslx}} \\
+\begin{equation}
 \label{eq:lem-fleeting-closure-memoization-36}
+\begin{gathered}
+\Leosilo{\var{lslx}} \\
 \land \; \Veim{x} \in \var{lslx} \\
-\label{eq:lem-fleeting-closure-memoization-37}
 \land \; \var{lslx} \subseteq \var{maxslo}
-\end{gather}
+\end{gathered}
+\end{equation}
 
-From the assumptions for the case
-\eqref{eq:lem-fleeting-closure-memoization-20}
-and \eqref{eq:lem-fleeting-closure-memoization-23}
-we have
+From Theorem
+\ref{t:maximal-of-leo-silo} we know that every Leo silo
+that is contained in \var{maxslo}
+is contained in a Leo silo
+that is maximal
+with respect to \var{maxslo}.
+Therefore,
+\label{eq:lem-fleeting-closure-memoization-36}
+we know that there is a
+\var{mlslx} such that
 \begin{gather}
-\label{eq:lem-fleeting-closure-memoization-45}
-\el{lslx}{0} \notin \var{mfc} \\
-\label{eq:lem-fleeting-closure-memoization-47}
-\el{lslx}{\Vlastix{lslx}} \notin \var{mfc}
+\label{eq:lem-fleeting-closure-memoization-40}
+\Maxleosilo{\var{mlslx}}{\var{maxslo}} \\
+\label{eq:lem-fleeting-closure-memoization-43}
+\land \; \Veim{x} \in \var{mlslx} \\
+\label{eq:lem-fleeting-closure-memoization-46}
+\land \; \var{mlslx} \subseteq \var{maxslo}
 \end{gather}
 
-TODO: Huh?
-
-Using Lemma \ref{lem:sequence-overlap} with
-\eqref{eq:lem-fleeting-closure-memoization-37},
-\eqref{eq:lem-fleeting-closure-memoization-40},
-\eqref{eq:lem-fleeting-closure-memoization-42},
-\eqref{eq:lem-fleeting-closure-memoization-44},
-\eqref{eq:lem-fleeting-closure-memoization-45}
-and \eqref{eq:lem-fleeting-closure-memoization-47},
+Lemma \ref{lem:sequence-overlap} tells us that,
+if two subsequences are contained in another sequence,
+and the first subsequence does not contain the top or bottom of the
+second subsequence,
+the either the second subsequence contains all of the the first subsequence,
+or they are disjoint.
+Let our two subsequences be \var{mfc} and \var{mlslx},
+and let the sequence that contains them be \var{maxslo}.
+At this point we know that
+\begin{equation}
+\label{eq:lem-fleeting-closure-memoization-49}
+\begin{aligned}
+& \el{mlslx}{0} \notin \var{mfc}
+&& \eqref{eq:lem-fleeting-closure-memoization-20}
+\\
+& \el{mlslx}{\Vlastix{lslx}} \notin \var{mfc}
+&& \eqref{eq:lem-fleeting-closure-memoization-20}
+\\
+& \Veim{x} \in \var{mfc}
+&& \eqref{eq:lem-fleeting-closure-memoization-13}
+\\
+& \Veim{y} \in \var{mfc}
+&& \eqref{eq:lem-fleeting-closure-memoization-13}
+\\
+& \var{mlslx} \subseteq \var{maxslo}
+&& \eqref{eq:lem-fleeting-closure-memoization-46}
+\\
+& \var{mfc} \subseteq \var{maxslo}
+&& \eqref{eq:lem-fleeting-closure-memoization-32d}
+\end{aligned}
+\end{equation}
+From
+\eqref{eq:lem-fleeting-closure-memoization-49}
+and Lemma \ref{lem:sequence-overlap}
 we obtain
 \begin{equation}
-\label{eq:lem-fleeting-closure-memoization-50}
-\Veim{x} \in \var{lslx} \equiv
-\Veim{y} \in \var{lslx}
+\label{eq:lem-fleeting-closure-memoization-52}
+\Veim{x} \in \var{mlslx} \equiv
+\Veim{y} \in \var{mlslx}
 \end{equation}
-
 From
-\eqref{eq:lem-fleeting-closure-memoization-36}
-and \eqref{eq:lem-fleeting-closure-memoization-50},
+\eqref{eq:lem-fleeting-closure-memoization-43}
+and \eqref{eq:lem-fleeting-closure-memoization-52},
 we have
 \begin{equation}
-\label{eq:lem-fleeting-closure-memoization-51}
-\Veim{y} \in \var{lslx}.
+\label{eq:lem-fleeting-closure-memoization-54}
+\Veim{y} \in \var{mlslx}.
 \end{equation}
-
-Recalling \eqref{eq:lem-fleeting-closure-memoization-32}
-and \eqref{eq:lem-fleeting-closure-memoization-32b},
-and using 
-\eqref{eq:lem-fleeting-closure-memoization-51},
-we have
-\begin{gather}
-\label{eq:lem-fleeting-closure-memoization-52}
-\Leosilo{\var{lslx}} \\
-\label{eq:lem-fleeting-closure-memoization-52a}
-\land \; \Veim{y} \in \var{lslx} \\
-\label{eq:lem-fleeting-closure-memoization-52b}
-\land \; \var{lslx} \subseteq \var{maxslo}
-\end{gather}
-
 We are now in a position to show that we have
 a \var{lsly} which satisfies
 \eqref{eq:lem-fleeting-closure-memoization-32}.
-We show this by setting \var{lsly} equal to \var{lslx}.
-This shows the inner implication,
-\eqref{eq:def-memoized-eim-10} for $\Veim{eim} = \Veim{y}$
-and
-This also shows 
-$\Memoized{\Veim{y}}$ and therefore the outer implication.
+Let
+\begin{equation}
+\label{eq:lem-fleeting-closure-memoization-57}
+\var{lsly} = \var{mlslx}.
+\end{equation}
+Then
+\begin{align}
+& \Leosilo{\var{lsly}}
+&& \eqref{eq:lem-fleeting-closure-memoization-40},
+\eqref{eq:lem-fleeting-closure-memoization-57}
+\\
+& \Veim{y} \in \var{lsly}
+&& \eqref{eq:lem-fleeting-closure-memoization-54},
+\eqref{eq:lem-fleeting-closure-memoization-57}
+\\
+& \var{lslx} \subseteq \var{maxslo}
+&& \eqref{eq:lem-fleeting-closure-memoization-46},
+\eqref{eq:lem-fleeting-closure-memoization-57}
+\end{align}
+This shows the inner implication
+and therefore
+\eqref{eq:def-memoized-eim-10} for $\Veim{eim} = \Veim{y}$.
 
 \textbf{Conclusion}:
-The outer implication was a forward implication:
+From the inner implication, we have
+$\Memoized{\Veim{y}}$ and therefore the outer implication.
+The outer implication was a forward implication,
 \[
-\Memoized{\Veim{x}} \implies \Memoized{\Veim{y}}
+\Memoized{\Veim{x}} \implies \Memoized{\Veim{y}},
 \]
-But, as noted, the order of \Veim{x} and \Veim{y} was
-chosen without loss of generalization,
-so we have also
-shown the reverse implication,
-Case 3, and the theorem.
+but, as noted, the order of \Veim{x} and \Veim{y} was
+chosen without loss of generalization.
+So by showing the forward implication,
+we have also shown
+the reverse implication,
+and therefore the mutual implication
+in the statement of the theorem.
+With the mutual implication,
+we have Case 3, and therefore the theorem.
 \end{proof}
 
 \begin{theorem}
