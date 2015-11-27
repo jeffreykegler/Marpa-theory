@@ -8553,7 +8553,6 @@ whose bottom is a read EIM.
 \end{theorem}
 
 \begin{proof}
-TODO: fix
 Let \var{slo0} be a silo.
 We create, \var{maxslo}, a maximal silo,
 from \var{slo}
@@ -8579,14 +8578,14 @@ Let \var{newslo} be
 that is
 \begin{equation}
 \notag
-\begin{gathered}
-\forall \; \var{i} : 0 \le \var{i} \le \Vlastix{workslo}
-\implies
-\Vel{newslo}{i} = \Vel{workslo}{i}
-\quad \text{and}
+\Vel{newslo}{i} = 
+\begin{cases}
+\text{\Vel{workslo}{i},
+if $0 \le \var{i} \le \Vlastix{workslo}$}
 \\
-\Vel{newslo}{\Vincr{\Vlastix{workslo}}} = \Veim{newlayer}
-\end{gathered}
+\text{\Veim{newlayer}, if
+$\var{i} = \Vincr{\Vlastix{workslo}}$}
+\end{cases}
 \end{equation}
 \item
 \textbf{Step 4}:
