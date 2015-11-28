@@ -9997,14 +9997,15 @@ at \Vloc{i}.
 
 \begin{definition}
 \dtitle{Leo silo}
-Let \Vleo{l} be a Leo memo.
+Let \Vleo{l} be a Leo memo,
+and let \Veim{lb} be matching
+bottom of \Vleo{l}.
 A
 \dfn{Leo silo}
-is a silo whose bottom is the matching bottom
-of \Vleo{l},
+is a silo whose bottom is \Veim{lb}.
 and whose top is
 \[
-\op{Leo-top}{\Vleo{leo}, \Vloc{i}},
+\Veim{top} = \op{Leo-top}{\Vleo{leo}, \Vloc{i}},
 \]
 where
 \Vloc{i} is the location
@@ -10012,6 +10013,18 @@ of the silo.
 We write \Vop{Leosilo}{slo} to indicate that \var{slo}
 is a Leo silo.%
 \index{recce-notation}{LeoSilo(slo)@\Vop{Leo-Silo}{slo}}
+
+We say that \Veim{lb} is
+\dfn{active as a Leo bottom},
+or in context, simply
+\xdfn{active}{active!as a Leo bottom},
+if \Vleo{l} is instantiated.
+We say that \Veim{top} is
+\dfn{active as a Leo top}
+or in context, simply
+\xdfn{active}{active!as a Leo top},
+if \Vleo{l} is instantiated
+and \Veim{lb} is valid.
 \end{definition}
 
 \begin{definition}
@@ -10326,11 +10339,23 @@ Let
 \end{equation*}
 be an instantiated Leo memo and \Vinst{lb} a valid matching bottom.
 Then for every EIM equivalent of \Vinst{lb}, call it \Veim{lb},
-there is a Leo silo at \Current{\Veim{lb}},
-and every layer of the Leo silo is valid.
+there is a Leo silo, call it \var{lsl},
+such that
+\begin{itemize}
+\item
+$\el{lsl}{0} = \Veim{lb}$;
+\item
+every layer of \var{lsl} is valid;
+\item
+\Veim{lb} is an active Leo bottom; and
+\item
+\el{lsl}{\Vlastix{lsl}} is an active Leo top.
+\end{itemize}
 \end{theorem}
 
 \begin{proof}
+TODO revise.
+
 To show the theorem,
 we first show that there is at least one silo
 at \Current{\Veim{lb}}
@@ -11828,7 +11853,6 @@ is contained in a Leo silo
 that is maximal
 with respect to \var{maxslo}.
 Therefore,
-\label{eq:lem-fleeting-closure-memoization-36}
 we know that there is a
 \var{mlslx} such that
 \begin{gather}
