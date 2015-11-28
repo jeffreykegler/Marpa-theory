@@ -46,13 +46,29 @@
 % \DeclareMathSizes{20.74}{20.74}{20.74}{20.74}
 % \DeclareMathSizes{24.88}{24.88}{24.88}{24.88}
 
-\newcommand{\todo}[1]{\par{\large\textbf Todo: #1}\par}
+% \newcommand{\todo}[1]{\par{\large\textbf Todo: #1}\par}
+
+% I use multi-character variable names, and TeX's usual math italic
+% does not work well for them.  Rather than get into changing the
+% default math font, I use a special macro for variables.
+% It also allows me to use hyphens in variable names.
+\newcommand{\var}[1]{\ensuremath{\texttt{#1}}}
+
+% Many of the macros have two forms --
+% '\xyz' and '\Vxyz'.  The \Vxyz is the same
+% as the \xyz form, except that it typesets its
+% argument as a math variable in the style of this
+% document.
+
 \newcommand{\myfnname}[1]{\ensuremath{\texttt{#1}}}
 \newcommand{\myopname}[1]{\ensuremath{\texttt{#1}}}
 \newcommand{\myfn}[2]{\ensuremath{\myfnname{#1}(#2)}}
-% definitions for "elements"
+
+% definitions for "elements" -- x[i]
 \newcommand{\el}[2]{\ensuremath{\texttt{#1}[#2]}}
 \newcommand{\Vel}[2]{\el{#1}{\var{#2}}}
+
+% definitions for "operators" -- x(a, ...)
 \newcommand{\op}[2]{\ensuremath{\texttt{#1}(#2)}}
 \newcommand{\iop}[3]{\ensuremath{
   \myfnname{#1}^{\displaystyle #2}(#3)
@@ -71,7 +87,7 @@
 \newcommand{\defined}{\underset{\text{def}}{\equiv}}
 \newcommand{\xdfn}[2]{\textbf{#1}\index{recce-definitions}{#2}}
 \newcommand{\dfn}[1]{\xdfn{#1}{#1}}
-\newcommand{\sdfn}[1]{{\textbf{#1}}}
+\newcommand{\qdfn}[1]{{\textbf{#1}}}
 \newcommand{\sep}{\,\mid\,}
 \newcommand{\mydot}{\raisebox{.05em}{$\,\bullet\,$}}
 \newcommand{\cat}{}
@@ -95,8 +111,6 @@
 \newcommand{\Vdecr}[1]{\decr{\var{#1}}}
 \newcommand{\incr}[1]{\ensuremath{#1 + 1}}
 \newcommand{\Vincr}[1]{\incr{\var{#1}}}
-
-\newcommand{\var}[1]{\ensuremath{\texttt{#1}}}
 
 \newcommand{\de}{\rightarrow}
 \newcommand{\derives}{\Rightarrow}
@@ -10014,17 +10028,29 @@ We write \Vop{Leosilo}{slo} to indicate that \var{slo}
 is a Leo silo.%
 \index{recce-notation}{LeoSilo(slo)@\Vop{Leo-Silo}{slo}}
 
-We say that \Veim{lb} is
-\dfn{active as a Leo bottom},
+If \Vleo{l} is instantiated,
+we say that \Veim{lb} is
+\xdfn{mentioned (EIM)}{mentioned (EIM)!wrt a Leo memo}
+as a Leo bottom
+by \Vleo{l}.
+If \Vleo{l} is instantiated
+and \Veim{lb} is valid,
+we say that \Veim{top} is
+\xdfn{mentioned (EIM)}{mentioned (EIM)!wrt a Leo memo}
+as a Leo top
+by \Vleo{l} and \Veim{lb}.
+
+If \Veim{lb} is mentioned by any instantiated Leo memo,
+we say that \Veim{lb} is
+\xdfn{mentioned as a Leo bottom}{mentioned (EIM)!as a Leo bottom}
 or in context, simply
-\xdfn{active}{active!as a Leo bottom},
-if \Vleo{l} is instantiated.
-We say that \Veim{top} is
-\dfn{active as a Leo top}
+\xdfn{mentioned}{mentioned (EIM)}.
+If \Veim{top} is mentioned by any
+matching pair of valid EIM and instantiated Leo memo,
+we say that \Veim{top} is
+\xdfn{mentioned as a Leo top}{mentioned (EIM)!as a Leo top}
 or in context, simply
-\xdfn{active}{active!as a Leo top},
-if \Vleo{l} is instantiated
-and \Veim{lb} is valid.
+\xdfn{mentioned}{mentioned (EIM)}.
 \end{definition}
 
 \begin{definition}
@@ -10330,6 +10356,31 @@ By the definition of a matching Leo memo,
 tells us the \Vleo{l} matches \Veim{cuz}.
 \end{proof}
 
+\begin{definition}
+\ttitle{Valid Leo silo}
+Let \var{lsl} be a Leo silo,
+and let \Vleo{l} be a Leo memo.
+\var{lsl} is
+\xdfn{valid}{valid (Leo silo)!wrt a Leo memo}
+with respect to \Vleo{l}
+if and only if
+\begin{itemize}
+\item
+every layer of \var{lsl} is valid;
+\item
+\el{lsl}{0} is a Leo bottom mentioned in \Vleo{l}; and
+\item
+\el{lsl}{\Vlastix{lsl}} is mentioned in \Vleo{l}.
+\end{itemize}
+We say that
+the Leo silo
+\var{lsl2} is
+\xdfn{valid}{valid (Leo silo)}
+if and only if there is some Leo memo \Vleo{l2}
+such that \var{lsl} is valid with respect
+to \Vleo{l2}.
+\end{definition}
+
 \begin{theorem}
 \ttitle{Leo silo validity}
 \label{t:leo-silo-validity}
@@ -10341,16 +10392,7 @@ be an instantiated Leo memo and \Vinst{lb} a valid matching bottom.
 Then for every EIM equivalent of \Vinst{lb}, call it \Veim{lb},
 there is a Leo silo, call it \var{lsl},
 such that
-\begin{itemize}
-\item
-$\el{lsl}{0} = \Veim{lb}$;
-\item
-every layer of \var{lsl} is valid;
-\item
-\Veim{lb} is an active Leo bottom; and
-\item
-\el{lsl}{\Vlastix{lsl}} is an active Leo top.
-\end{itemize}
+$\el{lsl}{0} = \Veim{lb}$.
 \end{theorem}
 
 \begin{proof}
