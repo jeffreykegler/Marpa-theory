@@ -10014,7 +10014,6 @@ is a Leo silo.%
 \index{recce-notation}{LeoSilo(slo)@\Vop{Leo-Silo}{slo}}
 \end{definition}
 
-
 \begin{definition}
 \dtitle{Silo layers by level}
 If a layer of a Leo silo is not its
@@ -10327,7 +10326,8 @@ Let
 \end{equation*}
 be an instantiated Leo memo and \Vinst{lb} a valid matching bottom.
 Then for every EIM equivalent of \Vinst{lb}, call it \Veim{lb},
-there is a Leo silo at \Current{\Veim{lb}}.
+there is a Leo silo at \Current{\Veim{lb}},
+and every layer of the Leo silo is valid.
 \end{theorem}
 
 \begin{proof}
@@ -12099,15 +12099,21 @@ Leo silos.
 \begin{theorem}
 \label{t:leo-memo-from-top}
 Let \Veim{top} be a valid Leo top item.
-Then a bottom-up cause which matches its Leo memo
+Then a bottom-up cause which a Leo memo
+for that top cause
 will be valid and unmemoized.
 \end{theorem}
 
 \begin{proof}
 TODO: revise
 
-Let \Vleo{leo} be a Leo memo and
-\Veim{up} a valid EIM that
+By the definition of Leo silo,
+if \Veim{top} is a Leo top,
+it is because there is 
+an instantianted Leo memo with a valid matching bottom.
+Call the memo
+\Vleo{leo},
+and the bottom, \Veim{up}.
 matches it.
 By Theorem \ref{t:leo-silo-validity}
 there is a valid silo with \Veim{up}
