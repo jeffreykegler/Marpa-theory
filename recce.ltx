@@ -11450,7 +11450,7 @@ quasi-complete.
 
 \begin{theorem}
 \label{t:no-memoized-predictions}
-No prediction is memoized.
+No quasi-prediction is memoized.
 \end{theorem}
 
 \begin{proof}
@@ -11627,6 +11627,7 @@ which shows the outer reductio and the theorem.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Fleeting closure memoization}
 \label{t:fleeting-closure-memoization}
 Let \Veim{x} and
 \Veim{y} be two EIM's in the same
@@ -11932,6 +11933,48 @@ we have Case 3, and therefore the theorem.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Ethereral closure of unmemoized base}
+\label{ethereral-closure-of-unmemoized-base}
+If the base of an ethereal closure is
+not memoized,
+no EIM in that ethereal closure will be memoized.
+\end{theorem}
+
+\begin{proof}
+By the definition of an ethereal closure,
+all of its elements are its base,
+predictions, or the null-scan of some other
+element of the ethereal closure.
+By assumption for the theorem,
+the base is not memoized.
+By Theorem
+\ref{t:no-memoized-predictions},
+no prediction is memoized.
+
+It remains to show theorem for null-scans.
+Every null-scan is \Veim{ns}
+such that
+\Veim{ns} = \iop{null-scan-op}{\var{i}}{\Veim{fc0}}
+for some $\var{i} > 0$,
+where \Veim{fc0} is either the base of the ethereal
+closure or a predction.
+If \Veim{fc0} is a prediction,
+\Veim{cuz} is a quasi-prediction.
+By Theorem
+\ref{t:no-memoized-predictions},
+no quasi-prediction is memoized.
+
+If \Veim{fc0} is the base of the ethereal closure then,
+by the definition of a fleeting closure,
+\Veim{ns} is in the fleeting closure of \Veim{fc0}.
+\Veim{fc0} was unmemoized by assumption for the theorem,
+so that by Theorem
+\ref{t:fleeting-closure-memoization},
+\Veim{ns} is not memoized.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Reads not memoized}
 \label{t:read-eim-not-leo}
 Read EIM's and the EIM's in the
 ethereal closure of a read EIM
@@ -11939,23 +11982,41 @@ are never Leo-memoized.
 \end{theorem}
 
 \begin{proof}
-Assume for a reductio,
-that an EIM in the ethereal closure of a read EIM
-is memoized.
 Call a read EIM, \Veim{scanned}.
-By Theorem
-\ref{t:eims-in-leo-silos}
-\Veim{scanned},
-if it is in a Leo silo
-is the bottom of the silo.
-The bottom of a silo is not an inner layer,
-and therefore,
-by the definition of ``Leo memoable'',
-the bottom layer is not Leo memoable.
-Therefore a read EIM is never memoized.
+If \Veim{scanned} is not in a Leo silo,
+by the definition of memoized,
+\Veim{scanned} is not memoized.
 
-TODO: Finish
+By
+Theorem
+\ref{t:eim-maximal-silo},
+if \Veim{scanned} is in a Leo silo,
+then \Veim{scanned}
+is in a maximal Leo silo,
+call it \var{maxslo}.
+By Lemma
+\ref{t:silo-read-eim-layer},
+\Veim{scanned}
+is the bottom of every silo it is in,
+so that \Veim{scanned}
+is the bottom of \var{maxslo},
+and therefore
+\Veim{scanned}
+is the bottom of a maximal Leo silo.
+By the definition of memoized,
+the bottom of a maximal Leo silo is
+never memoized.
+Therefore
+\begin{equation}
+\label{eq:read-eim-not-leo-10}
+\neg \; \Memoized{\el{maxslo}{0}}.
+\end{equation}
 
+This theorem 
+follows from
+\eqref{eq:read-eim-not-leo-10}
+and Theorem
+\ref{ethereral-closure-of-unmemoized-base}.
 \end{proof}
 
 \begin{theorem}
@@ -11967,16 +12028,23 @@ it is a cause, it is a Leo silo cause.
 
 \begin{proof}
 By the definition of Leo memoized,
-every cause and effect of
-\Veim{cuz} must occur in a Leo silo.
-Also, \Veim{cuz} must be an inner layer
-in all of these Leo silos,
-and therefore it must have a silo effect.
+\Veim{cuz} must occur in a Leo silo,
+call it \var{lsl}.
+Also, \Veim{cuz} must be not be the top
+of any maximal Leo silo.
+Since, by Theorem
+\ref{t:leo-top-maximality},
+the top of \var{lsl} is the top of the Leo maximal silo
+containing \var{lsl}
+with respect to every maximal silo that containg \var{lsl},
+\Veim{cuz} cannot be the top of any Leo silo.
+If \Veim{cuz} is not the top of any Leo silo,
+it has a silo effect.
 By Theorem \ref{t:leo-silo-validity},
 the effect of \Veim{cuz} will be unique.
 Call this unique effect, \Veim{eff}.
 \Veim{cuz} is a Leo silo cause of \Veim{eff}.
-So, since \Veim{eff} is the unique effect
+And, since \Veim{eff} is the unique effect
 of \Veim{cuz}, \Veim{cuz} is a Leo silo cause
 whenever it is a cause.
 \end{proof}
@@ -11989,6 +12057,8 @@ or it is a top item in some Leo silo.
 \end{theorem}
 
 \begin{proof}
+TODO: revise
+
 Let \Veim{eff} and \Veim{cuz} be valid EIM's
 such that \Veim{cuz} is the cause of \Veim{eff}.
 Assume for a reductio that
@@ -12005,47 +12075,25 @@ in any Leo silo; and
 }
 \end{gather}
 
-If \Veim{cuz} is memoized, it occurs only in Leo
-silos, and \Veim{cuz} is an inner layer in all of those Leo silos.
+By the definition of memoized,
+if \Veim{cuz} is memoized, it occurs only in Leo
+silos, and \Veim{cuz} is not the top of any maximal Leo silo.
+By Theorem \ref{t:leo-top-maximality},
+since \Veim{cuz} is not top of any maximal Leo silo,
+it is not the top of any Leo silo.
+Therefore, \Veim{cuz} must have an effect.
+
 By Theorem \ref{t:leo-silo-validity}
 an effect of an inner Leo silo layer is another Leo silo layer.
-So \Veim{eff} must be another Leo silo layer in every silo in
-which \Veim{cuz} occurs.
 By \eqref{eq:memoized-effects-12},
 an assumption for the reductio,
-\Veim{eff} is not the top layer in any of those Leo silos.
+\Veim{eff} is not the top layer in any Leo silos.
 Because in all of those Leo silos,
 \Veim{eff} is an effect of \Veim{cuz},
 \Veim{eff} is not the bottom layer in any of those Leo silos.
 Therefore \Veim{eff} is an inner layer in all of those Leo silos.
 Therefore \Veim{eff} is memoable in all of its occurrences in
 Leo silos.
-
-If \Veim{eff} never occurs without a Leo silo cause,
-then \Veim{eff} occurs only in Leo silos.
-Since \Veim{eff} is memoable in all of its occurrences in Leo silos,
-by the definition of memoized,
-\Veim{eff} must be memoized.
-But this contradicts
-assumption
-\eqref{eq:memoized-effects-10}
-for the reductio.
-Therefore \Veim{eff} must have at least one matching cause pair,
-where neither of the causes is a Leo silo cause.
-
-By the definition of memoable, no cause is memoable unless it
-is a Leo silo cause.
-By the definition of memoized, no cause is memoized unless it
-is memoable in all of its occurrences.
-Therefore, if there is a cause pair for \Veim{eff},
-where neither of the two causes is a Leo silo cause,
-then
-neither of the two causes is memoized.
-But this contradicts assumption
-\eqref{eq:memoized-effects-14}
-for the reductio,
-which shows the reductio
-and the theorem.
 \end{proof}
 
 \begin{theorem}
@@ -12056,6 +12104,8 @@ will be valid and unmemoized.
 \end{theorem}
 
 \begin{proof}
+TODO: revise
+
 Let \Vleo{leo} be a Leo memo and
 \Veim{up} a valid EIM that
 matches it.
@@ -12074,12 +12124,11 @@ The accept EIM is never memoized.
 
 \begin{proof}
 By definition of the accept EIM,
-its LHS never occurs on a RHS.
-The accept EIM is therefore not right recursive.
-All memoable EIM's are inner layers of Leo silos,
-and all inner layers of Leo silos are right
-recursive.
-Therefore the accept EIM is never memoized.
+it has no effect.
+Therefore, if the accept EIM is in a Leo silo,
+it is the top of a maximal Leo silo.
+By the definition of memoized, the top of a maximal Leo silo
+is not memoized.
 \end{proof}
 
 \section{Recreating a Leo silo}
