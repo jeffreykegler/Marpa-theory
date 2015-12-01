@@ -5345,11 +5345,11 @@ are both in \var{mfc}.
 \end{proof}
 
 \begin{theorem}
-\ttitle{Iterative completion from null-scan cause}
-\label{t:iterative-completion-from-null-scan-cause}
+\ttitle{Quasi-completion fleeting closure properties}
+\label{t:quasi-completion-fleeting-closure-properties}
 Let
 \begin{equation}
-\label{eq:iterative-completion-from-null-scan-cause-5}
+\label{eq:quasi-completion-fleeting-closure-properties-5}
 \Veim{down} = \big[ [ \Vrule{r}, \var{lo} ], \var{i}, \var{k} \big],
 \end{equation}
 be a valid quasi-complete EIM,
@@ -5358,47 +5358,47 @@ If the series \var{ns} is the fleeting closure of
 either \Veim{bas} or \Veim{down},
 then we have all of the following:
 \begin{align}
-\label{eq:iterative-completion-from-null-scan-cause-9}
+\label{eq:quasi-completion-fleeting-closure-properties-9}
 & \text{\var{ns} contains at most \Vsize{\Vrule{r}}
   elements
 }
 \\
-\label{eq:iterative-completion-from-null-scan-cause-10}
+\label{eq:quasi-completion-fleeting-closure-properties-10}
 & \text{$\var{ns}\big[ \Vlastix{ns} \big]$
   is a completion
 }
 \\
-\label{eq:iterative-completion-from-null-scan-cause-12}
+\label{eq:quasi-completion-fleeting-closure-properties-12}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} < \Vlastix{ns} \\
 & \quad \implies \text{\Vel{ns}{a} is an incomplete EIM}
 \end{aligned}
 \\
-\label{eq:iterative-completion-from-null-scan-cause-13}
+\label{eq:quasi-completion-fleeting-closure-properties-13}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns} \\
 & \quad \implies \text{\Vel{ns}{a} is an quasi-complete EIM}
 \end{aligned}
 \\
-\label{eq:iterative-completion-from-null-scan-cause-14}
+\label{eq:quasi-completion-fleeting-closure-properties-14}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns}
   \implies \Valid{\Vel{ns}{a}}
 \end{aligned}
 \\
-\label{eq:iterative-completion-from-null-scan-cause-16}
+\label{eq:quasi-completion-fleeting-closure-properties-16}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns} \\
 & \qquad \implies \Right{\el{ns}{0}} = \Right{\Vel{ns}{a}}
 \end{aligned}
 \\
-\label{eq:iterative-completion-from-null-scan-cause-18}
+\label{eq:quasi-completion-fleeting-closure-properties-18}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns} \\
 & \qquad \implies \op{Rule}{\el{ns}{0}} = \op{Rule}{\Vel{ns}{a}}
 \end{aligned}
 \\
-\label{eq:iterative-completion-from-null-scan-cause-20}
+\label{eq:quasi-completion-fleeting-closure-properties-20}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{ns}} \\
 & \qquad \implies \text{\Vel{ns}{a} is the
@@ -5407,7 +5407,7 @@ then we have all of the following:
 }
 \end{aligned}
 \\
-\label{eq:iterative-completion-from-null-scan-cause-22}
+\label{eq:quasi-completion-fleeting-closure-properties-22}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{ns}} \\
 & \qquad \implies \text{\el{ns}{\Vincr{a}}
@@ -5424,7 +5424,7 @@ By assumption for the theorem,
 By Theorem \ref{t:eim-lasting-base}, \Veim{down}
 has a valid lasting base:
 \begin{equation}
-\label{eq:iterative-completion-from-null-scan-cause-24a}
+\label{eq:quasi-completion-fleeting-closure-properties-24a}
 \Valid{\Veim{bas}}.
 \end{equation}
 By assumption for theorem, \Veim{down}
@@ -5443,7 +5443,7 @@ Therefore all of the symbols in the dot
 suffix of \Veim{bas} are nulling,
 so that, by the definition of quasi-complete,
 \begin{equation}
-\label{eq:iterative-completion-from-null-scan-cause-24b}
+\label{eq:quasi-completion-fleeting-closure-properties-24b}
 \text{\Veim{bas} is quasi-complete.}
 \end{equation}
 
@@ -5459,17 +5459,17 @@ using
 Theorem
 \ref{t:partial-fleeting-closure-validity},
 Requirements
-\eqref{eq:iterative-completion-from-null-scan-cause-14},
-\eqref{eq:iterative-completion-from-null-scan-cause-20}
+\eqref{eq:quasi-completion-fleeting-closure-properties-14},
+\eqref{eq:quasi-completion-fleeting-closure-properties-20}
 and
-\eqref{eq:iterative-completion-from-null-scan-cause-22}
+\eqref{eq:quasi-completion-fleeting-closure-properties-22}
 for the theorem.
 
 Because \Veim{quasi},
 is a quasi-completion,
 we know that
 \begin{multline}
-\label{eq:iterative-completion-from-null-scan-cause-28}
+\label{eq:quasi-completion-fleeting-closure-properties-28}
 \el{ns1}{0} = \Veim{quasi} \\
 \text{and} \quad
   \forall \; \var{a} : 0 \le \var{a} < (\xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}})
@@ -5480,13 +5480,13 @@ we know that
 \end{multline}
 and
 \begin{equation}
-\label{eq:iterative-completion-from-null-scan-cause-30}
+\label{eq:quasi-completion-fleeting-closure-properties-30}
 \forall \; \var{a} : 0 \le \var{a} < (\xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}})
   \implies \Vop{RHS}{\Vrule{r}, \var{lo}+\var{a}} = \epsilon
 \end{equation}
 
 From
-\eqref{eq:iterative-completion-from-null-scan-cause-28},
+\eqref{eq:quasi-completion-fleeting-closure-properties-28},
 we can see that
 \begin{gather*}
 \Vlastix{ns1} = \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}, \quad
@@ -5498,11 +5498,11 @@ we can see that
 \end{aligned}
 \end{gather*}
 which shows
-\eqref{eq:iterative-completion-from-null-scan-cause-10}.
+\eqref{eq:quasi-completion-fleeting-closure-properties-10}.
 Simlarly,
 we see
 from
-\eqref{eq:iterative-completion-from-null-scan-cause-28},
+\eqref{eq:quasi-completion-fleeting-closure-properties-28},
 \begin{equation*}
 \begin{aligned}
 && \var{ix} & < \Vlastix{ns1} \\
@@ -5513,28 +5513,28 @@ from
 \end{aligned}
 \end{equation*}
 shows
-\eqref{eq:iterative-completion-from-null-scan-cause-12}.
+\eqref{eq:quasi-completion-fleeting-closure-properties-12}.
 
 We see from
-\eqref{eq:iterative-completion-from-null-scan-cause-28}
+\eqref{eq:quasi-completion-fleeting-closure-properties-28}
 that every element of \var{ns1},
 is an EIM which differs from
 the other elements of \var{ns1}
 only in its dot index,
 which gives us
-\eqref{eq:iterative-completion-from-null-scan-cause-16}
+\eqref{eq:quasi-completion-fleeting-closure-properties-16}
 and
-\eqref{eq:iterative-completion-from-null-scan-cause-18}.
+\eqref{eq:quasi-completion-fleeting-closure-properties-18}.
 From
-\eqref{eq:iterative-completion-from-null-scan-cause-28},
+\eqref{eq:quasi-completion-fleeting-closure-properties-28},
 we also see that
 \begin{equation}
 \var{ix} > 0 \implies \Dotix{\Vel{ns1}{ix}} > \Dotix{\el{ns1}{0}}
 \end{equation}
 so that using
-\eqref{eq:iterative-completion-from-null-scan-cause-30},
+\eqref{eq:quasi-completion-fleeting-closure-properties-30},
 \begin{equation}
-\label{eq:iterative-completion-from-null-scan-cause-40}
+\label{eq:quasi-completion-fleeting-closure-properties-40}
 \begin{gathered}
 \forall \; \var{nsix}, \var{rhix} :
 0 \le \var{nsix} \le \Vlastix{ns1} \\
@@ -5545,16 +5545,16 @@ so that using
 \end{gathered}
 \end{equation}
 and since every layer of \var{ns1} shares the same rule,
-\eqref{eq:iterative-completion-from-null-scan-cause-40}
+\eqref{eq:quasi-completion-fleeting-closure-properties-40}
 shows
-\eqref{eq:iterative-completion-from-null-scan-cause-13}.
+\eqref{eq:quasi-completion-fleeting-closure-properties-13}.
 
 As we already noted, the layers of \var{ns1} differ
 \textbf{only} in their dot index.
 There are at most
 distinct dot \incr{\Vsize{\Vrule{r}}} indexes.
 By
-\eqref{eq:iterative-completion-from-null-scan-cause-13},
+\eqref{eq:quasi-completion-fleeting-closure-properties-13},
 every layer is quasi-complete,
 so that,
 by Theorem \ref{t:quasi-drs-disjoint},
@@ -5563,7 +5563,7 @@ Therefore no layer of \var{ns1} uses dot index 0.
 So that there are at most
 \Vsize{\Vrule{r}} layers in \var{ns1},
 which shows
-\eqref{eq:iterative-completion-from-null-scan-cause-9}.
+\eqref{eq:quasi-completion-fleeting-closure-properties-9}.
 With this, we have shown the last of the requirements
 for the theorem for \Veim{quasi}.
 
@@ -5574,9 +5574,9 @@ EIM,
 and therefore we have shown the requirements
 for the theorem for \Veim{down}.
 From
-\eqref{eq:iterative-completion-from-null-scan-cause-24a}
+\eqref{eq:quasi-completion-fleeting-closure-properties-24a}
 and
-\eqref{eq:iterative-completion-from-null-scan-cause-24b},
+\eqref{eq:quasi-completion-fleeting-closure-properties-24b},
 we know that \Veim{bas} is a valid quasi-complete EIM,
 and therefore we have shown the requirements
 for the theorem for \Veim{bas} as well.
@@ -8404,12 +8404,12 @@ follows from
 \item
 the assumption for the theorem that \el{slo}{0} is quasi-complete;
 \item
-\eqref{eq:iterative-completion-from-null-scan-cause-13},
-\eqref{eq:iterative-completion-from-null-scan-cause-16}
+\eqref{eq:quasi-completion-fleeting-closure-properties-13},
+\eqref{eq:quasi-completion-fleeting-closure-properties-16}
 and
-\eqref{eq:iterative-completion-from-null-scan-cause-20}
+\eqref{eq:quasi-completion-fleeting-closure-properties-20}
 of Theorem
-\ref{t:iterative-completion-from-null-scan-cause};
+\ref{t:quasi-completion-fleeting-closure-properties};
 and
 \item
 the definition of a silo;
@@ -8426,58 +8426,58 @@ follows from
 Property
 \eqref{eq:fleeting-closure-silo-prop-9}
 follows from
-\eqref{eq:iterative-completion-from-null-scan-cause-9}
+\eqref{eq:quasi-completion-fleeting-closure-properties-9}
 of Theorem
-\ref{t:iterative-completion-from-null-scan-cause}.
+\ref{t:quasi-completion-fleeting-closure-properties}.
 \item
 Property
 \eqref{eq:fleeting-closure-silo-prop-10}
 follows from
-\eqref{eq:iterative-completion-from-null-scan-cause-10}
+\eqref{eq:quasi-completion-fleeting-closure-properties-10}
 of Theorem
-\ref{t:iterative-completion-from-null-scan-cause};
+\ref{t:quasi-completion-fleeting-closure-properties};
 \item
 Property
 \eqref{eq:fleeting-closure-silo-prop-12}
 follows from
-\eqref{eq:iterative-completion-from-null-scan-cause-12}
+\eqref{eq:quasi-completion-fleeting-closure-properties-12}
 of Theorem
-\ref{t:iterative-completion-from-null-scan-cause};
+\ref{t:quasi-completion-fleeting-closure-properties};
 \item
 Property
 \eqref{eq:fleeting-closure-silo-prop-13}
 follows from
-\eqref{eq:iterative-completion-from-null-scan-cause-13}
+\eqref{eq:quasi-completion-fleeting-closure-properties-13}
 of Theorem
-\ref{t:iterative-completion-from-null-scan-cause};
+\ref{t:quasi-completion-fleeting-closure-properties};
 \item
 Property
 \eqref{eq:fleeting-closure-silo-prop-14}
 follows from
-\eqref{eq:iterative-completion-from-null-scan-cause-14}
+\eqref{eq:quasi-completion-fleeting-closure-properties-14}
 of Theorem
-\ref{t:iterative-completion-from-null-scan-cause};
+\ref{t:quasi-completion-fleeting-closure-properties};
 \item
 Property
 \eqref{eq:fleeting-closure-silo-prop-16}
 follows from
-\eqref{eq:iterative-completion-from-null-scan-cause-16}
+\eqref{eq:quasi-completion-fleeting-closure-properties-16}
 of Theorem
-\ref{t:iterative-completion-from-null-scan-cause};
+\ref{t:quasi-completion-fleeting-closure-properties};
 \item
 Property
 \eqref{eq:fleeting-closure-silo-prop-18}
 follows from
-\eqref{eq:iterative-completion-from-null-scan-cause-18}
+\eqref{eq:quasi-completion-fleeting-closure-properties-18}
 of Theorem
-\ref{t:iterative-completion-from-null-scan-cause};
+\ref{t:quasi-completion-fleeting-closure-properties};
 \item
 Property
 \eqref{eq:fleeting-closure-silo-prop-20}
 follows from
-\eqref{eq:iterative-completion-from-null-scan-cause-20}
+\eqref{eq:quasi-completion-fleeting-closure-properties-20}
 of Theorem
-\ref{t:iterative-completion-from-null-scan-cause};
+\ref{t:quasi-completion-fleeting-closure-properties};
 \item
 Property
 \eqref{eq:fleeting-closure-silo-prop-21} follows from
@@ -8489,9 +8489,9 @@ and
 Property
 \eqref{eq:fleeting-closure-silo-prop-22}
 follows from
-\eqref{eq:iterative-completion-from-null-scan-cause-22}
+\eqref{eq:quasi-completion-fleeting-closure-properties-22}
 of Theorem
-\ref{t:iterative-completion-from-null-scan-cause}.
+\ref{t:quasi-completion-fleeting-closure-properties}.
 \qedhere
 \end{itemize}
 \end{proof}
@@ -8643,6 +8643,94 @@ the sequence consisting only of
 \Veim{qc} is a silo.
 This theorem follows from this observation,
 and Theorem \ref{t:maximal-silo}.
+\end{proof}
+
+\begin{theorem}
+The bottom of every maximal silo is
+a read EIM.
+\end{theorem}
+
+\begin{proof}
+By Theorem \ref{t:silo-finite},
+we know that all silos are finite,
+so that every maximal silo has a bottom EIM.
+By definition of a maximal silo,
+its bottom layer has no silo cause.
+By Theorem \ref{t:silo-causes},
+the only silo layers without
+silo causes are read EIM's.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Maximal silo top is complete}
+\label{maximal-silo-top-is-complete}
+The top of every maximal silo is
+a complete EIM.
+\end{theorem}
+
+\begin{proof}
+Let \var{mslo} be a maximal silo.
+By Theorem \ref{t:silo-finite},
+we know that all silos are finite,
+so that \var{mslo} has a top EIM.
+\begin{align}
+\label{maximal-silo-top-is-complete-10}
+& \text{\Veim{top} = \el{mslo}{\Vlastix{mslo}}: WLOG}
+\\
+\label{maximal-silo-top-is-complete-12}
+& \text{\Veim{top} is incomplete: ASM for a reductio}
+\\
+\label{maximal-silo-top-is-complete-20}
+& \text{\Veim{top} is a silo layer}: 
+\eqref{maximal-silo-top-is-complete-10}
+\\
+\label{maximal-silo-top-is-complete-13}
+& \text{$\Veim{top} \in \var{fc}$,
+where \var{fc}
+is fleeting closure: 
+Th \ref{t:eim-lasting-base},
+WLOG
+}
+\\
+\label{maximal-silo-top-is-complete-15}
+& \text{\Veim{top} is quasi-complete: 
+\eqref{maximal-silo-top-is-complete-20},
+Def of silo
+}
+\\
+\label{maximal-silo-top-is-complete-23}
+& \text{\el{fc}{\Vlastix{fc}} is complete:
+\eqref{maximal-silo-top-is-complete-15},
+\eqref{eq:quasi-completion-fleeting-closure-properties-10}
+of
+Th \ref{t:quasi-completion-fleeting-closure-properties}
+}
+\\
+\label{maximal-silo-top-is-complete-26}
+& \el{fc}{\Vlastix{fc}} \neq \Veim{top}: \;
+\eqref{maximal-silo-top-is-complete-12},
+\eqref{maximal-silo-top-is-complete-23}
+\\
+\label{maximal-silo-top-is-complete-28}
+& \text{\Veim{top} has a silo effect:
+\eqref{maximal-silo-top-is-complete-13},
+\eqref{maximal-silo-top-is-complete-26},
+\eqref{eq:quasi-completion-fleeting-closure-properties-22} of
+Th \ref{t:quasi-completion-fleeting-closure-properties}
+}
+\\
+\label{maximal-silo-top-is-complete-30}
+& \Veim{top} \neq \el{mslo}{\Vlastix{mslo}}:
+\eqref{maximal-silo-top-is-complete-28},
+\; \text{Def of maximal silo}
+\end{align}
+\eqref{maximal-silo-top-is-complete-10}
+contradicts
+\eqref{maximal-silo-top-is-complete-30},
+which gives us the reductio that began at
+\eqref{maximal-silo-top-is-complete-12}.
+From the reductio we conclude that \Veim{top}
+is complete.
 \end{proof}
 
 \begin{theorem}
