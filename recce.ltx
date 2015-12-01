@@ -240,13 +240,14 @@
 % I want to use 'call' outside of pseudocode
 \newcommand\call[2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}}%
 
-% My macros for definition & theorem titles.
+% My macros for definition & theorem titles and references
 % The 'q' forms are 'quiet' -- they do not index
 % Don't use definition titles for index -- use \xdfn instead.
 % \newcommand\dtitle[1]{\textbf{#1}:\index{recce-definitions}{#1}}
 \newcommand\dtitle[1]{\textbf{#1}:}
 \newcommand\qdtitle[1]{\textbf{#1}:}
 \newcommand\ttitle[1]{\textbf{#1}:\index{recce-theorems}{#1}}
+\newcommand\tref[1]{\ensuremath{\text{Th \ref{#1}}}}
 \newcommand\ltitle[1]{\textbf{#1}:\index{recce-theorems}{#1}}
 
 % I don't like to put whole paragraphs in italics,
@@ -10682,29 +10683,36 @@ a \var{slo} such that one of its layers is
 \label{eq:leo-silo-validity-36a}
 \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}.
 \end{equation}
-We assume, for a reductio, that there is no such silo.
 
-For the purpose of this proof, we will call a silo ``maximal''
-if it is not a proper subsequence of any larger silo.
-Every silo has at least one maximal silo,
-since in the trivial case
-a silo is its own maximal silo.
-Let a maximal silo of \var{slo} be \var{mslo}.
-By Theorem
-\ref{t:silo-finite}, any silo containing
-\Veim{lb} must be finite,
-so that \var{mslo} must have a highest layer.
-Let the index of that highest layer be \var{maxix}.
-By assumption for the reductio,
-\var{mslo}
-does not contain
-\eqref{eq:leo-silo-validity-36a}
-so that, in particular,
-\begin{equation}
-\label{eq:leo-silo-validity-37}
-\Vel{mslo}{maxix} \neq
-\op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}.
-\end{equation}
+\begin{align}
+\notag
+&  template
+\\
+\label{eq:leo-silo-validity-37c}
+&
+\begin{aligned}
+  & \exists \; \var{mslo} : \var{slo} \subseteq \var{mslo} 
+  \; \land \; \Maximal{\var{mslo}} 
+  \; \land \; \Silo{\var{mslo}} \\
+  & \qquad \; \because \; \tref{t:maximal-silo}
+\end{aligned}
+\\
+\label{eq:leo-silo-validity-37e}
+& \exists \; \var{maxix} : \var{maxix} = \Vlastix{mslo}
+\; \because \;
+\eqref{eq:leo-silo-validity-37c},
+\tref{t:silo-finite}
+\\
+\label{eq:leo-silo-validity-37g}
+\tag{RAA}
+& 
+\begin{aligned}
+& \Vel{mslo}{maxix} \neq
+\op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}} \\
+& \qquad \because \; \text{ASM for reductio}
+\end{aligned}
+\\
+\end{align}
 
 From
 \eqref{eq:leo-silo-validity-36},
