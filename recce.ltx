@@ -10414,15 +10414,23 @@ and the theorem.
 
 \begin{lemma}
 \label{lem:leo-memo-of-incompletion}
-Let \Veim{cuz} be an EIM which is quasi-complete,
+Let \Veim{cuz} be a valid EIM which is quasi-complete,
 but incomplete;
-let
+and let
 \Vleo{l}
-be a Leo memo matching \Veim{cuz};
+be a instantiated Leo memo matching \Veim{cuz}.
+Then
+\begin{itemize}
+\item
+there is a valid \Veim{eff},
+\item
+\Veim{eff}
+is the unique silo effect of
+\Veim{cuz},
 and
-let \Veim{eff} be an effect of
-\Veim{cuz}.
-Then \Vleo{l} matches \Veim{eff}.
+\item
+\Vleo{l} matches \Veim{eff}.
+\end{itemize}
 \end{lemma}
 
 \begin{proof}
@@ -10432,13 +10440,42 @@ Since, by assumption for the theorem,
 \Veim{cuz} is quasi-complete, the postdot symbol must be nulling.
 By Theorem
 \ref{t:null-scan-from-down-cause},
+there is a valid \Veim{eff} such that
 \begin{equation}
-\label{eq:lem-leo-memo-of-incompletion-10}
-\begin{aligned}
-\Left{\Veim{cuz}} & = \Left{\Veim{eff}} \\
-\land \quad \LHS{\Veim{cuz}} & = \LHS{\Veim{eff}}.
-\end{aligned}
+\label{eq:lem-leo-memo-of-incompletion-9}
+\text{\Veim{eff}
+is the unique effect
+of \Veim{cuz},}
 \end{equation}
+and \Veim{eff} is such that
+\begin{align}
+\label{eq:lem-leo-memo-of-incompletion-10a}
+\Right{\Veim{cuz}} & = \Right{\Veim{eff}} \\
+\label{eq:lem-leo-memo-of-incompletion-10b}
+\Left{\Veim{cuz}} & = \Left{\Veim{eff}} \\
+\label{eq:lem-leo-memo-of-incompletion-10c}
+\land \quad \LHS{\Veim{cuz}} & = \LHS{\Veim{eff}}.
+\end{align}
+
+\Veim{cuz} is quasi-complete by assumption for the theorem,
+so that from
+\eqref{eq:lem-leo-memo-of-incompletion-10a}
+we know that
+\begin{equation}
+\label{eq:lem-leo-memo-of-incompletion-11}
+\text{\Veim{eff} is quasi-complete}.
+\end{equation}
+From
+\eqref{eq:lem-leo-memo-of-incompletion-9},
+\eqref{eq:lem-leo-memo-of-incompletion-10a},
+and \eqref{eq:lem-leo-memo-of-incompletion-11},
+we see that
+\[
+\text{\Veim{eff}
+is the unique silo effect
+of \Veim{cuz}.}
+\]
+
 By assumption for the theorem
 and the definition of a matching Leo memo
 \begin{equation}
@@ -10449,7 +10486,9 @@ and the definition of a matching Leo memo
 \end{aligned}
 \end{equation}
 Combining
-\eqref{eq:lem-leo-memo-of-incompletion-10}
+\eqref{eq:lem-leo-memo-of-incompletion-10a},
+\eqref{eq:lem-leo-memo-of-incompletion-10b},
+\eqref{eq:lem-leo-memo-of-incompletion-10c}
 and
 \eqref{eq:lem-leo-memo-of-incompletion-20},
 \begin{equation}
@@ -10500,11 +10539,336 @@ be an instantiated Leo memo and \Vinst{lb} a valid matching bottom.
 Then for every EIM equivalent of \Vinst{lb}, call it \Veim{lb},
 there is a Leo silo, call it \var{lsl},
 such that
-$\el{lsl}{0} = \Veim{lb}$.
+\begin{gather}
+\label{eq:leo-silo-validity-5a}
+\myparbox{\var{lsl} is valid for \Vleo{leo},}
+\\
+\myparbox{$\el{lsl}{0} = \Veim{lb}$,}
+\\
+\myparbox{
+for all \var{a} such that
+$0 \le \var{a} \le \Vlastix{lsl}$,
+\Vel{lsl}{a} has a matching Leo memo,
+} \\
+\myparbox{
+the Leo top-down causes of \var{lsl} form a catena, and
+} \\
+\myparbox{
+the length of the catena is equal to the number
+of complete EIM's in the lower layers of \var{lsl}.
+}
+\end{gather}
 \end{theorem}
 
 \begin{proof}
-TODO revise.
+TODO revise
+
+Without loss of generality, let \var{slo} be a silo
+such that
+\begin{equation}
+\label{eq:leo-silo-validity-10}
+\el{lsl}{0} = \Veim{lb}.
+\end{equation}
+We first show that at least one silo satisfying
+\eqref{eq:leo-silo-validity-10} exists.
+\begin{align}
+\label{eq:leo-silo-validity-12a}
+& \myparbox{
+\Veim{lb} is the EIM equivalent
+of the matching bottom of a Leo memo
+$\because$ ASM for the theorem
+}
+\\
+\label{eq:leo-silo-validity-12b}
+& \myparbox{
+\Veim{lb} is complete
+$\because$ Def of EIM equivalent of a symbol instance,
+\eqref{eq:leo-silo-validity-12a}
+}
+\\
+\label{eq:leo-silo-validity-12c}
+& \myparbox{
+\Veim{lb} is silo-eligible
+$\because$ Def of silo eligible,
+\eqref{eq:leo-silo-validity-12b}
+}
+\\
+\label{eq:leo-silo-validity-12d}
+& \myparbox{ $[ \Veim{lb} ]$ is a silo
+$\because$ Def of silo,
+\eqref{eq:leo-silo-validity-12c}
+}
+\end{align}
+From
+\eqref{eq:leo-silo-validity-12d},
+we see that
+there is at least one silo satisfying 
+\eqref{eq:leo-silo-validity-10}.
+
+For the purposes of this proof,
+let \myfnname{LM}
+be a partial function such that \op{LM}{\Veim{eim}}
+is
+the instantiated Leo memo matching \Veim{eim}.
+Also, let \myfnname{Lo-Cmps} be a function
+such that \op{Lo-Cmps}{\var{slo}, \var{x}}
+is the number of lower layers in the sequence of
+silo layers
+\el{slo}{0}, \el{slo}{1} \ldots{} \Vel{slo}{x}
+that are complete EIM's.
+(Recall that the lower layers of a Leo silo are
+those layers which are not the top layer.)
+
+Let \Veim{top} be
+such that
+\begin{equation}
+ \Vel{slo}{topix} = \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}
+\end{equation}
+Note that, at this point, we have not shown that
+\Vel{slo}{topix} exists.
+If it does not, we write
+\[
+  \var{topix} = \undefined \quad \text{and} \quad
+  \forall \; \var{a} :  \var{a} < \var{topix}
+\]
+
+We start with an induction.
+We take as the induction hypothesis
+\begin{gather}
+\label{eq:leo-silo-validity-10a}
+\tag{IND1}
+0 \le \var{x} \le \var{topix}
+\implies \Valid{\Vel{slo}{x}},
+\\
+\label{eq:leo-silo-validity-10b}
+\tag{IND2}
+\big[ \el{slo}{0}, \el{slo}{1} \ldots \Vel{slo}{x} \big]
+\quad \text{is a silo},
+\\
+\label{eq:leo-silo-validity-10c}
+\tag{IND3}
+0 \le \var{x} < \var{topix}
+\implies \Vop{LM}{\Vel{slo}{x}} \neq \undefined
+\quad \text{and}
+\\[1.5ex]
+\label{eq:leo-silo-validity-10d}
+\tag{IND4}
+\begin{multlined}
+0 \le \var{x} < \var{topix} \implies
+\exists \; \var{cat} \quad \text{such that} \\[.5ex]
+\qquad \qquad \left(
+\begin{aligned}
+& \text{\var{cat} is a catena} \\
+\land \; & \Vop{LM}{\Vel{slo}{x}} = \el{cat}{\Vlastix{cat}} \\
+\land \; & \op{Lo-Cmps}{\var{slo}, \var{x}} = \Vincr{\Vlastix{cat}}
+\end{aligned}
+\right)
+\end{multlined}
+\end{gather}
+
+\textbf{Basis of the induction}:
+We take $\var{x} = 0$
+as the basis of our induction.
+We have
+\eqref{eq:leo-silo-validity-10a} from
+\eqref{eq:leo-silo-validity-10};
+\eqref{eq:leo-silo-validity-10b} from
+\eqref{eq:leo-silo-validity-12d};
+and \eqref{eq:leo-silo-validity-10c} vacuously.
+By assumption for the theorem,
+\begin{equation}
+\label{eq:leo-silo-validity-12}
+  \op{LM}{\el{slo}{0}} \neq \undefined,
+\end{equation}
+so that
+the single element sequence
+\[
+  \var{cat} = [ \op{LM}{\el{slo}{0}} ]
+\]
+satisfies
+\eqref{eq:leo-silo-validity-10d}.
+This shows the basis of the induction.
+
+\textbf{Step of the induction}:
+For the step of the induction, we assume
+\eqref{eq:leo-silo-validity-10a},
+\eqref{eq:leo-silo-validity-10b},
+\eqref{eq:leo-silo-validity-10c}
+and
+\eqref{eq:leo-silo-validity-10d}
+for \var{x} = \var{i},
+to show
+\eqref{eq:leo-silo-validity-10a},
+\eqref{eq:leo-silo-validity-10b},
+\eqref{eq:leo-silo-validity-10c}
+and
+\eqref{eq:leo-silo-validity-10d}
+for $\var{x} = \Vincr{i}$.
+Within the step, we proceed by cases.
+
+\textbf{Step case 1}: For the case where $\Vincr{i} > \var{topix}$,
+we have
+\eqref{eq:leo-silo-validity-10a},
+\eqref{eq:leo-silo-validity-10b},
+\eqref{eq:leo-silo-validity-10c}
+and
+\eqref{eq:leo-silo-validity-10d}
+directly from the assumption for the step.
+
+TODO: Needs more work!
+
+\textbf{Step case 2}: We next consider
+the case where $\Vincr{i} \le \var{topix}$
+and \Vel{slo}{i} is incomplete.
+Since \Vel{slo}{i} is,
+by assumption for the step,
+a silo layer,
+it is quasi-complete.
+Also by assumption for the step,
+\Vel{slo}{i} has a matching Leo memo.
+Using these facts and Lemma
+\ref{lem:leo-memo-of-incompletion},
+we have
+\eqref{eq:leo-silo-catena-10}.
+From Lemma
+\ref{lem:leo-memo-of-incompletion},
+we know that
+\begin{equation}
+\label{eq:leo-silo-catena-16}
+\el{cat}{\Vlastix{cat}} =
+\op{LM}{\Vel{slo}{i}} = \op{LM}{\el{slo}{\Vincr{i}}}
+\end{equation}
+and, because
+\el{slo}{\Vincr{i}}
+is not a complete EIM,
+\begin{equation}
+\label{eq:leo-silo-catena-18}
+\op{InCmps}{\var{slo}, \var{x}} =
+\op{InCmps}{\var{slo}, \Vincr{x}}.
+\end{equation}
+From
+\eqref{eq:leo-silo-catena-16}
+and
+\eqref{eq:leo-silo-catena-18}
+we see that
+the same catena
+that satisfies
+\eqref{eq:leo-silo-catena-12} for $\var{x} = \var{i}$
+also satisfies
+\eqref{eq:leo-silo-catena-12} for $\var{x} = \Vincr{i}$.
+This shows the step for this case.
+
+\textbf{Step case 3}: Finally,
+we consider
+the case where $\Vincr{i} < \var{topix}$
+and \Vel{slo}{i} is complete.
+Since \Vel{slo}{i} is complete,
+Lemma \ref{lem:leo-memo-effect} applies,
+and we have
+\eqref{eq:leo-silo-catena-10}
+of the induction hypothesis for this case
+from
+\eqref{eq:lem-leo-memo-effect-14}
+of
+Lemma \ref{lem:leo-memo-effect}.
+To show
+\eqref{eq:leo-silo-catena-12} for $\var{x} = \Vincr{i}$,
+we use
+\eqref{eq:lem-leo-memo-effect-15}
+of
+Lemma \ref{lem:leo-memo-effect}.
+This tells us that
+\begin{equation}
+\label{eq:leo-silo-catena-20}
+\myparbox{
+\op{LM}{\el{slo}{\Vincr{i}}}
+is the top-down cause of
+\op{LM}{\Vel{slo}{i}}.
+}
+\end{equation}
+By assumption for the step, we have a catena,
+call it \var{cat1}, such that
+\begin{equation}
+\label{eq:leo-silo-catena-22}
+\el{cat1}{\Vlastix{cat1}} = \op{LM}{\Vel{slo}{i}}.
+\end{equation}
+From
+\eqref{eq:leo-silo-catena-20}
+and
+\eqref{eq:leo-silo-catena-22}
+we know that
+we can form a new catena,
+call it \var{cat2},
+such that
+\begin{equation}
+\label{eq:leo-silo-catena-24}
+\Vel{cat2}{ix} =
+\begin{cases}
+\text{\Vel{cat1}{ix}, if $0 \le \var{ix} \le \Vlastix{cat1}$} \\
+\text{\op{LM}{\el{slo}{\Vincr{i}}},
+  if $\var{ix} = \Vincr{\Vlastix{cat1}}$}
+\end{cases}
+\end{equation}
+\var{cat2}
+From
+\eqref{eq:leo-silo-catena-24}
+we see that
+\begin{equation}
+\label{eq:leo-silo-catena-27}
+\el{cat2}{\Vlastix{cat2}} = \op{LM}{\el{slo}{\Vincr{i}}}.
+\end{equation}
+
+By assumption for the case,
+\el{slo}{\Vincr{i}}
+was a completion
+and $\Vincr{i} \neq \var{topix}$,
+so that
+\el{slo}{\Vincr{i}} is not the top layer.
+From the considerations in the paragraph,
+we see that
+\begin{align}
+\label{eq:leo-silo-catena-26}
+&
+\op{InCmps}{\var{slo}, \Vincr{x}}
+=
+\Vincr{\op{InCmps}{\var{slo}, \var{x}}} &&
+\\
+\label{eq:leo-silo-catena-28}
+& \Vlastix{cat2} = \Vincr{\Vlastix{cat1}}
+&& \eqref{eq:leo-silo-catena-24}
+\\
+\label{eq:leo-silo-catena-30}
+& \op{InCmps}{\var{slo}, \var{x}}
+= \Vincr{\Vlastix{cat1}}
+&&
+\begin{aligned}
+& \text{ASM for} \\
+& \quad \text{the Step}
+\end{aligned}
+\\
+\label{eq:leo-silo-catena-32}
+& \op{InCmps}{\var{slo}, \Vincr{x}}
+= \Vincr{\Vlastix{cat2}}
+&&
+\eqref{eq:leo-silo-catena-26},
+\eqref{eq:leo-silo-catena-28},
+\eqref{eq:leo-silo-catena-30}
+\end{align}
+
+From
+\eqref{eq:leo-silo-catena-27}
+and
+\eqref{eq:leo-silo-catena-32}
+we see that the \var{cat2}
+of
+\eqref{eq:leo-silo-catena-24}
+satisfies
+\eqref{eq:leo-silo-catena-12} for $\var{x} = \Vincr{i}$.
+This
+shows shows the final case of the induction
+step, and therefore the step and the induction.
+
+TODO other proof started here
 
 To show the theorem,
 we first show that there is at least one silo
@@ -10712,70 +11076,15 @@ a \var{slo} such that one of its layers is
 & \qquad \because \; \text{ASM for reductio}
 \end{aligned}
 \\
+\notag
+&
+\text{\Vel{mslo}{maxix} is complete}
+\; \because \;
+\eqref{eq:leo-silo-validity-37c},
+\eqref{eq:leo-silo-validity-37e},
+\tref{maximal-silo-top-is-complete}
+\\
 \end{align}
-
-From
-\eqref{eq:leo-silo-validity-36},
-we see that \Vel{slo}{maxix} has
-a matching Leo memo.
-We consider two cases, based on whether
-\Vel{mslo}{maxix} is complete or incomplete.
-
-\textbf{Case 1}:
-Assume for the case that
-\Vel{mslo}{maxix} is incomplete.
-If
-\Vel{mslo}{maxix} is a
-quasi-complete silo layer,
-by
-Theorem
-\ref{t:fleeting-closure-silo},
-it is the bottom of some silo,
-call it \var{hislo}, such that
-\begin{equation}
-\label{eq:leo-silo-validity-40}
-\text{\el{hislo}{\Vlastix{hislo}} is a completion}
-\end{equation}
-Since
-$\Vel{mslo}{maxix} = \el{hislo}{0}$ is the bottom
-of \var{hislo},
-we have
-\begin{equation}
-\label{eq:leo-silo-validity-42}
-\Vel{mslo}{maxix} \le \el{hislo}{\Vlastix{hislo}}.
-\end{equation}
-\var{hislo} and \var{mslo} overlap in
-$\Vel{mslo}{maxix} = \el{hislo}{0}$,
-so we can compose them into a new silo, \var{nuslo},
-such that
-\begin{equation}
-\label{eq:leo-silo-validity-43}
-\begin{gathered}
-\Vel{mslo}{maxix} = \el{hislo}{0} = \el{nuslo}{\Vlastix{mslo}}
-  \quad \text{and} \\
-\el{hislo}{\Vlastix{hislo}} = \el{nuslo}{\Vlastix{nuslo}}.
-\end{gathered}
-\end{equation}
-By assumption for the case \Vel{mslo}{maxix} is incomplete,
-so that
-from \eqref{eq:leo-silo-validity-40}
-we know that
-\begin{equation}
-\label{eq:leo-silo-validity-46}
-\Vel{mslo}{maxix} \neq \el{hislo}{\Vlastix{hislo}}.
-\end{equation}
-From
-\eqref{eq:leo-silo-validity-40}
-and
-\eqref{eq:leo-silo-validity-46}
-we see that
-\begin{equation}
-\label{eq:leo-silo-validity-49}
-\Vel{mslo}{maxix} < \el{hislo}{\Vlastix{hislo}}.
-\end{equation}
-But, by assumption for the reductio,
-\Vel{mslo}{maxix} has no silo layer above it.
-This contradiction shows Case 1 of the reductio.
 
 \textbf{Case 2}:
 Assume for the case that
@@ -10804,6 +11113,7 @@ must contain
 \eqref{eq:leo-silo-validity-36a},
 the top item for \Vleo{leo}.
 This shows the theorem.
+
 \end{proof}
 
 \begin{theorem}
@@ -10954,245 +11264,6 @@ step, and therefore the step, the induction
 and theorem.
 \end{proof}
 
-\begin{theorem}
-\ttitle{Every Leo silo has a catena}
-\label{t:leo-silo-catena}
-\begin{gather}
-\myparbox{
-Every lower layer of a Leo silo
-has a matching Leo memo.
-} \\
-\myparbox{
-The Leo top-down causes of a silo form a catena.
-} \\
-\myparbox{
-The length of the catena is equal to the number
-of complete EIM's in the lower layers of the silo.
-}
-\end{gather}
-\end{theorem}
-
-\begin{proof}
-Let \var{slo} be a Leo silo.
-For the purposes of this proof,
-let \myfnname{LM}
-be a partial function such that \op{LM}{\Veim{eim}}
-is
-the Leo memo of \Vleo{l}.
-Also, let \myfnname{InCmps} be a function
-such that \op{InCmps}{\var{slo}, \var{x}}
-is the number of inner layers in the silo
-\var{slo} that are complete EIM's.
-
-We proceed by induction.
-We take as the induction hypothesis
-\begin{gather}
-\label{eq:leo-silo-catena-10}
-\tag{IND1}
-0 \le \var{x} < \var{topix}
-\implies \Vop{LM}{\Vel{slo}{x}} \neq \undefined
-\\[1.5ex]
-\label{eq:leo-silo-catena-12}
-\tag{IND2}
-\begin{multlined}
-0 \le \var{x} < \var{topix} \implies
-\exists \; \var{cat} \quad \text{such that} \\[.5ex]
-\qquad \qquad \left(
-\begin{aligned}
-& \text{\var{cat} is a catena} \\
-\land \; & \Vop{LM}{\Vel{slo}{x}} = \el{cat}{\Vlastix{cat}} \\
-\land \; & \op{InCmps}{\var{slo}, \var{x}} = \Vincr{\Vlastix{cat}}
-\end{aligned}
-\right)
-\end{multlined}
-\end{gather}
-
-We take $\var{x} = 0$
-as the basis of our induction.
-By assumption for the theorem,
-\var{slo} is a Leo silo,
-so that, by the definition of a Leo silo,
-there
-is a Leo memo matching
-\el{slo}{0},
-which gives us
-\eqref{eq:leo-silo-catena-10}.
-The single element sequence
-\var{cat} = [ \el{slo}{0} ]
-satisfies
-\eqref{eq:leo-silo-catena-12}
-trivially.
-
-For the step of the induction, we assume
-\eqref{eq:leo-silo-catena-10}
-and
-\eqref{eq:leo-silo-catena-12}
-for \var{x} = \var{i},
-to show
-\eqref{eq:leo-silo-catena-10}
-and
-\eqref{eq:leo-silo-catena-12}
-for $\var{x} = \Vincr{i}$.
-Within the step, we proceed by cases.
-
-\textbf{Step case 1}: For the case where $\Vincr{i} \ge \var{topix}$,
-we have
-\eqref{eq:leo-silo-catena-10}
-and
-\eqref{eq:leo-silo-catena-12}
-vacuously.
-
-\textbf{Step case 2}: We next consider
-the case where $\Vincr{i} < \var{topix}$
-and \Vel{slo}{i} is incomplete.
-Since \Vel{slo}{i} is,
-by assumption for the step,
-a silo layer,
-it is quasi-complete.
-Also by assumption for the step,
-\Vel{slo}{i} has a matching Leo memo.
-Using these facts and Lemma
-\ref{lem:leo-memo-of-incompletion},
-we have
-\eqref{eq:leo-silo-catena-10}.
-From Lemma
-\ref{lem:leo-memo-of-incompletion},
-we know that
-\begin{equation}
-\label{eq:leo-silo-catena-16}
-\el{cat}{\Vlastix{cat}} =
-\op{LM}{\Vel{slo}{i}} = \op{LM}{\el{slo}{\Vincr{i}}}
-\end{equation}
-and, because
-\el{slo}{\Vincr{i}}
-is not a complete EIM,
-\begin{equation}
-\label{eq:leo-silo-catena-18}
-\op{InCmps}{\var{slo}, \var{x}} =
-\op{InCmps}{\var{slo}, \Vincr{x}}.
-\end{equation}
-From
-\eqref{eq:leo-silo-catena-16}
-and
-\eqref{eq:leo-silo-catena-18}
-we see that
-the same catena
-that satisfies
-\eqref{eq:leo-silo-catena-12} for $\var{x} = \var{i}$
-also satisfies
-\eqref{eq:leo-silo-catena-12} for $\var{x} = \Vincr{i}$.
-This shows the step for this case.
-
-\textbf{Step case 3}: Finally,
-we consider
-the case where $\Vincr{i} < \var{topix}$
-and \Vel{slo}{i} is complete.
-Since \Vel{slo}{i} is complete,
-Lemma \ref{lem:leo-memo-effect} applies,
-and we have
-\eqref{eq:leo-silo-catena-10}
-of the induction hypothesis for this case
-from
-\eqref{eq:lem-leo-memo-effect-14}
-of
-Lemma \ref{lem:leo-memo-effect}.
-To show
-\eqref{eq:leo-silo-catena-12} for $\var{x} = \Vincr{i}$,
-we use
-\eqref{eq:lem-leo-memo-effect-15}
-of
-Lemma \ref{lem:leo-memo-effect}.
-This tells us that
-\begin{equation}
-\label{eq:leo-silo-catena-20}
-\myparbox{
-\op{LM}{\el{slo}{\Vincr{i}}}
-is the top-down cause of
-\op{LM}{\Vel{slo}{i}}.
-}
-\end{equation}
-By assumption for the step, we have a catena,
-call it \var{cat1}, such that
-\begin{equation}
-\label{eq:leo-silo-catena-22}
-\el{cat1}{\Vlastix{cat1}} = \op{LM}{\Vel{slo}{i}}.
-\end{equation}
-From
-\eqref{eq:leo-silo-catena-20}
-and
-\eqref{eq:leo-silo-catena-22}
-we know that
-we can form a new catena,
-call it \var{cat2},
-such that
-\begin{equation}
-\label{eq:leo-silo-catena-24}
-\Vel{cat2}{ix} =
-\begin{cases}
-\text{\Vel{cat1}{ix}, if $0 \le \var{ix} \le \Vlastix{cat1}$} \\
-\text{\op{LM}{\el{slo}{\Vincr{i}}},
-  if $\var{ix} = \Vincr{\Vlastix{cat1}}$}
-\end{cases}
-\end{equation}
-\var{cat2}
-From
-\eqref{eq:leo-silo-catena-24}
-we see that
-\begin{equation}
-\label{eq:leo-silo-catena-27}
-\el{cat2}{\Vlastix{cat2}} = \op{LM}{\el{slo}{\Vincr{i}}}.
-\end{equation}
-
-By assumption for the case,
-\el{slo}{\Vincr{i}}
-was a completion
-and $\Vincr{i} \neq \var{topix}$,
-so that
-\el{slo}{\Vincr{i}} is not the top layer.
-From the considerations in the paragraph,
-we see that
-\begin{align}
-\label{eq:leo-silo-catena-26}
-&
-\op{InCmps}{\var{slo}, \Vincr{x}}
-=
-\Vincr{\op{InCmps}{\var{slo}, \var{x}}} &&
-\\
-\label{eq:leo-silo-catena-28}
-& \Vlastix{cat2} = \Vincr{\Vlastix{cat1}}
-&& \eqref{eq:leo-silo-catena-24}
-\\
-\label{eq:leo-silo-catena-30}
-& \op{InCmps}{\var{slo}, \var{x}}
-= \Vincr{\Vlastix{cat1}}
-&&
-\begin{aligned}
-& \text{ASM for} \\
-& \quad \text{the Step}
-\end{aligned}
-\\
-\label{eq:leo-silo-catena-32}
-& \op{InCmps}{\var{slo}, \Vincr{x}}
-= \Vincr{\Vlastix{cat2}}
-&&
-\eqref{eq:leo-silo-catena-26},
-\eqref{eq:leo-silo-catena-28},
-\eqref{eq:leo-silo-catena-30}
-\end{align}
-
-From
-\eqref{eq:leo-silo-catena-27}
-and
-\eqref{eq:leo-silo-catena-32}
-we see that the \var{cat2}
-of
-\eqref{eq:leo-silo-catena-24}
-satisfies
-\eqref{eq:leo-silo-catena-12} for $\var{x} = \Vincr{i}$.
-This
-shows shows the final case of the induction
-step, and therefore the step and the induction.
-\end{proof}
 
 \begin{theorem}
 \ttitle{Leo silos with common lower layers}
