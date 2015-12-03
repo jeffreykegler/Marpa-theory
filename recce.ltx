@@ -7408,6 +7408,101 @@ directly from Theorem
 \ref{t:silo-telluric-prefix}.
 \end{proof}
 
+\begin{theorem}
+\ttitle{Consecutive silo incompletions}
+\label{t:consecutive-silo-incompletions}
+No run of consecutive incomplete silo layers
+is longer than \var{c},
+where \var{c} is a constant which depends on
+the grammar.
+\end{theorem}
+
+\begin{proof}
+Let \var{slo} be a silo, and
+let
+\begin{equation}
+\label{eq:consecutive-silo-incompletions-5}
+\Vel{slo}{x} \; \text{be an incomplete silo layer.}
+\end{equation}
+Since every silo layer is quasi-complete,
+we know that $\Postdot{\Vel{slo}{x}} = \epsilon$,
+so that
+\begin{align}
+\label{eq:consecutive-silo-incompletions-10a}
+& \Predot{\el{slo}{\Vincr{x}}} = \epsilon
+\\
+\label{eq:consecutive-silo-incompletions-10c}
+& \text{\el{slo}{\Vincr{x}} is a null-scan
+   $\because$ \eqref{eq:consecutive-silo-incompletions-10a}
+}
+\\
+\label{eq:consecutive-silo-incompletions-10e}
+& \text{\el{slo}{\var{x}} is top-down cause of
+  \el{slo}{\Vincr{x}}
+  $\because$ \eqref{eq:consecutive-silo-incompletions-10c},
+    \tref{t:silo-causes},
+}
+\\
+&
+\begin{multlined}
+\el{slo}{\Vincr{x}} = \op{null-scan-op}{\el{slo}{\var{x}}} \\
+   \because
+    \eqref{eq:consecutive-silo-incompletions-10c},
+    \eqref{eq:consecutive-silo-incompletions-10e},
+    \; \text{Def of \myfnname{null-scan-op}}
+\end{multlined}
+\end{align}
+In the above, \var{x} was chosen without loss of generality,
+so that a sequence of incomplete silo layers is an iterated
+sequence of \myfnname{null-scan-op} arguments.
+Let the sequence of incomplete silo layers be
+$\el{slo}{\var{x} \ldots \var{y}}$
+where $\var{y} \ge \var{x}$.
+By the definition of a fleeting closure,
+\el{slo}{\var{x} \ldots \var{y}} is part of a fleeting closure
+whose first element is \Vel{slo}{x}.
+\eqref{eq:quasi-completion-fleeting-closure-properties-9}
+of Theorem \ref{t:quasi-completion-fleeting-closure-properties}
+sets a maximum limit to the size of a fleeting closure whose
+first element is a quasi-completion,
+so that,
+recalling \eqref{eq:consecutive-silo-incompletions-5},
+we see that the fleeting closure containing 
+\el{slo}{\var{x} \ldots \var{y}} has at most
+\Vsize{\Rule{\Vel{slo}{x}}} elements.
+Therefore,
+\el{slo}{\var{x} \ldots \var{y}} has at most
+\Vsize{\Rule{\Vel{slo}{x}}} elements.
+
+Let \var{c} be a constant greater than or equal to the length
+of the longest rule in the grammar.
+Since
+the choice of \Vel{slo}{x} and of its rule was without loss
+of generalization, we know that
+$\Vsize{\Rule{\Vel{slo}{x}}} \le \var{c}$
+and therefore
+\[
+  \el{slo}{\var{x} \ldots \var{y}} \le \var{c}.\qedhere
+\]
+\end{proof}
+
+\begin{theorem}
+Let \var{slo} be a silo,
+and let 
+\[
+\var{comps} = \big| \lbrace \Veim{eim} | \text{\var{eim} is complete} \rbrace \big|.
+\]
+The number of layers in a silo is
+less than or equal to
+$\var{a} \times \var{comps} + \var{a}$,
+where \var{a} is a constant which depends on
+the grammar.
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
 \begin{lemma}
 
 \label{lem:silo-reflection-nt}
