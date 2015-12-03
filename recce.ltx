@@ -10680,128 +10680,180 @@ TODO revise
 Without loss of generality, let \var{slo} be a silo
 such that
 \begin{equation}
-\label{eq:leo-silo-validity-10}
+\label{eq:leo-silo-validity-6}
 \el{lsl}{0} = \Veim{lb}.
 \end{equation}
-We first show that at least one silo satisfying
-\eqref{eq:leo-silo-validity-10} exists.
+We first show that a silo satisfying
+\eqref{eq:leo-silo-validity-6} exists.
 \begin{align}
-\label{eq:leo-silo-validity-12a}
+\label{eq:leo-silo-validity-8a}
 & \myparbox{
 \Veim{lb} is the EIM equivalent
 of the matching bottom of a Leo memo
 $\because$ ASM for the theorem
 }
 \\
-\label{eq:leo-silo-validity-12b}
+\label{eq:leo-silo-validity-8b}
 & \myparbox{
 \Veim{lb} is complete
 $\because$ Def of EIM equivalent of a symbol instance,
-\eqref{eq:leo-silo-validity-12a}
+\eqref{eq:leo-silo-validity-8a}
 }
 \\
-\label{eq:leo-silo-validity-12c}
+\label{eq:leo-silo-validity-8c}
 & \myparbox{
 \Veim{lb} is silo-eligible
 $\because$ Def of silo eligible,
-\eqref{eq:leo-silo-validity-12b}
+\eqref{eq:leo-silo-validity-8b}
 }
 \\
-\label{eq:leo-silo-validity-12d}
+\label{eq:leo-silo-validity-8d}
 & \myparbox{ $[ \Veim{lb} ]$ is a silo
 $\because$ Def of silo,
-\eqref{eq:leo-silo-validity-12c}
+\eqref{eq:leo-silo-validity-8c}
 }
 \end{align}
 From
-\eqref{eq:leo-silo-validity-12d},
+\eqref{eq:leo-silo-validity-8d},
 we see that
 there is at least one silo satisfying 
-\eqref{eq:leo-silo-validity-10}.
-
-For the purposes of this proof,
-let \myfnname{LM}
-be a partial function such that \op{LM}{\Veim{eim}}
-is
-the instantiated Leo memo matching \Veim{eim}.
-Also, let \myfnname{Lo-Cmps} be a function
-such that \op{Lo-Cmps}{\var{slo}, \var{x}}
-is the number of lower layers in the sequence of
-silo layers
-\el{slo}{0}, \el{slo}{1} \ldots{} \Vel{slo}{x}
-that are complete EIM's.
-(Recall that the lower layers of a Leo silo are
-those layers which are not the top layer.)
+\eqref{eq:leo-silo-validity-6}.
 
 Let \Veim{top} be
 such that
 \begin{equation}
  \Vel{slo}{topix} = \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}
 \end{equation}
-Note that, at this point, we have not shown that
-\Vel{slo}{topix} exists.
-If it does not, we write
+if
+\Vel{slo}{topix} does not exist,
+we write
 \[
   \var{topix} = \undefined \quad \text{and} \quad
   \forall \; \var{a} :  \var{a} < \var{topix}
 \]
+For the purposes of this proof,
+let \myfnname{LM}
+be a partial function such that \op{LM}{\Veim{eim}}
+is
+the instantiated Leo memo matching \Veim{eim}.
+Also, let
+\[
+\op{Comps}{\var{slo}, \var{x}} =
+\left|
+  \left\lbrace \quad \var{a} \quad
+  \middle|
+  \begin{gathered}
+    0 \le \var{a} \le \var{x}, \\
+    \var{a} \neq \var{topix} \; \text{and} \\
+   \text{\Vel{slo}{a} is a completion}
+  \end{gathered}
+  \right\rbrace
+\right|
+\]
 
 We start with an induction.
-We take as the induction hypothesis
-\begin{gather}
+For the induction hypothesis,
+we use
+the following set of equations:
+\begin{align}
 \label{eq:leo-silo-validity-10a}
 \tag{IND1}
-0 \le \var{x} \le \var{topix}
-\implies \Valid{\Vel{slo}{x}},
+\var{x} \le \var{topix}
+& \implies \Valid{\Vel{slo}{x}}
 \\
 \label{eq:leo-silo-validity-10b}
 \tag{IND2}
-\big[ \el{slo}{0}, \el{slo}{1} \ldots \Vel{slo}{x} \big]
-\quad \text{is a silo},
+\var{x} \le \var{topix}
+& \implies \; \text{\el{slo}{0 \ldots \var{x}} is a silo}
 \\
 \label{eq:leo-silo-validity-10c}
 \tag{IND3}
-0 \le \var{x} < \var{topix}
-\implies \Vop{LM}{\Vel{slo}{x}} \neq \undefined
-\quad \text{and}
-\\[1.5ex]
+\var{x} < \var{topix}
+& \implies \Vop{LM}{\Vel{slo}{x}} \neq \undefined
+\\
 \label{eq:leo-silo-validity-10d}
 \tag{IND4}
-\begin{multlined}
-0 \le \var{x} < \var{topix} \implies
-\exists \; \var{cat} \quad \text{such that} \\[.5ex]
-\qquad \qquad \left(
-\begin{aligned}
-& \text{\var{cat} is a catena} \\
-\land \; & \Vop{LM}{\Vel{slo}{x}} = \el{cat}{\Vlastix{cat}} \\
-\land \; & \op{Lo-Cmps}{\var{slo}, \var{x}} = \Vincr{\Vlastix{cat}}
-\end{aligned}
+\var{x} < \var{topix}
+& \implies
+\left(
+\begin{gathered}
+  \exists \; \var{cat} \; \text{such that} \\
+  \text{\var{cat} is a catena and} \\
+  \Vop{LM}{\Vel{slo}{x}} = \el{cat}{\Vlastix{cat}}
+\end{gathered}
 \right)
-\end{multlined}
-\end{gather}
+\\
+\label{eq:leo-silo-validity-10e}
+\tag{IND5}
+\var{x} < \var{topix}
+& \implies \op{Comps}{\var{slo}, \var{x}} = \Vincr{\Vlastix{cat}}
+\end{align}
 
 \textbf{Basis of the induction}:
 We take $\var{x} = 0$
 as the basis of our induction.
+By Theorem 
+\ref{silo-outer-layer-distinctness},
+we know that
+\begin{equation}
+\label{eq:leo-silo-validity-11}
+\var{topix} \neq 0,
+\end{equation}
+so that,
+following our convention for the case where
+$\var{topix} = \undefined$,
+the antecedant of the implications
+in 
+\eqref{eq:leo-silo-validity-10a}--%
+\eqref{eq:leo-silo-validity-10e}
+is true.
 We have
-\eqref{eq:leo-silo-validity-10a} from
-\eqref{eq:leo-silo-validity-10};
-\eqref{eq:leo-silo-validity-10b} from
-\eqref{eq:leo-silo-validity-12d};
-and \eqref{eq:leo-silo-validity-10c} vacuously.
+\eqref{eq:leo-silo-validity-10a}
+from \eqref{eq:leo-silo-validity-6}
+and \eqref{eq:leo-silo-validity-10b}
+from \eqref{eq:leo-silo-validity-8d}.
 By assumption for the theorem,
 \begin{equation}
 \label{eq:leo-silo-validity-12}
-  \op{LM}{\el{slo}{0}} \neq \undefined,
+  \op{LM}{\el{slo}{0}} \neq \undefined.
 \end{equation}
-so that
+\eqref{eq:leo-silo-validity-12} satisfies
+\eqref{eq:leo-silo-validity-10c} directly,
+and also allow us to define
 the single element sequence
-\[
-  \var{cat} = [ \op{LM}{\el{slo}{0}} ]
-\]
+\begin{equation}
+\label{eq:leo-silo-validity-12b}
+  \var{cat} = [ \op{LM}{\el{slo}{0}} ].
+\end{equation}
+\var{cat} in
+\eqref{eq:leo-silo-validity-12b}
 satisfies
 \eqref{eq:leo-silo-validity-10d}.
-This shows the basis of the induction.
+To show
+\eqref{eq:leo-silo-validity-10e} for
+$\var{x} = 0$,
+\begin{align}
+\label{eq:leo-silo-validity-13a}
+& \op{Comps}{\var{slo}, \var{x}} = 1
+\; \because \;
+\eqref{eq:leo-silo-validity-8b},
+\eqref{eq:leo-silo-validity-11}
+\\
+\label{eq:leo-silo-validity-13b}
+& \Vlastix{cat} = 0
+\; \because \;
+\eqref{eq:leo-silo-validity-12b}
+\end{align}
+From 
+\eqref{eq:leo-silo-validity-13a}
+and \eqref{eq:leo-silo-validity-13b},
+we have \eqref{eq:leo-silo-validity-10e}.
+We have shown
+\eqref{eq:leo-silo-validity-10a}--%
+\eqref{eq:leo-silo-validity-10e}
+for $\var{x} = 0$
+and therefore
+the basis of the induction.
 
 \textbf{Step of the induction}:
 For the step of the induction, we assume
@@ -11554,6 +11606,7 @@ plus the top layer.
 
 \begin{theorem}
 \ttitle{Silo outer layer distinctness}:
+\label{silo-outer-layer-distinctness}
 The top and bottom layer of a Leo silo
 are distinct.
 \end{theorem}
