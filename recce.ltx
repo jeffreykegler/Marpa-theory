@@ -10724,13 +10724,27 @@ such that
 \begin{equation}
  \Vel{slo}{topix} = \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}
 \end{equation}
-if
-\Vel{slo}{topix} does not exist,
-we write
+We have not yet proved that there is a well-defined \var{topix},
+and we intrepret our notation in a way
+that does not imply $\exists \; \var{topix}$.
+We write $\var{topix} = \undefined$ to say that \var{topix}
+does not exist,
+and we write
 \[
-  \var{topix} = \undefined \quad \text{and} \quad
-  \forall \; \var{a} :  \var{a} < \var{topix}
+   \var{a} < \var{topix}
 \]
+to say that
+\[
+   (\exists \; \var{topix} : \var{a} < \var{topix}) \; \lor \; \nexists \; \var{topix}.
+\]
+Similarly,
+\[
+\begin{aligned}
+   \var{a} \le \var{topix} \; & \defined \; (\exists \var{topix} : \var{a} \le \var{topix}) \; \lor \; \nexists \; \var{topix} \quad \text{and} \\
+   \var{a} \neq \var{topix} \; & \defined \; (\exists \var{topix} : \var{a} \neq \var{topix}) \; \lor \; \nexists \; \var{topix}.
+\end{aligned}
+\]
+
 For the purposes of this proof,
 let \myfnname{LM}
 be a partial function such that \op{LM}{\Veim{eim}}
@@ -10857,35 +10871,84 @@ the basis of the induction.
 
 \textbf{Step of the induction}:
 For the step of the induction, we assume
-\eqref{eq:leo-silo-validity-10a},
-\eqref{eq:leo-silo-validity-10b},
-\eqref{eq:leo-silo-validity-10c}
-and
-\eqref{eq:leo-silo-validity-10d}
-for \var{x} = \var{i},
+\eqref{eq:leo-silo-validity-10a}--\eqref{eq:leo-silo-validity-10e}
+for $\var{x} = \var{i}$,
 to show
-\eqref{eq:leo-silo-validity-10a},
-\eqref{eq:leo-silo-validity-10b},
-\eqref{eq:leo-silo-validity-10c}
-and
-\eqref{eq:leo-silo-validity-10d}
+\eqref{eq:leo-silo-validity-10a}--\eqref{eq:leo-silo-validity-10e}
 for $\var{x} = \Vincr{i}$.
 Within the step, we proceed by cases.
 
-\textbf{Step case 1}: For the case where $\Vincr{i} > \var{topix}$,
-we have
-\eqref{eq:leo-silo-validity-10a},
-\eqref{eq:leo-silo-validity-10b},
-\eqref{eq:leo-silo-validity-10c}
-and
-\eqref{eq:leo-silo-validity-10d}
-directly from the assumption for the step.
+\textbf{Step case 1}: For the case where $\exists \; \var{topix} : \Vincr{i} > \var{topix}$,
+the antecedants of 
+\eqref{eq:leo-silo-validity-10a}--\eqref{eq:leo-silo-validity-10e}
+are false, and
+\eqref{eq:leo-silo-validity-10a}--\eqref{eq:leo-silo-validity-10e}
+for $\var{x} = \Vincr{i}$ follows trivially.
 
 TODO: Needs more work!
 
 \textbf{Step case 2}: We next consider
 the case where $\Vincr{i} \le \var{topix}$
 and \Vel{slo}{i} is incomplete.
+\begin{align}
+\label{eq:leo-silo-validity-20a}
+& \text{ \Vel{slo}{i} is incomplete}
+\; \because \; \text{ASM for case}
+\\
+\label{eq:leo-silo-validity-20b}
+& \Vincr{i} \le \var{topix}
+\; \because \; \text{ASM for case}
+\\
+\label{eq:leo-silo-validity-20d}
+& \var{i} < \var{topix}
+\; \because \; \eqref{eq:leo-silo-validity-20b}
+\\
+\label{eq:leo-silo-validity-20e}
+& \text{\Vel{slo}{i} is a silo layer}
+\; \because \; \text{ASM
+\eqref{eq:leo-silo-validity-20b} for step}
+\\
+\label{eq:leo-silo-validity-20g}
+& \text{\Vel{slo}{i} is quasi-complete}
+\; \because \;
+\eqref{eq:leo-silo-validity-20e}, \;
+\text{Def of silo}
+\\
+\label{eq:leo-silo-validity-20i}
+& \Valid{\Vel{slo}{i}}
+\; \because \; \text{ASM
+\eqref{eq:leo-silo-validity-20a} for step}
+\\
+\label{eq:leo-silo-validity-20k}
+& \op{LM}{\Vel{slo}{i}} \neq \undefined
+\; \because \;
+\eqref{eq:leo-silo-validity-20d},
+\text{ASM \eqref{eq:leo-silo-validity-20c} for step}
+\\
+\label{eq:leo-silo-validity-20m}
+& \Valid{\Vel{slo}{\Vincr{i}}}
+\begin{multlined}
+\; \because \;
+\eqref{eq:leo-silo-validity-20a},
+\eqref{eq:leo-silo-validity-20g},
+\eqref{eq:leo-silo-validity-20i},
+\eqref{eq:leo-silo-validity-20k},
+\text{Lemma \ref{lem:leo-memo-of-incompletion}}
+\end{multlined}
+\\
+\label{eq:leo-silo-validity-20m}
+&
+\begin{multlined}
+\op{LM}{\Vel{slo}{\var{i}}}
+= \op{LM}{\Vel{slo}{\Vincr{i}}} \\
+\; \because \;
+\eqref{eq:leo-silo-validity-20a},
+\eqref{eq:leo-silo-validity-20g},
+\eqref{eq:leo-silo-validity-20i},
+\eqref{eq:leo-silo-validity-20k},
+\text{Lemma \ref{lem:leo-memo-of-incompletion}}
+\end{multlined}
+\end{align}
 Since \Vel{slo}{i} is,
 by assumption for the step,
 a silo layer,
