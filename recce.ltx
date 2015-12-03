@@ -7487,6 +7487,8 @@ and therefore
 \end{proof}
 
 \begin{theorem}
+\ttitle{Silo size}
+\label{t:silo-size}
 Let \var{slo} be a silo,
 and let 
 \[
@@ -7494,17 +7496,34 @@ and let
 \]
 The number of layers in a silo is
 less than or equal to
-$\var{a} \times \var{comps} + \var{a}$,
+$\var{a} \times (\var{comps} + 2)$,
 where \var{a} is a constant which depends on
 the grammar.
 \end{theorem}
 
 \begin{proof}
-TODO
+Every layer is \var{slo} is either complete or incomplete,
+so that we can treat \var{slo} as a series of
+\Vincr{comps}
+runs, each run containing zero or more incompletions,
+with each of the runs
+separated by one of the \var{comps} completions.
+From Theorem
+\eqref{eq:consecutive-silo-incompletions-10e},
+we know that the maximum length of a run of incompletions in
+a silo is \var{maxrun},
+where \var{maxrun} is a constant which depends on the grammar.
+Letting $\var{a} = \var{maxrun}$,
+\begin{align}
+\label{eq:silo-size-10}
+\Vsize{\var{slo}} & \le \var{comps} + (\Vincr{comps}) \times \var{a}
+\\
+\Vsize{\var{slo}} & \le (\var{comps} + 2) \times \var{a}
+   \; \because \; \eqref{eq:silo-size-10}\qedhere
+\end{align}
 \end{proof}
 
 \begin{lemma}
-
 \label{lem:silo-reflection-nt}
 Let \el{silo}{\Vincr{i}},
 \Vel{silo}{i},
