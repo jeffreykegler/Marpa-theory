@@ -10889,7 +10889,12 @@ we see that
 there is at least one silo satisfying 
 \eqref{eq:leo-silo-validity-6}.
 
-Let \Veim{top} be
+For the purposes of this proof,
+let \myfnname{LM}
+be a partial function such that \op{LM}{\Veim{eim}}
+is
+the instantiated Leo memo matching \Veim{eim}.
+Let \var{topix} be
 such that
 \begin{equation}
  \Vel{slo}{topix} = \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}
@@ -10913,26 +10918,6 @@ Similarly,
    \var{a} \le \var{topix} \; & \defined \; (\exists \var{topix} : \var{a} \le \var{topix}) \; \lor \; \nexists \; \var{topix} \quad \text{and} \\
    \var{a} \neq \var{topix} \; & \defined \; (\exists \var{topix} : \var{a} \neq \var{topix}) \; \lor \; \nexists \; \var{topix}.
 \end{aligned}
-\]
-
-For the purposes of this proof,
-let \myfnname{LM}
-be a partial function such that \op{LM}{\Veim{eim}}
-is
-the instantiated Leo memo matching \Veim{eim}.
-Also, let
-\[
-\op{Comps}{\var{slo}, \var{x}} =
-\left|
-  \left\lbrace \quad \var{a} \quad
-  \middle|
-  \begin{gathered}
-    0 \le \var{a} \le \var{x}, \\
-    \var{a} \neq \var{topix} \; \text{and} \\
-   \text{\Vel{slo}{a} is a completion}
-  \end{gathered}
-  \right\rbrace
-\right|
 \]
 
 We start with an induction.
@@ -11008,25 +10993,6 @@ the single element sequence
 \eqref{eq:leo-silo-validity-12b}
 satisfies
 \eqref{eq:leo-silo-validity-10d}.
-To show
-\eqref{eq:leo-silo-validity-10d} for
-$\var{x} = 0$,
-\begin{align}
-\label{eq:leo-silo-validity-13a}
-& \op{Comps}{\var{slo}, \var{x}} = 1
-\; \because \;
-\eqref{eq:leo-silo-validity-8b},
-\eqref{eq:leo-silo-validity-11}
-\\
-\label{eq:leo-silo-validity-13b}
-& \Vlastix{cat} = 0
-\; \because \;
-\eqref{eq:leo-silo-validity-12b}
-\end{align}
-From 
-\eqref{eq:leo-silo-validity-13a}
-and \eqref{eq:leo-silo-validity-13b},
-we have \eqref{eq:leo-silo-validity-10d}.
 We have shown
 \eqref{eq:leo-silo-validity-10a}--%
 \eqref{eq:leo-silo-validity-10d}
@@ -11057,7 +11023,7 @@ the case where $\Vincr{i} \le \var{topix}$
 and \Vel{slo}{i} is incomplete.
 \begin{align}
 \label{eq:leo-silo-validity-20a}
-& \text{ \Vel{slo}{i} is incomplete}
+& \text{\Vel{slo}{i} is incomplete}
 \; \because \; \text{ASM for case}
 \\
 \label{eq:leo-silo-validity-20b}
@@ -11082,13 +11048,13 @@ and \Vel{slo}{i} is incomplete.
 \label{eq:leo-silo-validity-20i}
 & \Valid{\Vel{slo}{i}}
 \; \because \; \text{ASM
-\eqref{eq:leo-silo-validity-20a} for step}
+\eqref{eq:leo-silo-validity-10a} for step}
 \\
 \label{eq:leo-silo-validity-20k}
 & \op{LM}{\Vel{slo}{i}} \neq \undefined
 \; \because \;
 \eqref{eq:leo-silo-validity-20d},
-\text{ASM \eqref{eq:leo-silo-validity-20c} for step}
+\text{ASM \eqref{eq:leo-silo-validity-10c} for step}
 \\
 \label{eq:leo-silo-validity-20m}
 & \Valid{\Vel{slo}{\Vincr{i}}}
@@ -11101,7 +11067,7 @@ and \Vel{slo}{i} is incomplete.
 \text{Lemma \ref{lem:leo-memo-of-incompletion}}
 \end{multlined}
 \\
-\label{eq:leo-silo-validity-20m}
+\label{eq:leo-silo-validity-20o}
 &
 \begin{multlined}
 \op{LM}{\Vel{slo}{\var{i}}}
@@ -11113,44 +11079,37 @@ and \Vel{slo}{i} is incomplete.
 \eqref{eq:leo-silo-validity-20k},
 \text{Lemma \ref{lem:leo-memo-of-incompletion}}
 \end{multlined}
+\\
+\label{eq:leo-silo-validity-20q}
+& \op{LM}{\Vel{slo}{\Vincr{i}}} \neq \undefined
+\; \because \;
+\eqref{eq:leo-silo-validity-20k},
+\eqref{eq:leo-silo-validity-20o}
+\\
+\label{eq:leo-silo-validity-20s}
+& \el{cat}{\Vlastix{cat}} = \op{LM}{\Vel{slo}{i}}
+\; \because \; \text{ASM
+\eqref{eq:leo-silo-validity-10d} for step}
+\\
+\label{eq:leo-silo-validity-20u}
+& \el{cat}{\Vlastix{cat}} = \op{LM}{\Vel{slo}{\Vincr{i}}}
+\; \because \;
+\eqref{eq:leo-silo-validity-20k},
+\eqref{eq:leo-silo-validity-20s}
 \end{align}
-Since \Vel{slo}{i} is,
-by assumption for the step,
-a silo layer,
-it is quasi-complete.
-Also by assumption for the step,
-\Vel{slo}{i} has a matching Leo memo.
-Using these facts and Lemma
-\ref{lem:leo-memo-of-incompletion},
-we have
-\eqref{eq:leo-silo-catena-10}.
-From Lemma
-\ref{lem:leo-memo-of-incompletion},
-we know that
-\begin{equation}
-\label{eq:leo-silo-catena-16}
-\el{cat}{\Vlastix{cat}} =
-\op{LM}{\Vel{slo}{i}} = \op{LM}{\el{slo}{\Vincr{i}}}
-\end{equation}
-and, because
-\el{slo}{\Vincr{i}}
-is not a complete EIM,
-\begin{equation}
-\label{eq:leo-silo-catena-18}
-\op{InCmps}{\var{slo}, \var{x}} =
-\op{InCmps}{\var{slo}, \Vincr{x}}.
-\end{equation}
-From
-\eqref{eq:leo-silo-catena-16}
+
+The results above show the step for this case:
+\eqref{eq:leo-silo-validity-20m} shows
+\eqref{eq:leo-silo-validity-10a}
+and \eqref{eq:leo-silo-validity-10b}
+for $\var{x} = \Vincr{i}$.
+\eqref{eq:leo-silo-validity-20q}
+shows \eqref{eq:leo-silo-validity-10c}
+for $\var{x} = \Vincr{i}$
 and
-\eqref{eq:leo-silo-catena-18}
-we see that
-the same catena
-that satisfies
-\eqref{eq:leo-silo-catena-12} for $\var{x} = \var{i}$
-also satisfies
-\eqref{eq:leo-silo-catena-12} for $\var{x} = \Vincr{i}$.
-This shows the step for this case.
+\eqref{eq:leo-silo-validity-20u}
+is \eqref{eq:leo-silo-validity-10d}
+for $\var{x} = \Vincr{i}$.
 
 \textbf{Step case 3}: Finally,
 we consider
