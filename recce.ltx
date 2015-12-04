@@ -10698,22 +10698,12 @@ and the theorem.
 \begin{lemma}
 \label{lem:leo-memo-of-incompletion}
 Let \Veim{cuz} be a valid EIM which is quasi-complete,
-but incomplete;
-and let
-\Vleo{l}
-be a instantiated Leo memo matching \Veim{cuz}.
+but incomplete.
 Then
-\begin{itemize}
-\item
-there is a valid \Veim{eff},
-\item
+there is a valid \Veim{eff} such that
 \Veim{eff}
 is the unique silo effect of
-\Veim{cuz},
-and
-\item
-\Vleo{l} matches \Veim{eff}.
-\end{itemize}
+\Veim{cuz}.
 \end{lemma}
 
 \begin{proof}
@@ -10721,8 +10711,9 @@ Since, by assumption for the theorem,
 \Veim{cuz} is incomplete, it has a postdot symbol.
 Since, by assumption for the theorem,
 \Veim{cuz} is quasi-complete, the postdot symbol must be nulling.
-By Theorem
-\ref{t:null-scan-from-down-cause},
+\Veim{cuz} is therefore the top-down cause of a null-scan,
+so that,
+by Theorem \ref{t:null-scan-from-down-cause},
 there is a valid \Veim{eff} such that
 \begin{equation}
 \label{eq:lem-leo-memo-of-incompletion-9}
@@ -10731,14 +10722,10 @@ is the unique effect
 of \Veim{cuz},}
 \end{equation}
 and \Veim{eff} is such that
-\begin{align}
+\begin{equation}
 \label{eq:lem-leo-memo-of-incompletion-10a}
-\Right{\Veim{cuz}} & = \Right{\Veim{eff}} \\
-\label{eq:lem-leo-memo-of-incompletion-10b}
-\Left{\Veim{cuz}} & = \Left{\Veim{eff}} \\
-\label{eq:lem-leo-memo-of-incompletion-10c}
-\land \quad \LHS{\Veim{cuz}} & = \LHS{\Veim{eff}}.
-\end{align}
+\Right{\Veim{cuz}} = \Right{\Veim{eff}}
+\end{equation}
 
 \Veim{cuz} is quasi-complete by assumption for the theorem,
 so that from
@@ -10753,38 +10740,71 @@ From
 \eqref{eq:lem-leo-memo-of-incompletion-10a},
 and \eqref{eq:lem-leo-memo-of-incompletion-11},
 we see that
-\[
-\text{\Veim{eff}
+\Veim{eff}
 is the unique silo effect
-of \Veim{cuz}.}
-\]
+of \Veim{cuz}.
+\end{proof}
+
+\begin{lemma}
+\label{lem:leo-memo-carryforward}
+Let \Veim{cuz} be a valid EIM which is quasi-complete,
+but incomplete;
+and let
+\Vleo{l}
+be a instantiated Leo memo matching \Veim{cuz}.
+Then \Veim{cuz} has a effect,
+call it \Veim{eff},
+and
+\Vleo{l} matches \Veim{eff}.
+\end{lemma}
+
+\begin{proof}
+From Theorem
+\ref{lem:leo-memo-of-incompletion},
+we know that
+\Veim{cuz} has a valid effect,
+so that
+\Veim{eff} exists.
+Since, by assumption for the theorem,
+\Veim{cuz} is incomplete, it has a postdot symbol.
+Since, by assumption for the theorem,
+\Veim{cuz} is quasi-complete, the postdot symbol must be nulling.
+Therefore \Veim{eff} is a null-scan with \Veim{cuz} as its
+top-down cause.
+By Theorem
+\ref{t:null-scan-from-down-cause},
+\Veim{eff} is such that
+\begin{align}
+\label{eq:lem-leo-memo-carryforward-10b}
+\Left{\Veim{cuz}} & = \Left{\Veim{eff}} \\
+\label{eq:lem-leo-memo-carryforward-10c}
+\land \quad \LHS{\Veim{cuz}} & = \LHS{\Veim{eff}}.
+\end{align}
 
 By assumption for the theorem
 and the definition of a matching Leo memo
 \begin{equation}
-\label{eq:lem-leo-memo-of-incompletion-20}
+\label{eq:lem-leo-memo-carryforward-20}
 \begin{aligned}
 \Left{\Veim{cuz}} & = \Current{\Vleo{l}} \\
 \land \quad \LHS{\Veim{cuz}} & = \Symbol{\Vleo{l}}.
 \end{aligned}
 \end{equation}
 Combining
-\eqref{eq:lem-leo-memo-of-incompletion-10a},
-\eqref{eq:lem-leo-memo-of-incompletion-10b},
-\eqref{eq:lem-leo-memo-of-incompletion-10c}
+\eqref{eq:lem-leo-memo-carryforward-10b},
+\eqref{eq:lem-leo-memo-carryforward-10c}
 and
-\eqref{eq:lem-leo-memo-of-incompletion-20},
+\eqref{eq:lem-leo-memo-carryforward-20},
 \begin{equation}
-\label{eq:lem-leo-memo-of-incompletion-30}
+\label{eq:lem-leo-memo-carryforward-30}
 \begin{aligned}
 \Left{\Veim{eff}} & = \Current{\Vleo{l}} \\
 \land \quad \LHS{\Veim{eff}} & = \Symbol{\Vleo{l}}.
 \end{aligned}
 \end{equation}
-
-By the definition of a matching Leo memo,
-\eqref{eq:lem-leo-memo-of-incompletion-30}
-tells us the \Vleo{l} matches \Veim{cuz}.
+The definition of a matching Leo memo,
+and \eqref{eq:lem-leo-memo-carryforward-30}
+tell us the \Vleo{l} matches \Veim{cuz}.
 \end{proof}
 
 \begin{definition}
