@@ -206,9 +206,7 @@
 \newcommand{\Maxleosilo}[2]{\ensuremath{\myfnname{Max-Leo-silo}(#1, #2)}}
 \newcommand{\Left}[1]{\ensuremath{\myfnname{Left}(#1)}}
 \newcommand{\LHS}[1]{\ensuremath{\myfnname{LHS}(#1)}}
-\newcommand{\Match}[2]{\ensuremath{\myfnname{Match}(#1, #2)}}
-% TODO -- delete memoable?
-\newcommand{\Memoable}[2]{\ensuremath{\myfnname{Memoable}(#1, #2)}}
+\newcommand{\Memo}[1]{\ensuremath{\myfnname{Memo}(#1)}}
 \newcommand{\Memoized}[1]{\ensuremath{\myfnname{Memoized}(#1)}}
 \newcommand{\myL}[1]{\myfnname{L}(#1)}
 \newcommand{\Next}[1]{\myfnname{Next}(#1)}
@@ -9681,15 +9679,10 @@ and that \Veim{eim} is the
 EIM of \Vleo{leo}.
 \end{definition}
 
-We also write \Match{\Vleo{l}}{\Veim{eim}} to
-indicate the Leo memo \Vleo{l} matches
-the EIM \Veim{eim}.
-
-% I have yet to actually overload the Match operator
-% Note that
-% the relation \myfnname{Match} is overloaded,
-% so that the kind of matching that it indicates
-% depends on the type of its arguments.
+We also write $\Memo{\Veim{eim}} = \Vleo{l}$%
+\index{recce-notation}{Memo@\myfnname{Memo}!\Vop{Memo}{\Veim{e}} = \Vleo{l}}
+to indicate that the Leo memo \Vleo{l} matches
+the \Veim{eim}.
 
 \begin{theorem}
 \label{t:leo-transition-symbol-non-terminal}
@@ -10832,6 +10825,17 @@ such that \var{lsl} is valid with respect
 to \Vleo{l2}.
 \end{definition}
 
+\begin{definition}
+\dtitle{Matching catena of Leo silo}
+Let \var{l} be a valid Leo silo.
+and let \var{cat} be a catena.
+We say that \var{cat} matches \var{l}
+if and only if \var{cat} contains all,
+and only the Leo memos matching comp
+
+TODO: Finish
+\end{definition}
+
 \begin{theorem}
 \ttitle{Leo silo validity}
 \label{t:leo-silo-validity}
@@ -11762,7 +11766,8 @@ of the layers of \var{bslo}:
 \forall \; \var{i} \; \exists \; \Vleo{l}, \Veim{eim}
 : 0 \le \var{i} < \Vlastix{aslo} \\
 \implies
-\Veim{eim} = \Vel{aslo}{i} \; \land \; \Match{\Vleo{l}}{\Veim{eim}}
+\Veim{eim} = \Vel{aslo}{i}
+\; \land \; \Vleo{l} = \Memo{\Veim{eim}}
 \; \land \; \Vleo{l} \in \var{acat} \\
 \shoveleft{
   \text{and} \quad
@@ -11770,7 +11775,8 @@ of the layers of \var{bslo}:
   : 0 \le \var{i} < \Vlastix{bslo}
 } \\
 \implies
-\Veim{eim} = \Vel{bslo}{i} \; \land \; \Match{\Vleo{l}}{\Veim{eim}}
+\Veim{eim} = \Vel{bslo}{i}
+\; \land \; \Vleo{l} = \Memo{\Veim{eim}}
 \; \land \; \Vleo{l} \in \var{bcat}
 \end{multline}
 Let \Vleo{cleo} be the Leo memo that matches \Veim{cleo}.
@@ -11831,9 +11837,9 @@ we have
 \; \land \;
 \Veim{eim2} \in (\var{aslo} \cup \var{bslo}) \\
 \implies
-\Match{\Vleo{l1}}{\Veim{eim1}}
-\; \land \;
-\Match{\Vleo{l2}}{\Veim{eim2}} \\
+\Vleo{l1} = \Memo{\Veim{eim1}}
+\; \land \; \Vleo{l2} = \Memo{\Veim{eim2}}
+\\
 \; \land \;
 \op{Leo-top}{\Vleo{l1}, \Vloc{curr}}
 = \op{Leo-top}{\Vleo{l2}, \Vloc{curr}}
