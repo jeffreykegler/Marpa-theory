@@ -893,14 +893,6 @@ we will abbreviate
 and
 ``definition'' as \dfn{Def}.
 
-Unless otherwise specified, the indexes
-of a sequence are consecutive integers,
-starting with zero.
-Where \var{seq} is a sequence,
-we write
-\Vlastix{seq}
-for its last index.
-
 We will use the symbol \undefined%
 \index{recce-notation}{"!@\undefined}
 to mean ``undefined''
@@ -913,6 +905,168 @@ that second value is also undefined:
 \[
    \var{x} \, = \, \undefined \;\; \implies \;\; (\var{x} \, = \, \var{y} \; \equiv \; \var{y} \, = \, \undefined).
 \]
+
+\section{Sequences}
+
+Unless otherwise specified, the indexes
+of a sequence are consecutive integers,
+starting with zero.
+Where \var{seq} is a sequence,
+we write
+\Vlastix{seq}
+for its last index.
+
+The following theorem will prove useful.
+
+\begin{theorem}
+\ttitle{Sequence overlap}
+\label{t:sequence-overlap}
+Let \var{mast} be a master sequence containing two subsequences,
+\var{con} and \var{con2},
+such that \var{con} does not contain the top or bottom
+of \var{con2}:
+\begin{gather*}
+\var{con} \subseteq \var{mast}
+\; \land \; \var{con2} \subseteq \var{mast} \\
+\el{con2}{0} \notin \var{con}
+\; \land \; \el{con2}{\Vlastix{con2}} \notin \var{con}.
+\end{gather*}
+Let \var{a} and \var{b} be elements,
+such that
+\[
+\var{a} \in \var{con}
+\; \land \; \var{b} \in \var{con}.
+\]
+Then
+\[
+\var{a} \in \var{con2} \equiv \var{b} \in \var{con2}.
+\]
+\end{theorem}
+
+\begin{proof}
+Assume,
+for a reductio,
+that exactly one of \var{a} and \var{b}
+is an element of \var{con2}.
+Without loss of generalization, we formalize
+the assumption for the reductio as
+\begin{equation}
+\label{t:sequence-overlap-18}
+  \var{a} \in \var{con2} \; \land \; \var{b} \notin \var{con2}.
+\end{equation}
+Since \var{con} and \var{con2} are,
+by assumption for the theorem, subsequences of \var{mast},
+let
+\begin{align}
+\label{t:sequence-overlap-20}
+\var{a} & = \Vel{mast}{aix} \\
+\label{t:sequence-overlap-22}
+\var{b} & = \Vel{mast}{bix} \\
+\label{t:sequence-overlap-24}
+\Vel{con}{0} & = \Vel{mast}{loc} \\
+\label{t:sequence-overlap-26}
+\Vel{con}{\Vlastix{con}} & = \Vel{mast}{hic} \\
+\label{t:sequence-overlap-28}
+\Vel{con2}{0} & = \Vel{mast}{loc2} \\
+\label{t:sequence-overlap-30}
+\Vel{con2}{\Vlastix{con2}} & = \Vel{mast}{hic2} 
+\end{align}
+
+We will find it useful to express facts about containment
+as relations among indexes of \var{mast}:
+\begin{align}
+\label{t:sequence-overlap-32}
+& \var{a} \in \var{con} && \text{ASM Th} \\
+\label{t:sequence-overlap-34}
+& \var{loc} \le \var{aix} \le \var{hic} &&
+\eqref{t:sequence-overlap-24},
+\eqref{t:sequence-overlap-26},
+\eqref{t:sequence-overlap-32}
+\\
+\label{t:sequence-overlap-36}
+& \var{b} \in \var{con} && \text{ASM Th} \\
+\label{t:sequence-overlap-38}
+& \var{loc} \le \var{bix} \le \var{hic} &&
+\eqref{t:sequence-overlap-24},
+\eqref{t:sequence-overlap-26},
+\eqref{t:sequence-overlap-36}
+\end{align}
+
+Assume for an inner reductio that
+\begin{equation}
+\label{t:sequence-overlap-50}
+\var{aix} \le \var{bix}
+\end{equation}
+From \eqref{t:sequence-overlap-18},
+\eqref{t:sequence-overlap-28},
+\eqref{t:sequence-overlap-30}
+and \eqref{t:sequence-overlap-50},
+we have
+\begin{equation}
+\label{t:sequence-overlap-54}
+\begin{gathered}
+\var{loc2} \le \var{aix} \le \var{hic2} < \var{bix} \\
+\therefore \; \var{aix} \le \var{hic2} < \var{bix}.
+\end{gathered}
+\end{equation}
+Combining
+\eqref{t:sequence-overlap-34}
+\eqref{t:sequence-overlap-38}
+and
+\eqref{t:sequence-overlap-54},
+we have
+\begin{align}
+\label{t:sequence-overlap-57}
+& \var{loc} \le \var{aix} \le \var{hic2} < \var{bix} \le \var{hic} &&
+\\
+\label{t:sequence-overlap-59}
+\therefore \; & \var{loc} \le \var{hic2} < \var{hic} &&
+\\
+\label{t:sequence-overlap-61}
+\therefore \; & \el{con2}{\Vlastix{con2}} \in \var{con} &&
+\eqref{t:sequence-overlap-24},
+\eqref{t:sequence-overlap-26},
+\eqref{t:sequence-overlap-30}
+\end{align}
+where 
+\eqref{t:sequence-overlap-61} is contrary
+to assumption for theorem.
+This shows the inner reductio,
+from which we conclude that
+\eqref{t:sequence-overlap-50} is false,
+and therefore that
+\begin{equation}
+\label{t:sequence-overlap-70}
+\var{aix} > \var{bix}
+\end{equation}
+
+Again using \eqref{t:sequence-overlap-18},
+\eqref{t:sequence-overlap-28},
+and \eqref{t:sequence-overlap-30},
+but this time with \eqref{t:sequence-overlap-70},
+we have
+\begin{align}
+\label{t:sequence-overlap-73}
+& \var{bix} < \var{loc2} \le \var{aix} \le \var{hic2} \\
+\label{t:sequence-overlap-75}
+\therefore \; & \var{bix} < \var{loc2} \le \var{aix} \\
+\label{t:sequence-overlap-77}
+\therefore \; & \var{loc} \le \var{bix} \le \var{loc2} < \var{aix} \le \var{hic} &&
+\eqref{t:sequence-overlap-34},
+\eqref{t:sequence-overlap-38}
+\\
+\label{t:sequence-overlap-79}
+\therefore \; & \var{loc} \le \var{loc2} < \var{hic} &&
+\\
+\label{t:sequence-overlap-81}
+\therefore \; & \el{con2}{0} \in \var{con} &&
+\eqref{t:sequence-overlap-24},
+\eqref{t:sequence-overlap-26},
+\eqref{t:sequence-overlap-28}
+\end{align}
+\eqref{t:sequence-overlap-81} is contrary to assumption for the theorem,
+which shows the outer reductio and the theorem.
+\end{proof}
 
 \section{Grammars}
 
@@ -9753,35 +9907,6 @@ and the theorem.
 \end{proof}
 
 \begin{theorem}
-\ttitle{Leo catenas are finite}
-\label{t:leo-catenas-are-finite}
-Every Leo catena has a finite length.
-\end{theorem}
-
-\begin{proof}
-Let \var{cat} be a catena,
-and let $\Current{\el{cat}{0}} = \var{i}$.
-By Lemma
-\ref{lem:leo-catena-non-increasing-location},
-the location of the elements of \var{cat} is non-increasing,
-so that \var{cat} has elements at at most \Vincr{i} locations.
-
-By Lemma
-\ref{lem:leo-catena-cycle},
-if any two catena elements
-are distinct, but at a single location,
-they cannot share the same transition symbol.
-The number of symbols in a Marpa grammar is a fixed
-constant that depends on the grammar.
-Let the number of symbols in \Cg{} be \var{sym-cnt}.
-
-From the foregoing, we see that there are at most
-$(\Vincr{i}) \times \var{sym-cnt}$ elements in \var{cat}.
-Since the choice of \var{cat} was arbitrary,
-the theorem follows.
-\end{proof}
-
-\begin{theorem}
 \ttitle{Leo catena elements share common dotted rule and origin}
 \label{t:catena-top-elements-identical}
 In a catena, the dotted rule and origin elements
@@ -9866,6 +9991,50 @@ The induction shows that
 \Origin{\Vel{cat}{a}} = \Origin{\Vel{cat}{0}},
 \end{multline*}
 and the theorem follows immediately.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Catena element uniqueness}
+\label{catena-element-uniqueness}
+Every element of a contena is distinct.
+\end{theorem}
+
+\begin{proof}
+This theorem follows from Lemma
+\ref{lem:leo-catena-cycle}.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Leo catenas are finite}
+\label{t:leo-catenas-are-finite}
+Every Leo catena has a finite length.
+\end{theorem}
+
+\begin{proof}
+Let \var{cat} be a catena,
+and let $\Current{\el{cat}{0}} = \var{i}$.
+By theorem
+\ref{catena-element-uniqueness},
+no element of \var{cat} occurs twice.
+We proceed by counting the number of possible distinct
+catena elements.
+
+By Lemma
+\ref{lem:leo-catena-non-increasing-location},
+the location of the elements of \var{cat} is non-increasing,
+so that \var{cat} has elements at at most \Vincr{i} locations.
+By Lemma
+\ref{lem:leo-catena-cycle},
+if any two catena elements
+are distinct, but at a single location,
+they cannot share the same transition symbol.
+The number of symbols in a Marpa grammar is a fixed
+constant that depends on the grammar.
+Let the number of symbols in \Cg{} be \var{sym-cnt}.
+From the foregoing, we see that there are at most
+$(\Vincr{i}) \times \var{sym-cnt}$ elements in \var{cat}.
+Since the choice of \var{cat} was arbitrary,
+the theorem follows.
 \end{proof}
 
 \begin{theorem}
@@ -10613,8 +10782,6 @@ and
 \end{aligned}
 \end{equation}
 
-TODO: Next is wrong!  EIM must be complete.
-
 By the definition of a matching Leo memo,
 \eqref{eq:lem-leo-memo-of-incompletion-30}
 tells us the \Vleo{l} matches \Veim{cuz}.
@@ -10799,11 +10966,6 @@ the following set of equations:
   \Vop{LM}{\Vel{slo}{x}} = \el{cat}{\Vlastix{cat}}
 \end{gathered}
 \right)
-\\
-\label{eq:leo-silo-validity-10e}
-\tag{IND5}
-\var{x} < \var{topix}
-& \implies \op{Comps}{\var{slo}, \var{x}} = \Vincr{\Vlastix{cat}}
 \end{align}
 
 \textbf{Basis of the induction}:
@@ -10822,7 +10984,7 @@ $\var{topix} = \undefined$,
 the antecedant of the implications
 in 
 \eqref{eq:leo-silo-validity-10a}--%
-\eqref{eq:leo-silo-validity-10e}
+\eqref{eq:leo-silo-validity-10d}
 is true.
 We have
 \eqref{eq:leo-silo-validity-10a}
@@ -10847,7 +11009,7 @@ the single element sequence
 satisfies
 \eqref{eq:leo-silo-validity-10d}.
 To show
-\eqref{eq:leo-silo-validity-10e} for
+\eqref{eq:leo-silo-validity-10d} for
 $\var{x} = 0$,
 \begin{align}
 \label{eq:leo-silo-validity-13a}
@@ -10864,28 +11026,28 @@ $\var{x} = 0$,
 From 
 \eqref{eq:leo-silo-validity-13a}
 and \eqref{eq:leo-silo-validity-13b},
-we have \eqref{eq:leo-silo-validity-10e}.
+we have \eqref{eq:leo-silo-validity-10d}.
 We have shown
 \eqref{eq:leo-silo-validity-10a}--%
-\eqref{eq:leo-silo-validity-10e}
+\eqref{eq:leo-silo-validity-10d}
 for $\var{x} = 0$
 and therefore
 the basis of the induction.
 
 \textbf{Step of the induction}:
 For the step of the induction, we assume
-\eqref{eq:leo-silo-validity-10a}--\eqref{eq:leo-silo-validity-10e}
+\eqref{eq:leo-silo-validity-10a}--\eqref{eq:leo-silo-validity-10d}
 for $\var{x} = \var{i}$,
 to show
-\eqref{eq:leo-silo-validity-10a}--\eqref{eq:leo-silo-validity-10e}
+\eqref{eq:leo-silo-validity-10a}--\eqref{eq:leo-silo-validity-10d}
 for $\var{x} = \Vincr{i}$.
 Within the step, we proceed by cases.
 
 \textbf{Step case 1}: For the case where $\exists \; \var{topix} : \Vincr{i} > \var{topix}$,
 the antecedants of 
-\eqref{eq:leo-silo-validity-10a}--\eqref{eq:leo-silo-validity-10e}
+\eqref{eq:leo-silo-validity-10a}--\eqref{eq:leo-silo-validity-10d}
 are false, and
-\eqref{eq:leo-silo-validity-10a}--\eqref{eq:leo-silo-validity-10e}
+\eqref{eq:leo-silo-validity-10a}--\eqref{eq:leo-silo-validity-10d}
 for $\var{x} = \Vincr{i}$ follows trivially.
 
 TODO: Needs more work!
@@ -11962,154 +12124,6 @@ by Theorem \ref{t:leo-quasi-complete},
 only quasi-complete EIM's are memoized.
 Therefore no EIM in Earley set 0
 is memoized.
-\end{proof}
-
-\begin{lemma}
-\label{lem:sequence-overlap}
-If a ``container'' sequence does not contain the top or bottom
-of a second container sequence,
-then the second sequence either contains all the elements
-of the first one, or none of them.
-More formally, let \var{con}, \var{con2} and \var{seq} be sequences,
-and let \var{a} and \var{b} be elements,
-such that
-\begin{gather*}
-\var{con} \subseteq \var{seq}
-\; \land \; \var{con2} \subseteq \var{seq} \\
-\var{a} \in \var{con}
-\; \land \; \var{b} \in \var{con} \\
-\el{con2}{0} \notin \var{con}
-\; \land \; \el{con2}{\Vlastix{con2}} \notin \var{con}.
-\end{gather*}
-Then
-\[
-\var{a} \in \var{con2} \equiv \var{b} \in \var{con2}.
-\]
-\end{lemma}
-
-\begin{proof}
-Assume,
-for a reductio,
-that exactly one of \var{a} and \var{b}
-is an element of \var{con2}.
-Without loss of generalization, we formalize
-the assumption for the reductio as
-\begin{equation}
-\label{lem:sequence-overlap-18}
-  \var{a} \in \var{con2} \; \land \; \var{b} \notin \var{con2}.
-\end{equation}
-Since \var{con} and \var{con2} are,
-by assumption for the theorem, subsequences of \var{seq},
-let
-\begin{align}
-\label{lem:sequence-overlap-20}
-\var{a} & = \Vel{seq}{aix} \\
-\label{lem:sequence-overlap-22}
-\var{b} & = \Vel{seq}{bix} \\
-\label{lem:sequence-overlap-24}
-\Vel{con}{0} & = \Vel{seq}{loc} \\
-\label{lem:sequence-overlap-26}
-\Vel{con}{\Vlastix{con}} & = \Vel{seq}{hic} \\
-\label{lem:sequence-overlap-28}
-\Vel{con2}{0} & = \Vel{seq}{loc2} \\
-\label{lem:sequence-overlap-30}
-\Vel{con2}{\Vlastix{con2}} & = \Vel{seq}{hic2} 
-\end{align}
-
-We will find it useful to express facts about containment
-as relations among indexes of \var{seq}:
-\begin{align}
-\label{lem:sequence-overlap-32}
-& \var{a} \in \var{con} && \text{ASM Th} \\
-\label{lem:sequence-overlap-34}
-& \var{loc} \le \var{aix} \le \var{hic} &&
-\eqref{lem:sequence-overlap-24},
-\eqref{lem:sequence-overlap-26},
-\eqref{lem:sequence-overlap-32}
-\\
-\label{lem:sequence-overlap-36}
-& \var{b} \in \var{con} && \text{ASM Th} \\
-\label{lem:sequence-overlap-38}
-& \var{loc} \le \var{bix} \le \var{hic} &&
-\eqref{lem:sequence-overlap-24},
-\eqref{lem:sequence-overlap-26},
-\eqref{lem:sequence-overlap-36}
-\end{align}
-
-Assume for an inner reductio that
-\begin{equation}
-\label{lem:sequence-overlap-50}
-\var{aix} \le \var{bix}
-\end{equation}
-From \eqref{lem:sequence-overlap-18},
-\eqref{lem:sequence-overlap-28},
-\eqref{lem:sequence-overlap-30}
-and \eqref{lem:sequence-overlap-50},
-we have
-\begin{equation}
-\label{lem:sequence-overlap-54}
-\begin{gathered}
-\var{loc2} \le \var{aix} \le \var{hic2} < \var{bix} \\
-\therefore \; \var{aix} \le \var{hic2} < \var{bix}.
-\end{gathered}
-\end{equation}
-Combining
-\eqref{lem:sequence-overlap-34}
-\eqref{lem:sequence-overlap-38}
-and
-\eqref{lem:sequence-overlap-54},
-we have
-\begin{align}
-\label{lem:sequence-overlap-57}
-& \var{loc} \le \var{aix} \le \var{hic2} < \var{bix} \le \var{hic} &&
-\\
-\label{lem:sequence-overlap-59}
-\therefore \; & \var{loc} \le \var{hic2} < \var{hic} &&
-\\
-\label{lem:sequence-overlap-61}
-\therefore \; & \el{con2}{\Vlastix{con2}} \in \var{con} &&
-\eqref{lem:sequence-overlap-24},
-\eqref{lem:sequence-overlap-26},
-\eqref{lem:sequence-overlap-30}
-\end{align}
-where 
-\eqref{lem:sequence-overlap-61} is contrary
-to assumption for theorem.
-This shows the inner reductio,
-from which we conclude that
-\eqref{lem:sequence-overlap-50} is false,
-and therefore that
-\begin{equation}
-\label{lem:sequence-overlap-70}
-\var{aix} > \var{bix}
-\end{equation}
-
-Again using \eqref{lem:sequence-overlap-18},
-\eqref{lem:sequence-overlap-28},
-and \eqref{lem:sequence-overlap-30},
-but this time with \eqref{lem:sequence-overlap-70},
-we have
-\begin{align}
-\label{lem:sequence-overlap-73}
-& \var{bix} < \var{loc2} \le \var{aix} \le \var{hic2} \\
-\label{lem:sequence-overlap-75}
-\therefore \; & \var{bix} < \var{loc2} \le \var{aix} \\
-\label{lem:sequence-overlap-77}
-\therefore \; & \var{loc} \le \var{bix} \le \var{loc2} < \var{aix} \le \var{hic} &&
-\eqref{lem:sequence-overlap-34},
-\eqref{lem:sequence-overlap-38}
-\\
-\label{lem:sequence-overlap-79}
-\therefore \; & \var{loc} \le \var{loc2} < \var{hic} &&
-\\
-\label{lem:sequence-overlap-81}
-\therefore \; & \el{con2}{0} \in \var{con} &&
-\eqref{lem:sequence-overlap-24},
-\eqref{lem:sequence-overlap-26},
-\eqref{lem:sequence-overlap-28}
-\end{align}
-\eqref{lem:sequence-overlap-81} is contrary to assumption for the theorem,
-which shows the outer reductio and the theorem.
 \end{proof}
 
 \begin{theorem}
