@@ -11019,22 +11019,55 @@ and \Vel{slo}{i} is incomplete.
 \eqref{eq:leo-silo-validity-10a} for step}
 \\
 \label{eq:leo-silo-validity-20m}
-& \Valid{\Vel{slo}{\Vincr{i}}}
+&
 \begin{multlined}
+\exists \; \Veim{eff} : \Valid{\Veim{eff}}
+\\
 \; \because \;
 \eqref{eq:leo-silo-validity-20a},
 \eqref{eq:leo-silo-validity-20g},
 \eqref{eq:leo-silo-validity-20i},
-\eqref{eq:leo-silo-validity-20k},
 \text{Lemma \ref{lem:leo-memo-of-incompletion}}
 \end{multlined}
+\\
+\label{eq:leo-silo-validity-20o}
+&
+\begin{multlined}
+\text{\Veim{eim} is the silo effect of \Vel{slo}{i}}
+\\
+\; \because \;
+\eqref{eq:leo-silo-validity-20a},
+\eqref{eq:leo-silo-validity-20g},
+\eqref{eq:leo-silo-validity-20i},
+\text{Lemma \ref{lem:leo-memo-of-incompletion}}
+\end{multlined}
+\\
+\label{eq:leo-silo-validity-20q}
+&
+\el{slo}{\Vincr{i}} = \Veim{eim}
+\; \because \;
+\eqref{eq:leo-silo-validity-20o}
+\\
+\label{eq:leo-silo-validity-20s}
+&
+\Valid{\el{slo}{\Vincr{i}}}
+\; \because \;
+\eqref{eq:leo-silo-validity-20m},
+\eqref{eq:leo-silo-validity-20q}
 \end{align}
 
-The results above show the step for this case:
-\eqref{eq:leo-silo-validity-20m} shows
+\eqref{eq:leo-silo-validity-20s} shows
 \eqref{eq:leo-silo-validity-10a}
-and \eqref{eq:leo-silo-validity-10b}
+for $\var{x} = \Vincr{i}$,
+and \eqref{eq:leo-silo-validity-20s} shows
+\eqref{eq:leo-silo-validity-10b}
 for $\var{x} = \Vincr{i}$.
+Having shown
+\eqref{eq:leo-silo-validity-10a}
+and \eqref{eq:leo-silo-validity-10a}
+for $\var{x} = \Vincr{i}$,
+we have shown
+the step for this case.
 
 TODO: Finish
 \end{proof}
