@@ -10833,44 +10833,44 @@ $\el{lsl}{0} = \Veim{lb}$.
 Let \var{slo} be a silo
 such that
 \begin{equation}
-\label{eq:OLD-leo-silo-validity-6}
+\label{eq:leo-silo-validity-6}
 \el{lsl}{0} = \Veim{lb}.
 \end{equation}
 We first show that a silo satisfying
-\eqref{eq:OLD-leo-silo-validity-6} exists.
+\eqref{eq:leo-silo-validity-6} exists.
 \begin{align}
-\label{eq:OLD-leo-silo-validity-8a}
+\label{eq:leo-silo-validity-8a}
 & \myparbox{
 \Veim{lb} is the EIM equivalent
 of the matching bottom of a Leo memo
 $\because$ ASM for the theorem
 }
 \\
-\label{eq:OLD-leo-silo-validity-8b}
+\label{eq:leo-silo-validity-8b}
 & \myparbox{
 \Veim{lb} is complete
 $\because$ Def of EIM equivalent of a symbol instance,
-\eqref{eq:OLD-leo-silo-validity-8a}
+\eqref{eq:leo-silo-validity-8a}
 }
 \\
-\label{eq:OLD-leo-silo-validity-8c}
+\label{eq:leo-silo-validity-8c}
 & \myparbox{
 \Veim{lb} is silo-eligible
 $\because$ Def of silo eligible,
-\eqref{eq:OLD-leo-silo-validity-8b}
+\eqref{eq:leo-silo-validity-8b}
 }
 \\
-\label{eq:OLD-leo-silo-validity-8d}
+\label{eq:leo-silo-validity-8d}
 & \myparbox{ $[ \Veim{lb} ]$ is a silo
 $\because$ Def of silo,
-\eqref{eq:OLD-leo-silo-validity-8c}
+\eqref{eq:leo-silo-validity-8c}
 }
 \end{align}
 From
-\eqref{eq:OLD-leo-silo-validity-8d},
+\eqref{eq:leo-silo-validity-8d},
 we see that
 there is at least one silo satisfying 
-\eqref{eq:OLD-leo-silo-validity-6}.
+\eqref{eq:leo-silo-validity-6}.
 
 Let \var{topix} be
 such that
@@ -10931,9 +10931,12 @@ in
 \eqref{eq:leo-silo-validity-10a} and
 \eqref{eq:leo-silo-validity-10b}
 is true.
-We have
+By assumption for the theorem,
+\Veim{lb} is valid, so that
+we have
 \eqref{eq:leo-silo-validity-10a} for $\var{x} = 0$
-from \eqref{eq:leo-silo-validity-6},
+from \eqref{eq:leo-silo-validity-6}.
+We have
 \eqref{eq:leo-silo-validity-10b} for $\var{x} = 0$
 from \eqref{eq:leo-silo-validity-8d}.
 With \eqref{eq:leo-silo-validity-10a}
@@ -10967,93 +10970,50 @@ TODO: to here
 the case where $\Vincr{i} \le \var{topix}$
 and \Vel{slo}{i} is incomplete.
 \begin{align}
-\label{eq:OLD-leo-silo-validity-20a}
+\label{eq:leo-silo-validity-20a}
 & \text{\Vel{slo}{i} is incomplete}
 \; \because \; \text{ASM for case}
 \\
-\label{eq:OLD-leo-silo-validity-20b}
+\label{eq:leo-silo-validity-20b}
 & \Vincr{i} \le \var{topix}
 \; \because \; \text{ASM for case}
 \\
-\label{eq:OLD-leo-silo-validity-20d}
+\label{eq:leo-silo-validity-20d}
 & \var{i} < \var{topix}
-\; \because \; \eqref{eq:OLD-leo-silo-validity-20b}
+\; \because \; \eqref{eq:leo-silo-validity-20b}
 \\
-\label{eq:OLD-leo-silo-validity-20e}
+\label{eq:leo-silo-validity-20e}
 & \text{\Vel{slo}{i} is a silo layer}
 \; \because \; \text{ASM
-\eqref{eq:OLD-leo-silo-validity-20b} for step}
+\eqref{eq:leo-silo-validity-20b} for step}
 \\
-\label{eq:OLD-leo-silo-validity-20g}
+\label{eq:leo-silo-validity-20g}
 & \text{\Vel{slo}{i} is quasi-complete}
 \; \because \;
-\eqref{eq:OLD-leo-silo-validity-20e}, \;
+\eqref{eq:leo-silo-validity-20e}, \;
 \text{Def of silo}
 \\
-\label{eq:OLD-leo-silo-validity-20i}
+\label{eq:leo-silo-validity-20i}
 & \Valid{\Vel{slo}{i}}
 \; \because \; \text{ASM
-\eqref{eq:OLD-leo-silo-validity-10a} for step}
+\eqref{eq:leo-silo-validity-10a} for step}
 \\
-\label{eq:OLD-leo-silo-validity-20k}
-& \op{LM}{\Vel{slo}{i}} \neq \undefined
-\; \because \;
-\eqref{eq:OLD-leo-silo-validity-20d},
-\text{ASM \eqref{eq:OLD-leo-silo-validity-10c} for step}
-\\
-\label{eq:OLD-leo-silo-validity-20m}
+\label{eq:leo-silo-validity-20m}
 & \Valid{\Vel{slo}{\Vincr{i}}}
 \begin{multlined}
 \; \because \;
-\eqref{eq:OLD-leo-silo-validity-20a},
-\eqref{eq:OLD-leo-silo-validity-20g},
-\eqref{eq:OLD-leo-silo-validity-20i},
-\eqref{eq:OLD-leo-silo-validity-20k},
+\eqref{eq:leo-silo-validity-20a},
+\eqref{eq:leo-silo-validity-20g},
+\eqref{eq:leo-silo-validity-20i},
+\eqref{eq:leo-silo-validity-20k},
 \text{Lemma \ref{lem:leo-memo-of-incompletion}}
 \end{multlined}
-\\
-\label{eq:OLD-leo-silo-validity-20o}
-&
-\begin{multlined}
-\op{LM}{\Vel{slo}{\var{i}}}
-= \op{LM}{\Vel{slo}{\Vincr{i}}} \\
-\; \because \;
-\eqref{eq:OLD-leo-silo-validity-20a},
-\eqref{eq:OLD-leo-silo-validity-20g},
-\eqref{eq:OLD-leo-silo-validity-20i},
-\eqref{eq:OLD-leo-silo-validity-20k},
-\text{Lemma \ref{lem:leo-memo-of-incompletion}}
-\end{multlined}
-\\
-\label{eq:OLD-leo-silo-validity-20q}
-& \op{LM}{\Vel{slo}{\Vincr{i}}} \neq \undefined
-\; \because \;
-\eqref{eq:OLD-leo-silo-validity-20k},
-\eqref{eq:OLD-leo-silo-validity-20o}
-\\
-\label{eq:OLD-leo-silo-validity-20s}
-& \el{cat}{\Vlastix{cat}} = \op{LM}{\Vel{slo}{i}}
-\; \because \; \text{ASM
-\eqref{eq:OLD-leo-silo-validity-10d} for step}
-\\
-\label{eq:OLD-leo-silo-validity-20u}
-& \el{cat}{\Vlastix{cat}} = \op{LM}{\Vel{slo}{\Vincr{i}}}
-\; \because \;
-\eqref{eq:OLD-leo-silo-validity-20k},
-\eqref{eq:OLD-leo-silo-validity-20s}
 \end{align}
 
 The results above show the step for this case:
-\eqref{eq:OLD-leo-silo-validity-20m} shows
-\eqref{eq:OLD-leo-silo-validity-10a}
-and \eqref{eq:OLD-leo-silo-validity-10b}
-for $\var{x} = \Vincr{i}$.
-\eqref{eq:OLD-leo-silo-validity-20q}
-shows \eqref{eq:OLD-leo-silo-validity-10c}
-for $\var{x} = \Vincr{i}$
-and
-\eqref{eq:OLD-leo-silo-validity-20u}
-is \eqref{eq:OLD-leo-silo-validity-10d}
+\eqref{eq:leo-silo-validity-20m} shows
+\eqref{eq:leo-silo-validity-10a}
+and \eqref{eq:leo-silo-validity-10b}
 for $\var{x} = \Vincr{i}$.
 
 TODO: Finish
