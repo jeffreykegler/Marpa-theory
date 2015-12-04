@@ -10823,77 +10823,55 @@ be an instantiated Leo memo and \Vinst{lb} a valid matching bottom.
 Then for every EIM equivalent of \Vinst{lb}, call it \Veim{lb},
 there is a Leo silo, call it \var{lsl},
 such that
-\begin{gather}
-\label{eq:leo-silo-validity-5a}
-\myparbox{\var{lsl} is valid for \Vleo{leo},}
-\\
-\myparbox{$\el{lsl}{0} = \Veim{lb}$,}
-\\
-\myparbox{
-for all \var{a} such that
-$0 \le \var{a} \le \Vlastix{lsl}$,
-\Vel{lsl}{a} has a matching Leo memo,
-} \\
-\myparbox{
-the Leo top-down causes of \var{lsl} form a catena, and
-} \\
-\myparbox{
-the length of the catena is equal to the number
-of complete EIM's in the lower layers of \var{lsl}.
-}
-\end{gather}
+\var{lsl} is valid for \Vleo{leo},
+and
+$\el{lsl}{0} = \Veim{lb}$.
 \end{theorem}
 
 \begin{proof}
-TODO revise
 
-Without loss of generality, let \var{slo} be a silo
+Let \var{slo} be a silo
 such that
 \begin{equation}
-\label{eq:leo-silo-validity-6}
+\label{eq:OLD-leo-silo-validity-6}
 \el{lsl}{0} = \Veim{lb}.
 \end{equation}
 We first show that a silo satisfying
-\eqref{eq:leo-silo-validity-6} exists.
+\eqref{eq:OLD-leo-silo-validity-6} exists.
 \begin{align}
-\label{eq:leo-silo-validity-8a}
+\label{eq:OLD-leo-silo-validity-8a}
 & \myparbox{
 \Veim{lb} is the EIM equivalent
 of the matching bottom of a Leo memo
 $\because$ ASM for the theorem
 }
 \\
-\label{eq:leo-silo-validity-8b}
+\label{eq:OLD-leo-silo-validity-8b}
 & \myparbox{
 \Veim{lb} is complete
 $\because$ Def of EIM equivalent of a symbol instance,
-\eqref{eq:leo-silo-validity-8a}
+\eqref{eq:OLD-leo-silo-validity-8a}
 }
 \\
-\label{eq:leo-silo-validity-8c}
+\label{eq:OLD-leo-silo-validity-8c}
 & \myparbox{
 \Veim{lb} is silo-eligible
 $\because$ Def of silo eligible,
-\eqref{eq:leo-silo-validity-8b}
+\eqref{eq:OLD-leo-silo-validity-8b}
 }
 \\
-\label{eq:leo-silo-validity-8d}
+\label{eq:OLD-leo-silo-validity-8d}
 & \myparbox{ $[ \Veim{lb} ]$ is a silo
 $\because$ Def of silo,
-\eqref{eq:leo-silo-validity-8c}
+\eqref{eq:OLD-leo-silo-validity-8c}
 }
 \end{align}
 From
-\eqref{eq:leo-silo-validity-8d},
+\eqref{eq:OLD-leo-silo-validity-8d},
 we see that
 there is at least one silo satisfying 
-\eqref{eq:leo-silo-validity-6}.
+\eqref{eq:OLD-leo-silo-validity-6}.
 
-For the purposes of this proof,
-let \myfnname{LM}
-be a partial function such that \op{LM}{\Veim{eim}}
-is
-the instantiated Leo memo matching \Veim{eim}.
 Let \var{topix} be
 such that
 \begin{equation}
@@ -10923,7 +10901,6 @@ Similarly,
 We start with an induction.
 For the induction hypothesis,
 we use
-the following set of equations:
 \begin{align}
 \label{eq:leo-silo-validity-10a}
 \tag{IND1}
@@ -10934,23 +10911,6 @@ the following set of equations:
 \tag{IND2}
 \var{x} \le \var{topix}
 & \implies \; \text{\el{slo}{0 \ldots \var{x}} is a silo}
-\\
-\label{eq:leo-silo-validity-10c}
-\tag{IND3}
-\var{x} < \var{topix}
-& \implies \Vop{LM}{\Vel{slo}{x}} \neq \undefined
-\\
-\label{eq:leo-silo-validity-10d}
-\tag{IND4}
-\var{x} < \var{topix}
-& \implies
-\left(
-\begin{gathered}
-  \exists \; \var{cat} \; \text{such that} \\
-  \text{\var{cat} is a catena and} \\
-  \Vop{LM}{\Vel{slo}{x}} = \el{cat}{\Vlastix{cat}}
-\end{gathered}
-\right)
 \end{align}
 
 \textbf{Basis of the induction}:
@@ -10968,52 +10928,189 @@ following our convention for the case where
 $\var{topix} = \undefined$,
 the antecedant of the implications
 in 
-\eqref{eq:leo-silo-validity-10a}--%
-\eqref{eq:leo-silo-validity-10d}
+\eqref{eq:leo-silo-validity-10a} and
+\eqref{eq:leo-silo-validity-10b}
 is true.
 We have
-\eqref{eq:leo-silo-validity-10a}
-from \eqref{eq:leo-silo-validity-6}
-and \eqref{eq:leo-silo-validity-10b}
+\eqref{eq:leo-silo-validity-10a} for $\var{x} = 0$
+from \eqref{eq:leo-silo-validity-6},
+\eqref{eq:leo-silo-validity-10b} for $\var{x} = 0$
 from \eqref{eq:leo-silo-validity-8d}.
-By assumption for the theorem,
-\begin{equation}
-\label{eq:leo-silo-validity-12}
-  \op{LM}{\el{slo}{0}} \neq \undefined.
-\end{equation}
-\eqref{eq:leo-silo-validity-12} satisfies
-\eqref{eq:leo-silo-validity-10c} directly,
-and also allow us to define
-the single element sequence
-\begin{equation}
-\label{eq:leo-silo-validity-12b}
-  \var{cat} = [ \op{LM}{\el{slo}{0}} ].
-\end{equation}
-\var{cat} in
-\eqref{eq:leo-silo-validity-12b}
-satisfies
-\eqref{eq:leo-silo-validity-10d}.
-We have shown
-\eqref{eq:leo-silo-validity-10a}--%
-\eqref{eq:leo-silo-validity-10d}
-for $\var{x} = 0$
-and therefore
-the basis of the induction.
+With \eqref{eq:leo-silo-validity-10a}
+and
+\eqref{eq:leo-silo-validity-10b} for $\var{x} = 0$,
+we have the basis of the induction.
 
 \textbf{Step of the induction}:
 For the step of the induction, we assume
-\eqref{eq:leo-silo-validity-10a}--\eqref{eq:leo-silo-validity-10d}
+\eqref{eq:leo-silo-validity-10a}
+and \eqref{eq:leo-silo-validity-10b}
 for $\var{x} = \var{i}$,
 to show
-\eqref{eq:leo-silo-validity-10a}--\eqref{eq:leo-silo-validity-10d}
+\eqref{eq:leo-silo-validity-10a}
+and \eqref{eq:leo-silo-validity-10b}
 for $\var{x} = \Vincr{i}$.
 Within the step, we proceed by cases.
 
 \textbf{Step case 1}: For the case where $\exists \; \var{topix} : \Vincr{i} > \var{topix}$,
 the antecedants of 
-\eqref{eq:leo-silo-validity-10a}--\eqref{eq:leo-silo-validity-10d}
+\eqref{eq:leo-silo-validity-10a}
+and \eqref{eq:leo-silo-validity-10b}
 are false, and
-\eqref{eq:leo-silo-validity-10a}--\eqref{eq:leo-silo-validity-10d}
+\eqref{eq:leo-silo-validity-10a}
+and \eqref{eq:leo-silo-validity-10b}
+for $\var{x} = \Vincr{i}$ follow trivially.
+
+TODO: to here
+
+\textbf{Step case 2}: We next consider
+the case where $\Vincr{i} \le \var{topix}$
+and \Vel{slo}{i} is incomplete.
+\begin{align}
+\label{eq:OLD-leo-silo-validity-20a}
+& \text{\Vel{slo}{i} is incomplete}
+\; \because \; \text{ASM for case}
+\\
+\label{eq:OLD-leo-silo-validity-20b}
+& \Vincr{i} \le \var{topix}
+\; \because \; \text{ASM for case}
+\\
+\label{eq:OLD-leo-silo-validity-20d}
+& \var{i} < \var{topix}
+\; \because \; \eqref{eq:OLD-leo-silo-validity-20b}
+\\
+\label{eq:OLD-leo-silo-validity-20e}
+& \text{\Vel{slo}{i} is a silo layer}
+\; \because \; \text{ASM
+\eqref{eq:OLD-leo-silo-validity-20b} for step}
+\\
+\label{eq:OLD-leo-silo-validity-20g}
+& \text{\Vel{slo}{i} is quasi-complete}
+\; \because \;
+\eqref{eq:OLD-leo-silo-validity-20e}, \;
+\text{Def of silo}
+\\
+\label{eq:OLD-leo-silo-validity-20i}
+& \Valid{\Vel{slo}{i}}
+\; \because \; \text{ASM
+\eqref{eq:OLD-leo-silo-validity-10a} for step}
+\\
+\label{eq:OLD-leo-silo-validity-20k}
+& \op{LM}{\Vel{slo}{i}} \neq \undefined
+\; \because \;
+\eqref{eq:OLD-leo-silo-validity-20d},
+\text{ASM \eqref{eq:OLD-leo-silo-validity-10c} for step}
+\\
+\label{eq:OLD-leo-silo-validity-20m}
+& \Valid{\Vel{slo}{\Vincr{i}}}
+\begin{multlined}
+\; \because \;
+\eqref{eq:OLD-leo-silo-validity-20a},
+\eqref{eq:OLD-leo-silo-validity-20g},
+\eqref{eq:OLD-leo-silo-validity-20i},
+\eqref{eq:OLD-leo-silo-validity-20k},
+\text{Lemma \ref{lem:leo-memo-of-incompletion}}
+\end{multlined}
+\\
+\label{eq:OLD-leo-silo-validity-20o}
+&
+\begin{multlined}
+\op{LM}{\Vel{slo}{\var{i}}}
+= \op{LM}{\Vel{slo}{\Vincr{i}}} \\
+\; \because \;
+\eqref{eq:OLD-leo-silo-validity-20a},
+\eqref{eq:OLD-leo-silo-validity-20g},
+\eqref{eq:OLD-leo-silo-validity-20i},
+\eqref{eq:OLD-leo-silo-validity-20k},
+\text{Lemma \ref{lem:leo-memo-of-incompletion}}
+\end{multlined}
+\\
+\label{eq:OLD-leo-silo-validity-20q}
+& \op{LM}{\Vel{slo}{\Vincr{i}}} \neq \undefined
+\; \because \;
+\eqref{eq:OLD-leo-silo-validity-20k},
+\eqref{eq:OLD-leo-silo-validity-20o}
+\\
+\label{eq:OLD-leo-silo-validity-20s}
+& \el{cat}{\Vlastix{cat}} = \op{LM}{\Vel{slo}{i}}
+\; \because \; \text{ASM
+\eqref{eq:OLD-leo-silo-validity-10d} for step}
+\\
+\label{eq:OLD-leo-silo-validity-20u}
+& \el{cat}{\Vlastix{cat}} = \op{LM}{\Vel{slo}{\Vincr{i}}}
+\; \because \;
+\eqref{eq:OLD-leo-silo-validity-20k},
+\eqref{eq:OLD-leo-silo-validity-20s}
+\end{align}
+
+The results above show the step for this case:
+\eqref{eq:OLD-leo-silo-validity-20m} shows
+\eqref{eq:OLD-leo-silo-validity-10a}
+and \eqref{eq:OLD-leo-silo-validity-10b}
+for $\var{x} = \Vincr{i}$.
+\eqref{eq:OLD-leo-silo-validity-20q}
+shows \eqref{eq:OLD-leo-silo-validity-10c}
+for $\var{x} = \Vincr{i}$
+and
+\eqref{eq:OLD-leo-silo-validity-20u}
+is \eqref{eq:OLD-leo-silo-validity-10d}
+for $\var{x} = \Vincr{i}$.
+
+TODO: Finish
+\end{proof}
+
+\begin{theorem}
+\ttitle{OLD Leo silo validity}
+\label{t:OLD-leo-silo-validity}
+
+TODO: replace this.
+
+Let
+\begin{equation*}
+\Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{i} ]
+\end{equation*}
+be an instantiated Leo memo and \Vinst{lb} a valid matching bottom.
+Then for every EIM equivalent of \Vinst{lb}, call it \Veim{lb},
+there is a Leo silo, call it \var{lsl},
+such that
+\begin{gather}
+\label{eq:OLD-leo-silo-validity-5a}
+\myparbox{\var{lsl} is valid for \Vleo{leo},}
+\\
+\myparbox{$\el{lsl}{0} = \Veim{lb}$,}
+\\
+\myparbox{
+for all \var{a} such that
+$0 \le \var{a} \le \Vlastix{lsl}$,
+\Vel{lsl}{a} has a matching Leo memo,
+} \\
+\myparbox{
+the Leo top-down causes of \var{lsl} form a catena, and
+} \\
+\myparbox{
+the length of the catena is equal to the number
+of complete EIM's in the lower layers of \var{lsl}.
+}
+\end{gather}
+\end{theorem}
+
+\begin{proof}
+TODO revise
+
+\textbf{Step of the induction}:
+For the step of the induction, we assume
+\eqref{eq:OLD-leo-silo-validity-10a}--\eqref{eq:OLD-leo-silo-validity-10d}
+for $\var{x} = \var{i}$,
+to show
+\eqref{eq:OLD-leo-silo-validity-10a}--\eqref{eq:OLD-leo-silo-validity-10d}
+for $\var{x} = \Vincr{i}$.
+Within the step, we proceed by cases.
+
+\textbf{Step case 1}: For the case where $\exists \; \var{topix} : \Vincr{i} > \var{topix}$,
+the antecedants of 
+\eqref{eq:OLD-leo-silo-validity-10a}--\eqref{eq:OLD-leo-silo-validity-10d}
+are false, and
+\eqref{eq:OLD-leo-silo-validity-10a}--\eqref{eq:OLD-leo-silo-validity-10d}
 for $\var{x} = \Vincr{i}$ follows trivially.
 
 TODO: Needs more work!
@@ -11022,93 +11119,93 @@ TODO: Needs more work!
 the case where $\Vincr{i} \le \var{topix}$
 and \Vel{slo}{i} is incomplete.
 \begin{align}
-\label{eq:leo-silo-validity-20a}
+\label{eq:OLD-leo-silo-validity-20a}
 & \text{\Vel{slo}{i} is incomplete}
 \; \because \; \text{ASM for case}
 \\
-\label{eq:leo-silo-validity-20b}
+\label{eq:OLD-leo-silo-validity-20b}
 & \Vincr{i} \le \var{topix}
 \; \because \; \text{ASM for case}
 \\
-\label{eq:leo-silo-validity-20d}
+\label{eq:OLD-leo-silo-validity-20d}
 & \var{i} < \var{topix}
-\; \because \; \eqref{eq:leo-silo-validity-20b}
+\; \because \; \eqref{eq:OLD-leo-silo-validity-20b}
 \\
-\label{eq:leo-silo-validity-20e}
+\label{eq:OLD-leo-silo-validity-20e}
 & \text{\Vel{slo}{i} is a silo layer}
 \; \because \; \text{ASM
-\eqref{eq:leo-silo-validity-20b} for step}
+\eqref{eq:OLD-leo-silo-validity-20b} for step}
 \\
-\label{eq:leo-silo-validity-20g}
+\label{eq:OLD-leo-silo-validity-20g}
 & \text{\Vel{slo}{i} is quasi-complete}
 \; \because \;
-\eqref{eq:leo-silo-validity-20e}, \;
+\eqref{eq:OLD-leo-silo-validity-20e}, \;
 \text{Def of silo}
 \\
-\label{eq:leo-silo-validity-20i}
+\label{eq:OLD-leo-silo-validity-20i}
 & \Valid{\Vel{slo}{i}}
 \; \because \; \text{ASM
-\eqref{eq:leo-silo-validity-10a} for step}
+\eqref{eq:OLD-leo-silo-validity-10a} for step}
 \\
-\label{eq:leo-silo-validity-20k}
+\label{eq:OLD-leo-silo-validity-20k}
 & \op{LM}{\Vel{slo}{i}} \neq \undefined
 \; \because \;
-\eqref{eq:leo-silo-validity-20d},
-\text{ASM \eqref{eq:leo-silo-validity-10c} for step}
+\eqref{eq:OLD-leo-silo-validity-20d},
+\text{ASM \eqref{eq:OLD-leo-silo-validity-10c} for step}
 \\
-\label{eq:leo-silo-validity-20m}
+\label{eq:OLD-leo-silo-validity-20m}
 & \Valid{\Vel{slo}{\Vincr{i}}}
 \begin{multlined}
 \; \because \;
-\eqref{eq:leo-silo-validity-20a},
-\eqref{eq:leo-silo-validity-20g},
-\eqref{eq:leo-silo-validity-20i},
-\eqref{eq:leo-silo-validity-20k},
+\eqref{eq:OLD-leo-silo-validity-20a},
+\eqref{eq:OLD-leo-silo-validity-20g},
+\eqref{eq:OLD-leo-silo-validity-20i},
+\eqref{eq:OLD-leo-silo-validity-20k},
 \text{Lemma \ref{lem:leo-memo-of-incompletion}}
 \end{multlined}
 \\
-\label{eq:leo-silo-validity-20o}
+\label{eq:OLD-leo-silo-validity-20o}
 &
 \begin{multlined}
 \op{LM}{\Vel{slo}{\var{i}}}
 = \op{LM}{\Vel{slo}{\Vincr{i}}} \\
 \; \because \;
-\eqref{eq:leo-silo-validity-20a},
-\eqref{eq:leo-silo-validity-20g},
-\eqref{eq:leo-silo-validity-20i},
-\eqref{eq:leo-silo-validity-20k},
+\eqref{eq:OLD-leo-silo-validity-20a},
+\eqref{eq:OLD-leo-silo-validity-20g},
+\eqref{eq:OLD-leo-silo-validity-20i},
+\eqref{eq:OLD-leo-silo-validity-20k},
 \text{Lemma \ref{lem:leo-memo-of-incompletion}}
 \end{multlined}
 \\
-\label{eq:leo-silo-validity-20q}
+\label{eq:OLD-leo-silo-validity-20q}
 & \op{LM}{\Vel{slo}{\Vincr{i}}} \neq \undefined
 \; \because \;
-\eqref{eq:leo-silo-validity-20k},
-\eqref{eq:leo-silo-validity-20o}
+\eqref{eq:OLD-leo-silo-validity-20k},
+\eqref{eq:OLD-leo-silo-validity-20o}
 \\
-\label{eq:leo-silo-validity-20s}
+\label{eq:OLD-leo-silo-validity-20s}
 & \el{cat}{\Vlastix{cat}} = \op{LM}{\Vel{slo}{i}}
 \; \because \; \text{ASM
-\eqref{eq:leo-silo-validity-10d} for step}
+\eqref{eq:OLD-leo-silo-validity-10d} for step}
 \\
-\label{eq:leo-silo-validity-20u}
+\label{eq:OLD-leo-silo-validity-20u}
 & \el{cat}{\Vlastix{cat}} = \op{LM}{\Vel{slo}{\Vincr{i}}}
 \; \because \;
-\eqref{eq:leo-silo-validity-20k},
-\eqref{eq:leo-silo-validity-20s}
+\eqref{eq:OLD-leo-silo-validity-20k},
+\eqref{eq:OLD-leo-silo-validity-20s}
 \end{align}
 
 The results above show the step for this case:
-\eqref{eq:leo-silo-validity-20m} shows
-\eqref{eq:leo-silo-validity-10a}
-and \eqref{eq:leo-silo-validity-10b}
+\eqref{eq:OLD-leo-silo-validity-20m} shows
+\eqref{eq:OLD-leo-silo-validity-10a}
+and \eqref{eq:OLD-leo-silo-validity-10b}
 for $\var{x} = \Vincr{i}$.
-\eqref{eq:leo-silo-validity-20q}
-shows \eqref{eq:leo-silo-validity-10c}
+\eqref{eq:OLD-leo-silo-validity-20q}
+shows \eqref{eq:OLD-leo-silo-validity-10c}
 for $\var{x} = \Vincr{i}$
 and
-\eqref{eq:leo-silo-validity-20u}
-is \eqref{eq:leo-silo-validity-10d}
+\eqref{eq:OLD-leo-silo-validity-20u}
+is \eqref{eq:OLD-leo-silo-validity-10d}
 for $\var{x} = \Vincr{i}$.
 
 \textbf{Step case 3}: Finally,
@@ -11276,13 +11373,13 @@ $\var{i} < \var{topix}$.
 We proceed by finite induction.
 We take as the induction hypothesis
 \begin{align}
-\label{eq:leo-silo-validity-25}
+\label{eq:OLD-leo-silo-validity-25}
 \tag{IND1}
 0 \le \var{x} \le \var{topix}
 & \implies \Valid{\Vel{slo}{x}}
 \quad \text{and}
 \\
-\label{eq:leo-silo-validity-32}
+\label{eq:OLD-leo-silo-validity-32}
 \tag{IND2}
 0 \le \var{x} < \var{topix}
 & \implies
@@ -11296,32 +11393,32 @@ $\el{slo}{0} = \Veim{lb}$,
 and
 \Veim{lb} is valid.
 This gives us
-\eqref{eq:leo-silo-validity-25}
+\eqref{eq:OLD-leo-silo-validity-25}
 and
-\eqref{eq:leo-silo-validity-32}
+\eqref{eq:OLD-leo-silo-validity-32}
 for
 $\var{x} = 0$,
 and the basis of our induction.
 
 For the step of the induction, we assume
-\eqref{eq:leo-silo-validity-25}
+\eqref{eq:OLD-leo-silo-validity-25}
 and
-\eqref{eq:leo-silo-validity-32}
+\eqref{eq:OLD-leo-silo-validity-32}
 for \var{x} = \var{i},
 to show
 \begin{equation}
-\label{eq:leo-silo-validity-34}
+\label{eq:OLD-leo-silo-validity-34}
 \tag{STEP}
-\text{\eqref{eq:leo-silo-validity-25}
+\text{\eqref{eq:OLD-leo-silo-validity-25}
 and
-\eqref{eq:leo-silo-validity-32}
+\eqref{eq:OLD-leo-silo-validity-32}
 for $\var{x} = \Vincr{i}$.}
 \end{equation}
 Within the step, we proceed by cases.
 
 \textbf{Step case 1}: For the case where $\var{i} > \var{topix}$,
 we have
-\eqref{eq:leo-silo-validity-34}
+\eqref{eq:OLD-leo-silo-validity-34}
 vacuously.
 
 \textbf{Step case 2}: We next consider
@@ -11340,7 +11437,7 @@ Theorem
 tells us that
 \el{slo}{\Vincr{i}} is valid,
 which shows
-\eqref{eq:leo-silo-validity-25}
+\eqref{eq:OLD-leo-silo-validity-25}
 for $\var{x} = \Vincr{i}$
 in this case.
 
@@ -11356,7 +11453,7 @@ Also by assumption for the step,
 Using these facts and Lemma
 \ref{lem:leo-memo-of-incompletion},
 we have
-\eqref{eq:leo-silo-validity-32}
+\eqref{eq:OLD-leo-silo-validity-32}
 for $\var{x} = \Vincr{i}$
 in this case.
 This shows the step for this case.
@@ -11368,9 +11465,9 @@ and \Vel{slo}{i} is complete.
 Since \Vel{slo}{i} is complete,
 Lemma \ref{lem:leo-memo-effect} applies,
 and we have
-\eqref{eq:leo-silo-validity-25}
+\eqref{eq:OLD-leo-silo-validity-25}
 and
-\eqref{eq:leo-silo-validity-32}
+\eqref{eq:OLD-leo-silo-validity-32}
 for $\var{x} = \Vincr{i}$
 in this case
 from
@@ -11383,12 +11480,12 @@ This shows shows the final case of the induction
 step, and therefore the step and the induction.
 The induction shows
 \begin{gather}
-\label{eq:leo-silo-validity-35}
+\label{eq:OLD-leo-silo-validity-35}
 \forall \var{x} : 0 \le \var{x} \le \var{topix}
 \implies \Valid{\Vel{slo}{x}}
 \quad \text{and}
 \\
-\label{eq:leo-silo-validity-36}
+\label{eq:OLD-leo-silo-validity-36}
 \forall \var{x} : 0 \le \var{x} < \var{topix}
 \implies
 \text{\Vel{slo}{x} has a matching Leo memo.}
@@ -11397,7 +11494,7 @@ The induction shows
 It remains to show that there is
 a \var{slo} such that one of its layers is
 \begin{equation}
-\label{eq:leo-silo-validity-36a}
+\label{eq:OLD-leo-silo-validity-36a}
 \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}.
 \end{equation}
 
@@ -11405,7 +11502,7 @@ a \var{slo} such that one of its layers is
 \notag
 &  template
 \\
-\label{eq:leo-silo-validity-37c}
+\label{eq:OLD-leo-silo-validity-37c}
 &
 \begin{aligned}
   & \exists \; \var{mslo} : \var{slo} \subseteq \var{mslo} 
@@ -11414,13 +11511,13 @@ a \var{slo} such that one of its layers is
   & \qquad \; \because \; \tref{t:maximal-silo}
 \end{aligned}
 \\
-\label{eq:leo-silo-validity-37e}
+\label{eq:OLD-leo-silo-validity-37e}
 & \exists \; \var{maxix} : \var{maxix} = \Vlastix{mslo}
 \; \because \;
-\eqref{eq:leo-silo-validity-37c},
+\eqref{eq:OLD-leo-silo-validity-37c},
 \tref{t:silo-finite}
 \\
-\label{eq:leo-silo-validity-37g}
+\label{eq:OLD-leo-silo-validity-37g}
 \tag{RAA}
 & 
 \begin{aligned}
@@ -11433,8 +11530,8 @@ a \var{slo} such that one of its layers is
 &
 \text{\Vel{mslo}{maxix} is complete}
 \; \because \;
-\eqref{eq:leo-silo-validity-37c},
-\eqref{eq:leo-silo-validity-37e},
+\eqref{eq:OLD-leo-silo-validity-37c},
+\eqref{eq:OLD-leo-silo-validity-37e},
 \tref{maximal-silo-top-is-complete}
 \\
 \end{align}
@@ -11463,7 +11560,7 @@ and the reductio.
 
 From the reductio, we see that \var{slo}
 must contain
-\eqref{eq:leo-silo-validity-36a},
+\eqref{eq:OLD-leo-silo-validity-36a},
 the top item for \Vleo{leo}.
 This shows the theorem.
 
