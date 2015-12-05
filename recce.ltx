@@ -10824,31 +10824,6 @@ such that \var{lsl} is valid with respect
 to \Vleo{l2}.
 \end{definition}
 
-\begin{definition}
-\dtitle{Matching catena of Leo silo}
-Let \var{slo} be a valid Leo silo
-and let \var{cat} be a catena.
-We say that \var{cat} matches \var{slo}
-if and only if \var{cat} contains all,
-and only,
-the instantiated Leo memos matching the completed
-lower layers of \var{slo}.
-More formally,
-\var{cat} matches \var{slo}
-if and only if
-\[
-   \Vleo{l} \in \var{cat} \equiv
-   \left\lbrace 
-   \begin{gathered}
-   \text{\Memo{\Veim{e}} such that} \\
-   \text{$\Veim{e} \in \var{slo}$, \Veim{e} is a completion,} \\
-   \text{$\Memo{\Veim{e}} \neq \undefined$ and \Memo{\Veim{e}} is instantiated.} \\
-   \end{gathered}
-   \right\rbrace
-   \\[3ex] % space between equation and closing rule of definition
-\]
-\end{definition}
-
 \begin{theorem}
 \ttitle{Leo silo validity}
 \label{t:leo-silo-validity}
@@ -10864,12 +10839,13 @@ such that
 \begin{gather*}
 \text{\var{lsl} is valid for \Vleo{leo}}, \\
 \el{lsl}{0} = \Veim{lb} \quad \text{and} \\
-\text{\var{cat} matches \var{lsl}}.
+\exists \; \var{cat} : \text{cat is a catena and}
+(\forall \; \Veim{e} : \Veim{e} \neq \undefined \implies
+\var{eim} \in \var{cat})
 \end{gather*}
 \end{theorem}
 
 \begin{proof}
-
 Let \var{slo} be a silo
 such that
 \begin{equation}
@@ -11157,6 +11133,31 @@ the step for this case.
 
 TODO: Finish
 \end{proof}
+
+\begin{definition}
+\dtitle{Matching catena of Leo silo}
+Let \var{slo} be a valid Leo silo
+and let \var{cat} be a catena.
+We say that \var{cat} matches \var{slo}
+if and only if \var{cat} contains all,
+and only,
+the instantiated Leo memos matching the completed
+lower layers of \var{slo}.
+More formally,
+\var{cat} matches \var{slo}
+if and only if
+\[
+   \Vleo{l} \in \var{cat} \equiv
+   \left\lbrace 
+   \begin{gathered}
+   \text{\Memo{\Veim{e}} such that} \\
+   \text{$\Veim{e} \in \var{slo}$, \Veim{e} is a completion,} \\
+   \text{$\Memo{\Veim{e}} \neq \undefined$ and \Memo{\Veim{e}} is instantiated.} \\
+   \end{gathered}
+   \right\rbrace
+   \\[3ex] % space between equation and closing rule of definition
+\]
+\end{definition}
 
 \begin{theorem}
 \ttitle{OLD Leo silo validity}
