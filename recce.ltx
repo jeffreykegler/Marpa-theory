@@ -10832,7 +10832,7 @@ We say that \var{cat} matches \var{lsl}
 if and only if \var{cat} contains all,
 and only,
 the instantiated Leo memos matching the completed
-layers of \var{lsl}.
+lower layers of \var{lsl}.
 More formally,
 \var{cat} matches \var{lsl}
 if and only if
@@ -10841,11 +10841,13 @@ if and only if
    \left\lbrace \; \Memo{\Veim{e}} \;
    \middle| \;
    \begin{gathered}
+   \Veim{e} \neq \el{l}{\Vlastix{l}}, \\
    \text{\Memo{\Veim{e}} is instantiated}, \\
    \Veim{e} \in \var{lsl} \quad \text{and} \\
    \text{\Veim{e} is a completion}
    \end{gathered}
    \right\rbrace.
+   \\[3ex] % space between equation and closing rule of definition
 \]
 \end{definition}
 
@@ -10938,7 +10940,8 @@ Similarly,
 \end{aligned}
 \]
 
-We start with an induction.
+We start with a forward induction
+on the indexes of the elements of \var{slo}.
 For the induction hypothesis,
 we use
 \begin{align}
@@ -10951,6 +10954,11 @@ we use
 \tag{IND2}
 \var{x} \le \var{topix}
 & \implies \; \text{\el{slo}{0 \ldots \var{x}} is a silo}
+\\
+\label{eq:leo-silo-validity-10c}
+\tag{IND3}
+\var{x} \le \var{topix}
+& \implies \; \exists \; \text{\var{cat} : \var{cat} is a catena matching \var{slo}}
 \end{align}
 
 \textbf{Basis of the induction}:
