@@ -9677,12 +9677,11 @@ Leo memo of \Veim{eim}
 and that \Veim{eim} is the
 \xdfn{matching}{matching (EIM)!wrt a Leo memo}
 EIM of \Vleo{leo}.
-\end{definition}
-
 We also write $\Memo{\Veim{eim}} = \Vleo{l}$%
 \index{recce-notation}{Memo@\myfnname{Memo}!\Vop{Memo}{\Veim{e}} = \Vleo{l}}
 to indicate that the Leo memo \Vleo{l} matches
 the \Veim{eim}.
+\end{definition}
 
 \begin{theorem}
 \label{t:leo-transition-symbol-non-terminal}
@@ -10827,13 +10826,25 @@ to \Vleo{l2}.
 
 \begin{definition}
 \dtitle{Matching catena of Leo silo}
-Let \var{l} be a valid Leo silo.
+Let \var{lsl} be a valid Leo silo.
 and let \var{cat} be a catena.
-We say that \var{cat} matches \var{l}
+We say that \var{cat} matches \var{lsl}
 if and only if \var{cat} contains all,
-and only the Leo memos matching comp
-
-TODO: Finish
+and only, the Leo memos matching the completed
+layers of \var{lsl}.
+More formally,
+\var{cat} matches \var{lsl}
+if and only if
+\[
+   \Vleo{l} \in \var{cat} \equiv
+   \left\lbrace \; \Memo{\Veim{e}} \;
+   \middle| \;
+   \begin{gathered}
+   \Veim{e} \in \var{lsl} \quad \text{and} \\
+   \text{\Veim{e} is a completion}
+   \end{gathered}
+   \right\rbrace.
+\]
 \end{definition}
 
 \begin{theorem}
