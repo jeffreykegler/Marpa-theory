@@ -10826,11 +10826,12 @@ to \Vleo{l2}.
 
 \begin{definition}
 \dtitle{Matching catena of Leo silo}
-Let \var{lsl} be a valid Leo silo.
+Let \var{lsl} be a valid Leo silo
 and let \var{cat} be a catena.
 We say that \var{cat} matches \var{lsl}
 if and only if \var{cat} contains all,
-and only, the Leo memos matching the completed
+and only,
+the instantiated Leo memos matching the completed
 layers of \var{lsl}.
 More formally,
 \var{cat} matches \var{lsl}
@@ -10840,6 +10841,7 @@ if and only if
    \left\lbrace \; \Memo{\Veim{e}} \;
    \middle| \;
    \begin{gathered}
+   \text{\Memo{\Veim{e}} is instantiated}, \\
    \Veim{e} \in \var{lsl} \quad \text{and} \\
    \text{\Veim{e} is a completion}
    \end{gathered}
