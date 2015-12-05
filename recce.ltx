@@ -10942,22 +10942,33 @@ We start with a forward induction
 on the indexes of the elements of \var{slo}.
 For the induction hypothesis,
 we use
-\begin{align}
+\begin{gather}
 \label{eq:leo-silo-validity-10a}
 \tag{IND1}
 \var{x} \le \var{topix}
-& \implies \Valid{\Vel{slo}{x}}
+\implies \Valid{\Vel{slo}{x}}
 \\
 \label{eq:leo-silo-validity-10b}
 \tag{IND2}
 \var{x} \le \var{topix}
-& \implies \; \text{\el{slo}{0 \ldots \var{x}} is a silo}
-\\
+\implies \; \text{\el{slo}{0 \ldots \var{x}} is a silo}
+\\[1ex]
 \label{eq:leo-silo-validity-10c}
 \tag{IND3}
-\var{x} \le \var{topix}
-& \implies \; \exists \; \text{\var{cat} : \var{cat} is a catena matching \var{slo}}
-\end{align}
+\begin{aligned}
+& \var{x} \le \var{topix}
+\implies
+\exists \; \text{\var{cat} : \var{cat} is a catena and} \\
+& \qquad
+\left(
+\begin{aligned}
+& (\forall \var{a} : 0 \le \var{a} \le \var{x} \; \land \;
+  \Memo{\Vel{slo}{a}} \neq \undefined) \\
+& \qquad \implies \Memo{\Vel{slo}{a}} \in \var{cat}
+\end{aligned}
+\right)
+\end{aligned}
+\end{gather}
 
 \textbf{Basis of the induction}:
 We take $\var{x} = 0$
@@ -11020,6 +11031,38 @@ for $\var{x} = \Vincr{i}$ follow trivially.
 
 TODO: to here
 
+\textbf{Assumptions for the step}:
+For the use of the non-trivial cases of the step,
+we state the assumptions for the step and some
+of their more direct consequences here:
+\begin{align}
+\label{eq:leo-silo-validity-19b}
+& \Valid{\Vel{slo}{i}}
+\; \because \; \text{ASM
+\eqref{eq:leo-silo-validity-10a} for step}
+\\
+\label{eq:leo-silo-validity-19d}
+& \text{\Vel{slo}{i} is a silo layer}
+\; \because \; \text{ASM
+\eqref{eq:leo-silo-validity-10b} for step}
+\\
+\label{eq:leo-silo-validity-19f}
+& \text{\Vel{slo}{i} is quasi-complete}
+\; \because \;
+\eqref{eq:leo-silo-validity-19d}, \;
+\text{Def of silo}
+\\
+\label{eq:leo-silo-validity-19h}
+&
+\begin{aligned}
+& \exists \var{cat} : \forall \; \var{a} : (0 \le \var{a} \le \var{i}
+  \; \land \; \Memo{\Vel{slo}{a}} \neq \undefined) \\
+& \qquad \implies \Memo{\Vel{slo}{a}} \in \var{cat} \\
+& \qquad \qquad \because \; \text{ASM
+  \eqref{eq:leo-silo-validity-10c} for step}
+\end{aligned}
+\end{align}
+
 \textbf{Step case 2}: We next consider
 the case where $\Vincr{i} \le \var{topix}$
 and \Vel{slo}{i} is incomplete.
@@ -11032,31 +11075,15 @@ and \Vel{slo}{i} is incomplete.
 & \Vincr{i} \le \var{topix}
 \; \because \; \text{ASM for case}
 \\
-\label{eq:leo-silo-validity-20e}
-& \text{\Vel{slo}{i} is a silo layer}
-\; \because \; \text{ASM
-\eqref{eq:leo-silo-validity-20b} for step}
-\\
-\label{eq:leo-silo-validity-20g}
-& \text{\Vel{slo}{i} is quasi-complete}
-\; \because \;
-\eqref{eq:leo-silo-validity-20e}, \;
-\text{Def of silo}
-\\
-\label{eq:leo-silo-validity-20i}
-& \Valid{\Vel{slo}{i}}
-\; \because \; \text{ASM
-\eqref{eq:leo-silo-validity-20a} for step}
-\\
 \label{eq:leo-silo-validity-20m}
 &
 \begin{multlined}
 \exists \; \Veim{eff} : \Valid{\Veim{eff}}
 \\
 \; \because \;
+\eqref{eq:leo-silo-validity-19b},
+\eqref{eq:leo-silo-validity-19f},
 \eqref{eq:leo-silo-validity-20a},
-\eqref{eq:leo-silo-validity-20g},
-\eqref{eq:leo-silo-validity-20i},
 \text{Lemma \ref{lem:leo-memo-of-incompletion}}
 \end{multlined}
 \\
@@ -11066,9 +11093,9 @@ and \Vel{slo}{i} is incomplete.
 \text{\Veim{eff} is the silo effect of \Vel{slo}{i}}
 \\
 \; \because \;
+\eqref{eq:leo-silo-validity-19b},
+\eqref{eq:leo-silo-validity-19f},
 \eqref{eq:leo-silo-validity-20a},
-\eqref{eq:leo-silo-validity-20g},
-\eqref{eq:leo-silo-validity-20i},
 \text{Lemma \ref{lem:leo-memo-of-incompletion}}
 \end{multlined}
 \\
@@ -11084,6 +11111,23 @@ and \Vel{slo}{i} is incomplete.
 \; \because \;
 \eqref{eq:leo-silo-validity-20m},
 \eqref{eq:leo-silo-validity-20q}
+\\
+\label{eq:leo-silo-validity-20u}
+& \begin{multlined}
+\Memo{\Veim{eff}} = \Memo{\Vel{slo}{i}}
+\\
+\; \because \;
+\eqref{eq:leo-silo-validity-19b},
+\eqref{eq:leo-silo-validity-19f},
+\eqref{eq:leo-silo-validity-20a},
+\text{Lemma \ref{lem:leo-memo-carryforward}}
+\end{multlined}
+\\
+\label{eq:leo-silo-validity-20w}
+& \Memo{\el{slo}{\Vincr{i}}} = \Memo{\Vel{slo}{i}}
+\; \because \;
+\eqref{eq:leo-silo-validity-20q},
+\eqref{eq:leo-silo-validity-20u}
 \end{align}
 
 \eqref{eq:leo-silo-validity-20s} shows
@@ -11092,9 +11136,21 @@ for $\var{x} = \Vincr{i}$,
 and \eqref{eq:leo-silo-validity-20q} shows
 \eqref{eq:leo-silo-validity-10b}
 for $\var{x} = \Vincr{i}$.
+
+From
+\eqref{eq:leo-silo-validity-20w}
+we see that the Leo memo for
+\el{slo}{\Vincr{i}} is identical to
+the Leo memo for \Vel{slo}{i},
+so that
+\eqref{eq:leo-silo-validity-10c}
+for $\var{x} = \Vincr{i}$
+follows from
+\eqref{eq:leo-silo-validity-19h},
+an assumption for the step.
 Having shown
-\eqref{eq:leo-silo-validity-10a}
-and \eqref{eq:leo-silo-validity-10b}
+\eqref{eq:leo-silo-validity-10a}--%
+\eqref{eq:leo-silo-validity-10c}
 for $\var{x} = \Vincr{i}$,
 we have shown
 the step for this case.
