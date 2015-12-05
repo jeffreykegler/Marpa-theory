@@ -10826,24 +10826,23 @@ to \Vleo{l2}.
 
 \begin{definition}
 \dtitle{Matching catena of Leo silo}
-Let \var{lsl} be a valid Leo silo
+Let \var{slo} be a valid Leo silo
 and let \var{cat} be a catena.
-We say that \var{cat} matches \var{lsl}
+We say that \var{cat} matches \var{slo}
 if and only if \var{cat} contains all,
 and only,
 the instantiated Leo memos matching the completed
-lower layers of \var{lsl}.
+lower layers of \var{slo}.
 More formally,
-\var{cat} matches \var{lsl}
+\var{cat} matches \var{slo}
 if and only if
 \[
    \Vleo{l} \in \var{cat} \equiv
-   \left\lbrace \; \Memo{\Veim{e}} \;
-   \middle| \;
+   \left\lbrace 
    \begin{gathered}
-   \Veim{e} \neq \el{l}{\Vlastix{l}}, \\
-   \text{\Memo{\Veim{e}} is instantiated}, \\
-   \Veim{e} \in \var{lsl} \quad \text{and} \\
+   \text{\Memo{\Veim{e}} such that $\Memo{\Veim{e}} \neq \undefined$,} \\
+   \text{\Memo{\Veim{e}} is instantiated,} \\
+   \Veim{e} \neq \el{l}{\Vlastix{l}}, \Veim{e} \in \var{slo} \quad \text{and} \\
    \text{\Veim{e} is a completion}
    \end{gathered}
    \right\rbrace.
@@ -10987,9 +10986,17 @@ from \eqref{eq:leo-silo-validity-6}.
 We have
 \eqref{eq:leo-silo-validity-10b} for $\var{x} = 0$
 from \eqref{eq:leo-silo-validity-8d}.
-With \eqref{eq:leo-silo-validity-10a}
-and
-\eqref{eq:leo-silo-validity-10b} for $\var{x} = 0$,
+
+By assumption for the theorem,
+$\Memo{\Veim{lb}} \neq \undefined$,
+so that
+\[
+   [ \Memo{\Veim{lb}} ]
+\]
+is a trivial catena, one which satisfies
+\eqref{eq:leo-silo-validity-10c} for $\var{x} = 0$,
+Having shown \eqref{eq:leo-silo-validity-10a}--%
+\eqref{eq:leo-silo-validity-10c} for $\var{x} = 0$,
 we have the basis of the induction.
 
 \textbf{Step of the induction}:
