@@ -10859,10 +10859,13 @@ Let
 be an instantiated Leo memo and \Vinst{lb} a valid matching bottom.
 Then for every EIM equivalent of \Vinst{lb}, call it \Veim{lb},
 there is a Leo silo, call it \var{lsl},
+and a catena, call it \var{cat},
 such that
-\var{lsl} is valid for \Vleo{leo},
-and
-$\el{lsl}{0} = \Veim{lb}$.
+\begin{gather*}
+\text{\var{lsl} is valid for \Vleo{leo}}, \\
+\el{lsl}{0} = \Veim{lb} \quad \text{and} \\
+\text{\var{cat} matches \var{lsl}}.
+\end{gather*}
 \end{theorem}
 
 \begin{proof}
