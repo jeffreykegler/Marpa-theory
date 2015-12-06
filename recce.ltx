@@ -904,13 +904,12 @@ that second value is also undefined:
    \var{x} \, = \, \undefined \;\; \implies \;\; (\var{x} \, = \, \var{y} \; \equiv \; \var{y} \, = \, \undefined).
 \]
 
-Not all of our operations are well-defined in the presence of variables which
-take $\undefined$ as a value.
+Not all of our operations are well-defined in the presence of undefined
+variables and constants.
 In this monograph,
 logical conjunction ($\land$),
 logical disjunction ($\lor$),
 and implication ($\implies$)
-in the presence of undefined values,
 will be asymmetric.
 If the antecedant of an implication is false,
 the value of the implication will be well-defined and true,
@@ -10456,6 +10455,37 @@ we say that \Veim{top} is
 or in context, simply
 \xdfn{mentioned}{mentioned (EIM)}.
 \end{definition}
+
+\begin{theorem}
+\ttitle{Leo outer layer distinctness}
+\label{t:leo-outer-layer-distinctness}
+The top and bottom of a Leo silo are distinct.
+\end{theorem}
+
+\begin{proof}
+Let \Vleo{l} be a Leo memo,
+let \Veim{bot} be an EIM that matches \Vleo{l},
+and let
+\begin{equation}
+\label{eq:leo-outer-layer-distinctness}
+\Veim{top} = \op{Leo-top}{\Vleo{leo}, \Right{\Veim{bot}}}.
+\end{equation}
+Assume for a reductio that
+\begin{equation}
+\Veim{bot} = \Veim{top}.
+\end{equation}
+
+By the definition of the bottom of a Leo silo,
+an EIM which is the bottom of Leo silo is the EIM
+equivalent of a symbol instance.
+An EIM equivalent of a symbol instance,
+by its definition,
+is always a completion,
+so that $\Veim{top} = \Veim{bot}$
+is a completion.
+
+TODO: delete other "distinctness" theorem when this is done.
+\end{proof}
 
 \begin{definition}
 \dtitle{Silo layers by level}
