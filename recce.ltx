@@ -236,7 +236,8 @@
 \newcommand\EVtable[2]{\EEtable{#1}{\var{#2}}}
 
 % I want to use 'call' outside of pseudocode
-\newcommand\call[2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}}%
+\newcommand\mycallname[1]{\textproc{#1}}
+\newcommand\call[2]{\mycallname{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}}%
 
 % My macros for definition & theorem titles and references
 % The 'q' forms are 'quiet' -- they do not index
@@ -9786,6 +9787,14 @@ also called simply a
 is a sequence of Leo memos,
 where each element of the sequence
 is the top-down cause of the previous element.
+A catena is
+\xdfn{maximal}{maximal!catena}
+if and only if its last element has no top-down cause.
+If \Vleo{l} is a Leo memo,
+the
+\xdfn{catena}{catena!wrt a Leo memo}
+of \Vleo{l} is the maximal catena whose first element
+is \Vleo{l}.
 \end{definition}
 
 \begin{lemma}
@@ -10145,6 +10154,92 @@ So this gives us the reductio and the theorem.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Memo catena uniqueness}
+\label{t:memo-catena-uniqueness}
+The catena of a Leo memo is unique.
+\end{theorem}
+
+\begin{proof}
+Let \Vleo{l} be a Leo memo.
+Let \var{cat} be a catena such that $\el{cat}{0} = \Vleo{l}$.
+We proceed by induction
+on the length of \var{cat}, where
+the induction hypothesis is that
+\begin{equation}
+\label{eq:memo-catena-uniqueness-10}
+\tag{IND}
+    \Vlastix{cat} < \var{x} \implies \; \text{var{cat} is unique}.
+\end{equation}
+If $\Vlastix{cat} = 0$ the only element of \var{cat} is \Vleo{l},
+and \eqref{eq:memo-catena-uniqueness-10} for $\var{x} = 1$
+follows trivially.
+We take this as the basis of the induction.
+
+For the step, we assume that
+\begin{equation}
+\label{eq:memo-catena-uniqueness-13}
+\tag{ASM}
+    \Vlastix{cat} < \var{i} \implies \; \text{var{cat} is unique}
+\end{equation}
+to show
+\begin{equation}
+    \Vlastix{cat} < \Vincr{i} \implies \; \text{var{cat} is unique}.
+\end{equation}
+From
+\eqref{eq:memo-catena-uniqueness-13},
+we know that the sequence
+\[
+    \el{cat}{0}, \el{cat}{1} \ldots \Vel{cat}{i}
+\]
+is unique.
+By Theorem \ref{t:leo-down-uniqueness},
+we know that if \Vel{cat}{i} is unique,
+then its top down cause is unique,
+and therefore
+\Vel{cat}{\Vincr{i}} is unique.
+This shows the step and the induction.
+
+The induction has
+shown that, for every length, the catena starting with
+\Vleo{l} is unique:
+\begin{equation}
+\label{eq:memo-catena-uniqueness-23}
+    \forall \var{i} : \; \text{\el{cat}{0 \ldots \var{i}} is unique.}
+\end{equation}
+It remains to show that the catena of \Vleo{l} is unique.
+By definition, this is the maximal catena.
+
+The maximal catena is the one whose last element has no top-down cause.
+Let the catena of length \var{n} starting with \Vleo{l} be such one such maximal catena.
+Is there another?
+If so, it cannot be longer than \var{n} because
+\el{cat}{\Vincr{n}} has no top-down cause and therefore
+there is no \el{cat}{\Vincr{n}}, so that
+\begin{equation}
+\label{eq:memo-catena-uniqueness-26}
+    \Vsize{cat} \le \var{n}.
+\end{equation}
+
+Can it be shorter than \var{n}?
+For a reductio, assume the length is \var{m}, $\var{m} < \var{n}$.
+But 
+\Vel{cat}{m} has a top-down cause ---
+\el{cat}{\Vincr{m}}.
+Therefore, the catena of length \var{m} is not maximal,
+which shows the reductio and that
+\begin{equation}
+\label{eq:memo-catena-uniqueness-29}
+    \Vsize{cat} \ge \var{n}.
+\end{equation}
+
+From
+\eqref{eq:memo-catena-uniqueness-23},
+\eqref{eq:memo-catena-uniqueness-26},
+and \eqref{eq:memo-catena-uniqueness-29},
+we have the theorem .
+\end{proof}
+
+\begin{theorem}
 \ttitle{Leo memos are unique by location and symbol}
 \label{t:leo-memo-uniqueness}
 Let \Vsym{A} be a symbol in a grammar
@@ -10419,7 +10514,7 @@ and let \Veim{lb} be matching
 bottom of \Vleo{l}.
 A
 \dfn{Leo silo}
-is a silo whose bottom is \Veim{lb}.
+is a silo whose bottom is \Veim{lb}
 and whose top is
 \[
 \Veim{top} = \op{Leo-top}{\Vleo{leo}, \Vloc{i}},
@@ -10455,37 +10550,6 @@ we say that \Veim{top} is
 or in context, simply
 \xdfn{mentioned}{mentioned (EIM)}.
 \end{definition}
-
-\begin{theorem}
-\ttitle{Leo outer layer distinctness}
-\label{t:leo-outer-layer-distinctness}
-The top and bottom of a Leo silo are distinct.
-\end{theorem}
-
-\begin{proof}
-Let \Vleo{l} be a Leo memo,
-let \Veim{bot} be an EIM that matches \Vleo{l},
-and let
-\begin{equation}
-\label{eq:leo-outer-layer-distinctness}
-\Veim{top} = \op{Leo-top}{\Vleo{leo}, \Right{\Veim{bot}}}.
-\end{equation}
-Assume for a reductio that
-\begin{equation}
-\Veim{bot} = \Veim{top}.
-\end{equation}
-
-By the definition of the bottom of a Leo silo,
-an EIM which is the bottom of Leo silo is the EIM
-equivalent of a symbol instance.
-An EIM equivalent of a symbol instance,
-by its definition,
-is always a completion,
-so that $\Veim{top} = \Veim{bot}$
-is a completion.
-
-TODO: delete other "distinctness" theorem when this is done.
-\end{proof}
 
 \begin{definition}
 \dtitle{Silo layers by level}
@@ -10895,6 +10959,53 @@ if and only if there is some Leo memo \Vleo{l2}
 such that \var{lsl} is valid with respect
 to \Vleo{l2}.
 \end{definition}
+
+\begin{algorithm}[tb]
+\caption{Reconstruct memoized EIM's}
+\label{alg:reconstruct-memoized-eims}
+\begin{algorithmic}[1]
+\Procedure{Reconstruct}{\Vleo{leo}, \Veim{lb}}
+\State $\Veim{top} \gets \Vop{Leo-top}{leo}$
+\State $\Vinst{scuz} \gets \op{EIM-Eq}{\Vop{Leo-bot}{leo}}$
+\State $\Vloc{here} \gets \Right{\Vleo{leo}}$
+\While{ true }
+% \label{line:reconstruct-memoized-eims-20}
+\State \Veim{new-scuz} $\gets$ silo effect of \Veim{scuz}
+\State
+\Comment silo effect is unique per Theorem \ref{t:leo-silo-validity}
+\If{\Veim{new-scuz} = \Veim{top}}
+\State return
+\EndIf
+\State Add \Veim{new-scuz} to \Vel{table}{here}
+\State $\qquad$ but only if it has never been added before
+\State \Veim{scuz} = \Veim{new-scuz}
+\EndWhile
+% \label{line:reconstruct-memoized-eims-90}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}%
+\index{recce-theorems}{Construction: Reconstruct memoized EIM's}
+
+\begin{theorem}
+The procedure \mycallname{Reconstruct} of
+Algorithm \ref{alg:reconstruct-memoized-eims},
+when called as
+The procedure \call{Reconstruct}{\Vleo{leo}, \Veim{lb}}
+returns a Leo silo valid with respect to \Vleo{leo}
+whose bottom is \Veim{lb}.
+Further,
+\begin{gather}
+\text{\var{lsl} is unique for \Vleo{leo} and \Veim{lb}.}
+\\
+\myparbox{The lower layers of \var{lsl} contain a completion
+for every element of the catena of \Vleo{leo}.
+}
+\end{gather}
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
 
 \begin{lemma}
 \ttitle{Leo silo validity lemma}
@@ -12904,31 +13015,7 @@ Theorem
 \ref{t:leo-silo-validity},
 which shows its correctness.
 
-\begin{algorithm}[tb]
-\caption{Reconstruct memoized EIM's}
-\label{alg:reconstruct-memoized-eims}
-\begin{algorithmic}[1]
-\Procedure{Reconstruct memoized EIM's}{\Vleo{leo}}
-\State $\Veim{top} \gets \Vop{Leo-top}{leo}$
-\State $\Vinst{scuz} \gets \op{EIM-Eq}{\Vop{Leo-bot}{leo}}$
-\State $\Vloc{here} \gets \Right{\Vleo{leo}}$
-\While{ true }
-% \label{line:reconstruct-memoized-eims-20}
-\State \Veim{new-scuz} $\gets$ silo effect of \Veim{scuz}
-\State
-\Comment silo effect is unique per Theorem \ref{t:leo-silo-validity}
-\If{\Veim{new-scuz} = \Veim{top}}
-\State return
-\EndIf
-\State Add \Veim{new-scuz} to \Vel{table}{here}
-\State $\qquad$ but only if it has never been added before
-\State \Veim{scuz} = \Veim{new-scuz}
-\EndWhile
-% \label{line:reconstruct-memoized-eims-90}
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}%
-\index{recce-theorems}{Construction: Reconstruct memoized EIM's}
+TODO: Finish?
 
 \chapter{Altitude}
 \label{ch:altitude}
