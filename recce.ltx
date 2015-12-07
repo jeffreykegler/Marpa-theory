@@ -1009,7 +1009,7 @@ let
 \label{t:sequence-overlap-28}
 \Vel{con2}{0} & = \Vel{mast}{loc2} \\
 \label{t:sequence-overlap-30}
-\Vel{con2}{\Vlastix{con2}} & = \Vel{mast}{hic2} 
+\Vel{con2}{\Vlastix{con2}} & = \Vel{mast}{hic2}
 \end{align}
 
 We will find it useful to express facts about containment
@@ -1068,7 +1068,7 @@ we have
 \eqref{t:sequence-overlap-26},
 \eqref{t:sequence-overlap-30}
 \end{align}
-where 
+where
 \eqref{t:sequence-overlap-61} is contrary
 to assumption for theorem.
 This shows the inner reductio,
@@ -5536,7 +5536,7 @@ we know that \Veim{bas1} has exactly one maximal fleeting closure.
 By Theorem
 \ref{t:eim-lasting-base},
 every EIM is in the fleeting closure of its lasting base,
-so that 
+so that
 \Veim{eim1} and \Veim{eim2}
 are both in \var{mfc}.
 \end{proof}
@@ -7661,7 +7661,7 @@ sets a maximum limit to the size of a fleeting closure whose
 first element is a quasi-completion,
 so that,
 recalling \eqref{eq:consecutive-silo-incompletions-5},
-we see that the fleeting closure containing 
+we see that the fleeting closure containing
 \el{slo}{\var{x} \ldots \var{y}} has at most
 \Vsize{\Rule{\Vel{slo}{x}}} elements.
 Therefore,
@@ -7684,7 +7684,7 @@ and therefore
 \ttitle{Silo size}
 \label{t:silo-size}
 Let \var{slo} be a silo,
-and let 
+and let
 \[
 \var{comps} = \big| \lbrace \Veim{eim} | \text{\var{eim} is complete} \rbrace \big|.
 \]
@@ -8574,7 +8574,7 @@ be the set of all silos of which \var{slo} is a part.
 By Theorem
 \ref{t:silo-finite}
 all of these silos in \var{sloset} have a finite length,
-so there is a finite maximum length for the silos 
+so there is a finite maximum length for the silos
 in \var{sloset}.
 Call this length \var{maxl}.
 There will be at least one silo,
@@ -8903,7 +8903,7 @@ Let \var{newslo} be
 that is
 \begin{equation}
 \notag
-\Vel{newslo}{i} = 
+\Vel{newslo}{i} =
 \begin{cases}
 \text{\Vel{workslo}{i},
 if $0 \le \var{i} \le \Vlastix{workslo}$}
@@ -8992,19 +8992,19 @@ so that \var{mslo} has a top EIM.
 & \text{\Veim{top} is incomplete: ASM for a reductio}
 \\
 \label{maximal-silo-top-is-complete-20}
-& \text{\Veim{top} is a silo layer}: 
+& \text{\Veim{top} is a silo layer}:
 \eqref{maximal-silo-top-is-complete-10}
 \\
 \label{maximal-silo-top-is-complete-13}
 & \text{$\Veim{top} \in \var{fc}$,
 where \var{fc}
-is fleeting closure: 
+is fleeting closure:
 Th \ref{t:eim-lasting-base},
 WLOG
 }
 \\
 \label{maximal-silo-top-is-complete-15}
-& \text{\Veim{top} is quasi-complete: 
+& \text{\Veim{top} is quasi-complete:
 \eqref{maximal-silo-top-is-complete-20},
 Def of silo
 }
@@ -9122,7 +9122,7 @@ so $\Veim{eim} \in \var{mfc}$.
 By assumption for the theorem,
 \Veim{eim} is quasi-complete and
 $\Veim{eim} \in \var{mslo}$.
-This gives us 
+This gives us
 \eqref{eq:maximal-fleeting-silo-in-maximal-silo-20}
 for $\var{x} = \var{eim}$, which we take as the
 basis of both inductions.
@@ -9138,7 +9138,7 @@ By assumption for the step, there is some \var{slix}
 and some \var{fcix}
 such that
 \[
-\Vel{mfc}{fcix} = 
+\Vel{mfc}{fcix} =
 \Vel{mslo}{slix} = \iop{null-scan-op}{\var{i}}{\var{eim}}.
 \]
 If
@@ -9160,7 +9160,7 @@ has a silo effect.
 Therefore, by the definition of a maximal silo,
 \Vel{mslo}{\var{slix}} cannot be the top of the maximal silo,
 and \Vel{mslo}{\Vincr{slix}} must have a defined value.
-The effect of 
+The effect of
 \iop{null-scan-op}{\var{i}}{\var{eim}} is unique,
 so that
 \begin{equation}
@@ -9191,7 +9191,7 @@ there is some \var{slix}
 and some \var{fcix}
 such that
 \[
-\Vel{mfc}{fcix} = 
+\Vel{mfc}{fcix} =
 \Vel{mslo}{slix} = \iop{null-scan-op}{\var{i}}{\var{eim}}.
 \]
 If
@@ -9202,7 +9202,7 @@ we have
 \eqref{eq:maximal-fleeting-silo-in-maximal-silo-20}
 for $\var{x} = \iop{null-scan-op}{(\Vdecr{i})}{\var{eim}}$,
 vacuously.
-Otherwise, 
+Otherwise,
 \Vel{mfc}{fcix} is quasi-complete by assumption for the step,
 and it follows that from that and
 \eqref{eq:maximal-fleeting-silo-in-maximal-silo-12} that
@@ -9212,7 +9212,7 @@ Since it has a silo cause,
 The value of
 $\el{mfc}{\Vdecr{fcix}} = \iop{null-scan-op}{(\Vdecr{i})}{\var{eim}}$,
 is unique and is a silo cause,
-and 
+and
 \el{mslo}{\Vdecr{slix}} must be the silo cause
 of
 \Vel{mslo}{slix},
@@ -10168,9 +10168,10 @@ the induction hypothesis is that
 \begin{equation}
 \label{eq:memo-catena-uniqueness-10}
 \tag{IND}
-    \Vlastix{cat} < \var{x} \implies \; \text{var{cat} is unique}.
+    \Vlastix{cat} < \var{x} \implies \; \text{\var{cat} is unique}.
 \end{equation}
-If $\Vlastix{cat} = 0$ the only element of \var{cat} is \Vleo{l},
+If $\Vlastix{cat} = 0$,
+then the only element of \var{cat} is \Vleo{l},
 and \eqref{eq:memo-catena-uniqueness-10} for $\var{x} = 1$
 follows trivially.
 We take this as the basis of the induction.
@@ -10179,11 +10180,11 @@ For the step, we assume that
 \begin{equation}
 \label{eq:memo-catena-uniqueness-13}
 \tag{ASM}
-    \Vlastix{cat} < \var{i} \implies \; \text{var{cat} is unique}
+    \Vlastix{cat} < \var{i} \implies \; \text{\var{cat} is unique}
 \end{equation}
 to show
 \begin{equation}
-    \Vlastix{cat} < \Vincr{i} \implies \; \text{var{cat} is unique}.
+    \Vlastix{cat} < \Vincr{i} \implies \; \text{\var{cat} is unique}.
 \end{equation}
 From
 \eqref{eq:memo-catena-uniqueness-13},
@@ -10222,7 +10223,7 @@ there is no \el{cat}{\Vincr{n}}, so that
 
 Can it be shorter than \var{n}?
 For a reductio, assume the length is \var{m}, $\var{m} < \var{n}$.
-But 
+But
 \Vel{cat}{m} has a top-down cause ---
 \el{cat}{\Vincr{m}}.
 Therefore, the catena of length \var{m} is not maximal,
@@ -10236,7 +10237,7 @@ From
 \eqref{eq:memo-catena-uniqueness-23},
 \eqref{eq:memo-catena-uniqueness-26},
 and \eqref{eq:memo-catena-uniqueness-29},
-we have the theorem .
+we have the theorem.
 \end{proof}
 
 \begin{theorem}
@@ -11038,7 +11039,7 @@ and a catena, call it \var{cat},
 such that
 \begin{gather*}
 \forall \; \Veim{eim} : \var{eim} \in var{lsl} \implies (\Valid{var{eim}}
-\; \lor \; (\nexists 
+\; \lor \; (\nexists
 \text{\var{lsl} is valid for \Vleo{leo}}, \\
 \el{lsl}{0} = \Veim{lb} \quad \text{and} \\
 \exists \; \var{cat} :
@@ -11092,7 +11093,7 @@ $\because$ Def of silo,
 From
 \eqref{eq:lem-leo-silo-validity-8d},
 we see that
-there is at least one silo satisfying 
+there is at least one silo satisfying
 \eqref{eq:lem-leo-silo-validity-6}.
 
 Let \var{topix} be
@@ -11156,7 +11157,7 @@ we use
 \textbf{Basis of the induction}:
 We take $\var{x} = 0$
 as the basis of our induction.
-By Theorem 
+By Theorem
 \ref{silo-outer-layer-distinctness},
 we know that
 \begin{equation}
@@ -11167,7 +11168,7 @@ so that,
 following our convention for the case where
 $\var{topix} = \undefined$,
 the antecedant of the implications
-in 
+in
 \eqref{eq:lem-leo-silo-validity-10a} and
 \eqref{eq:lem-leo-silo-validity-10b}
 is true.
@@ -11204,7 +11205,7 @@ for $\var{x} = \Vincr{i}$.
 Within the step, we proceed by cases.
 
 \textbf{Step case 1}: For the case where $\exists \; \var{topix} : \Vincr{i} > \var{topix}$,
-the antecedants of 
+the antecedants of
 \eqref{eq:lem-leo-silo-validity-10a}--%
 \eqref{eq:lem-leo-silo-validity-10c}
 are false, and
@@ -11355,7 +11356,7 @@ More formally,
 if and only if
 \[
    \Vleo{l} \in \var{cat} \equiv
-   \left\lbrace 
+   \left\lbrace
    \begin{gathered}
    \text{\Memo{\Veim{e}} such that} \\
    \text{$\Veim{e} \in \var{slo}$, \Veim{e} is a completion,} \\
@@ -11414,7 +11415,7 @@ for $\var{x} = \Vincr{i}$.
 Within the step, we proceed by cases.
 
 \textbf{Step case 1}: For the case where $\exists \; \var{topix} : \Vincr{i} > \var{topix}$,
-the antecedants of 
+the antecedants of
 \eqref{eq:OLD-leo-silo-validity-10a}--\eqref{eq:OLD-leo-silo-validity-10d}
 are false, and
 \eqref{eq:OLD-leo-silo-validity-10a}--\eqref{eq:OLD-leo-silo-validity-10d}
@@ -11812,8 +11813,8 @@ a \var{slo} such that one of its layers is
 \label{eq:OLD-leo-silo-validity-37c}
 &
 \begin{aligned}
-  & \exists \; \var{mslo} : \var{slo} \subseteq \var{mslo} 
-  \; \land \; \Maximal{\var{mslo}} 
+  & \exists \; \var{mslo} : \var{slo} \subseteq \var{mslo}
+  \; \land \; \Maximal{\var{mslo}}
   \; \land \; \Silo{\var{mslo}} \\
   & \qquad \; \because \; \tref{t:maximal-silo}
 \end{aligned}
@@ -11826,7 +11827,7 @@ a \var{slo} such that one of its layers is
 \\
 \label{eq:OLD-leo-silo-validity-37g}
 \tag{RAA}
-& 
+&
 \begin{aligned}
 & \Vel{mslo}{maxix} \neq
 \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}} \\
@@ -12286,7 +12287,7 @@ And, by the construction of \var{lsseq},
 \end{gathered}
 \]
 Therefore, by the definition of a maximal Leo silo,
-\el{lsseq}{\Vlastix{lsseq}} is 
+\el{lsseq}{\Vlastix{lsseq}} is
 the maximal Leo silo for \var{lsl0} with respect
 to \var{maxslo}.
 \end{proof}
@@ -12322,7 +12323,7 @@ By Theorem
 \ref{leo-silo-minimum-height},
 the minimum height of \var{lsl} is 2,
 and it contains a lower layer, call it \Veim{ll}.
-By 
+By
 \eqref{eq:leo-top-maximality-10},
 \var{maxlsl} also contains \Veim{ll}.
 Theorem
@@ -12434,12 +12435,12 @@ but does not include
 the intuitive requirement that the EIM be an inner layer.
 This is because
 \eqref{eq:def-memoized-eim-20}
-and 
+and
 \eqref{eq:def-memoized-eim-30}
 do that job adequately.
 Also note that
 \eqref{eq:def-memoized-eim-20}
-and 
+and
 \eqref{eq:def-memoized-eim-30}
 treat all the
 EIM's in a fleeting closure as if they are
@@ -12584,7 +12585,7 @@ we assume
 \label{eq:lem-fleeting-closure-memoization-26}
 \Memoized{\Veim{x}}
 \end{equation}
-to show 
+to show
 \begin{equation}
 \label{eq:lem-fleeting-closure-memoization-26a}
 \Memoized{\Veim{y}}.
@@ -12876,7 +12877,7 @@ Therefore
 \neg \; \Memoized{\el{maxslo}{0}}.
 \end{equation}
 
-This theorem 
+This theorem
 follows from
 \eqref{eq:read-eim-not-leo-10}
 and Theorem
@@ -12973,7 +12974,7 @@ TODO: revise
 
 By the definition of Leo silo,
 if \Veim{top} is a Leo top,
-it is because there is 
+it is because there is
 an instantianted Leo memo with a valid matching bottom.
 Call the memo
 \Vleo{leo},
