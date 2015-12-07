@@ -10966,20 +10966,26 @@ to \Vleo{l2}.
 \label{alg:reconstruct-memoized-eims}
 \begin{algorithmic}[1]
 \Procedure{Reconstruct}{\Vleo{leo}, \Veim{lb}}
-\State $\Veim{top} \gets \Vop{Leo-top}{leo}$
-\State $\Vinst{scuz} \gets \op{EIM-Eq}{\Vop{Leo-bot}{leo}}$
-\State $\Vloc{here} \gets \Right{\Vleo{leo}}$
+\State $\Veim{top} \gets \op{Leo-top}{\var{leo}, \var{lb}}$
+\State $\Veim{up} \gets \Veim{lb}$
+\State $\Vleo{memo} \gets \Vleo{leo}$
 \While{ true }
 % \label{line:reconstruct-memoized-eims-20}
-\State \Veim{new-scuz} $\gets$ silo effect of \Veim{scuz}
-\State
-\Comment silo effect is unique per Theorem \ref{t:leo-silo-validity}
-\If{\Veim{new-scuz} = \Veim{top}}
+\State \Veim{down} $\gets$ basis of \Vleo{leo}
+\State \Veim{lasting} $\gets$ effect of \Veim{down}, \Veim{up}
+\If{$\Veim{lasting} = \Veim{top}$}
 \State return
 \EndIf
-\State Add \Veim{new-scuz} to \Vel{table}{here}
-\State $\qquad$ but only if it has never been added before
-\State \Veim{scuz} = \Veim{new-scuz}
+\State \var{mfc} $\gets$ maximal fleeting closure of \Veim{lasting}
+\For{$\Veim{new} \in \var{mfc}$}
+\If{\Veim{new} is not already in the Earley tables}
+\State Add \Veim{new} to the Earley tables
+\EndIf
+\EndFor
+\State $\Veim{up} \gets \el{mfc}{\Vlastix{mfc}}$
+\State
+\Comment \el{mfc}{\Vlastix{mfc}} is the completion of \var{mfc}
+\State \Vleo{memo} $\gets$ top-down cause of \Vleo{memo}
 \EndWhile
 % \label{line:reconstruct-memoized-eims-90}
 \EndProcedure
