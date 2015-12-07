@@ -10994,20 +10994,31 @@ to \Vleo{l2}.
 \index{recce-theorems}{Construction: Reconstruct memoized EIM's}
 
 \begin{theorem}
-The procedure \mycallname{Reconstruct} of
-Algorithm \ref{alg:reconstruct-memoized-eims},
-when called as
-The procedure \call{Reconstruct}{\Vleo{leo}, \Veim{lb}}
-returns a Leo silo valid with respect to \Vleo{leo}
-whose bottom is \Veim{lb}.
-Further,
-\begin{gather}
-\text{\var{lsl} is unique for \Vleo{leo} and \Veim{lb}.}
+Let \Vleo{leo} be an instantiated Leo memo,
+and let \Veim{lb} be a valid EIM that matches
+\Vleo{leo}.
+When
+Algorithm \ref{alg:reconstruct-memoized-eims}
+is called as
+\call{Reconstruct}{\Vleo{leo}, \Veim{lb}},
+the layers it adds to the Earley tables form
+a silo, call it \var{slo}, such that
+\begin{align}
+& \myparbox{all the layers of \var{slo} are valid;}
 \\
-\myparbox{The lower layers of \var{lsl} contain a completion
-for every element of the catena of \Vleo{leo}.
+& \myparbox{\Veim{lb} is the silo cause of \el{slo}{0};}
+\\
+& \myparbox{\op{Leo-top}{\var{leo}, \var{lb}} is the silo effect
+of \el{slo}{\Vlastix{slo}};
 }
-\end{gather}
+\\
+& \myparbox{\var{slo} is unique, given \Vleo{leo} and \Veim{lb}; and}
+\\
+& \myparbox{the number of complete EIM's in \var{slo}
+is \Vdecr{\Vsize{cat}}, where \var{cat}
+is the catena of \Vleo{leo}.
+}
+\end{align}
 \end{theorem}
 
 \begin{proof}
