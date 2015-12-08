@@ -10875,6 +10875,8 @@ of \Veim{cuz}.
 \end{proof}
 
 \begin{lemma}
+TODO: probably delete this lemma
+
 \label{lem:leo-memo-carryforward}
 Let \Veim{cuz} be a valid EIM which is quasi-complete,
 but incomplete;
@@ -10936,6 +10938,63 @@ and \eqref{eq:lem-leo-memo-carryforward-30}
 tell us the \Vleo{l} matches \Veim{cuz}.
 \end{proof}
 
+\begin{theorem}
+\label{t:leo-memo-fleeting closure}
+Let \Veim{e1} and \Veim{e2} be EIM's
+in the same fleeting closure,
+and let
+\Vleo{l}
+be a Leo memo matching \Veim{e1}.
+The \Vleo{l} matches \Veim{e2}.
+\end{theorem}
+
+\begin{proof}
+By assumption for the theorem,
+\Veim{e1} and \Veim{e2} are in the same fleeting
+closure.
+Let \Veim{bas} be the base of this fleeting closure.
+By the definition of fleeting closure,
+\Veim{e1} and
+\Veim{e2} are the result of a series
+of null-scans forward from \Veim{bas}.
+By Theorem \ref{t:null-scan-arithmetic},
+we see that
+the operand and result of a null-scan share
+the same rule and origin,
+so that
+\begin{equation}
+\label{eq:leo-memo-fleeting-closure-10}
+\begin{gathered}
+\Left{\Veim{e1}} = \Left{\Veim{last}} = \Left{\Veim{e2}}, \; \text{and} \\
+\LHS{\Veim{e1}} = \LHS{\Veim{last}} = \LHS{\Veim{e2}}.
+\end{gathered}
+\end{equation}
+
+By assumption for the theorem
+and the definition of a matching Leo memo
+\begin{equation}
+\label{eq:leo-memo-fleeting-closure-20}
+\begin{aligned}
+\Left{\Veim{e1}} & = \Current{\Vleo{l}} \\
+\land \quad \LHS{\Veim{e1}} & = \Symbol{\Vleo{l}}.
+\end{aligned}
+\end{equation}
+Combining
+\eqref{eq:leo-memo-fleeting-closure-10}
+and
+\eqref{eq:leo-memo-fleeting-closure-20},
+\begin{equation}
+\label{eq:leo-memo-fleeting-closure-30}
+\begin{aligned}
+\Left{\Veim{e2}} & = \Current{\Vleo{l}} \\
+\land \quad \LHS{\Veim{e2}} & = \Symbol{\Vleo{l}}.
+\end{aligned}
+\end{equation}
+The definition of a matching Leo memo,
+and \eqref{eq:leo-memo-fleeting-closure-30}
+tell us that \Vleo{l} matches \Veim{e2}.
+\end{proof}
+
 \begin{definition}
 \ttitle{Valid Leo silo}
 Let \var{lsl} be a Leo silo,
@@ -10966,27 +11025,37 @@ to \Vleo{l2}.
 \label{alg:reconstruct-memoized-eims}
 \begin{algorithmic}[1]
 \Procedure{Reconstruct}{\Vleo{leo}, \Veim{lb}}
-\State $\Veim{top} \gets \op{Leo-top}{\var{leo}, \var{lb}}$
 \State $\Veim{up} \gets \Veim{lb}$
 \State $\Vleo{memo} \gets \Vleo{leo}$
 \While{ true }
-% \label{line:reconstruct-memoized-eims-20}
-\State \Veim{down} $\gets$ basis of \Vleo{leo}
+\label{line:reconstruct-memoized-eims-loop-first}
+\State \Veim{down} $\gets$ basis of \Vleo{memo}
+\label{line:reconstruct-memoized-eims-loop-20}
 \State \Veim{lasting} $\gets$ effect of \Veim{down}, \Veim{up}
-\If{$\Veim{lasting} = \Veim{top}$}
+\label{line:reconstruct-memoized-eims-loop-23}
+\State
+\Comment On lines \ref{line:reconstruct-memoized-eims-loop-20}--%
+\ref{line:reconstruct-memoized-eims-loop-23}, %
+  see Lemma \ref{lem:leo-memo-effect}
+\If{$\Veim{lasting} = \op{Leo-top}{\var{leo}}$}
 \State return
+\label{line:reconstruct-memoized-eims-loop-33}
 \EndIf
 \State \var{mfc} $\gets$ maximal fleeting closure of \Veim{lasting}
+\label{line:reconstruct-memoized-eims-loop-39}
 \For{$\Veim{new} \in \var{mfc}$}
 \If{\Veim{new} is not already in the Earley tables}
 \State Add \Veim{new} to the Earley tables
 \EndIf
 \EndFor
 \State $\Veim{up} \gets \el{mfc}{\Vlastix{mfc}}$
+\label{line:reconstruct-memoized-eims-loop-43}
 \State
 \Comment \el{mfc}{\Vlastix{mfc}} is the completion of \var{mfc}
 \State \Vleo{memo} $\gets$ top-down cause of \Vleo{memo}
+\label{line:reconstruct-memoized-eims-loop-46}
 \EndWhile
+\label{line:reconstruct-memoized-eims-loop-last}
 % \label{line:reconstruct-memoized-eims-90}
 \EndProcedure
 \end{algorithmic}
@@ -10994,36 +11063,136 @@ to \Vleo{l2}.
 \index{recce-theorems}{Construction: Reconstruct memoized EIM's}
 
 \begin{theorem}
+\ttitle{Leo reconstruction correctness}
+\label{t:leo-reconstruction-correctness}
 Let \Vleo{leo} be an instantiated Leo memo,
 and let \Veim{lb} be a valid EIM that matches
 \Vleo{leo}.
-When
-Algorithm \ref{alg:reconstruct-memoized-eims}
-is called as
 \call{Reconstruct}{\Vleo{leo}, \Veim{lb}},
-the layers it adds to the Earley tables form
-a silo, call it \var{slo}, such that
+When
+Let \var{slo} be the set contain \Veim{lb}
+and the layers added to the Earley sets by
+\call{Reconstruct}{\Vleo{leo}, \Veim{lb}},
+where \myfnname{Reconstruct} is specified in
+Algorithm \ref{alg:reconstruct-memoized-eims}.
+Further,
 \begin{align}
 & \myparbox{all the layers of \var{slo} are valid;}
 \\
-& \myparbox{\Veim{lb} is the unique silo cause of \el{slo}{0};}
+& \myparbox{\var{slo} is a silo;}
+\\
+& \myparbox{\Veim{lb} = \el{slo}{0};}
 \\
 & \myparbox{\op{Leo-top}{\var{leo}, \var{lb}}
 is the unique valid silo effect
 of \el{slo}{\Vlastix{slo}};
 }
 \\
-& \myparbox{\var{slo} is unique, given \Vleo{leo} and \Veim{lb}; and}
+& \myparbox{for all \var{i}, such that $0 \le \var{i} < \Vlastix{slo}$,
+\el{slo}{\Vincr{i}} is the unique effect of \el{slo}{0}.
+}
 \\
 & \myparbox{the number of complete EIM's in \var{slo}
-is \Vdecr{\Vsize{cat}}, where \var{cat}
+is \Vsize{cat}, where \var{cat}
 is the catena of \Vleo{leo}.
 }
 \end{align}
 \end{theorem}
 
 \begin{proof}
-TODO
+For the purposes of this proof,
+we will call the loop in 
+lines 
+\ref{line:reconstruct-memoized-eims-loop-first}--%
+\ref{line:reconstruct-memoized-eims-loop-last}
+of Algorithm \ref{alg:reconstruct-memoized-eims},
+the ``main loop''.
+We proceed by induction
+on the number of passes through the main loop.
+For the induction hypothesis, we use
+\begin{equation}
+\label{t:leo-reconstruction-correctness-20}
+\tag{IND}
+\begin{gathered}
+\text{\Veim{up} is complete} \\
+\text{\Veim{up} matches \Vleo{memo}}
+\end{gathered}
+\end{equation}
+We also treat 
+\eqref{t:leo-reconstruction-correctness-20}
+as a loop invariant or ``guard''
+as described in
+\cite{ED1976}.
+The ``guard'' must be true at the start of the
+main loop:
+line \ref{line:reconstruct-memoized-eims-loop-first}.
+
+By assumption for the theorem, \Veim{lb} is complete
+and matches \Vleo{leo}.
+From this we conclude that the left hand side of
+the assignment in
+lines \ref{line:reconstruct-memoized-eims-loop-20} and
+\ref{line:reconstruct-memoized-eims-loop-23} is well-defined,
+and that 
+\eqref{t:leo-reconstruction-correctness-20}
+is true after zero passes through the main loop.
+We take this as the basis of our induction.
+
+For the step of the induction, we assume that
+\eqref{t:leo-reconstruction-correctness-20} is true
+after \var{i} passes through the main loop,
+to show that 
+\eqref{t:leo-reconstruction-correctness-20} is true
+after \Vincr{i} passes through the main loop.
+
+By assumption for the step, before line
+\ref{line:reconstruct-memoized-eims-loop-20},
+\Veim{up} is complete and matches \Vleo{leo}.
+The effect of \Veim{up} and \Vleo{leo}
+is assigned to \Veim{lasting} in
+line \ref{line:reconstruct-memoized-eims-loop-23}.
+If
+\[
+   \Veim{lasting} = \op{Leo-top}{\var{leo}}
+\]
+then \mycallname{Reconstruct} terminates at
+line \ref{line:reconstruct-memoized-eims-loop-33}.
+By Lemma \ref{lem:leo-memo-effect}, if
+\[
+   \Veim{lasting} \neq \op{Leo-top}{\var{leo}},
+\]
+then
+\begin{gather}
+\label{t:leo-reconstruction-correctness-35}
+\text{\Vleo{memo} has a top-down cause and} \\
+\text{\Veim{lasting} matches the top-down cause of \Vleo{memo}}.
+\end{gather}
+From
+\eqref{t:leo-reconstruction-correctness-35}, we see that
+the left hand side of the assignment in line
+\ref{line:reconstruct-memoized-eims-loop-46}
+in well-formed.
+
+We have shown that most of the assignments in
+of Algorithm \ref{alg:reconstruct-memoized-eims}
+are well-defined.
+We are now in a position to show that
+the remaining assignments
+are well-defined.
+By Theorem
+\ref{t:maximal-fleeting-closure-validity}
+\Veim{lasting} is in exactly one maximal fleeting closure,
+so that the assignment in line
+\ref{line:reconstruct-memoized-eims-loop-39}
+is well-defined.
+The maximal fleeting closure, by its defintion,
+must contain its lasting base,
+and therefore at least one element.
+Therefore the assignment in
+line \ref{line:reconstruct-memoized-eims-loop-39}
+is well-defined.
+
+TODO: Finish.
 \end{proof}
 
 \begin{lemma}
@@ -15893,6 +16062,11 @@ J.~Earley.
 Dirk~Grune and Ceriel~J.H Jacobs.
 \newblock {\em Parsing Techniques: A Practical Guide}.
 \newblock Springer, Amsterdam, 2008.
+
+\bibitem{ED1976}
+Dijkstra,~Edsger~W.
+\newblock {\em A discipline of programming}.
+\newblock Prentice-Hall, Englewood Cliffs, N.J., 1976.
 
 \bibitem{Irons}
 Edgar~T.~Irons.
