@@ -66,7 +66,7 @@
 \newcommand{\myopname}[1]{\ensuremath{\texttt{#1}}}
 \newcommand{\myfn}[2]{\ensuremath{\myfnname{#1}(#2)}}
 
-\newcommand{\vat}[2]{\ensuremath{myfnname{V}(#1,#2)}}
+\newcommand{\vat}[2]{\ensuremath{\myfnname{V}(#1,#2)}}
 \newcommand{\vatp}[3]{\ensuremath{\myfnname{V}(#1,#2,#3)}}
 
 % definitions for "elements" -- x[i]
@@ -948,6 +948,26 @@ we write the logical operations out verbally
 (``if \var{X} and \var{Y}, then \var{X} or \var{Y}'')
 instead of symbolically
 ($\var{X} \; \land \; \var{Y} \implies \var{X} \; \lor \; \var{Y}$).
+
+When referring to the value of a variable in a algorithm, we
+will usually need, not just the variable's name, but its line
+location and perhaps other information, such as an ordinal
+describing the pass through a loop.
+We will write \vat{\var{v}}{\var{n}}%
+\index{recce-notation}{V(2)@\vat{\var{var}}{\var{line}}}
+for the value
+of \var{v} just after the execution of line \var{n}.
+Where more than the line number
+is needed to specify the value of \var{v},
+we will use additional arguments,
+as described for each algorithm.
+For example,
+for some algorithm
+\vatp{\var{v}}{\var{n}}{\var{p}}%
+\index{recce-notation}{V(2+)@\vatp{\var{var}}{\var{line}{\ldots}}},
+might specify the value
+of \var{v} just after the execution of line \var{n}
+on the \var{p}'th pass through a loop.
 
 \section{Sequences}
 
@@ -11024,6 +11044,8 @@ such that \var{lsl} is valid with respect
 to \Vleo{l2}.
 \end{definition}
 
+\section{Reconstructing Leo silos}
+
 \begin{algorithm}[tb]
 \caption{Reconstruct memoized EIM's}
 \label{alg:reconstruct-memoized-eims}
@@ -11034,7 +11056,7 @@ to \Vleo{l2}.
 \label{line:reconstruct-memoized-eims-preloop-10}
 \State $\Vleo{memo} \gets \Vleo{leo}$
 \label{line:reconstruct-memoized-eims-preloop-20}
-\While{ $\Vleo{memo} \neq \undefined$ }
+\While{ $\Vleo{memo} \neq \undefined$ and \Vleo{memo} is instantiated }
 \label{line:reconstruct-memoized-eims-loop-first}
 \State \Veim{down} $\gets$ basis of \Vleo{memo}
 \label{line:reconstruct-memoized-eims-loop-20}
@@ -11065,9 +11087,341 @@ to \Vleo{l2}.
 \end{algorithm}%
 \index{recce-theorems}{Construction: Reconstruct memoized EIM's}
 
+This section will discuss
+Algorithm \ref{alg:reconstruct-memoized-eims}.
+In this section,
+we will call the loop in
+lines
+\ref{line:reconstruct-memoized-eims-loop-first}--%
+\ref{line:reconstruct-memoized-eims-loop-last}
+of Algorithm \ref{alg:reconstruct-memoized-eims},
+the ``main loop''.
+By the ``top of the main loop'' we will mean
+the point
+just after the execution of
+line \ref{line:reconstruct-memoized-eims-loop-first}.
+we will often refer to
+line \ref{line:reconstruct-memoized-eims-loop-first}
+as a variable name: \var{top}.
+
+We will write \vat{\var{v}}{\var{n}} for the value
+of \var{v} just after the execution of line \var{n} of
+of Algorithm \ref{alg:reconstruct-memoized-eims}.
+We will write \vatp{\var{v}}{\var{n}}{\var{p}} for the value
+of \var{v} just after the execution of line \var{n}
+of Algorithm \ref{alg:reconstruct-memoized-eims}
+on the \var{p}'th pass through the main loop.
+
+We first show that 
+Algorithm \ref{alg:reconstruct-memoized-eims}.
+is well-formed.
+In this context, ``well-formed'' means that all variables
+are either well-defined, or have their undefinedness
+provided for in the algorithm.
+
+\begin{theorem}
+\ttitle{Leo reconstruction well-formedness}
+\label{t:leo-reconstruction-wellformedness}
+Algorithm \ref{alg:reconstruct-memoized-eims}
+is well-formed,
+if called as
+\call{Reconstruct}{\Vleo{leo}, \Veim{lb}},
+where \myfnname{Reconstruct} is as specified in
+Algorithm \ref{alg:reconstruct-memoized-eims},
+\Vleo{leo} is an instantiated Leo memo,
+and \Veim{lb} is a valid EIM that matches
+\Vleo{leo}.
+\end{theorem}
+
+\begin{proof}
+We proceed by induction
+on the number of passes through the main loop.
+For the induction hypothesis, we use
+\begin{equation}
+\label{t:leo-reconstruction-wellformedness-20}
+\tag{IND}
+\begin{gathered}
+\text{
+\vatp{\Veim{up}}{\var{top}}{\var{x}}
+is valid and complete;
+}
+\\
+\text{
+\vatp{\Vleo{memo}}{\var{top}}{\var{x}}
+is instantiated; and
+}
+\\
+\text{
+\vatp{\Vleo{memo}}{\var{top}}{\var{x}}
+matches
+\vatp{\Veim{up}}{\var{top}}{\var{x}}
+}
+\end{gathered}
+\end{equation}
+We use
+\eqref{t:leo-reconstruction-wellformedness-20}
+as a loop invariant or ``guard''
+as described in
+\cite{ED1976}.
+The ``guard'' must be true after the test at the top
+of the main loop.
+
+By assumption for the theorem,
+\vat{\Veim{lb}}{\ref{line:reconstruct-memoized-eims-preloop-5}}
+is valid and complete and matches
+\vat{\Vleo{leo}}{\ref{line:reconstruct-memoized-eims-preloop-5}},
+which is instantiated.
+From this we conclude that
+\vat{\Veim{up}}{\ref{line:reconstruct-memoized-eims-preloop-10}}
+and
+\vat{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-preloop-20}}
+are well-defined
+and that
+\eqref{t:leo-reconstruction-wellformedness-20}
+is true for $\var{x} = 0$.
+We take this as the basis of our induction.
+
+For the step of the induction, we assume that
+\eqref{t:leo-reconstruction-wellformedness-20} is true
+for $\var{x} = \var{i}$,
+to show that
+\eqref{t:leo-reconstruction-wellformedness-20} is true
+for $\var{x} = \Vincr{i}$.
+
+By assumption for the step,
+\vatp{\Veim{up}}{\var{top}}{\var{i}}
+is valid and complete and matches
+\vatp{\Vleo{memo}}{\var{top}}{\var{i}},
+which is instantiated.
+The effect of
+\vatp{\Veim{up}}{\var{top}}{\var{i}}
+and
+\vatp{\Vleo{memo}}{\var{top}}{\var{i}}
+is assigned to
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}.
+We know from
+Lemma \ref{lem:leo-memo-effect} that
+\begin{align}
+\label{t:leo-reconstruction-wellformedness-34}
+& \myparbox{
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}.
+is valid and the silo effect of
+\vatp{\Veim{up}}{\var{top}}{\var{i}}
+$\because$
+\eqref{eq:lem-leo-memo-effect-10},
+\eqref{eq:lem-leo-memo-effect-10a};
+}
+\\
+\label{t:leo-reconstruction-wellformedness-35}
+& \myparbox{if
+\vatp{\Vleo{memo}}{\var{top}}{\var{i}}
+has an instantiated top-down cause, then
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}.
+matches the top-down cause of
+\vatp{\Vleo{memo}}{\var{top}}{\var{i}}
+$\because$
+\eqref{eq:lem-leo-memo-effect-15};
+}
+\\
+\notag
+& \myparbox{
+\vatp{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
+is well-formed
+$\because$
+\eqref{t:leo-reconstruction-wellformedness-35};
+}
+\end{align}
+
+We have shown that the assignments as far as
+line \ref{line:reconstruct-memoized-eims-loop-23}
+of Algorithm \ref{alg:reconstruct-memoized-eims}
+are well-defined, and therefore that they are well-formed.
+We will now show that the remaining assignments are well-formed.
+By Theorem
+\ref{t:maximal-fleeting-closure-validity}
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
+is in exactly one maximal fleeting closure,
+so that
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
+is well-defined.
+Every fleeting closure, contains at least that EIM which is its base,
+and a maximal fleeting closure, by its definition,
+must contain its own lasting base.
+Therefore
+the maximal fleeting closure
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
+contains at least one element,
+so that
+\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
+is well-defined.
+Finally, for line \ref{line:reconstruct-memoized-eims-loop-46},
+we consider
+\vatp{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
+well-formed,
+even if it is undefined.
+
+By
+\eqref{t:leo-reconstruction-wellformedness-34},
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
+is a silo effect
+and therefore, by the definition of a silo,
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
+is quasi-complete.
+Since
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
+is quasi-complete,
+by Theorem
+\ref{t:maximal-fleeting-closure-silo},
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
+is a fleeting closure silo.
+By the properties of a fleeting closure
+silo, we know that all of its layers are valid
+and that its last layer is a completion,
+so that
+\begin{align}
+\label{t:leo-reconstruction-wellformedness-39}
+& \myparbox{
+\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
+is valid and a completion.
+}
+\\
+\label{t:leo-reconstruction-wellformedness-40b}
+& \myparbox{
+Let \Vleo{next} be
+the top-down cause of
+\vatp{\Vleo{memo}}{\var{top}}{\var{i}}.
+Note that \Vleo{next} may be undefined
+or uninstantiated.
+Then
+}
+\\
+\label{t:leo-reconstruction-wellformedness-40d}
+& \myparbox{
+$\Memo{\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}}
+=
+\Vleo{next}
+\because$
+\eqref{t:leo-reconstruction-wellformedness-35},
+\eqref{t:leo-reconstruction-wellformedness-40b};
+}
+\\
+\label{t:leo-reconstruction-wellformedness-40e}
+& \myparbox{
+$\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
+\in
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
+\because$
+Def of fleeting closure,
+  line \ref{line:reconstruct-memoized-eims-loop-39};
+}
+\\
+\label{t:leo-reconstruction-wellformedness-40g}
+& \myparbox{
+$\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
+\in
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
+\because$
+line \ref{line:reconstruct-memoized-eims-loop-43};
+}
+\\
+\label{t:leo-reconstruction-wellformedness-40i}
+& \myparbox{
+$\Memo{\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}}
+= \Vleo{next} \because$
+Theorem \ref{t:leo-memo-fleeting closure},
+\eqref{t:leo-reconstruction-wellformedness-40d},
+\eqref{t:leo-reconstruction-wellformedness-40e},
+\eqref{t:leo-reconstruction-wellformedness-40g};
+}
+\\
+\label{t:leo-reconstruction-wellformedness-40k}
+& \myparbox{
+$\vatp{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
+= \Vleo{next}
+\because$
+\eqref{t:leo-reconstruction-wellformedness-40b},
+line \ref{line:reconstruct-memoized-eims-loop-46};
+}
+\\
+\label{t:leo-reconstruction-wellformedness-40m}
+& \myparbox{\vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}} is instantiated
+$\because$
+line \ref{line:reconstruct-memoized-eims-loop-first};
+}
+\\
+\label{t:leo-reconstruction-wellformedness-40o}
+& \vatp{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
+= \vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
+\because \text{Algorithm \ref{alg:reconstruct-memoized-eims}}
+\\
+\label{t:leo-reconstruction-wellformedness-40q}
+& \vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
+= \vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
+\because \text{Algorithm \ref{alg:reconstruct-memoized-eims}};
+\\
+\label{t:leo-reconstruction-wellformedness-40s}
+& \myparbox{
+\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
+is valid and a completion
+$\because$
+\eqref{t:leo-reconstruction-wellformedness-39},
+\eqref{t:leo-reconstruction-wellformedness-40q};
+}
+\\
+\label{t:leo-reconstruction-wellformedness-40s}
+& \myparbox{
+$\Memo{\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}}
+= \vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
+\because$
+\eqref{t:leo-reconstruction-wellformedness-40i},
+\eqref{t:leo-reconstruction-wellformedness-40k},
+\eqref{t:leo-reconstruction-wellformedness-40o}.
+}
+\end{align}
+
+% % The value of \Veim{up} at the top of the main loop
+% % after \Vincr{i} passes is its value in pass \var{i} after
+% % line \ref{line:reconstruct-memoized-eims-loop-43},
+% % and
+% % The value of \Vleo{memo} at the top of the main loop
+% % after \Vincr{i} passes is its value in pass \var{i} after
+% % line \ref{line:reconstruct-memoized-eims-loop-46} so that,
+% % from
+% % \eqref{t:leo-reconstruction-wellformedness-42},
+% % we can conclude
+% % \eqref{t:leo-reconstruction-wellformedness-20} is true
+% % at the top of the main loop after \Vincr{i} passes.
+%
+% % TODO: Tighten up this argument.
+% % If
+% % \vatp{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
+% % is undefined
+% % the main loop terminates
+% % at line \ref{line:reconstruct-memoized-eims-loop-first},
+% % before pass \Vincr{i} begins,
+% % and the procedure \mycallname{Reconstruct} ends.
+% % Therefore,
+% % \vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
+% % is defined so that,
+% % by
+% % we know that
+% % \begin{equation}
+% % \label{t:leo-reconstruction-wellformedness-40}
+% % \myparbox{
+% % \vatp{\Veim{lasting}}{\var{top}}{\var{i}}.
+% % matches the top-down cause of
+% % \vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
+% %  $\because$
+% % \eqref{t:leo-reconstruction-wellformedness-35}
+% % }
+% % \end{equation}
+
+TODO: Finish.
+\end{proof}
+
 \begin{theorem}
 \ttitle{Leo reconstruction correctness}
-\label{t:leo-reconstruction-correctness}
+\label{t:leo-reconstruction-correctness-TODO}
 Let \Vleo{leo} be an instantiated Leo memo,
 and let \Veim{lb} be a valid EIM that matches
 \Vleo{leo}.
@@ -11101,264 +11455,6 @@ is the catena of \Vleo{leo}.
 }
 \end{align}
 \end{theorem}
-
-\begin{proof}
-For the purposes of this proof,
-we will call the loop in 
-lines 
-\ref{line:reconstruct-memoized-eims-loop-first}--%
-\ref{line:reconstruct-memoized-eims-loop-last}
-of Algorithm \ref{alg:reconstruct-memoized-eims},
-the ``main loop''.
-We will write \vat{\var{v}}{\var{n}} for the value
-of \var{v} just after the execution of line \var{n} of
-of Algorithm \ref{alg:reconstruct-memoized-eims}.
-We will write \vatp{\var{v}}{\var{n}}{\var{p}} for the value
-of \var{v} just after the execution of line \var{n}
-of Algorithm \ref{alg:reconstruct-memoized-eims}
-on the \var{p}'th pass through the main loop.
-By the ``top of the main loop'' we will mean
-just after the execution of
-line \ref{line:reconstruct-memoized-eims-loop-first}.
-we will often refer to
-line \ref{line:reconstruct-memoized-eims-loop-first}
-as a variable name: \var{top}.
-
-We proceed by induction
-on the number of passes through the main loop.
-For the induction hypothesis, we use
-\begin{equation}
-\label{t:leo-reconstruction-correctness-20}
-\tag{IND}
-\begin{gathered}
-\text{
-\vatp{\Veim{up}}{\var{top}}{\var{x}}
-is valid and complete;
-}
-\\
-\text{
-\vatp{\Vleo{memo}}{\var{top}}{\var{x}}
-is instantiated; and
-}
-\\
-\text{
-\vatp{\Vleo{memo}}{\var{top}}{\var{x}}
-matches
-\vatp{\Veim{up}}{\var{top}}{\var{x}}
-}
-\end{gathered}
-\end{equation}
-We use
-\eqref{t:leo-reconstruction-correctness-20}
-as a loop invariant or ``guard''
-as described in
-\cite{ED1976}.
-The ``guard'' must be true after the test at the top
-of the main loop.
-
-By assumption for the theorem,
-\vat{\Veim{lb}}{\ref{line:reconstruct-memoized-eims-preloop-5}}
-is valid and complete and matches
-\vat{\Vleo{leo}}{\ref{line:reconstruct-memoized-eims-preloop-5}},
-which is instantiated.
-From this we conclude that
-\vat{\Veim{up}}{\ref{line:reconstruct-memoized-eims-preloop-10}}
-and
-\vat{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-preloop-20}}
-are well-defined
-and that 
-\eqref{t:leo-reconstruction-correctness-20}
-is true for $\var{x} = 0$.
-We take this as the basis of our induction.
-
-For the step of the induction, we assume that
-\eqref{t:leo-reconstruction-correctness-20} is true
-for $\var{x} = \var{i}$,
-to show that 
-\eqref{t:leo-reconstruction-correctness-20} is true
-for $\var{x} = \Vincr{i}$.
-
-By assumption for the step,
-\vatp{\Veim{up}}{\var{top}}{\var{i}}
-is valid and complete and matches
-\vatp{\Vleo{memo}}{\var{top}}{\var{i}},
-which is instantiated.
-The effect of
-\vatp{\Veim{up}}{\var{top}}{\var{i}}
-and
-\vatp{\Vleo{memo}}{\var{top}}{\var{i}}
-is assigned to
-\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}.
-We know from
-Lemma \ref{lem:leo-memo-effect} that
-\begin{align}
-\label{t:leo-reconstruction-correctness-34}
-& \myparbox{
-\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}.
-is valid and the silo effect of
-\vatp{\Veim{up}}{\var{top}}{\var{i}}
-$\because$
-\eqref{eq:lem-leo-memo-effect-10},
-\eqref{eq:lem-leo-memo-effect-10a};
-}
-\\
-\label{t:leo-reconstruction-correctness-35}
-& \myparbox{if
-\vatp{\Vleo{memo}}{\var{top}}{\var{i}}
-has an instantiated top-down cause, then
-\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}.
-matches the top-down cause of
-\vatp{\Vleo{memo}}{\var{top}}{\var{i}}
-$\because$
-\eqref{eq:lem-leo-memo-effect-15};
-}
-\\
-\notag
-& \myparbox{
-\vatp{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
-is well-formed
-$\because$
-\eqref{t:leo-reconstruction-correctness-35};
-}
-\end{align}
-
-We have shown that the assignments as far as
-line \ref{line:reconstruct-memoized-eims-loop-23}
-of Algorithm \ref{alg:reconstruct-memoized-eims}
-are well-defined, and therefore that they are well-formed.
-We will now show that the remaining assignments are well-formed.
-By Theorem
-\ref{t:maximal-fleeting-closure-validity}
-\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
-is in exactly one maximal fleeting closure,
-so that
-\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
-is well-defined.
-Every fleeting closure, contains at least that EIM which is its base,
-and a maximal fleeting closure, by its definition,
-must contain its own lasting base.
-Therefore
-the maximal fleeting closure
-\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
-contains at least one element,
-so that
-\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
-is well-defined.
-Finally, for line \ref{line:reconstruct-memoized-eims-loop-46},
-we consider
-\vatp{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
-even if it is undefined.
-
-By
-\eqref{t:leo-reconstruction-correctness-34},
-\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
-is a silo effect
-and therefore, by the definition of a silo,
-\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
-is quasi-complete.
-Since
-\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
-is quasi-complete,
-by Theorem
-\ref{t:maximal-fleeting-closure-silo}
-\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
-is a fleeting closure silo.
-One of the properties of a fleeting closure
-silo is that its last layer is a completion,
-so that
-\begin{equation}
-\label{t:leo-reconstruction-correctness-39}
-\text{
-\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
-is a completion.
-}
-\end{equation}
-
-Let \Vleo{next} be
-the top-down cause of
-\vatp{\Vleo{memo}}{\var{top}}{\var{i}}.
-Note that \Vleo{next} may be undefined.
-Then
-\begin{align}
-\label{t:leo-reconstruction-correctness-40d}
-& \myparbox{
-$\Memo{\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}}
-=
-\Vleo{next}
-\because$
-\eqref{t:leo-reconstruction-correctness-35},
-\eqref{t:leo-reconstruction-correctness-40b};
-}
-\\
-\label{t:leo-reconstruction-correctness-40e}
-& \myparbox{
-$\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
-\in 
-\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
-\because$
-Def of fleeting closure, 
-  line \ref{line:reconstruct-memoized-eims-loop-39};
-}
-\\
-\label{t:leo-reconstruction-correctness-40g}
-& \myparbox{
-$\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
-\in
-\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
-\because$
-line \ref{line:reconstruct-memoized-eims-loop-43};
-}
-\\
-\label{t:leo-reconstruction-correctness-40i}
-& \myparbox{
-$\Memo{\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}}
-= \Vleo{next} \because$
-Theorem \ref{t:leo-memo-fleeting closure},
-\eqref{t:leo-reconstruction-correctness-40d},
-\eqref{t:leo-reconstruction-correctness-40e},
-\eqref{t:leo-reconstruction-correctness-40g};
-}
-\end{align}
-
-% % The value of \Veim{up} at the top of the main loop
-% % after \Vincr{i} passes is its value in pass \var{i} after
-% % line \ref{line:reconstruct-memoized-eims-loop-43},
-% % and
-% % The value of \Vleo{memo} at the top of the main loop
-% % after \Vincr{i} passes is its value in pass \var{i} after
-% % line \ref{line:reconstruct-memoized-eims-loop-46} so that,
-% % from 
-% % \eqref{t:leo-reconstruction-correctness-42},
-% % we can conclude
-% % \eqref{t:leo-reconstruction-correctness-20} is true
-% % at the top of the main loop after \Vincr{i} passes.
-% 
-% % TODO: Tighten up this argument.
-% % If 
-% % \vatp{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
-% % is undefined
-% % the main loop terminates
-% % at line \ref{line:reconstruct-memoized-eims-loop-first},
-% % before pass \Vincr{i} begins,
-% % and the procedure \mycallname{Reconstruct} ends.
-% % Therefore,
-% % \vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
-% % is defined so that,
-% % by
-% % we know that
-% % \begin{equation}
-% % \label{t:leo-reconstruction-correctness-40}
-% % \myparbox{
-% % \vatp{\Veim{lasting}}{\var{top}}{\var{i}}.
-% % matches the top-down cause of
-% % \vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
-% %  $\because$
-% % \eqref{t:leo-reconstruction-correctness-35}
-% % }
-% % \end{equation}
-
-TODO: Finish.
-\end{proof}
 
 \begin{lemma}
 \ttitle{Leo silo validity lemma}
