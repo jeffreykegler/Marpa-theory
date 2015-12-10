@@ -11279,42 +11279,47 @@ the top-down cause of
 \vatp{\Vleo{memo}}{\var{top}}{\var{i}}.
 Note that \Vleo{next} may be undefined.
 Then
-% % \begin{align}
-% % \label{t:leo-reconstruction-correctness-40d}
-% % \Memo{\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}}
-% % =
-% % \Vleo{next}
-% % $\because$
-% % \eqref{t:leo-reconstruction-correctness-35},
-% % \eqref{t:leo-reconstruction-correctness-40b};
-% % \\
-% % \label{t:leo-reconstruction-correctness-40e}
-% % \vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
-% % \in 
-% % \vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
-% % \because \;
-% % \text{Def of fleeting closure, 
-%   % line \ref{line:reconstruct-memoized-eims-loop-39}
-% % };
-% \\
-% % \label{t:leo-reconstruction-correctness-40g}
-% % \vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
-% % \in
-% % \vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
-% % \because
-% % \; \text{line \ref{line:reconstruct-memoized-eims-loop-43}};
-% % \\
-% % \label{t:leo-reconstruction-correctness-40i}
-% % \Memo{\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}}
-% % =
-% % \Vleo{next}
-% % \because
-% % \;\text{Theorem \ref{t:leo-memo-fleeting closure}},
-% % \eqref{t:leo-reconstruction-correctness-40d},
-% % \eqref{t:leo-reconstruction-correctness-40e},
-% % \eqref{t:leo-reconstruction-correctness-40g};
-% % \end{align}
-% 
+\begin{align}
+\label{t:leo-reconstruction-correctness-40d}
+& \myparbox{
+$\Memo{\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}}
+=
+\Vleo{next}
+\because$
+\eqref{t:leo-reconstruction-correctness-35},
+\eqref{t:leo-reconstruction-correctness-40b};
+}
+\\
+\label{t:leo-reconstruction-correctness-40e}
+& \myparbox{
+$\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
+\in 
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
+\because$
+Def of fleeting closure, 
+  line \ref{line:reconstruct-memoized-eims-loop-39};
+}
+\\
+\label{t:leo-reconstruction-correctness-40g}
+& \myparbox{
+$\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
+\in
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
+\because$
+line \ref{line:reconstruct-memoized-eims-loop-43};
+}
+\\
+\label{t:leo-reconstruction-correctness-40i}
+& \myparbox{
+$\Memo{\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}}
+= \Vleo{next} \because$
+Theorem \ref{t:leo-memo-fleeting closure},
+\eqref{t:leo-reconstruction-correctness-40d},
+\eqref{t:leo-reconstruction-correctness-40e},
+\eqref{t:leo-reconstruction-correctness-40g};
+}
+\end{align}
+
 % % The value of \Veim{up} at the top of the main loop
 % % after \Vincr{i} passes is its value in pass \var{i} after
 % % line \ref{line:reconstruct-memoized-eims-loop-43},
