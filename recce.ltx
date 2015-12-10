@@ -11229,73 +11229,76 @@ are well-defined, and therefore that they are well-formed.
 We will now show that the remaining assignments are well-formed.
 By Theorem
 \ref{t:maximal-fleeting-closure-validity}
-\Veim{lasting} is in exactly one maximal fleeting closure,
-so that the assignment in line
-\ref{line:reconstruct-memoized-eims-loop-39}
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}.
+is in exactly one maximal fleeting closure,
+so that
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
 is well-defined.
 Every fleeting closure, contains at least that EIM which is its base,
-and the maximal fleeting closure, \var{mfc}, by its definition,
+and a maximal fleeting closure, by its definition,
 must contain its own lasting base.
-Therefore \var{mfc} has at least one element,
-so that the assignment in
-line \ref{line:reconstruct-memoized-eims-loop-39}
+Therefore
+the maximal fleeting closure
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
+contains at least one element,
+so that
+\vatp{\Veim{up}}{\label{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
 is well-defined.
-We consider the assignment of
-line \ref{line:reconstruct-memoized-eims-loop-46}
-to be well-formed even if,
-after the execution
-of line \ref{line:reconstruct-memoized-eims-loop-46},
-\Vleo{memo} is undefined.
-
-If \Vleo{memo} is undefined,
-the main loop terminates,
-and the procedure \mycallname{Reconstruct} ends.
-Therefore, \Vleo{memo} is defined at the top of the main
-loop after \Vincr{i} passes so that,
-by
-\eqref{t:leo-reconstruction-correctness-35},
-we know that
-\begin{equation}
-\label{t:leo-reconstruction-correctness-40}
-\myparbox{
-after line \ref{line:reconstruct-memoized-eims-loop-23},
-\Veim{lasting} matches the top-down cause of \Vleo{memo}.
-}
-\end{equation}
+Finally, for line \ref{line:reconstruct-memoized-eims-loop-46},
+we consider
+\vatp{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
+even if it is undefined.
 
 By
 \eqref{t:leo-reconstruction-correctness-34},
-\Veim{lasting} is a silo effect
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}.
+is a silo effect
 and therefore, by the definition of a silo,
-\Veim{lasting} is quasi-complete.
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}.
+is quasi-complete.
 Since
-\Veim{lasting} is quasi-complete,
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}.
+is quasi-complete,
 by Theorem
 \ref{t:maximal-fleeting-closure-silo}
-\var{mfc} is a fleeting closuure silo.
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
+is a fleeting closuure silo.
 One of the properties of a fleeting closure
 silo is that its last layer is a completion,
 so that
-after the execution of
-line \ref{line:reconstruct-memoized-eims-loop-43},
-\Veim{up} is a completion.
+\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
+is a completion.
 By Theorem
-\ref{t:leo-memo-fleeting closure}, if \Veim{lasting}
-matches \Vleo{memo}, then every EIM in \var{mfc}, its fleeting closure,
-matches \Vleo{memo}.
-Since \Veim{up} is a layer of \var{mfc} then,
-after the execution of
-line \ref{line:reconstruct-memoized-eims-loop-43},
-\Veim{up} matches the top-down cause of \Vleo{memo}.
-\Vleo{memo} is assigned to its own top-down cause in
-line \ref{line:reconstruct-memoized-eims-loop-46} so that,
+\ref{t:leo-memo-fleeting closure}, if
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}.
+matches
+\vatp{\Vleo{memo}}{\var{top}}{\var{i}}
+then every EIM in
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}},
+its fleeting closure,
+matches
+\vatp{\Vleo{memo}}{\var{top}}{\var{i}}.
+Since
+\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
+is a layer of
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}},
+\var{mfc},
+\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
+matches the top-down cause of \Vleo{memo}.
+\vatp{\Vleo{memo}}{line \ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
+is the top-down cause of
+\vatp{\Vleo{memo}}{\var{top}}{\var{i}},
+if that top-down cause exists,
+so that
 \begin{equation}
 \label{t:leo-reconstruction-correctness-42}
-\myparbox{
-after line \ref{line:reconstruct-memoized-eims-loop-46},
-\Veim{up} matches \Vleo{memo}.
-}
+\vatp{\Vleo{memo}}{line \ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
+\neq \undefined \implies
+\vatp{\Veim{up}}{line \ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
+\; \text{matches} \;
+\vatp{\Vleo{memo}}{line \ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}.
 \end{equation}
+
 The value of \Veim{up} at the top of the main loop
 after \Vincr{i} passes is its value in pass \var{i} after
 line \ref{line:reconstruct-memoized-eims-loop-43},
@@ -11308,6 +11311,30 @@ from
 we can conclude
 \eqref{t:leo-reconstruction-correctness-20} is true
 at the top of the main loop after \Vincr{i} passes.
+
+TODO: Tighten up this argument.
+If 
+\vatp{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
+is undefined
+the main loop terminates
+at line \ref{line:reconstruct-memoized-eims-loop-first},
+before pass \Vincr{i} begins,
+and the procedure \mycallname{Reconstruct} ends.
+Therefore,
+\vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
+is defined so that,
+by
+we know that
+\begin{equation}
+\label{t:leo-reconstruction-correctness-40}
+\myparbox{
+\vatp{\Veim{lasting}}{\var{top}}{\var{i}}.
+matches the top-down cause of
+\vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
+$\because$
+\eqref{t:leo-reconstruction-correctness-35}
+}
+\end{equation}
 
 TODO: Finish.
 \end{proof}
