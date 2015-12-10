@@ -11222,63 +11222,63 @@ $\because$
 }
 \end{align}
 
-% We have shown that the assignments as far as
-% line \ref{line:reconstruct-memoized-eims-loop-23}
-% of Algorithm \ref{alg:reconstruct-memoized-eims}
-% are well-defined, and therefore that they are well-formed.
-% We will now show that the remaining assignments are well-formed.
-% By Theorem
-% \ref{t:maximal-fleeting-closure-validity}
-% \vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
-% is in exactly one maximal fleeting closure,
-% so that
-% \vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
-% is well-defined.
-% Every fleeting closure, contains at least that EIM which is its base,
-% and a maximal fleeting closure, by its definition,
-% must contain its own lasting base.
-% Therefore
-% the maximal fleeting closure
-% \vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
-% contains at least one element,
-% so that
-% \vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
-% is well-defined.
-% Finally, for line \ref{line:reconstruct-memoized-eims-loop-46},
-% we consider
-% \vatp{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
-% even if it is undefined.
-% 
-% By
-% \eqref{t:leo-reconstruction-correctness-34},
-% \vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
-% is a silo effect
-% and therefore, by the definition of a silo,
-% \vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
-% is quasi-complete.
-% Since
-% \vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
-% is quasi-complete,
-% by Theorem
-% \ref{t:maximal-fleeting-closure-silo}
-% \vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
-% is a fleeting closure silo.
-% One of the properties of a fleeting closure
-% silo is that its last layer is a completion,
-% so that
-% % \begin{equation}
-% % \label{t:leo-reconstruction-correctness-39}
-% % \text{
-% % \vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
-% % is a completion.
-% % }
-% % \end{equation}
-% 
-% % Let \Vleo{next} be
-% % the top-down cause of
-% % \vatp{\Vleo{memo}}{\var{top}}{\var{i}}.
-% % Note that \Vleo{next} may be undefined.
-% % Then
+We have shown that the assignments as far as
+line \ref{line:reconstruct-memoized-eims-loop-23}
+of Algorithm \ref{alg:reconstruct-memoized-eims}
+are well-defined, and therefore that they are well-formed.
+We will now show that the remaining assignments are well-formed.
+By Theorem
+\ref{t:maximal-fleeting-closure-validity}
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
+is in exactly one maximal fleeting closure,
+so that
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
+is well-defined.
+Every fleeting closure, contains at least that EIM which is its base,
+and a maximal fleeting closure, by its definition,
+must contain its own lasting base.
+Therefore
+the maximal fleeting closure
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
+contains at least one element,
+so that
+\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
+is well-defined.
+Finally, for line \ref{line:reconstruct-memoized-eims-loop-46},
+we consider
+\vatp{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
+even if it is undefined.
+
+By
+\eqref{t:leo-reconstruction-correctness-34},
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
+is a silo effect
+and therefore, by the definition of a silo,
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
+is quasi-complete.
+Since
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
+is quasi-complete,
+by Theorem
+\ref{t:maximal-fleeting-closure-silo}
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
+is a fleeting closure silo.
+One of the properties of a fleeting closure
+silo is that its last layer is a completion,
+so that
+\begin{equation}
+\label{t:leo-reconstruction-correctness-39}
+\text{
+\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
+is a completion.
+}
+\end{equation}
+
+Let \Vleo{next} be
+the top-down cause of
+\vatp{\Vleo{memo}}{\var{top}}{\var{i}}.
+Note that \Vleo{next} may be undefined.
+Then
 % % \begin{align}
 % % \label{t:leo-reconstruction-correctness-40d}
 % % \Memo{\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}}
