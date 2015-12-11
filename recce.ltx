@@ -11058,11 +11058,13 @@ to \Vleo{l2}.
 \label{line:reconstruct-memoized-eims-preloop-20}
 \While{ $\Vleo{memo} \neq \undefined$ and \Vleo{memo} is instantiated }
 \label{line:reconstruct-memoized-eims-loop-first}
+\Statex
+\Comment This line is also referred to as \var{top}
 \State \Veim{down} $\gets$ basis of \Vleo{memo}
 \label{line:reconstruct-memoized-eims-loop-20}
 \State \Veim{lasting} $\gets$ effect of \Veim{down}, \Veim{up}
 \label{line:reconstruct-memoized-eims-loop-23}
-\State
+\Statex
 \Comment On lines \ref{line:reconstruct-memoized-eims-loop-20}--%
 \ref{line:reconstruct-memoized-eims-loop-23}, %
   see Lemma \ref{lem:leo-memo-effect}
@@ -11075,7 +11077,7 @@ to \Vleo{l2}.
 \EndFor
 \State $\Veim{up} \gets \el{mfc}{\Vlastix{mfc}}$
 \label{line:reconstruct-memoized-eims-loop-43}
-\State
+\Statex
 \Comment \el{mfc}{\Vlastix{mfc}} is the completion of \var{mfc}
 \State \Vleo{memo} $\gets$ top-down cause of \Vleo{memo}
 \label{line:reconstruct-memoized-eims-loop-46}
@@ -11087,7 +11089,9 @@ to \Vleo{l2}.
 \end{algorithm}%
 \index{recce-theorems}{Construction: Reconstruct memoized EIM's}
 
-This section will discuss
+This section will present,
+and will present several theorems whose proofs
+require,
 Algorithm \ref{alg:reconstruct-memoized-eims}.
 In this section,
 we will call the loop in
@@ -11113,7 +11117,7 @@ of Algorithm \ref{alg:reconstruct-memoized-eims}
 on the \var{p}'th pass through the main loop.
 
 We first show that 
-Algorithm \ref{alg:reconstruct-memoized-eims}.
+Algorithm \ref{alg:reconstruct-memoized-eims}
 is well-formed.
 In this context, ``well-formed'' means that all variables
 are either well-defined, or have their undefinedness
@@ -11126,7 +11130,7 @@ Algorithm \ref{alg:reconstruct-memoized-eims}
 is well-formed,
 if called as
 \call{Reconstruct}{\Vleo{leo}, \Veim{lb}},
-where \myfnname{Reconstruct} is as specified in
+where \mycallname{Reconstruct} is as specified in
 Algorithm \ref{alg:reconstruct-memoized-eims},
 \Vleo{leo} is an instantiated Leo memo,
 and \Veim{lb} is a valid EIM that matches
@@ -11152,9 +11156,8 @@ is instantiated; and
 }
 \\
 \text{
-\vatp{\Vleo{memo}}{\var{top}}{\var{x}}
-matches
-\vatp{\Veim{up}}{\var{top}}{\var{x}}
+\Memo{\vatp{\Veim{up}}{\var{top}}{\var{x}}}
+= \vatp{\Vleo{memo}}{\var{top}}{\var{x}}
 }
 \end{gathered}
 \end{equation}
@@ -11187,7 +11190,6 @@ for $\var{x} = \var{i}$,
 to show that
 \eqref{t:leo-reconstruction-wellformedness-20} is true
 for $\var{x} = \Vincr{i}$.
-
 By assumption for the step,
 \vatp{\Veim{up}}{\var{top}}{\var{i}}
 is valid and complete and matches
@@ -11204,7 +11206,7 @@ Lemma \ref{lem:leo-memo-effect} that
 \begin{align}
 \label{t:leo-reconstruction-wellformedness-34}
 & \myparbox{
-\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}.
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
 is valid and the silo effect of
 \vatp{\Veim{up}}{\var{top}}{\var{i}}
 $\because$
@@ -11216,8 +11218,8 @@ $\because$
 & \myparbox{if
 \vatp{\Vleo{memo}}{\var{top}}{\var{i}}
 has an instantiated top-down cause, then
-\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}.
-matches the top-down cause of
+\Memo{\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}}
+is the top-down cause of
 \vatp{\Vleo{memo}}{\var{top}}{\var{i}}
 $\because$
 \eqref{eq:lem-leo-memo-effect-15};
@@ -11254,11 +11256,14 @@ contains at least one element,
 so that
 \vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
 is well-defined.
+
 Finally, for line \ref{line:reconstruct-memoized-eims-loop-46},
 we consider
 \vatp{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
-well-formed,
+to be well-formed,
 even if it is undefined.
+Line \ref{line:reconstruct-memoized-eims-loop-first} filters out
+the undefined values of \Vleo{memo}.
 
 By
 \eqref{t:leo-reconstruction-wellformedness-34},
@@ -11368,7 +11373,7 @@ $\because$
 \eqref{t:leo-reconstruction-wellformedness-40q};
 }
 \\
-\label{t:leo-reconstruction-wellformedness-40s}
+\label{t:leo-reconstruction-wellformedness-40u}
 & \myparbox{
 $\Memo{\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}}
 = \vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
@@ -11379,45 +11384,18 @@ $\Memo{\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}}
 }
 \end{align}
 
-% % The value of \Veim{up} at the top of the main loop
-% % after \Vincr{i} passes is its value in pass \var{i} after
-% % line \ref{line:reconstruct-memoized-eims-loop-43},
-% % and
-% % The value of \Vleo{memo} at the top of the main loop
-% % after \Vincr{i} passes is its value in pass \var{i} after
-% % line \ref{line:reconstruct-memoized-eims-loop-46} so that,
-% % from
-% % \eqref{t:leo-reconstruction-wellformedness-42},
-% % we can conclude
-% % \eqref{t:leo-reconstruction-wellformedness-20} is true
-% % at the top of the main loop after \Vincr{i} passes.
-%
-% % TODO: Tighten up this argument.
-% % If
-% % \vatp{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-loop-46}}{\var{i}}
-% % is undefined
-% % the main loop terminates
-% % at line \ref{line:reconstruct-memoized-eims-loop-first},
-% % before pass \Vincr{i} begins,
-% % and the procedure \mycallname{Reconstruct} ends.
-% % Therefore,
-% % \vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
-% % is defined so that,
-% % by
-% % we know that
-% % \begin{equation}
-% % \label{t:leo-reconstruction-wellformedness-40}
-% % \myparbox{
-% % \vatp{\Veim{lasting}}{\var{top}}{\var{i}}.
-% % matches the top-down cause of
-% % \vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
-% %  $\because$
-% % \eqref{t:leo-reconstruction-wellformedness-35}
-% % }
-% % \end{equation}
-
-TODO: Finish.
+\eqref{t:leo-reconstruction-wellformedness-40m}
+\eqref{t:leo-reconstruction-wellformedness-40s}
+and
+\eqref{t:leo-reconstruction-wellformedness-40u}
+are
+\eqref{t:leo-reconstruction-wellformedness-20}
+for $\var{x} = \Vincr{i}$,
+and therefore the step of the induction.
+With this we have the induction and the theorem.
 \end{proof}
+
+TODO: to here
 
 \begin{theorem}
 \ttitle{Leo reconstruction correctness}
