@@ -11135,14 +11135,15 @@ Algorithm \ref{alg:reconstruct-memoized-eims},
 \Vleo{leo} is an instantiated Leo memo,
 and \Veim{lb} is a valid EIM that matches
 \Vleo{leo}.
-\end{theorem}
-
-\begin{proof}
-We proceed by induction
-on the number of passes through the main loop.
-For the induction hypothesis, we use
+Then
+\begin{gather*}
+\text{Algorithm \ref{alg:reconstruct-memoized-eims}
+is well-formed;
+}
+\end{gather*}
+and, where \var{x} is a pass through the main loop,
 \begin{equation}
-\label{t:leo-reconstruction-wellformedness-20}
+\label{t:leo-reconstruction-wellformedness-10}
 \tag{IND}
 \begin{gathered}
 \text{
@@ -11161,13 +11162,23 @@ is instantiated; and
 }
 \end{gathered}
 \end{equation}
-We use
-\eqref{t:leo-reconstruction-wellformedness-20}
-as a loop invariant or ``guard''
+\end{theorem}
+
+\begin{proof}
+We proceed by induction
+on the number of passes through the main loop.
+For the induction hypothesis, we use
+\eqref{t:leo-reconstruction-wellformedness-10}.
+We also use
+\eqref{t:leo-reconstruction-wellformedness-10}
+as a loop invariant
 as described in
-\cite{ED1976}.
-The ``guard'' must be true after the test at the top
-of the main loop.
+\cite{ED1976},
+where the loop invariant, or ``guard'', is required be true after the test at the top
+of a loop.
+In our case,
+\eqref{t:leo-reconstruction-wellformedness-10}.
+is required to be true at top of the main loop.
 
 By assumption for the theorem,
 \vat{\Veim{lb}}{\ref{line:reconstruct-memoized-eims-preloop-5}}
@@ -11180,15 +11191,15 @@ and
 \vat{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-preloop-20}}
 are well-defined
 and that
-\eqref{t:leo-reconstruction-wellformedness-20}
+\eqref{t:leo-reconstruction-wellformedness-10}
 is true for $\var{x} = 0$.
 We take this as the basis of our induction.
 
 For the step of the induction, we assume that
-\eqref{t:leo-reconstruction-wellformedness-20} is true
+\eqref{t:leo-reconstruction-wellformedness-10} is true
 for $\var{x} = \var{i}$,
 to show that
-\eqref{t:leo-reconstruction-wellformedness-20} is true
+\eqref{t:leo-reconstruction-wellformedness-10} is true
 for $\var{x} = \Vincr{i}$.
 By assumption for the step,
 \vatp{\Veim{up}}{\var{top}}{\var{i}}
@@ -11389,10 +11400,59 @@ $\Memo{\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}}
 and
 \eqref{t:leo-reconstruction-wellformedness-40u}
 are
-\eqref{t:leo-reconstruction-wellformedness-20}
+\eqref{t:leo-reconstruction-wellformedness-10}
 for $\var{x} = \Vincr{i}$,
 and therefore the step of the induction.
 With this we have the induction and the theorem.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Leo reconstruction termination}
+\label{leo-reconstruction-termination}
+Let \mycallname{Reconstruct} be as specified in
+Algorithm \ref{alg:reconstruct-memoized-eims},
+let \Vleo{leo} be an instantiated Leo memo,
+and let \Veim{lb} be a valid EIM that matches
+\Vleo{leo}.
+Then the call
+\call{Reconstruct}{\Vleo{leo}, \Veim{lb}}
+terminates.
+\end{theorem}
+
+\begin{proof}
+Suppose for a reductio, that
+Algorithm \ref{alg:reconstruct-memoized-eims}
+runs forever.
+Let \var{seq} be a sequence such that
+\begin{equation}
+\Vel{seq}{i} =
+\begin{cases}
+\text{\vat{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-preloop-20}},
+if \var{i} = 0}
+\\
+\text{the top-down cause of \el{seq}{\Vdecr{i}}, otherwise}.
+\end{cases}
+\end{equation}
+We see that
+\[
+\forall \; \var{p} : \var{p} \ge 1 \implies \Vel{seq}{p} =
+\vatp{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-loop-46}}{\var{p}}
+\]
+and that, if there is no upper bound on \var{p}, then the sequence
+\var{seq} is infinite.
+
+By the definition of a catena, \var{seq} is a catena.
+But, by Theorem
+\ref{t:leo-catenas-are-finite}, a Leo catena must be finite.
+This contradiction shows the reductio.
+From the reductio, we conclude that the number of executions
+of line \eqref{line:reconstruct-memoized-eims-loop-46}
+is less than some finite number of times, call it \var{maxp}.
+Therefore Algorithm \ref{alg:reconstruct-memoized-eims}
+makes \var{maxp} or fewer passes through the main loop.
+Therefore Algorithm \ref{alg:reconstruct-memoized-eims}
+must terminate before the \Vincr{maxp}'th pass through
+the main loop.
 \end{proof}
 
 TODO: to here
@@ -11400,6 +11460,8 @@ TODO: to here
 \begin{theorem}
 \ttitle{Leo reconstruction correctness}
 \label{t:leo-reconstruction-correctness-TODO}
+TODO: delete this?
+
 Let \Vleo{leo} be an instantiated Leo memo,
 and let \Veim{lb} be a valid EIM that matches
 \Vleo{leo}.
@@ -11434,10 +11496,14 @@ is the catena of \Vleo{leo}.
 \end{align}
 \end{theorem}
 
+\begin{proof}
+TODO: delete this?
+\end{proof}
+
 \begin{lemma}
 \ttitle{Leo silo validity lemma}
 \label{lem:leo-silo-validity}
-TODO: needs work
+TODO: delete this?
 
 Let
 \begin{equation*}
@@ -11480,296 +11546,13 @@ such that
 \end{lemma}
 
 \begin{proof}
-Let \var{slo} be a silo
-such that
-\begin{equation}
-\label{eq:lem-leo-silo-validity-6}
-\el{lsl}{0} = \Veim{lb}.
-\end{equation}
-We first show that a silo satisfying
-\eqref{eq:lem-leo-silo-validity-6} exists.
-\begin{align}
-\label{eq:lem-leo-silo-validity-8a}
-& \myparbox{
-\Veim{lb} is the EIM equivalent
-of the matching bottom of a Leo memo
-$\because$ ASM for the theorem
-}
-\\
-\label{eq:lem-leo-silo-validity-8b}
-& \myparbox{
-\Veim{lb} is complete
-$\because$ Def of EIM equivalent of a symbol instance,
-\eqref{eq:lem-leo-silo-validity-8a}
-}
-\\
-\label{eq:lem-leo-silo-validity-8c}
-& \myparbox{
-\Veim{lb} is silo-eligible
-$\because$ Def of silo eligible,
-\eqref{eq:lem-leo-silo-validity-8b}
-}
-\\
-\label{eq:lem-leo-silo-validity-8d}
-& \myparbox{ $[ \Veim{lb} ]$ is a silo
-$\because$ Def of silo,
-\eqref{eq:lem-leo-silo-validity-8c}
-}
-\end{align}
-From
-\eqref{eq:lem-leo-silo-validity-8d},
-we see that
-there is at least one silo satisfying
-\eqref{eq:lem-leo-silo-validity-6}.
-
-Let \var{topix} be
-such that
-\begin{equation}
- \Vel{slo}{topix} = \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}
-\end{equation}
-We have not yet proved that there is a well-defined \var{topix},
-and we intrepret our notation in a way
-that does not imply $\exists \; \var{topix}$.
-We write $\var{topix} = \undefined$ to say that \var{topix}
-does not exist,
-and we write
-\[
-   \var{a} < \var{topix}
-\]
-to say that
-\[
-   (\exists \; \var{topix} : \var{a} < \var{topix}) \; \lor \; \nexists \; \var{topix}.
-\]
-Similarly,
-\[
-\begin{aligned}
-   \var{a} \le \var{topix} \; & \defined \; (\exists \var{topix} : \var{a} \le \var{topix}) \; \lor \; \nexists \; \var{topix} \quad \text{and} \\
-   \var{a} \neq \var{topix} \; & \defined \; (\exists \var{topix} : \var{a} \neq \var{topix}) \; \lor \; \nexists \; \var{topix}.
-\end{aligned}
-\]
-
-We start with a forward induction
-on the indexes of the elements of \var{slo}.
-For the induction hypothesis,
-we use
-\begin{gather}
-\label{eq:lem-leo-silo-validity-10a}
-\tag{IND1}
-\var{x} \le \var{topix}
-\implies \Valid{\Vel{slo}{x}}
-\\
-\label{eq:lem-leo-silo-validity-10b}
-\tag{IND2}
-\var{x} \le \var{topix}
-\implies \; \text{\el{slo}{0 \ldots \var{x}} is a silo}
-\\[1ex]
-\label{eq:lem-leo-silo-validity-10c}
-\tag{IND3}
-\begin{aligned}
-& \var{x} \le \var{topix}
-\implies
-\exists \; \text{\var{cat} : \var{cat} is a catena and} \\
-& \qquad
-\left(
-\begin{aligned}
-& (\forall \var{a} : 0 \le \var{a} \le \var{x} \; \land \;
-  \Memo{\Vel{slo}{a}} \neq \undefined) \\
-& \qquad \implies \Memo{\Vel{slo}{a}} \in \var{cat}
-\end{aligned}
-\right)
-\end{aligned}
-\end{gather}
-
-\textbf{Basis of the induction}:
-We take $\var{x} = 0$
-as the basis of our induction.
-By Theorem
-\ref{silo-outer-layer-distinctness},
-we know that
-\begin{equation}
-\label{eq:lem-leo-silo-validity-11}
-\var{topix} \neq 0,
-\end{equation}
-so that,
-following our convention for the case where
-$\var{topix} = \undefined$,
-the antecedant of the implications
-in
-\eqref{eq:lem-leo-silo-validity-10a} and
-\eqref{eq:lem-leo-silo-validity-10b}
-is true.
-By assumption for the theorem,
-\Veim{lb} is valid, so that
-we have
-\eqref{eq:lem-leo-silo-validity-10a} for $\var{x} = 0$
-from \eqref{eq:lem-leo-silo-validity-6}.
-We have
-\eqref{eq:lem-leo-silo-validity-10b} for $\var{x} = 0$
-from \eqref{eq:lem-leo-silo-validity-8d}.
-
-By assumption for the theorem,
-$\Memo{\Veim{lb}} \neq \undefined$,
-so that
-\[
-   \big[ \Memo{\Veim{lb}} \big]
-\]
-is a trivial catena, one which satisfies
-\eqref{eq:lem-leo-silo-validity-10c} for $\var{x} = 0$,
-Having shown \eqref{eq:lem-leo-silo-validity-10a}--%
-\eqref{eq:lem-leo-silo-validity-10c} for $\var{x} = 0$,
-we have the basis of the induction.
-
-\textbf{Step of the induction}:
-For the step of the induction, we assume
-\eqref{eq:lem-leo-silo-validity-10a}--%
-\eqref{eq:lem-leo-silo-validity-10c}
-for $\var{x} = \var{i}$,
-to show
-\eqref{eq:lem-leo-silo-validity-10a}--%
-\eqref{eq:lem-leo-silo-validity-10c}
-for $\var{x} = \Vincr{i}$.
-Within the step, we proceed by cases.
-
-\textbf{Step case 1}: For the case where $\exists \; \var{topix} : \Vincr{i} > \var{topix}$,
-the antecedants of
-\eqref{eq:lem-leo-silo-validity-10a}--%
-\eqref{eq:lem-leo-silo-validity-10c}
-are false, and
-\eqref{eq:lem-leo-silo-validity-10a}--%
-\eqref{eq:lem-leo-silo-validity-10c}
-for $\var{x} = \Vincr{i}$ follow trivially.
-
-TODO: to here
-
-\textbf{Assumptions for the step}:
-For the use of the non-trivial cases of the step,
-we state the assumptions for the step and some
-of their more direct consequences here:
-\begin{align}
-\label{eq:lem-leo-silo-validity-19b}
-& \Valid{\Vel{slo}{i}}
-\; \because \; \text{ASM
-\eqref{eq:lem-leo-silo-validity-10a} for step}
-\\
-\label{eq:lem-leo-silo-validity-19d}
-& \text{\Vel{slo}{i} is a silo layer}
-\; \because \; \text{ASM
-\eqref{eq:lem-leo-silo-validity-10b} for step}
-\\
-\label{eq:lem-leo-silo-validity-19f}
-& \text{\Vel{slo}{i} is quasi-complete}
-\; \because \;
-\eqref{eq:lem-leo-silo-validity-19d}, \;
-\text{Def of silo}
-\\
-\label{eq:lem-leo-silo-validity-19h}
-&
-\begin{aligned}
-& \exists \var{cat} : \forall \; \var{a} : (0 \le \var{a} \le \var{i}
-  \; \land \; \Memo{\Vel{slo}{a}} \neq \undefined) \\
-& \qquad \implies \Memo{\Vel{slo}{a}} \in \var{cat} \\
-& \qquad \qquad \because \; \text{ASM
-  \eqref{eq:lem-leo-silo-validity-10c} for step}
-\end{aligned}
-\end{align}
-
-\textbf{Step case 2}: We next consider
-the case where $\Vincr{i} \le \var{topix}$
-and \Vel{slo}{i} is incomplete.
-\begin{align}
-\label{eq:lem-leo-silo-validity-20a}
-& \text{\Vel{slo}{i} is incomplete}
-\; \because \; \text{ASM for case}
-\\
-\label{eq:lem-leo-silo-validity-20b}
-& \Vincr{i} \le \var{topix}
-\; \because \; \text{ASM for case}
-\\
-\label{eq:lem-leo-silo-validity-20m}
-&
-\begin{multlined}
-\exists \; \Veim{eff} : \Valid{\Veim{eff}}
-\\
-\; \because \;
-\eqref{eq:lem-leo-silo-validity-19b},
-\eqref{eq:lem-leo-silo-validity-19f},
-\eqref{eq:lem-leo-silo-validity-20a},
-\text{Lemma \ref{lem:leo-memo-of-incompletion}}
-\end{multlined}
-\\
-\label{eq:lem-leo-silo-validity-20o}
-&
-\begin{multlined}
-\text{\Veim{eff} is the silo effect of \Vel{slo}{i}}
-\\
-\; \because \;
-\eqref{eq:lem-leo-silo-validity-19b},
-\eqref{eq:lem-leo-silo-validity-19f},
-\eqref{eq:lem-leo-silo-validity-20a},
-\text{Lemma \ref{lem:leo-memo-of-incompletion}}
-\end{multlined}
-\\
-\label{eq:lem-leo-silo-validity-20q}
-&
-\el{slo}{\Vincr{i}} = \Veim{eff}
-\; \because \;
-\eqref{eq:lem-leo-silo-validity-20o}
-\\
-\label{eq:lem-leo-silo-validity-20s}
-&
-\Valid{\el{slo}{\Vincr{i}}}
-\; \because \;
-\eqref{eq:lem-leo-silo-validity-20m},
-\eqref{eq:lem-leo-silo-validity-20q}
-\\
-\label{eq:lem-leo-silo-validity-20u}
-& \begin{multlined}
-\Memo{\Veim{eff}} = \Memo{\Vel{slo}{i}}
-\\
-\; \because \;
-\eqref{eq:lem-leo-silo-validity-19b},
-\eqref{eq:lem-leo-silo-validity-19f},
-\eqref{eq:lem-leo-silo-validity-20a},
-\text{Lemma \ref{lem:leo-memo-carryforward}}
-\end{multlined}
-\\
-\label{eq:lem-leo-silo-validity-20w}
-& \Memo{\el{slo}{\Vincr{i}}} = \Memo{\Vel{slo}{i}}
-\; \because \;
-\eqref{eq:lem-leo-silo-validity-20q},
-\eqref{eq:lem-leo-silo-validity-20u}
-\end{align}
-
-\eqref{eq:lem-leo-silo-validity-20s} shows
-\eqref{eq:lem-leo-silo-validity-10a}
-for $\var{x} = \Vincr{i}$,
-and \eqref{eq:lem-leo-silo-validity-20q} shows
-\eqref{eq:lem-leo-silo-validity-10b}
-for $\var{x} = \Vincr{i}$.
-
-From
-\eqref{eq:lem-leo-silo-validity-20w}
-we see that the Leo memo for
-\el{slo}{\Vincr{i}} is identical to
-the Leo memo for \Vel{slo}{i},
-so that
-\eqref{eq:lem-leo-silo-validity-10c}
-for $\var{x} = \Vincr{i}$
-follows from
-\eqref{eq:lem-leo-silo-validity-19h},
-an assumption for the step.
-Having shown
-\eqref{eq:lem-leo-silo-validity-10a}--%
-\eqref{eq:lem-leo-silo-validity-10c}
-for $\var{x} = \Vincr{i}$,
-we have shown
-the step for this case.
-
-TODO: Finish
+TODO: delete this?
 \end{proof}
 
 \begin{definition}
 \dtitle{Matching catena of Leo silo}
+TODO: Do I need this?
+
 Let \var{slo} be a valid Leo silo
 and let \var{cat} be a catena.
 We say that \var{cat} matches \var{slo}
@@ -11796,8 +11579,7 @@ if and only if
 \begin{theorem}
 \ttitle{OLD Leo silo validity}
 \label{t:OLD-leo-silo-validity}
-
-TODO: replace this.
+TODO: delete this?
 
 Let
 \begin{equation*}
@@ -11829,475 +11611,7 @@ of complete EIM's in the lower layers of \var{lsl}.
 \end{theorem}
 
 \begin{proof}
-TODO revise
-
-\textbf{Step of the induction}:
-For the step of the induction, we assume
-\eqref{eq:OLD-leo-silo-validity-10a}--\eqref{eq:OLD-leo-silo-validity-10d}
-for $\var{x} = \var{i}$,
-to show
-\eqref{eq:OLD-leo-silo-validity-10a}--\eqref{eq:OLD-leo-silo-validity-10d}
-for $\var{x} = \Vincr{i}$.
-Within the step, we proceed by cases.
-
-\textbf{Step case 1}: For the case where $\exists \; \var{topix} : \Vincr{i} > \var{topix}$,
-the antecedants of
-\eqref{eq:OLD-leo-silo-validity-10a}--\eqref{eq:OLD-leo-silo-validity-10d}
-are false, and
-\eqref{eq:OLD-leo-silo-validity-10a}--\eqref{eq:OLD-leo-silo-validity-10d}
-for $\var{x} = \Vincr{i}$ follows trivially.
-
-TODO: Needs more work!
-
-\textbf{Step case 2}: We next consider
-the case where $\Vincr{i} \le \var{topix}$
-and \Vel{slo}{i} is incomplete.
-\begin{align}
-\label{eq:OLD-leo-silo-validity-20a}
-& \text{\Vel{slo}{i} is incomplete}
-\; \because \; \text{ASM for case}
-\\
-\label{eq:OLD-leo-silo-validity-20b}
-& \Vincr{i} \le \var{topix}
-\; \because \; \text{ASM for case}
-\\
-\label{eq:OLD-leo-silo-validity-20d}
-& \var{i} < \var{topix}
-\; \because \; \eqref{eq:OLD-leo-silo-validity-20b}
-\\
-\label{eq:OLD-leo-silo-validity-20e}
-& \text{\Vel{slo}{i} is a silo layer}
-\; \because \; \text{ASM
-\eqref{eq:OLD-leo-silo-validity-20b} for step}
-\\
-\label{eq:OLD-leo-silo-validity-20g}
-& \text{\Vel{slo}{i} is quasi-complete}
-\; \because \;
-\eqref{eq:OLD-leo-silo-validity-20e}, \;
-\text{Def of silo}
-\\
-\label{eq:OLD-leo-silo-validity-20i}
-& \Valid{\Vel{slo}{i}}
-\; \because \; \text{ASM
-\eqref{eq:OLD-leo-silo-validity-10a} for step}
-\\
-\label{eq:OLD-leo-silo-validity-20k}
-& \op{LM}{\Vel{slo}{i}} \neq \undefined
-\; \because \;
-\eqref{eq:OLD-leo-silo-validity-20d},
-\text{ASM \eqref{eq:OLD-leo-silo-validity-10c} for step}
-\\
-\label{eq:OLD-leo-silo-validity-20m}
-& \Valid{\Vel{slo}{\Vincr{i}}}
-\begin{multlined}
-\; \because \;
-\eqref{eq:OLD-leo-silo-validity-20a},
-\eqref{eq:OLD-leo-silo-validity-20g},
-\eqref{eq:OLD-leo-silo-validity-20i},
-\eqref{eq:OLD-leo-silo-validity-20k},
-\text{Lemma \ref{lem:leo-memo-of-incompletion}}
-\end{multlined}
-\\
-\label{eq:OLD-leo-silo-validity-20o}
-&
-\begin{multlined}
-\op{LM}{\Vel{slo}{\var{i}}}
-= \op{LM}{\Vel{slo}{\Vincr{i}}} \\
-\; \because \;
-\eqref{eq:OLD-leo-silo-validity-20a},
-\eqref{eq:OLD-leo-silo-validity-20g},
-\eqref{eq:OLD-leo-silo-validity-20i},
-\eqref{eq:OLD-leo-silo-validity-20k},
-\text{Lemma \ref{lem:leo-memo-of-incompletion}}
-\end{multlined}
-\\
-\label{eq:OLD-leo-silo-validity-20q}
-& \op{LM}{\Vel{slo}{\Vincr{i}}} \neq \undefined
-\; \because \;
-\eqref{eq:OLD-leo-silo-validity-20k},
-\eqref{eq:OLD-leo-silo-validity-20o}
-\\
-\label{eq:OLD-leo-silo-validity-20s}
-& \el{cat}{\Vlastix{cat}} = \op{LM}{\Vel{slo}{i}}
-\; \because \; \text{ASM
-\eqref{eq:OLD-leo-silo-validity-10d} for step}
-\\
-\label{eq:OLD-leo-silo-validity-20u}
-& \el{cat}{\Vlastix{cat}} = \op{LM}{\Vel{slo}{\Vincr{i}}}
-\; \because \;
-\eqref{eq:OLD-leo-silo-validity-20k},
-\eqref{eq:OLD-leo-silo-validity-20s}
-\end{align}
-
-The results above show the step for this case:
-\eqref{eq:OLD-leo-silo-validity-20m} shows
-\eqref{eq:OLD-leo-silo-validity-10a}
-and \eqref{eq:OLD-leo-silo-validity-10b}
-for $\var{x} = \Vincr{i}$.
-\eqref{eq:OLD-leo-silo-validity-20q}
-shows \eqref{eq:OLD-leo-silo-validity-10c}
-for $\var{x} = \Vincr{i}$
-and
-\eqref{eq:OLD-leo-silo-validity-20u}
-is \eqref{eq:OLD-leo-silo-validity-10d}
-for $\var{x} = \Vincr{i}$.
-
-\textbf{Step case 3}: Finally,
-we consider
-the case where $\Vincr{i} < \var{topix}$
-and \Vel{slo}{i} is complete.
-Since \Vel{slo}{i} is complete,
-Lemma \ref{lem:leo-memo-effect} applies,
-and we have
-\eqref{eq:leo-silo-catena-10}
-of the induction hypothesis for this case
-from
-\eqref{eq:lem-leo-memo-effect-14}
-of
-Lemma \ref{lem:leo-memo-effect}.
-To show
-\eqref{eq:leo-silo-catena-12} for $\var{x} = \Vincr{i}$,
-we use
-\eqref{eq:lem-leo-memo-effect-15}
-of
-Lemma \ref{lem:leo-memo-effect}.
-This tells us that
-\begin{equation}
-\label{eq:leo-silo-catena-20}
-\myparbox{
-\op{LM}{\el{slo}{\Vincr{i}}}
-is the top-down cause of
-\op{LM}{\Vel{slo}{i}}.
-}
-\end{equation}
-By assumption for the step, we have a catena,
-call it \var{cat1}, such that
-\begin{equation}
-\label{eq:leo-silo-catena-22}
-\el{cat1}{\Vlastix{cat1}} = \op{LM}{\Vel{slo}{i}}.
-\end{equation}
-From
-\eqref{eq:leo-silo-catena-20}
-and
-\eqref{eq:leo-silo-catena-22}
-we know that
-we can form a new catena,
-call it \var{cat2},
-such that
-\begin{equation}
-\label{eq:leo-silo-catena-24}
-\Vel{cat2}{ix} =
-\begin{cases}
-\text{\Vel{cat1}{ix}, if $0 \le \var{ix} \le \Vlastix{cat1}$} \\
-\text{\op{LM}{\el{slo}{\Vincr{i}}},
-  if $\var{ix} = \Vincr{\Vlastix{cat1}}$}
-\end{cases}
-\end{equation}
-\var{cat2}
-From
-\eqref{eq:leo-silo-catena-24}
-we see that
-\begin{equation}
-\label{eq:leo-silo-catena-27}
-\el{cat2}{\Vlastix{cat2}} = \op{LM}{\el{slo}{\Vincr{i}}}.
-\end{equation}
-
-By assumption for the case,
-\el{slo}{\Vincr{i}}
-was a completion
-and $\Vincr{i} \neq \var{topix}$,
-so that
-\el{slo}{\Vincr{i}} is not the top layer.
-From the considerations in the paragraph,
-we see that
-\begin{align}
-\label{eq:leo-silo-catena-26}
-&
-\op{InCmps}{\var{slo}, \Vincr{x}}
-=
-\Vincr{\op{InCmps}{\var{slo}, \var{x}}} &&
-\\
-\label{eq:leo-silo-catena-28}
-& \Vlastix{cat2} = \Vincr{\Vlastix{cat1}}
-&& \eqref{eq:leo-silo-catena-24}
-\\
-\label{eq:leo-silo-catena-30}
-& \op{InCmps}{\var{slo}, \var{x}}
-= \Vincr{\Vlastix{cat1}}
-&&
-\begin{aligned}
-& \text{ASM for} \\
-& \quad \text{the Step}
-\end{aligned}
-\\
-\label{eq:leo-silo-catena-32}
-& \op{InCmps}{\var{slo}, \Vincr{x}}
-= \Vincr{\Vlastix{cat2}}
-&&
-\eqref{eq:leo-silo-catena-26},
-\eqref{eq:leo-silo-catena-28},
-\eqref{eq:leo-silo-catena-30}
-\end{align}
-
-From
-\eqref{eq:leo-silo-catena-27}
-and
-\eqref{eq:leo-silo-catena-32}
-we see that the \var{cat2}
-of
-\eqref{eq:leo-silo-catena-24}
-satisfies
-\eqref{eq:leo-silo-catena-12} for $\var{x} = \Vincr{i}$.
-This
-shows shows the final case of the induction
-step, and therefore the step and the induction.
-
-TODO other proof started here
-
-To show the theorem,
-we first show that there is at least one silo
-at \Current{\Veim{lb}}
-whose bottom is \Veim{lb}.
-The sequence
-\[
- [ \quad \Veim{lb} \quad ],
-\]
-that is,
-the sequence containing only
-\Veim{lb} is,
-by the definition of silo
-and silo location,
-a silo at \Current{\Veim{lb}}.
-So there is at least one silo
-at \Current{\Veim{lb}}
-where \Veim{lb} is its bottom layer.
-
-To show that at least one of these silos is a Leo silo,
-we assume, without loss of generality,
-that \var{slo} is a silo
-where
-\begin{equation}
-\el{slo}{0} = \Veim{lb}.
-\end{equation}
-By the definition of silo location,
-the location of \var{slo} is
-\Current{\Veim{lb}}.
-
-To complete the proof,
-we need to show that
-\begin{equation}
-\el{slo}{\Vlastix{slo}} =
-\op{Leo-top}{\Vleo{leo}, \Current{\Veim{lb}}}.
-\end{equation}
-Let
-\var{topix} and \Veim{top} be
-such that
-\begin{equation}
-\Veim{top} = \Vel{slo}{topix} = \op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}
-\end{equation}
-We must be careful to ensure that our notation
-does not assume that \Veim{top} is a layer of
-\var{slo},
-since we have yet to prove this.
-If \Veim{top} is not a layer of \var{slo}
-we say \var{topix} is undefined
-and that, for every integer \var{i},
-$\var{i} < \var{topix}$.
-
-We proceed by finite induction.
-We take as the induction hypothesis
-\begin{align}
-\label{eq:OLD-leo-silo-validity-25}
-\tag{IND1}
-0 \le \var{x} \le \var{topix}
-& \implies \Valid{\Vel{slo}{x}}
-\quad \text{and}
-\\
-\label{eq:OLD-leo-silo-validity-32}
-\tag{IND2}
-0 \le \var{x} < \var{topix}
-& \implies
-\text{\Vel{slo}{x} has a matching Leo memo}
-\end{align}
-We take $\var{x} = 0$
-as the basis of our induction.
-By assumption for the theorem,
-\Vleo{leo} is a Leo memo matching
-$\el{slo}{0} = \Veim{lb}$,
-and
-\Veim{lb} is valid.
-This gives us
-\eqref{eq:OLD-leo-silo-validity-25}
-and
-\eqref{eq:OLD-leo-silo-validity-32}
-for
-$\var{x} = 0$,
-and the basis of our induction.
-
-For the step of the induction, we assume
-\eqref{eq:OLD-leo-silo-validity-25}
-and
-\eqref{eq:OLD-leo-silo-validity-32}
-for \var{x} = \var{i},
-to show
-\begin{equation}
-\label{eq:OLD-leo-silo-validity-34}
-\tag{STEP}
-\text{\eqref{eq:OLD-leo-silo-validity-25}
-and
-\eqref{eq:OLD-leo-silo-validity-32}
-for $\var{x} = \Vincr{i}$.}
-\end{equation}
-Within the step, we proceed by cases.
-
-\textbf{Step case 1}: For the case where $\var{i} > \var{topix}$,
-we have
-\eqref{eq:OLD-leo-silo-validity-34}
-vacuously.
-
-\textbf{Step case 2}: We next consider
-the case where $\var{i} \le \var{topix}$
-and \Vel{slo}{i} is incomplete.
-By assumption for the step
-\Vel{slo}{i} is a valid silo layer,
-and therefore a quasi-completion.
-Since
-\Vel{slo}{i} is a valid quasi-completion,
-we can use
-\eqref{eq:fleeting-closure-silo-prop-14}
-of
-Theorem
-\ref{t:fleeting-closure-silo}
-tells us that
-\el{slo}{\Vincr{i}} is valid,
-which shows
-\eqref{eq:OLD-leo-silo-validity-25}
-for $\var{x} = \Vincr{i}$
-in this case.
-
-Again,
-by assumption for the case
-\Vel{slo}{i} is not complete.
-Since it is,
-by assumption for the step,
-a silo layer,
-it is quasi-complete.
-Also by assumption for the step,
-\Vel{slo}{i} has a matching Leo memo.
-Using these facts and Lemma
-\ref{lem:leo-memo-of-incompletion},
-we have
-\eqref{eq:OLD-leo-silo-validity-32}
-for $\var{x} = \Vincr{i}$
-in this case.
-This shows the step for this case.
-
-\textbf{Step case 3}: Finally,
-we consider
-the case where $\var{i} \le \var{topix}$
-and \Vel{slo}{i} is complete.
-Since \Vel{slo}{i} is complete,
-Lemma \ref{lem:leo-memo-effect} applies,
-and we have
-\eqref{eq:OLD-leo-silo-validity-25}
-and
-\eqref{eq:OLD-leo-silo-validity-32}
-for $\var{x} = \Vincr{i}$
-in this case
-from
-\eqref{eq:lem-leo-memo-effect-10}
-and
-\eqref{eq:lem-leo-memo-effect-14}
-of
-Lemma \ref{lem:leo-memo-effect}.
-This shows shows the final case of the induction
-step, and therefore the step and the induction.
-The induction shows
-\begin{gather}
-\label{eq:OLD-leo-silo-validity-35}
-\forall \var{x} : 0 \le \var{x} \le \var{topix}
-\implies \Valid{\Vel{slo}{x}}
-\quad \text{and}
-\\
-\label{eq:OLD-leo-silo-validity-36}
-\forall \var{x} : 0 \le \var{x} < \var{topix}
-\implies
-\text{\Vel{slo}{x} has a matching Leo memo.}
-\end{gather}
-
-It remains to show that there is
-a \var{slo} such that one of its layers is
-\begin{equation}
-\label{eq:OLD-leo-silo-validity-36a}
-\op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}.
-\end{equation}
-
-\begin{align}
-\notag
-&  template
-\\
-\label{eq:OLD-leo-silo-validity-37c}
-&
-\begin{aligned}
-  & \exists \; \var{mslo} : \var{slo} \subseteq \var{mslo}
-  \; \land \; \Maximal{\var{mslo}}
-  \; \land \; \Silo{\var{mslo}} \\
-  & \qquad \; \because \; \tref{t:maximal-silo}
-\end{aligned}
-\\
-\label{eq:OLD-leo-silo-validity-37e}
-& \exists \; \var{maxix} : \var{maxix} = \Vlastix{mslo}
-\; \because \;
-\eqref{eq:OLD-leo-silo-validity-37c},
-\tref{t:silo-finite}
-\\
-\label{eq:OLD-leo-silo-validity-37g}
-\tag{RAA}
-&
-\begin{aligned}
-& \Vel{mslo}{maxix} \neq
-\op{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}} \\
-& \qquad \because \; \text{ASM for reductio}
-\end{aligned}
-\\
-\notag
-&
-\text{\Vel{mslo}{maxix} is complete}
-\; \because \;
-\eqref{eq:OLD-leo-silo-validity-37c},
-\eqref{eq:OLD-leo-silo-validity-37e},
-\tref{maximal-silo-top-is-complete}
-\\
-\end{align}
-
-\textbf{Case 2}:
-Assume for the case that
-\Vel{mslo}{maxix} is complete.
-Since
-\Vel{mslo}{maxix} has a matching Leo memo,
-by
-Lemma \ref{lem:leo-memo-effect},
-it has a silo effect.
-So there is another silo, call it \var{mslo2},
-such that
-there is a silo layer
-\el{mslo2}{\Vincr{maxix}}.
-This means that \var{mslo} is a proper
-subsequence of \var{mslo2}.
-But by assumption, \var{mslo2} was what we call
-for this proof,
-``maximal'',
-and therefore not a proper subsequence of any
-other silo.
-This contradiction shows this Case 1 of the reductio
-and the reductio.
-
-From the reductio, we see that \var{slo}
-must contain
-\eqref{eq:OLD-leo-silo-validity-36a},
-the top item for \Vleo{leo}.
-This shows the theorem.
-
+TODO: delete this?
 \end{proof}
 
 \begin{theorem}
@@ -13131,7 +12445,7 @@ we know that there is a
 \land \; \var{mlslx} \subseteq \var{maxslo}
 \end{gather}
 
-Lemma \ref{lem:sequence-overlap} tells us that,
+Theorem \ref{t:sequence-overlap} tells us that,
 if two subsequences are contained in another sequence,
 and the first subsequence does not contain the top or bottom of the
 second subsequence,
@@ -13164,7 +12478,7 @@ At this point we know that
 \end{equation}
 From
 \eqref{eq:lem-fleeting-closure-memoization-49}
-and Lemma \ref{lem:sequence-overlap}
+and Theorem \ref{t:sequence-overlap}
 we obtain
 \begin{equation}
 \label{eq:lem-fleeting-closure-memoization-52}
