@@ -11520,8 +11520,6 @@ Then every element of \var{slo} is valid.
 \end{theorem}
 
 \begin{proof}
-TODO: Redo
-
 We proceed by induction
 on the number of passes through the main loop.
 Our induction hypothesis is
@@ -11598,11 +11596,16 @@ Let
 From line \ref{line:reconstruct-memoized-eims-loop-39},
 we know that \var{next-mfc}
 is the fleeting closure of
+\begin{equation}
+\label{t:leo-reconstruction-layer-validity-25}
 \vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}},
-so that with
-\eqref{t:leo-reconstruction-layer-validity-22a}
-we know from
+\end{equation}
+From
+\eqref{t:leo-reconstruction-layer-validity-22a},
+\eqref{t:leo-reconstruction-layer-validity-25}
+and
 Theorem \ref{t:partial-fleeting-closure-validity},
+we know
 that
 \begin{equation}
 \label{t:leo-reconstruction-layer-validity-26}
@@ -11610,7 +11613,7 @@ that
 \end{equation}
 It will always the case that $\Vincr{i} \ge 1$,
 so that
-\eqref{eq:leo-reconstruction-layer-validity-5b} for the Step follows
+\eqref{eq:leo-reconstruction-layer-validity-IND} for the step follows
 from
 \eqref{eq:def-sqsq},
 \eqref{t:leo-reconstruction-layer-validity-24}
