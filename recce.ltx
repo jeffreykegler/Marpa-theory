@@ -137,6 +137,8 @@
         {\Rightarrow\!}\:$}}}
 \newcommand{\drv}[3]{\ensuremath{\texttt{#1}[#2][#3]}}
 \newcommand{\drvVV}[3]{\drv{#1}{\var{#2}}{\var{#3}}}
+% \newcommand{\lblarrow}[1]
+    % {\mathrel{\mbox{$\:\stackrel{\!{#1}}{\Rightarrow\!}\:$}}}
 
 \newcommand{\set}[1]{{\left\lbrace #1 \right\rbrace} }
 \newcommand{\bigset}[1]{{\bigl\lbrace #1 \bigr\rbrace} }
@@ -11536,10 +11538,10 @@ From \eqref{eq:def-sqsq},
 we see that
 \begin{equation}
 \label{t:leo-reconstruction-layer-validity-17}
-\el{psl}{0} = \lbrace \Veim{lb} \rbrace,
+\el{psl}{0} = [ \Veim{lb} ],
 \end{equation}
 where \el{psl}{0} satisfies
-\eqref{eq:leo-reconstruction-layer-validity-IND2} by assumption
+\eqref{eq:leo-reconstruction-layer-validity-IND} by assumption
 for the theorem.
 
 For the step of the induction, we assume that
@@ -11598,7 +11600,7 @@ we know that \var{next-mfc}
 is the fleeting closure of
 \begin{equation}
 \label{t:leo-reconstruction-layer-validity-25}
-\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}},
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}}.
 \end{equation}
 From
 \eqref{t:leo-reconstruction-layer-validity-22a},
@@ -11623,8 +11625,8 @@ and the theorem.
 \end{proof}
 
 \begin{theorem}
-\ttitle{Leo reconstruction silo}
-\label{t:leo-reconstruction-silo}
+\ttitle{Leo reconstruction silo effects}
+\label{t:leo-reconstruction-silo-effects}
 Let \mycallname{Reconstruct} be as specified in
 Algorithm \ref{alg:reconstruct-memoized-eims};
 let \Vleo{leo} be an instantiated Leo memo;
@@ -11637,76 +11639,92 @@ the call
 \call{Reconstruct}{\Vleo{leo}, \Veim{lb}}.
 Then
 \begin{align}
-\label{eq:leo-reconstruction-silo-5d}
+\label{eq:leo-reconstruction-silo-effects-5d}
 & \el{slo}{0} = \Veim{lb}
 \\
-\label{eq:leo-reconstruction-silo-5f}
+\label{eq:leo-reconstruction-silo-effects-5f}
 & \begin{aligned}
 & \forall \; \var{a} : 1 \le \var{a} \le \Vlastix{slo}
 \\
-& \qquad \implies \text{\Vel{slo}{a} is the unique silo effect of \el{slo}{\Vdecr{a}}}
+& \qquad \implies
+\text{\Vel{slo}{\Vdecr{a}} is the unique silo cause of \Vel{slo}{a}}
 \end{aligned}
 \end{align}
 \end{theorem}
 
 \begin{proof}
-TODO: From here
+For the purposes of this proof,
+we write
+\[
+  \var{a} \xrightarrow{causes} \var{b}
+\]
+to indicate that \var{a} is the unique silo cause
+of \var{b}.
+As a preliminary, we note from
+Algorithm \ref{alg:reconstruct-memoized-eims},
+that, where \var{p} is a pass through the main loop,
+\[
+\vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{p}}
+= \vatp{\Veim{up}}{\var{top}}{\Vincr{p}},
+\]
+so that, using
+\eqref{def-sqsq}
+\begin{equation}
+\label{eq:leo-reconstruction-silo-effects-15}
+\big(\Vel{sqsq}{p}\big)\big[\Vlastix{(\Vel{sqsq}{p})}\big]
+  = \vatp{\Veim{up}}{\var{top}}{\Vincr{p}}.
+\end{equation}
 
 We proceed by induction
 on the number of passes through the main loop.
 Our induction hypothesis is
 \begin{align}
-\notag
-& \text{\eqref{eq:leo-reconstruction-silo-5d}--\eqref{eq:leo-reconstruction-silo-5f}
-  for $\var{slo} = \Vel{sqsq}{x}$, and
-}
+\label{eq:leo-reconstruction-silo-effects-IND1}
+\tag{IND1}
+& (\Vel{sqsq}{x})[0] = \Veim{lb}
 \\
-\label{eq:leo-reconstruction-silo-IND2}
+\label{eq:leo-reconstruction-silo-effects-IND2}
 \tag{IND2}
-& \big(\Vel{sqsq}{x}\big)\big[\Vlastix{(\Vel{sqsq}{x})}\big]
-  = \vatp{\Veim{up}}{\var{top}}{\var{x}}.
+&
+\begin{aligned}
+& \forall \; \var{a} : 1 \le \var{a} \le \Vlastix{(\Vel{sqsq}{x})}
+\\
+& \qquad \implies (\Vel{sqsq}{x})[\Vdecr{a}] \xrightarrow{causes}
+  (\Vel{sqsq}{x})[\var{a}]
+\end{aligned}
 \end{align}
 
 From \eqref{eq:def-sqsq},
 we see that
 \begin{equation}
-\label{t:leo-reconstruction-silo-17}
-\el{psl}{0} = \lbrace \Veim{lb} \rbrace,
+\label{eq:leo-reconstruction-silo-effects-17}
+\el{sqsq}{0} = [ \Veim{lb} ].
 \end{equation}
-where \el{psl}{0} satisfies
-\begin{align*}
-& \eqref{eq:leo-reconstruction-silo-5d} && \because \text{ASM for this theorem}
-\\
-& \eqref{eq:leo-reconstruction-silo-5d} && \because \eqref{t:leo-reconstruction-silo-17}
-\\
-& \eqref{eq:leo-reconstruction-silo-5f} && \text{trivially}
-\\
-& \eqref{eq:leo-reconstruction-silo-IND2} && \because
-\text{\eqref{eq:def-sqsq} and Algorithm \ref{alg:reconstruct-memoized-eims}.}
-\end{align*}
-From the results in this paragraph we have
-\eqref{eq:leo-reconstruction-silo-5d}--\eqref{eq:leo-reconstruction-silo-5f}
+\el{sqsq}{0} satisfies
+\eqref{eq:leo-reconstruction-silo-effects-IND1}
+directly from
+\eqref{eq:leo-reconstruction-silo-effects-17},
 and
-\eqref{eq:leo-reconstruction-silo-IND2}
-for $\var{x} = 0$.
-We take this as the basis of our induction.
+\eqref{eq:leo-reconstruction-silo-effects-IND2}, trivially.
+We take $\var{x} = 0$
+as the basis of our induction.
 
-For the step of the induction, we assume that
-\eqref{eq:leo-reconstruction-silo-5d}--\eqref{eq:leo-reconstruction-silo-5f}
-and
-\eqref{eq:leo-reconstruction-silo-IND2}
-are true for $\var{x} = \var{i}$,
-to show that
-\eqref{eq:leo-reconstruction-silo-5d}--\eqref{eq:leo-reconstruction-silo-5f}
-and
-\eqref{eq:leo-reconstruction-silo-IND2}
-are true for $\var{x} = \Vincr{i}$.
+For the step of the induction, we assume
+\eqref{eq:leo-reconstruction-silo-effects-IND1}
+and \eqref{eq:leo-reconstruction-silo-effects-IND2}
+for $\var{x} = \var{i}$,
+to show
+\eqref{eq:leo-reconstruction-silo-effects-IND1}
+and \eqref{eq:leo-reconstruction-silo-effects-IND2}
+for $\var{x} = \Vincr{i}$.
+
+TODO: From here
 
 From
 Theorem \ref{t:leo-reconstruction-wellformedness},
 we know that
 \begin{equation}
-\label{t:leo-reconstruction-silo-19}
+\label{eq:leo-reconstruction-silo-effects-10}
 \begin{gathered}
 \text{
 \vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
@@ -11723,7 +11741,7 @@ is instantiated; and
 \end{gathered}
 \end{equation}
 From
-\eqref{t:leo-reconstruction-silo-19},
+\eqref{eq:leo-reconstruction-silo-effects-10},
 Lemma \ref{lem:leo-memo-effect}
 and
 lines \ref{line:reconstruct-memoized-eims-loop-20}--%
@@ -11731,38 +11749,159 @@ lines \ref{line:reconstruct-memoized-eims-loop-20}--%
 Algorithm \ref{alg:reconstruct-memoized-eims},
 we see that
 \begin{equation}
-\label{t:leo-reconstruction-silo-22b}
-\myparbox{\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}}
-is the silo effect of
+\label{eq:leo-reconstruction-silo-effects-12}
 \vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
-}
+\xrightarrow{causes}
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}}
+\end{equation}
+Since
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}}
+is the lasting base of
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\Vincr{i}},
+we have,
+using
+\eqref{eq:leo-reconstruction-silo-effects-15}
+and
+\eqref{eq:leo-reconstruction-silo-effects-12},
+\begin{equation}
+\label{eq:leo-reconstruction-silo-effects-14}
+\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
+\xrightarrow{causes}
+\vatp{\el{mfc}{0}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\Vincr{i}},
 \end{equation}
 
-\textbf{\eqref{eq:leo-reconstruction-silo-5d} for the Step}:
+We proceed by induction
+on the number of passes through the main loop.
+Our induction hypothesis is
 \begin{align}
-\label{t:leo-reconstruction-silo-28b}
+\label{eq:leo-reconstruction-silo-effects-IND1}
+\tag{IND1}
+& (\Vel{sqsq}{x})[0] = \Veim{lb}
+\\
+\label{eq:leo-reconstruction-silo-effects-IND2}
+\tag{IND2}
+&
+\begin{aligned}
+& \forall \; \var{a} : 1 \le \var{a} \le \Vlastix{(\Vel{sqsq}{x})}
+\\
+& \qquad \implies (\Vel{sqsq}{x})[\Vdecr{a}] \xrightarrow{causes}
+  (\Vel{sqsq}{x})[\var{a}]
+\end{aligned}
+\end{align}
+
+From \eqref{eq:def-sqsq},
+we see that
+\begin{equation}
+\label{eq:leo-reconstruction-silo-effects-17}
+\el{sqsq}{0} = [ \Veim{lb} ].
+\end{equation}
+\el{sqsq}{0} satisfies
+\eqref{eq:leo-reconstruction-silo-effects-IND1}
+directly from
+\eqref{eq:leo-reconstruction-silo-effects-17},
+and
+\eqref{eq:leo-reconstruction-silo-effects-IND2}, trivially.
+From Algorithm \ref{alg:reconstruct-memoized-eims}, line
+\ref{line:reconstruct-memoized-eims-preloop-10},
+we see that
+\[
+  \vatp{\Veim{up}}{\var{top}}{0} = \Veim{lb}.
+\]
+From
+\eqref{eq:leo-reconstruction-silo-effects-17},
+we see that
+$\el{sqsq}{0} = \el{sqsq}{\Vlastix{sqsq}}$,
+so that we have
+\eqref{eq:leo-reconstruction-silo-effects-IND3}
+for $\var{x} = 0$.
+We take $\var{x} = 0$
+as the basis of our induction.
+
+For the step of the induction, we assume
+\eqref{eq:leo-reconstruction-silo-effects-IND1},
+\eqref{eq:leo-reconstruction-silo-effects-IND2}
+and \eqref{eq:leo-reconstruction-silo-effects-IND3}
+for $\var{x} = \var{i}$,
+to show
+\eqref{eq:leo-reconstruction-silo-effects-IND1},
+\eqref{eq:leo-reconstruction-silo-effects-IND2}
+and \eqref{eq:leo-reconstruction-silo-effects-IND3}
+for $\var{x} = \Vincr{i}$.
+
+TODO: From here
+
+From
+Theorem \ref{t:leo-reconstruction-wellformedness},
+we know that
+\begin{equation}
+\label{eq:leo-reconstruction-silo-effects-19}
+\begin{gathered}
+\text{
+\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
+is valid and complete;
+}
+\\
+\text{
+\vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
+is instantiated; and
+}
+\\
+\Memo{\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}}
+= \vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}.
+\end{gathered}
+\end{equation}
+From
+\eqref{eq:leo-reconstruction-silo-effects-19},
+Lemma \ref{lem:leo-memo-effect}
+and
+lines \ref{line:reconstruct-memoized-eims-loop-20}--%
+\ref{line:reconstruct-memoized-eims-loop-23} of
+Algorithm \ref{alg:reconstruct-memoized-eims},
+we see that
+\begin{equation}
+\label{eq:leo-reconstruction-silo-effects-21}
+\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
+\xrightarrow{causes}
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}}
+\end{equation}
+Since
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}}
+is the lasting base of
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\Vincr{i}},
+we have
+\begin{equation}
+\label{eq:leo-reconstruction-silo-effects-22}
+\big(\Vel{sqsq}{i}\big)\big[\Vlastix{(\Vel{sqsq}{i})}\big]
+\xrightarrow{causes}
+\vatp{\el{mfc}{0}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\Vincr{i}},
+\end{equation}
+
+\textbf{\eqref{eq:leo-reconstruction-silo-effects-IND1} for the Step}:
+\begin{align}
+\label{eq:leo-reconstruction-silo-effects-28b}
 & (\Vel{sqsq}{i})[0] = \Veim{lb}
 \because \text{ASM for the step}
 \\
-\label{t:leo-reconstruction-silo-28d}
+\label{eq:leo-reconstruction-silo-effects-28d}
 & (\Vel{sqsq}{\Vincr{i}})[0] = (\Vel{sqsq}{i})[0]
 \because \eqref{eq:def-sqsq}
 \\
-\label{t:leo-reconstruction-silo-28f}
+\label{eq:leo-reconstruction-silo-effects-28f}
 & (\Vel{sqsq}{\Vincr{i}})[0] = \Veim{lb}
-\because \eqref{t:leo-reconstruction-silo-28b},
-\eqref{t:leo-reconstruction-silo-28d},
+\because \eqref{eq:leo-reconstruction-silo-effects-28b},
+\eqref{eq:leo-reconstruction-silo-effects-28d},
 \end{align}
 where 
-\eqref{t:leo-reconstruction-silo-28f}
+\eqref{eq:leo-reconstruction-silo-effects-28f}
 is
-\eqref{eq:leo-reconstruction-silo-5d} for the step.
+\eqref{eq:leo-reconstruction-silo-effects-5d} for the step.
 
-\textbf{\eqref{eq:leo-reconstruction-silo-5f} for the Step}:
+\textbf{\eqref{eq:leo-reconstruction-silo-effects-IND2} for the Step}:
 By assumption for the step,
 \begin{equation}
-\label{t:leo-reconstruction-silo-24}
-\forall \; \var{a} : 0 \le \var{a} \le \Vlastix{(\Vel{sqsq}{i})} \implies \Valid{(\Vel{sqsq}{i})[\var{a}]}.
+\label{eq:leo-reconstruction-silo-effects-24}
+\forall \; \var{a} : 1 \le \var{a} \le \Vlastix{(\Vel{sqsq}{i})} \implies
+(\Vel{sqsq}{i})[\Vdecr{a}] \xrightarrow{causes} (\Vel{sqsq}{i})[\var{a}]
 \end{equation}
 Let
 \[
@@ -11773,21 +11912,23 @@ we know that \var{next-mfc}
 is the fleeting closure of
 \vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}},
 so that with
-\eqref{t:leo-reconstruction-silo-22a}
+\eqref{eq:leo-reconstruction-silo-effects-22a}
 we know from
 Theorem \ref{t:partial-fleeting-closure-validity},
 that
 \begin{equation}
-\label{t:leo-reconstruction-silo-26}
-\forall \; \var{a} : 0 \le \var{a} \le \Vlastix{nextmfc} \implies \Valid{\Vel{nextmfc}{a}}.
+\label{eq:leo-reconstruction-silo-effects-26}
+\forall \; \var{a} : 0 \le \var{a} \le \Vlastix{nextmfc} \implies
+\el{next-mfc}{\Vdecr{a}} \xrightarrow{causes} \Vel{next-mfc}{a}
 \end{equation}
 It will always the case that $\Vincr{i} \ge 1$,
 so that
-\eqref{eq:leo-reconstruction-silo-5f} for the Step follows
+\eqref{eq:leo-reconstruction-silo-effects-IND2} for the step follows
 from
+(TODO: fix)
 \eqref{eq:def-sqsq},
-\eqref{t:leo-reconstruction-silo-24}
-and \eqref{t:leo-reconstruction-silo-26}.
+\eqref{eq:leo-reconstruction-silo-effects-24}
+and \eqref{eq:leo-reconstruction-silo-effects-26}.
 
 TODO: Finish
 \end{proof}
