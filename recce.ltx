@@ -974,10 +974,16 @@ on the \var{p}'th pass through a loop.
 Unless otherwise specified, the indexes
 of a sequence are consecutive integers,
 starting with zero.
-Where \var{seq} is a sequence,
+Where \var{s1} and \var{s2} are sequences,
 we write
-\Vlastix{seq}
-for its last index.
+\Vlastix{s1}%
+\index{recce-notation}{#@$\#$!\Vlastix{seq}}
+for the last index of \var{s1};
+and
+$\var{s1} + \var{s2}$,%
+\index{recce-notation}{+@$+$!\var{seq1}+\var{seq2}}
+for the concatenation of the series \var{s2} after the series
+\var{s1}.
 
 The following theorem will prove useful.
 
@@ -11146,9 +11152,8 @@ provided for in the algorithm.
 \begin{theorem}
 \ttitle{Leo reconstruction well-formedness}
 \label{t:leo-reconstruction-wellformedness}
-Algorithm \ref{alg:reconstruct-memoized-eims}
-is well-formed,
-if called as
+Let Algorithm \ref{alg:reconstruct-memoized-eims}
+be called as
 \call{Reconstruct}{\Vleo{leo}, \Veim{lb}},
 where \mycallname{Reconstruct} is as specified in
 Algorithm \ref{alg:reconstruct-memoized-eims},
@@ -11469,6 +11474,35 @@ must terminate before the \Vincr{p}'th pass through
 the main loop.
 \end{proof}
 
+Recall that
+EIM's are potentially added
+if and only if they are contained in
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{p}}
+for some \var{p},
+where \var{p} is a pass through the main loop.
+Recall that we write
+$\var{s1} + \var{s2}$,
+for the concatenation of the series \var{s2} after the series
+\var{s1}.
+For the rest of this section,
+let \var{sqsq}%
+\index{recce-notation}{sqsq@\var{sqsq}!(\Vel{sqsq}{sqix})[\var{ix}]}
+be a sequence of sequences of EIM's,
+such that
+\begin{equation}
+\label{eq:def-sqsq}
+\Vel{sqsq}{x} =
+\begin{cases}
+[ \lbrace \Veim{lb} \rbrace ],
+& \text{if $\var{x} = 0$}
+\\
+[ \el{sqsq}{\Vdecr{x}} +
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\Vdecr{x}}
+],
+& \text{if $\var{x} \ge 1$}
+\end{cases}
+\end{equation}
+
 \begin{theorem}
 \ttitle{Leo reconstruction layer validity}
 \label{leo-reconstruction-layer-validity}
@@ -11486,80 +11520,108 @@ Then every element of \var{slo} is valid.
 \end{theorem}
 
 \begin{proof}
-We first note that \Veim{lb} is valid by assumption
-for the theorem.
-It remains to show that the EIM's potentially added to the Earley
-sets by
-Algorithm \ref{alg:reconstruct-memoized-eims}
-are valid.
-EIM's are potentially added only at line
-\ref{line:reconstruct-memoized-eims-loop-41}
-of the main loop,
-and only if they are contained in
-\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{p}}
-for some \var{p},
-where \var{p} is a pass through the main loop.
+TODO: Redo
 
-\begin{align}
-\label{t:leo-reconstruction-layer-validity-10}
-& \myparbox{
-\vatp{\Veim{up}}{\var{top}}{\var{p}}
-is valid and complete
-$\because$
-Th \ref{t:leo-reconstruction-wellformedness}
-and the ASM's for this theorem;
+We proceed by induction
+on the number of passes through the main loop.
+Our induction hypothesis is
+\begin{equation}
+\label{eq:leo-reconstruction-layer-validity-IND}
+\tag{IND}
+\forall \; \var{a} : 0 \le \var{a} \le \Vlastix{(\Vel{sqsq}{x})}
+  \implies \Valid{(\Vel{sqsq}{x})[\var{a}]}.
+\end{equation}
+
+We take $\var{x} = 0$.
+as the basis of our induction.
+From \eqref{eq:def-sqsq},
+we see that
+\begin{equation}
+\label{t:leo-reconstruction-layer-validity-17}
+\el{psl}{0} = \lbrace \Veim{lb} \rbrace,
+\end{equation}
+where \el{psl}{0} satisfies
+\eqref{eq:leo-reconstruction-layer-validity-IND2} by assumption
+for the theorem.
+
+For the step of the induction, we assume that
+\eqref{eq:leo-reconstruction-layer-validity-IND}
+is true for $\var{x} = \var{i}$,
+to show that
+\eqref{eq:leo-reconstruction-layer-validity-IND}
+is true for $\var{x} = \Vincr{i}$.
+
+From
+Theorem \ref{t:leo-reconstruction-wellformedness},
+we know that
+\begin{equation}
+\label{t:leo-reconstruction-layer-validity-19}
+\begin{gathered}
+\text{
+\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
+is valid and complete;
 }
 \\
-\label{t:leo-reconstruction-layer-validity-12}
-& \myparbox{
-\vatp{\Vleo{memo}}{\var{top}}{\var{p}}
-is instantiated
-$\because$
-Th \ref{t:leo-reconstruction-wellformedness}
-and the ASM's for this theorem;
+\text{
+\vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
+is instantiated; and
 }
 \\
-\label{t:leo-reconstruction-layer-validity-14}
-& \myparbox{
-\Memo{\vatp{\Veim{up}}{\var{top}}{\var{p}}}
-= \vatp{\Vleo{memo}}{\var{top}}{\var{p}}
-$\because$
-Th \ref{t:leo-reconstruction-wellformedness}
-and the ASM's for this theorem;
-}
-\\
-\label{t:leo-reconstruction-layer-validity-34}
-& \myparbox{
-\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}
-is valid
-$\because$
-\eqref{eq:lem-leo-memo-effect-10}
-of Lemma \ref{lem:leo-memo-effect},
-\eqref{t:leo-reconstruction-layer-validity-10},
-\eqref{t:leo-reconstruction-layer-validity-12},
-\eqref{t:leo-reconstruction-layer-validity-14};
+\Memo{\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}}
+= \vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}.
+\end{gathered}
+\end{equation}
+From
+\eqref{t:leo-reconstruction-layer-validity-19},
+Lemma \ref{lem:leo-memo-effect}
 and
+lines \ref{line:reconstruct-memoized-eims-loop-20}--%
+\ref{line:reconstruct-memoized-eims-loop-23} of
+Algorithm \ref{alg:reconstruct-memoized-eims},
+we see that
+\begin{equation}
+\label{t:leo-reconstruction-layer-validity-22a}
+\myparbox{\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}}
+is valid.
 }
-\\
-\label{t:leo-reconstruction-layer-validity-37}
-& \myparbox{
-for all \Veim{eim} such that $\Veim{eim} \in \var{mfc}$,
-\Veim{eim} is valid
-$\because$
-\eqref{t:maximal-fleeting-closure-validity-13}
-of Theorem \ref{t:maximal-fleeting-closure-validity},
-\eqref{t:leo-reconstruction-layer-validity-34},
-line \ref{line:reconstruct-memoized-eims-loop-39};
-}
-\end{align}
-where 
-\eqref{t:leo-reconstruction-layer-validity-37}
-is what remained to show for the theorem.
+\end{equation}
+
+By assumption for the step,
+\begin{equation}
+\label{t:leo-reconstruction-layer-validity-24}
+\forall \; \var{a} : 0 \le \var{a} \le \Vlastix{(\Vel{sqsq}{i})} \implies \Valid{(\Vel{sqsq}{i})[\var{a}]}.
+\end{equation}
+Let
+\[
+\var{next-mfc} = \vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\Vincr{i}}
+\]
+From line \ref{line:reconstruct-memoized-eims-loop-39},
+we know that \var{next-mfc}
+is the fleeting closure of
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}},
+so that with
+\eqref{t:leo-reconstruction-layer-validity-22a}
+we know from
+Theorem \ref{t:partial-fleeting-closure-validity},
+that
+\begin{equation}
+\label{t:leo-reconstruction-layer-validity-26}
+\forall \; \var{a} : 0 \le \var{a} \le \Vlastix{nextmfc} \implies \Valid{\Vel{nextmfc}{a}}.
+\end{equation}
+It will always the case that $\Vincr{i} \ge 1$,
+so that
+\eqref{eq:leo-reconstruction-layer-validity-5b} for the Step follows
+from
+\eqref{eq:def-sqsq},
+\eqref{t:leo-reconstruction-layer-validity-24}
+and \eqref{t:leo-reconstruction-layer-validity-26}.
+This shows the step of the induction, the induction
+and the theorem.
 \end{proof}
 
 \begin{theorem}
 \ttitle{Leo reconstruction silo}
-\label{leo-reconstruction-silo}
+\label{t:leo-reconstruction-silo}
 Let \mycallname{Reconstruct} be as specified in
 Algorithm \ref{alg:reconstruct-memoized-eims};
 let \Vleo{leo} be an instantiated Leo memo;
@@ -11571,106 +11633,158 @@ by
 the call
 \call{Reconstruct}{\Vleo{leo}, \Veim{lb}}.
 Then
-\[
-\text{\var{slo} is a silo and $\el{slo}{0} = \Veim{lb}$.}
-\]
+\begin{align}
+\label{eq:leo-reconstruction-silo-5d}
+& \el{slo}{0} = \Veim{lb}
+\\
+\label{eq:leo-reconstruction-silo-5f}
+& \begin{aligned}
+& \forall \; \var{a} : 1 \le \var{a} \le \Vlastix{slo}
+\\
+& \qquad \implies \text{\Vel{slo}{a} is the unique silo effect of \el{slo}{\Vdecr{a}}}
+\end{aligned}
+\end{align}
 \end{theorem}
 
 \begin{proof}
+TODO: From here
+
 We proceed by induction
 on the number of passes through the main loop.
-Recall that
-EIM's are potentially added
-if they are contained in
-\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{p}}
-for some \var{p},
-where \var{p} is a pass through the main loop.
-Let \var{added} be sequence of set of EIM's,
-such that
-\begin{equation}
-\label{t:leo-reconstruction-silo-10}
-\Vel{added}{x} =
-\begin{cases}
-\lbrace \Veim{lb} \rbrace, & \text{if $\var{x} = 0$}
-\\
-\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\Vdecr{p}},
-& \text{otherwise}
-\end{cases}
-\end{equation}
-and
-let \var{psl} be sequence of sets of EIM's,
-such that
-\begin{equation}
-\label{t:leo-reconstruction-silo-11}
-\Vel{psl}{x} = \bigcup_{\displaystyle \var{i} = 0}^{\displaystyle \var{x}} \Vel{added}{i}.
-\end{equation}
-
 Our induction hypothesis is
-\begin{equation}
-\label{t:leo-reconstruction-silo-13}
-\tag{IND}
-\begin{aligned}
-& \text{where $\var{pslx} = \Vel{psl}{x}$},
+\begin{align}
+\notag
+& \text{\eqref{eq:leo-reconstruction-silo-5d}--\eqref{eq:leo-reconstruction-silo-5f}
+  for $\var{slo} = \Vel{sqsq}{x}$, and
+}
 \\
-& \qquad \text{\var{pslx} is a silo},
-\\
-& \qquad \el{pslx}{0} = \Veim{lb},
-\\
-& \qquad \el{pslx}{\Vlastix{pslx}} = \vatp{\Veim{up}}{\var{top}}{\var{x}},
-\; \text{and}
-\\
-& \qquad \forall \; \var{i} : \var{i} \ge 1 \implies
-\left(
-\begin{aligned}
-& \text{\Vel{pslx}{i} is the}
-\\
-& \quad \text{unique silo effect}
-\\
-& \quad \text{of \el{pslx}{\Vdecr{i}}}
-\end{aligned}
-\right)
-\end{aligned}
-\end{equation}
+\label{eq:leo-reconstruction-silo-IND2}
+\tag{IND2}
+& \big(\Vel{sqsq}{x}\big)\big[\Vlastix{(\Vel{sqsq}{x})}\big]
+  = \vatp{\Veim{up}}{\var{top}}{\var{x}}.
+\end{align}
 
-From \eqref{t:leo-reconstruction-silo-10}, we see that
+From \eqref{eq:def-sqsq},
+we see that
 \begin{equation}
 \label{t:leo-reconstruction-silo-17}
-\el{psl}{0} = \lbrace \Veim{lb} \rbrace.
+\el{psl}{0} = \lbrace \Veim{lb} \rbrace,
 \end{equation}
-\el{psl}{0} satisifies
-\eqref{t:leo-reconstruction-silo-13} for
-$\var{x} = 0$,
-and we take this as the basis of our induction.
+where \el{psl}{0} satisfies
+\begin{align*}
+& \eqref{eq:leo-reconstruction-silo-5d} && \because \text{ASM for this theorem}
+\\
+& \eqref{eq:leo-reconstruction-silo-5d} && \because \eqref{t:leo-reconstruction-silo-17}
+\\
+& \eqref{eq:leo-reconstruction-silo-5f} && \text{trivially}
+\\
+& \eqref{eq:leo-reconstruction-silo-IND2} && \because
+\text{\eqref{eq:def-sqsq} and Algorithm \ref{alg:reconstruct-memoized-eims}.}
+\end{align*}
+From the results in this paragraph we have
+\eqref{eq:leo-reconstruction-silo-5d}--\eqref{eq:leo-reconstruction-silo-5f}
+and
+\eqref{eq:leo-reconstruction-silo-IND2}
+for $\var{x} = 0$.
+We take this as the basis of our induction.
 
 For the step of the induction, we assume that
-\eqref{t:leo-reconstruction-silo-13} is true
-for $\var{x} = \var{i}$,
+\eqref{eq:leo-reconstruction-silo-5d}--\eqref{eq:leo-reconstruction-silo-5f}
+and
+\eqref{eq:leo-reconstruction-silo-IND2}
+are true for $\var{x} = \var{i}$,
 to show that
-\eqref{t:leo-reconstruction-silo-13} is true
-for $\var{x} = \Vincr{i}$.
+\eqref{eq:leo-reconstruction-silo-5d}--\eqref{eq:leo-reconstruction-silo-5f}
+and
+\eqref{eq:leo-reconstruction-silo-IND2}
+are true for $\var{x} = \Vincr{i}$.
 
 From
-\eqref{t:leo-reconstruction-silo-10},
-\eqref{t:leo-reconstruction-silo-13}
-and the assumption for the step,
-we know that, as a set,
+Theorem \ref{t:leo-reconstruction-wellformedness},
+we know that
 \begin{equation}
-\el{psl}{\Vincr{i}} = \Vel{psl}{i} \cup \vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}.
-\end{equation}
-For ease of reading,
-let
-\begin{equation}
-\var{psli} = \Vel{psl}{i} \; \text{and} \; \var{pslj} = \el{psl}{\Vincr{i}}.
-\end{equation}
-Let \var{psli}, seen as a sequence, be
-\begin{equation}
-\Vel{psli}{x} =
-\begin{cases}
-\Vel{psli}{x} & \text{if $\var{x} \le \Vlastix{psli}$}
+\label{t:leo-reconstruction-silo-19}
+\begin{gathered}
+\text{
+\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
+is valid and complete;
+}
 \\
-\el{mfc}{(\xxsubtract{\var{x}}{\Vlastix{psli}})}, & \text{otherwise}
-\end{cases}
+\text{
+\vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
+is instantiated; and
+}
+\\
+\Memo{\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}}
+= \vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}.
+\end{gathered}
 \end{equation}
+From
+\eqref{t:leo-reconstruction-silo-19},
+Lemma \ref{lem:leo-memo-effect}
+and
+lines \ref{line:reconstruct-memoized-eims-loop-20}--%
+\ref{line:reconstruct-memoized-eims-loop-23} of
+Algorithm \ref{alg:reconstruct-memoized-eims},
+we see that
+\begin{equation}
+\label{t:leo-reconstruction-silo-22b}
+\myparbox{\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}}
+is the silo effect of
+\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
+}
+\end{equation}
+
+\textbf{\eqref{eq:leo-reconstruction-silo-5d} for the Step}:
+\begin{align}
+\label{t:leo-reconstruction-silo-28b}
+& (\Vel{sqsq}{i})[0] = \Veim{lb}
+\because \text{ASM for the step}
+\\
+\label{t:leo-reconstruction-silo-28d}
+& (\Vel{sqsq}{\Vincr{i}})[0] = (\Vel{sqsq}{i})[0]
+\because \eqref{eq:def-sqsq}
+\\
+\label{t:leo-reconstruction-silo-28f}
+& (\Vel{sqsq}{\Vincr{i}})[0] = \Veim{lb}
+\because \eqref{t:leo-reconstruction-silo-28b},
+\eqref{t:leo-reconstruction-silo-28d},
+\end{align}
+where 
+\eqref{t:leo-reconstruction-silo-28f}
+is
+\eqref{eq:leo-reconstruction-silo-5d} for the step.
+
+\textbf{\eqref{eq:leo-reconstruction-silo-5f} for the Step}:
+By assumption for the step,
+\begin{equation}
+\label{t:leo-reconstruction-silo-24}
+\forall \; \var{a} : 0 \le \var{a} \le \Vlastix{(\Vel{sqsq}{i})} \implies \Valid{(\Vel{sqsq}{i})[\var{a}]}.
+\end{equation}
+Let
+\[
+\var{next-mfc} = \vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\Vincr{i}}
+\]
+From line \ref{line:reconstruct-memoized-eims-loop-39},
+we know that \var{next-mfc}
+is the fleeting closure of
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}},
+so that with
+\eqref{t:leo-reconstruction-silo-22a}
+we know from
+Theorem \ref{t:partial-fleeting-closure-validity},
+that
+\begin{equation}
+\label{t:leo-reconstruction-silo-26}
+\forall \; \var{a} : 0 \le \var{a} \le \Vlastix{nextmfc} \implies \Valid{\Vel{nextmfc}{a}}.
+\end{equation}
+It will always the case that $\Vincr{i} \ge 1$,
+so that
+\eqref{eq:leo-reconstruction-silo-5f} for the Step follows
+from
+\eqref{eq:def-sqsq},
+\eqref{t:leo-reconstruction-silo-24}
+and \eqref{t:leo-reconstruction-silo-26}.
 
 TODO: Finish
 \end{proof}
