@@ -11435,15 +11435,24 @@ With this we have the induction and the theorem.
 
 \begin{theorem}
 \ttitle{Leo reconstruction termination}
-\label{leo-reconstruction-termination}
+\label{t:leo-reconstruction-termination}
 Let \mycallname{Reconstruct} be as specified in
 Algorithm \ref{alg:reconstruct-memoized-eims},
 let \Vleo{leo} be an instantiated Leo memo,
 and let \Veim{lb} be a valid EIM that matches
 \Vleo{leo}.
-Then the call
-\call{Reconstruct}{\Vleo{leo}, \Veim{lb}}
-terminates.
+Then
+\begin{align}
+\label{eq:leo-reconstruction-termination-10b}
+& \myparbox{\Veim{lb} has a catena, call it \var{cat},
+and the length of \var{cat} is the same as
+the number of complete EIM's potentially added by
+\call{Reconstruct}{\Vleo{leo}}, and
+}
+\\
+\label{eq:leo-reconstruction-termination-10d}
+& \myparbox{\call{Reconstruct}{\Vleo{leo}, \Veim{lb}} terminates.}
+\end{align}
 \end{theorem}
 
 \begin{proof}
@@ -11457,13 +11466,71 @@ if \var{i} = 0}
 \text{the top-down cause of \el{seq}{\Vdecr{i}}, otherwise}.
 \end{cases}
 \end{equation}
-We see that
-\[
-\forall \; \var{p} : \var{p} \ge 1 \implies \Vel{seq}{p} =
-\vatp{\Vleo{memo}}{\ref{line:reconstruct-memoized-eims-loop-46}}{\var{p}}
-\]
-and that, if there is no upper bound on \var{p}, then the sequence
-\var{seq} is infinite.
+By the definition of catena, \var{seq} is a catena,
+and by the definition of the catena of an EIM,
+\var{seq} is the catena of \Veim{lb}.
+
+Call a pass through the main loop, \var{p}.
+In Algorithm \ref{alg:reconstruct-memoized-eims},
+we see that pass \var{p}
+potentially adds the contents of the fleeting closure
+of 
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{p}}
+to the Earley sets.
+From Theorem \ref{t:leo-reconstruction-wellformedness}
+and Lemma \ref{lem:leo-memo-effect},
+we know that 
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{p}}
+is a silo effect, and therefore that
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{p}}
+is quasi-complete.
+The fleeting closure
+of \vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{p}},
+which is \vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{p}},
+is therefore a quasi-complete fleeting closure.
+By theorem
+\ref{t:quasi-completion-fleeting-closure-properties}
+we know that
+\vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{p}}
+contains exactly one complete EIM.
+Therefore
+\begin{equation}
+\label{eq:leo-reconstruction-termination-30}
+\myparbox{each pass through the main loop
+  potentially adds exactly one complete EIM.
+}
+\end{equation}
+
+From Theorem \ref{t:leo-reconstruction-wellformedness},
+and lines
+\ref{line:reconstruct-memoized-eims-loop-46}
+and
+\ref{line:reconstruct-memoized-eims-loop-first}
+of
+Algorithm \ref{alg:reconstruct-memoized-eims},
+we see that, in every pass through the main loop except
+the last,
+the main loop follows a new link of the catena of \Veim{lb}.
+There is also a catena link initially associated with \Veim{lb},
+\vat{\Vleo{leo}}{\ref{line:reconstruct-memoized-eims-preloop-5}},
+so that
+\begin{equation}
+\label{eq:leo-reconstruction-termination-32}
+\myparbox{the catena of \Veim{lb} has exactly one link
+  for every pass through the main loop.
+}
+\end{equation}
+
+From
+\eqref{eq:leo-reconstruction-termination-30}
+and \eqref{eq:leo-reconstruction-termination-32},
+we see that
+there is a link in the catena of \Veim{lb} for every
+complete EIM potentially added by
+the main loop.
+This shows
+\eqref{eq:leo-reconstruction-termination-10b}
+of the requirements of this theorem.
 
 By the definition of a catena, \var{seq} is a catena.
 But, by Theorem
@@ -11474,6 +11541,9 @@ makes \var{p} or fewer passes through the main loop.
 Therefore Algorithm \ref{alg:reconstruct-memoized-eims}
 must terminate before the \Vincr{p}'th pass through
 the main loop.
+This shows
+\eqref{eq:leo-reconstruction-termination-10d}
+of the requirements of this theorem.
 \end{proof}
 
 Recall that
@@ -11935,239 +12005,10 @@ TODO: Finish
 
 TODO: to here
 
-\begin{theorem}
-\ttitle{Leo reconstruction correctness}
-\label{t:leo-reconstruction-correctness-TODO}
-TODO: delete this?
-
-Let \Vleo{leo} be an instantiated Leo memo,
-and let \Veim{lb} be a valid EIM that matches
-\Vleo{leo}.
-\call{Reconstruct}{\Vleo{leo}, \Veim{lb}},
-When
-Let \var{slo} be the set contain \Veim{lb}
-and the layers added to the Earley sets by
-\call{Reconstruct}{\Vleo{leo}, \Veim{lb}},
-where \myfnname{Reconstruct} is specified in
-Algorithm \ref{alg:reconstruct-memoized-eims}.
-Further,
-\begin{align}
-& \myparbox{all the layers of \var{slo} are valid;}
-\\
-& \myparbox{\var{slo} is a silo;}
-\\
-& \myparbox{\Veim{lb} = \el{slo}{0};}
-\\
-& \myparbox{\op{Leo-top}{\var{leo}, \var{lb}}
-is the unique valid silo effect
-of \el{slo}{\Vlastix{slo}};
-}
-\\
-& \myparbox{for all \var{i}, such that $0 \le \var{i} < \Vlastix{slo}$,
-\el{slo}{\Vincr{i}} is the unique effect of \el{slo}{0}.
-}
-\\
-& \myparbox{the number of complete EIM's in \var{slo}
-is \Vsize{cat}, where \var{cat}
-is the catena of \Vleo{leo}.
-}
-\end{align}
-\end{theorem}
-
-\begin{proof}
-TODO: delete this?
-\end{proof}
-
-\begin{lemma}
-\ttitle{Leo silo validity lemma}
-\label{lem:leo-silo-validity}
-TODO: delete this?
-
-Let
-\begin{equation*}
-\Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{i} ]
-\end{equation*}
-be an instantiated Leo memo and \Vinst{lb} a valid matching bottom.
-Let \Veim{lb} be an EIM equivalent of \Vinst{lb}.
-Let $\Veim{top} = \Vop{Leo-top}{\Vleo{leo}, \Right{\Veim{lb}}}$.
-Let \var{slo} be a silo such that $\el{slo}{0} = \Veim{lb}$.
-Finally, let
-\begin{equation*}
-\var{topix} = \begin{cases}
-\text{
-\var{ix}, if there is a
-\var{ix} such that
-\Vel{slo}{ix} = \Veim{top},
-}
-\\
-\text{\undefined, otherwise}
-\end{cases}
-\end{equation*}
-Then for every silo
-there is a silo, call it \var{slo},
-and a catena, call it \var{cat},
-such that
-\begin{gather*}
-\forall \; \Veim{eim} : \var{eim} \in var{lsl} \implies (\Valid{var{eim}}
-\; \lor \; (\nexists
-\text{\var{lsl} is valid for \Vleo{leo}}, \\
-\el{lsl}{0} = \Veim{lb} \quad \text{and} \\
-\exists \; \var{cat} :
-\left(
-\begin{gathered}
-\text{\var{cat} is a catena and} \\
-(\forall \; \Veim{e} : \Veim{e} \neq \undefined \implies
-\var{eim} \in \var{cat})
-\end{gathered}
-\right)
-\end{gather*}
-\end{lemma}
-
-\begin{proof}
-TODO: delete this?
-\end{proof}
-
 \begin{definition}
 \dtitle{Matching catena of Leo silo}
 TODO: Do I need this?
-
-Let \var{slo} be a valid Leo silo
-and let \var{cat} be a catena.
-We say that \var{cat} matches \var{slo}
-if and only if \var{cat} contains all,
-and only,
-the instantiated Leo memos matching the completed
-lower layers of \var{slo}.
-More formally,
-\var{cat} matches \var{slo}
-if and only if
-\[
-   \Vleo{l} \in \var{cat} \equiv
-   \left\lbrace
-   \begin{gathered}
-   \text{\Memo{\Veim{e}} such that} \\
-   \text{$\Veim{e} \in \var{slo}$, \Veim{e} is a completion,} \\
-   \text{$\Memo{\Veim{e}} \neq \undefined$ and \Memo{\Veim{e}} is instantiated.} \\
-   \end{gathered}
-   \right\rbrace
-   \\[3ex] % space between equation and closing rule of definition
-\]
 \end{definition}
-
-\begin{theorem}
-\ttitle{OLD Leo silo validity}
-\label{t:OLD-leo-silo-validity}
-TODO: delete this?
-
-Let
-\begin{equation*}
-\Vleo{leo} = [ \Vsym{transition}, \Vdr{top}, \Vorig{top}, \Vloc{i} ]
-\end{equation*}
-be an instantiated Leo memo and \Vinst{lb} a valid matching bottom.
-Then for every EIM equivalent of \Vinst{lb}, call it \Veim{lb},
-there is a Leo silo, call it \var{lsl},
-such that
-\begin{gather}
-\label{eq:OLD-leo-silo-validity-5a}
-\myparbox{\var{lsl} is valid for \Vleo{leo},}
-\\
-\myparbox{$\el{lsl}{0} = \Veim{lb}$,}
-\\
-\myparbox{
-for all \var{a} such that
-$0 \le \var{a} \le \Vlastix{lsl}$,
-\Vel{lsl}{a} has a matching Leo memo,
-} \\
-\myparbox{
-the Leo top-down causes of \var{lsl} form a catena, and
-} \\
-\myparbox{
-the length of the catena is equal to the number
-of complete EIM's in the lower layers of \var{lsl}.
-}
-\end{gather}
-\end{theorem}
-
-\begin{proof}
-TODO: delete this?
-\end{proof}
-
-\begin{theorem}
-\ttitle{Leo silo effects are unique}
-\label{t:leo-silo-uniq-effect}
-Every lower layer of a Leo silo
-has exactly one effect.
-\end{theorem}
-
-\begin{proof}
-We proceed by induction.
-We take as the induction hypothesis
-\begin{equation}
-\label{eq:leo-silo-uniq-effect-31}
-\tag{IND}
-\begin{alignedat}{1}
-& 0 < \var{x} \le \var{topix} \\
-& \qquad \implies
-\text{\Vel{slo}{x} is the unique effect
-  of \el{slo}{\Vdecr{x}}}
-\end{alignedat}
-\end{equation}
-We take $\var{x} = 0$
-as the basis of our induction.
-For $\var{x} = 0$,
-we have
-\eqref{eq:leo-silo-uniq-effect-31}
-vacuously.
-
-For the step of the induction, we assume
-\eqref{eq:leo-silo-uniq-effect-31}
-for \var{x} = \var{i},
-to show
-\eqref{eq:leo-silo-uniq-effect-31}
-for $\var{x} = \Vincr{i}$.
-Within the step, we proceed by cases.
-
-\textbf{Step case 1}: For the case where $\var{i} > \var{topix}$,
-we have
-\eqref{eq:leo-silo-uniq-effect-31}
-for $\var{x} = \Vincr{i}$
-vacuously.
-
-\textbf{Step case 2}: We next consider
-the case where $\var{i} \le \var{topix}$
-and \Vel{slo}{i} is incomplete.
-By assumption for the case,
-\Vel{slo}{i} is not complete,
-so that
-\eqref{eq:fleeting-closure-silo-prop-22}
-of
-Theorem
-\ref{t:fleeting-closure-silo} tells us that
-the unique effect of \Vel{silo}{i}
-is \el{silo}{\Vincr{i}}.
-This shows
-\eqref{eq:leo-silo-uniq-effect-31}
-for $\var{x} = \Vincr{i}$
-in this case.
-
-\textbf{Step case 3}: Finally,
-we consider
-the case where $\var{i} \le \var{topix}$
-and \Vel{slo}{i} is complete.
-Since \Vel{slo}{i} is complete,
-Lemma \ref{lem:leo-memo-effect} applies,
-and we have
-\eqref{eq:leo-silo-uniq-effect-31}
-for $\var{x} = \Vincr{i}$
-in this case
-from
-\eqref{eq:lem-leo-memo-effect-13}
-of
-Lemma \ref{lem:leo-memo-effect}.
-This shows shows the final case of the induction
-step, and therefore the step, the induction
-and the theorem.
-\end{proof}
 
 \begin{theorem}
 \ttitle{Leo silo right recursion}
@@ -12176,70 +12017,8 @@ Every layer of a Leo silo, except the bottom layer, is right-recursive.
 \end{theorem}
 
 \begin{proof}
-We proceed by induction.
-We take as the induction hypothesis
-\begin{align}
-\label{eq:leo-silo-rr-28}
-\tag{IND}
-0 < \var{x} \le \var{topix}
-& \implies \text{\Vel{slo}{x} is right recursive}
-\end{align}
-We take $\var{x} = 0$
-as the basis of our induction.
-For $\var{x} = 0$,
-we have
-\eqref{eq:leo-silo-rr-28}
-vacuously.
-
-For the step of the induction, we assume
-\eqref{eq:leo-silo-rr-28}
-for \var{x} = \var{i},
-to show
-\eqref{eq:leo-silo-rr-28}
-for $\var{x} = \Vincr{i}$.
-Within the step, we proceed by cases.
-
-\textbf{Step case 1}: For the case where $\var{i} > \var{topix}$,
-we have
-\eqref{eq:leo-silo-rr-28}
-vacuously.
-
-\textbf{Step case 2}: We next consider
-the case where $\var{i} \le \var{topix}$
-and \Vel{slo}{i} is incomplete.
-\eqref{eq:fleeting-closure-silo-prop-18}
-of
-Theorem
-\ref{t:fleeting-closure-silo} tells us that
-\[
-  \Rule{\Vel{silo}{i}} = \Rule{\el{silo}{\Vincr{i}}}.
-\]
-Since the
-the rule of \Vel{silo}{i}
-is right recursive by assumption for the step,
-we have
-\eqref{eq:leo-silo-rr-28}
-for $\var{x} = \Vincr{i}$
-in this case.
-
-\textbf{Step case 3}: Finally,
-we consider
-the case where $\var{i} \le \var{topix}$
-and \Vel{slo}{i} is complete.
-Since \Vel{slo}{i} is complete,
-Lemma \ref{lem:leo-memo-effect} applies,
-and we have
-\eqref{eq:leo-silo-rr-28}
-of the induction hypothesis for this case
-from
-\eqref{eq:lem-leo-memo-effect-12}
-of
-Lemma \ref{lem:leo-memo-effect}.
-This shows shows the final case of the induction
-step, and therefore the step, the induction
-and theorem.
+TODO: redo.
 \end{proof}
-
 
 \begin{theorem}
 \ttitle{Leo silos with common lower layers}
