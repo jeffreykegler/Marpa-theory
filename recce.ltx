@@ -11866,12 +11866,18 @@ line
 = \vatp{\Veim{up}}{\var{top}}{\Vincr{i}},
 \because \text{Algorithm \ref{alg:reconstruct-memoized-eims}};
 \\
+\label{eq:leo-reconstruction-silo-effects-34d}
+& \big(\Vel{sqsq}{i}\big)\big[\Vlastix{(\Vel{sqsq}{i})}\big]
+= \vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
+\because
+\eqref{eq:def-sqsq}
+\\
 \label{eq:leo-reconstruction-silo-effects-34f}
-& \big(\Vel{sqsq}{p}\big)\big[\Vlastix{(\Vel{sqsq}{p})}\big]
-  = \vatp{\Veim{up}}{\var{top}}{\Vincr{p}}.
+& \big(\Vel{sqsq}{i}\big)\big[\Vlastix{(\Vel{sqsq}{i})}\big]
+  = \vatp{\Veim{up}}{\var{top}}{\Vincr{i}}.
 \because
 \eqref{eq:leo-reconstruction-silo-effects-34c},
-\eqref{eq:def-sqsq}
+\eqref{eq:leo-reconstruction-silo-effects-34d}
 \\
 \label{eq:leo-reconstruction-silo-effects-35}
 & \myparbox{
@@ -11928,8 +11934,8 @@ from
 \eqref{eq:leo-reconstruction-silo-effects-25},
 \eqref{eq:leo-reconstruction-silo-effects-35}
 and \eqref{eq:leo-reconstruction-silo-effects-40}.
-
-TODO: Finish
+This gives us the step of the induction, the induction
+and the theorem.
 \end{proof}
 
 TODO: to here
