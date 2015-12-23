@@ -10629,38 +10629,54 @@ From Theorem
 and the definition of \myfnname{Leo-top}.
 \end{proof}
 
-\begin{lemma}
-\label{lem:leo-memo-effect}
+\begin{definition}
+\dtitle{Leo effect}
 Let \Vleo{leo} be an instantiated Leo memo
-and \Veim{up} be a valid, complete, EIM
-such that \Vleo{leo} matches \Veim{up}.
-Then
+and \Veim{up} be a valid, complete, EIM.
+The
+xdfn{Leo effect}{Leo effect}
+of \Vleo{leo} and \Veim{up}
+is an EIM, call it \Veim{eff}, such that
 \begin{gather}
-\label{eq:lem-leo-memo-effect-10}
-\myparbox{\Veim{up} is the bottom-up cause
-of a valid effect, call
-it \Veim{eff};
-} \\
-\label{eq:lem-leo-memo-effect-10a}
+\label{eq:def-leo-effect-10}
+\myparbox{\Veim{eff} is valid;
+}
+\\
+\label{eq:def-leo-effect-10a}
 \myparbox{\Veim{eff} is a silo effect
 of \Veim{up};
 } \\
-\label{eq:lem-leo-memo-effect-12}
+\label{eq:def-leo-effect-12}
 \myparbox{\Veim{eff} is right recursive;}
 \\
-\label{eq:lem-leo-memo-effect-13}
+\label{eq:def-leo-effect-13}
 \myparbox{\Veim{eff} is the only effect
 of \op{Sym-Eq}{\Veim{up}};
 } \\
-\label{eq:lem-leo-memo-effect-14}
+\label{eq:def-leo-effect-14}
 \myparbox{either \Veim{eff} is the top of the Leo silo,
-or it has an instantiated matching Leo memo; and}
+or it has an instantiated matching Leo memo;}
 \\
-\label{eq:lem-leo-memo-effect-15}
+\label{eq:def-leo-effect-15}
 \myparbox{if \Veim{eff} has an instantiated matching Leo memo,
-that Leo memo is the top-down cause of \Vleo{leo}.}
+that Leo memo is the top-down cause of \Vleo{leo}; and}
+\\
+\label{eq:def-leo-effect-16}
+\myparbox{\Veim{up} is the bottom-up cause
+of \Veim{eff}.
+}
 \end{gather}
-\end{lemma}
+\end{definition}
+
+\begin{theorem}
+\label{t:leo-effect}
+Let \Vleo{leo} be an instantiated Leo memo
+and \Veim{up} be a valid, complete, EIM
+such that \Vleo{leo} matches \Veim{up}.
+Then there is a \Veim{eff} such that
+\Veim{eff} is the Leo effect of
+\Vleo{leo} and \Veim{up}.
+\end{theorem}
 
 \begin{proof}
 Since \Vleo{leo} is instantiated,
@@ -10669,7 +10685,7 @@ Leo memo validity,
 it has a valid basis.
 Without loss of generality, let
 \begin{gather}
-\label{eq:lem-leo-memo-effect-20}
+\label{eq:def-leo-effect-20}
 \begin{gathered}
 \Veim{basis} = \left[
   \begin{gathered}
@@ -10682,7 +10698,7 @@ Without loss of generality, let
 \text{$\Symbol{\Vleo{leo}} = \Vsym{trans}$, and where}
 \end{gathered}
 \\
-\label{eq:lem-leo-memo-effect-21}
+\label{eq:def-leo-effect-21}
 \text{\Veim{basis} is the basis of \Vleo{leo}}.
 \end{gather}
 Since \Veim{up},
@@ -10691,7 +10707,7 @@ matches
 \Vleo{leo},
 we have
 \begin{equation}
-\label{eq:lem-leo-memo-effect-23}
+\label{eq:def-leo-effect-23}
 \begin{gathered}
 \Symbol{\Veim{up}} = \Vsym{trans} \\
 \land \; \Current{\Vleo{leo}} = \Left{\Veim{up}}.
@@ -10699,12 +10715,12 @@ we have
 \end{equation}
 Using Theorem
 \ref{t:effect-from-symbolic-causes},
-from \eqref{eq:lem-leo-memo-effect-20}
+from \eqref{eq:def-leo-effect-20}
 and
-\eqref{eq:lem-leo-memo-effect-23}
+\eqref{eq:def-leo-effect-23}
 we see that
 \begin{gather}
-\label{eq:lem-leo-memo-effect-30}
+\label{eq:def-leo-effect-30}
 \Veim{eff} = \left[
   \begin{gathered}
      [ \Vsym{A} \de \Vstr{prefix} \Vsym{trans} \mydot \Vstr{nul2} ], \\
@@ -10712,30 +10728,30 @@ we see that
   \end{gathered}
 \right] \quad \text{is valid, and}
 \\
-\label{eq:lem-leo-memo-effect-30a}
+\label{eq:def-leo-effect-30a}
 \text{\Veim{up} is the bottom-up cause of \Veim{eff}.}
 \end{gather}
-\eqref{eq:lem-leo-memo-effect-30} shows
+\eqref{eq:def-leo-effect-30} shows
 requirement
-\eqref{eq:lem-leo-memo-effect-10}
+\eqref{eq:def-leo-effect-10}
 of the theorem.
 
 From
-\eqref{eq:lem-leo-memo-effect-30},
+\eqref{eq:def-leo-effect-30},
 we see that
 \begin{gather}
-\label{eq:lem-leo-memo-effect-32a}
+\label{eq:def-leo-effect-32a}
 \Right{\Veim{eff}} = \Right{\Veim{up}}, \quad \text{and} \\
-\label{eq:lem-leo-memo-effect-32b}
+\label{eq:def-leo-effect-32b}
 \text{\Veim{eff} is quasi-complete.}
 \end{gather}
-From \eqref{eq:lem-leo-memo-effect-30a},
-\eqref{eq:lem-leo-memo-effect-32a}
+From \eqref{eq:def-leo-effect-30a},
+\eqref{eq:def-leo-effect-32a}
 and
-\eqref{eq:lem-leo-memo-effect-32b}
+\eqref{eq:def-leo-effect-32b}
 we have
 requirement
-\eqref{eq:lem-leo-memo-effect-10a} of the
+\eqref{eq:def-leo-effect-10a} of the
 theorem.
 
 By the definition of the basis of a Leo memo,
@@ -10744,7 +10760,7 @@ By the definition of the basis of a Leo memo,
 so \Veim{eff} is right recursive,
 which shows
 Requirement
-\eqref{eq:lem-leo-memo-effect-12}
+\eqref{eq:def-leo-effect-12}
 of the theorem.
 
 By the definition of the basis of a Leo memo,
@@ -10752,13 +10768,13 @@ By the definition of the basis of a Leo memo,
 that is there can be no distinct EIM, call it \Veim{basis2},
 such that
 \begin{equation}
-\label{eq:lem-leo-memo-effect-33}
+\label{eq:def-leo-effect-33}
 \begin{gathered}
 \Current{\Veim{basis}} = \Current{\Veim{basis2}} \quad \text{and} \\
 \Postdot{\Veim{basis}} = \Postdot{\Veim{basis2}}.
 \end{gathered}
 \end{equation}
-From \eqref{eq:lem-leo-memo-effect-33}
+From \eqref{eq:def-leo-effect-33}
 and the definition of matching causes,
 \Veim{basis} is the only top-down cause matching \Veim{up}.
 By the definition of a confirmed effect's causes,
@@ -10767,37 +10783,37 @@ of its bottom-up cause and its top-down cause.
 From the considerations in this paragraph,
 we have
 Requirement
-\eqref{eq:lem-leo-memo-effect-13}
+\eqref{eq:def-leo-effect-13}
 of this theorem.
 
 To show
 Requirements
-\eqref{eq:lem-leo-memo-effect-14}
+\eqref{eq:def-leo-effect-14}
 and
-\eqref{eq:lem-leo-memo-effect-15}
+\eqref{eq:def-leo-effect-15}
 of the theorem,
 we proceed by cases, based on whether
 or not \Vleo{leo} has an instantiated top-down cause.
 If \Vleo{leo} has no instantiated top-down cause,
 we have
-\eqref{eq:lem-leo-memo-effect-15}
+\eqref{eq:def-leo-effect-15}
 vacuously.
 It remains to show
-\eqref{eq:lem-leo-memo-effect-14}.
+\eqref{eq:def-leo-effect-14}.
 By the definition of Leo memo validity
 and the definition of
 \myfnname{Leo-top},
 we know that
 \begin{multline}
-\label{eq:lem-leo-memo-effect-35}
+\label{eq:def-leo-effect-35}
 \Vop{Leo-top}{\Vleo{leo}, \Right{\Veim{up}}} = \\
   \big[ \Next{\DR{\Veim{basis}}}, \Origin{\Veim{basis}}, \Right{\Veim{up}} \big].
 \end{multline}
 Using
-\eqref{eq:lem-leo-memo-effect-20},
-\eqref{eq:lem-leo-memo-effect-30}
+\eqref{eq:def-leo-effect-20},
+\eqref{eq:def-leo-effect-30}
 and
-\eqref{eq:lem-leo-memo-effect-35},
+\eqref{eq:def-leo-effect-35},
 we see that
 \begin{equation}
 \Veim{eff} = \Vop{Leo-top}{\Vleo{leo}, \Right{\Veim{up}}}.
@@ -10808,12 +10824,12 @@ In our second case,
 \Vleo{leo} has an instantiated top-down cause,
 call it \Vleo{cuz}.
 From
-\eqref{eq:lem-leo-memo-effect-21}
+\eqref{eq:def-leo-effect-21}
 and the definition of the top-down cause
 of a Leo memo,
 we know that
 \begin{equation}
-\label{eq:lem-leo-memo-effect-40}
+\label{eq:def-leo-effect-40}
 \begin{gathered}
 \Symbol{\Vleo{cuz}} = \LHS{\Veim{basis}}
 \quad \text{and} \\
@@ -10821,12 +10837,12 @@ we know that
 \end{gathered}
 \end{equation}
 From
-\eqref{eq:lem-leo-memo-effect-20}
+\eqref{eq:def-leo-effect-20}
 and
-\eqref{eq:lem-leo-memo-effect-30}
+\eqref{eq:def-leo-effect-30}
 we know that
 \begin{equation}
-\label{eq:lem-leo-memo-effect-43}
+\label{eq:def-leo-effect-43}
 \begin{gathered}
 \LHS{\Veim{basis}} = \LHS{\Veim{eff}}
 \quad \text{and} \\
@@ -10834,23 +10850,23 @@ we know that
 \end{gathered}
 \end{equation}
 From
-\eqref{eq:lem-leo-memo-effect-40}
+\eqref{eq:def-leo-effect-40}
 and
-\eqref{eq:lem-leo-memo-effect-43}
+\eqref{eq:def-leo-effect-43}
 and the definition of ``matching''
 for Leo memos and EIM's,
 we see that \Vleo{cuz}
 matches \Veim{eff}.
 This gives us
 Requirement
-\eqref{eq:lem-leo-memo-effect-14}
+\eqref{eq:def-leo-effect-14}
 of the theorem.
 By assumption for the case,
 \Vleo{cuz} is the top-down cause
 of \Vleo{leo},
 which gives us
 Requirement
-\eqref{eq:lem-leo-memo-effect-15}
+\eqref{eq:def-leo-effect-15}
 of the theorem.
 This shows our second case,
 and
@@ -11077,7 +11093,7 @@ to \Vleo{l2}.
 \Statex
 \Comment On lines \ref{line:reconstruct-memoized-eims-loop-20}--%
 \ref{line:reconstruct-memoized-eims-loop-23}, %
-  see Lemma \ref{lem:leo-memo-effect}
+  see Theorem \ref{t:leo-effect}
 \State \var{mfc} $\gets$ maximal fleeting closure of \Veim{lasting}
 \label{line:reconstruct-memoized-eims-loop-39}
 \For{$\Veim{new} \in \var{mfc}$}
@@ -11242,7 +11258,7 @@ and
 is assigned to
 \vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{i}}.
 We know from
-Lemma \ref{lem:leo-memo-effect} that
+Theorem \ref{t:leo-effect} that
 \begin{align}
 \label{t:leo-reconstruction-wellformedness-34}
 & \myparbox{
@@ -11250,8 +11266,8 @@ Lemma \ref{lem:leo-memo-effect} that
 is valid and the silo effect of
 \vatp{\Veim{up}}{\var{top}}{\var{i}}
 $\because$
-\eqref{eq:lem-leo-memo-effect-10},
-\eqref{eq:lem-leo-memo-effect-10a};
+\eqref{eq:def-leo-effect-10},
+\eqref{eq:def-leo-effect-10a};
 }
 \\
 \label{t:leo-reconstruction-wellformedness-35}
@@ -11262,7 +11278,7 @@ has an instantiated top-down cause, then
 is the top-down cause of
 \vatp{\Vleo{memo}}{\var{top}}{\var{i}}
 $\because$
-\eqref{eq:lem-leo-memo-effect-15};
+\eqref{eq:def-leo-effect-15};
 }
 \\
 \notag
@@ -11479,8 +11495,8 @@ potentially adds the contents of the fleeting closure
 of 
 \vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{p}}
 to the Earley sets.
-From Theorem \ref{t:leo-reconstruction-wellformedness}
-and Lemma \ref{lem:leo-memo-effect},
+From Theorems \ref{t:leo-reconstruction-wellformedness}
+and \ref{t:leo-effect},
 we know that 
 \vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{p}}
 is a silo effect, and therefore that
@@ -11645,7 +11661,7 @@ is instantiated; and
 \end{equation}
 From
 \eqref{t:leo-reconstruction-layer-validity-19},
-Lemma \ref{lem:leo-memo-effect}
+Theorem \ref{t:leo-effect}
 and
 lines \ref{line:reconstruct-memoized-eims-loop-20}--%
 \ref{line:reconstruct-memoized-eims-loop-23} of
@@ -11844,7 +11860,7 @@ $\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
 \eqref{eq:leo-reconstruction-silo-effects-30a},
 \eqref{eq:leo-reconstruction-silo-effects-30b},
 \eqref{eq:leo-reconstruction-silo-effects-30c},
-Lemma \ref{lem:leo-memo-effect} and
+Theorem \ref{t:leo-effect} and
   lines \ref{line:reconstruct-memoized-eims-loop-20}--%
   \ref{line:reconstruct-memoized-eims-loop-23} of
   Algorithm \ref{alg:reconstruct-memoized-eims};
