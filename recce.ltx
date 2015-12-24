@@ -11956,6 +11956,57 @@ This gives us the step of the induction, the induction
 and the theorem.
 \end{proof}
 
+\begin{definition}
+\dtitle{Fleeting iLeo silo}
+The
+\xdfn{fleeting Leo silo}{fleeting Leo silo}
+of an EIM \Veim{lb} is a silo
+containing \Veim{lb} and the set of
+EIM's potentially added to the Earley tables
+by 
+the call
+\call{Reconstruct}{\Vleo{leo}, \Veim{lb}},
+where \Vleo{leo} is a Leo memo matching \Veim{lb}
+\end{definition}
+
+\begin{theorem}
+\ttitle{Fleeting Leo silo}
+\label{t:fleeting-leo-silo}
+let \Vleo{leo} be an instantiated Leo memo;
+and let \Veim{lb} be a valid EIM that matches
+\Vleo{leo}.
+Then there is exactly one fleeting Leo silo
+with \Veim{lb} as its bottom layer.
+\end{theorem}
+
+\begin{proof}
+From
+Theorem \ref{t:leo-reconstruction-silo-effects}
+we know that
+the set containing \Veim{lb} and the EIM's potentially
+added
+by the call
+\call{Reconstruct}{\Vleo{leo}, \Veim{lb}}
+is a fleeting Leo silo with \Veim{lb} as its
+bottom layer.
+
+TODO: finish.
+\end{proof}
+
+\begin{definition}
+\dtitle{Leo silo}
+The
+\xdfn{fleeting Leo silo}{fleeting Leo silo}
+of an EIM \Veim{lb} is the silo
+containing \Veim{lb} and the set of
+EIM's potentially added to the Earley tables
+by 
+the call
+\call{Reconstruct}{\Vleo{leo}, \Veim{lb}},
+where \Vleo{leo} is a Leo memo matching \Veim{lb}
+Then \var{slo} is a silo.
+\end{definition}
+
 TODO: to here
 
 \begin{definition}
