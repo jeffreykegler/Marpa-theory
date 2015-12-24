@@ -11451,6 +11451,54 @@ and therefore the step of the induction.
 With this we have the induction and the theorem.
 \end{proof}
 
+\begin{lemma}
+\label{lem:reconstruction-effect}
+In Algorithm \ref{alg:reconstruct-memoized-eims},
+for every pass \var{p},
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{p}}
+is the Leo effect of
+\vatp{\Vleo{memo}}{\var{top}}{\var{p}}
+and
+\vatp{\Veim{up}}{\var{top}}{\var{p}}.
+\end{lemma}
+
+\begin{proof}
+From
+Theorem \ref{t:leo-reconstruction-wellformedness},
+we know that
+\begin{equation}
+\label{lem:reconstruction-effect-10}
+\begin{gathered}
+\text{
+\vatp{\Veim{up}}{\var{top}}{\var{p}}
+is valid and complete;
+}
+\\
+\text{
+\vatp{\Vleo{memo}}{\var{top}}{\var{p}}
+is instantiated; and
+}
+\\
+\Memo{\vatp{\Veim{up}}{\var{top}}{\var{p}}}
+= \vatp{\Vleo{memo}}{\var{top}}{\var{p}}.
+\end{gathered}
+\end{equation}
+From
+\eqref{lem:reconstruction-effect-10},
+Theorem \ref{t:leo-effect}
+and
+lines \ref{line:reconstruct-memoized-eims-loop-20}--%
+\ref{line:reconstruct-memoized-eims-loop-23} of
+Algorithm \ref{alg:reconstruct-memoized-eims},
+we see that
+\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{p}}
+is the Leo effect
+of
+\vatp{\Vleo{memo}}{\var{top}}{\var{p}}
+and
+\vatp{\Veim{up}}{\var{top}}{\var{p}}.
+\end{proof}
+
 \begin{theorem}
 \ttitle{Leo reconstruction termination}
 \label{t:leo-reconstruction-termination}
@@ -11638,42 +11686,19 @@ is true for $\var{x} = \var{i}$,
 to show that
 \eqref{eq:leo-reconstruction-layer-validity-IND}
 is true for $\var{x} = \Vincr{i}$.
-
 From
-Theorem \ref{t:leo-reconstruction-wellformedness},
-we know that
-\begin{equation}
-\label{t:leo-reconstruction-layer-validity-19}
-\begin{gathered}
-\text{
-\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
-is valid and complete;
-}
-\\
-\text{
-\vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
-is instantiated; and
-}
-\\
-\Memo{\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}}
-= \vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}.
-\end{gathered}
-\end{equation}
-From
-\eqref{t:leo-reconstruction-layer-validity-19},
-Theorem \ref{t:leo-effect}
-and
-lines \ref{line:reconstruct-memoized-eims-loop-20}--%
-\ref{line:reconstruct-memoized-eims-loop-23} of
-Algorithm \ref{alg:reconstruct-memoized-eims},
-we see that
+Lemma \ref{lem:reconstruction-effect}
+and 
+\eqref{eq:def-leo-effect-10}
+of the definition of Leo effect
+we know that,
+if there is a pass \Vincr{i},
 \begin{equation}
 \label{t:leo-reconstruction-layer-validity-22a}
 \myparbox{\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}}
 is valid.
 }
 \end{equation}
-
 By assumption for the step,
 \begin{equation}
 \label{t:leo-reconstruction-layer-validity-24}
@@ -11735,7 +11760,7 @@ Then
 & \forall \; \var{a} : 1 \le \var{a} \le \Vlastix{slo}
 \\
 & \qquad \implies
-\text{\Vel{slo}{\Vdecr{a}} is the unique silo cause of \Vel{slo}{a}}
+\text{\Vel{slo}{\var{a}} is the unique silo effect of \el{slo}{\Vdecr{a}}}
 \end{aligned}
 \end{align}
 \end{theorem}
@@ -11746,10 +11771,10 @@ on the number of passes through the main loop.
 For the purposes of this proof,
 we write
 \[
-  \var{a} \xrightarrow{causes} \var{b}
+  \var{a} \rightarrowtail \var{b}
 \]
-to indicate that \var{a} is the unique silo cause
-of \var{b}.
+to indicate that \var{b} is the unique silo effect
+of \var{a}.
 Our induction hypothesis is
 \begin{align}
 \label{eq:leo-reconstruction-silo-effects-IND1}
@@ -11762,7 +11787,7 @@ Our induction hypothesis is
 \begin{aligned}
 & \forall \; \var{a} : 1 \le \var{a} \le \Vlastix{(\Vel{sqsq}{x})}
 \\
-& \qquad \implies (\Vel{sqsq}{x})[\Vdecr{a}] \xrightarrow{causes}
+& \qquad \implies (\Vel{sqsq}{x})[\Vdecr{a}] \rightarrowtail
   (\Vel{sqsq}{x})[\var{a}],
 \end{aligned}
 \end{align}
@@ -11819,7 +11844,7 @@ By assumption for the step,
 \begin{aligned}
 & \forall \; \var{a} : 1 \le \var{a} \le \Vlastix{(\Vel{sqsq}{i})}
 \\
-& \qquad \implies (\Vel{sqsq}{i})[\Vdecr{a}] \xrightarrow{causes} (\Vel{sqsq}{i})[\var{a}]
+& \qquad \implies (\Vel{sqsq}{i})[\Vdecr{a}] \rightarrowtail (\Vel{sqsq}{i})[\var{a}]
 \end{aligned}
 \end{equation}
 As a convenience, let
@@ -11830,46 +11855,23 @@ As a convenience, let
 in the rest of this proof.
 
 \begin{align}
-\label{eq:leo-reconstruction-silo-effects-30a}
-& \myparbox{
-\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
-is valid and complete
-$\because$ Theorem \ref{t:leo-reconstruction-wellformedness};
-}
-\\
-\label{eq:leo-reconstruction-silo-effects-30b}
-& \myparbox{
-\vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
-is instantiated
-$\because$ Theorem \ref{t:leo-reconstruction-wellformedness};
-}
-\\
-\label{eq:leo-reconstruction-silo-effects-30c}
-& \myparbox{
-$\Memo{\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}}
-= \vatp{\Vleo{memo}}{\var{top}}{\Vincr{i}}
-\because$ Theorem \ref{t:leo-reconstruction-wellformedness};
-}
-\\
 \label{eq:leo-reconstruction-silo-effects-32}
 & \myparbox{
 $\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
-\xrightarrow{causes}
+\rightarrowtail
 \vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}}
 \because$
-\eqref{eq:leo-reconstruction-silo-effects-30a},
-\eqref{eq:leo-reconstruction-silo-effects-30b},
-\eqref{eq:leo-reconstruction-silo-effects-30c},
-Theorem \ref{t:leo-effect} and
-  lines \ref{line:reconstruct-memoized-eims-loop-20}--%
-  \ref{line:reconstruct-memoized-eims-loop-23} of
-  Algorithm \ref{alg:reconstruct-memoized-eims};
+Lemma \ref{lem:reconstruction-effect}
+and 
+\eqref{eq:def-leo-effect-10a} and
+\eqref{eq:def-leo-effect-13}
+of Def of Leo effect;
 }
 \\
 \label{eq:leo-reconstruction-silo-effects-34}
 & \myparbox{
 $\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
-\xrightarrow{causes}
+\rightarrowtail
 \vatp{\el{mfc}{0}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\Vincr{i}}
 \because$
 line 
@@ -11898,7 +11900,7 @@ line
 \label{eq:leo-reconstruction-silo-effects-35}
 & \myparbox{
 $\big(\Vel{sqsq}{i}\big)\big[\Vlastix{(\Vel{sqsq}{i})}\big]
-\xrightarrow{causes}
+\rightarrowtail
 \el{next-mfc}{0}
 \because$
 \eqref{eq:leo-reconstruction-silo-effects-34f},
@@ -11937,7 +11939,7 @@ silos,
 \begin{aligned}
 & \forall \; \var{a} : 1 \le \var{a} \le \Vlastix{nextmfc}
 \\
-& \qquad \implies \el{next-mfc}{\Vdecr{a}} \xrightarrow{causes} \Vel{next-mfc}{a}
+& \qquad \implies \el{next-mfc}{\Vdecr{a}} \rightarrowtail \Vel{next-mfc}{a}
 \end{aligned}
 \end{equation}
 
