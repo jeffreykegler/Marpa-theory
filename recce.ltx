@@ -9396,22 +9396,8 @@ the data structures
 that Leo memoization requires,
 and we demonstrate their basic properties.
 
-Summarizing Leo's method,
-it consists of spotting potential right recursions
-and memoizing them.
-Leo restricts the memoization to situations where
-the right recursion is unambiguous.
-Potential right recursions are memoized by
-Earley set, using what Leo called
-``transitive items''.
-In this document Leo's ``transitive items''
-will be called Leo memos.
-
 \section{Definition}
 
-In this document, the ``transitive items''
-of~\cite{Leo1991}
-will be called Leo memos.
 Leo memos have type \dtype{LEO}.
 In each Earley set, there is at most one Leo memo per symbol.
 A Leo memo is the 4-tuple
@@ -9491,8 +9477,7 @@ only if it is
 Leo-eligible.
 A rule is
 \xdfn{Leo-eligible}{Leo-eligible (rule)}
-if and only if it is right
-recursive.
+if and only if it is right-recursive.
 A dotted rule is
 \xdfn{Leo-eligible}{Leo-eligible (dotted rule)}
 if and only if
