@@ -105,7 +105,7 @@
 \newcommand{\LRk}{\ensuremath{\var{LR}(\var{k})}}
 \newcommand{\inference}[2]{\genfrac{}{}{1pt}{}{#1}{#2}}
 
-\newcommand{\undefined}{\ensuremath{\perp}}
+\newcommand{\undefined}{\ensuremath{\mathord{\perp}}}
 
 % I use hyphens in variable names,
 % so I need to ensure that subtraction is
@@ -11047,6 +11047,8 @@ tell us that \Vleo{l} matches \Veim{e2}.
 
 \begin{definition}
 \ttitle{Valid Leo silo}
+TODO: Delete this?
+
 Let \var{lsl} be a Leo silo,
 and let \Vleo{l} be a Leo memo.
 \var{lsl} is
@@ -11076,11 +11078,13 @@ to \Vleo{l2}.
 \caption{Reconstruct memoized EIM's}
 \label{alg:reconstruct-memoized-eims}
 \begin{algorithmic}[1]
-\Procedure{Reconstruct}{\Vleo{leo}, \Veim{lb}}
+\Procedure{Reconstruct}{\Veim{lb}}
+\Statex \Veim{lb} is required to be a valid completion
+  with an instantiated matching Leo memo
 \label{line:reconstruct-memoized-eims-preloop-5}
 \State $\Veim{up} \gets \Veim{lb}$
 \label{line:reconstruct-memoized-eims-preloop-10}
-\State $\Vleo{memo} \gets \Vleo{leo}$
+\State $\Vleo{memo} \gets$ the matching Leo memo of \Veim{lb}
 \label{line:reconstruct-memoized-eims-preloop-20}
 \While{ $\Vleo{memo} \neq \undefined$ and \Vleo{memo} is instantiated }
 \label{line:reconstruct-memoized-eims-loop-first}
@@ -11227,8 +11231,7 @@ is required to be true at top of the main loop.
 
 By assumption for the theorem,
 \vat{\Veim{lb}}{\ref{line:reconstruct-memoized-eims-preloop-5}}
-is valid and complete and matches
-\vat{\Vleo{leo}}{\ref{line:reconstruct-memoized-eims-preloop-5}},
+is valid and complete and has a matching Leo memo,
 which is instantiated.
 From this we conclude that
 \vat{\Veim{up}}{\ref{line:reconstruct-memoized-eims-preloop-10}}
@@ -11513,11 +11516,11 @@ Then
 & \myparbox{\Veim{lb} has a catena, call it \var{cat},
 and the length of \var{cat} is the same as
 the number of complete EIM's potentially added by
-\call{Reconstruct}{\Vleo{leo}}, and
+\call{Reconstruct}{\Veim{lb}}, and
 }
 \\
 \label{eq:leo-reconstruction-termination-10d}
-& \myparbox{\call{Reconstruct}{\Vleo{leo}, \Veim{lb}} terminates.}
+& \myparbox{\call{Reconstruct}{\Veim{lb}} terminates.}
 \end{align}
 \end{theorem}
 
@@ -11653,7 +11656,7 @@ and let \var{slo} be the set containing
 \Veim{lb} and every EIM potentially added to the Earley tables
 by 
 the call
-\call{Reconstruct}{\Vleo{leo}, \Veim{lb}}.
+\call{Reconstruct}{\Veim{lb}}.
 Then every element of \var{slo} is valid.
 \end{theorem}
 
@@ -11749,7 +11752,7 @@ and let \var{slo} be the set containing
 \Veim{lb} and every EIM potentially added to the Earley tables
 by 
 the call
-\call{Reconstruct}{\Vleo{leo}, \Veim{lb}}.
+\call{Reconstruct}{\Veim{lb}}.
 Then
 \begin{align}
 \label{eq:leo-reconstruction-silo-effects-5d}
@@ -11965,8 +11968,7 @@ containing \Veim{lb} and the set of
 EIM's potentially added to the Earley tables
 by 
 the call
-\call{Reconstruct}{\Vleo{leo}, \Veim{lb}},
-where \Vleo{leo} is a Leo memo matching \Veim{lb}
+\call{Reconstruct}{\Veim{lb}}.
 \end{definition}
 
 \begin{theorem}
@@ -11986,15 +11988,65 @@ we know that
 the set containing \Veim{lb} and the EIM's potentially
 added
 by the call
-\call{Reconstruct}{\Vleo{leo}, \Veim{lb}}
+\call{Reconstruct}{\Veim{lb}}
 is a fleeting Leo silo with \Veim{lb} as its
 bottom layer.
+It remains to show that there is at most one such silo.
+
+Assume, for a reduction, that there are two silos such
+that \Veim{lb} is their bottom layer.
+Call them \var{slo1} and \var{slo2}.
+If they are different then they differ in at least one
+of their layers,
+and there is a first layer where they differ.
+Let the index of this first layer be \var{x}, so that
+\begin{equation}
+\label{eq:fleeting-leo-silo-15}
+\tag{RAA}
+\Vel{slo1}{x} \neq \Vel{slo2}{x} \; \land \; (\forall \; \var{a} : 0 \le \var{a} < \var{x} \implies
+\Vel{slo1}{x} = \Vel{slo2}{x}).
+\end{equation}
+By
+Theorem \ref{t:leo-reconstruction-silo-effects}
+\Vel{slo1}{x} has at most one silo effect, so that
+\begin{equation}
+\label{eq:fleeting-leo-silo-17}
+\el{slo1}{\Vdecr{x}} = \el{slo2}{\Vdecr{x}} \implies \Vel{slo1}{x} = \Vel{slo2}{x}.
+\end{equation}
+But 
+\ref{eq:fleeting-leo-silo-17}
+is in contradiction to
+\ref{eq:fleeting-leo-silo-15},
+so that, if \Vel{slo1}{x} and \Vel{slo2}{x} differ, it is because
+one is above the top of its fleeting silo and is therefore undefined,
+and the other is at or below the top of its fleeting silo and
+is defined.
+We assume,
+for a reduction and
+without loss of generalization that
+\begin{equation}
+\label{eq:fleeting-leo-silo-20}
+\tag{RAA}
+\Vel{slo1}{x} = \undefined \; \land \; \Vel{slo2}{x} \neq \undefined
+\end{equation}
+From
+\eqref{eq:def-sqsq},
+we know that, if for some fleeting Leo silo, \var{fslo},
+$\el{fslo}{\Vdecr{x}} \neq \undefined
+\; \land \;
+\Vel{fslo}{x} = \undefined$
+then there is some some \var{sqlast} such that
+$\el{fslo}{\Vdecr{x}} = \el{sqlast}{\Vlastix{sqlast}}$,
+where $\var{sqlast} = \Vel{sqsq}{p}$
+for some pass through the main loop \var{sqix}.
 
 TODO: finish.
 \end{proof}
 
 \begin{definition}
 \dtitle{Leo silo}
+Let \Veim{lb} be a complete EIM with
+a matching Leo memo.
 The
 \xdfn{fleeting Leo silo}{fleeting Leo silo}
 of an EIM \Veim{lb} is the silo
@@ -12002,9 +12054,7 @@ containing \Veim{lb} and the set of
 EIM's potentially added to the Earley tables
 by 
 the call
-\call{Reconstruct}{\Vleo{leo}, \Veim{lb}},
-where \Vleo{leo} is a Leo memo matching \Veim{lb}
-Then \var{slo} is a silo.
+\call{Reconstruct}{\Veim{lb}}.
 \end{definition}
 
 TODO: to here
@@ -13002,20 +13052,6 @@ it is the top of a maximal Leo silo.
 By the definition of memoized, the top of a maximal Leo silo
 is not memoized.
 \end{proof}
-
-\section{Recreating a Leo silo}
-
-While Marpa is a parser implementation,
-including evalution,
-this document does not usually deal with
-evaluation issues.
-We will make an exception for
-Leo memoization,
-however.
-The following algorithm summarizes
-Theorem
-\ref{t:leo-silo-validity},
-which shows its correctness.
 
 TODO: Finish?
 
