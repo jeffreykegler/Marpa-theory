@@ -66,8 +66,8 @@
 \newcommand{\myopname}[1]{\ensuremath{\texttt{#1}}}
 \newcommand{\myfn}[2]{\ensuremath{\myfnname{#1}(#2)}}
 
-\newcommand{\vat}[2]{\ensuremath{\myfnname{V}(#1,#2)}}
-\newcommand{\vatp}[3]{\ensuremath{\myfnname{V}(#1,#2,#3)}}
+\newcommand{\vat}[2]{\ensuremath{\myfnname{v}(#1,#2)}}
+\newcommand{\vatp}[3]{\ensuremath{\myfnname{v}(#1,#2,#3)}}
 
 % definitions for "elements" -- x[i]
 \newcommand{\el}[2]{\ensuremath{\texttt{#1}[#2]}}
@@ -10495,6 +10495,64 @@ our assumption for the reductio,
 and shows the theorem.
 \end{proof}
 
+\begin{theorem}
+\ttitle{A fleeting closure shares a Leo memo}
+\label{t:leo-memo-fleeting closure}
+Let \Veim{e1} and \Veim{e2} be EIM's
+in the same fleeting closure,
+and let
+\Vleo{l}
+be a Leo memo matching \Veim{e1}.
+The \Vleo{l} matches \Veim{e2}.
+\end{theorem}
+
+\begin{proof}
+By assumption for the theorem,
+\Veim{e1} and \Veim{e2} are in the same fleeting
+closure.
+Let \Veim{bas} be the base of this fleeting closure.
+By the definition of fleeting closure,
+\Veim{e1} and
+\Veim{e2} are the result of a series
+of null-scans forward from \Veim{bas}.
+By Theorem \ref{t:null-scan-arithmetic},
+we see that
+the operand and result of a null-scan share
+the same rule and origin,
+so that
+\begin{equation}
+\label{eq:leo-memo-fleeting-closure-10}
+\begin{gathered}
+\Left{\Veim{e1}} = \Left{\Veim{last}} = \Left{\Veim{e2}}, \; \text{and} \\
+\LHS{\Veim{e1}} = \LHS{\Veim{last}} = \LHS{\Veim{e2}}.
+\end{gathered}
+\end{equation}
+
+By assumption for the theorem
+and the definition of a matching Leo memo
+\begin{equation}
+\label{eq:leo-memo-fleeting-closure-20}
+\begin{aligned}
+\Left{\Veim{e1}} & = \Current{\Vleo{l}} \\
+\land \quad \LHS{\Veim{e1}} & = \Symbol{\Vleo{l}}.
+\end{aligned}
+\end{equation}
+Combining
+\eqref{eq:leo-memo-fleeting-closure-10}
+and
+\eqref{eq:leo-memo-fleeting-closure-20},
+\begin{equation}
+\label{eq:leo-memo-fleeting-closure-30}
+\begin{aligned}
+\Left{\Veim{e2}} & = \Current{\Vleo{l}} \\
+\land \quad \LHS{\Veim{e2}} & = \Symbol{\Vleo{l}}.
+\end{aligned}
+\end{equation}
+The definition of a matching Leo memo,
+and \eqref{eq:leo-memo-fleeting-closure-30}
+tell us that \Vleo{l} matches \Veim{e2}.
+\end{proof}
+
 \section{Leo silos}
 
 Where \Vleo{leo} is a Leo memo,
@@ -10970,64 +11028,6 @@ and
 The definition of a matching Leo memo,
 and \eqref{eq:lem-leo-memo-carryforward-30}
 tell us the \Vleo{l} matches \Veim{cuz}.
-\end{proof}
-
-\begin{theorem}
-\ttitle{A fleeting closure shares a Leo memo}
-\label{t:leo-memo-fleeting closure}
-Let \Veim{e1} and \Veim{e2} be EIM's
-in the same fleeting closure,
-and let
-\Vleo{l}
-be a Leo memo matching \Veim{e1}.
-The \Vleo{l} matches \Veim{e2}.
-\end{theorem}
-
-\begin{proof}
-By assumption for the theorem,
-\Veim{e1} and \Veim{e2} are in the same fleeting
-closure.
-Let \Veim{bas} be the base of this fleeting closure.
-By the definition of fleeting closure,
-\Veim{e1} and
-\Veim{e2} are the result of a series
-of null-scans forward from \Veim{bas}.
-By Theorem \ref{t:null-scan-arithmetic},
-we see that
-the operand and result of a null-scan share
-the same rule and origin,
-so that
-\begin{equation}
-\label{eq:leo-memo-fleeting-closure-10}
-\begin{gathered}
-\Left{\Veim{e1}} = \Left{\Veim{last}} = \Left{\Veim{e2}}, \; \text{and} \\
-\LHS{\Veim{e1}} = \LHS{\Veim{last}} = \LHS{\Veim{e2}}.
-\end{gathered}
-\end{equation}
-
-By assumption for the theorem
-and the definition of a matching Leo memo
-\begin{equation}
-\label{eq:leo-memo-fleeting-closure-20}
-\begin{aligned}
-\Left{\Veim{e1}} & = \Current{\Vleo{l}} \\
-\land \quad \LHS{\Veim{e1}} & = \Symbol{\Vleo{l}}.
-\end{aligned}
-\end{equation}
-Combining
-\eqref{eq:leo-memo-fleeting-closure-10}
-and
-\eqref{eq:leo-memo-fleeting-closure-20},
-\begin{equation}
-\label{eq:leo-memo-fleeting-closure-30}
-\begin{aligned}
-\Left{\Veim{e2}} & = \Current{\Vleo{l}} \\
-\land \quad \LHS{\Veim{e2}} & = \Symbol{\Vleo{l}}.
-\end{aligned}
-\end{equation}
-The definition of a matching Leo memo,
-and \eqref{eq:leo-memo-fleeting-closure-30}
-tell us that \Vleo{l} matches \Veim{e2}.
 \end{proof}
 
 \begin{definition}
