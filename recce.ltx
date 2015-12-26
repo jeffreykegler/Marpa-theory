@@ -10601,30 +10601,6 @@ of the silo.
 We write \Vop{Leosilo}{slo} to indicate that \var{slo}
 is a Leo silo.%
 \index{recce-notation}{LeoSilo(slo)@\Vop{Leo-Silo}{slo}}
-
-If \Vleo{l} is instantiated,
-we say that \Veim{lb} is
-\xdfn{mentioned (EIM)}{mentioned (EIM)!wrt a Leo memo}
-as a Leo bottom
-by \Vleo{l}.
-If \Vleo{l} is instantiated
-and \Veim{lb} is valid,
-we say that \Veim{top} is
-\xdfn{mentioned (EIM)}{mentioned (EIM)!wrt a Leo memo}
-as a Leo top
-by \Vleo{l} and \Veim{lb}.
-
-If \Veim{lb} is mentioned by any instantiated Leo memo,
-we say that \Veim{lb} is
-\xdfn{mentioned as a Leo bottom}{mentioned (EIM)!as a Leo bottom}
-or in context, simply
-\xdfn{mentioned}{mentioned (EIM)}.
-If \Veim{top} is mentioned by any
-matching pair of valid EIM and instantiated Leo memo,
-we say that \Veim{top} is
-\xdfn{mentioned as a Leo top}{mentioned (EIM)!as a Leo top}
-or in context, simply
-\xdfn{mentioned}{mentioned (EIM)}.
 \end{definition}
 
 \begin{definition}
@@ -11029,33 +11005,6 @@ The definition of a matching Leo memo,
 and \eqref{eq:lem-leo-memo-carryforward-30}
 tell us the \Vleo{l} matches \Veim{cuz}.
 \end{proof}
-
-\begin{definition}
-\ttitle{Valid Leo silo}
-TODO: Delete this?
-
-Let \var{lsl} be a Leo silo,
-and let \Vleo{l} be a Leo memo.
-\var{lsl} is
-\xdfn{valid}{valid (Leo silo)!wrt a Leo memo}
-with respect to \Vleo{l}
-if and only if
-\begin{itemize}
-\item
-every layer of \var{lsl} is valid;
-\item
-\el{lsl}{0} is a Leo bottom mentioned in \Vleo{l}; and
-\item
-\el{lsl}{\Vlastix{lsl}} is mentioned in \Vleo{l}.
-\end{itemize}
-We say that
-the Leo silo
-\var{lsl2} is
-\xdfn{valid}{valid (Leo silo)}
-if and only if there is some Leo memo \Vleo{l2}
-such that \var{lsl} is valid with respect
-to \Vleo{l2}.
-\end{definition}
 
 \section{Reconstructing Leo silos}
 
