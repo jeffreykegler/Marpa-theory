@@ -8839,6 +8839,27 @@ of Theorem
 \end{itemize}
 \end{proof}
 
+\begin{definition}
+\dtitle{Completion of a fleeting closure silo}
+If \var{fcs} is a fleeting closure silo,
+we say that \el{fcs}{\Vlastix{fcs}}
+is the
+\xdfn{completion}{completion@completion (EIM)!of a fleeting closure silo}
+of \var{fcs}.
+\end{definition}
+
+\begin{definition}
+\dtitle{Maximal silo}
+A
+\dfn{maximal silo}
+is a silo whose bottom layer has no silo cause,
+and whose top layer has no silo effect.
+\end{definition}
+
+We sometimes write \Maximal{\var{slo}}%
+\index{recce-notation}{Maximal(slo)@\Maximal{\var{slo}}}
+to say that the silo \var{slo} is maximal.
+
 \begin{theorem}
 \ttitle{Maximal fleeting closure silo}
 \label{t:maximal-fleeting-closure-silo}
@@ -8888,18 +8909,6 @@ This theorem follows from
 and Theorem
 \ref{t:fleeting-closure-silo}.
 \end{proof}
-
-\begin{definition}
-\dtitle{Maximal silo}
-A
-\dfn{maximal silo}
-is a silo whose bottom layer has no silo cause,
-and whose top layer has no silo effect.
-\end{definition}
-
-We sometimes write \Maximal{\var{slo}}%
-\index{recce-notation}{Maximal(slo)@\Maximal{\var{slo}}}
-to say that the silo \var{slo} is maximal.
 
 \begin{theorem}
 \ttitle{Maximal silo}
@@ -10555,53 +10564,74 @@ tell us that \Vleo{l} matches \Veim{e2}.
 
 \section{Leo silos}
 
-Where \Vleo{leo} is a Leo memo,
-$\Vloc{memloc} = \Current{\Vleo{leo}}$
-and
-$\Symbol{\Vleo{leo}} = \Vsym{t}$,
-we say that the symbol instance
-\begin{equation*}
-  \Vinst{lb} = \Vmk{memloc} \Vsym{t} \Vmk{i}
-\end{equation*}%
-\index{recce-notation}{Leo-bot(x)@\Vop{Leo-bot}{x}}
-is a
-\xdfn{bottom}{bottom (EIM)!wrt a Leo silo}
-EIM matching \Vleo{leo} at \Vloc{i}.
-
-Where \Vleo{leo} is a Leo memo,
-\Vdr{top} = \DR{\Vleo{leo}}
-and
-\Vorig{top} = \Origin{\Vleo{leo}},
-we say that
-\begin{equation}
-\Vop{Leo-top}{\Vleo{leo}, \Vloc{i}} = \big[ \Vdr{top}, \Vorig{top}, \Vloc{i} \big].
-\end{equation}%
-\index{recce-notation}{Leo-top(x)@\Vop{Leo-top}{x}}
-is the
-\xdfn{top}{top (EIM)!wrt a Leo silo}
-EIM
-matching \Vleo{leo}
-at \Vloc{i}.
-
 \begin{definition}
 \dtitle{Leo silo}
-Let \Vleo{l} be a Leo memo,
-and let \Veim{lb} be matching
-bottom of \Vleo{l}.
-A
-\dfn{Leo silo}
-is a silo whose bottom is \Veim{lb}
-and whose top is
+Let \Veim{lb} be a complete EIM;
+let 
+\Vleo{l} be a matching Leo memo;
+let
 \[
-\Veim{top} = \op{Leo-top}{\Vleo{leo}, \Vloc{i}},
+\Veim{mem-top} = \big[ \DR{\Vleo{l}}, \Origin{\Vleo{l}}, \Vloc{i} \big];
 \]
-where
-\Vloc{i} is the location
-of the silo.
-We write \Vop{Leosilo}{slo} to indicate that \var{slo}
-is a Leo silo.%
-\index{recce-notation}{LeoSilo(slo)@\Vop{Leo-Silo}{slo}}
+let \Veim{top} be a completion of \Veim{mem-top}, that is
+\[
+\begin{gathered}
+\DR{\Veim{top}} = [ \Rule{\Veim{mem-top}}, \Vsize{\Rule{\Veim{mem-top}}} ] \; \text{and}
+\\
+  \Origin{\Veim{top}} = \Origin{\Veim{mem-top}}
+\end{gathered}
+\]
+and let \var{lsl} be a silo whose bottom
+layer is \Veim{lb} and whose top layer is
+\Veim{top}.
+Then we say that
+\var{lsl} is a
+\xdfn{Leo silo}{Leo silo};
+that \Veim{lb}
+is the
+\dfn{bottom}%
+\index{recce-definitions}{bottom@bottom (EIM)!of a Leo silo}
+of \var{lsl};
+that \Veim{mem-top} is the
+\dfn{memoized top}%
+\index{recce-definitions}{memoized top@memoized top (EIM)!of a Leo silo}%
+\index{recce-definitions}{top@top (EIM)!memoized, of a Leo silo}
+of \var{lsl};
+and that \Veim{top} is the
+\dfn{completed top}%
+\index{recce-definitions}{completed top@completed top (EIM)!of a Leo silo}%
+\index{recce-definitions}{top@top (EIM)!completed, of a Leo silo},
+or simply
+\dfn{top},%
+\index{recce-definitions}{top@top (EIM)!of a Leo silo}
+of \var{lsl}.
 \end{definition}
+
+\begin{theorem}
+Let \var{lsl} be a Leo silo.
+Then the memoized top
+of \var{lsl}
+is the lasting base of a maximal
+fleeting closure silo,
+call it \var{mfcslo}.
+Also the completion of \var{mfcslo}
+is the completed top of \var{lsl}.
+\end{theorem}
+
+TODO: Define completion of fleeting closure silo.
+
+\begin{proof}
+TODO
+\end{proof}
+
+\begin{theorem}
+Two Leo silos have the same completed Leo top
+if and only if they have the same memoized Leo top.
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
 
 \begin{definition}
 \dtitle{Silo layers by level}
@@ -10632,6 +10662,7 @@ layer.
 Given a specific choice of location,
 every element of a Leo catena has the same
 Leo top item.
+(TODO: Fix this for Leo-top.)
 That is,
 \begin{gather*}
 \forall \; \var{a}, \var{b}, \Vloc{i} : 0 \le \var{a} \le \Vlastix{cat}
@@ -10819,6 +10850,7 @@ we have
 vacuously.
 It remains to show
 \eqref{eq:def-leo-effect-14}.
+(TODO: Fix this for Leo-top.)
 By the definition of Leo memo validity
 and the definition of
 \myfnname{Leo-top},
@@ -12092,6 +12124,9 @@ we know that
 \end{gathered}
 \right)
 \end{multline}
+
+TODO: Fix the rest of this proof for Leo-top.
+
 From
 \eqref{leo-silo-common-lower-layers-31}
 and the definition of a Leo top layer,
