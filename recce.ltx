@@ -10562,6 +10562,81 @@ and \eqref{eq:leo-memo-fleeting-closure-30}
 tell us that \Vleo{l} matches \Veim{e2}.
 \end{proof}
 
+We state the following theorem here,
+because we needed to develop the concept of a Leo catena
+for its proof.
+
+\begin{theorem}
+\ttitle{Leo memo dotted rule is telluric}
+\label{eq:leo-memo-dotted-rule-is-telluric-10}
+The dotted rule of a valid Leo memo is telluric.
+\end{theorem}
+
+\begin{proof}
+Let a Leo memo be \var{l}.
+Every Leo memo has a catena.
+Let \var{cat} be the catena of \var{l}.
+We proceed by induction on the elements of \var{cat}.
+For the induction hypothesis, we take
+\begin{equation}
+\label{eq:leo-memo-dotted-rule-is-telluric-10}
+\text{\DR{\Vel{cat}{x}} is telluric.}
+\end{equation}
+The catena element \el{cat}{0} has,
+by the definition of a catena,
+no top-down cause.
+Therefore, by the definition of validity
+of a Leo memo,
+its dotted rule is
+\Next{\DR{\Veim{basis}}},
+where \Veim{basis} is the basis of the Leo memo.
+By the definition of the basis of a Leo memo,
+$\Postdot{\Veim{basis}} \neq \epsilon$,
+so that
+\Next{\DR{\Veim{basis}}}
+is telluric.
+We take 
+\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
+for $\var{x} = 0$ as the basis of our induction.
+
+For the step, we assume
+\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
+for $\var{x} = \var{i}$
+to show
+\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
+for $\var{x} = \Vincr{i}$.
+Since $\Vincr{i} > 0$,
+\el{cat}{\Vincr{i}} has a top down cause,
+and therefore, by the definition of validity
+for a Leo memo,
+\begin{equation}
+\label{eq:leo-memo-dotted-rule-is-telluric-12}
+\DR{\Vleo{down}} = \DR{\el{cat}{\Vincr{i}}},
+\end{equation}
+where \Vleo{down} is the top-down cause of
+\el{cat}{\Vincr{i}}.
+
+By the definition of a catena,
+\Vel{cat}{i} is the top-down cause of
+\Vel{cat}{\Vincr{i}},
+so that
+\begin{equation}
+\label{eq:leo-memo-dotted-rule-is-telluric-20}
+\Vleo{down} = \Vel{cat}{i}.
+\end{equation}
+\DR{\Vel{cat}{i}} is telluric by assumption for the step
+so that, from
+\eqref{eq:leo-memo-dotted-rule-is-telluric-12}
+and
+\eqref{eq:leo-memo-dotted-rule-is-telluric-20},
+we know that
+\DR{\el{cat}{\Vincr{i}}} is telluric.
+This shows the step, the induction
+and the theorem.
+
+TODO: done?
+\end{proof}
+
 \section{Leo silos}
 
 \begin{definition}
@@ -10618,10 +10693,21 @@ Also the completion of \var{mfcslo}
 is the completed top of \var{lsl}.
 \end{theorem}
 
-TODO: Define completion of fleeting closure silo.
-
 \begin{proof}
-TODO
+Let \var{memtop} be the
+memoized top of \var{lsl}.
+Since \var{memtop} is a layer of the Leo silo \var{lsl},
+\var{memtop} is a silo layer
+and therefore,
+by the definition of a silo layer,
+\var{memtop} is quasi-complete.
+Since \var{memtop} is quasi-complete,
+by Theorem
+\ref{t:maximal-fleeting-closure-silo},
+it is the base of a fleeting closure silo.
+Since
+
+TODO: Finish this.
 \end{proof}
 
 \begin{theorem}
