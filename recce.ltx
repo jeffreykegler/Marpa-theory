@@ -11038,6 +11038,92 @@ and \eqref{eq:lem-leo-memo-carryforward-30}
 tell us the \Vleo{l} matches \Veim{cuz}.
 \end{proof}
 
+\begin{definition}
+\dtitle{Fleeting Leo silo}
+The
+\xdfn{fleeting Leo silo}{fleeting Leo silo}
+of an EIM \Veim{lb} is a silo
+containing \Veim{lb} and the set of
+EIM's potentially added to the Earley tables
+by 
+the call
+\call{Reconstruct}{\Veim{lb}}.
+\end{definition}
+
+\begin{theorem}
+\ttitle{Leo silo uniqueness}
+\label{t:leo-silo-uniqueness}
+let \Vleo{leo} be an instantiated Leo memo;
+and let \Veim{lb} be a valid EIM that matches
+\Vleo{leo}.
+Then there is exactly one fleeting Leo silo
+with \Veim{lb} as its bottom layer.
+\end{theorem}
+
+\begin{proof}
+From
+Theorem \ref{t:leo-reconstruction-silo-effects}
+we know that
+the set containing \Veim{lb} and the EIM's potentially
+added
+by the call
+\call{Reconstruct}{\Veim{lb}}
+is a fleeting Leo silo with \Veim{lb} as its
+bottom layer.
+It remains to show that there is at most one such silo.
+
+Assume, for a reduction, that there are two silos such
+that \Veim{lb} is their bottom layer.
+Call them \var{slo1} and \var{slo2}.
+If they are different then they differ in at least one
+of their layers,
+and there is a first layer where they differ.
+Let the index of this first layer be \var{x}, so that
+\begin{equation}
+\label{eq:leo-silo-uniqueness-15}
+\tag{RAA}
+\Vel{slo1}{x} \neq \Vel{slo2}{x} \; \land \; (\forall \; \var{a} : 0 \le \var{a} < \var{x} \implies
+\Vel{slo1}{x} = \Vel{slo2}{x}).
+\end{equation}
+By
+Theorem \ref{t:leo-reconstruction-silo-effects}
+\Vel{slo1}{x} has at most one silo effect, so that
+\begin{equation}
+\label{eq:leo-silo-uniqueness-17}
+\el{slo1}{\Vdecr{x}} = \el{slo2}{\Vdecr{x}} \implies \Vel{slo1}{x} = \Vel{slo2}{x}.
+\end{equation}
+But 
+\ref{eq:leo-silo-uniqueness-17}
+is in contradiction to
+\ref{eq:leo-silo-uniqueness-15},
+so that, if \Vel{slo1}{x} and \Vel{slo2}{x} differ, it is because
+one is above the top of its fleeting silo and is therefore undefined,
+and the other is at or below the top of its fleeting silo and
+is defined.
+We assume,
+for a reduction and
+without loss of generalization that
+\begin{equation}
+\label{eq:leo-silo-uniqueness-20}
+\tag{RAA}
+\Vel{slo1}{x} = \undefined \; \land \; \Vel{slo2}{x} \neq \undefined
+\end{equation}
+From
+\eqref{eq:def-sqsq},
+we know that, if for some fleeting Leo silo, \var{fslo},
+$\el{fslo}{\Vdecr{x}} \neq \undefined
+\; \land \;
+\Vel{fslo}{x} = \undefined$
+then there is some some \var{sqlast} such that
+$\el{fslo} = \Vel{sqsq}{p}$
+where $\var{sqlast} = \Vel{sqsq}{p}$
+for some pass through the main loop \var{p}.
+
+If there is a pass
+
+TODO: finish.
+\end{proof}
+
 \section{Reconstructing Leo silos}
 
 \begin{algorithm}[tb]
@@ -11924,106 +12010,6 @@ and \eqref{eq:leo-reconstruction-silo-effects-40}.
 This gives us the step of the induction, the induction
 and the theorem.
 \end{proof}
-
-\begin{definition}
-\dtitle{Fleeting Leo silo}
-The
-\xdfn{fleeting Leo silo}{fleeting Leo silo}
-of an EIM \Veim{lb} is a silo
-containing \Veim{lb} and the set of
-EIM's potentially added to the Earley tables
-by 
-the call
-\call{Reconstruct}{\Veim{lb}}.
-\end{definition}
-
-\begin{theorem}
-\ttitle{Fleeting Leo silo}
-\label{t:fleeting-leo-silo}
-let \Vleo{leo} be an instantiated Leo memo;
-and let \Veim{lb} be a valid EIM that matches
-\Vleo{leo}.
-Then there is exactly one fleeting Leo silo
-with \Veim{lb} as its bottom layer.
-\end{theorem}
-
-\begin{proof}
-From
-Theorem \ref{t:leo-reconstruction-silo-effects}
-we know that
-the set containing \Veim{lb} and the EIM's potentially
-added
-by the call
-\call{Reconstruct}{\Veim{lb}}
-is a fleeting Leo silo with \Veim{lb} as its
-bottom layer.
-It remains to show that there is at most one such silo.
-
-Assume, for a reduction, that there are two silos such
-that \Veim{lb} is their bottom layer.
-Call them \var{slo1} and \var{slo2}.
-If they are different then they differ in at least one
-of their layers,
-and there is a first layer where they differ.
-Let the index of this first layer be \var{x}, so that
-\begin{equation}
-\label{eq:fleeting-leo-silo-15}
-\tag{RAA}
-\Vel{slo1}{x} \neq \Vel{slo2}{x} \; \land \; (\forall \; \var{a} : 0 \le \var{a} < \var{x} \implies
-\Vel{slo1}{x} = \Vel{slo2}{x}).
-\end{equation}
-By
-Theorem \ref{t:leo-reconstruction-silo-effects}
-\Vel{slo1}{x} has at most one silo effect, so that
-\begin{equation}
-\label{eq:fleeting-leo-silo-17}
-\el{slo1}{\Vdecr{x}} = \el{slo2}{\Vdecr{x}} \implies \Vel{slo1}{x} = \Vel{slo2}{x}.
-\end{equation}
-But 
-\ref{eq:fleeting-leo-silo-17}
-is in contradiction to
-\ref{eq:fleeting-leo-silo-15},
-so that, if \Vel{slo1}{x} and \Vel{slo2}{x} differ, it is because
-one is above the top of its fleeting silo and is therefore undefined,
-and the other is at or below the top of its fleeting silo and
-is defined.
-We assume,
-for a reduction and
-without loss of generalization that
-\begin{equation}
-\label{eq:fleeting-leo-silo-20}
-\tag{RAA}
-\Vel{slo1}{x} = \undefined \; \land \; \Vel{slo2}{x} \neq \undefined
-\end{equation}
-From
-\eqref{eq:def-sqsq},
-we know that, if for some fleeting Leo silo, \var{fslo},
-$\el{fslo}{\Vdecr{x}} \neq \undefined
-\; \land \;
-\Vel{fslo}{x} = \undefined$
-then there is some some \var{sqlast} such that
-$\el{fslo} = \Vel{sqsq}{p}$
-where $\var{sqlast} = \Vel{sqsq}{p}$
-for some pass through the main loop \var{p}.
-
-If there is a pass
-
-TODO: finish.
-\end{proof}
-
-\begin{definition}
-\dtitle{Leo silo}
-Let \Veim{lb} be a complete EIM with
-a matching Leo memo.
-The
-\xdfn{fleeting Leo silo}{fleeting Leo silo}
-of an EIM \Veim{lb} is the silo
-containing \Veim{lb} and the set of
-EIM's potentially added to the Earley tables
-by 
-the call
-\call{Reconstruct}{\Veim{lb}}.
-\end{definition}
 
 TODO: to here
 
