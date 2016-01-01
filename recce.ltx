@@ -10633,46 +10633,53 @@ we know that
 \DR{\el{cat}{\Vincr{i}}} is telluric.
 This shows the step, the induction
 and the theorem.
-
-TODO: done?
 \end{proof}
 
 \section{Leo silos}
 
 \begin{definition}
 \dtitle{Leo silo}
-Let \Veim{lb} be a complete EIM;
-let 
-\Vleo{l} be a matching Leo memo;
-let
-\[
-\Veim{mem-top} = \big[ \DR{\Vleo{l}}, \Origin{\Vleo{l}}, \Vloc{i} \big];
-\]
-let \Veim{top} be a completion of \Veim{mem-top}, that is
-\[
-\begin{gathered}
-\DR{\Veim{top}} = [ \Rule{\Veim{mem-top}}, \Vsize{\Rule{\Veim{mem-top}}} ] \; \text{and}
+Let
+\begin{align*}
+& \text{\Veim{lb} be a complete EIM;}
 \\
-  \Origin{\Veim{top}} = \Origin{\Veim{mem-top}}
-\end{gathered}
-\]
-and let \var{lsl} be a silo whose bottom
+& \text{\Vleo{l} be a matching Leo memo;}
+\\
+& \Veim{mem-top} = \big[ \DR{\Vleo{l}}, \Origin{\Vleo{l}}, \Vloc{i} \big];
+\\
+& \begin{aligned}
+& \text{\Veim{top} be a completion of \Veim{mem-top}, so that}
+\\
+& \qquad \DR{\Veim{top}} =
+\big[ \Rule{\Veim{mem-top}}, \Vsize{\Rule{\Veim{mem-top}}}
+\big] \; \text{and}
+\\
+  & \qquad \Origin{\Veim{top}} = \Origin{\Veim{mem-top}}.
+\end{aligned}
+\end{align*}
+Let
+\var{lsl} be a silo whose bottom
 layer is \Veim{lb} and whose top layer is
 \Veim{top}.
 Then we say that
+\begin{itemize}
+\item
 \var{lsl} is a
 \xdfn{Leo silo}{Leo silo};
+\item
 that \Veim{lb}
 is the
 \dfn{bottom}%
 \index{recce-definitions}{bottom@bottom (EIM)!of a Leo silo}
 of \var{lsl};
+\item
 that \Veim{mem-top} is the
 \dfn{memoized top}%
 \index{recce-definitions}{memoized top@memoized top (EIM)!of a Leo silo}%
 \index{recce-definitions}{top@top (EIM)!memoized, of a Leo silo}
-of \var{lsl};
-and that \Veim{top} is the
+of \var{lsl}; and
+\item
+that \Veim{top} is the
 \dfn{completed top}%
 \index{recce-definitions}{completed top@completed top (EIM)!of a Leo silo}%
 \index{recce-definitions}{top@top (EIM)!completed, of a Leo silo},
@@ -10680,7 +10687,21 @@ or simply
 \dfn{top},%
 \index{recce-definitions}{top@top (EIM)!of a Leo silo}
 of \var{lsl}.
+\end{itemize}
 \end{definition}
+
+\begin{theorem}
+\ttitle{Memoized top is telluric}
+\label{t:memoized-top-is-telluric}
+The memoized top of a Leo silo is telluric.
+\end{theorem}
+
+\begin{proof}
+This theorem follows from
+the definition of a memoized top,
+and Theorem
+\ref{eq:leo-memo-dotted-rule-is-telluric-10}.
+\end{proof}
 
 \begin{theorem}
 Let \var{lsl} be a Leo silo.
@@ -10694,20 +10715,35 @@ is the completed top of \var{lsl}.
 \end{theorem}
 
 \begin{proof}
-Let \var{memtop} be the
+Let \Veim{memtop} be the
 memoized top of \var{lsl}.
-Since \var{memtop} is a layer of the Leo silo \var{lsl},
-\var{memtop} is a silo layer
+Since \Veim{memtop} is a layer of the Leo silo \var{lsl},
+\Veim{memtop} is a silo layer
 and therefore,
 by the definition of a silo layer,
-\var{memtop} is quasi-complete.
-Since \var{memtop} is quasi-complete,
+\Veim{memtop} is quasi-complete.
+Since \Veim{memtop} is quasi-complete,
 by Theorem
 \ref{t:maximal-fleeting-closure-silo},
-it is the base of a fleeting closure silo.
-Since
+it is the base of a fleeting closure silo,
+call it \var{fcslo}.
+By Theorem
+\ref{t:memoized-top-is-telluric},
+we know that \Veim{memtop} is telluric,
+so that, by the definition of a lasting base,
+\Veim{memtop} is the lasting base of
+\var{fcslo}; and
+by the definition of a maximal fleeting closure,
+\var{fcslo} is maximal.
 
-TODO: Finish this.
+Let $\var{mfcslo} = \var{fcslo}$.
+If
+\Veim{top} is the completion of \var{mfcslo},
+from the definition of the completion of a fleeting
+closure silo,
+and the definition of the completed top of a Leo silo,
+we see that the completion of \var{mfcslo} is
+the completed top of \var{lsl}.
 \end{proof}
 
 \begin{theorem}
@@ -13285,7 +13321,7 @@ we know that
 \end{multlined}
 \right).
 \end{multline}
-We see from the defintion of altitude that it is always the least
+We see from the definition of altitude that it is always the least
 of the possible alternative, and that it is non-decreasing,
 so that
 \begin{equation}
