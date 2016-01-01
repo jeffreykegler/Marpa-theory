@@ -10568,7 +10568,7 @@ for its proof.
 
 \begin{theorem}
 \ttitle{Leo memo dotted rule is telluric}
-\label{eq:leo-memo-dotted-rule-is-telluric-10}
+\label{t:leo-memo-dotted-rule-is-telluric}
 The dotted rule of a valid Leo memo is telluric.
 \end{theorem}
 
@@ -10704,6 +10704,7 @@ and Theorem
 \end{proof}
 
 \begin{theorem}
+\label{t:leo-top-fleeting-closure}
 Let \var{lsl} be a Leo silo.
 Then the memoized top
 of \var{lsl}
@@ -10747,12 +10748,107 @@ the completed top of \var{lsl}.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Sharing a Leo completed top is equivalent to sharing a memoized top}
+\label{t:memoized-top-to-completed-top}
 Two Leo silos have the same completed Leo top
 if and only if they have the same memoized Leo top.
 \end{theorem}
 
 \begin{proof}
-TODO
+Let \var{lsl1} be a Leo silo whose memoized top is \Veim{mem1}
+and whose completed top is \Veim{comp1}.
+Let \var{lsl2} be a Leo silo whose memoized top is \Veim{\var{mem2}}
+and whose completed top is \Veim{comp2}.
+We proceed first with the ``if'' direction,
+by assuming that
+\begin{equation}
+\label{t:memoized-top-to-completed-top-10}
+\Veim{mem1} = \Veim{mem2}
+\end{equation}
+to show that
+\Veim{comp1} = \Veim{comp2}.
+\begin{align}
+\label{t:memoized-top-to-completed-top-12}
+& \myparbox{\Veim{mem1} and \Veim{comp1} share a fleeting closure
+$\because$ Th \ref{t:leo-top-fleeting-closure};}
+\\
+\label{t:memoized-top-to-completed-top-14}
+& \myparbox{\Veim{mem2} and \Veim{comp2} share a fleeting closure
+$\because$ Th \ref{t:leo-top-fleeting-closure};}
+\\
+\label{t:memoized-top-to-completed-top-16}
+& \myparbox{$\Rule{\var{comp1}} = \Rule{\var{comp2}} = \Rule{\var{mem1}} = \Rule{\var{mem2}}
+\because \eqref{t:memoized-top-to-completed-top-10},
+\eqref{t:memoized-top-to-completed-top-12},
+\eqref{t:memoized-top-to-completed-top-14};
+$}
+\\
+\label{t:memoized-top-to-completed-top-18}
+& \myparbox{$\Origin{\var{comp1}} = \Origin{\var{comp2}} = \Origin{\var{mem1}} = \Origin{\var{mem2}}
+\because \eqref{t:memoized-top-to-completed-top-10},
+\eqref{t:memoized-top-to-completed-top-12},
+\eqref{t:memoized-top-to-completed-top-14};
+$}
+\\
+\label{t:memoized-top-to-completed-top-20}
+& \myparbox{$\Current{\var{comp1}} = \Current{\var{comp2}} = \Current{\var{mem1}} = \Current{\var{mem2}}
+\because \eqref{t:memoized-top-to-completed-top-10},
+\eqref{t:memoized-top-to-completed-top-12},
+\eqref{t:memoized-top-to-completed-top-14};
+$}
+\intertext{We know that
+\Veim{comp1} and \Veim{comp2} are the completions of fleeting closures
+and therefore are complete EIM's, and since by 
+\eqref{t:memoized-top-to-completed-top-20}
+they are completions of the same rule,}
+\label{t:memoized-top-to-completed-top-22}
+& \Dotix{\var{comp1}} = \Dotix{\var{comp2}}, \text{so that}
+\\
+\label{t:memoized-top-to-completed-top-24}
+& \Veim{\var{comp1}} = \Veim{\var{comp2}} \because
+\eqref{t:memoized-top-to-completed-top-16},
+\eqref{t:memoized-top-to-completed-top-18},
+\eqref{t:memoized-top-to-completed-top-20},
+\eqref{t:memoized-top-to-completed-top-22};
+\end{align}
+where
+\eqref{t:memoized-top-to-completed-top-24}
+is what we needed to show for the ``if'' direction.
+
+For the only if direction,
+we assume that
+\begin{equation}
+\label{t:memoized-top-to-completed-top-30}
+\Veim{comp1} = \Veim{comp2}
+\end{equation}
+and proceed as follows:
+\begin{align}
+\label{t:memoized-top-to-completed-top-32}
+& \myparbox{\Veim{mem1} is the lasting base of \Veim{comp1}
+$\because$ Th \ref{t:leo-top-fleeting-closure};}
+\\
+\label{t:memoized-top-to-completed-top-34}
+& \myparbox{\Veim{mem2} is the lasting base of \Veim{comp2}
+$\because$ Th \ref{t:leo-top-fleeting-closure};}
+\intertext{and since by
+Theorem \ref{t:eim-lasting-base},
+every EIM has exactly one lasting base,
+}
+\label{t:memoized-top-to-completed-top-34}
+& \myparbox{
+$\Veim{mem1} = \Veim{mem2}
+\because$
+\eqref{t:memoized-top-to-completed-top-30},
+\eqref{t:memoized-top-to-completed-top-32},
+\eqref{t:memoized-top-to-completed-top-34},
+Th
+\ref{t:eim-lasting-base};
+}
+\end{align}
+where
+\eqref{t:memoized-top-to-completed-top-34}
+is what we needed to show for the ``only if''
+direction.
 \end{proof}
 
 \begin{definition}
