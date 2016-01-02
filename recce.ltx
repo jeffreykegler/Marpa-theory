@@ -249,9 +249,12 @@
 % Don't use definition titles for index -- use \xdfn instead.
 % \newcommand\dtitle[1]{\textbf{#1}:\index{recce-definitions}{#1}}
 \newcommand\dtitle[1]{\textbf{#1}:}
+\newcommand{\dref}[2][]{\ensuremath{\text{(D\ref{#2}%
+  \ifthenelse{\equal{#2}{}}{}{ ``#1''}})%
+}}
 \newcommand\qdtitle[1]{\textbf{#1}:}
 \newcommand\ttitle[1]{\textbf{#1}:\index{recce-theorems}{#1}}
-\newcommand\tref[1]{\ensuremath{\text{Th \ref{#1}}}}
+\newcommand\tref[1]{\ensuremath{\text{(Th\ref{#1})}}}
 \newcommand\ltitle[1]{\textbf{#1}:\index{recce-theorems}{#1}}
 
 % I don't like to put whole paragraphs in italics,
@@ -10639,6 +10642,7 @@ and the theorem.
 
 \begin{definition}
 \dtitle{Leo silo}
+\label{def:leo-silo}
 Let
 \begin{align*}
 & \text{\Veim{lb} be a complete EIM;}
@@ -10853,50 +10857,50 @@ direction.
 
 \begin{definition}
 \dtitle{Silo layers by level}
-TODO: Reexamine these.
-
-If a layer of a Leo silo is not its
-top or its bottom layer,
-we say that it is an
-\xdfn{inner}{inner (layer of a Leo silo)}
-layer.
-If a layer of a Leo silo is not an
-inner layer,
-we say that it is an
-\xdfn{outer}{outer (layer of a Leo silo)}
-layer.
-If a layer of a Leo silo is not its
-top layer,
-we say that it is an
-\xdfn{lower}{lower (layer of a Leo silo)}
-layer.
-If a layer of a Leo silo is not its
-bottom layer,
-we say that it is an
-\xdfn{upper}{upper (layer of a Leo silo)}
-layer.
+Let \var{lsl} be a Leo silo,
+let \var{topmfc} be the maximal fleeting silo
+containing the memoized top layer of \var{lsl}
+and let \Veim{lb} be the bottom layer of \var{lsl}.
+Let \Veim{lyr} be a layer of \var{lsl}.
+We say that \Veim{lyr} is
+\begin{itemize}
+\item
+an \xdfn{inner}{inner (layer of a Leo silo)}
+layer
+if $\Veim{lyr} \neq \Veim{lb} \land \Veim{layer} \notin \var{topmfc}$;
+\item
+a \xdfn{lower}{lower (layer of a Leo silo)}
+layer of \var{lsl}
+if $\Veim{layer} \notin \var{topmfc}$;
+\item
+an \xdfn{upper}{upper (layer of a Leo silo)}
+layer of \var{lsl}
+if $\Veim{lyr} \neq \Veim{lb}$; and
+\item
+an \xdfn{outer}{outer (layer of a Leo silo)}
+layer of \var{lsl} if
+\Veim{lyr} is not an inner
+layer of \var{lsl}.
+\end{itemize}
 \end{definition}
 
 \begin{theorem}
 \label{t:catena-determines-leo-top}
 Given a specific choice of location,
 every element of a Leo catena has the same
-Leo top item.
-(TODO: Fix this for Leo-top.)
-That is,
-\begin{gather*}
-\forall \; \var{a}, \var{b}, \Vloc{i} : 0 \le \var{a} \le \Vlastix{cat}
-  \; \land \; 0 \le \var{b} \le \Vlastix{cat} \\
-\implies
-\op{Leo-top}{\Vel{cat}{a}, \Vloc{i}}
-= \op{Leo-top}{\Vel{cat}{b}, \Vloc{i}}
-\end{gather*}
+memoized Leo top item,
+and the same completed Leo top item.
 \end{theorem}
 
 \begin{proof}
-From Theorem
-\ref{t:catena-top-elements-identical}
-and the definition of \myfnname{Leo-top}.
+Let \var{cat} be a catena.
+Every element of \var{cat} has the same origin and dotted rule
+\tref{t:catena-top-elements-identical}.
+This means they have the same memoized Leo top
+\dref[memoized Leo top]{def:leo-silo}.
+Since every element of \var{cat} has the same memoized Leo top,
+every element of \var{cat} has the same completed Leo top
+\tref{t:memoized-top-to-completed-top}.
 \end{proof}
 
 \begin{definition}
@@ -10924,7 +10928,7 @@ of \Veim{up};
 of \op{Sym-Eq}{\Veim{up}};
 } \\
 \label{eq:def-leo-effect-14}
-\myparbox{either \Veim{eff} is the top of the Leo silo,
+\myparbox{either \Veim{eff} is the memoized top of the Leo silo,
 or it has an instantiated matching Leo memo;}
 \\
 \label{eq:def-leo-effect-15}
@@ -11068,16 +11072,17 @@ If \Vleo{leo} has no instantiated top-down cause,
 we have
 \eqref{eq:def-leo-effect-15}
 vacuously.
+
 It remains to show
 \eqref{eq:def-leo-effect-14}.
-(TODO: Fix this for Leo-top.)
-By the definition of Leo memo validity
-and the definition of
-\myfnname{Leo-top},
+Let \Veim{memtop} be the memoized Leo top.
+By 
+\dref[Leo memo validity]{def:validity-of-leo-memo}
+and \dref[memoized Leo top]{def:leo-silo},
 we know that
 \begin{multline}
 \label{eq:def-leo-effect-35}
-\Vop{Leo-top}{\Vleo{leo}, \Right{\Veim{up}}} = \\
+\Veim{memtop} = \\
   \big[ \Next{\DR{\Veim{basis}}}, \Origin{\Veim{basis}}, \Right{\Veim{up}} \big].
 \end{multline}
 Using
@@ -11087,7 +11092,7 @@ and
 \eqref{eq:def-leo-effect-35},
 we see that
 \begin{equation}
-\Veim{eff} = \Vop{Leo-top}{\Vleo{leo}, \Right{\Veim{up}}}.
+\Veim{eff} = \Veim{memtop}.
 \end{equation}
 This shows our first case.
 
@@ -11260,6 +11265,8 @@ tell us the \Vleo{l} matches \Veim{cuz}.
 
 \begin{definition}
 \dtitle{Fleeting Leo silo}
+TODO: Wrong!  Redefine in terms of top and bottom.
+
 The
 \xdfn{fleeting Leo silo}{fleeting Leo silo}
 of an EIM \Veim{lb} is a silo
@@ -11281,65 +11288,29 @@ with \Veim{lb} as its bottom layer.
 \end{theorem}
 
 \begin{proof}
-From
-Theorem \ref{t:leo-reconstruction-silo-effects}
-we know that
-the set containing \Veim{lb} and the EIM's potentially
-added
-by the call
-\call{Reconstruct}{\Veim{lb}}
-is a fleeting Leo silo with \Veim{lb} as its
-bottom layer.
-It remains to show that there is at most one such silo.
+We assume, for a reductio and without loss of generality,
+that \var{lsl1} and \var{lsl2} are two distinct Leo silos
+such that
+\begin{equation}
+\label{eq:leo-silo-uniqueness-10}
+\el{lsl1}{0} = \Veim{lb} = \el{lsl2}{0}.
+\end{equation}
 
-Assume, for a reduction, that there are two silos such
-that \Veim{lb} is their bottom layer.
-Call them \var{slo1} and \var{slo2}.
-If they are different then they differ in at least one
-of their layers,
-and there is a first layer where they differ.
-Let the index of this first layer be \var{x}, so that
+If \var{lsl1} and \var{lsl2} are distinct,
+then
+\[
+\label{eq:leo-silo-uniqueness-10}
+\exists \; \var{ix} : \Vel{lsl1}{ix} \neq \Vel{lsl2}{ix}.
+\]
+Let, \var{ix1} be the first index in which \var{lsl1}
+and \var{lsl2} differ, so that
 \begin{equation}
 \label{eq:leo-silo-uniqueness-15}
-\tag{RAA}
-\Vel{slo1}{x} \neq \Vel{slo2}{x} \; \land \; (\forall \; \var{a} : 0 \le \var{a} < \var{x} \implies
-\Vel{slo1}{x} = \Vel{slo2}{x}).
+\Vel{slo1}{ix1} \neq \Vel{slo2}{ix1} \; \land \; (\forall \; \var{a} : 0 \le \var{a} < \var{ix1} \implies
+\Vel{slo1}{ix1} = \Vel{slo2}{ix1}).
 \end{equation}
-By
-Theorem \ref{t:leo-reconstruction-silo-effects}
-\Vel{slo1}{x} has at most one silo effect, so that
-\begin{equation}
-\label{eq:leo-silo-uniqueness-17}
-\el{slo1}{\Vdecr{x}} = \el{slo2}{\Vdecr{x}} \implies \Vel{slo1}{x} = \Vel{slo2}{x}.
-\end{equation}
-But 
-\ref{eq:leo-silo-uniqueness-17}
-is in contradiction to
-\ref{eq:leo-silo-uniqueness-15},
-so that, if \Vel{slo1}{x} and \Vel{slo2}{x} differ, it is because
-one is above the top of its fleeting silo and is therefore undefined,
-and the other is at or below the top of its fleeting silo and
-is defined.
-We assume,
-for a reduction and
-without loss of generalization that
-\begin{equation}
-\label{eq:leo-silo-uniqueness-20}
-\tag{RAA}
-\Vel{slo1}{x} = \undefined \; \land \; \Vel{slo2}{x} \neq \undefined
-\end{equation}
-From
-\eqref{eq:def-sqsq},
-we know that, if for some fleeting Leo silo, \var{fslo},
-$\el{fslo}{\Vdecr{x}} \neq \undefined
-\; \land \;
-\Vel{fslo}{x} = \undefined$
-then there is some some \var{sqlast} such that
-$\el{fslo} = \Vel{sqsq}{p}$
-where $\var{sqlast} = \Vel{sqsq}{p}$
-for some pass through the main loop \var{p}.
-
-If there is a pass
+From \eqref{eq:leo-silo-uniqueness-10}
+we know that $\var{ix} > 0$.
 
 TODO: finish.
 \end{proof}
