@@ -249,13 +249,17 @@
 % Don't use definition titles for index -- use \xdfn instead.
 % \newcommand\dtitle[1]{\textbf{#1}:\index{recce-definitions}{#1}}
 \newcommand\dtitle[1]{\textbf{#1}:}
-\newcommand{\dref}[2][]{\ensuremath{\text{(D\ref{#2}%
-  \ifthenelse{\equal{#2}{}}{}{ ``#1''}})%
-}}
+\newcommand{\dref}[2][]{%
+  \ifthenelse{\equal{#2}{}}%
+  {(D\ref{#2})}%
+  {(D\ref{#2} ``#1'')}%
+}
 \newcommand\qdtitle[1]{\textbf{#1}:}
 \newcommand\ttitle[1]{\textbf{#1}:\index{recce-theorems}{#1}}
-\newcommand\tref[1]{\ensuremath{\text{(Th\ref{#1})}}}
+\newcommand\tref[1]{\text{(T\ref{#1})}}
+\newcommand\lemref[1]{\text{(L\ref{#1})}}
 \newcommand\ltitle[1]{\textbf{#1}:\index{recce-theorems}{#1}}
+\newcommand{\becuz}{\ensuremath{\because}}
 
 % I don't like to put whole paragraphs in italics,
 % so I make this simple variation on the "plain" theoremstyle
@@ -900,6 +904,45 @@ we will abbreviate
 ``theorem'' as \dfn{Th},
 and
 ``definition'' as \dfn{Def}.
+
+We use the standard notation for equations,
+writing
+``(\textit{n})'' to refer to equation \textit{n}.%
+\index{recce-notation}{(0)@(\textit{n})}
+We also write
+To indicate references, we write,
+where \var{n} is a reference number,
+(L\textit{n})%
+\index{recce-notation}{(L0)@(L\textit{n})}%
+\index{recce-notation}{L0@(L\textit{n})}
+to say Lemma \textit{n},
+(T\textit{n})%
+\index{recce-notation}{(T0)@(T\textit{n})}%
+\index{recce-notation}{T0@(T\textit{n})}
+to say Theorem \textit{n}
+and
+(D\textit{n})%
+\index{recce-notation}{(D0)@(D\textit{n})}%
+\index{recce-notation}{D0@(D\textit{n})}
+to say Definition \textit{n}.
+A definition reference may define several terms:
+when we wish to pinpoint one of these we write
+the reference
+(D\textit{n} ``\textit{x}'')%
+\index{recce-notation}{(D0 "x")@(D\textit{n} ``\textit{x}'')}%
+\index{recce-notation}{D0 x@(D\textit{n} ``\textit{x}'')}
+to say the definiton
+of ``\textit{n}'' in Definition section
+with reference number \textit{n}.
+For example, we would write
+\[
+\begin{aligned}
+& \text{(D42) to say Definition 42;} \\
+& \text{(D7 ``\var{x}'') to say the definition of ``x'' in Definition section 7;} \\
+& \text{(T11) to say Theorem 11; and} \\
+& \text{(L22) to say Lemma 22.}
+\end{aligned}
+\]
 
 We will use the symbol \undefined%
 \index{recce-notation}{"!@\undefined}
@@ -9365,7 +9408,7 @@ As a result,
 even if the time and space
 required to expand Leo memoization
 during evaluation
-is taken into account,
+are taken into account,
 the time and space complexity of
 a right recursion become
 $\On{} = \On{} + \On{}$.
@@ -9421,29 +9464,31 @@ For \Vleo{leo} as in
 \eqref{eq:def-leo-memo-10},
 we write
 \begin{alignat*}{1}
-\Symbol{\Vleo{leo}} & = \Vsym{transition}, \\
-\DR{\Vleo{leo}} & = \Vdr{top}, \\
-\Origin{\Vleo{leo}} & = \Vorig{top} \\
-\text{and \Current{\Vleo{leo}}} & = \Vloc{memloc}.
+\Symbol{\Vleo{leo}} & \; \text{to say \Vsym{transition}}, \\
+\DR{\Vleo{leo}} & \; \text{to say \Vdr{top}}, \\
+\Origin{\Vleo{leo}} & \; \text{to say \Vorig{top}} \\
+\text{and \Current{\Vleo{leo}}} & \; \text{to say \Vloc{memloc}.}
 \end{alignat*}
 
 Intuitively, \Vleo{leo},
 the Leo memo of
 \eqref{eq:def-leo-memo-10}
 states an intent to memoize
-certain layers of silos occuring after
+some of the layers of certain silos occuring after
 \Current{\Vleo{leo}}.
-In \eqref{eq:def-leo-memo-10}
-\Vsym{transition} is the
-\dfn{Leo transition symbol}
-or
-\xdfn{transition symbol}{transition symbol!wrt a Leo memo}.
 The elements
 \Symbol{\Vleo{leo}},
 \DR{\Vleo{leo}},
 and \Origin{\Vleo{leo}}
 are
-used to define which silo layers will be memoized.
+used to define which silo layers will be memoized
+in a way that will be detailed later in this chapter.
+\Vsym{transition}
+in \eqref{eq:def-leo-memo-10}
+is the
+\dfn{Leo transition symbol}
+or
+\xdfn{transition symbol}{transition symbol!wrt a Leo memo}.
 \DR{\Vleo{leo}} must be a quasi-completion.
 
 \Vleo{leo} is considered to be located at \Vloc{memloc},
@@ -9470,6 +9515,10 @@ if and only if it is
 & \qquad \qquad \text{such that $\Vstr{after} \derives \epsilon$ and $\Vstr{B} \nderives \epsilon$}.
 \end{split}
 \end{equation*}
+
+\begin{definition}
+\dtitle{Postdot-unique}
+\label{def:postdot-unique}
 An EIM is \dfn{postdot-unique} if its postdot symbol
 is unique in its Earley set.
 That is,
@@ -9479,11 +9528,15 @@ for all \Veim{eim} in the parse,
 \begin{multline}
 \label{eq:def-postdot-unique-10}
 \Postdot{\var{eim}} = \Postdot{\var{uniq}} \\
-\implies  \var{eim} = \var{uniq}
+\implies  (\var{eim} = \var{uniq}
 \; \vee \;
- \Current{\var{eim}} \neq \Current{\var{uniq}}.
+ \Current{\var{eim}} \neq \Current{\var{uniq}}).
 \end{multline}
+\end{definition}
 
+\begin{definition}
+\dtitle{Leo-eligible}
+\label{def:leo-eligible}
 An EIM can be the basis of a Leo memo
 only if it is
 Leo-eligible.
@@ -9500,6 +9553,7 @@ An EIM is
 if and only if
 its dotted rule is Leo-eligible,
 and it is postdot-unique.
+\end{definition}
 
 In Leo's original algorithm,
 and in early versions of the Marpa algorithm,
@@ -9632,9 +9686,44 @@ The basis of a Leo memo is unique.
 \end{theorem}
 
 \begin{proof}
-This theorem follows from
-Lemma
-\ref{lem:leo-basis-symloc-uniqueness}.
+Assume for a reductio that \Vleo{l} is a Leo memo
+with two basis EIM's, call them \Veim{bas1}
+and \Veim{bas2},
+such that
+\begin{equation}
+\label{eq:leo-basis-uniqueness-5}
+\Veim{bas1} \neq \Veim{bas2}
+\end{equation}
+From \dref[basis of an Leo memo]{def:basis-of-leo-memo},
+we know that
+\begin{equation}
+\label{eq:leo-basis-uniqueness-10}
+\begin{gathered}
+\Current{\Veim{bas1}} =
+\Current{\Vleo{l}} =
+\Current{\Veim{bas2}} \; \text{and}
+\\
+\Postdot{\Veim{bas1}} =
+\Symbol{\Vleo{l}} =
+\Postdot{\Veim{bas2}}.
+\end{gathered}
+\end{equation}
+Because \Veim{bas1} is the basis of \Vleo{l},
+\Veim{bas1} is Leo-eligible
+\dref[basis of an Leo memo]{def:basis-of-leo-memo}.
+Because \Veim{bas1} is Leo-eligible,
+it must be postdot-unique
+\dref[Leo-eligible]{def:leo-eligible}.
+But \Veim{bas1} is not postdot-unique
+\becuz{}
+\eqref{eq:leo-basis-uniqueness-10},
+\dref[postdot-unique]{def:postdot-unique}.
+Therefore \Veim{bas1} is not the basis of a Leo memo
+\dref[basis of an Leo memo]{def:basis-of-leo-memo}.
+This is contrary to the assumption for the reductio
+\eqref{eq:leo-basis-uniqueness-5},
+and therefore $\Veim{eim1} = \Veim{bas2}$,
+which was what we needed to show for the theorem.
 \end{proof}
 
 \begin{definition}
