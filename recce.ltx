@@ -9893,7 +9893,7 @@ we see that
 $\Vsym{trans} \neq \Vsym{accept}$.
 \end{proof}
 
-\section{Leo catenas}
+\chapter{Leo catenas}
 
 \begin{definition}
 \dtitle{Leo catena}
@@ -9980,9 +9980,28 @@ We therefore have
 (\var{a} \le \var{i} \le \var{b}
 \land \var{a} \le \var{j} \le \var{b})
 \\
-\implies \Current{\Vel{cat}{i}} =
+\equiv \Current{\Vel{cat}{i}} =
 \Current{\Vel{cat}{j}}
 \end{multlined}
+\end{equation}
+Also, since the choice of \var{x}, \var{y} in 
+\eqref{eq:lem-leo-catena-cycle-5}
+is arbitrary, we can assume without loss
+of generality that
+\begin{equation}
+\label{eq:lem-leo-catena-cycle-8b}
+\var{x} \neq \var{y} \implies \var{x} < \var{y}.
+\end{equation}
+Combining
+\eqref{eq:lem-leo-catena-cycle-5},
+\eqref{eq:lem-leo-catena-cycle-8}
+and \eqref{eq:lem-leo-catena-cycle-8b},
+we know that our reductio requires that
+there is \var{x}, \var{y} such that
+\begin{equation}
+\label{eq:lem-leo-catena-cycle-8d}
+\var{a} \le \var{x} < \var{y} \le \var{b}
+\; \land \; \Symbol{\Vel{cat}{x}} = \Symbol{\Vel{cat}{y}}.
 \end{equation}
 
 If $\var{a} = \var{b}$, our assumption for the reductio
@@ -10101,23 +10120,20 @@ Therefore
 \forall \var{i} : \var{a} \le \var{i} < \var{b} \implies
 \Symbol{\Vel{cat}{\Vincr{i}}} \xderives{1} \Symbol{\Vel{cat}{i}}
 \]
-and, by induction on the length of the derivation,
-\[
-\Symbol{\Vel{cat}{\var{i}+\var{n}}} \xderives{\var{n}} \Symbol{\Vel{cat}{i}}.
-\]
-
-% By assumption for the reductio,
-% \begin{aligned}
-% \exists \; \var{x}, \var{y} & : (\var{x} \neq \var{y} \\
-% & \land \Current{\Vel{cat}{x}} = \Current{\Vel{cat}{y}} \\
-% & \land \Symbol{\Vel{cat}{x}} = \Symbol{\Vel{cat}{y}}).
-% \end{aligned}
-
-TODO: fix from here
-
+so that
+\begin{equation}
+\label{eq:lem-leo-catena-cycle-35}
+\var{a} \le \var{x} < \var{y} \le \var{b} \implies
+\Symbol{\Vel{cat}{x}} \deplus \Symbol{\Vel{cat}{y}}.
+\end{equation}
+Combining
+\eqref{eq:lem-leo-catena-cycle-8d}
+and
+\eqref{eq:lem-leo-catena-cycle-35},
+we have
 \begin{gather*}
-\exists \var{a}, \var{b} : \Symbol{\Vel{cat}{a}} \deplus \Symbol{\Vel{cat}{b}} \quad \text{and} \\
- \Symbol{\Vel{cat}{a}} = \Symbol{\Vel{cat}{b}},
+\Symbol{\Vel{cat}{x}} \deplus \Symbol{\Vel{cat}{y}} \quad \text{and} \\
+ \Symbol{\Vel{cat}{x}} = \Symbol{\Vel{cat}{y}},
 \end{gather*}
 which is a cycle.
 Cycles are forbidden in Marpa grammars.
@@ -10786,7 +10802,7 @@ This shows the step, the induction
 and the theorem.
 \end{proof}
 
-\section{Leo silos}
+\chapter{Leo silos}
 
 \begin{definition}
 \dtitle{Leo silo}
