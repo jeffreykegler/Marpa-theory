@@ -249,10 +249,15 @@
 % Don't use definition titles for index -- use \xdfn instead.
 % \newcommand\dtitle[1]{\textbf{#1}:\index{recce-definitions}{#1}}
 \newcommand\dtitle[1]{\textbf{#1}:}
-\newcommand{\dref}[2][]{%
+\newcommand{\rawdref}[2]{%
   \ifthenelse{\equal{#2}{}}%
   {(D\ref{#2})}%
   {(D\ref{#2} ``#1'')}%
+}
+\newcommand{\dref}[2][]{%
+   \ifmmode{\text{\rawdref{#1}{#2}}}%
+   \else{\rawdref{#1}{#2}}%
+   \fi%
 }
 \newcommand\qdtitle[1]{\textbf{#1}:}
 \newcommand\ttitle[1]{\textbf{#1}:\index{recce-theorems}{#1}}
@@ -10172,9 +10177,9 @@ is
 \left(
 \begin{gathered}
 \DR{\Vel{cat}{x}} = \DR{\el{cat}{0}} \\
-\land \; \Origin{\Vel{cat}{x}} = \Origin{\el{cat}{0}}.
+\land \; \Origin{\Vel{cat}{x}} = \Origin{\el{cat}{0}}
 \end{gathered}
-\right)
+\right).
 \end{gathered}
 \end{equation}
 We have
@@ -10191,7 +10196,7 @@ to show
 for $\var{x} = \Vincr{i}$.
 
 If $\var{i} \ge \Vlastix{cat}$, we have the
-step vacuously.
+step trivially.
 Otherwise,
 \el{cat}{\Vincr{i}} is the top-down cause of
 \Vel{cat}{i}.
@@ -10202,7 +10207,8 @@ The assumption for the step is
 \; \land \;
 \Origin{\Vel{cat}{i}} = \Origin{\el{cat}{0}}.
 \end{equation}
-By the definition of validity for a Leo memo,
+By
+\dref[validity of Leo memo with top-down cause]{def:validity-of-leo-memo},
 \begin{equation}
 \label{eq:catena-top-elements-identical-15}
 \begin{gathered}
@@ -10218,13 +10224,17 @@ and
 This shows the step and the induction.
 
 The induction shows that
-\begin{multline*}
-\forall \; \var{a} : 0 \le \var{a} \le \Vlastix{cat} \\
-\implies
+\begin{align*}
+& \forall \; \var{a} : 0 \le \var{a} \le \Vlastix{cat} \implies
+\\
+& \qquad \left(
+\begin{gathered}
 \DR{\Vel{cat}{a}} = \DR{\el{cat}{0}} \\
 \land \;
-\Origin{\Vel{cat}{a}} = \Origin{\Vel{cat}{0}},
-\end{multline*}
+\Origin{\Vel{cat}{a}} = \Origin{\Vel{cat}{0}}
+\end{gathered}
+\right)
+\end{align*}
 and the theorem follows immediately.
 \end{proof}
 
@@ -10248,16 +10258,19 @@ Every Leo catena has a finite length.
 \begin{proof}
 Let \var{cat} be a catena,
 and let $\Current{\el{cat}{0}} = \var{i}$.
-By theorem
-\ref{catena-element-uniqueness},
-no element of \var{cat} occurs twice.
-We proceed by counting the number of possible distinct
-catena elements.
+No element of \var{cat} occurs twice
+\tref{catena-element-uniqueness}.
+Therefore, if the number of possible distinct
+catena elements in \var{cat} is finite, 
+the length of \var{cat} is finite.
+We proceed to show that the number of possible distinct
+catena elements is finite.
 
 By Lemma
 \ref{lem:leo-catena-non-increasing-location},
 the location of the elements of \var{cat} is non-increasing,
-so that \var{cat} has elements at at most \Vincr{i} locations.
+so that elements of \var{cat}
+have at most \Vincr{i} distinct locations.
 By Lemma
 \ref{lem:leo-catena-cycle},
 if any two catena elements
@@ -10268,8 +10281,6 @@ constant that depends on the grammar.
 Let the number of symbols in \Cg{} be \var{sym-cnt}.
 From the foregoing, we see that there are at most
 $(\Vincr{i}) \times \var{sym-cnt}$ elements in \var{cat}.
-Since the choice of \var{cat} was arbitrary,
-the theorem follows.
 \end{proof}
 
 \begin{theorem}
@@ -10301,8 +10312,8 @@ By the definition of a catena, a Leo top-down cause is in
 the same catena as its effect,
 so that
 using
-Theorem \ref{t:catena-top-elements-identical},
-\eqref{eq:leo-down-uniqueness-10}
+\tref{t:catena-top-elements-identical},
+\eqref{eq:leo-down-uniqueness-10},
 \eqref{eq:leo-down-uniqueness-13}
 and
 \eqref{eq:leo-down-uniqueness-16},
@@ -10320,7 +10331,7 @@ From Theorem
 \ref{t:leo-basis-uniqueness},
 we know that \Vleo{eff} has a unique basis,
 call it \Veim{bas}.
-and by the definition of a Leo top-down cause,
+By \dref[Leo top-down cause]{def:down-cause-of-leo-memo},
 we know that
 \begin{gather*}
 \LHS{\Veim{bas}} = \Vsym{sym1} \; \land \; \LHS{\Veim{bas}} = \Vsym{sym2} \quad \text{and} \\
@@ -10354,83 +10365,73 @@ The catena of a Leo memo is unique.
 
 \begin{proof}
 Let \Vleo{l} be a Leo memo.
-Let \var{cat} be a catena such that $\el{cat}{0} = \Vleo{l}$.
-We proceed by induction
-on the length of \var{cat}, where
-the induction hypothesis is that
+Assume for a reductio that \Vleo{l}
+has two distinct catenas,
+\var{cat1} and \var{cat2},
+so that
 \begin{equation}
-\label{eq:memo-catena-uniqueness-10}
-\tag{IND}
-    \Vlastix{cat} < \var{x} \implies \; \text{\var{cat} is unique}.
+\label{t:memo-catena-uniqueness-5}
+\el{cat1}{0} = \Vleo{l} = \Vel{cat2}{0}.
 \end{equation}
-If $\Vlastix{cat} = 0$,
-then the only element of \var{cat} is \Vleo{l},
-and \eqref{eq:memo-catena-uniqueness-10} for $\var{x} = 1$
-follows trivially.
-We take this as the basis of the induction.
-
-For the step, we assume that
-\begin{equation}
-\label{eq:memo-catena-uniqueness-13}
-\tag{ASM}
-    \Vlastix{cat} < \var{i} \implies \; \text{\var{cat} is unique}
-\end{equation}
-to show
-\begin{equation}
-    \Vlastix{cat} < \Vincr{i} \implies \; \text{\var{cat} is unique}.
-\end{equation}
-From
-\eqref{eq:memo-catena-uniqueness-13},
-we know that the sequence
+Since \var{cat1} and \var{cat2} differ,
+we know that
 \[
-    \el{cat}{0}, \el{cat}{1} \ldots \Vel{cat}{i}
+\exists \; \var{ix} : \Vel{cat1}{ix} \neq \Vel{cat2}{ix}.
 \]
-is unique.
-By Theorem \ref{t:leo-down-uniqueness},
-we know that if \Vel{cat}{i} is unique,
-then its top down cause is unique,
-and therefore
-\Vel{cat}{\Vincr{i}} is unique.
-This shows the step and the induction.
+Recall our convention that $\Vel{seq}{i} = \undefined$
+if $\var{i} > \Vlastix{seq}$.
 
-The induction has
-shown that, for every length, the catena starting with
-\Vleo{l} is unique:
+Let \var{ix1} be the first index
+in which \var{cat1} and \var{cat2} differ.
+We know from 
+\eqref{t:memo-catena-uniqueness-5}
+that $\var{ix1} > 0$, and therefore we have
+\begin{gather}
+\label{t:memo-catena-uniqueness-20}
+\el{cat1}{\Vdecr{ix1}} = \el{cat2}{\Vdecr{ix1}} \; \text{and}
+\\
+\label{t:memo-catena-uniqueness-23}
+\Vel{cat1}{ix1} \neq \Vel{cat2}{ix1}.
+\end{gather}
+
+By \tref{t:leo-down-uniqueness},
+we know that every catena element has
+at most one top-down cause.
+Let
+\begin{gather}
+\label{t:memo-catena-uniqueness-25a}
+\text{\Vleo{down1} be the top-down cause of
+\el{cat1}{\Vdecr{ix1}} and}
+\\
+\label{t:memo-catena-uniqueness-25b}
+\text{\Vleo{down2} be the top-down cause of
+\el{cat2}{\Vdecr{ix1}}.}
+\end{gather}
+Recall our convention that $\Vleo{down1} = \undefined$ if 
+\el{cat1}{\Vdecr{ix1}}
+has no top-down cause and
+$\Vleo{down2} = \undefined$ if 
+\el{cat2}{\Vdecr{ix1}}
+has no top-down cause.
+By the definition of a catena,
 \begin{equation}
-\label{eq:memo-catena-uniqueness-23}
-    \forall \var{i} : \; \text{\el{cat}{0 \ldots \var{i}} is unique.}
+\label{t:memo-catena-uniqueness-28}
+\Vel{cat1}{ix1} = \Vleo{down1} \land \Vel{cat2}{ix1} = \Vleo{down2},
 \end{equation}
-It remains to show that the catena of \Vleo{l} is unique.
-By definition, this is the maximal catena.
-
-The maximal catena is the one whose last element has no top-down cause.
-Let the catena of length \var{n} starting with \Vleo{l} be such one such maximal catena.
-Is there another?
-If so, it cannot be longer than \var{n} because
-\el{cat}{\Vincr{n}} has no top-down cause and therefore
-there is no \el{cat}{\Vincr{n}}, so that
-\begin{equation}
-\label{eq:memo-catena-uniqueness-26}
-    \Vsize{cat} \le \var{n}.
-\end{equation}
-
-Can it be shorter than \var{n}?
-For a reductio, assume the length is \var{m}, $\var{m} < \var{n}$.
-But
-\Vel{cat}{m} has a top-down cause ---
-\el{cat}{\Vincr{m}}.
-Therefore, the catena of length \var{m} is not maximal,
-which shows the reductio and that
-\begin{equation}
-\label{eq:memo-catena-uniqueness-29}
-    \Vsize{cat} \ge \var{n}.
-\end{equation}
-
 From
-\eqref{eq:memo-catena-uniqueness-23},
-\eqref{eq:memo-catena-uniqueness-26},
-and \eqref{eq:memo-catena-uniqueness-29},
-we have the theorem.
+\eqref{t:memo-catena-uniqueness-20},
+\eqref{t:memo-catena-uniqueness-25a},
+\eqref{t:memo-catena-uniqueness-25b}
+and \eqref{t:memo-catena-uniqueness-28},
+we see that
+\begin{equation}
+\label{t:memo-catena-uniqueness-30}
+\Vel{cat1}{ix1} = \Vel{cat2}{ix1}.
+\end{equation}
+contrary to \eqref{t:memo-catena-uniqueness-23}.
+This contradiction shows the reductio.
+We conclude that \var{cat1} and \var{cat2}
+are identical.
 \end{proof}
 
 \begin{theorem}
