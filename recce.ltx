@@ -9806,10 +9806,62 @@ In this case,
 \right].
 \end{equation*}
 \end{definition}
+
 In this document,
 we will sometimes also call a valid Leo memo an
 \xdfn{instantiated}{instantiated (Leo memo)}
 Leo memo.
+
+TODO: to here
+
+\begin{theorem}
+\label{t:leo-transition-symbol-non-terminal}
+The transition symbol of a valid Leo memo
+must be a non-terminal other than the accept symbol.
+\end{theorem}
+
+\begin{proof}
+By the definition of validity for a Leo memo,
+the rule of the basis must be of the form
+\begin{equation}
+\Vrule{r} = [ \Vsym{A} \de \Vstr{prefix} \Vsym{trans} \Vstr{nul} ],
+\end{equation}
+where $\Vstr{nul} = \epsilon$,
+and
+where
+\begin{gather}
+\label{eq:leo-transition-symbol-non-terminal-20}
+\text{\Vrule{r} is Leo-eligible,} \\
+\label{eq:leo-transition-symbol-non-terminal-23}
+\text{and \Vsym{trans} is the transition symbol of the Leo memo.}
+\end{gather}
+By
+\eqref{eq:leo-transition-symbol-non-terminal-20},
+\Vrule{r} is Leo-eligible,
+and therefore \Vrule{r} must be right-recursive.
+By the definition of right-recursive,
+\Vrule{r} is right-recursive only if
+\begin{equation}
+\label{eq:leo-transition-symbol-non-terminal-26}
+\text{\Vsym{trans} is right-recursive}.
+\end{equation}
+To be right-recursive, \Vsym{trans}
+must be a non-terminal.
+By \eqref{eq:leo-transition-symbol-non-terminal-23},
+\Vsym{trans} is the transition symbol,
+and therefore the transition symbol must be a
+non-terminal.
+
+It remains
+to show that $\Vsym{trans} \neq \Vsym{accept}$.
+By its definition, \Vsym{accept} occurs only on the
+LHS of the accept rule,
+and therefore \Vsym{accept} is not right recursive.
+Using this fact and
+\eqref{eq:leo-transition-symbol-non-terminal-26},
+we see that
+$\Vsym{trans} \neq \Vsym{accept}$.
+\end{proof}
 
 % TODO -- deal more carefully with
 % instantiation
@@ -9925,52 +9977,193 @@ the \Veim{eim}.
 \end{definition}
 
 \begin{theorem}
-\label{t:leo-transition-symbol-non-terminal}
-The transition symbol of a valid Leo memo
-must be a non-terminal other than the accept symbol.
+\ttitle{Leo memos are unique by location and symbol}
+\label{t:leo-memo-uniqueness}
+Let \Vsym{A} be a symbol in a grammar
+and \Vloc{i} a location in a parse.
+There is at most one valid Leo memo with
+symbol \Vsym{A} at location \Vloc{i}.
+That is,
+\begin{multline}
+\forall \; \Vleo{l1}, \Vleo{l2} : \Valid{\Vleo{l1}} \; \land \; \Valid{\Vleo{l2}}
+\\
+\land \; \Current{\Vleo{l1}} = \Current{\Vleo{l2}}
+\\
+\implies \Symbol{\Vleo{l1}} \neq \Symbol{\Vleo{l2}}.
+\end{multline}
 \end{theorem}
 
 \begin{proof}
-By the definition of validity for a Leo memo,
-the rule of the basis must be of the form
-\begin{equation}
-\Vrule{r} = [ \Vsym{A} \de \Vstr{prefix} \Vsym{trans} \Vstr{nul} ],
-\end{equation}
-where $\Vstr{nul} = \epsilon$,
-and
-where
-\begin{gather}
-\label{eq:leo-transition-symbol-non-terminal-20}
-\text{\Vrule{r} is Leo-eligible,} \\
-\label{eq:leo-transition-symbol-non-terminal-23}
-\text{and \Vsym{trans} is the transition symbol of the Leo memo.}
-\end{gather}
-By
-\eqref{eq:leo-transition-symbol-non-terminal-20},
-\Vrule{r} is Leo-eligible,
-and therefore \Vrule{r} must be right-recursive.
-By the definition of right-recursive,
-\Vrule{r} is right-recursive only if
-\begin{equation}
-\label{eq:leo-transition-symbol-non-terminal-26}
-\text{\Vsym{trans} is right-recursive}.
-\end{equation}
-To be right-recursive, \Vsym{trans}
-must be a non-terminal.
-By \eqref{eq:leo-transition-symbol-non-terminal-23},
-\Vsym{trans} is the transition symbol,
-and therefore the transition symbol must be a
-non-terminal.
+TODO
+\end{proof}
 
-It remains
-to show that $\Vsym{trans} \neq \Vsym{accept}$.
-By its definition, \Vsym{accept} occurs only on the
-LHS of the accept rule,
-and therefore \Vsym{accept} is not right recursive.
-Using this fact and
-\eqref{eq:leo-transition-symbol-non-terminal-26},
+\begin{theorem}
+\ttitle{Leo memo uniqueness}
+\label{t:leo-memos-match-uniquely}
+Every EIM has at most one matching Leo memo.
+\end{theorem}
+
+\begin{proof}
+Suppose, for a reduction,
+that two distinct Leo memos match a single EIM.
+Let, without loss of generality, the Leo memos be
+\begin{gather*}
+\Vleo{l1} = [ \Vsym{sym1}, \Vdr{dr1}, \Vorig{orig1}, \Vloc{curr1} ] \quad \text{and} \\
+\Vleo{l2} = [ \Vsym{sym2}, \Vdr{dr2}, \Vorig{orig2}, \Vloc{curr2} ].
+\end{gather*}
+and let the EIM be \Veim{eim}.
+By the definition of ``matching'' for a Leo memo and an EIM,
+we have
+\begin{gather*}
+\Symbol{\Vleo{l1}} = \LHS{\Veim{eim}} \quad \text{and} \\
+\Current{\Vleo{l1}} = \Left{\Veim{eim}} \quad \text{and} \\
+\Symbol{\Vleo{l2}} = \LHS{\Veim{eim}} \quad \text{and} \\
+\Current{\Vleo{l2}} = \Left{\Veim{eim}},
+\end{gather*}
+so that
+\begin{gather*}
+\Symbol{\Vleo{l1}} = \Symbol{\Vleo{l2}} \quad \text{and} \\
+\Current{\Vleo{l1}} = \Current{\Vleo{l2}}.
+\end{gather*}
+From Theorem
+\eqref{t:leo-memo-uniqueness}
+it follows that
+\begin{equation}
+\label{eq:leo-memos-match-uniquely-20}
+\Vleo{l1} = \Vleo{l2}
+\end{equation}
+\eqref{eq:leo-memos-match-uniquely-20} contradicts
+our assumption for the reductio,
+and shows the theorem.
+\end{proof}
+
+\begin{theorem}
+\ttitle{A fleeting closure shares a Leo memo}
+\label{t:leo-memo-fleeting closure}
+Let \Veim{e1} and \Veim{e2} be EIM's
+in the same fleeting closure,
+and let
+\Vleo{l}
+be a Leo memo matching \Veim{e1}.
+The \Vleo{l} matches \Veim{e2}.
+\end{theorem}
+
+\begin{proof}
+By assumption for the theorem,
+\Veim{e1} and \Veim{e2} are in the same fleeting
+closure.
+Let \Veim{bas} be the base of this fleeting closure.
+By the definition of fleeting closure,
+\Veim{e1} and
+\Veim{e2} are the result of a series
+of null-scans forward from \Veim{bas}.
+By Theorem \ref{t:null-scan-arithmetic},
 we see that
-$\Vsym{trans} \neq \Vsym{accept}$.
+the operand and result of a null-scan share
+the same rule and origin,
+so that
+\begin{equation}
+\label{eq:leo-memo-fleeting-closure-10}
+\begin{gathered}
+\Left{\Veim{e1}} = \Left{\Veim{last}} = \Left{\Veim{e2}}, \; \text{and} \\
+\LHS{\Veim{e1}} = \LHS{\Veim{last}} = \LHS{\Veim{e2}}.
+\end{gathered}
+\end{equation}
+
+By assumption for the theorem
+and the definition of a matching Leo memo
+\begin{equation}
+\label{eq:leo-memo-fleeting-closure-20}
+\begin{aligned}
+\Left{\Veim{e1}} & = \Current{\Vleo{l}} \\
+\land \quad \LHS{\Veim{e1}} & = \Symbol{\Vleo{l}}.
+\end{aligned}
+\end{equation}
+Combining
+\eqref{eq:leo-memo-fleeting-closure-10}
+and
+\eqref{eq:leo-memo-fleeting-closure-20},
+\begin{equation}
+\label{eq:leo-memo-fleeting-closure-30}
+\begin{aligned}
+\Left{\Veim{e2}} & = \Current{\Vleo{l}} \\
+\land \quad \LHS{\Veim{e2}} & = \Symbol{\Vleo{l}}.
+\end{aligned}
+\end{equation}
+The definition of a matching Leo memo,
+and \eqref{eq:leo-memo-fleeting-closure-30}
+tell us that \Vleo{l} matches \Veim{e2}.
+\end{proof}
+
+TODO: Prove the following without use of catena?
+
+\begin{theorem}
+\ttitle{Leo memo dotted rule is telluric}
+\label{t:leo-memo-dotted-rule-is-telluric}
+The dotted rule of a valid Leo memo is telluric.
+\end{theorem}
+
+\begin{proof}
+Let a Leo memo be \var{l}.
+Every Leo memo has a catena.
+Let \var{cat} be the catena of \var{l}.
+We proceed by induction on the elements of \var{cat}.
+For the induction hypothesis, we take
+\begin{equation}
+\label{eq:leo-memo-dotted-rule-is-telluric-10}
+\text{\DR{\Vel{cat}{x}} is telluric.}
+\end{equation}
+The catena element \el{cat}{0} has,
+by the definition of a catena,
+no top-down cause.
+Therefore, by the definition of validity
+of a Leo memo,
+its dotted rule is
+\Next{\DR{\Veim{basis}}},
+where \Veim{basis} is the basis of the Leo memo.
+By the definition of the basis of a Leo memo,
+$\Postdot{\Veim{basis}} \neq \epsilon$,
+so that
+\Next{\DR{\Veim{basis}}}
+is telluric.
+We take 
+\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
+for $\var{x} = 0$ as the basis of our induction.
+
+For the step, we assume
+\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
+for $\var{x} = \var{i}$
+to show
+\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
+for $\var{x} = \Vincr{i}$.
+Since $\Vincr{i} > 0$,
+\el{cat}{\Vincr{i}} has a top down cause,
+and therefore, by the definition of validity
+for a Leo memo,
+\begin{equation}
+\label{eq:leo-memo-dotted-rule-is-telluric-12}
+\DR{\Vleo{down}} = \DR{\el{cat}{\Vincr{i}}},
+\end{equation}
+where \Vleo{down} is the top-down cause of
+\el{cat}{\Vincr{i}}.
+
+By the definition of a catena,
+\Vel{cat}{i} is the top-down cause of
+\Vel{cat}{\Vincr{i}},
+so that
+\begin{equation}
+\label{eq:leo-memo-dotted-rule-is-telluric-20}
+\Vleo{down} = \Vel{cat}{i}.
+\end{equation}
+\DR{\Vel{cat}{i}} is telluric by assumption for the step
+so that, from
+\eqref{eq:leo-memo-dotted-rule-is-telluric-12}
+and
+\eqref{eq:leo-memo-dotted-rule-is-telluric-20},
+we know that
+\DR{\el{cat}{\Vincr{i}}} is telluric.
+This shows the step, the induction
+and the theorem.
 \end{proof}
 
 \chapter{Leo catenas}
@@ -10433,198 +10626,6 @@ contrary to \eqref{t:memo-catena-uniqueness-23}.
 This contradiction shows the reductio.
 We conclude that \var{cat1} and \var{cat2}
 are identical.
-\end{proof}
-
-\begin{theorem}
-\ttitle{Leo memos are unique by location and symbol}
-\label{t:leo-memo-uniqueness}
-Let \Vsym{A} be a symbol in a grammar
-and \Vloc{i} a location in a parse.
-There is at most one valid Leo memo with
-symbol \Vsym{A} at location \Vloc{i}.
-That is,
-\begin{multline}
-\forall \; \Vleo{l1}, \Vleo{l2} : \Valid{\Vleo{l1}} \; \land \; \Valid{\Vleo{l2}}
-\\
-\land \; \Current{\Vleo{l1}} = \Current{\Vleo{l2}}
-\\
-\implies \Symbol{\Vleo{l1}} \neq \Symbol{\Vleo{l2}}.
-\end{multline}
-\end{theorem}
-
-\begin{proof}
-TODO
-\end{proof}
-
-\begin{theorem}
-\ttitle{Leo memo uniqueness}
-\label{t:leo-memos-match-uniquely}
-Every EIM has at most one matching Leo memo.
-\end{theorem}
-
-\begin{proof}
-Suppose, for a reduction,
-that two distinct Leo memos match a single EIM.
-Let, without loss of generality, the Leo memos be
-\begin{gather*}
-\Vleo{l1} = [ \Vsym{sym1}, \Vdr{dr1}, \Vorig{orig1}, \Vloc{curr1} ] \quad \text{and} \\
-\Vleo{l2} = [ \Vsym{sym2}, \Vdr{dr2}, \Vorig{orig2}, \Vloc{curr2} ].
-\end{gather*}
-and let the EIM be \Veim{eim}.
-By the definition of ``matching'' for a Leo memo and an EIM,
-we have
-\begin{gather*}
-\Symbol{\Vleo{l1}} = \LHS{\Veim{eim}} \quad \text{and} \\
-\Current{\Vleo{l1}} = \Left{\Veim{eim}} \quad \text{and} \\
-\Symbol{\Vleo{l2}} = \LHS{\Veim{eim}} \quad \text{and} \\
-\Current{\Vleo{l2}} = \Left{\Veim{eim}},
-\end{gather*}
-so that
-\begin{gather*}
-\Symbol{\Vleo{l1}} = \Symbol{\Vleo{l2}} \quad \text{and} \\
-\Current{\Vleo{l1}} = \Current{\Vleo{l2}}.
-\end{gather*}
-From Theorem
-\eqref{t:leo-memo-uniqueness}
-it follows that
-\begin{equation}
-\label{eq:leo-memos-match-uniquely-20}
-\Vleo{l1} = \Vleo{l2}
-\end{equation}
-\eqref{eq:leo-memos-match-uniquely-20} contradicts
-our assumption for the reductio,
-and shows the theorem.
-\end{proof}
-
-\begin{theorem}
-\ttitle{A fleeting closure shares a Leo memo}
-\label{t:leo-memo-fleeting closure}
-Let \Veim{e1} and \Veim{e2} be EIM's
-in the same fleeting closure,
-and let
-\Vleo{l}
-be a Leo memo matching \Veim{e1}.
-The \Vleo{l} matches \Veim{e2}.
-\end{theorem}
-
-\begin{proof}
-By assumption for the theorem,
-\Veim{e1} and \Veim{e2} are in the same fleeting
-closure.
-Let \Veim{bas} be the base of this fleeting closure.
-By the definition of fleeting closure,
-\Veim{e1} and
-\Veim{e2} are the result of a series
-of null-scans forward from \Veim{bas}.
-By Theorem \ref{t:null-scan-arithmetic},
-we see that
-the operand and result of a null-scan share
-the same rule and origin,
-so that
-\begin{equation}
-\label{eq:leo-memo-fleeting-closure-10}
-\begin{gathered}
-\Left{\Veim{e1}} = \Left{\Veim{last}} = \Left{\Veim{e2}}, \; \text{and} \\
-\LHS{\Veim{e1}} = \LHS{\Veim{last}} = \LHS{\Veim{e2}}.
-\end{gathered}
-\end{equation}
-
-By assumption for the theorem
-and the definition of a matching Leo memo
-\begin{equation}
-\label{eq:leo-memo-fleeting-closure-20}
-\begin{aligned}
-\Left{\Veim{e1}} & = \Current{\Vleo{l}} \\
-\land \quad \LHS{\Veim{e1}} & = \Symbol{\Vleo{l}}.
-\end{aligned}
-\end{equation}
-Combining
-\eqref{eq:leo-memo-fleeting-closure-10}
-and
-\eqref{eq:leo-memo-fleeting-closure-20},
-\begin{equation}
-\label{eq:leo-memo-fleeting-closure-30}
-\begin{aligned}
-\Left{\Veim{e2}} & = \Current{\Vleo{l}} \\
-\land \quad \LHS{\Veim{e2}} & = \Symbol{\Vleo{l}}.
-\end{aligned}
-\end{equation}
-The definition of a matching Leo memo,
-and \eqref{eq:leo-memo-fleeting-closure-30}
-tell us that \Vleo{l} matches \Veim{e2}.
-\end{proof}
-
-We state the following theorem here,
-because we needed to develop the concept of a Leo catena
-for its proof.
-
-\begin{theorem}
-\ttitle{Leo memo dotted rule is telluric}
-\label{t:leo-memo-dotted-rule-is-telluric}
-The dotted rule of a valid Leo memo is telluric.
-\end{theorem}
-
-\begin{proof}
-Let a Leo memo be \var{l}.
-Every Leo memo has a catena.
-Let \var{cat} be the catena of \var{l}.
-We proceed by induction on the elements of \var{cat}.
-For the induction hypothesis, we take
-\begin{equation}
-\label{eq:leo-memo-dotted-rule-is-telluric-10}
-\text{\DR{\Vel{cat}{x}} is telluric.}
-\end{equation}
-The catena element \el{cat}{0} has,
-by the definition of a catena,
-no top-down cause.
-Therefore, by the definition of validity
-of a Leo memo,
-its dotted rule is
-\Next{\DR{\Veim{basis}}},
-where \Veim{basis} is the basis of the Leo memo.
-By the definition of the basis of a Leo memo,
-$\Postdot{\Veim{basis}} \neq \epsilon$,
-so that
-\Next{\DR{\Veim{basis}}}
-is telluric.
-We take 
-\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
-for $\var{x} = 0$ as the basis of our induction.
-
-For the step, we assume
-\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
-for $\var{x} = \var{i}$
-to show
-\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
-for $\var{x} = \Vincr{i}$.
-Since $\Vincr{i} > 0$,
-\el{cat}{\Vincr{i}} has a top down cause,
-and therefore, by the definition of validity
-for a Leo memo,
-\begin{equation}
-\label{eq:leo-memo-dotted-rule-is-telluric-12}
-\DR{\Vleo{down}} = \DR{\el{cat}{\Vincr{i}}},
-\end{equation}
-where \Vleo{down} is the top-down cause of
-\el{cat}{\Vincr{i}}.
-
-By the definition of a catena,
-\Vel{cat}{i} is the top-down cause of
-\Vel{cat}{\Vincr{i}},
-so that
-\begin{equation}
-\label{eq:leo-memo-dotted-rule-is-telluric-20}
-\Vleo{down} = \Vel{cat}{i}.
-\end{equation}
-\DR{\Vel{cat}{i}} is telluric by assumption for the step
-so that, from
-\eqref{eq:leo-memo-dotted-rule-is-telluric-12}
-and
-\eqref{eq:leo-memo-dotted-rule-is-telluric-20},
-we know that
-\DR{\el{cat}{\Vincr{i}}} is telluric.
-This shows the step, the induction
-and the theorem.
 \end{proof}
 
 \chapter{Leo silos}
