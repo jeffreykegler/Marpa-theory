@@ -9474,7 +9474,7 @@ we write
 
 Intuitively, \Vleo{leo},
 the Leo memo of
-\eqref{eq:def-leo-memo-10}
+\eqref{eq:def-leo-memo-10},
 states an intent to memoize
 some of the layers of certain silos occuring after
 \Current{\Vleo{leo}}.
@@ -9519,10 +9519,22 @@ if and only if it is
 \end{equation*}
 
 \begin{definition}
+\label{def:postdot-instance}
+A
+\dfn{postdot instance}
+is a duple consisting of a postdot symbol
+and a parse location.
+The 
+\xdfn{postdot instance}{postdot instance!of an EIM}
+of the EIM \Veim{e} is the duple
+$<\Postdot{\Veim{e}}, \Vloc{\Current{\Veim{e}}>$.
+\end{definition}
+
+\begin{definition}
 \dtitle{Postdot-unique}
 \label{def:postdot-unique}
-An EIM is \dfn{postdot-unique} if its postdot symbol
-is unique in its Earley set.
+An EIM is \dfn{postdot-unique} if its postdot instance
+is unique.
 That is,
 \Veim{uniq} is \dfn{postdot-unique}
 if and only if
