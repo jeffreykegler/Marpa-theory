@@ -9527,7 +9527,15 @@ and a parse location.
 The 
 \xdfn{postdot instance}{postdot instance!of an EIM}
 of the EIM \Veim{e} is the duple
-$<\Postdot{\Veim{e}}, \Vloc{\Current{\Veim{e}}>$.
+\[
+<\Postdot{\Veim{e}}, \Current{\Veim{e}}>.
+\]
+The 
+\xdfn{postdot instance}{postdot instance!of a Leo memo}
+of the Leo memo \Vleo{l} is the duple
+\[
+<\Symbol{\Vleo{l}}, \Current{\Vleo{l}}>.
+\]
 \end{definition}
 
 \begin{definition}
@@ -9609,21 +9617,60 @@ where
 $\Vsym{trans} \neq \epsilon$
 and $\Vstr{nul2} = \epsilon$.
 Let \Vleo{eff} be a Leo memo.
-If
+We say that \Veim{basis} is
+a \xdfn{basis}{basis (EIM)!wrt a Leo memo}
+of \Vleo{eff} is they have the same postdot instance,
+that is,
+if
 \begin{equation}
 \label{eq:def-basis-of-leo-memo-10}
   \Symbol{\Vleo{eff}} = \Vsym{trans} \; \land \;
-  \Current{\Vleo{eff}} =  \Vloc{j}
+  \Current{\Vleo{eff}} =  \Vloc{j}.
 \end{equation}
+When \Veim{basis} is the basis of \Vleo{eff},
 we say that \Veim{basis} is a
-\xdfn{basis}{basis (EIM)!wrt a Leo memo}
-or
 \xdfn{bottom-up cause}{bottom-up cause (of a Leo memo)}
 of \Vleo{eff}
 and that \Vleo{eff} is the
 \xdfn{effect}{effect (Leo memo)!wrt an EIM}
 of \Veim{basis}.
 \end{definition}
+
+\begin{theorem}
+\ttitle{Leo basis uniqueness by postdot instance}
+\label{leo-basis-uniqueness-by-postdot-instance}
+For every postdot instance, there is at most one Leo basis.
+\end{theorem}
+
+\begin{proof}
+Let \Veim{bas1} be the basis of \Vleo{l1},
+and
+let \Veim{bas2} be the basis of \Vleo{l2}.
+For the purpose of this proof, we make no assumption
+about whether or not \Vleo{l1} and \Vleo{l2}
+are distinct.
+
+Assume for a reductio that
+\begin{equation}
+\label{leo-basis-uniqueness-by-postdot-instance-10}
+\tag{RAA}
+\begin{gathered}
+\Veim{bas1} \neq \Veim{bas2} \; \text{and}
+\\
+\text{\Veim{bas1} and \Veim{bas2} have the same postdot instance.}
+\end{gathered}
+\end{equation}
+We know that \Veim{bas1} is Leo-eligible
+\dref[basis of a Leo memo]{def:basis-of-leo-memo}.
+Therefore \Veim{bas1} is postdot-unique
+\dref[Leo eligibility of an EIM]{def:leo-eligible}.
+Therefore \Veim{bas1} and \Veim{bas2}
+cannot have the same postdot instance
+\dref[postdot unique]{def:postdot-unique}.
+This contradicts
+\eqref{leo-basis-uniqueness-by-postdot-instance-10}
+and show the reductio and the theorem.
+\end{proof}
 
 \begin{lemma}
 \label{lem:leo-basis-symloc-uniqueness}
@@ -9694,7 +9741,7 @@ This shows the reductio and the theorem.
 \end{proof}
 
 \begin{theorem}
-\ttitle{Leo basis uniqueness}
+\ttitle{Leo basis uniqueness by memo}
 \label{t:leo-basis-uniqueness}
 The basis of a Leo memo is unique.
 \end{theorem}
@@ -9821,8 +9868,6 @@ we will sometimes also call a valid Leo memo an
 \xdfn{instantiated}{instantiated (Leo memo)}
 Leo memo.
 
-TODO: to here
-
 \begin{theorem}
 \label{t:leo-transition-symbol-non-terminal}
 The transition symbol of a valid Leo memo
@@ -9850,10 +9895,7 @@ By
 and therefore \Vrule{r} must be right-recursive.
 By the definition of right-recursive,
 \Vrule{r} is right-recursive only if
-\begin{equation}
-\label{eq:leo-transition-symbol-non-terminal-26}
-\text{\Vsym{trans} is right-recursive}.
-\end{equation}
+\Vsym{trans} is right-recursive.
 To be right-recursive, \Vsym{trans}
 must be a non-terminal.
 By \eqref{eq:leo-transition-symbol-non-terminal-23},
@@ -9885,81 +9927,6 @@ $\Vsym{trans} \neq \Vsym{accept}$.
 % A valid Leo memo may or may not be instantiated,
 % depending on the implementation.
 
-\begin{theorem}
-\ttitle{Leo top-down uniqueness}
-\label{t:leo-down-uniqueness}
-Every valid Leo memo has at most one top-down cause.
-\end{theorem}
-
-\begin{proof}
-Let
-\begin{equation}
-\label{eq:leo-down-uniqueness-10}
-\Vleo{eff} = [ \Vsym{sym}, \Vdr{dr}, \Vloc{orig}, \Vloc{curr} ]
-\end{equation}
-be a Leo memo.
-Assume, for a reductio,
-that \Vleo{eff} has two distinct top-down causes.
-Let these be
-\begin{gather}
-\label{eq:leo-down-uniqueness-13}
-\Vleo{cuz1} = [ \Vsym{sym1}, \Vdr{dr1}, \Vloc{orig1}, \Vloc{curr1} ] \quad \text{and} \\
-\label{eq:leo-down-uniqueness-16}
-\Vleo{cuz2} = [ \Vsym{sym2}, \Vdr{dr2}, \Vloc{orig2}, \Vloc{curr2} ].
-\end{gather}
-\Vleo{cuz1} and \Vleo{cuz2} are, by assumption for
-the reductio,
-top-down causes of \Vleo{eff}.
-Applying 
-the definition of validity for a Leo memo with a top-down cause
-\dref[validity of a Leo memo]{def:validity-of-leo-memo}
-to \Vleo{eff},
-and
-using
-\eqref{eq:leo-down-uniqueness-10},
-\eqref{eq:leo-down-uniqueness-13}
-and
-\eqref{eq:leo-down-uniqueness-16},
-we see that
-\begin{gather*}
-\Vdr{dr} = \Vdr{dr1} \; \land \; \Vdr{dr} = \Vdr{dr2} \quad \text{and} \\
-\Vloc{orig} = \Vloc{orig1} \; \land \; \Vloc{orig} = \Vloc{orig2}
-\end{gather*}
-and therefore
-\begin{equation}
-\label{eq:leo-down-uniqueness-20}
-\Vdr{dr1} = \Vdr{dr2} \; \land \; \Vloc{orig1} = \Vloc{orig2}.
-\end{equation}
-From Theorem
-\ref{t:leo-basis-uniqueness},
-we know that \Vleo{eff} has a unique basis,
-call it \Veim{bas}.
-By \dref[Leo top-down cause]{def:down-cause-of-leo-memo},
-we know that
-\begin{gather*}
-\LHS{\Veim{bas}} = \Vsym{sym1} \; \land \; \LHS{\Veim{bas}} = \Vsym{sym2} \quad \text{and} \\
-\Origin{\Veim{bas}} = \Vloc{curr1} \; \land \; \Origin{\Veim{bas}} = \Vloc{curr2}.
-\end{gather*}
-so that
-\begin{equation}
-\label{eq:leo-down-uniqueness-25}
-\Vsym{sym1} = \Vsym{sym2} \; \land \; \Vloc{curr1} = \Vloc{curr2}.
-\end{equation}
-From
-\eqref{eq:leo-down-uniqueness-13},
-\eqref{eq:leo-down-uniqueness-16},
-\eqref{eq:leo-down-uniqueness-20}
-and
-\eqref{eq:leo-down-uniqueness-25},
-we have
-\[
-\Vleo{cuz1} = \Vleo{cuz2}.
-\]
-But we assumed for the reductio that \Vleo{cuz1}
-and \Vleo{cuz2} are distinct.
-So this gives us the reductio and the theorem.
-\end{proof}
-
 \begin{definition}
 \dtitle{Matching Leo memo}
 \label{def:matching-leo-memo}
@@ -9986,67 +9953,6 @@ the \Veim{eim}.
 \end{definition}
 
 \begin{theorem}
-\ttitle{Leo memos are unique by location and symbol}
-\label{t:leo-memo-uniqueness}
-Let \Vsym{A} be a symbol in a grammar
-and \Vloc{i} a location in a parse.
-There is at most one valid Leo memo with
-symbol \Vsym{A} at location \Vloc{i}.
-That is,
-\begin{multline}
-\forall \; \Vleo{l1}, \Vleo{l2} : \Valid{\Vleo{l1}} \; \land \; \Valid{\Vleo{l2}}
-\\
-\land \; \Current{\Vleo{l1}} = \Current{\Vleo{l2}}
-\\
-\implies \Symbol{\Vleo{l1}} \neq \Symbol{\Vleo{l2}}.
-\end{multline}
-\end{theorem}
-
-\begin{proof}
-TODO
-\end{proof}
-
-\begin{theorem}
-\ttitle{Leo memo uniqueness}
-\label{t:leo-memos-match-uniquely}
-Every EIM has at most one matching Leo memo.
-\end{theorem}
-
-\begin{proof}
-Suppose, for a reduction,
-that two distinct Leo memos match a single EIM.
-Let, without loss of generality, the Leo memos be
-\begin{gather*}
-\Vleo{l1} = [ \Vsym{sym1}, \Vdr{dr1}, \Vorig{orig1}, \Vloc{curr1} ] \quad \text{and} \\
-\Vleo{l2} = [ \Vsym{sym2}, \Vdr{dr2}, \Vorig{orig2}, \Vloc{curr2} ].
-\end{gather*}
-and let the EIM be \Veim{eim}.
-By the definition of ``matching'' for a Leo memo and an EIM,
-we have
-\begin{gather*}
-\Symbol{\Vleo{l1}} = \LHS{\Veim{eim}} \quad \text{and} \\
-\Current{\Vleo{l1}} = \Left{\Veim{eim}} \quad \text{and} \\
-\Symbol{\Vleo{l2}} = \LHS{\Veim{eim}} \quad \text{and} \\
-\Current{\Vleo{l2}} = \Left{\Veim{eim}},
-\end{gather*}
-so that
-\begin{gather*}
-\Symbol{\Vleo{l1}} = \Symbol{\Vleo{l2}} \quad \text{and} \\
-\Current{\Vleo{l1}} = \Current{\Vleo{l2}}.
-\end{gather*}
-From Theorem
-\eqref{t:leo-memo-uniqueness}
-it follows that
-\begin{equation}
-\label{eq:leo-memos-match-uniquely-20}
-\Vleo{l1} = \Vleo{l2}
-\end{equation}
-\eqref{eq:leo-memos-match-uniquely-20} contradicts
-our assumption for the reductio,
-and shows the theorem.
-\end{proof}
-
-\begin{theorem}
 \ttitle{A fleeting closure shares a Leo memo}
 \label{t:leo-memo-fleeting closure}
 Let \Veim{e1} and \Veim{e2} be EIM's
@@ -10054,7 +9960,7 @@ in the same fleeting closure,
 and let
 \Vleo{l}
 be a Leo memo matching \Veim{e1}.
-The \Vleo{l} matches \Veim{e2}.
+Then \Vleo{l} matches \Veim{e2}.
 \end{theorem}
 
 \begin{proof}
@@ -10102,77 +10008,6 @@ and
 The definition of a matching Leo memo,
 and \eqref{eq:leo-memo-fleeting-closure-30}
 tell us that \Vleo{l} matches \Veim{e2}.
-\end{proof}
-
-TODO: Prove the following without use of catena?
-
-\begin{theorem}
-\ttitle{Leo memo dotted rule is telluric}
-\label{t:leo-memo-dotted-rule-is-telluric}
-The dotted rule of a valid Leo memo is telluric.
-\end{theorem}
-
-\begin{proof}
-Let a Leo memo be \var{l}.
-Every Leo memo has a catena.
-Let \var{cat} be the catena of \var{l}.
-We proceed by induction on the elements of \var{cat}.
-For the induction hypothesis, we take
-\begin{equation}
-\label{eq:leo-memo-dotted-rule-is-telluric-10}
-\text{\DR{\Vel{cat}{x}} is telluric.}
-\end{equation}
-The catena element \el{cat}{0} has,
-by the definition of a catena,
-no top-down cause.
-Therefore, by the definition of validity
-of a Leo memo,
-its dotted rule is
-\Next{\DR{\Veim{basis}}},
-where \Veim{basis} is the basis of the Leo memo.
-By the definition of the basis of a Leo memo,
-$\Postdot{\Veim{basis}} \neq \epsilon$,
-so that
-\Next{\DR{\Veim{basis}}}
-is telluric.
-We take 
-\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
-for $\var{x} = 0$ as the basis of our induction.
-
-For the step, we assume
-\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
-for $\var{x} = \var{i}$
-to show
-\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
-for $\var{x} = \Vincr{i}$.
-Since $\Vincr{i} > 0$,
-\el{cat}{\Vincr{i}} has a top down cause,
-and therefore, by the definition of validity
-for a Leo memo,
-\begin{equation}
-\label{eq:leo-memo-dotted-rule-is-telluric-12}
-\DR{\Vleo{down}} = \DR{\el{cat}{\Vincr{i}}},
-\end{equation}
-where \Vleo{down} is the top-down cause of
-\el{cat}{\Vincr{i}}.
-
-By the definition of a catena,
-\Vel{cat}{i} is the top-down cause of
-\Vel{cat}{\Vincr{i}},
-so that
-\begin{equation}
-\label{eq:leo-memo-dotted-rule-is-telluric-20}
-\Vleo{down} = \Vel{cat}{i}.
-\end{equation}
-\DR{\Vel{cat}{i}} is telluric by assumption for the step
-so that, from
-\eqref{eq:leo-memo-dotted-rule-is-telluric-12}
-and
-\eqref{eq:leo-memo-dotted-rule-is-telluric-20},
-we know that
-\DR{\el{cat}{\Vincr{i}}} is telluric.
-This shows the step, the induction
-and the theorem.
 \end{proof}
 
 \chapter{Leo catenas}
@@ -10635,6 +10470,211 @@ contrary to \eqref{t:memo-catena-uniqueness-23}.
 This contradiction shows the reductio.
 We conclude that \var{cat1} and \var{cat2}
 are identical.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Leo top-down uniqueness}
+\label{t:leo-down-uniqueness}
+Every valid Leo memo has at most one top-down cause.
+\end{theorem}
+
+\begin{proof}
+Let
+\begin{equation}
+\label{eq:leo-down-uniqueness-10}
+\Vleo{eff} = [ \Vsym{sym}, \Vdr{dr}, \Vloc{orig}, \Vloc{curr} ]
+\end{equation}
+be a Leo memo.
+Assume, for a reductio,
+that \Vleo{eff} has two distinct top-down causes.
+Let these be
+\begin{gather}
+\label{eq:leo-down-uniqueness-13}
+\Vleo{cuz1} = [ \Vsym{sym1}, \Vdr{dr1}, \Vloc{orig1}, \Vloc{curr1} ] \quad \text{and} \\
+\label{eq:leo-down-uniqueness-16}
+\Vleo{cuz2} = [ \Vsym{sym2}, \Vdr{dr2}, \Vloc{orig2}, \Vloc{curr2} ].
+\end{gather}
+\Vleo{cuz1} and \Vleo{cuz2} are, by assumption for
+the reductio,
+top-down causes of \Vleo{eff}.
+Applying 
+the definition of validity for a Leo memo with a top-down cause
+\dref[validity of a Leo memo]{def:validity-of-leo-memo}
+to \Vleo{eff},
+and
+using
+\eqref{eq:leo-down-uniqueness-10},
+\eqref{eq:leo-down-uniqueness-13}
+and
+\eqref{eq:leo-down-uniqueness-16},
+we see that
+\begin{gather*}
+\Vdr{dr} = \Vdr{dr1} \; \land \; \Vdr{dr} = \Vdr{dr2} \quad \text{and} \\
+\Vloc{orig} = \Vloc{orig1} \; \land \; \Vloc{orig} = \Vloc{orig2}
+\end{gather*}
+and therefore
+\begin{equation}
+\label{eq:leo-down-uniqueness-20}
+\Vdr{dr1} = \Vdr{dr2} \; \land \; \Vloc{orig1} = \Vloc{orig2}.
+\end{equation}
+From Theorem
+\ref{t:leo-basis-uniqueness},
+we know that \Vleo{eff} has a unique basis,
+call it \Veim{bas}.
+By \dref[Leo top-down cause]{def:down-cause-of-leo-memo},
+we know that
+\begin{gather*}
+\LHS{\Veim{bas}} = \Vsym{sym1} \; \land \; \LHS{\Veim{bas}} = \Vsym{sym2} \quad \text{and} \\
+\Origin{\Veim{bas}} = \Vloc{curr1} \; \land \; \Origin{\Veim{bas}} = \Vloc{curr2}.
+\end{gather*}
+so that
+\begin{equation}
+\label{eq:leo-down-uniqueness-25}
+\Vsym{sym1} = \Vsym{sym2} \; \land \; \Vloc{curr1} = \Vloc{curr2}.
+\end{equation}
+From
+\eqref{eq:leo-down-uniqueness-13},
+\eqref{eq:leo-down-uniqueness-16},
+\eqref{eq:leo-down-uniqueness-20}
+and
+\eqref{eq:leo-down-uniqueness-25},
+we have
+\[
+\Vleo{cuz1} = \Vleo{cuz2}.
+\]
+But we assumed for the reductio that \Vleo{cuz1}
+and \Vleo{cuz2} are distinct.
+So this gives us the reductio and the theorem.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Leo memos are unique by location and symbol}
+\label{t:leo-memo-uniqueness}
+Let \Vsym{A} be a symbol in a grammar
+and \Vloc{i} a location in a parse.
+There is at most one valid Leo memo with
+symbol \Vsym{A} at location \Vloc{i}.
+That is,
+\begin{multline}
+\forall \; \Vleo{l1}, \Vleo{l2} : \Valid{\Vleo{l1}} \; \land \; \Valid{\Vleo{l2}}
+\\
+\land \; \Current{\Vleo{l1}} = \Current{\Vleo{l2}}
+\\
+\implies \Symbol{\Vleo{l1}} \neq \Symbol{\Vleo{l2}}.
+\end{multline}
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
+\begin{theorem}
+\ttitle{Leo memo uniqueness}
+\label{t:leo-memos-match-uniquely}
+Every EIM has at most one matching Leo memo.
+\end{theorem}
+
+\begin{proof}
+Suppose, for a reduction,
+that two distinct Leo memos match a single EIM.
+Let, without loss of generality, the Leo memos be
+\begin{gather*}
+\Vleo{l1} = [ \Vsym{sym1}, \Vdr{dr1}, \Vorig{orig1}, \Vloc{curr1} ] \quad \text{and} \\
+\Vleo{l2} = [ \Vsym{sym2}, \Vdr{dr2}, \Vorig{orig2}, \Vloc{curr2} ].
+\end{gather*}
+and let the EIM be \Veim{eim}.
+By the definition of ``matching'' for a Leo memo and an EIM,
+we have
+\begin{gather*}
+\Symbol{\Vleo{l1}} = \LHS{\Veim{eim}} \quad \text{and} \\
+\Current{\Vleo{l1}} = \Left{\Veim{eim}} \quad \text{and} \\
+\Symbol{\Vleo{l2}} = \LHS{\Veim{eim}} \quad \text{and} \\
+\Current{\Vleo{l2}} = \Left{\Veim{eim}},
+\end{gather*}
+so that
+\begin{gather*}
+\Symbol{\Vleo{l1}} = \Symbol{\Vleo{l2}} \quad \text{and} \\
+\Current{\Vleo{l1}} = \Current{\Vleo{l2}}.
+\end{gather*}
+From Theorem
+\eqref{t:leo-memo-uniqueness}
+it follows that
+\begin{equation}
+\label{eq:leo-memos-match-uniquely-20}
+\Vleo{l1} = \Vleo{l2}
+\end{equation}
+\eqref{eq:leo-memos-match-uniquely-20} contradicts
+our assumption for the reductio,
+and shows the theorem.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Leo memo dotted rule is telluric}
+\label{t:leo-memo-dotted-rule-is-telluric}
+The dotted rule of a valid Leo memo is telluric.
+\end{theorem}
+
+\begin{proof}
+Let a Leo memo be \var{l}.
+Every Leo memo has a catena.
+Let \var{cat} be the catena of \var{l}.
+We proceed by induction on the elements of \var{cat}.
+For the induction hypothesis, we take
+\begin{equation}
+\label{eq:leo-memo-dotted-rule-is-telluric-10}
+\text{\DR{\Vel{cat}{x}} is telluric.}
+\end{equation}
+The catena element \el{cat}{0} has,
+by the definition of a catena,
+no top-down cause.
+Therefore, by the definition of validity
+of a Leo memo,
+its dotted rule is
+\Next{\DR{\Veim{basis}}},
+where \Veim{basis} is the basis of the Leo memo.
+By the definition of the basis of a Leo memo,
+$\Postdot{\Veim{basis}} \neq \epsilon$,
+so that
+\Next{\DR{\Veim{basis}}}
+is telluric.
+We take 
+\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
+for $\var{x} = 0$ as the basis of our induction.
+
+For the step, we assume
+\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
+for $\var{x} = \var{i}$
+to show
+\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
+for $\var{x} = \Vincr{i}$.
+Since $\Vincr{i} > 0$,
+\el{cat}{\Vincr{i}} has a top down cause,
+and therefore, by the definition of validity
+for a Leo memo,
+\begin{equation}
+\label{eq:leo-memo-dotted-rule-is-telluric-12}
+\DR{\Vleo{down}} = \DR{\el{cat}{\Vincr{i}}},
+\end{equation}
+where \Vleo{down} is the top-down cause of
+\el{cat}{\Vincr{i}}.
+
+By the definition of a catena,
+\Vel{cat}{i} is the top-down cause of
+\Vel{cat}{\Vincr{i}},
+so that
+\begin{equation}
+\label{eq:leo-memo-dotted-rule-is-telluric-20}
+\Vleo{down} = \Vel{cat}{i}.
+\end{equation}
+\DR{\Vel{cat}{i}} is telluric by assumption for the step
+so that, from
+\eqref{eq:leo-memo-dotted-rule-is-telluric-12}
+and
+\eqref{eq:leo-memo-dotted-rule-is-telluric-20},
+we know that
+\DR{\el{cat}{\Vincr{i}}} is telluric.
+This shows the step, the induction
+and the theorem.
 \end{proof}
 
 \chapter{Leo silos}
