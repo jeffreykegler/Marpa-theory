@@ -10040,36 +10040,53 @@ is non-increasing.
 
 \begin{proof}
 Let \var{cat} be a catena.
-From the definition of the basis
-and the definition
-of the top-down cause of a Leo memo,
-we know
-for all \var{a},
-where \Veim{a-bas} is the basis of \Vel{cat}{a},
-\begin{equation}
+so that
+For all \var{a},
+where \Veim{bas} is the basis of \Vel{cat}{a},
+\begin{align}
 \label{eq:lem-leo-catena-non-increasing-location-10}
-\begin{gathered}
-\Current{\Vel{cat}{a}} = \Current{\Veim{a-bas}} \; \text{and} \\
-\Current{\el{cat}{\Vincr{a}}} = \Origin{\Veim{a-bas}}.
-\end{gathered}
-\end{equation}
-No Marpa rule is nulling, and therefore no EIM
-is nulling, so that
-\begin{equation}
+& \myparbox{\el{cat}{\Vincr{a}}
+is the top-down cause of
+\Vel{cat}{a}
+\becuz{}
+\dref[catena]{def:leo-catena};
+}
+\\
+\label{eq:lem-leo-catena-non-increasing-location-10}
+& \myparbox{
+$\Current{\Vel{cat}{a}} = \Current{\Veim{bas}}$
+\becuz{} \dref[basis of a Leo memo]{def:basis-of-leo-memo}; and
+}
+\\
+\label{eq:lem-leo-catena-non-increasing-location-15}
+&
+\myparbox{
+$\Current{\el{cat}{\Vincr{a}}} = \Origin{\Veim{bas}}$
+\becuz{} \dref[top-down cause of a Leo memo]{def:down-cause-of-leo-memo}.
+}
+\intertext{The current location of every EIM is at or after
+its origin, so that}
 \label{eq:lem-leo-catena-non-increasing-location-20}
-\forall \; \Veim{x} : \Origin{\Veim{x}} \le \Current{\Veim{x}}
-\end{equation}
-The lemma follows from
-\eqref{eq:lem-leo-catena-non-increasing-location-10}
-and
+& \forall \; \Veim{x} : \Origin{\Veim{x}} \le \Current{\Veim{x}}
+\; \text{and}
+\\
+\label{eq:lem-leo-catena-non-increasing-location-22}
+& \myparbox{
+$\Current{\Vel{cat}{a}} \ge \Current{\el{cat}{\Vincr{a}}}$
+\becuz{} \eqref{eq:lem-leo-catena-non-increasing-location-10},
+\eqref{eq:lem-leo-catena-non-increasing-location-15},
 \eqref{eq:lem-leo-catena-non-increasing-location-20}.
+}
+\end{align}
+The lemma follows from
+\eqref{eq:lem-leo-catena-non-increasing-location-22}.
 \end{proof}
 
 \begin{lemma}
 \label{lem:leo-catena-cycle}
 In a Leo catena,
-no two distinct elements with the same current location
-can have the same symbol.
+no two distinct elements
+share the same postdot instance.
 \end{lemma}
 
 \begin{proof}
@@ -10077,6 +10094,7 @@ Let \var{cat} be a catena.
 Assume, for a reductio, that
 \begin{equation}
 \label{eq:lem-leo-catena-cycle-5}
+\tag{RAA}
 \begin{aligned}
 \exists \; \var{x}, \var{y} & : (\var{x} \neq \var{y} \\
 & \land \Current{\Vel{cat}{x}} = \Current{\Vel{cat}{y}} \\
@@ -10088,22 +10106,20 @@ The current location of a catena is non-increasing
 \lemref{lem:leo-catena-non-increasing-location}.
 Therefore all the elements of cat with the same current location
 are in a consecutive subsequence of cat.
-Let this subsequence be \el{cat}{\var{a} \ldots \var{b}}.
-We therefore have
+Without loss of generalization,
+we consider the current location \Vloc{curr},
+and we let \var{a}, \var{b} be such that
 \begin{equation}
 \label{eq:lem-leo-catena-cycle-8}
 \begin{multlined}
-\forall \; \var{i}, \var{j} :
+\forall \; \var{i} :
 (\var{a} \le \var{i} \le \var{b}
-\land \var{a} \le \var{j} \le \var{b})
-\\
-\equiv \Current{\Vel{cat}{i}} =
-\Current{\Vel{cat}{j}}
+\equiv \Current{\Vel{cat}{i}} = \Vloc{curr})
 \end{multlined}
 \end{equation}
 Also, since the choice of \var{x}, \var{y} in 
 \eqref{eq:lem-leo-catena-cycle-5}
-is arbitrary, we can assume without loss
+is arbitrary, we assume without loss
 of generality that
 \begin{equation}
 \label{eq:lem-leo-catena-cycle-8b}
