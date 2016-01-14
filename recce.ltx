@@ -327,11 +327,12 @@
 \newlength{\longtagwidth}
 \settowidth{\longtagwidth}{(999)\qquad}
 \setlength{\mathparwidth}{\dimexpr\textwidth-\longtagwidth}
-\newcommand{\myparbox}[1]{
-  \parbox{\mathparwidth}{ \begin{FlushLeft}
-#1
-\end{FlushLeft} }
-\vspace{-.4\baselineskip}
+\newcommand{\myparbox}[1]{%
+  \parbox[t]{\mathparwidth}{%
+  \raggedright#1\par
+  \vspace{-\prevdepth} % remove the depth of the last line
+  \vspace{1ex} % add a fixed vertical space
+  }%
 }
 
 % \makeindex
@@ -10044,7 +10045,7 @@ so that
 For all \var{a},
 where \Veim{bas} is the basis of \Vel{cat}{a},
 \begin{align}
-\label{eq:lem-leo-catena-non-increasing-location-10}
+\label{eq:lem-leo-catena-non-increasing-location-5}
 & \myparbox{\el{cat}{\Vincr{a}}
 is the top-down cause of
 \Vel{cat}{a}
@@ -10095,11 +10096,14 @@ Assume, for a reductio, that
 \begin{equation}
 \label{eq:lem-leo-catena-cycle-5}
 \tag{RAA}
-\begin{aligned}
-\exists \; \var{x}, \var{y} & : (\var{x} \neq \var{y} \\
-& \land \Current{\Vel{cat}{x}} = \Current{\Vel{cat}{y}} \\
-& \land \Symbol{\Vel{cat}{x}} = \Symbol{\Vel{cat}{y}}).
-\end{aligned}
+\exists \; \var{x}, \var{y} : 
+\left(
+\begin{gathered}
+\var{x} \neq \var{y} \\
+\land \; \Current{\Vel{cat}{x}} = \Current{\Vel{cat}{y}} \\
+\land \; \Symbol{\Vel{cat}{x}} = \Symbol{\Vel{cat}{y}}
+\end{gathered}
+\right).
 \end{equation}
 
 The current location of a catena is non-increasing
@@ -10107,7 +10111,7 @@ The current location of a catena is non-increasing
 Therefore all the elements of cat with the same current location
 are in a consecutive subsequence of cat.
 Without loss of generalization,
-we consider the current location \Vloc{curr},
+we let the current location be \Vloc{curr},
 and we let \var{a}, \var{b} be such that
 \begin{equation}
 \label{eq:lem-leo-catena-cycle-8}
@@ -10117,7 +10121,7 @@ and we let \var{a}, \var{b} be such that
 \equiv \Current{\Vel{cat}{i}} = \Vloc{curr})
 \end{multlined}
 \end{equation}
-Also, since the choice of \var{x}, \var{y} in 
+Since the choice of \var{x}, \var{y} in 
 \eqref{eq:lem-leo-catena-cycle-5}
 is arbitrary, we assume without loss
 of generality that
@@ -10133,17 +10137,21 @@ we know that our reductio requires that
 there is \var{x}, \var{y} such that
 \begin{equation}
 \label{eq:lem-leo-catena-cycle-8d}
-\var{a} \le \var{x} < \var{y} \le \var{b}
-\; \land \; \Symbol{\Vel{cat}{x}} = \Symbol{\Vel{cat}{y}}.
+\exists \; \var{x}, \var{y} : 
+(\var{a} \le \var{x} < \var{y} \le \var{b}
+\; \land \; \Symbol{\Vel{cat}{x}} = \Symbol{\Vel{cat}{y}}).
 \end{equation}
 
 If $\var{a} = \var{b}$, our assumption for the reductio
 \eqref{eq:lem-leo-catena-cycle-5} is trivially false.
 Therefore
 $\var{a} < \var{b}$.
-Consider some \var{i} which is such that $\var{a} \le \var{i} < \var{b}$
-and otherwise is without loss of generality.
+We now consider some \var{i} such that
 \begin{align}
+\label{eq:lem-leo-catena-cycle-8-1}
+& \var{a} \le \var{i} < \var{b},
+\intertext{where \var{i} is
+otherwise without loss of generality, so that}
 \label{eq:lem-leo-catena-cycle-9}
 & \myparbox{
 \el{cat}{\Vincr{i}}
@@ -10153,8 +10161,15 @@ of
 \becuz{} \dref[catena]{def:leo-catena};
 }
 \\
+\label{eq:lem-leo-catena-cycle-9b}
+& \var{a} \le \var{i} < \Vincr{i} \le \var{b}
+\becuz \eqref{eq:lem-leo-catena-cycle-8-1};
+\\
 \label{eq:lem-leo-catena-cycle-10}
-& \Current{\Vel{cat}{i}} = \Current{\el{cat}{\Vincr{i}}} \becuz \eqref{eq:lem-leo-catena-cycle-8};
+& \Current{\Vel{cat}{i}} = \Current{\el{cat}{\Vincr{i}}}
+\becuz
+\eqref{eq:lem-leo-catena-cycle-8},
+\eqref{eq:lem-leo-catena-cycle-9b};
 \\
 \label{eq:lem-leo-catena-cycle-12}
 & \myparbox{
@@ -10166,7 +10181,7 @@ of
 & \myparbox{$\Current{\el{cat}{\Vincr{i}}} = \Origin{\Veim{bas}}$
 \becuz{}
 \eqref{eq:lem-leo-catena-cycle-9},
-\eqref{eq:lem-leo-catena-cycle-12}
+\eqref{eq:lem-leo-catena-cycle-12},
 \dref[top-down cause of Leo memo]{def:matching-leo-memo};
 }
 \\
@@ -10245,33 +10260,44 @@ and \eqref{eq:lem-leo-catena-cycle-16};
 \becuz \eqref{eq:lem-leo-catena-cycle-28};
 \end{align}
 
-Recall that \var{i} was chosen such that
-$\var{a} \le \var{i} < \var{b}$
-and was otherwise without loss of generality.
-Therefore
+By
+\eqref{eq:lem-leo-catena-cycle-8-1} and
+\eqref{eq:lem-leo-catena-cycle-30},
+we have that,
+for every \var{i} such that
+$\var{a} \le \var{i} < \var{b}$,
 \[
-\forall \var{i} : \var{a} \le \var{i} < \var{b} \implies
-\Symbol{\Vel{cat}{\Vincr{i}}} \xderives{1} \Symbol{\Vel{cat}{i}}
+\Symbol{\Vel{cat}{\Vincr{i}}} \xderives{1} \Symbol{\Vel{cat}{i}}.
 \]
-so that
+From this, we see that
+for every \var{i}, \var{j} such that
+$\var{a} \le \var{i} < \var{j} \le \var{b}$,
 \begin{equation}
-\label{eq:lem-leo-catena-cycle-35}
-\var{a} \le \var{x} < \var{y} \le \var{b} \implies
-\Symbol{\Vel{cat}{x}} \deplus \Symbol{\Vel{cat}{y}}.
+\label{eq:lem-leo-catena-cycle-36}
+\Symbol{\Vel{cat}{j}} \deplus \Symbol{\Vel{cat}{i}}. \\
 \end{equation}
-Combining
-\eqref{eq:lem-leo-catena-cycle-8d}
-and
-\eqref{eq:lem-leo-catena-cycle-35},
+Instantiating 
+\eqref{eq:lem-leo-catena-cycle-36} with \var{x} and \var{y}
+from
+\eqref{eq:lem-leo-catena-cycle-8d},
 we have
+\begin{equation}
+\label{eq:lem-leo-catena-cycle-39}
+\Symbol{\Vel{cat}{y}} \deplus \Symbol{\Vel{cat}{x}}.
+\end{equation}
+But from
+\eqref{eq:lem-leo-catena-cycle-8d}
+we also know that
 \begin{gather*}
-\Symbol{\Vel{cat}{x}} \deplus \Symbol{\Vel{cat}{y}} \quad \text{and} \\
  \Symbol{\Vel{cat}{x}} = \Symbol{\Vel{cat}{y}},
 \end{gather*}
-which is a cycle.
+so that
+\eqref{eq:lem-leo-catena-cycle-39}
+is a cycle.
 Cycles are forbidden in Marpa grammars.
-This contradiction shows the reductio
-and the theorem.
+This is a contradiction, which shows the reductio,
+and with it,
+the theorem.
 \end{proof}
 
 \begin{theorem}
