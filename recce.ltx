@@ -9879,6 +9879,7 @@ must be a non-terminal other than the accept symbol.
 By the definition of validity for a Leo memo,
 the rule of the basis must be of the form
 \begin{equation}
+\label{eq:leo-transition-symbol-non-terminal-10}
 \Vrule{r} = [ \Vsym{A} \de \Vstr{prefix} \Vsym{trans} \Vstr{nul} ],
 \end{equation}
 where $\Vstr{nul} = \epsilon$,
@@ -9906,11 +9907,10 @@ non-terminal.
 
 It remains
 to show that $\Vsym{trans} \neq \Vsym{accept}$.
-By its definition, \Vsym{accept} occurs only on the
-LHS of the accept rule,
-and therefore \Vsym{accept} is not right recursive.
+By its definition, \Vsym{accept} occurs only in one place ---
+on the LHS of the accept rule.
 Using this fact and
-\eqref{eq:leo-transition-symbol-non-terminal-26},
+\eqref{eq:leo-transition-symbol-non-terminal-10},
 we see that
 $\Vsym{trans} \neq \Vsym{accept}$.
 \end{proof}
@@ -10321,78 +10321,96 @@ and $0 \le \var{b} \le \Vlastix{cat}$,
 \end{theorem}
 
 \begin{proof}
-Let \var{cat} be a Leo catena.
-The proof is by induction,
-where the induction hypothesis
-is
+We assume for a reductio that there is a catena,
+call it \var{cat},
+such that
 \begin{equation}
-\tag{IND}
-\begin{gathered}
+\tag{RAA}
 \label{eq:catena-top-elements-identical-10}
-0 \le \var{x} < \Vlastix{cat} \\
-\implies
+\exists \; \var{x} :
 \left(
 \begin{gathered}
-\DR{\Vel{cat}{x}} = \DR{\el{cat}{0}} \\
-\land \; \Origin{\Vel{cat}{x}} = \Origin{\el{cat}{0}}
+\DR{\Vel{cat}{x}} \neq \DR{\el{cat}{0}} \\
+\lor \; \Origin{\Vel{cat}{x}} \neq \Origin{\el{cat}{0}}
 \end{gathered}
 \right).
-\end{gathered}
 \end{equation}
-We have
-\eqref{eq:catena-top-elements-identical-10}
-vacuously for $\var{x} = 0$,
-and we take this as the basis of the induction.
-
-For the step
-we assume
-\eqref{eq:catena-top-elements-identical-10}
-for $\var{x} = \var{i}$,
-to show
-\eqref{eq:catena-top-elements-identical-10}
-for $\var{x} = \Vincr{i}$.
-
-If $\var{i} \ge \Vlastix{cat}$, we have the
-step trivially.
-Otherwise,
-\el{cat}{\Vincr{i}} is the top-down cause of
-\Vel{cat}{i}.
-The assumption for the step is
-\begin{equation}
-\label{eq:catena-top-elements-identical-12}
-\DR{\Vel{cat}{i}} = \DR{\el{cat}{0}}
-\; \land \;
-\Origin{\Vel{cat}{i}} = \Origin{\el{cat}{0}}.
-\end{equation}
-By
-\dref[validity of Leo memo with top-down cause]{def:validity-of-leo-memo},
-\begin{equation}
-\label{eq:catena-top-elements-identical-15}
-\begin{gathered}
-\DR{\Vel{cat}{i}} = \DR{\el{cat}{\Vincr{i}}} \\
-\land \;
-\Origin{\Vel{cat}{i}} = \Origin{\el{cat}{\Vincr{i}}}.
-\end{gathered}
-\end{equation}
-The step for the non-vacuous case follows from
-\eqref{eq:catena-top-elements-identical-12}
-and
-\eqref{eq:catena-top-elements-identical-15}.
-This shows the step and the induction.
-
-The induction shows that
-\begin{align*}
-& \forall \; \var{a} : 0 \le \var{a} \le \Vlastix{cat} \implies
+Let \var{x1} be the first value which can instantiate
+\var{x} in 
+\eqref{eq:catena-top-elements-identical-10}.
+Trivially, we see that $\var{x1} > 0$,
+so that
+$\el{cat}{\Vdecr{x1}} \neq \undefined$ and,
+since
+\begin{align}
+\label{eq:catena-top-elements-identical-19}
+& \myparbox{
+\el{cat}{\Vdecr{x1}} is before the first
+value that can instantiate \var{x}
+in \eqref{eq:catena-top-elements-identical-10},
+we have
+}
 \\
-& \qquad \left(
-\begin{gathered}
-\DR{\Vel{cat}{a}} = \DR{\el{cat}{0}} \\
-\land \;
-\Origin{\Vel{cat}{a}} = \Origin{\Vel{cat}{0}}
-\end{gathered}
-\right)
-\end{align*}
-and the theorem follows immediately.
+\label{eq:catena-top-elements-identical-20b}
+& \DR{\el{cat}{\Vdecr{x1}}} = \DR{\el{cat}{0}}
+\becuz \eqref{eq:catena-top-elements-identical-19};
+\\
+\label{eq:catena-top-elements-identical-20d}
+& \Origin{\el{cat}{\Vdecr{x1}}} = \Origin{\el{cat}{0}}
+\becuz \eqref{eq:catena-top-elements-identical-19};
+\\
+\label{eq:catena-top-elements-identical-22}
+& \myparbox{
+\Vel{cat}{x1}
+is the top-down cause
+of
+\el{cat}{\Vdecr{x1}}
+\becuz{} \dref[catena]{def:leo-catena};
+}
+\\
+\label{eq:catena-top-elements-identical-24b}
+&
+\myparbox{
+\DR{\Vel{cat}{x1}} = \DR{\el{cat}{\Vdecr{x1}}}
+\becuz{}
+\dref[validity of Leo memo with top-down cause]{def:validity-of-leo-memo};
+}
+\\
+\label{eq:catena-top-elements-identical-24d}
+&
+\myparbox{
+\Origin{\Vel{cat}{x1}} = \Origin{\el{cat}{\Vdecr{x1}}}
+\becuz{}
+\dref[validity of Leo memo with top-down cause]{def:validity-of-leo-memo};
+}
+\\
+\label{eq:catena-top-elements-identical-26b}
+&
+\DR{\Vel{cat}{x1}} = \DR{\el{cat}{0}}
+\becuz \eqref{eq:catena-top-elements-identical-20b},
+\eqref{eq:catena-top-elements-identical-24b};
+\; \text{and}
+\\
+\label{eq:catena-top-elements-identical-26d}
+& \Origin{\Vel{cat}{x1}} = \Origin{\el{cat}{0}}
+\becuz \eqref{eq:catena-top-elements-identical-20d}
+\eqref{eq:catena-top-elements-identical-24d}.
+\end{align}
+\eqref{eq:catena-top-elements-identical-26b}
+and
+\eqref{eq:catena-top-elements-identical-26d}
+show that \var{x1} cannot instantiate \var{x} in
+\eqref{eq:catena-top-elements-identical-10}.
+Since we defined \var{x1} as the first value which
+can instantiate \var{x} in
+\eqref{eq:catena-top-elements-identical-10},
+that means there is no value that
+can instantiate \var{x} in
+\eqref{eq:catena-top-elements-identical-10},
+and therefore that
+\eqref{eq:catena-top-elements-identical-10}
+is false.
+This shows the reductio and the theorem.
 \end{proof}
 
 \begin{theorem}
@@ -10420,14 +10438,20 @@ No element of \var{cat} occurs twice
 Therefore, if the number of possible distinct
 catena elements in \var{cat} is finite, 
 the length of \var{cat} is finite.
-We proceed to show that the number of possible distinct
+It remains to show that the number of possible distinct
 catena elements is finite.
 
 By Lemma
 \ref{lem:leo-catena-non-increasing-location},
 the location of the elements of \var{cat} is non-increasing,
-so that elements of \var{cat}
+so that
+\begin{equation}
+\myparbox{
+\label{eq:leo-catenas-are-finite-10}
+elements of \var{cat}
 have at most \Vincr{i} distinct locations.
+}
+\end{equation}
 By Lemma
 \ref{lem:leo-catena-cycle},
 if any two catena elements
@@ -10436,8 +10460,10 @@ they cannot share the same transition symbol.
 The number of symbols in a Marpa grammar is a fixed
 constant that depends on the grammar.
 Let the number of symbols in \Cg{} be \var{sym-cnt}.
-From the foregoing, we see that there are at most
-$(\Vincr{i}) \times \var{sym-cnt}$ elements in \var{cat}.
+From this and
+\eqref{eq:leo-catenas-are-finite-10},
+we see that there are at most
+$(\Vincr{i}) \times \var{sym-cnt}$ distinct elements in \var{cat}.
 \end{proof}
 
 \begin{theorem}
