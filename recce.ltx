@@ -10633,14 +10633,11 @@ for all
 \begin{gather*}
 \neg \Instantiated{\Vleo{l1}} \lor \; \neg \Instantiated{\Vleo{l2}} \\
 \lor \; \Current{\Vleo{l1}} \neq \Current{\Vleo{l2}} \\
-\lor \; \Symbol{\Vleo{l1}} \neq \Symbol{\Vleo{l2}}
+\lor \; \Symbol{\Vleo{l1}} \neq \Symbol{\Vleo{l2}}.
 \end{gather*}
 \end{theorem}
 
 \begin{proof}
-
-TODO: recheck.
-
 We assume, for a reductio, that there is a catena,
 call it \var{cat},
 which contains a layer whose postdot instance is identical to some
@@ -10648,51 +10645,60 @@ other instantiated Leo memo,
 that is
 \begin{equation}
 \label{eq:leo-memo-uniqueness-by-postdot-instance-10}
+\tag{RAA}
 \begin{gathered}
-\exists \; \Vleo{l}, \var{ix} : \Instantiated{\Vleo{l}} \\
+\exists \; \Vleo{l} \; \exists \; \var{ix} : \Instantiated{\Vleo{l}} \\
   \land \; \Symbol{\Vel{cat}{ix}} = \Symbol{\Vleo{l}} \\
   \land \; \Current{\Vel{cat}{ix}} = \Current{\Vleo{l}} \\
   \land \; \Vel{cat}{ix} \neq \Vleo{l}
 \end{gathered}
 \end{equation}
-If there is some \var{ix} that satisfies
+A Leo catena is finite in length
+\tref{t:leo-catenas-are-finite}.
+Therefore, if any \var{ix} satisfies
 \eqref{eq:leo-memo-uniqueness-by-postdot-instance-10},
-then there is a first such \var{ix}.
-Let the first \var{ix} that satisfies
+then there is a last \var{ix} that satisfies
+\eqref{eq:leo-memo-uniqueness-by-postdot-instance-10}.
+Let the last \var{ix} that satisfies
 \eqref{eq:leo-memo-uniqueness-by-postdot-instance-10}
-be \var{ix1}.
-We now proceed by cases, depending on whether on the value of \var{ix1}.
+be \var{z}.
 
 We note that,
 by \eqref{eq:leo-memo-uniqueness-by-postdot-instance-10}
 and Lemma \ref{lem:leo-basis-symloc-uniqueness},
-\Vel{cat}{ix1} and \Vleo{l} have the same basis.
+\Vel{cat}{z} and \Vleo{l} have the same basis.
 Call this basis, \Veim{bas}.
 
-\Vel{cat}{ix1} has at most one top-down cause
+\Vel{cat}{z} has at most one top-down cause
 \tref{t:leo-down-uniqueness}.
 Call this top-down cause \Vleo{down}.
 In keeping with our convention in this monograph,
-we write $\Vleo{down} = \undefined$ if
+$\Vleo{down} = \undefined$ if
 the top-down cause
-of \Vel{cat}{ix1} does not exist.
+of \Vel{cat}{z} does not exist.
 
 Since 
-\Vel{cat}{ix1} and \Vleo{l} have the same basis,
+\Vel{cat}{z} and \Vleo{l} have the same basis,
 every top-down cause of
-\Vel{cat}{ix1}
+\Vel{cat}{z}
 is also a top-down cause of \Vleo{l}
 \dref[Leo top-down cause]{def:down-cause-of-leo-memo}.
-Therefore \Vleo{down} is the top-down cause of \Vleo{l},
-and $\Vleo{down} = \undefined$ if and only if
+Therefore
+\begin{equation}
+\label{eq:leo-memo-uniqueness-by-postdot-instance-12}
+\text{\Vleo{down} is the top-down cause of both \Vel{cat}{z} and \Vleo{l}.}
+\end{equation}
+Note that $\Vleo{down} \neq \undefined$ if and only if
 \Vleo{l} has a top-down cause.
 
-Assume for a reductio that
+We now proceed by cases, depending on the value of \var{z}.
+Assume for an inner reductio that
 \begin{equation}
 \label{eq:leo-memo-uniqueness-by-postdot-instance-13}
-\var{ix1} = \Vlastix{cat}.
+\tag{RAA1}
+\var{z} = \Vlastix{cat}.
 \end{equation}
-Then \Vel{cat}{ix1} has no top-down cause
+Then \Vel{cat}{z} has no top-down cause
 \dref[catena]{def:leo-catena}.
 Therefore, using
 \dref[validity of Leo memo with no top-down cause]{def:validity-of-leo-memo}
@@ -10700,14 +10706,17 @@ and \eqref{eq:leo-memo-uniqueness-by-postdot-instance-10},
 we have
 \begin{equation}
 \label{eq:leo-memo-uniqueness-by-postdot-instance-16}
-\Vel{cat}{ix1} = \left[
+\Vel{cat}{z} = \left[
 \begin{gathered}
   \Symbol{\Vleo{l}}, \Next{\DR{\Veim{bas}}}, \\
   \Origin{\Veim{bas}}, \Current{\Vleo{l}}
 \end{gathered}
 \right].
 \end{equation}
-And, since \Vleo{l} also has no top-down cause, we have
+And since from
+\eqref{eq:leo-memo-uniqueness-by-postdot-instance-12}
+we know that
+\Vleo{l} also has no top-down cause, we have
 \begin{equation}
 \label{eq:leo-memo-uniqueness-by-postdot-instance-19}
 \begin{gathered}
@@ -10721,22 +10730,65 @@ From
 and \eqref{eq:leo-memo-uniqueness-by-postdot-instance-19},
 we know that
 \[
-  \Vleo{l} = \Vel{cat}{ix1}.
+  \Vleo{l} = \Vel{cat}{z}.
 \]
 This contradicts
 \eqref{eq:leo-memo-uniqueness-by-postdot-instance-10}
-and shows the reductio.
-From the reductio we conclude that
-\begin{equation}
+and shows the inner reductio.
+From the inner reductio we conclude that
+\begin{align}
 \label{eq:leo-memo-uniqueness-by-postdot-instance-22}
-0 \le \var{ix1} < \Vlastix{cat}.
-\end{equation}
-Recalling that \var{ix1} is the first
-\var{ix} that satisfies
+& 0 \le \var{z} < \Vlastix{cat}, \; \text{so that}
+\\
+\label{eq:leo-memo-uniqueness-by-postdot-instance-23b}
+& \text{\el{cat}{\Vincr{z}} exists
+\eqref{eq:leo-memo-uniqueness-by-postdot-instance-22}; and
+}
+\\
+\label{eq:leo-memo-uniqueness-by-postdot-instance-23d}
+& \el{cat}{\Vincr{z}} = \Vleo{down} \neq \undefined
+\becuz
+\eqref{eq:leo-memo-uniqueness-by-postdot-instance-23b},
+\dref[catena]{def:leo-catena}.
+\end{align}
+Therefore, using
+\dref[validity of Leo memo with top-down cause]{def:validity-of-leo-memo},
 \eqref{eq:leo-memo-uniqueness-by-postdot-instance-10},
-we have that \ldots
+and \eqref{eq:leo-memo-uniqueness-by-postdot-instance-23d}
+we have
+\begin{equation}
+\label{eq:leo-memo-uniqueness-by-postdot-instance-25}
+\Vel{cat}{z} = \left[
+\begin{gathered}
+  \Symbol{\Vleo{l}}, \DR{\Vleo{down}}, \\
+  \Origin{\Vleo{down}}, \Current{\Vleo{l}}
+\end{gathered}
+\right].
+\end{equation}
+And by
+\eqref{eq:leo-memo-uniqueness-by-postdot-instance-12}
+and \dref[validity of Leo memo with top-down cause]{def:validity-of-leo-memo},
+\begin{equation}
+\label{eq:leo-memo-uniqueness-by-postdot-instance-28}
+\begin{gathered}
+\DR{\Vleo{l}} = \DR{\Vleo{down}} \; \text{and} \\
+\Origin{\Vleo{l}} = \Origin{\Vleo{down}}.
+\end{gathered}
+\end{equation}
+From
+\eqref{eq:leo-memo-uniqueness-by-postdot-instance-25}
+and \eqref{eq:leo-memo-uniqueness-by-postdot-instance-28},
+we again have that
+\[
+  \Vleo{l} = \Vel{cat}{z},
+\]
+which again
+contradicts
+\eqref{eq:leo-memo-uniqueness-by-postdot-instance-10}
+and again shows a reductio, this time the outer one.
+With the outer reductio, we have the theorem.
 
-TODO: Finish
+TODO: Finished?
 
 \end{proof}
 
@@ -10749,7 +10801,7 @@ Every EIM has at most one matching Leo memo.
 \end{theorem}
 
 \begin{proof}
-Suppose, for a reduction,
+Suppose, for a reductio,
 that two distinct Leo memos match a single EIM.
 Let, without loss of generality, the Leo memos be
 \begin{gather*}
