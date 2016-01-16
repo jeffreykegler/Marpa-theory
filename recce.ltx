@@ -9679,7 +9679,8 @@ and show the reductio and the theorem.
 Let
 \Vleo{l1}, \Vleo{l2}
 be two Leo memos
-such that
+with the same postdot instance,
+that is
 \begin{equation}
 \label{eq:leo-basis-symloc-uniqueness-10}
 \begin{gathered}
@@ -10637,8 +10638,109 @@ for all
 \end{theorem}
 
 \begin{proof}
-TODO
+
+TODO: recheck.
+
+We assume, for a reductio, that there is a catena,
+call it \var{cat},
+which contains a layer whose postdot instance is identical to some
+other instantiated Leo memo,
+that is
+\begin{equation}
+\label{eq:leo-memo-uniqueness-by-postdot-instance-10}
+\begin{gathered}
+\exists \; \Vleo{l}, \var{ix} : \Instantiated{\Vleo{l}} \\
+  \land \; \Symbol{\Vel{cat}{ix}} = \Symbol{\Vleo{l}} \\
+  \land \; \Current{\Vel{cat}{ix}} = \Current{\Vleo{l}} \\
+  \land \; \Vel{cat}{ix} \neq \Vleo{l}
+\end{gathered}
+\end{equation}
+If there is some \var{ix} that satisfies
+\eqref{eq:leo-memo-uniqueness-by-postdot-instance-10},
+then there is a first such \var{ix}.
+Let the first \var{ix} that satisfies
+\eqref{eq:leo-memo-uniqueness-by-postdot-instance-10}
+be \var{ix1}.
+We now proceed by cases, depending on whether on the value of \var{ix1}.
+
+We note that,
+by \eqref{eq:leo-memo-uniqueness-by-postdot-instance-10}
+and Lemma \ref{lem:leo-basis-symloc-uniqueness},
+\Vel{cat}{ix1} and \Vleo{l} have the same basis.
+Call this basis, \Veim{bas}.
+
+\Vel{cat}{ix1} has at most one top-down cause
+\tref{t:leo-down-uniqueness}.
+Call this top-down cause \Vleo{down}.
+In keeping with our convention in this monograph,
+we write $\Vleo{down} = \undefined$ if
+the top-down cause
+of \Vel{cat}{ix1} does not exist.
+
+Since 
+\Vel{cat}{ix1} and \Vleo{l} have the same basis,
+every top-down cause of
+\Vel{cat}{ix1}
+is also a top-down cause of \Vleo{l}
+\dref[Leo top-down cause]{def:down-cause-of-leo-memo}.
+Therefore \Vleo{down} is the top-down cause of \Vleo{l},
+and $\Vleo{down} = \undefined$ if and only if
+\Vleo{l} has a top-down cause.
+
+Assume for a reductio that
+\begin{equation}
+\label{eq:leo-memo-uniqueness-by-postdot-instance-13}
+\var{ix1} = \Vlastix{cat}.
+\end{equation}
+Then \Vel{cat}{ix1} has no top-down cause
+\dref[catena]{def:leo-catena}.
+Therefore, using
+\dref[validity of Leo memo with no top-down cause]{def:validity-of-leo-memo}
+and \eqref{eq:leo-memo-uniqueness-by-postdot-instance-10},
+we have
+\begin{equation}
+\label{eq:leo-memo-uniqueness-by-postdot-instance-16}
+\Vel{cat}{ix1} = \left[
+\begin{gathered}
+  \Symbol{\Vleo{l}}, \Next{\DR{\Veim{bas}}}, \\
+  \Origin{\Veim{bas}}, \Current{\Vleo{l}}
+\end{gathered}
+\right].
+\end{equation}
+And, since \Vleo{l} also has no top-down cause, we have
+\begin{equation}
+\label{eq:leo-memo-uniqueness-by-postdot-instance-19}
+\begin{gathered}
+\DR{\Vleo{l}} = \Next{\DR{\Veim{bas}}} \; \text{and} \\
+\Origin{\Vleo{l}} = \Origin{\Veim{bas}}.
+\end{gathered}
+\end{equation}
+
+From
+\eqref{eq:leo-memo-uniqueness-by-postdot-instance-16}
+and \eqref{eq:leo-memo-uniqueness-by-postdot-instance-19},
+we know that
+\[
+  \Vleo{l} = \Vel{cat}{ix1}.
+\]
+This contradicts
+\eqref{eq:leo-memo-uniqueness-by-postdot-instance-10}
+and shows the reductio.
+From the reductio we conclude that
+\begin{equation}
+\label{eq:leo-memo-uniqueness-by-postdot-instance-22}
+0 \le \var{ix1} < \Vlastix{cat}.
+\end{equation}
+Recalling that \var{ix1} is the first
+\var{ix} that satisfies
+\eqref{eq:leo-memo-uniqueness-by-postdot-instance-10},
+we have that \ldots
+
+TODO: Finish
+
 \end{proof}
+
+TODO: To here
 
 \begin{theorem}
 \ttitle{Leo memo uniqueness}
