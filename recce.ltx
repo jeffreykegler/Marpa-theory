@@ -228,6 +228,7 @@
 \newcommand{\Silo}[1]{\ensuremath{\myfnname{Silo}(#1)}}
 \newcommand{\Symbol}[1]{\ensuremath{\myfnname{Symbol}(#1)}}
 \newcommand{\Valid}[1]{\ensuremath{\myfnname{Valid}(#1)}}
+\newcommand{\Instantiated}[1]{\ensuremath{\myfnname{Instantiated}(#1)}}
 
 \newcommand\Ctables{\var{tables}}
 \newcommand\Vtables[1]{\Ctables[\alg{#1}]}
@@ -10467,6 +10468,81 @@ $(\Vincr{i}) \times \var{sym-cnt}$ distinct elements in \var{cat}.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Leo top-down uniqueness}
+\label{t:leo-down-uniqueness}
+Every valid Leo memo has at most one top-down cause.
+\end{theorem}
+
+\begin{proof}
+Let
+\begin{equation}
+\label{eq:leo-down-uniqueness-10}
+\Vleo{eff} = [ \Vsym{sym}, \Vdr{dr}, \Vloc{orig}, \Vloc{curr} ]
+\end{equation}
+be a Leo memo.
+Assume, for a reductio,
+that \Vleo{eff} has two distinct top-down causes.
+Let these be
+\begin{gather}
+\label{eq:leo-down-uniqueness-13}
+\Vleo{cuz1} = [ \Vsym{sym1}, \Vdr{dr1}, \Vloc{orig1}, \Vloc{curr1} ] \quad \text{and} \\
+\label{eq:leo-down-uniqueness-16}
+\Vleo{cuz2} = [ \Vsym{sym2}, \Vdr{dr2}, \Vloc{orig2}, \Vloc{curr2} ].
+\end{gather}
+\Vleo{cuz1} and \Vleo{cuz2} are, by assumption for
+the reductio,
+top-down causes of \Vleo{eff}.
+Applying 
+the definition of validity for a Leo memo with a top-down cause
+\dref[validity of a Leo memo]{def:validity-of-leo-memo}
+to \Vleo{eff},
+and
+using
+\eqref{eq:leo-down-uniqueness-10},
+\eqref{eq:leo-down-uniqueness-13}
+and
+\eqref{eq:leo-down-uniqueness-16},
+we see that
+\begin{gather*}
+\Vdr{dr} = \Vdr{dr1} \; \land \; \Vdr{dr} = \Vdr{dr2} \quad \text{and} \\
+\Vloc{orig} = \Vloc{orig1} \; \land \; \Vloc{orig} = \Vloc{orig2}
+\end{gather*}
+and therefore
+\begin{equation}
+\label{eq:leo-down-uniqueness-20}
+\Vdr{dr1} = \Vdr{dr2} \; \land \; \Vloc{orig1} = \Vloc{orig2}.
+\end{equation}
+From Theorem
+\ref{t:leo-basis-uniqueness},
+we know that \Vleo{eff} has a unique basis,
+call it \Veim{bas}.
+By \dref[Leo top-down cause]{def:down-cause-of-leo-memo},
+we know that
+\begin{gather*}
+\LHS{\Veim{bas}} = \Vsym{sym1} \; \land \; \LHS{\Veim{bas}} = \Vsym{sym2} \quad \text{and} \\
+\Origin{\Veim{bas}} = \Vloc{curr1} \; \land \; \Origin{\Veim{bas}} = \Vloc{curr2}.
+\end{gather*}
+so that
+\begin{equation}
+\label{eq:leo-down-uniqueness-25}
+\Vsym{sym1} = \Vsym{sym2} \; \land \; \Vloc{curr1} = \Vloc{curr2}.
+\end{equation}
+From
+\eqref{eq:leo-down-uniqueness-13},
+\eqref{eq:leo-down-uniqueness-16},
+\eqref{eq:leo-down-uniqueness-20}
+and
+\eqref{eq:leo-down-uniqueness-25},
+we have
+\[
+\Vleo{cuz1} = \Vleo{cuz2}.
+\]
+But we assumed for the reductio that \Vleo{cuz1}
+and \Vleo{cuz2} are distinct.
+So this gives us the reductio and the theorem.
+\end{proof}
+
+\begin{theorem}
 \ttitle{Memo catena uniqueness}
 \label{t:memo-catena-uniqueness}
 The catena of a Leo memo is unique.
@@ -10544,95 +10620,20 @@ are identical.
 \end{proof}
 
 \begin{theorem}
-\ttitle{Leo top-down uniqueness}
-\label{t:leo-down-uniqueness}
-Every valid Leo memo has at most one top-down cause.
-\end{theorem}
-
-\begin{proof}
-Let
-\begin{equation}
-\label{eq:leo-down-uniqueness-10}
-\Vleo{eff} = [ \Vsym{sym}, \Vdr{dr}, \Vloc{orig}, \Vloc{curr} ]
-\end{equation}
-be a Leo memo.
-Assume, for a reductio,
-that \Vleo{eff} has two distinct top-down causes.
-Let these be
-\begin{gather}
-\label{eq:leo-down-uniqueness-13}
-\Vleo{cuz1} = [ \Vsym{sym1}, \Vdr{dr1}, \Vloc{orig1}, \Vloc{curr1} ] \quad \text{and} \\
-\label{eq:leo-down-uniqueness-16}
-\Vleo{cuz2} = [ \Vsym{sym2}, \Vdr{dr2}, \Vloc{orig2}, \Vloc{curr2} ].
-\end{gather}
-\Vleo{cuz1} and \Vleo{cuz2} are, by assumption for
-the reductio,
-top-down causes of \Vleo{eff}.
-Applying 
-the definition of validity for a Leo memo with a top-down cause
-\dref[validity of a Leo memo]{def:validity-of-leo-memo}
-to \Vleo{eff},
-and
-using
-\eqref{eq:leo-down-uniqueness-10},
-\eqref{eq:leo-down-uniqueness-13}
-and
-\eqref{eq:leo-down-uniqueness-16},
-we see that
-\begin{gather*}
-\Vdr{dr} = \Vdr{dr1} \; \land \; \Vdr{dr} = \Vdr{dr2} \quad \text{and} \\
-\Vloc{orig} = \Vloc{orig1} \; \land \; \Vloc{orig} = \Vloc{orig2}
-\end{gather*}
-and therefore
-\begin{equation}
-\label{eq:leo-down-uniqueness-20}
-\Vdr{dr1} = \Vdr{dr2} \; \land \; \Vloc{orig1} = \Vloc{orig2}.
-\end{equation}
-From Theorem
-\ref{t:leo-basis-uniqueness},
-we know that \Vleo{eff} has a unique basis,
-call it \Veim{bas}.
-By \dref[Leo top-down cause]{def:down-cause-of-leo-memo},
-we know that
-\begin{gather*}
-\LHS{\Veim{bas}} = \Vsym{sym1} \; \land \; \LHS{\Veim{bas}} = \Vsym{sym2} \quad \text{and} \\
-\Origin{\Veim{bas}} = \Vloc{curr1} \; \land \; \Origin{\Veim{bas}} = \Vloc{curr2}.
-\end{gather*}
-so that
-\begin{equation}
-\label{eq:leo-down-uniqueness-25}
-\Vsym{sym1} = \Vsym{sym2} \; \land \; \Vloc{curr1} = \Vloc{curr2}.
-\end{equation}
-From
-\eqref{eq:leo-down-uniqueness-13},
-\eqref{eq:leo-down-uniqueness-16},
-\eqref{eq:leo-down-uniqueness-20}
-and
-\eqref{eq:leo-down-uniqueness-25},
-we have
-\[
-\Vleo{cuz1} = \Vleo{cuz2}.
-\]
-But we assumed for the reductio that \Vleo{cuz1}
-and \Vleo{cuz2} are distinct.
-So this gives us the reductio and the theorem.
-\end{proof}
-
-\begin{theorem}
-\ttitle{Leo memos are unique by location and symbol}
-\label{t:leo-memo-uniqueness}
+\ttitle{Leo memos are unique by postdot instance}
+\label{t:leo-memo-uniqueness-by-postdot-instance}
 Let \Vsym{A} be a symbol in a grammar
 and \Vloc{i} a location in a parse.
-There is at most one valid Leo memo with
+There is at most one instantiated Leo memo with
 symbol \Vsym{A} at location \Vloc{i}.
 That is,
-\begin{multline}
-\forall \; \Vleo{l1}, \Vleo{l2} : \Valid{\Vleo{l1}} \; \land \; \Valid{\Vleo{l2}}
-\\
-\land \; \Current{\Vleo{l1}} = \Current{\Vleo{l2}}
-\\
-\implies \Symbol{\Vleo{l1}} \neq \Symbol{\Vleo{l2}}.
-\end{multline}
+for all
+\Vleo{l1}, \Vleo{l2} :
+\begin{gather*}
+\neg \Instantiated{\Vleo{l1}} \lor \; \neg \Instantiated{\Vleo{l2}} \\
+\lor \; \Current{\Vleo{l1}} \neq \Current{\Vleo{l2}} \\
+\lor \; \Symbol{\Vleo{l1}} \neq \Symbol{\Vleo{l2}}
+\end{gather*}
 \end{theorem}
 
 \begin{proof}
@@ -10668,7 +10669,7 @@ so that
 \Current{\Vleo{l1}} = \Current{\Vleo{l2}}.
 \end{gather*}
 From Theorem
-\eqref{t:leo-memo-uniqueness}
+\eqref{t:leo-memo-uniqueness-by-postdot-instance}
 it follows that
 \begin{equation}
 \label{eq:leo-memos-match-uniquely-20}
