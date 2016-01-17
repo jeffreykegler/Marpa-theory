@@ -10793,8 +10793,6 @@ and again shows a reductio, this time the outer one.
 With the outer reductio, we have the theorem.
 \end{proof}
 
-TODO: To here
-
 \begin{theorem}
 \ttitle{Leo memo uniqueness}
 \label{t:leo-memos-match-uniquely}
@@ -10863,10 +10861,13 @@ $\Current{\Vleo{l1}} = \Current{\Vleo{l2}}$
 \tref{t:leo-memo-uniqueness-by-postdot-instance}.
 }
 \end{align}
+Equation
 \eqref{eq:leo-memos-match-uniquely-22} contradicts
 our assumption for the reductio,
 and shows the theorem.
 \end{proof}
+
+TODO: To here
 
 \begin{theorem}
 \ttitle{Leo memo dotted rule is telluric}
@@ -10876,30 +10877,55 @@ The dotted rule of a valid Leo memo is telluric.
 
 \begin{proof}
 Let a Leo memo be \var{l}.
-Every Leo memo has a catena.
-Let \var{cat} be the catena of \var{l}.
-We proceed by induction on the elements of \var{cat}.
-For the induction hypothesis, we take
+Every Leo memo is in a catena, even if it is only a
+trivial catena of length 1.
+So let \var{cat} be a catena that contains \Vleo{l}.
+Our assumption for the reductio can then be written as
 \begin{equation}
 \label{eq:leo-memo-dotted-rule-is-telluric-10}
-\text{\DR{\Vel{cat}{x}} is telluric.}
+\tag{RAA}
+\exists \; \Vleo{l} : \text{\DR{\Vleo{l}} is not telluric}
 \end{equation}
-The catena element \el{cat}{0} has,
-by the definition of a catena,
-no top-down cause.
-Therefore, by the definition of validity
-of a Leo memo,
+
+A Leo catena is finite in length
+\tref{t:leo-catenas-are-finite}.
+Therefore, if any \var{ix} satisfies
+\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
+then there is a last \var{ix} that satisfies
+\eqref{eq:leo-memo-dotted-rule-is-telluric-10}.
+Let the last \var{ix} that satisfies
+\eqref{eq:leo-memo-dotted-rule-is-telluric-10}.
+be \var{z}.
+
+We proceed using two cases, depending on the value of \var{z}.
+In our first case,
+\begin{equation}
+\label{eq:leo-memo-dotted-rule-is-telluric-13}
+\tag{CAS1}
+\var{z} = \Vlastix{cat}.
+\end{equation}
+then \Vel{cat}{z} has not top-down cause,
+so that
+Therefore, by
+\dref[validity of Leo memo with no top-down cause]{def:validity-of-leo-memo}
 its dotted rule is
 \Next{\DR{\Veim{basis}}},
 where \Veim{basis} is the basis of the Leo memo.
-By the definition of the basis of a Leo memo,
+By
+\dref[basis of a Leo memo]{def:basis-of-leo-memo},
 $\Postdot{\Veim{basis}} \neq \epsilon$,
 so that
 \Next{\DR{\Veim{basis}}}
 is telluric.
-We take 
-\eqref{eq:leo-memo-dotted-rule-is-telluric-10}
-for $\var{x} = 0$ as the basis of our induction.
+
+TODO: to here
+
+In our second case,
+\begin{equation}
+\label{eq:leo-memo-dotted-rule-is-telluric-13}
+\tag{CAS2}
+0 \le \var{z} < \Vlastix{cat}.
+\end{equation}
 
 For the step, we assume
 \eqref{eq:leo-memo-dotted-rule-is-telluric-10}
