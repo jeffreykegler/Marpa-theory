@@ -10638,11 +10638,15 @@ for all
 \end{theorem}
 
 \begin{proof}
-We assume, for a reductio, that there is a catena,
-call it \var{cat},
-which contains a layer whose postdot instance is identical to some
-other instantiated Leo memo,
-that is
+We assume, for a reductio, that there is
+an instantiated Leo memo, call it \Vleo{l}, whose
+postdot instance is identical to some
+another instantiated Leo memo, call it \Vleo{l2},
+where $\Vleo{l} \neq \Vleo{l2}$.
+Every Leo memo is in a catena, even if it is only a
+trivial catena of length 1.
+So let \var{cat} be a catena that contains \Vleo{l2}.
+Our assumption for the reductio can then be written as
 \begin{equation}
 \label{eq:leo-memo-uniqueness-by-postdot-instance-10}
 \tag{RAA}
@@ -10650,9 +10654,10 @@ that is
 \exists \; \Vleo{l} \; \exists \; \var{ix} : \Instantiated{\Vleo{l}} \\
   \land \; \Symbol{\Vel{cat}{ix}} = \Symbol{\Vleo{l}} \\
   \land \; \Current{\Vel{cat}{ix}} = \Current{\Vleo{l}} \\
-  \land \; \Vel{cat}{ix} \neq \Vleo{l}
+  \land \; \Vel{cat}{ix} \neq \Vleo{l}.
 \end{gathered}
 \end{equation}
+
 A Leo catena is finite in length
 \tref{t:leo-catenas-are-finite}.
 Therefore, if any \var{ix} satisfies
