@@ -251,7 +251,7 @@
 % \newcommand\dtitle[1]{\textbf{#1}:\index{recce-definitions}{#1}}
 \newcommand\dtitle[1]{\textbf{#1}:}
 \newcommand{\rawdref}[2]{%
-  \ifthenelse{\equal{#2}{}}%
+  \ifthenelse{\equal{#1}{}}%
   {(D\ref{#2})}%
   {(D\ref{#2} ``#1'')}%
 }
@@ -10184,7 +10184,7 @@ of
 \becuz{}
 \eqref{eq:lem-leo-catena-cycle-9},
 \eqref{eq:lem-leo-catena-cycle-12},
-\dref[top-down cause of Leo memo]{def:matching-leo-memo};
+\dref[top-down cause of Leo memo]{def:down-cause-of-leo-memo};
 }
 \\
 \label{eq:lem-leo-catena-cycle-16}
@@ -10220,7 +10220,7 @@ and \eqref{eq:lem-leo-catena-cycle-16};
 \becuz{}
 \eqref{eq:lem-leo-catena-cycle-9},
 \eqref{eq:lem-leo-catena-cycle-12}
-\dref[top-down cause of Leo memo]{def:matching-leo-memo};
+\dref[top-down cause of Leo memo]{def:down-cause-of-leo-memo};
 }
 \\
 \label{eq:lem-leo-catena-cycle-26}
@@ -10810,27 +10810,60 @@ Let, without loss of generality, the Leo memos be
 \Vleo{l2} = [ \Vsym{sym2}, \Vdr{dr2}, \Vorig{orig2}, \Vloc{curr2} ].
 \end{gather*}
 and let the EIM be \Veim{eim}.
-By the definition of ``matching'' for a Leo memo and an EIM,
-we have
-\begin{gather*}
-\Symbol{\Vleo{l1}} = \LHS{\Veim{eim}} \quad \text{and} \\
-\Current{\Vleo{l1}} = \Left{\Veim{eim}} \quad \text{and} \\
-\Symbol{\Vleo{l2}} = \LHS{\Veim{eim}} \quad \text{and} \\
-\Current{\Vleo{l2}} = \Left{\Veim{eim}},
-\end{gather*}
-so that
-\begin{gather*}
-\Symbol{\Vleo{l1}} = \Symbol{\Vleo{l2}} \quad \text{and} \\
-\Current{\Vleo{l1}} = \Current{\Vleo{l2}}.
-\end{gather*}
-From Theorem
-\eqref{t:leo-memo-uniqueness-by-postdot-instance}
-it follows that
-\begin{equation}
+Then
+\begin{align}
+\label{eq:leo-memos-match-uniquely-10}
+& \myparbox{
+$\Symbol{\Vleo{l1}} = \LHS{\Veim{eim}}$
+\becuz{}
+\dref[matching Leo memo]{def:matching-leo-memo};
+}
+\\
+\label{eq:leo-memos-match-uniquely-12}
+& \myparbox{
+$\Current{\Vleo{l1}} = \Left{\Veim{eim}}$
+\becuz{}
+\dref{def:matching-leo-memo};
+}
+\\
+\label{eq:leo-memos-match-uniquely-14}
+& \myparbox{
+$\Symbol{\Vleo{l2}} = \LHS{\Veim{eim}}$
+\becuz{}
+\dref{def:matching-leo-memo};
+}
+\\
+\label{eq:leo-memos-match-uniquely-16}
+& \myparbox{
+$\Current{\Vleo{l2}} = \Left{\Veim{eim}}$
+\becuz{}
+\dref{def:matching-leo-memo};
+}
+\\
+\label{eq:leo-memos-match-uniquely-18}
+& \myparbox{
+\Symbol{\Vleo{l1}} = \Symbol{\Vleo{l2}}
+\becuz{}
+\eqref{eq:leo-memos-match-uniquely-12},
+\eqref{eq:leo-memos-match-uniquely-16};
+}
+\\
 \label{eq:leo-memos-match-uniquely-20}
+& \myparbox{
+$\Current{\Vleo{l1}} = \Current{\Vleo{l2}}$
+\becuz{}
+\eqref{eq:leo-memos-match-uniquely-14},
+\eqref{eq:leo-memos-match-uniquely-18}; and
+}
+\\
+\label{eq:leo-memos-match-uniquely-22}
+& \myparbox{
 \Vleo{l1} = \Vleo{l2}
-\end{equation}
-\eqref{eq:leo-memos-match-uniquely-20} contradicts
+\becuz{}
+\tref{t:leo-memo-uniqueness-by-postdot-instance}.
+}
+\end{align}
+\eqref{eq:leo-memos-match-uniquely-22} contradicts
 our assumption for the reductio,
 and shows the theorem.
 \end{proof}
