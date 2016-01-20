@@ -3945,7 +3945,7 @@ we also say that
 If a symbolic bottom-up cause
 and a top-down cause match
 and are both valid,
-their effect is valid.
+then they have exactly one valid effect.
 \end{theorem}
 
 \begin{proof}
@@ -3963,15 +3963,20 @@ and let the symbolic equivalent of the bottom-up cause be
 \label{eq:effect-from-symbolic-causes-6}
 \,[\var{j}]\, \Vsym{A} \,[\var{k}]\, .
 \end{equation}
-
-To show the theorem, we must show that
+The effect of \Veim{down} and \eqref{eq:effect-from-symbolic-causes-6}
+will be
 \begin{equation}
 \label{eq:effect-from-symbolic-causes-9}
 \begin{split}
 & \Veim{effect} =  \\
-& \qquad \qquad [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ]
+& \qquad \qquad [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
 \end{split}
 \end{equation}
+\Veim{effect} is fully determined by
+\Veim{down} and \eqref{eq:effect-from-symbolic-causes-6}
+and is therefore unique.
+
+It remains to show that \Veim{effect}
 is valid.
 By the definition of validity for an Earley item,
 we will have shown this if we can show that
@@ -10988,7 +10993,102 @@ shows the outer reductio.
 \chapter{Leo silos}
 
 \begin{definition}
-\dtitle{Leo effect}
+\dtitle{Leo silo cause and effect}
+Let
+\begin{itemize}
+\item
+\Veim{cuz} be a valid EIM;
+\item
+let \Vleo{l} be a Leo memo that matches \Veim{cuz};
+\item
+let \Veim{bas} be a basis of \Vleo{l}; and
+\item
+let \Veim{eff} be the effect of \Veim{cuz} and \Veim{bas}.
+\end{itemize}
+Then we say that \Veim{eff}
+is the
+\dfn{direct Leo silo effect}
+of \Veim{cuz};
+and that \Veim{cuz} is the
+\dfn{Leo silo cause}
+of \Veim{eff}.
+For brevity,
+a direct Leo silo effect is
+also called a
+\dfn{direct Leo effect}; and
+a Leo silo cause is
+also called a
+\dfn{Leo cause}.
+\end{definition}
+
+\begin{theorem}
+\ttitle{Leo cause and effect}
+\label{t:leo-effect}
+Let \Veim{cuz} be a valid EIM;
+and let \Vleo{l} be a matching Leo memo.
+Then they have exactly one valid direct Leo effect,
+call it \Veim{eff};
+\Veim{eff} is the only effect of of \op{Sym-Eq}{\Veim{up}};
+and
+\Veim{eff} is a silo effect.
+\end{theorem}
+
+\begin{proof}
+\Vleo{l} has a unique basis
+\tref{t:leo-basis-uniqueness},
+call it \Veim{bas},
+so that
+\begin{align}
+\label{eq:leo-effect-10}
+& \myparbox{%
+$\Symbol{\Vleo{l}} = \Postdot{\Veim{bas}}$
+\becuz{} \dref[basis of Leo memo]{def:basis-of-leo-memo};
+} \\
+\label{eq:leo-effect-12}
+& \myparbox{%
+$\Current{\Vleo{l}} =  \Current{\Veim{bas}}$
+\becuz{} \dref{def:basis-of-leo-memo};
+} \\
+\label{eq:leo-effect-14}
+& \myparbox{%
+$\Symbol{\Vleo{l}} = \Symbol{\Veim{cuz}}$
+\becuz{}
+ASM for Th,
+\dref[matching Leo memo]{def:matching-leo-memo};
+} \\
+\label{eq:leo-effect-16}
+& \myparbox{%
+$\Current{\Vleo{l}} = \Origin{\Veim{cuz}}$
+\becuz{}
+ASM for Th,
+\dref{def:matching-leo-memo}; and
+} \\
+\label{eq:leo-effect-18}
+& \myparbox{%
+\Veim{bas} matches \Veim{cuz}
+\becuz{}
+\eqref{eq:leo-effect-10},
+\eqref{eq:leo-effect-12},
+\eqref{eq:leo-effect-14},
+\eqref{eq:leo-effect-16},
+\dref[matching top-down and bottom-up causes]
+  {def:matching-causes}.
+}
+\end{align}
+
+From 
+\eqref{eq:leo-effect-18} and
+\tref{t:effect-from-symbolic-causes}, we know that
+\Veim{bas} and \Veim{cuz} have exactly one valid effect,
+call it \Veim{eff}.
+
+TODO: Finish.
+\end{proof}
+
+\begin{theorem}
+
+TODO: Make sure all of the following are proved:
+ 
 Let \Vleo{leo} be an instantiated Leo memo
 and \Veim{up} be a valid, complete, EIM.
 The
@@ -11024,10 +11124,10 @@ that Leo memo is the top-down cause of \Vleo{leo}; and}
 of \Veim{eff}.
 }
 \end{gather}
-\end{definition}
+\end{theorem}
 
 \begin{theorem}
-\label{t:leo-effect}
+\label{t:leo-effect-OLD}
 Let \Vleo{leo} be an instantiated Leo memo
 and \Veim{up} be a valid, complete, EIM
 such that \Vleo{leo} matches \Veim{up}.
