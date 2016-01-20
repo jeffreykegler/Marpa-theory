@@ -11027,11 +11027,20 @@ also called a
 Let \Veim{cuz} be a valid EIM;
 and let \Vleo{l} be a matching,
 instantiated, Leo memo.
-Then they have exactly one valid direct Leo effect,
+Then
+\begin{itemize}
+\item
+they have exactly one valid direct Leo effect,
 call it \Veim{eff};
-\Veim{eff} is the only effect of of \op{Sym-Eq}{\Veim{up}};
-and
+\item
+\Veim{cuz} is a bottom-up cause of \Veim{eff};
+\item
+\Veim{eff} is the only effect of \op{Sym-Eq}{\Veim{cuz}};
+\item
+\Veim{eff} is right-recursive; and
+\item
 \Veim{eff} is a silo effect.
+\end{itemize}
 \end{theorem}
 
 \begin{proof}
@@ -11110,8 +11119,9 @@ call it \Veim{eff}
 \Veim{eff} is the direct Leo silo effect of \Veim{cuz}
 \becuz{}
 \eqref{eq:leo-effect-8b},
-\eqref{eq:leo-effect-8f},
 \eqref{eq:leo-effect-8d},
+\eqref{eq:leo-effect-8f},
+\eqref{eq:leo-effect-8h},
 \eqref{eq:leo-effect-20}.
 }
 \end{align}
@@ -11121,253 +11131,15 @@ From
 TODO: Finish.
 \end{proof}
 
-\begin{theorem}
-
-TODO: Make sure all of the following are proved:
- 
-Let \Vleo{leo} be an instantiated Leo memo
-and \Veim{up} be a valid, complete, EIM.
-The
-\xdfn{Leo effect}{Leo effect}
-of \Vleo{leo} and \Veim{up}
-is an EIM, call it \Veim{eff}, such that
-\begin{gather}
-\label{eq:def-leo-effect-10}
-\myparbox{\Veim{eff} is valid;
-}
-\\
-\label{eq:def-leo-effect-10a}
-\myparbox{\Veim{eff} is a silo effect
-of \Veim{up};
-} \\
-\label{eq:def-leo-effect-12}
-\myparbox{\Veim{eff} is right recursive;}
-\\
-\label{eq:def-leo-effect-13}
-\myparbox{\Veim{eff} is the only effect
-of \op{Sym-Eq}{\Veim{up}};
-} \\
-\label{eq:def-leo-effect-14}
-\myparbox{either \Veim{eff} is the memoized top of the Leo silo,
-or it has an instantiated matching Leo memo;}
-\\
-\label{eq:def-leo-effect-15}
-\myparbox{if \Veim{eff} has an instantiated matching Leo memo,
-that Leo memo is the top-down cause of \Vleo{leo}; and}
-\\
-\label{eq:def-leo-effect-16}
-\myparbox{\Veim{up} is the bottom-up cause
-of \Veim{eff}.
-}
-\end{gather}
-\end{theorem}
-
-\begin{theorem}
-\label{t:leo-effect-OLD}
-Let \Vleo{leo} be an instantiated Leo memo
-and \Veim{up} be a valid, complete, EIM
-such that \Vleo{leo} matches \Veim{up}.
-Then there is a \Veim{eff} such that
-\Veim{eff} is the Leo effect of
-\Vleo{leo} and \Veim{up}.
-\end{theorem}
-
-\begin{proof}
-Since \Vleo{leo} is instantiated,
-by the definition of
-Leo memo validity,
-it has a valid basis.
-Without loss of generality, let
-\begin{gather}
-\label{eq:def-leo-effect-20}
-\begin{gathered}
-\Veim{basis} = \left[
-  \begin{gathered}
-     [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{trans} \Vstr{nul2} ], \\
-     \Vloc{i}, \qquad \Current{\Vleo{leo}}
-  \end{gathered}
-\right]
-\\
-\text{where $\Vstr{nul2} = \epsilon$ and} \\
-\text{$\Symbol{\Vleo{leo}} = \Vsym{trans}$, and where}
-\end{gathered}
-\\
-\label{eq:def-leo-effect-21}
-\text{\Veim{basis} is the basis of \Vleo{leo}}.
-\end{gather}
-Since \Veim{up},
-by assumption for the theorem,
-matches
-\Vleo{leo},
-we have
-\begin{equation}
-\label{eq:def-leo-effect-23}
-\begin{gathered}
-\Symbol{\Veim{up}} = \Vsym{trans} \\
-\land \; \Current{\Vleo{leo}} = \Left{\Veim{up}}.
-\end{gathered}
-\end{equation}
-Using Theorem
-\ref{t:effect-from-symbolic-causes},
-from \eqref{eq:def-leo-effect-20}
-and
-\eqref{eq:def-leo-effect-23}
-we see that
-\begin{gather}
-\label{eq:def-leo-effect-30}
-\Veim{eff} = \left[
-  \begin{gathered}
-     [ \Vsym{A} \de \Vstr{prefix} \Vsym{trans} \mydot \Vstr{nul2} ], \\
-     \Vloc{i}, \qquad \Right{\Veim{up}}
-  \end{gathered}
-\right] \quad \text{is valid, and}
-\\
-\label{eq:def-leo-effect-30a}
-\text{\Veim{up} is the bottom-up cause of \Veim{eff}.}
-\end{gather}
-\eqref{eq:def-leo-effect-30} shows
-requirement
-\eqref{eq:def-leo-effect-10}
-of the theorem.
-
-From
-\eqref{eq:def-leo-effect-30},
-we see that
-\begin{gather}
-\label{eq:def-leo-effect-32a}
-\Right{\Veim{eff}} = \Right{\Veim{up}}, \quad \text{and} \\
-\label{eq:def-leo-effect-32b}
-\text{\Veim{eff} is quasi-complete.}
-\end{gather}
-From \eqref{eq:def-leo-effect-30a},
-\eqref{eq:def-leo-effect-32a}
-and
-\eqref{eq:def-leo-effect-32b}
-we have
-requirement
-\eqref{eq:def-leo-effect-10a} of the
-theorem.
-
-By the definition of the basis of a Leo memo,
-\Veim{basis} must be right-recursive.
-\Veim{basis} and \Veim{eff} share the same rule,
-so \Veim{eff} is right recursive,
-which shows
-Requirement
-\eqref{eq:def-leo-effect-12}
-of the theorem.
-
-By the definition of the basis of a Leo memo,
-\Veim{basis} must be postdot-unique ---
-that is there can be no distinct EIM, call it \Veim{basis2},
-such that
-\begin{equation}
-\label{eq:def-leo-effect-33}
-\begin{gathered}
-\Current{\Veim{basis}} = \Current{\Veim{basis2}} \quad \text{and} \\
-\Postdot{\Veim{basis}} = \Postdot{\Veim{basis2}}.
-\end{gathered}
-\end{equation}
-From \eqref{eq:def-leo-effect-33}
-and the definition of matching causes,
-\Veim{basis} is the only top-down cause matching \Veim{up}.
-By the definition of a confirmed effect's causes,
-a confirmed effect is completely determined by the symbolic equivalent
-of its bottom-up cause and its top-down cause.
-From the considerations in this paragraph,
-we have
-Requirement
-\eqref{eq:def-leo-effect-13}
-of this theorem.
-
-To show
-Requirements
-\eqref{eq:def-leo-effect-14}
-and
-\eqref{eq:def-leo-effect-15}
-of the theorem,
-we proceed by cases, based on whether
-or not \Vleo{leo} has an instantiated top-down cause.
-If \Vleo{leo} has no instantiated top-down cause,
-we have
-\eqref{eq:def-leo-effect-15}
-vacuously.
-
-It remains to show
-\eqref{eq:def-leo-effect-14}.
-Let \Veim{memtop} be the memoized Leo top.
-By 
-\dref[Leo memo validity]{def:validity-of-leo-memo}
-and \dref[memoized Leo top]{def:leo-silo},
-we know that
-\begin{multline}
-\label{eq:def-leo-effect-35}
-\Veim{memtop} = \\
-  \big[ \Next{\DR{\Veim{basis}}}, \Origin{\Veim{basis}}, \Right{\Veim{up}} \big].
-\end{multline}
-Using
-\eqref{eq:def-leo-effect-20},
-\eqref{eq:def-leo-effect-30}
-and
-\eqref{eq:def-leo-effect-35},
-we see that
-\begin{equation}
-\Veim{eff} = \Veim{memtop}.
-\end{equation}
-This shows our first case.
-
-In our second case,
-\Vleo{leo} has an instantiated top-down cause,
-call it \Vleo{cuz}.
-From
-\eqref{eq:def-leo-effect-21}
-and the definition of the top-down cause
-of a Leo memo,
-we know that
-\begin{equation}
-\label{eq:def-leo-effect-40}
-\begin{gathered}
-\Symbol{\Vleo{cuz}} = \LHS{\Veim{basis}}
-\quad \text{and} \\
-\Current{\Vleo{cuz}} = \Origin{\Veim{basis}}.
-\end{gathered}
-\end{equation}
-From
-\eqref{eq:def-leo-effect-20}
-and
-\eqref{eq:def-leo-effect-30}
-we know that
-\begin{equation}
-\label{eq:def-leo-effect-43}
-\begin{gathered}
-\LHS{\Veim{basis}} = \LHS{\Veim{eff}}
-\quad \text{and} \\
-\Origin{\Veim{basis}}  = \Origin{\Veim{eff}}.
-\end{gathered}
-\end{equation}
-From
-\eqref{eq:def-leo-effect-40}
-and
-\eqref{eq:def-leo-effect-43}
-and the definition of ``matching''
-for Leo memos and EIM's,
-we see that \Vleo{cuz}
-matches \Veim{eff}.
-This gives us
-Requirement
-\eqref{eq:def-leo-effect-14}
-of the theorem.
-By assumption for the case,
-\Vleo{cuz} is the top-down cause
-of \Vleo{leo},
-which gives us
-Requirement
-\eqref{eq:def-leo-effect-15}
-of the theorem.
-This shows our second case,
-and
-and the theorem.
-\end{proof}
+% TODO: Make sure all of the following are proved:
+% \label{eq:def-leo-effect-14}
+% \myparbox{either \Veim{eff} is the memoized top of the Leo silo,
+% or it has an instantiated matching Leo memo;}
+% \\
+% \label{eq:def-leo-effect-15}
+% \myparbox{if \Veim{eff} has an instantiated matching Leo memo,
+% that Leo memo is the top-down cause of \Vleo{leo}; and}
+% \\
 
 \begin{definition}
 \dtitle{Leo silo}
