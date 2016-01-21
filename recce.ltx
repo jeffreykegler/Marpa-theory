@@ -10993,15 +10993,12 @@ shows the outer reductio.
 \chapter{Leo silos}
 
 \begin{definition}
-\dtitle{Leo silo cause and effect}
+\dtitle{Leo silo effect}
 We say that \Veim{eff}
 is the
 \dfn{direct Leo silo effect}
-of \Veim{cuz},
-and that \Veim{cuz} is the
-\dfn{Leo silo cause}
-of \Veim{eff} if
-and only if
+of \Veim{cuz}
+if and only if
 \begin{itemize}
 \item
 \Veim{cuz} is a valid EIM;
@@ -11012,14 +11009,15 @@ and only if
 \item
 \Veim{eff} is the effect of \Veim{cuz} and \Veim{bas}.
 \end{itemize}
+\dfn{Leo silo cause}
 For brevity,
 a direct Leo silo effect is
 also called a
-\dfn{direct Leo effect}; and
-a Leo silo cause is
-also called a
-\dfn{Leo cause}.
+\dfn{direct Leo effect}.
 \end{definition}
+
+TODO: Define Leo silo cause once
+I define Leo silo effect.
 
 \begin{theorem}
 \ttitle{Leo cause and effect}
@@ -11028,19 +11026,34 @@ Let \Veim{cuz} be a valid EIM;
 and let \Vleo{l} be a matching,
 instantiated, Leo memo.
 Then
-\begin{itemize}
-\item
+\begin{align}
+\label{eq:leo-effect-5b}
+\myparbox{%
 they have exactly one valid direct Leo effect,
 call it \Veim{eff};
-\item
+} \\
+\label{eq:leo-effect-5d}
+\myparbox{%
 \Veim{cuz} is a bottom-up cause of \Veim{eff};
-\item
+} \\
+\label{eq:leo-effect-5f}
+\myparbox{%
 \Veim{eff} is the only effect of \op{Sym-Eq}{\Veim{cuz}};
-\item
-\Veim{eff} is right-recursive; and
-\item
-\Veim{eff} is a silo effect.
-\end{itemize}
+} \\
+\label{eq:leo-effect-5h}
+\myparbox{%
+\Veim{eff} is right-recursive;
+} \\
+\label{eq:leo-effect-5j}
+\myparbox{%
+\Veim{eff} is a silo effect; and
+} \\
+\label{eq:leo-effect-5l}
+\myparbox{%
+if \Veim{eff} has an instantiated matching Leo memo,
+that Leo memo is the top-down cause of \Vleo{leo}.
+}
+\end{align}
 \end{theorem}
 
 \begin{proof}
@@ -11130,16 +11143,6 @@ From
 
 TODO: Finish.
 \end{proof}
-
-% TODO: Make sure all of the following are proved:
-% \label{eq:def-leo-effect-14}
-% \myparbox{either \Veim{eff} is the memoized top of the Leo silo,
-% or it has an instantiated matching Leo memo;}
-% \\
-% \label{eq:def-leo-effect-15}
-% \myparbox{if \Veim{eff} has an instantiated matching Leo memo,
-% that Leo memo is the top-down cause of \Vleo{leo}; and}
-% \\
 
 \begin{definition}
 \dtitle{Leo silo}
