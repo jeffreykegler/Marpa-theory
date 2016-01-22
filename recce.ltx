@@ -3685,7 +3685,9 @@ Then we say that
 \end{equation*}
 is a \dfn{top-down cause} of \Veim{effect};
 we say that \Vsym{up} is a \dfn{bottom-up cause} of \Veim{effect};
-and we say that \Veim{effect} is the \dfn{effect} of \Veim{down} and \Vsym{up}.
+and we say that \Veim{effect} is the
+\dfn{effect}{effect (EIM)}
+of \Veim{down} and \Vsym{up}.
 
 We now consider an Earley item
 with no predot symbol instance.
@@ -4127,6 +4129,44 @@ then its top-down cause must be
 \end{equation}
 so that \Veim{cuz} is a function of \Veim{eff}
 and therefore unique.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Confirmation from bottom-up cause}
+\label{t:confirmation-from-up-cause}
+Let \Veim{eff} be an EIM.
+If the bottom-up cause of \Veim{eff} is a non-nulling
+terminal or an EIM,
+then \Veim{eff} is a confirmation.
+\end{theorem}
+
+\begin{proof}
+By assumption for the theorem,
+the bottom-up cause of \Veim{eff} is not ethereal,
+so that,
+using \dref[causes]{def:causes}
+and without loss of generality,
+the dotted rule of \Veim{eff} is
+\begin{equation}
+\label{eq:confirmation-from-up-cause-10}
+ \Vdr{eff} = [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{up} \mydot \Vstr{suffix} ].
+\end{equation}
+In a Marpa grammar, no EIM is nulling.
+By assumption for the theorem, the bottom up cause of
+\Veim{eff} is an EIM or a non-nulling terminal,
+so that
+\begin{equation}
+\label{eq:confirmation-from-up-cause-12}
+\Veim{up} \neq \epsilon.
+\end{equation}
+It follows from
+\eqref{eq:confirmation-from-up-cause-10}
+and
+\eqref{eq:confirmation-from-up-cause-12}
+that the dot position of \Vdr{eff} is greater than zero.
+By the definition of a confirmation, this means that
+\Vdr{eff}, and therefore \Veim{eff},
+is a confirmation.
 \end{proof}
 
 \begin{theorem}
@@ -11139,7 +11179,7 @@ call it \Veim{eff}
 \Veim{eff}
 \becuz{}
 \eqref{eq:leo-effect-18} and
-\tref{t:effect-from-symbolic-causes}; and
+\tref{t:effect-from-symbolic-causes};
 } \\
 \label{eq:leo-effect-22}
 & \myparbox{%
@@ -11149,11 +11189,44 @@ call it \Veim{eff}
 \eqref{eq:leo-effect-8d},
 \eqref{eq:leo-effect-8f},
 \eqref{eq:leo-effect-8h},
-\eqref{eq:leo-effect-20}.
-}
+\eqref{eq:leo-effect-20};
+} \\
+\label{eq:leo-effect-24}
+& \myparbox{%
+\Veim{eff} is a confirmation
+\becuz{}
+\tref{t:confirmation-from-up-cause},
+\eqref{eq:leo-effect-21};
+} \\
+\label{eq:leo-effect-26}
+& \myparbox{%
+$\Predot{\Veim{eff}} \neq \epsilon$
+\becuz{}
+\eqref{eq:leo-effect-24};
+} \\
+\label{eq:leo-effect-28}
+& \myparbox{%
+$\Rule{\Veim{bas}} = \Rule{\Veim{eff}}$
+\becuz{}
+\eqref{eq:leo-effect-20},
+\eqref{eq:leo-effect-26},
+\dref[causes]{def:causes};
+} \\
+\label{eq:leo-effect-30}
+& \myparbox{%
+\Rule{\Veim{bas}} is right-recursive
+\becuz{}
+\eqref{eq:leo-effect-8h},
+\dref[basis of Leo memo]{def:basis-of-leo-memo};
+} \\
+\label{eq:leo-effect-30}
+& \myparbox{%
+\Rule{\Veim{eff}} is right-recursive
+\becuz{}
+\eqref{eq:leo-effect-28},
+\eqref{eq:leo-effect-30};
+} \\
 \end{align}
-
-From 
 
 TODO: Finish.
 \end{proof}
