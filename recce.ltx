@@ -2714,26 +2714,51 @@ Intuitively, if a dotted rule is of the kind ``X'',
 then a quasi-X dotted rule is a dotted rule that would be
 of kind X, if it were not for its nulling symbols.
 
+\begin{definition}
+\dtitle{Quasi-types}
+\label{def:quasi-types}
 A dotted rule which has only nulling symbols in its dot
-suffix
-is
+suffix is
 \xdfn{quasi-complete}{quasi-complete (dotted rule)}.
 A quasi-complete dotted rule is called an
 \xdfn{quasi-completion}{quasi-completion (dotted rule)}.
+
 A dotted rule which has exactly one telluric symbol in
 its dot suffix is
 \xdfn{quasi-penultimate}{quasi-penultimate (dotted rule)}.
 A quasi-penultimate dotted rule is called an
 \xdfn{quasi-penult}{quasi-penult (dotted rule)}.
+
 If a dotted rule is not quasi-complete,
 it is said to be
 \xdfn{quasi-incomplete}{quasi-incomplete (dotted rule)},
 or a
 \xdfn{quasi-incompletion}{quasi-incompletion (dotted rule)}.
-These definitions may be satisfied vacuously:
-for example,
-all completions are quasi-completions.
 
+A dotted rule which has only nulling symbols before the dot
+is a
+\xdfn{quasi-predicted}{quasi-predicted (dotted rule)}
+dotted rule,
+or a
+\xdfn{quasi-prediction}{quasi-prediction (dotted rule)}.
+If a dotted rule is not a
+quasi-prediction,
+then it is a
+\xdfn{quasi-confirmed}{quasi-confirmed (dotted rule)}
+dotted rule,
+or a
+\xdfn{quasi-confirmation}{quasi-confirmation (dotted rule)}.
+\end{definition}
+
+The definitions of the quasi-types may be satisfied vacuously:
+for example,
+all completions are quasi-completions
+and
+all predictions are quasi-predictions.
+
+\begin{definition}
+\dtitle{Completion of a dotted rule}
+\label{def:completion-of-a-dotted-rule}
 If
 \begin{equation*}
 \begin{split}
@@ -2746,22 +2771,10 @@ is a pair of dotted rules,
 we say that \Vdr{completion} is the
 \xdfn{completion dotted rule}{completion (dotted rule)!wrt another dotted rule}
 of the quasi-completion \Vdr{quasi}.
+\end{definition}
 
-A dotted rule which has only nulling symbols before the dot
-is a
-\xdfn{quasi-predicted}{quasi-predicted (dotted rule)}
-dotted rule,
-or a
-\xdfn{quasi-prediction}{quasi-prediction (dotted rule)}.
 This definition may be satisfied vacuously:
 all predictions are quasi-predictions.
-If a dotted rule is not a
-quasi-prediction,
-then it is a
-\xdfn{quasi-confirmed}{quasi-confirmed (dotted rule)}
-dotted rule,
-or a
-\xdfn{quasi-confirmation}{quasi-confirmation (dotted rule)}.
 
 \begin{theorem}
 \title{Quasi-predictions and quasi-completions are disjoint}
@@ -11061,7 +11074,7 @@ I define Leo silo effect.
 \begin{theorem}
 \ttitle{Leo cause and effect}
 \label{t:leo-effect}
-Let \Veim{cuz} be a valid EIM;
+Let \Veim{cuz} be a valid, complete, EIM;
 and let \Vleo{l} be a matching,
 instantiated, Leo memo.
 Then
@@ -11075,6 +11088,10 @@ call it \Veim{eff};
 \myparbox{%
 \Veim{cuz} is a bottom-up cause of \Veim{eff};
 } \\
+\label{eq:leo-effect-5e}
+\myparbox{%
+\Veim{eff} is the only effect of \Veim{cuz};
+} \\
 \label{eq:leo-effect-5f}
 \myparbox{%
 \Veim{eff} is the only effect of \op{Sym-Eq}{\Veim{cuz}};
@@ -11085,7 +11102,7 @@ call it \Veim{eff};
 } \\
 \label{eq:leo-effect-5j}
 \myparbox{%
-\Veim{eff} is a silo effect; and
+\Veim{eff} is a silo effect of \Veim{cuz}; and
 } \\
 \label{eq:leo-effect-5l}
 \myparbox{%
@@ -11100,43 +11117,41 @@ that Leo memo is the top-down cause of \Vleo{leo}.
 \label{eq:leo-effect-8b}
 & \myparbox{%
 \Instantiated{\Vleo{l}}
-\becuz{} ASM for Th;
+\becuz{} ASM for Th.
 } \\
 \label{eq:leo-effect-8d}
 & \myparbox{%
 \Valid{\Vleo{cuz}}
-\becuz{} ASM for Th;
+\becuz{} ASM for Th.
+} \\
+\label{eq:leo-effect-8e}
+& \myparbox{%
+\Vleo{cuz} is complete
+\becuz{} ASM for Th.
 } \\
 \label{eq:leo-effect-8f}
 & \myparbox{%
 \Vleo{l} matches \Veim{cuz}
-\becuz{} ASM for Th;
+\becuz{} ASM for Th.
 } \\
 \label{eq:leo-effect-8h}
 & \myparbox{%
 \Vleo{l} has a unique basis, call it \Veim{bas}
 \becuz{} 
 \eqref{eq:leo-effect-8b},
-\tref{t:leo-basis-uniqueness};
-} \\
-\label{eq:leo-effect-9}
-& \myparbox{%
-\Veim{cuz} is quasi-complete
-\becuz{}
-\eqref{eq:leo-effect-8f},
-\dref[matching Leo memo]{def:matching-leo-memo};
+\tref{t:leo-basis-uniqueness}.
 } \\
 \label{eq:leo-effect-10}
 & \myparbox{%
 $\Symbol{\Vleo{l}} = \Postdot{\Veim{bas}}$
 \becuz{} \eqref{eq:leo-effect-8h},
-\dref[basis of Leo memo]{def:basis-of-leo-memo};
+\dref[basis of Leo memo]{def:basis-of-leo-memo}.
 } \\
 \label{eq:leo-effect-12}
 & \myparbox{%
 $\Current{\Vleo{l}} =  \Current{\Veim{bas}}$
 \becuz{} \eqref{eq:leo-effect-8h},
-\dref{def:basis-of-leo-memo};
+\dref{def:basis-of-leo-memo}.
 } \\
 \label{eq:leo-effect-14}
 & \myparbox{%
@@ -11144,7 +11159,7 @@ $\Symbol{\Vleo{l}} = \Symbol{\Veim{cuz}}$
 \becuz{}
 \eqref{eq:leo-effect-8d},
 \eqref{eq:leo-effect-8f},
-\dref[matching Leo memo]{def:matching-leo-memo};
+\dref[matching Leo memo]{def:matching-leo-memo}.
 } \\
 \label{eq:leo-effect-16}
 & \myparbox{%
@@ -11152,18 +11167,19 @@ $\Current{\Vleo{l}} = \Origin{\Veim{cuz}}$
 \becuz{}
 \eqref{eq:leo-effect-8d},
 \eqref{eq:leo-effect-8f},
-\dref{def:matching-leo-memo};
+\dref{def:matching-leo-memo}.
 } \\
 \label{eq:leo-effect-18}
 & \myparbox{%
 \Veim{bas} matches \Veim{cuz}
 \becuz{}
+\eqref{eq:leo-effect-8e},
 \eqref{eq:leo-effect-10},
 \eqref{eq:leo-effect-12},
 \eqref{eq:leo-effect-14},
 \eqref{eq:leo-effect-16},
 \dref[matching top-down and bottom-up causes]
-  {def:matching-causes};
+  {def:matching-causes}.
 } \\
 \label{eq:leo-effect-20}
 & \myparbox{%
@@ -11171,7 +11187,7 @@ $\Current{\Vleo{l}} = \Origin{\Veim{cuz}}$
 call it \Veim{eff}
 \becuz{}
 \eqref{eq:leo-effect-18} and
-\tref{t:effect-from-symbolic-causes}; and
+\tref{t:effect-from-symbolic-causes}.
 } \\
 \label{eq:leo-effect-21}
 & \myparbox{%
@@ -11179,7 +11195,7 @@ call it \Veim{eff}
 \Veim{eff}
 \becuz{}
 \eqref{eq:leo-effect-18} and
-\tref{t:effect-from-symbolic-causes};
+\tref{t:effect-from-symbolic-causes}.
 } \\
 \label{eq:leo-effect-22}
 & \myparbox{%
@@ -11189,20 +11205,20 @@ call it \Veim{eff}
 \eqref{eq:leo-effect-8d},
 \eqref{eq:leo-effect-8f},
 \eqref{eq:leo-effect-8h},
-\eqref{eq:leo-effect-20};
+\eqref{eq:leo-effect-20}.
 } \\
 \label{eq:leo-effect-24}
 & \myparbox{%
 \Veim{eff} is a confirmation
 \becuz{}
 \tref{t:confirmation-from-up-cause},
-\eqref{eq:leo-effect-21};
+\eqref{eq:leo-effect-21}.
 } \\
 \label{eq:leo-effect-26}
 & \myparbox{%
 $\Predot{\Veim{eff}} \neq \epsilon$
 \becuz{}
-\eqref{eq:leo-effect-24};
+\eqref{eq:leo-effect-24}.
 } \\
 \label{eq:leo-effect-28}
 & \myparbox{%
@@ -11210,21 +11226,61 @@ $\Rule{\Veim{bas}} = \Rule{\Veim{eff}}$
 \becuz{}
 \eqref{eq:leo-effect-20},
 \eqref{eq:leo-effect-26},
-\dref[causes]{def:causes};
+\dref[causes]{def:causes}.
 } \\
 \label{eq:leo-effect-30}
 & \myparbox{%
 \Rule{\Veim{bas}} is right-recursive
 \becuz{}
 \eqref{eq:leo-effect-8h},
-\dref[basis of Leo memo]{def:basis-of-leo-memo};
+\dref[basis of Leo memo]{def:basis-of-leo-memo}.
 } \\
-\label{eq:leo-effect-30}
+\label{eq:leo-effect-32}
 & \myparbox{%
 \Rule{\Veim{eff}} is right-recursive
 \becuz{}
 \eqref{eq:leo-effect-28},
-\eqref{eq:leo-effect-30};
+\eqref{eq:leo-effect-30}.
+} \\
+\label{eq:leo-effect-34}
+& \myparbox{%
+\Veim{bas} is a quasi-penult
+\becuz{}
+\dref[basis of Leo memo]{def:basis-of-leo-memo}.
+} \\
+\label{eq:leo-effect-36}
+& \myparbox{%
+\Veim{cuz} is telluric
+\becuz{}
+\eqref{eq:leo-effect-8e} and
+because
+all complete Marpa EIMs are telluric.
+} \\
+\label{eq:leo-effect-38}
+& \myparbox{%
+\Veim{eff} is quasi-complete
+\becuz{}
+\eqref{eq:leo-effect-26},
+\dref[causes]{def:causes},
+\eqref{eq:leo-effect-34},
+\eqref{eq:leo-effect-36},
+\dref[quasi-penult]{def:quasi-types}.
+} \\
+\label{eq:leo-effect-40}
+& \myparbox{%
+$\Right{\Veim{cuz}} = \Right{\Veim{eff}}$
+\becuz
+\eqref{eq:leo-effect-21},
+\tref{t:down-cause-from-effect}.
+} \\
+\label{eq:leo-effect-42}
+& \myparbox{%
+\Veim{eff} is a silo effect of \Veim{cuz}
+\becuz{}
+\eqref{eq:leo-effect-8e},
+\eqref{eq:leo-effect-21},
+\eqref{eq:leo-effect-38},
+\eqref{eq:leo-effect-40}.
 } \\
 \end{align}
 
