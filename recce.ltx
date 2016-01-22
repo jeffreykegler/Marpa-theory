@@ -11068,9 +11068,6 @@ also called a
 \dfn{direct Leo effect}.
 \end{definition}
 
-TODO: Define Leo silo cause once
-I define Leo silo effect.
-
 \begin{theorem}
 \ttitle{Leo cause and effect}
 \label{t:leo-effect}
@@ -11155,7 +11152,7 @@ $\Current{\Vleo{l}} =  \Current{\Veim{bas}}$
 } \\
 \label{eq:leo-effect-14}
 & \myparbox{%
-$\Symbol{\Vleo{l}} = \Symbol{\Veim{cuz}}$
+$\Symbol{\Vleo{l}} = \LHS{\Veim{cuz}}$
 \becuz{}
 \eqref{eq:leo-effect-8d},
 \eqref{eq:leo-effect-8f},
@@ -11169,15 +11166,27 @@ $\Current{\Vleo{l}} = \Origin{\Veim{cuz}}$
 \eqref{eq:leo-effect-8f},
 \dref{def:matching-leo-memo}.
 } \\
+\label{eq:leo-effect-17b}
+& \myparbox{%
+$\Postdot{\Veim{bas}} = \LHS{\Veim{cuz}}$
+\becuz{}
+\eqref{eq:leo-effect-10},
+\eqref{eq:leo-effect-14}.
+} \\
+\label{eq:leo-effect-17d}
+& \myparbox{%
+$\Current{\Veim{bas}} = \Origin{\Veim{cuz}}$
+\becuz{}
+\eqref{eq:leo-effect-12},
+\eqref{eq:leo-effect-16}.
+} \\
 \label{eq:leo-effect-18}
 & \myparbox{%
 \Veim{bas} matches \Veim{cuz}
 \becuz{}
 \eqref{eq:leo-effect-8e},
-\eqref{eq:leo-effect-10},
-\eqref{eq:leo-effect-12},
-\eqref{eq:leo-effect-14},
-\eqref{eq:leo-effect-16},
+\eqref{eq:leo-effect-17a},
+\eqref{eq:leo-effect-17b},
 \dref[matching top-down and bottom-up causes]
   {def:matching-causes}.
 } \\
@@ -11189,13 +11198,19 @@ call it \Veim{eff}
 \eqref{eq:leo-effect-18} and
 \tref{t:effect-from-symbolic-causes}.
 } \\
-\label{eq:leo-effect-21}
+\label{eq:leo-effect-21a}
+& \myparbox{%
+\Veim{bas} is the top-down cause of
+\Veim{eff}
+\becuz{}
+\eqref{eq:leo-effect-20}.
+} \\
+\label{eq:leo-effect-21b}
 & \myparbox{%
 \Veim{cuz} is the bottom-up cause of
 \Veim{eff}
 \becuz{}
-\eqref{eq:leo-effect-18} and
-\tref{t:effect-from-symbolic-causes}.
+\eqref{eq:leo-effect-20}.
 } \\
 \label{eq:leo-effect-22}
 & \myparbox{%
@@ -11209,15 +11224,17 @@ call it \Veim{eff}
 } \\
 \label{eq:leo-effect-24}
 & \myparbox{%
-\Veim{eff} is a confirmation
+\Predot{\Veim{eff}} = Postdot{\Veim{bas}}
 \becuz{}
-\tref{t:confirmation-from-up-cause},
-\eqref{eq:leo-effect-21}.
+\eqref{eq:leo-effect-21a},
+\eqref{item:symbolic-causes-from-effect-19}
+of \tref{t:symbolic-causes-from-effect}.
 } \\
 \label{eq:leo-effect-26}
 & \myparbox{%
 $\Predot{\Veim{eff}} \neq \epsilon$
 \becuz{}
+TODO: fix up
 \eqref{eq:leo-effect-24}.
 } \\
 \label{eq:leo-effect-28}
@@ -11270,22 +11287,137 @@ all complete Marpa EIMs are telluric.
 & \myparbox{%
 $\Right{\Veim{cuz}} = \Right{\Veim{eff}}$
 \becuz
-\eqref{eq:leo-effect-21},
-\tref{t:down-cause-from-effect}.
+\eqref{eq:leo-effect-21b},
+\tref{t:symbolic-causes-from-effect}
 } \\
 \label{eq:leo-effect-42}
 & \myparbox{%
 \Veim{eff} is a silo effect of \Veim{cuz}
 \becuz{}
 \eqref{eq:leo-effect-8e},
-\eqref{eq:leo-effect-21},
+\eqref{eq:leo-effect-21b},
 \eqref{eq:leo-effect-38},
 \eqref{eq:leo-effect-40}.
+}
+\end{align}
+
+\textbf{Conditional proof of \eqref{eq:leo-effect-5l}}:
+To show Requirement
+\eqref{eq:leo-effect-5l}
+of this theorem,
+we use a conditional proof, where we
+assume
+\begin{align}
+\label{eq:leo-effect-50}
+\tag{COND}
+& \myparbox{%
+$\exists \; \Vleo{eff} : \Memo{\Veim{eff}} = \Vleo{eff}$
+\becuz{} ASM for conditional; and
+} \\
+\label{eq:leo-effect-52}
+& \myparbox{%
+\Instantiated{\Vleo{eff}}
+\becuz{} ASM for conditional.
+} \\
+\label{eq:leo-effect-54}
+& \myparbox{%
+$\Symbol{\Vleo{eff}} = \LHS{\Veim{eff}}$
+\becuz{}
+\eqref{eq:leo-effect-50}
+\dref[matching Leo memo]{def:matching-leo-memo}.
+} \\
+\label{eq:leo-effect-56}
+& \myparbox{%
+$\Current{\Vleo{eff}} = \Origin{\Veim{eff}}$
+\becuz{}
+\eqref{eq:leo-effect-8d},
+\eqref{eq:leo-effect-8f},
+\dref{def:matching-leo-memo}.
+} \\
+\label{eq:leo-effect-58}
+& \myparbox{%
+$\Veim{bas} = \big[\Prev{\DR{\Veim{eff}}}, \Origin{\Veim{eff}}, \var{j}
+\big]$
+for some $\var{j} < \Current{\Veim{eff}}$
+\becuz{}
+\eqref{eq:leo-effect-21a},
+\eqref{eq:leo-effect-36},
+\tref{t:down-cause-from-effect}.
+} \\
+\label{eq:leo-effect-60}
+& \myparbox{%
+$\LHS{\Veim{bas}} = \LHS{\Veim{eff}}$
+\becuz{}
+\eqref{eq:leo-effect-58}.
+} \\
+\label{eq:leo-effect-62}
+& \myparbox{%
+$\Origin{\Veim{bas}} = \Origin{\Veim{eff}}$
+\becuz{}
+\eqref{eq:leo-effect-58}.
+} \\
+\label{eq:leo-effect-64}
+& \myparbox{%
+$\Symbol{\Vleo{eff}} = \LHS{\Veim{bas}}$
+\becuz{}
+\eqref{eq:leo-effect-54},
+\eqref{eq:leo-effect-60}.
+} \\
+\label{eq:leo-effect-66}
+& \myparbox{%
+$\Current{\Vleo{eff}} = \Origin{\Veim{bas}}$
+\becuz{}
+\eqref{eq:leo-effect-56},
+\eqref{eq:leo-effect-62}.
+} \\
+\label{eq:leo-effect-68}
+& \myparbox{%
+\Vleo{eff} is the top-down cause of \Vleo{l}
+\becuz{}
+\eqref{eq:leo-effect-8h},
+\eqref{eq:leo-effect-64},
+\eqref{eq:leo-effect-66}.
+}
+\end{align}
+
+From the conditional proof
+starting at \eqref{eq:leo-effect-50},
+we conclude that
+\begin{equation}
+\label{eq:leo-effect-70}
+\myparbox{%
+\eqref{eq:leo-effect-68}
+holds if \eqref{eq:leo-effect-50}
+is true,
+}
+\end{equation}
+which is what we needed
+to show requirement
+\eqref{eq:leo-effect-5l}
+of the theorem.
+
+\textbf{Reductio to show \eqref{eq:leo-effect-5f}}:
+To show \eqref{eq:leo-effect-5f}
+we assume for a reduction that
+\op{Sym-Eq}{\Veim{cuz}} has another effect,
+one distinct from \Veim{eff}.
+\begin{align}
+\label{eq:leo-effect-100}
+\tag{RAA}
+& \myparbox{%
+There is a \Veim{eff2}, such that
+\op{Sym-Eq}{\Veim{cuz}}
+is a bottom-up cause
+of \Veim{eff2} and $\Veim{eff} \neq \Veim{eff2}$
+\becuz{} ASM for the reductio
 } \\
 \end{align}
 
 TODO: Finish.
 \end{proof}
+
+TODO: Define Leo silo cause once
+I define Leo silo effect.
 
 \begin{definition}
 \dtitle{Leo silo}
