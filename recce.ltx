@@ -11074,36 +11074,36 @@ also called a
 Let \Veim{cuz} be a valid, complete, EIM;
 and let \Vleo{l} be a matching,
 instantiated, Leo memo.
-Then
+Then,
 \begin{align}
 \label{eq:leo-effect-5b}
 \myparbox{%
-they have exactly one valid direct Leo effect,
-call it \Veim{eff};
+\Veim{cuz} and \Vleo{l} have exactly one valid direct Leo effect,
+call it \Veim{eff}.
 } \\
 \label{eq:leo-effect-5d}
 \myparbox{%
-\Veim{cuz} is a bottom-up cause of \Veim{eff};
+\Veim{cuz} is a bottom-up cause of \Veim{eff}.
 } \\
 \label{eq:leo-effect-5e}
 \myparbox{%
-\Veim{eff} is the only effect of \Veim{cuz};
+\Veim{eff} is the only effect of \Veim{cuz}.
 } \\
 \label{eq:leo-effect-5f}
 \myparbox{%
-\Veim{eff} is the only effect of \op{Sym-Eq}{\Veim{cuz}};
+\Veim{eff} is the only effect of \op{Sym-Eq}{\Veim{cuz}}.
 } \\
 \label{eq:leo-effect-5h}
 \myparbox{%
-\Veim{eff} is right-recursive;
+\Veim{eff} is right-recursive.
 } \\
 \label{eq:leo-effect-5j}
 \myparbox{%
-\Veim{eff} is a silo effect of \Veim{cuz}; and
+\Veim{eff} is the only silo effect of \Veim{cuz}.
 } \\
 \label{eq:leo-effect-5l}
 \myparbox{%
-if \Veim{eff} has an instantiated matching Leo memo,
+If \Veim{eff} has an instantiated matching Leo memo,
 that Leo memo is the top-down cause of \Vleo{leo}.
 }
 \end{align}
@@ -11118,12 +11118,12 @@ that Leo memo is the top-down cause of \Vleo{leo}.
 } \\
 \label{eq:leo-effect-8d}
 & \myparbox{%
-\Valid{\Vleo{cuz}}
+\Valid{\Veim{cuz}}
 \becuz{} ASM for Th.
 } \\
 \label{eq:leo-effect-8e}
 & \myparbox{%
-\Vleo{cuz} is complete
+\Veim{cuz} is complete
 \becuz{} ASM for Th.
 } \\
 \label{eq:leo-effect-8f}
@@ -11210,7 +11210,10 @@ call it \Veim{eff}
 \Veim{cuz} is the bottom-up cause of
 \Veim{eff}
 \becuz{}
-\eqref{eq:leo-effect-20}.
+\eqref{eq:leo-effect-20},
+which shows requirement
+\eqref{eq:leo-effect-5d}
+of the theorem.
 } \\
 \label{eq:leo-effect-22}
 & \myparbox{%
@@ -11257,7 +11260,9 @@ $\Rule{\Veim{bas}} = \Rule{\Veim{eff}}$
 \Rule{\Veim{eff}} is right-recursive
 \becuz{}
 \eqref{eq:leo-effect-28},
-\eqref{eq:leo-effect-30}.
+\eqref{eq:leo-effect-30}:
+this shows requirement
+\eqref{eq:leo-effect-5h}.
 } \\
 \label{eq:leo-effect-34}
 & \myparbox{%
@@ -11323,7 +11328,7 @@ $\exists \; \Vleo{eff} : \Memo{\Veim{eff}} = \Vleo{eff}$
 & \myparbox{%
 $\Symbol{\Vleo{eff}} = \LHS{\Veim{eff}}$
 \becuz{}
-\eqref{eq:leo-effect-50}
+\eqref{eq:leo-effect-50},
 \dref[matching Leo memo]{def:matching-leo-memo}.
 } \\
 \label{eq:leo-effect-56}
@@ -11382,23 +11387,13 @@ $\Current{\Vleo{eff}} = \Origin{\Veim{bas}}$
 
 From the conditional proof
 starting at \eqref{eq:leo-effect-50},
-we conclude that
-\begin{equation}
-\label{eq:leo-effect-70}
-\myparbox{%
-\eqref{eq:leo-effect-68}
-holds if \eqref{eq:leo-effect-50}
-is true,
-}
-\end{equation}
-which is what we needed
-to show requirement
+we have Requirement 
 \eqref{eq:leo-effect-5l}
-of the theorem.
+for this theorem.
 
 \textbf{Reductio to show \eqref{eq:leo-effect-5f}}:
-To show \eqref{eq:leo-effect-5f}
-we assume for a reduction that
+To show \eqref{eq:leo-effect-5f},
+we assume for a reductio that
 \op{Sym-Eq}{\Veim{cuz}} has another effect,
 one distinct from \Veim{eff}.
 \begin{align}
