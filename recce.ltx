@@ -3688,7 +3688,7 @@ with a predot symbol instance.
 Without loss of generality,
 let the Earley item be
 \begin{equation*}
-\Veim{effect} = [ [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{up} \mydot \Vstr{suffix} ], \var{i}, \var{k} ].
+\Veim{effect} = [ [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{up} \mydot \Vstr{suffix} ], \var{i}, \var{k} ]
 \end{equation*}
 and let the instance be
 \[\Vmkl{j} \Vsym{up} \Vmkr{k}.\]
@@ -3699,7 +3699,7 @@ Then we say that
 is a \dfn{top-down cause} of \Veim{effect};
 we say that \Vsym{up} is a \dfn{bottom-up cause} of \Veim{effect};
 and we say that \Veim{effect} is the
-\dfn{effect}{effect (EIM)}
+\xdfn{effect}{effect (EIM)}
 of \Veim{down} and \Vsym{up}.
 
 We now consider an Earley item
@@ -11393,7 +11393,7 @@ $\Current{\Vleo{eff}} = \Origin{\Veim{bas}}$
 \eqref{eq:leo-effect-66}.
 }
 \end{align}
-
+%
 From the conditional proof
 starting at \eqref{eq:leo-effect-50},
 we have Requirement 
@@ -11412,10 +11412,22 @@ one distinct from \Veim{eff}.
 There is a \Veim{eff2}, such that
 \op{Sym-Eq}{\Veim{cuz}}
 is a bottom-up cause
-of \Veim{eff2} and $\Veim{eff} \neq \Veim{eff2}$
-\becuz{} ASM for the reductio
+of \Veim{eff2} and $\Veim{eff} \neq \Veim{eff2}$.
+} \\
+\label{eq:leo-effect-102}
+& \myparbox{%
+\Veim{cuz} is a complete EIM
+\becuz{}
+ASM for this theorem.
+} \\
+\label{eq:leo-effect-104}
+& \myparbox{%
+If \Veim{cuz} has an effect,
+it has a matching top-down cause.
+\becuz{}
 } \\
 \end{align}
+By assumption for this theorem,
 
 TODO: Finish.
 \end{proof}
