@@ -2908,14 +2908,27 @@ Ethereal transitions are more complicated,
 but their analysis will come in useful later.
 Let \var{null-scan-dr-op} be the set of
 pairs of dotted rules
-\begin{gather*}
+\begin{equation}
+\label{eq:def-null-scan-dr-op}
+\begin{gathered}
 \left\lbrace \Vdr{cause}, \Vdr{effect} \right\rbrace \quad \text{such that} \\
-\Vdr{cause} = [ \Vsym{A} \de \Vstr{before-B} \mydot \Vsym{B} \cat \Vstr{after-B} ] \quad \text{and} \\
-\Vdr{effect} = [ \Vsym{A} \de \Vstr{before-B} \cat \Vsym{B} \mydot \Vstr{after-B} ] \quad \text{and} \\
-\Vsym{B} \derives \epsilon.
-\end{gather*}
-We say that \Vdr{cause} is the \dfn{top-down cause} of \Vdr{effect},
-and that \Vsym{B} is the \dfn{bottom-up cause}.
+\Vdr{effect} = \Next{\Vdr{cause}} \quad \text{and} \\
+\Predot{\Vdr{effect}} \derives \epsilon.
+\end{gathered}
+\end{equation}
+
+\begin{definition}
+\dtitle{Causes of null scan dotted rule}
+\label{def:causes-null-scan-dr}
+In equation
+\eqref{eq:def-null-scan-dr-op},
+we say that \Vdr{cause} is the
+\xdfn{top-down cause}{top-down cause (DR)}
+of \Vdr{effect},
+and that \Predot{\Vdr{effect}} is the
+\xdfn{bottom-up cause}{bottom-up cause (DR)}
+of \Vdr{effect}.
+\end{definition}
 
 We can use \var{null-scan-dr-op} to define an equivalence relation.
 Intuitively, two dotted rules, \Vdr{dr1}
@@ -2933,15 +2946,31 @@ equivalence class of \var{eth-eq} under \Vdr{dr2}.
 
 Let \var{predict-dr-op} be the set of
 pairs of dotted rules
-\begin{gather*}
-\quad \left\lbrace \Vdr{cause}, \Vdr{effect} \right\rbrace \,\, \text{such that} \\
- \quad \Vdr{cause} = [ \Vsym{A} \de \Vstr{before-B} \mydot \Vsym{B} \cat \Vstr{after-B} ] \quad \text{and} \\
- \quad \Vdr{effect} = [ \Vsym{B} \de \mydot \Vsym{C} \cat \Vstr{after-C} ]
-\end{gather*}
-We say that \Vdr{cause} is the \dfn{top-down cause} of \Vdr{effect}.
-For symmetry, we say that \Vdr{cause}
+\begin{equation}
+\label{eq:def-predict-dr-op}
+\begin{gathered}
+\left\lbrace \Vdr{cause}, \Vdr{effect} \right\rbrace \quad \text{such that} \\
+\Postdot{\Vdr{cause}} = \LHS{\Vdr{effect}} \quad \text{and} \\
+\Dotix{\Vdr{effect}} = 0
+\end{gathered}
+\end{equation}
+
+\begin{definition}
+\dtitle{Causes of predicted dotted rules}
+\label{def:causes-predicted-dr}
+In equation
+\eqref{eq:def-predict-dr-op},
+we say that \Vdr{cause} is the
+\xdfn{top-down cause}{top-down cause (DR)}
+of \Vdr{effect}.
+For symmetry with other types of dotted rule,
+we say that \Vdr{effect}
 has a bottom-up cause,
-but that the \dfn{bottom-up cause} is ethereal.
+but that the
+\xdfn{bottom-up cause}{bottom-up cause (DR)}
+of \Vdr{effect}
+is ethereal.
+\end{definition}
 
 \begin{FlushLeft}
 Let
@@ -3333,7 +3362,9 @@ An Earley item (type \dtype{EIM})
 is a triple
 \[
     [\Vdr{dotted-rule}, \Vorig{x}, \Vloc{current} ]
-\]
+\]%
+\index{recce-notation}{[3]@[ dr, origin, current ]}%
+\index{recce-notation}{[3]@[ dr, origin, current ]!EIM as 3-tuple}
 of dotted rule, origin, and current location.
 
 The \dfn{origin} is the location where recognition of the rule
@@ -3343,18 +3374,29 @@ The \dfn{current} or \dfn{dot location} is the location
 in the input, \Cw{}, of the dot position in \Vdr{dotted-rule}.
 For convenience, the type \dtype{ORIG} will be a synonym
 for \type{LOC}, indicating that the variable designates
-the origin element of an Earley item.  Where
+the origin element of an Earley item.
 \begin{gather*}
-    \Veim{x} = [\Vdr{x}, \Vorig{x}, \Vloc{x} ] \\
-\text{we say that $\DR{\Veim{x}} = \Vdr{x}$,} \\
-\Origin{\Veim{x}} = \Vorig{x} \\
-\text{and $\Current{\Veim{x}} = \Vloc{x}$.}
-\end{gather*}
+\text{Where $\Veim{x} = [\Vdr{x}, \Vorig{x}, \Vloc{x}]$ we say that} \\
+\begin{aligned}
+\DR{\Veim{x}} & = \Vdr{x}, \\
+\Origin{\Veim{x}} & = \Vorig{x}, \\
+\Current{\Veim{x}} & = \Vloc{x}, \\
+\Left{\Veim{x}} & = \Vorig{x}, \; \text{and} \\
+\Right{\Veim{x}} & = \Vloc{x}. \\
+\end{aligned}
+\end{gather*}%
+\index{recce-notation}{DR(eim)@\DR{eim}}%
+\index{recce-notation}{Origin(eim)@\DR{eim}}%
+\index{recce-notation}{Current(eim)@\Current{eim}}%
+\index{recce-notation}{Left(eim)@\Left{eim}}%
+\index{recce-notation}{Right(eim)@\Right{eim}}
 
 Traditionally, an Earley item is shown as a duple,
 \[
     [\Vdr{dotted-rule}, \Vorig{x} ]
-\]
+\]%
+\index{recce-notation}{[2]@[ dr, origin ]}%
+\index{recce-notation}{[2]@[ dr, origin ]!EIM as duple}
 with \Vloc{current} omitted,
 and we will sometimes use this form.
 When the duple form is used,
@@ -3657,68 +3699,260 @@ When it is clear in context, we will often say ``symbol''
 when we mean ``symbol instance''.
 A parse instance is often called simply an \dfn{instance}.
 
+\begin{definition}
+\dtitle{Symbolic and EIM equivalent}
+If a parse instance is a symbol instance or
+a complete EIM,
+its ``symbolic equivalent'' is defined.
+If the parse instance is a symbol instance,
+it is its own \dfn{symbolic equivalent}.
+If the parse instance is a complete EIM,
+its \dfn{symbolic equivalent} is the instance
+of its LHS symbol
+with the same left and right locations
+as the EIM.
+We also write the symbolic
+equivalent of \var{x} as
+$\var{Sym-Eq}(\var{x})$.%
+\index{recce-notation}{Sym-Eq(x)@\Vop{Sym-Eq}{x}}
+We say that \Veim{eim} is the
+\dfn{EIM equivalent}
+of \Vinst{x} if and only if
+\Vinst{x} is the symbolic equivalent of
+\Veim{eim}.
+We also write the EIM
+equivalent of \Vinst{x} as
+$\var{EIM-Eq}(\var{x})$.%
+\index{recce-notation}{EIM-Eq(x)@\Vop{EIM-Eq}{x}}
+\end{definition}
+
+By way of illustration,
+and with full generality, if
+a complete EIM is
+\begin{equation}
+\label{eq:def-symbolic-equivalent-10}
+\Veim{up} = \big[
+[ \Vsym{up} \de \Vstr{up-rhs} \mydot ], \var{i}, \var{j}
+\big].
+\end{equation}
+then the symbolic equivalent of \Veim{up} is
+\begin{equation}
+\label{eq:def-symbolic-equivalent-20}
+\Vinst{ins} = \Vmkl{i} \Vsym{up} \Vmkr{j}.
+\end{equation}
+
+\begin{theorem}
+\ttitle{Symbolic equivalent from complete EIM}
+\label{t:valid-symbolic-equivalent-from-eim}
+A valid, complete EIM has a valid symbolic equivalent,
+\Vinst{symeq};
+and \Symbol{\Vinst{symeq}} is
+a non-terminal.
+\end{theorem}
+
+\begin{proof}
+Without loss of generality,
+let the complete  EIM be
+\begin{equation}
+\notag
+\Veim{up} = \big[
+[ \Vsym{up} \de \Vstr{up-rhs} \mydot ], \var{i}, \var{j}
+\big].
+\end{equation}
+\Veim{up} is valid by assumption for the theorem,
+so we have the valid derivations,
+\begin{alignat}{3}
+& \Vsym{up} && \derives
+[ \var{i}]\, \Vstr{up-rhs} \,[\var{j}] \\
+\therefore \quad
+& [\var{i}]\, \Vsym{up} \,[\var{j}] && \derives
+[\var{i}]\, \Vstr{up-rhs} \,[\var{j}] \\
+\label{eq:valid-symbolic-equivalent-from-eim-20}
+\therefore \quad
+& [\var{i}]\, \Vsym{up} \,[\var{j}] &&
+\end{alignat}
+We have shown that
+\eqref{eq:valid-symbolic-equivalent-from-eim-20}
+is valid.
+Let \Vinst{symeq} be
+the parse instance of
+\eqref{eq:valid-symbolic-equivalent-from-eim-20},
+so that
+$\Vinst{symeq}
+= [\var{i}]\, \Vsym{up} \,[\var{j}].$
+From the definition of symbolic equivalent we
+see that
+\Vinst{symeq}
+is the symbolic equivalent of
+\Veim{up}.
+
+It remains to show that
+\Symbol{\Vinst{symeq}} is a non-terminal.
+We note that
+$\Symbol{\Vinst{symeq}} = \LHS{\Veim{up}}$,
+and with this, we have the theorem.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Symbolic equivalent from complete EIM}
+\label{t:eim-equivalent-from-non-terminal}
+A valid instance, \Vinst{x}, has an valid EIM equivalent if
+and only if \Symbol{\Vinst{x}} is a non-terminal.
+\end{theorem}
+
+\begin{proof}
+We have the ``if'' direction directly from the
+definition of validity for non-terminal parse instances,
+Theorem
+\ref{t:valid-symbolic-equivalent-from-eim}
+shows the ``only if'' direction.
+\end{proof}
+
 \section{Top-down and bottom-up causes}
 
 We referred to top-down and bottom-up causes earlier,
 when introducing dotted rules.
 We now revisit these concepts in the context of Earley items.
 
-\begin{sloppypar}
-If \var{inst} is an Earley item,
-call it \Veim{inst}, then
+\begin{definition}
+\dtitle{Matching causes}
+\label{def:matching-causes}
+Let \Veim{down}
+be an quasi-incomplete EIM
+and let \Vinst{up}
+be a symbolic parse instance.
+We say that \Veim{down} and \Vinst{up}
+are
+\dfn{matching causes}
+if and only if
 \begin{gather*}
-\Left{\Veim{inst}} = \Origin{\Veim{inst}} \\
-\text{and} \quad \Right{\Veim{inst}} = \Current{\Veim{inst}}.
+\Postdot{\Veim{down}} = \Symbol{\Vinst{up}} \quad \text{and} \\
+\Right{\Veim{down}} = \Left{\Vinst{up}}.
 \end{gather*}
-Let, without loss of generality,
-\var{inst} be the a symbol instance
-\begin{gather*}
-\Vinst{inst} = \Vmk{i} \Vsym{A} \Vmk{j}. \\
-\text{Then} \quad \Left{\Veim{inst}} = \Vloc{i} \\
-\text{and} \quad \Right{\Veim{inst}} = \Vloc{j}.
-\end{gather*}
-
-\end{sloppypar}
+When \Veim{down} and \Vinst{up} are matching causes,
+we say that
+\Veim{down} and \Vinst{up} \dfn{match}.
+We call \Veim{down} the
+\xdfn{top-down cause}{top-down cause!in a pair of matching causes}
+of the pair of matching causes, and
+we call \Vinst{up} the
+\xdfn{bottom-up cause}{bottom-up cause!in a pair of matching causes}.
+of the pair of matching causes.
+\end{definition}
 
 \begin{definition}
 \dtitle{Causes}
 \label{def:causes}
-We first consider an Earley item
-with a predot symbol instance.
-Without loss of generality,
-let the Earley item be
-\begin{equation*}
-\Veim{effect} = [ [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{up} \mydot \Vstr{suffix} ], \var{i}, \var{k} ]
-\end{equation*}
-and let the instance be
-\[\Vmkl{j} \Vsym{up} \Vmkr{k}.\]
-Then we say that
-\begin{equation*}
-\Veim{down} = [ [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{up} \cat \Vstr{suffix} ], \var{i}, \var{j} ]
-\end{equation*}
-is a \dfn{top-down cause} of \Veim{effect};
-we say that \Vsym{up} is a \dfn{bottom-up cause} of \Veim{effect};
-and we say that \Veim{effect} is the
+
+TODO: Split this?  Check all uses.
+
+This definition has two cases.
+If
+\[
+   [ \Veim{down}, \Vinst{up} ]
+\]
+is a pair of matching causes,
+we say that \Veim{effect} is the
 \xdfn{effect}{effect (EIM)}
-of \Veim{down} and \Vsym{up}.
+of \Veim{down} and \Vsym{up},
+where
+\begin{equation*}
+\Veim{effect} =
+\left[
+\begin{gathered}
+\Next{\DR{\Veim{down}}}, \\
+\Origin{\Veim{down}}, \Current{\Vinst{up}}
+\end{gathered}
+\right].
+\end{equation*}
+We also say that
+that \Veim{down} is a
+\xdfn{top-down cause}{top-down cause!of a confirmed EIM}
+of \Veim{effect};
+and that \Vsym{up} is a
+\xdfn{bottom-up cause}{bottom-up cause!of a confirmed EIM}
+of \Veim{effect}.
+In this case, \Veim{effect} is always a confirmation.
 
-We now consider an Earley item
-with no predot symbol instance.
-Without loss of generality,
-call it \Veim{effect},
-and let
+If \Veim{effect} is a prediction,
+\Vdr{down}
+is any top-down dotted rule cause of \DR{\Veim{effect}},
+and \Vloc{i} is any location,
+we say that every
 \begin{gather*}
-\Vdr{effect} = [ \Vsym{A} \de \mydot \Vstr{rhs} ], \\
-\Veim{effect} = [ \Vdr{effect}, \var{k}, \var{k} ] \quad \text{and} \\
-\Veim{down} = [ \Vdr{down}, \var{i}, \var{k} ]
+\Veim{down} = [ \Vdr{down}, \var{i}, \Current{\Veim{effect}} ]
 \end{gather*}
-where \Vdr{down}
-is any top-down dotted rule cause of \Vdr{effect}.
-Then we call \Veim{down}
-a \dfn{top-down cause} of \Veim{effect};
-and we say that the \dfn{bottom-up cause} of \Veim{effect} is ethereal.
-We call \Veim{effect} the \dfn{effect} of \Veim{down}.
+is a
+\xdfn{top-down cause}{top-down cause!of an predicted EIM}
+of \Veim{effect}.
+We say that the
+\xdfn{bottom-up cause}{bottom-up cause!of an predicted EIM}
+of \Veim{effect} is ethereal.
+We call \Veim{effect} the
+\xdfn{effect}{effect (EIM)}
+of \Veim{down}.
+\end{definition}
 
+We say that a bottom-up cause is \dfn{symbolic},
+if it has a symbolic equivalent.
+The bottom-up causes of predictions
+do not have a symbolic equivalent,
+and are therefore not symbolic.
+All other bottom-up causes are symbolic.
+
+\begin{theorem}
+\ttitle{Completed EIM as a cause}
+\label{t:completed-eim-as-a-cause}
+If a completed EIM is a cause of another EIM,
+then it is the bottom-up cause of a confirmed EIM.
+\end{theorem}
+
+\begin{proof}
+Let \Veim{comp} be a completed EIM,
+and let \Veim{eff} be its effect.
+We proceed by cases.
+
+\textbf{Top-down cause of a prediction}:
+If \Veim{eff} has no predot symbol,
+then the top-down cause of its dotted
+rule is an incomplete dotted rule
+\dref[top-down cause of a predicted dotted rule]{def:causes-predicted-dr},
+so that the top-down cause of \Veim{eff} must be an incomplete EIM.
+\Veim{comp} is, by assumption for the theorem, a completion
+so that \Veim{comp} is not the top-down cause of \Veim{eff}.
+
+\textbf{Bottom-up cause of a prediction}:
+If \Veim{eff} has no predot symbol,
+then its bottom-up cause is ethereal
+\dref[bottom-up cause of a predicted EIM]{def:causes}.
+\Veim{comp} is clearly not ethereal,
+so that \Veim{comp} is not the bottom-up cause of \Veim{eff}.
+
+\textbf{Top-down cause of a confirmation}:
+If \Veim{eff} has a postdot symbol,
+its causes are in a pair of matching causes
+\dref{def:causes}.
+The top-down cause of a pair of matching causes
+must be quasi-complete
+\dref{def:matching-causes}.
+By assumption for the theorem,
+\Veim{comp} is complete,
+so that 
+\Veim{comp} is not the top-down cause of \Veim{eff}.
+
+\textbf{Bottom-up cause of a confirmation}:
+This is the only remaining case, so that if \Veim{comp}
+is a cause of \Veim{eff},
+it must fall into this case.
+This shows the theorem.
+\end{proof}
+
+\begin{definition}
+\dtitle{Ancestors}
+\label{def:ancestor}
+%
+% TODO: Do I need or use this definition?
+%
 We say that \Veim{anc} is the \dfn{top-down ancestor}
 of \Veim{desc},
 if \Veim{anc} is a top-down cause of \Veim{desc},
@@ -3727,7 +3961,6 @@ If \Veim{anc} is a top-down ancestor of \Veim{desc},
 then we say the
 \Veim{desc}
 is a \dfn{top-down descendant} of \Veim{anc}.
-
 \end{definition}
 
 An effect is always an Earley item.
@@ -3816,143 +4049,6 @@ of a non-terminal symbol.
 \end{definition}
 
 \section{Confirmed Earley items}
-
-\begin{definition}
-\dtitle{Symbolic and EIM equivalent}
-If a parse instance is a symbol instance or
-a complete EIM,
-its ``symbolic equivalent'' is defined.
-If the parse instance is a symbol instance,
-it is its own \dfn{symbolic equivalent}.
-If the parse instance is a complete EIM,
-its \dfn{symbolic equivalent} is the instance
-of its LHS symbol
-with the same left and right locations
-as the EIM.
-We also write the symbolic
-equivalent of \var{x} as
-$\var{Sym-Eq}(\var{x})$.%
-\index{recce-notation}{Sym-Eq(x)@\Vop{Sym-Eq}{x}}
-We say that \Veim{eim} is the
-\dfn{EIM equivalent}
-of \Vinst{x} if and only if
-\Vinst{x} is the symbolic equivalent of
-\Veim{eim}.
-We also write the EIM
-equivalent of \Vinst{x} as
-$\var{EIM-Eq}(\var{x})$.%
-\index{recce-notation}{EIM-Eq(x)@\Vop{EIM-Eq}{x}}
-\end{definition}
-
-By way of illustration,
-and with full generality, if
-a complete EIM is
-\begin{equation}
-\label{eq:def-symbolic-equivalent-10}
-\Veim{up} = \big[
-[ \Vsym{up} \de \Vstr{up-rhs} \mydot ], \var{i}, \var{j}
-\big].
-\end{equation}
-then the symbolic equivalent of \Veim{up} is
-\begin{equation}
-\label{eq:def-symbolic-equivalent-20}
-\Vinst{ins} = \Vmkl{i} \Vsym{up} \Vmkr{j}.
-\end{equation}
-
-\begin{theorem}
-\ttitle{Symbolic equivalent from complete EIM}
-\label{t:valid-symbolic-equivalent-from-eim}
-A valid, complete EIM has a valid symbolic equivalent,
-\Vinst{symeq};
-and \Symbol{\Vinst{symeq}} is
-a non-terminal.
-\end{theorem}
-
-\begin{proof}
-Without loss of generality,
-let the complete  EIM be
-\begin{equation}
-\label{eq:valid-symbolic-equivalent-from-eim-10}
-\Veim{up} = \big[
-[ \Vsym{up} \de \Vstr{up-rhs} \mydot ], \var{i}, \var{j}
-\big].
-\end{equation}
-\eqref{eq:valid-symbolic-equivalent-from-eim-10}
-is valid by assumption for the theorem,
-so we have the valid derivations,
-\begin{alignat}{3}
-& \Vsym{up} && \derives
-[ \var{i}]\, \Vstr{up-rhs} \,[\var{j}] \\
-\therefore \quad
-& [\var{i}]\, \Vsym{up} \,[\var{j}] && \derives
-[\var{i}]\, \Vstr{up-rhs} \,[\var{j}] \\
-\label{eq:valid-symbolic-equivalent-from-eim-20}
-\therefore \quad
-& [\var{i}]\, \Vsym{up} \,[\var{j}] &&
-\end{alignat}
-We have shown that
-\eqref{eq:valid-symbolic-equivalent-from-eim-20}
-is valid.
-Let \Vinst{symeq} be
-the parse instance of
-\eqref{eq:valid-symbolic-equivalent-from-eim-20},
-so that
-$\Vinst{symeq}
-= [\var{i}]\, \Vsym{up} \,[\var{j}].$
-From the definition of symbolic equivalent we
-see that
-\Vinst{symeq}
-is the symbolic equivalent of
-\Veim{up}.
-
-It remains to show that
-\Symbol{\Vinst{symeq}} is a non-terminal.
-We note that
-$\Symbol{\Vinst{symeq}} = \LHS{\Veim{up}}$,
-and with this, we have the theorem.
-\end{proof}
-
-\begin{theorem}
-\ttitle{Symbolic equivalent from complete EIM}
-\label{t:eim-equivalent-from-non-terminal}
-A valid instance, \Vinst{x}, has an valid EIM equivalent if
-and only if \Symbol{\Vinst{x}} is a non-terminal.
-\end{theorem}
-
-\begin{proof}
-We have the ``if'' direction directly from the
-definition of validity for non-terminal parse instances,
-Theorem
-\ref{t:valid-symbolic-equivalent-from-eim}
-shows the ``only if'' direction.
-\end{proof}
-
-We say that a bottom-up cause is \dfn{symbolic},
-if it has a symbolic equivalent.
-The bottom-up causes of predictions
-do not have a symbolic equivalent,
-and are therefore not symbolic.
-All other bottom-up causes are symbolic.
-
-\begin{definition}
-\dtitle{Matching causes}
-\label{def:matching-causes}
-Let \Veim{down},
-be a top-down cause and
-let \Vinst{up}
-be a symbolic bottom-up cause.
-We say that \Veim{down} and \Vinst{up}
-are
-\dfn{matching causes}
-if and only if
-\begin{gather*}
-\Postdot{\Veim{down}} = \Symbol{\Vinst{up}} \quad \text{and} \\
-\Right{\Veim{down}} = \Left{\Vinst{up}}.
-\end{gather*}
-When \Veim{down} and \Vinst{up} are matching causes,
-we also say that
-\Veim{down} and \Vinst{up} \dfn{match}.
-\end{definition}
 
 \begin{theorem}
 \ttitle{Effect from symbolic causes}
@@ -4154,32 +4250,8 @@ then \Veim{eff} is a confirmation.
 \end{theorem}
 
 \begin{proof}
-By assumption for the theorem,
-the bottom-up cause of \Veim{eff} is not ethereal,
-so that,
-using \dref[causes]{def:causes}
-and without loss of generality,
-the dotted rule of \Veim{eff} is
-\begin{equation}
-\label{eq:confirmation-from-up-cause-10}
- \Vdr{eff} = [ \Vsym{A} \de \Vstr{prefix} \cat \Vsym{up} \mydot \Vstr{suffix} ].
-\end{equation}
-In a Marpa grammar, no EIM is nulling.
-By assumption for the theorem, the bottom up cause of
-\Veim{eff} is an EIM or a non-nulling terminal,
-so that
-\begin{equation}
-\label{eq:confirmation-from-up-cause-12}
-\Veim{up} \neq \epsilon.
-\end{equation}
-It follows from
-\eqref{eq:confirmation-from-up-cause-10}
-and
-\eqref{eq:confirmation-from-up-cause-12}
-that the dot position of \Vdr{eff} is greater than zero.
-By the definition of a confirmation, this means that
-\Vdr{eff}, and therefore \Veim{eff},
-is a confirmation.
+This theorem follows directly from
+\tref{t:completed-eim-as-a-cause}.
 \end{proof}
 
 \begin{theorem}
@@ -5926,6 +5998,8 @@ for the theorem for \Veim{bas} as well.
 \label{t:multi-down-cause-ambiguous}
 If any Earley item has more than one top-down cause,
 the grammar is ambiguous.
+
+TODO: Is this right?  What about predictions?
 \end{theorem}
 
 \begin{proof}
@@ -5941,6 +6015,9 @@ let \Veim{effect} be
 By the Definition \ref{def:causes},
 the dotted rule and origin of a top-down cause are determined by its effect,
 so that the two down-causes can differ only in their current position.
+
+TODO: Previous is only true for confirmations, I think.
+
 Let the two top-down causes be
 \begin{gather*}
 \Veim{down1} = [ [ \Vsym{down} \derives \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j1} ] \\
