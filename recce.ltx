@@ -5996,14 +5996,12 @@ for the theorem for \Veim{bas} as well.
 \begin{theorem}
 \ttitle{Multiple top-down causes make a grammar ambiguous}
 \label{t:multi-down-cause-ambiguous}
-If any Earley item has more than one top-down cause,
+If any confirmed Earley item has more than one top-down cause,
 the grammar is ambiguous.
-
-TODO: Is this right?  What about predictions?
 \end{theorem}
 
 \begin{proof}
-Assume for a reductio, that \Veim{effect} has more than one top-down cause
+Assume for a reductio, that the confirmed EIM \Veim{effect} has more than one top-down cause,
 but that \Cg{} is not ambiguous.
 Without loss of generality,
 let \Veim{effect} be
@@ -6012,13 +6010,12 @@ let \Veim{effect} be
 \Veim{effect} =
 [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
 \end{equation}
-By the Definition \ref{def:causes},
-the dotted rule and origin of a top-down cause are determined by its effect,
-so that the two down-causes can differ only in their current position.
-
-TODO: Previous is only true for confirmations, I think.
-
-Let the two top-down causes be
+Since \Veim{effect} is confirmed,
+the dotted rule and origin of its top-down cause are determined by \Veim{effect}
+\dref[causes of confirmed effect]{def:causes}.
+Therefore, if \Veim{effect} has two distinct
+down-causes, they can differ only in their current position.
+Let the two distinct top-down causes be
 \begin{gather*}
 \Veim{down1} = [ [ \Vsym{down} \derives \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j1} ] \\
 \Veim{down2} = [ [ \Vsym{down} \derives \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j2} ]
@@ -15743,103 +15740,175 @@ Earley set \Vloc{j}.
 Marpa attempts a read operation,
 in the worst case,
 once for every EIM in the Earley set
-at $\Vloc{i} \subtract 1$.
+at \Vdecr{i}.
 Therefore, the number of attempts
 to add read EIM's at Earley set \Vloc{i}
 must be less than equal to \bigsize{\Etable{\var{i} \subtract 1}},
 and
 the number
-of actual Earley items at
-$\Vloc{i} \subtract 1$.
+of actual Earley items
+at \Vdecr{i}.
 \begin{equation}
 \label{eq:tries-18}
 \var{read-tries} \le \sum\limits_{i=1}^{n}{ \bigsize{\Etable{\decr{i}}} } = \order{\var{z}}
 \end{equation}
 
 The most complicated case is Earley reduction.
-Recall that \Ves{i} is the current Earley set.
-Consider the number of reductions attempted.
+Recall that \Ves{j} is the Earley set for which we
+are counting attempts.
 \Marpa{} attempts to add an Earley reduction result
+to \Ves{j}
 once for every pair of matching causes,
-\begin{equation*}
-[\Veim{down}, \Veim{up}].
-\end{equation*}
-Let
-\begin{equation*}
-\begin{split}
-& \Veim{up} = [ \Vdr{up}, \Vloc{up-origin}, \var{i} ]  \\
- \land \quad & \Vsym{transition} = \LHS{\Vdr{up}}. \\
-\end{split}
-\end{equation*}
-
-We now attempt to
-put an upper bound on number of possible matching pairs of
-causes.
-We have $\Veim{up} \in \Ves{i}$,
-and therefore
 \begin{equation}
-\label{eq:tries-20}
-\text{there are at most
-$\bigsize{\Vtable{i}}$ choices for \Veim{up}.}
-\end{equation}
-
-TODO: Next graf is screwed up.  Fix it.
-
-Let the number of dotted rules be \Vsize{\Cdr}.
-We can show that the number of possible choices of
-\Veim{down} is at most \Vsize{\Cdr}, by a reductio.
-Suppose, for the reductio,
-there were more than \Vsize{dr} possible choices of \Veim{down}.
-Then there are two possible choices of \Veim{down} with
-the same dotted rule.
-Call these \Veim{choice1} and \Veim{choice2}.
-We know, by the definition of matching causes, that
-\begin{align*}
- & \Veim{down} \in \Ves{up-origin}
-   \quad \text{and therefore we have} \\
- & \Veim{choice1} \in \Ves{up-origin} \quad \text{and} \\
- & \Veim{choice2} \in \Ves{up-origin}.
-\end{align*}
-Since all EIM's in an Earley set must differ,
-and
-\Veim{choice1} and \Veim{choice2} both share the same
-dotted rule,
-so they must differ in their origin.
-But two different origins would produce two different derivations for the
-reduction,
-which would mean that the parse was ambiguous
-\tref{t:multi-down-cause-ambiguous}.
-This is contrary to the assumption for the theorem
-that the grammar is unambiguous.
-This shows the reductio
-and that
-\begin{equation}
-\label{eq:tries-25}
-\myparbox{
-the number of choices for \Veim{down},
-compatible with \Vorig{up}, is as most \Vsize{dr}.
+\label{eq:tries-19-2}
+\text{$[\Veim{down}, \Veim{up}]$
+  such that
+  $\Current{\Veim{up}} = \Ves{j}$.
 }
 \end{equation}
+Therefore
+the number of reductions attempted at \Ves{j},
+call it \var{j-tries},
+will be equal to the number of pairs
+of matching causes of the form
+in \eqref{eq:tries-19-2} that are tried.
+The matching pair in
+each of the \var{j-tries} attempts has an effect EIM,
+and that effect EIM
+either duplicates an EIM already in \Ves{j}
+or else adds an Earley item to \Ves{j}.
+At most $\bigsize{\EVtable{\Marpa}{j}} = \order{\var{j}}$
+Earley items are added to \Ves{j}
+\tref{t:es-count}.
+Therefore,
+\begin{align}
+\label{eq:tries-19-2}
+\myparbox{%
+the \var{j-tries}
+reduction attempts add at most
+\order{\var{j}} Earley items
+to \Ves{j}, so that
+} \\
+\label{eq:tries-19-4}
+\myparbox{%
+either
+$\var{j-tries} \le \bigsize{\EVtable{\Marpa}{j}}$,
+or an attempted reduction tries to add a duplicate Earley item
+\becuz{}
+\eqref{eq:tries-19-2}.
+}
+\intertext{%
+We assume for a reductio that
+an attempted reduction tries to add a duplicate Earley item,
+call if \Veim{eff}.
+That is,
+}
+\label{eq:tries-19-6}
+\tag{RAA}
+\myparbox{%
+two attempts are made to add an \Veim{eff}
+to \Ves{j}
+} \\
+\label{eq:tries-19-6b}
+\myparbox{%
+one attempt is for the pair
+$\var{pair1} = [\Veim{down1}, \Veim{up1}]$
+\becuz{}
+\eqref{eq:tries-19-6}, WLOG;
+} \\
+\label{eq:tries-19-6d}
+\myparbox{%
+the other attempt is for the pair
+$\var{pair2} = [\Veim{down2}, \Veim{up2}]$
+\becuz{} \eqref{eq:tries-19-6}, WLOG; and
+} \\
+\label{eq:tries-19-6f}
+\myparbox{%
+$\var{pair1} \neq \var{pair2}$
+\becuz{} \eqref{eq:tries-19-6}, WLOG.
+} \\
+\label{eq:tries-19-8}
+\myparbox{%
+$\Veim{down1} \neq \Veim{down2}$
+or
+$\Veim{up1} \neq \Veim{up2}$
+\becuz{}
+\eqref{eq:tries-19-6b},
+\eqref{eq:tries-19-6d},
+\eqref{eq:tries-19-6f}.
+}
+\intertext{%
+Recall that duplicate attempts to add Earley items are ignored,
+so that exactly one of the attempts of
+\eqref{eq:tries-19-6} will succeed in adding
+an Earley item.
+}
+\label{eq:tries-19-10}
+\myparbox{%
+$\Veim{down1} \neq \Veim{down2} \implies$
+\Cg{} is ambiguous
+\becuz{}
+\tref{t:multi-down-cause-ambiguous}.
+} \\
+\label{eq:tries-19-12}
+\myparbox{%
+$\Veim{up1} \neq \Veim{up2} \implies$
+\Cg{} is ambiguous
+\becuz{}
+\tref{t:multi-up-cause-ambiguous}.
+} \\
+\label{eq:tries-19-18}
+\myparbox{%
+\Cg{} is ambiguous
+\becuz{}
+\eqref{eq:tries-19-8},
+\eqref{eq:tries-19-10},
+\eqref{eq:tries-19-12}.
+} \\
+\label{eq:tries-19-20}
+\myparbox{%
+\Cg{} is not ambiguous, by assumption for the theorem, which
+with 
+\eqref{eq:tries-19-18} shows the reductio.
+} \\
+\label{eq:tries-19-22}
+\myparbox{%
+no reduction attempt tries to
+add a duplicate Earley item
+to \Ves{j}
+\becuz{}
+\eqref{eq:tries-19-20},
+reductio starting at
+\eqref{eq:tries-19-6}.
+} \\
+\label{eq:tries-19-24}
+\myparbox{%
+$\var{j-tries} \le \bigsize{\EVtable{\Marpa}{j}}$.
+\eqref{eq:tries-19-4},
+\eqref{eq:tries-19-22}.
+} \\
+\label{eq:tries-19-26}
+\myparbox{%
+$\var{j-tries} = \order{\var{j}}$
+\becuz{}
+\eqref{eq:tries-19-24},
+\tref{t:es-count}.
+}
+\end{align}
+
+TODO: Finish fixing this.
 
 From
-\eqref{eq:tries-20}
-and
-\eqref{eq:tries-25},
-we see that the number of possible matching
-cause pairs for reductions at the Earley set at \Vloc{i}
-is
+\eqref{eq:tries-19-26}
+we see that
 \begin{equation}
-\label{eq:tries-27}
-\Vsize{\Cdr} \times \bigsize{\Vtable{i}}.
-\end{equation}
-Since \Vsize{\Cdr} is a constant that depends on \Cg{},
-\begin{align}
 \label{eq:tries-28}
-\var{reduction-tries} & = \sum\limits_{i=0}^{n}{\Vsize{\Cdr} \times \bigsize{\Vtable{i}}} \\
-  & = \Vsize{\Cdr} \times \sum\limits_{i=0}^{n}{\bigsize{\Vtable{i}}} \\
-  & = \Oc \times \order{\var{z}} \\
+\begin{aligned}
+\var{reduction-tries} & \le \sum\limits_{\var{i}=0}^{\var{n}} \order{\var{i}}
+\\
   & = \order{\var{z}}
-\end{align}
+\end{aligned}
+\end{equation}
 
 We have now set a limit on the number of attempts
 for all of the telluric EIM's.
