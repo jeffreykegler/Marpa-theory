@@ -15760,7 +15760,7 @@ are counting attempts.
 to \Ves{j}
 once for every pair of matching causes,
 \begin{equation}
-\label{eq:tries-19-2}
+\label{eq:tries-19-1}
 \text{$[\Veim{down}, \Veim{up}]$
   such that
   $\Current{\Veim{up}} = \Ves{j}$.
@@ -15771,7 +15771,7 @@ the number of reductions attempted at \Ves{j},
 call it \var{j-tries},
 will be equal to the number of pairs
 of matching causes of the form
-in \eqref{eq:tries-19-2} that are tried.
+in \eqref{eq:tries-19-1} that are tried.
 The matching pair in
 each of the \var{j-tries} attempts has an effect EIM,
 and that effect EIM
@@ -15898,15 +15898,17 @@ $\var{j-tries} = \order{\var{j}}$
 
 TODO: Finish fixing this.
 
-From
-\eqref{eq:tries-19-26}
+Using
+\eqref{eq:tries-19-26},
+and summing over the Earley sets from Earley
+set 0 to Earley set j,
 we see that
 \begin{equation}
 \label{eq:tries-28}
 \begin{aligned}
-\var{reduction-tries} & \le \sum\limits_{\var{i}=0}^{\var{n}} \order{\var{i}}
-\\
-  & = \order{\var{z}}
+\var{reduction-tries} & \le \sum\limits_{\displaystyle \var{a}=0}^{\displaystyle \var{j}} \order{\var{a}}
+\\[1ex]
+\therefore \; \var{reduction-tries} & = \order{\var{z}}
 \end{aligned}
 \end{equation}
 
@@ -16186,6 +16188,8 @@ We know still know that
 \end{equation*}
 where
 \Vloc{up-origin} is the origin of \Veim{up}.
+
+TODO: Revisit here.
 
 In the proof of Theorem \ref{t:tries},
 we calculated
