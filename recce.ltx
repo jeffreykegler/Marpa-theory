@@ -6039,17 +6039,18 @@ for the reductio.
 \begin{theorem}
 \ttitle{Multiple bottom-up causes make a grammar ambiguous}
 \label{t:multi-up-cause-ambiguous}
-If any Earley item has more than one bottom-up cause,
+If any confirmed Earley item has more than one bottom-up cause,
 the grammar is ambiguous.
 \end{theorem}
 
 \begin{proof}
-Assume for a reductio, that \Veim{effect} has more than one bottom-up cause
+Assume for a reductio that
+the confirmed \Veim{effect} has more than one bottom-up cause
 but that \Cg{} is not ambiguous.
 Without loss of generality,
 let \Veim{effect} be
 \begin{equation}
-\label{eq:multi-up-cause-ambiguous-20}
+\label{eq:multi-up-cause-ambiguous-10}
 \Veim{effect} =
 \big[ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k}
 \big]
@@ -6060,30 +6061,60 @@ By Definition \ref{def:causes},
 the symbol and right location of a bottom-up cause are determined by its effect,
 so that
 \begin{gather}
-\label{eq:multi-up-cause-ambiguous-25}
+\label{eq:multi-up-cause-ambiguous-15}
 \Right{\var{up1}} = \Right{\var{up2}} \\
-\label{eq:multi-up-cause-ambiguous-26}
+\label{eq:multi-up-cause-ambiguous-16}
 \Symbol{\var{up1}} = \Symbol{\var{up2}}
 \end{gather}
 Therefore
 \Vinst{up1} and \Vinst{up2}
 can differ only in their left location, or in their EIM equivalent.
 
-By Theorem \ref{t:symbolic-causes-from-effect},
-up-causes must have matching down causes.
-By the definition of matching causes,
-if two up-causes differ in their left location,
-their matching down causes will differ in their right location.
-But by Theorem
-\ref{t:multi-down-cause-ambiguous},
-if an Earley item has more than one top-down cause,
+We now consider whether 
+\Vinst{up1} and \Vinst{up2}
+can differ in their left location:
+\begin{align}
+\label{eq:multi-up-cause-ambiguous-20}
+& \myparbox{ %
+\Veim{effect} is a confirmed EIM
+\becuz{}
+ASM for reductio.
+} \\
+\label{eq:multi-up-cause-ambiguous-22}
+& \myparbox{ %
+The up-causes of \Veim{effect} have matching down causes
+\becuz{}
+\eqref{eq:multi-up-cause-ambiguous-20},
+\tref{t:symbolic-causes-from-effect}.
+} \\
+\label{eq:multi-up-cause-ambiguous-24}
+& \myparbox{ %
+If two up-causes differ in their left location,
+their matching down causes will differ in their right location
+\becuz{}
+\dref[matching causes]{def:matching-causes}.
+} \\
+\label{eq:multi-up-cause-ambiguous-26}
+& \myparbox{ %
+If \Veim{effect} has two different down-causes,
 \Cg{} is ambiguous.
-This is contrary to assumption for the reductio.
-So we know that
-\begin{equation}
+\becuz{}
+\eqref{eq:multi-up-cause-ambiguous-20},
+\tref{t:multi-down-cause-ambiguous}.
+} \\
 \label{eq:multi-up-cause-ambiguous-28}
-\Left{\var{up1}} = \Left{\var{up2}}
-\end{equation}
+& \myparbox{ %
+\Cg{} is not ambiguous by assumption for the reductio.
+} \\
+\label{eq:multi-up-cause-ambiguous-30}
+& \myparbox{ %
+$\Left{\var{up1}} = \Left{\var{up2}}$
+because
+\eqref{eq:multi-up-cause-ambiguous-24},
+\eqref{eq:multi-up-cause-ambiguous-26},
+\eqref{eq:multi-up-cause-ambiguous-28}.
+}
+\end{align}
 
 Since
 $\Symbol{\var{up1}} = \Symbol{\var{up2}}$,
@@ -6101,20 +6132,20 @@ But if both
 \var{up2} have no EIM equivalent,
 they consist entirely of their parse symbol instance,
 so that by
-\eqref{eq:multi-up-cause-ambiguous-25},
-\eqref{eq:multi-up-cause-ambiguous-26}
+\eqref{eq:multi-up-cause-ambiguous-15},
+\eqref{eq:multi-up-cause-ambiguous-16}
 and
-\eqref{eq:multi-up-cause-ambiguous-28},
+\eqref{eq:multi-up-cause-ambiguous-30},
 they are identical.
 
 It remains to examine the case where up-causes differ in their EIM equivalent.
 By
-\eqref{eq:multi-up-cause-ambiguous-25}
-and \eqref{eq:multi-up-cause-ambiguous-26}
+\eqref{eq:multi-up-cause-ambiguous-15}
+and \eqref{eq:multi-up-cause-ambiguous-16}
 the symbol and right location of the two up-causes must be the same.
 By Definition \ref{def:causes},
 an EIM bottom-up cause must be a completion.
-By \eqref{eq:multi-up-cause-ambiguous-28}
+By \eqref{eq:multi-up-cause-ambiguous-30}
 their left locations must be identical.
 So the two up-causes can differ only in the RHS of their dotted rule.
 
