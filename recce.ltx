@@ -15902,7 +15902,7 @@ to add read EIM's to Earley set \Ves{j}
 must be less than equal to \bigsize{\Etable{\Vdecr{j}}}.
 \[
 \bigsize{\Etable{\Vdecr{j}}} = \order{\Vdecr{i}}
-\becuz \tref{es-count}.
+\becuz \tref{t:es-count}.
 \]
 Summing over the Earley sets from 0 to \var{n},
 the number of attempts to add read items will be
@@ -15915,36 +15915,64 @@ the number of attempts to add read items will be
 \label{t:ethereal-tries}
 In a Marpa grammar,
 the number of attempts to add ethereal EIM's
-will be \order{\var{telluric-tries}},
-where \var{telluric-tries} is the number of attempts to
-add reduction, start and read EIM's.
+will be \On[2].
 \end{theorem}
 
 \begin{proof}
-\Marpa{} includes ethereal closure
-in its read and reduction operations.
-Ethereal EIM's are only added if their telluric base EIM
-is new,
-so that there will never be duplicate attempts
+From the pseudo-code we see that
+ethereal EIM's are only added if their telluric base EIM
+is new.
+Therefore,
+there will never be duplicate attempts
 to add ethereal EIM's for the same telluric base EIM.
+
 The ethereal EIM's which might be added for a given
 telluric base are predictions and null-scans.
 The number of null-scans is limited by the RHS length,
 call it \var{rhs-max},
-of the longest rule in \Cg.
+of the longest rule in \Cg{}.
 The number of predictions is limited by the number of rules
 in \Cg{}, \Vsize{\Crules}.
-so that
-for every telluric Earley item added,
-\begin{equation*}
-\var{ethereal-tries} = (\var{rhs-max} + \Vsize{Crules})  \times \var{telluric-tries}
-\end{equation*}
-and because \var{rhs-max} and
-\Vsize{\Crules} are constants the depend on \Cg{},
-\begin{align*}
-\var{ethereal-tries} & = \Oc \times \var{telluric-tries} \\
-  & = \order{\var{telluric-tries}}. \qedhere
-\end{align*}
+Therefore,
+the number of ethereal add attempts is at most
+$\var{rhs-max} + \Vsize{\Crules}$ times the number of EIM's
+in the Earley tables:
+\begin{align}
+\label{eq:ethereal-tries-10}
+&
+\var{ethereal-tries} \le
+\left(
+\begin{gathered}
+(\var{rhs-max} + \Vsize{\Crules}) \\
+\times \sum\limits_{\var{i}=1}^{\var{n}}{ \bigsize{\Etable{\var{i}}} }
+\end{gathered}
+\right).
+\\
+\label{eq:ethereal-tries-12}
+& \text{%
+\var{rhs-max} and
+\Vsize{\Crules} are constants that depend on \Cg{}.
+} \\
+\label{eq:ethereal-tries-14}
+& \var{ethereal-tries} = \Oc \times 
+\sum\limits_{\var{i}=1}^{\var{n}}{ \bigsize{\Etable{\var{i}}} }
+\becuz
+\eqref{eq:ethereal-tries-10},
+\eqref{eq:ethereal-tries-12}.
+\\
+\label{eq:ethereal-tries-16}
+& \var{ethereal-tries} = \Oc \times 
+\sum\limits_{\var{i}=1}^{\var{n}}{ \order{\var{i}} }
+\becuz
+\eqref{eq:ethereal-tries-14},
+\tref{t:es-count}.
+\\
+\notag
+& \var{ethereal-tries} = \On[2]
+\becuz
+\eqref{eq:ethereal-tries-16}.
+\qedhere
+\end{align}
 \end{proof}
 
 \begin{theorem}
@@ -16005,26 +16033,22 @@ EIM tries
 Telluric tries
 \begin{itemize}
 \item
-Start tries -- \Oc{} \becuz{} \tref{t:start-tries}.
+Start tries: \Oc{} \becuz{} \tref{t:start-tries}.
 \item
-Read tries -- \On[2] \becuz{} \tref{t:read-tries}.
+Read tries: \On[2] \becuz{} \tref{t:read-tries}.
 \item
-Reduction tries -- \On[2] \becuz{} \tref{t:unambig-reduction-tries}.
+Reduction tries: \On[2] \becuz{} \tref{t:unambig-reduction-tries}.
 \end{itemize}
 \item
-Ethereal tries -- \order{\var{telluric-tries}},
-where
-\var{telluric-tries} is the number of telluric tries
-\becuz{} \tref{t:ethereal-tries}.
+Ethereal tries: \On[2] \becuz{} \tref{t:ethereal-tries}.
 \end{itemize}
 \item
-Leo tries -- \On[2] \becuz{} \tref{t:leo-tries}.
+Leo tries: \On[2] \becuz{} \tref{t:leo-tries}.
 \end{itemize}
 
 Summing the above,
 \begin{align*}
 \label{eq:tries-5}
-\var{telluric-tries} & = \Oc + \On[2] + \On[2] \\
 \var{tries} & = \Oc + \On[2] + \On[2] + \On[2] + \On[2] \\*
     & = \On[2] \qedhere
 \end{align*}
