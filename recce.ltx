@@ -101,7 +101,11 @@
 \newcommand{\bigsize}[1]{\ensuremath{\bigl| {#1} \bigr|}}
 \newcommand{\order}[1]{\ensuremath{{\mathcal O}(#1)}}
 \newcommand{\Oc}{\order{1}}
-\newcommand{\On}{\order{\var{n}}}
+\newcommand{\On}[1][]{%
+  \ifthenelse{\equal{#1}{}}%
+    {\ensuremath{\order{\var{n}}}}%
+    {\ensuremath{\order{\var{n}^{#1}}}}%
+}
 \newcommand{\LRk}{\ensuremath{\var{LR}(\var{k})}}
 \newcommand{\inference}[2]{\genfrac{}{}{1pt}{}{#1}{#2}}
 
@@ -15687,115 +15691,60 @@ That in turn would mean that
 the grammar is ambiguous,
 contrary to assumption.
 
+As a reminder,
+we follow tradition by
+stating complexity results in terms of \var{n},
+setting $\var{n} = \Vsize{\Cw}$,
+where \Vsize{\Cw}
+is the length of the input.
+
 \begin{theorem}
-\label{t:tries}
+\label{t:unambig-reduction-tries}
 For an unambiguous grammar,
-let \var{z} be the number of EIM's
-in all the Marpa tables,
-\begin{equation*}
-    \var{z} = \Rtablesize{\Marpa}.
-\end{equation*}
-and let \var{tries} be the
-number of attempts to add
-Leo memos and Earley items.
-Then \[\var{tries} = \order{\var{z}}.\]
+the number of attempts to add reduction EIM's
+will be \On[2].
 \end{theorem}
 
 \begin{proof}
-Let
-\var{leo-tries} be the number of attempt to add Leo memos,
-\var{telluric-tries} be the number of attempts to add telluric EIM's,
-and \var{ethereal-tries}
-be the number of attempts to add ethereal EIM's.
-Then
-\begin{multline}
-\label{eq:tries-5}
-\var{tries} =
-\var{telluric-tries} + \var{ethereal-tries} + \var{leo-tries}.
-\end{multline}
-
-We consider first the telluric EIM's.
-Let
-\var{start-tries} be the number of attempts to add the start EIM,
-\var{read-tries} be the number of attempts to add read EIM's,
-and \var{reduction-tries} be the number of attempts to add reduction EIM's.
-\begin{multline}
-\label{eq:tries-10}
-\var{telluric-tries} = \\
-\var{read-tries} + \var{reduction-tries} + \var{start-tries},
-\end{multline}
-
-Let \var{start-tries} be the number of attempts to add the initial item to
-the Earley sets.
-It is clear from the pseudocode
-that there will be no attempts to add duplicate start EIM's.
-and that
-\begin{equation}
-\label{eq:tries-15}
-\var{start-tries} = 1 = \Oc
-\end{equation}
-
-Let \var{read-tries} be the number of attempted read operations in
-Earley set \Vloc{j}.
-Marpa attempts a read operation,
-in the worst case,
-once for every EIM in the Earley set
-at \Vdecr{i}.
-Therefore, the number of attempts
-to add read EIM's at Earley set \Vloc{i}
-must be less than equal to \bigsize{\Etable{\var{i} \subtract 1}},
-and
-the number
-of actual Earley items
-at \Vdecr{i}.
-\begin{equation}
-\label{eq:tries-18}
-\var{read-tries} \le \sum\limits_{i=1}^{n}{ \bigsize{\Etable{\decr{i}}} } = \order{\var{z}}
-\end{equation}
-
-The most complicated case is Earley reduction.
-Recall that \Ves{j} is the Earley set for which we
+Let \Ves{j} be an Earley set for which we
 are counting attempts.
 \Marpa{} attempts to add an Earley reduction result
 to \Ves{j}
 once for every pair of matching causes,
 \begin{equation}
-\label{eq:tries-19-1}
-\text{$[\Veim{down}, \Veim{up}]$
+\label{eq:unambig-reduction-tries-1}
+\text{$[\Veim{down}, \Veim{up}]$,
   such that
   $\Current{\Veim{up}} = \Ves{j}$.
 }
 \end{equation}
-Therefore
-the number of reductions attempted at \Ves{j},
-call it \var{j-tries},
-will be equal to the number of pairs
-of matching causes of the form
-in \eqref{eq:tries-19-1} that are tried.
+
+Let \var{j-tries} be the number of attempts to
+add reduction EIM's to \Ves{j}.
 The matching pair in
 each of the \var{j-tries} attempts has an effect EIM,
 and that effect EIM
 either duplicates an EIM already in \Ves{j}
-or else adds an Earley item to \Ves{j}.
-At most $\bigsize{\EVtable{\Marpa}{j}} = \order{\var{j}}$
-Earley items are added to \Ves{j}
+or else adds a new Earley item to \Ves{j}.
+The number of Earley items added to \Ves{j}
+is at most $\bigsize{\EVtable{\Marpa}{j}} = \order{\var{j}}$
 \tref{t:es-count}.
 Therefore,
 \begin{align}
-\label{eq:tries-19-2}
+\label{eq:unambig-reduction-tries-2}
 \myparbox{%
 the \var{j-tries}
 reduction attempts add at most
 \order{\var{j}} Earley items
 to \Ves{j}, so that
 } \\
-\label{eq:tries-19-4}
+\label{eq:unambig-reduction-tries-4}
 \myparbox{%
 either
 $\var{j-tries} \le \bigsize{\EVtable{\Marpa}{j}}$,
 or an attempted reduction tries to add a duplicate Earley item
 \becuz{}
-\eqref{eq:tries-19-2}.
+\eqref{eq:unambig-reduction-tries-2}.
 }
 \intertext{%
 We assume for a reductio that
@@ -15803,136 +15752,175 @@ an attempted reduction tries to add a duplicate Earley item,
 call if \Veim{eff}.
 That is,
 }
-\label{eq:tries-19-6}
+\label{eq:unambig-reduction-tries-6}
 \tag{RAA}
 \myparbox{%
-two attempts are made to add an \Veim{eff}
-to \Ves{j}
+two attempts are made to add \Veim{eff}
+to \Ves{j};
 } \\
-\label{eq:tries-19-6b}
+\label{eq:unambig-reduction-tries-6b}
 \myparbox{%
-one attempt is for the pair
 $\var{pair1} = [\Veim{down1}, \Veim{up1}]$
+is the first attempt
 \becuz{}
-\eqref{eq:tries-19-6}, WLOG;
+\eqref{eq:unambig-reduction-tries-6}, WLOG;
 } \\
-\label{eq:tries-19-6d}
+\label{eq:unambig-reduction-tries-6d}
 \myparbox{%
-the other attempt is for the pair
 $\var{pair2} = [\Veim{down2}, \Veim{up2}]$
-\becuz{} \eqref{eq:tries-19-6}, WLOG; and
+is the second attempt
+\becuz{} \eqref{eq:unambig-reduction-tries-6}, WLOG; and
 } \\
-\label{eq:tries-19-6f}
+\label{eq:unambig-reduction-tries-6f}
 \myparbox{%
 $\var{pair1} \neq \var{pair2}$
-\becuz{} \eqref{eq:tries-19-6}, WLOG.
+\becuz{} \eqref{eq:unambig-reduction-tries-6}, WLOG.
 } \\
-\label{eq:tries-19-8}
+\label{eq:unambig-reduction-tries-8}
 \myparbox{%
 $\Veim{down1} \neq \Veim{down2}$
 or
 $\Veim{up1} \neq \Veim{up2}$
 \becuz{}
-\eqref{eq:tries-19-6b},
-\eqref{eq:tries-19-6d},
-\eqref{eq:tries-19-6f}.
+\eqref{eq:unambig-reduction-tries-6b},
+\eqref{eq:unambig-reduction-tries-6d},
+\eqref{eq:unambig-reduction-tries-6f}.
 }
 \intertext{%
-Recall that duplicate attempts to add Earley items are ignored,
+As an aside,
+recall that duplicate attempts to add Earley items are ignored,
 so that exactly one of the attempts of
-\eqref{eq:tries-19-6} will succeed in adding
+\eqref{eq:unambig-reduction-tries-6} will succeed in adding
 an Earley item.
 }
-\label{eq:tries-19-10}
+\label{eq:unambig-reduction-tries-10}
 \myparbox{%
 $\Veim{down1} \neq \Veim{down2} \implies$
 \Cg{} is ambiguous
 \becuz{}
 \tref{t:multi-down-cause-ambiguous}.
 } \\
-\label{eq:tries-19-12}
+\label{eq:unambig-reduction-tries-12}
 \myparbox{%
 $\Veim{up1} \neq \Veim{up2} \implies$
 \Cg{} is ambiguous
 \becuz{}
 \tref{t:multi-up-cause-ambiguous}.
 } \\
-\label{eq:tries-19-18}
+\label{eq:unambig-reduction-tries-18}
 \myparbox{%
 \Cg{} is ambiguous
 \becuz{}
-\eqref{eq:tries-19-8},
-\eqref{eq:tries-19-10},
-\eqref{eq:tries-19-12}.
+\eqref{eq:unambig-reduction-tries-8},
+\eqref{eq:unambig-reduction-tries-10},
+\eqref{eq:unambig-reduction-tries-12}.
 } \\
-\label{eq:tries-19-20}
+\label{eq:unambig-reduction-tries-20}
 \myparbox{%
 \Cg{} is not ambiguous, by assumption for the theorem, which
 with 
-\eqref{eq:tries-19-18} shows the reductio.
+\eqref{eq:unambig-reduction-tries-18} shows the reductio.
 } \\
-\label{eq:tries-19-22}
+\label{eq:unambig-reduction-tries-22}
 \myparbox{%
 no reduction attempt tries to
 add a duplicate Earley item
 to \Ves{j}
 \becuz{}
-\eqref{eq:tries-19-20},
+\eqref{eq:unambig-reduction-tries-20},
 reductio starting at
-\eqref{eq:tries-19-6}.
+\eqref{eq:unambig-reduction-tries-6}.
 } \\
-\label{eq:tries-19-24}
+\label{eq:unambig-reduction-tries-24}
 \myparbox{%
 $\var{j-tries} \le \bigsize{\EVtable{\Marpa}{j}}$.
-\eqref{eq:tries-19-4},
-\eqref{eq:tries-19-22}.
+\eqref{eq:unambig-reduction-tries-4},
+\eqref{eq:unambig-reduction-tries-22}.
 } \\
-\label{eq:tries-19-26}
+\label{eq:unambig-reduction-tries-26}
 \myparbox{%
 $\var{j-tries} = \order{\var{j}}$
 \becuz{}
-\eqref{eq:tries-19-24},
+\eqref{eq:unambig-reduction-tries-24},
 \tref{t:es-count}.
 }
 \end{align}
 
-TODO: Finish fixing this.
-
 Using
-\eqref{eq:tries-19-26},
+\eqref{eq:unambig-reduction-tries-26},
 and summing over the Earley sets from Earley
-set 0 to Earley set j,
+set 0 to Earley set n,
 we see that
 \begin{equation}
-\label{eq:tries-28}
-\begin{aligned}
-\var{reduction-tries} & \le \sum\limits_{\displaystyle \var{a}=0}^{\displaystyle \var{j}} \order{\var{a}}
-\\[1ex]
-\therefore \; \var{reduction-tries} & = \order{\var{z}}
-\end{aligned}
+\label{eq:unambig-reduction-tries-28}
+\var{reduction-tries} \le \sum\limits_{\displaystyle \var{j}=0}^{\displaystyle \var{n}} \order{\var{j}}
+= \On[2].\qedhere
 \end{equation}
+\end{proof}
 
-We have now set a limit on the number of attempts
-for all of the telluric EIM's.
-We return to
-\eqref{eq:tries-10}.
-Using
-\eqref{eq:tries-15},
-\eqref{eq:tries-18}
-and
-\eqref{eq:tries-28},
-\begin{align}
-\label{eq:tries-30}
-\var{telluric-tries} & = \var{read-tries} + \var{reduction-tries} \\
-\notag & \qquad \qquad + \var{start-tries}  \\
-  & = \Oc + \order{\var{z}} + \order{\var{z}} \\
-  & = \order{\var{z}}
-\label{eq:tries-33}
-\end{align}
+\begin{theorem}
+\label{t:start-tries}
+In a Marpa grammar,
+the number of attempts to add start EIM's
+will be \Oc.
+\end{theorem}
 
-Recall that \var{ethereal-tries} was the number of attempts to add ethereal
-items in
-Earley set \Vloc{j}.
+\begin{proof}
+Let
+\var{start-tries} be the number of attempts to add the start EIM
+to the Earley sets.
+It is clear from the pseudocode
+that there will be exactly one attempt to add a start EIM
+to the Earley sets,
+an attempt that will be made in Earley set 0.
+Therefore,
+\begin{equation}
+\label{eq:tries-15}
+\var{start-tries} = 1 = \Oc.\qedhere
+\end{equation}
+\end{proof}
+
+\begin{theorem}
+\label{t:read-tries}
+In a Marpa grammar,
+the number of attempts to add read EIM's
+will be \order{\var{z}}.
+\end{theorem}
+
+\begin{proof}
+Consider one Earley set, call it \Ves{j}.
+Let
+\var{read-tries} be the number of attempts to add read EIM's
+to the Earley sets.
+In the worst case,
+when adding Earley items to \Ves{j},
+Marpa attempts a read operation
+once for every EIM in the Earley set
+at \Vdecr{j}.
+Therefore, the number of attempts
+to add read EIM's to Earley set \Ves{j}
+must be less than equal to \bigsize{\Etable{\Vdecr{j}}}.
+\[
+\bigsize{\Etable{\Vdecr{j}}} = \order{\Vdecr{i}}
+\becuz \tref{es-count}.
+\]
+Summing over the Earley sets from 0 to \var{n},
+the number of attempts to add read items will be
+\begin{equation*}
+\var{read-tries} \le \sum\limits_{i=1}^{n}{ \order{\Vdecr{i}} } = \On[2].\qedhere
+\end{equation*}
+\end{proof}
+
+\begin{theorem}
+\label{t:ethereal-tries}
+In a Marpa grammar,
+the number of attempts to add ethereal EIM's
+will be \order{\var{telluric-tries}},
+where \var{telluric-tries} is the number of attempts to
+add reduction, start and read EIM's.
+\end{theorem}
+
+\begin{proof}
 \Marpa{} includes ethereal closure
 in its read and reduction operations.
 Ethereal EIM's are only added if their telluric base EIM
@@ -15945,7 +15933,7 @@ The number of null-scans is limited by the RHS length,
 call it \var{rhs-max},
 of the longest rule in \Cg.
 The number of predictions is limited by the number of rules
-in Cg{}, \Vsize{\Crules}.
+in \Cg{}, \Vsize{\Crules}.
 so that
 for every telluric Earley item added,
 \begin{equation*}
@@ -15953,60 +15941,97 @@ for every telluric Earley item added,
 \end{equation*}
 and because \var{rhs-max} and
 \Vsize{\Crules} are constants the depend on \Cg{},
-\begin{equation}
-\label{eq:tries-42}
-\var{ethereal-tries} = \Oc \times \var{telluric-tries}.
-\end{equation}
-And using
-\eqref{eq:tries-30},
-\begin{equation}
-\label{eq:tries-45}
-\var{ethereal-tries} = \order{\var{z}}.
-\end{equation}
+\begin{align*}
+\var{ethereal-tries} & = \Oc \times \var{telluric-tries} \\
+  & = \order{\var{telluric-tries}}. \qedhere
+\end{align*}
+\end{proof}
 
-Recall that \var{leo-tries} was the number of attempted Leo reductions in
-Earley set \Vloc{j}.
+\begin{theorem}
+\label{t:leo-tries}
+In a Marpa grammar,
+the number of attempts to add Leo memos
+will be \On[2].
+\end{theorem}
+
+\begin{proof}
 For Leo reduction,
 we note that by its definition,
 duplicate attempts at Leo reduction cannot occur.
 From the pseudo-code of Sections \ref{p:reduce-one-up-cause}
 and \ref{p:leo-op},
 we know there will be at most one Leo reduction for
-every Earley item in the Earley tables,
-so that
-\Vloc{j}.
-\begin{equation}
-\label{eq:tries-50}
-\var{leo-tries} = \order{\var{z}}
-\end{equation}
-
-Returning to
-\eqref{eq:tries-5}:
-\begin{multline}
-\var{tries} =
-\var{telluric-tries} + \var{ethereal-tries} + \var{leo-tries}.
-\end{multline}
-We have, using the results of
-\eqref{eq:tries-33},
-\eqref{eq:tries-45}
-and
-\eqref{eq:tries-50},
-\begin{equation}
-\var{tries} =
-\order{\var{z}}
-+ \order{\var{z}}
-+ \order{\var{z}}
-= \order{\var{z}}.\qedhere
-\end{equation}
+every Earley item in the Earley tables:
+\begin{align}
+\label{eq:leo-tries-10}
+& \var{leo-tries} =
+\sum\limits_{\var{i}=1}^{\var{n}}{
+\bigsize{\Etable{\var{i}}}
+}.
+\\
+\label{eq:leo-tries-12}
+& \forall \; \var{i} : \bigsize{\Etable{\var{i}}} = \order{\var{i}}
+\becuz \tref{t:es-count}.
+\\
+\notag
+& \var{leo-tries} =
+\sum\limits_{\var{i}=1}^{\var{n}}{
+\order{\var{i}}
+} = \On[2] \becuz
+\eqref{eq:leo-tries-10},
+\eqref{eq:leo-tries-12}
+.\qedhere
+\end{align}
 \end{proof}
 
-As a reminder,
-we follow tradition by
-stating complexity results in terms of \var{n},
-setting $\var{n} = \Vsize{\Cw}$,
-the length of the input.
+\begin{theorem}
+\label{t:tries}
+In an unambiguous Marpa grammar,
+the number of attempts to add
+Leo memos and Earley items will be
+\[\var{tries} = \On[2].\]
+\end{theorem}
 
-\begin{theorem}\label{t:leo-right-recursion}
+\begin{proof}
+For the purpose of this proof,
+we call each each attempt to add a Leo memo or an Earley item,
+a ``try''.
+We proceed by cases, and we classify tries as follows:
+\begin{itemize}
+\item
+EIM tries
+\begin{itemize}
+\item
+Telluric tries
+\begin{itemize}
+\item
+Start tries -- \Oc{} \becuz{} \tref{t:start-tries}.
+\item
+Read tries -- \On[2] \becuz{} \tref{t:read-tries}.
+\item
+Reduction tries -- \On[2] \becuz{} \tref{t:unambig-reduction-tries}.
+\end{itemize}
+\item
+Ethereal tries -- \order{\var{telluric-tries}},
+where
+\var{telluric-tries} is the number of telluric tries
+\becuz{} \tref{t:ethereal-tries}.
+\end{itemize}
+\item
+Leo tries -- \On[2] \becuz{} \tref{t:leo-tries}.
+\end{itemize}
+
+Summing the above,
+\begin{align*}
+\label{eq:tries-5}
+\var{telluric-tries} & = \Oc + \On[2] + \On[2] \\
+\var{tries} & = \Oc + \On[2] + \On[2] + \On[2] + \On[2] \\*
+    & = \On[2] \qedhere
+\end{align*}
+\end{proof}
+
+\begin{theorem}
+\label{t:leo-right-recursion}
 Either
 a right derivation has a step
 that uses a right recursive rule,
