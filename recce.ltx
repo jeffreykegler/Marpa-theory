@@ -16198,7 +16198,148 @@ is
 \end{equation*}
 \end{proof}
 
-\begin{theorem}\label{t:ambiguous-tries}
+\begin{theorem}
+\label{t:reduction-tries}
+For a Marpa grammar,
+the number of attempts to add reduction EIM's
+will be \On[3].
+\end{theorem}
+
+\begin{proof}
+Let \var{tries} be the number of attempts to add reduction EIM's to
+the Earley tables.
+Let \var{pairs} be the set of matching causes in the Earley tables.
+\Marpa{} attempts to add an Earley reduction result
+to the Earley tables
+once for every pair of matching causes,
+that is, once for every
+\begin{equation}
+\label{eq:reduction-tries-10}
+[\Veim{down}, \Veim{up}] \in \var{pairs}.
+\end{equation}
+Therefore, if \bigsize{\var{pairs}} is the number of matching cause pairs
+in the Earley tables,
+then
+\[
+\bigsize{\var{pairs}} = \var{tries}.
+\]
+
+Recall that the first element of each pair of matching causes
+is its top-down cause,
+and the second element of each pair is its bottom-up cause.
+For brevity, we will call the top-down cause of a matching pair
+of causes, its ``down-cause'',
+and we will call the bottom-up cause of a matching pair of
+cause, its ``up-cause''.
+We can see that
+\begin{equation}
+\label{eq:reduction-tries-15}
+    \bigsize{\var{pairs}} \le \var{up-count} \times \var{downs-per-up},
+\end{equation}
+where
+\var{up-count} is the number of EIM's which are
+up-causes,
+and \var{downs-per-up} is the maximum number of 
+down-causes for any up-cause, that is
+\[
+   \var{downs-per-up} =
+   \max_{\Veim{up}} \left|
+     \begin{gathered}
+     \Veim{down} \; \text{such that} \\
+     [\Veim{down}, \Veim{up}] \\
+     \in \var{pairs}
+     \end{gathered}
+   \right|.
+\]
+
+We first seek an upper bound for \var{downs-per-up}.
+We know that
+\begin{align}
+\label{eq:reduction-tries-25}
+&
+\begin{gathered}
+\forall \; \Veim{down}, \Veim{up} :
+[\Veim{down}, \Veim{up}] \in \var{pairs}
+\\
+\implies
+\Right{\Veim{down}} = \Left{\Veim{up1}}
+\\
+\becuz \dref[matching causes]{def:matching-causes}.
+\end{gathered}
+\intertext{%
+Let \var{ups} be the set of up-causes in \var{pairs}.
+Because every down-cause must be in 
+the Earley set which is the origin of its up-cause,
+we see that
+}
+\label{eq:reduction-tries-27}
+&
+\var{downs-per-up} = \max_{\Veim{up} \in \var{ups}}
+  \; \bigsize{\Etable{\Left{\Veim{up}}}}
+\becuz \eqref{eq:reduction-tries-25}.
+\\
+\label{eq:reduction-tries-29}
+&
+\var{downs-per-up} = \max_{\Veim{up} \in \var{ups}}
+  \; \order{\Left{\Veim{up}}}
+\becuz{} \eqref{eq:reduction-tries-27}.
+\\
+\label{eq:reduction-tries-31}
+& \myparbox{
+$\forall \; \Veim{up} :
+  (\Veim{up} \in \var{ups}) \implies
+  \Left{\Veim{up}} \le \var{n}$,
+because every location in the Earley tables
+must be less than or equal to
+$\Vsize{\Cw} = \var{n}$
+\tref{t:es-count}.
+}
+\intertext{%
+We are now in a position to state an
+upper bound for \var{downs-per-up}:
+}
+\label{eq:reduction-tries-33}
+&
+\var{downs-per-up} = \On[]
+\becuz \eqref{eq:reduction-tries-29},
+\eqref{eq:reduction-tries-31}.
+\intertext{%
+As an upper bound, we allow
+every EIM to be an up-cause so that
+}
+\label{eq:reduction-tries-35}
+& \var{up-count} =
+\sum\limits_{\var{i}=1}^{\var{n}}{
+\bigsize{\Etable{\var{i}}}
+}.
+\\
+\label{eq:reduction-tries-37}
+& \forall \; \var{i} : \bigsize{\Etable{\var{i}}} = \order{\var{i}}
+\becuz \tref{t:es-count}.
+\\
+\label{eq:reduction-tries-39}
+& \var{up-count} =
+\sum\limits_{\var{i}=1}^{\var{n}}{
+\order{\var{i}}
+} = \On[2] \becuz
+\eqref{eq:reduction-tries-35},
+\eqref{eq:reduction-tries-37}.
+\\
+\notag
+& \bigsize{\var{pairs}} = \On[3]
+\becuz
+\eqref{eq:reduction-tries-15},
+\eqref{eq:reduction-tries-33},
+\eqref{eq:reduction-tries-39}
+.\qedhere
+\end{align}
+
+TODO: to here
+
+\end{proof}
+
+\begin{theorem}
+\label{t:ambiguous-tries}
 For a context-free grammar,
 the number of attempts to add
 Earley items is $\order{\var{n}^3}$.
