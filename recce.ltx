@@ -753,10 +753,8 @@ for Marpa's recognizer.
 Chapter
 \ref{ch:correctness}
 contains a proof of Marpa's correctness.
-Chapter \ref{ch:linear} sets out our linear
+Chapter \ref{ch:complexity} sets out our
 time and space complexity results.
-Chapter \ref{ch:other-complexity} presents out
-other complexity results.
 
 Because of its immediate practical applications,
 we expect this document to be of interest to many
@@ -3846,7 +3844,8 @@ of the pair of matching causes.
 
 \begin{definition}
 \dtitle{Causes}
-\label{def:causes}
+\label{def:causes-confirmed}
+\label{def:causes-predicted}
 
 TODO: Split this?  Check all uses.
 
@@ -3928,14 +3927,14 @@ so that \Veim{comp} is not the top-down cause of \Veim{eff}.
 \textbf{Bottom-up cause of a prediction}:
 If \Veim{eff} has no predot symbol,
 then its bottom-up cause is ethereal
-\dref[bottom-up cause of a predicted EIM]{def:causes}.
+\dref[causes of a predicted EIM]{def:causes-predicted}.
 \Veim{comp} is clearly not ethereal,
 so that \Veim{comp} is not the bottom-up cause of \Veim{eff}.
 
 \textbf{Top-down cause of a confirmation}:
-If \Veim{eff} has a postdot symbol,
+If \Veim{eff} has a predot symbol,
 its causes are in a pair of matching causes
-\dref{def:causes}.
+\dref[causes of a confirmed EIM]{def:causes-confirmed}.
 The top-down cause of a pair of matching causes
 must be quasi-complete
 \dref{def:matching-causes}.
@@ -4306,9 +4305,8 @@ let \Veim{effect} be
 \big].
 \end{equation}
 so that by
-Definition \ref{def:causes},
-the definition of causes,
-the bottom-up cause is
+\dref[causes of a confirmed EIM]{def:causes-confirmed},
+the bottom-up cause of \Veim{effect} is
 \begin{equation}
 \label{eq:symbolic-causes-from-effect-25}
 \Vinst{up} = \Vmkl{j} \Vstr{A} \Vmkr{k},
@@ -4530,26 +4528,32 @@ and the definition of validity for an Earley item,
 we know that
 \begin{equation}
 \label{eq:effect-from-symbol-28}
+\begin{gathered}
 \Veim{down} =
 [ [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j} ] \\
+\text{is valid}
+\end{gathered}
 \end{equation}
 and
 \begin{equation}
 \label{eq:effect-from-symbol-29}
 \Veim{effect} =
 [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ]
+\\
+\text{is valid and confirmed.}
 \end{equation}
 are valid.
 
+From
 \eqref{eq:effect-from-symbol-29}
-and Definition \ref{def:causes},
-the definition of causes,
-shows requirement
+and \dref[causes of confirmed EIM]{def:causes-confirmed},
+we have requirement
 \ref{req:effect-from-symbol-1} of this theorem.
-\eqref{eq:effect-from-symbol-28}
-and Definition \ref{def:causes},
-the definition of causes,
-shows requirement
+From
+\eqref{eq:effect-from-symbol-28},
+\eqref{eq:effect-from-symbol-29},
+and \dref[causes of confirmed EIM]{def:causes-confirmed}
+we have requirement
 \ref{req:effect-from-symbol-2} of this theorem.
 \eqref{eq:effect-from-symbol-28} shows
 requirement \ref{req:effect-from-symbol-3}.
@@ -6016,7 +6020,7 @@ let \Veim{effect} be
 \end{equation}
 Since \Veim{effect} is confirmed,
 the dotted rule and origin of its top-down cause are determined by \Veim{effect}
-\dref[causes of confirmed effect]{def:causes}.
+\dref[causes of confirmed EIM]{def:causes-confirmed}.
 Therefore, if \Veim{effect} has two distinct
 down-causes, they can differ only in their current position.
 Let the two distinct top-down causes be
@@ -6058,14 +6062,14 @@ let \Veim{effect} be
 \end{equation}
 and call the two differing up-causes, \Vinst{up1}
 and \Vinst{up2}.
-By Definition \ref{def:causes},
-the symbol and right location of a bottom-up cause are determined by its effect,
-so that
+\Veim{effect} is confirmed by assumption for the theorem,
+so that by
+\dref[causes of confirmed EIM]{def:causes-confirmed},
 \begin{gather}
 \label{eq:multi-up-cause-ambiguous-15}
-\Right{\var{up1}} = \Right{\var{up2}} \\
+\Right{\var{up1}} = \Right{\var{up2}} \; \text{and} \\
 \label{eq:multi-up-cause-ambiguous-16}
-\Symbol{\var{up1}} = \Symbol{\var{up2}}
+\Symbol{\var{up1}} = \Symbol{\var{up2}}.
 \end{gather}
 Therefore
 \Vinst{up1} and \Vinst{up2}
@@ -6144,21 +6148,23 @@ By
 \eqref{eq:multi-up-cause-ambiguous-15}
 and \eqref{eq:multi-up-cause-ambiguous-16}
 the symbol and right location of the two up-causes must be the same.
-By Definition \ref{def:causes},
-an EIM bottom-up cause must be a completion.
-By \eqref{eq:multi-up-cause-ambiguous-30}
-their left locations must be identical.
+\dref[causes of confirmed EIM]{def:causes-confirmed}.
+The left locations of \Veim{up1} and \Veim{up2} must be identical
+\eqref{eq:multi-up-cause-ambiguous-30}.
 So the two up-causes can differ only in the RHS of their dotted rule.
-
-\begin{sloppypar}
-Without loss of generalization,
+An EIM bottom-up cause of \Veim{effect}
+must be a completion \becuz{}
+\eqref{eq:multi-up-cause-ambiguous-20}.
+Therefore
+without loss of generalization,
 let the two differing up-causes be
 \begin{gather*}
 \Veim{up1} = \big[ [ \Vsym{up} \derives \Vstr{up-rhs1} \mydot ], \var{j}, \var{k}
 \big] \\
 \Veim{up2} = \big[ [ \Vsym{up} \derives \Vstr{up-rhs2} \mydot ], \var{j}, \var{k}
-\big]
+\big].
 \end{gather*}
+
 From these we get the two derivations:
 \begin{gather*}
 \Vsym{up1} \derives \Vmk{j} \Vstr{up-rhs1} \Vmk{k} \\
@@ -6171,7 +6177,6 @@ and therefore no derivation step can allow two different sentential forms.
 So $\Vstr{up-rhs1} = \Vstr{up-rhs2}.$
 But then $\Veim{up1} = \Veim{up2}$, which is contrary to assumption
 for the reductio.\qedhere
-\end{sloppypar}
 \end{proof}
 
 \chapter{Tethers}
@@ -6453,8 +6458,10 @@ dotted rule
 and one which is,
 by the definition of top-down cause for dotted rules,
 a top-down cause of \DR{\Veim{prd}}.
-From this observation and
-Definition \ref{def:causes},
+From this observation,
+the assumption for this theorem that \Veim{prd} is a prediction,
+and
+\dref[causes of predicted EIM]{def:causes-prediction},
 we see that
 \begin{equation}
 \label{lem:eim-tether-prediction-25a}
@@ -6608,9 +6615,9 @@ we have
 \notag
 \Vstr{after} = \Symbol{\drv{d}{\var{s}}{\, (\var{rha}+\var{dx}+1) \; \ldots \; \var{rhz} \, }}
 \end{gather}
-By Definition \ref{def:causes} (``causes''),
 \eqref{lem:eim-tether-confirmation-21} is a top-down cause
-of \Veim{firm}.
+of \Veim{firm}
+\dref[causes of confirmed EIM]{def:causes-confirmed}.
 
 Let our first draft of \Veim{down} take the fully general form
 \begin{equation}
@@ -8364,9 +8371,10 @@ Since \Vsym{B} is nulling,
 we know from Theorem \ref{t:silo-causes},
 that \Vel{silo}{i}, its silo cause,
 is its top-down cause.
-From
-Definition \ref{def:causes},
-the definition of causes,
+\el{silo}{\Vincr{i}} is confirmed
+\eqref{eq:lem-silo-reflection-nulling-10},
+so that by
+\dref[causes of confirmed EIM]{def:causes-confirmed},
 we know that
 the top-down cause of
 \eqref{eq:lem-silo-reflection-nulling-10}
@@ -11364,7 +11372,7 @@ $\Rule{\Veim{bas}} = \Rule{\Veim{eff}}$
 \becuz{}
 \eqref{eq:leo-effect-20},
 \eqref{eq:leo-effect-26},
-\dref[causes]{def:causes}.
+\dref[causes of confirmed EIM]{def:causes-confirmed}.
 } \\
 \label{eq:leo-effect-30}
 & \myparbox{%
@@ -11401,7 +11409,7 @@ all complete Marpa EIMs are telluric.
 \Veim{eff} is quasi-complete
 \becuz{}
 \eqref{eq:leo-effect-26},
-\dref[causes]{def:causes},
+\dref[causes of confirmed EIM]{def:causes-confirmed},
 \eqref{eq:leo-effect-34},
 \eqref{eq:leo-effect-36},
 \dref[quasi-penult]{def:quasi-types}.
@@ -15543,8 +15551,8 @@ Using
 \end{equation*}
 \end{proof}
 
-\chapter{Linear complexity results}
-\label{ch:linear}
+\chapter{Complexity results}
+\label{ch:complexity}
 
 \section{Nulling symbols}
 \label{s:nulling}
@@ -16171,9 +16179,6 @@ grammars is
 \end{equation*}
 \end{proof}
 
-\chapter{Other complexity results}
-\label{ch:other-complexity}
-
 \begin{theorem}
 \label{t:eim-count}
 For a context-free grammar,
@@ -16198,120 +16203,184 @@ is
 \end{equation*}
 \end{proof}
 
-\begin{theorem}\label{t:ambiguous-tries}
-For a context-free grammar,
-the number of attempts to add
-Earley items is $\order{\var{n}^3}$.
+\begin{theorem}
+\label{t:reduction-tries}
+For a Marpa grammar,
+the number of attempts to add reduction EIM's
+will be \On[3].
 \end{theorem}
 
 \begin{proof}
-Reexamining the proof of Theorem \ref{t:tries},
-we see that the only bound that required
-the assumption that \Cg{} was unambiguous
-was \var{reduction-tries},
-the count of the number of attempts to
-add Earley reductions.
-Recall that \var{z} was the total number
-of Earley items in the Earley tables.
-By Theorem \ref{t:eim-count},
-\begin{equation*}
-\var{z} = \Rtablesize{\Marpa} = \order{\var{n}^2}.
-\end{equation*}
-
-Looking again at \var{reduction-tries}
-for the case of ambiguous grammars,
-the only place we used the assumption that \Cg{}
-was unambiguous was in
-the count of matching pairs.
-\begin{equation*}
-[\Veim{down}, \Veim{up}].
-\end{equation*}
-We need to look at this again.
-We did not use the fact that the grammar was unambigous in counting
-the possibilities for \Veim{up}, but
-we did make use of it in determining the count of possibilities
-for \Veim{down}.
-We know still know that
-\begin{equation*}
-\Veim{down} \in \Ves{up-origin},
-\end{equation*}
-where
-\Vloc{up-origin} is the origin of \Veim{up}.
-
-TODO: Revisit here.
-
-In the proof of Theorem \ref{t:tries},
-we calculated
-the number of possible matching
-cause pairs for reductions at the Earley set at \Vloc{i}
-in
-\eqref{eq:tries-27}
-as
+Let \var{tries} be the number of attempts to add reduction EIM's to
+the Earley tables.
+Let \var{pairs} be the set of matching causes in the Earley tables.
+\Marpa{} attempts to add an Earley reduction result
+to the Earley tables
+once for every pair of matching causes,
+that is, once for every
 \begin{equation}
-\label{eq:ambiguous-tries-27}
-\Vsize{\Cdr} \times \bigsize{\Vtable{i}},
+\label{eq:reduction-tries-10}
+[\Veim{down}, \Veim{up}] \in \var{pairs}.
+\end{equation}
+Therefore, if \bigsize{\var{pairs}} is the number of matching cause pairs
+in the Earley tables,
+then
+\[
+\bigsize{\var{pairs}} = \var{tries}.
+\]
+
+Recall that the first element of each pair of matching causes
+is its top-down cause,
+and the second element of each pair is its bottom-up cause.
+For brevity, we will call the top-down cause of a matching pair
+of causes, its ``down-cause'',
+and we will call the bottom-up cause of a matching pair of
+cause, its ``up-cause''.
+We can see that
+\begin{equation}
+\label{eq:reduction-tries-15}
+    \bigsize{\var{pairs}} \le \var{up-count} \times \var{downs-per-up},
 \end{equation}
 where
-\Vsize{\Cdr} was the number of dotted rules.
-In showing that the number of dotted rules bounded the choice
-of \Veim{down},
-we used the assumption that \Cg{} was unambiguous.
-Relaxing this assumption,
-and looking at the worst case,
-every EIM in \Ves{up-origin} is a possible
-match, so that
-the number of possibilities for \Veim{down} now grows to
-\size{\Ves{up-origin}}, and
-\eqref{eq:ambiguous-tries-27} becomes
-\begin{equation}
-\label{eq:ambiguous-tries-30}
-\bigsize{\Vtable{up-origin}} \times \bigsize{\Vtable{i}}.
-\end{equation}
+\var{up-count} is the number of EIM's which are
+up-causes,
+and \var{downs-per-up} is the maximum number of 
+down-causes for any up-cause, that is
+\[
+   \var{downs-per-up} =
+   \max_{\Veim{up}} \left|
+     \begin{gathered}
+     \Veim{down} \; \text{such that} \\
+     [\Veim{down}, \Veim{up}] \\
+     \in \var{pairs}
+     \end{gathered}
+   \right|.
+\]
 
-Revisiting \eqref{eq:tries-28},
-it now becomes
-\begin{equation}
-\label{eq:ambiguous-tries-28}
-\var{reduction-tries} = \sum\limits_{i=0}^{n}{\bigsize{\Vtable{up-origin}} \times \bigsize{\Vtable{i}}}.
-\end{equation}
-Our best bound for the size of the Earley sets involved comes from
-Theorem \ref{t:es-count}, and is
-$\Vsize{\Cw} = \var{n}$,
-so that
-\eqref{eq:ambiguous-tries-28}
-becomes
+We first seek an upper bound for \var{downs-per-up}.
+We know that
 \begin{align}
-\label{eq:ambiguous-tries-33}
-\var{reduction-tries} & = \sum\limits_{i=0}^{n}{\bigsize{\Vtable{up-origin}} \times \bigsize{\Vtable{i}}} \\
-& = \order{\var{n}^3}.
-\label{eq:ambiguous-tries-35}
+\label{eq:reduction-tries-25}
+&
+\begin{gathered}
+\forall \; \Veim{down}, \Veim{up} :
+[\Veim{down}, \Veim{up}] \in \var{pairs}
+\\
+\implies
+\Right{\Veim{down}} = \Left{\Veim{up1}}
+\\
+\becuz \dref[matching causes]{def:matching-causes}.
+\end{gathered}
+\intertext{%
+Let \var{ups} be the set of up-causes in \var{pairs}.
+Because every down-cause must be in 
+the Earley set which is the origin of its up-cause,
+we see that
+}
+\label{eq:reduction-tries-27}
+&
+\var{downs-per-up} = \max_{\Veim{up} \in \var{ups}}
+  \; \bigsize{\Etable{\Left{\Veim{up}}}}
+\becuz \eqref{eq:reduction-tries-25}.
+\\
+\label{eq:reduction-tries-29}
+&
+\var{downs-per-up} = \max_{\Veim{up} \in \var{ups}}
+  \; \order{\Left{\Veim{up}}}
+\becuz{} \eqref{eq:reduction-tries-27}.
+\\
+\label{eq:reduction-tries-31}
+& \myparbox{
+$\forall \; \Veim{up} :
+  (\Veim{up} \in \var{ups}) \implies
+  \Left{\Veim{up}} \le \var{n}$,
+because every location in the Earley tables
+must be less than or equal to
+$\Vsize{\Cw} = \var{n}$
+\tref{t:es-count}.
+}
+\intertext{%
+We are now in a position to state an
+upper bound for \var{downs-per-up}:
+}
+\label{eq:reduction-tries-33}
+&
+\var{downs-per-up} = \On[]
+\becuz \eqref{eq:reduction-tries-29},
+\eqref{eq:reduction-tries-31}.
+\intertext{%
+As an upper bound, we allow
+every EIM to be an up-cause so that
+}
+\label{eq:reduction-tries-35}
+& \var{up-count} =
+\sum\limits_{\var{i}=1}^{\var{n}}{
+\bigsize{\Etable{\var{i}}}
+}.
+\\
+\label{eq:reduction-tries-37}
+& \forall \; \var{i} : \bigsize{\Etable{\var{i}}} = \order{\var{i}}
+\becuz \tref{t:es-count}.
+\\
+\label{eq:reduction-tries-39}
+& \var{up-count} =
+\sum\limits_{\var{i}=1}^{\var{n}}{
+\order{\var{i}}
+} = \On[2] \becuz
+\eqref{eq:reduction-tries-35},
+\eqref{eq:reduction-tries-37}.
+\\
+\notag
+& \bigsize{\var{pairs}} = \On[3]
+\becuz
+\eqref{eq:reduction-tries-15},
+\eqref{eq:reduction-tries-33},
+\eqref{eq:reduction-tries-39}
+.\qedhere
 \end{align}
+\end{proof}
 
-We now reexamine the count of the number
-of attempts to add Leo memos and Earley items,
-this time without assuming ambiguity.
-Our worst case cannot be worse than the sum of
-the entire count under the assumption of unambiguity,
-plus any counts that needed to be revised
-when the assumption is relaxed.
-The count assuming unambiguity was
-$\order{\var{z}}$,
-and from Theorem \ref{t:es-count} we know
-that
-\begin{equation}
-\label{eq:ambiguous-tries-36}
-\order{\var{z}} = \order{\var{n}^2}.
-\end{equation}
-The one count that we needed to revise
-in order to relax the assumption of unambiguity is
-\eqref{eq:ambiguous-tries-35}.
+\begin{theorem}
+\label{t:ambiguous-tries}
+For a context-free grammar,
+the number of attempts by \Marpa{} to add
+Earley items is \On[3].
+\end{theorem}
 
-Therefore the count for the ambiguous case is not worse
-than
-\begin{equation*}
-\var{tries} = \order{\var{n}^2} + \order{\var{n}^3} = \order{\var{n}^3}.
-\qedhere
-\end{equation*}
+\begin{proof}
+For the purpose of this proof,
+we call each each attempt to add a Leo memo or an Earley item,
+a ``try''.
+We proceed by cases, and we classify tries as follows:
+\begin{itemize}
+\item
+EIM tries
+\begin{itemize}
+\item
+Telluric tries
+\begin{itemize}
+\item
+Start tries: \Oc{} \becuz{} \tref{t:start-tries}.
+\item
+Read tries: \On[2] \becuz{} \tref{t:read-tries}.
+\item
+Reduction tries: \On[3] \becuz{} \tref{t:ambig-reduction-tries}.
+\end{itemize}
+\item
+Ethereal tries: \On[2] \becuz{} \tref{t:ethereal-tries}.
+\end{itemize}
+\item
+Leo tries: \On[2] \becuz{} \tref{t:leo-tries}.
+\end{itemize}
+
+Summing the above,
+\begin{align*}
+\label{eq:tries-5}
+\var{tries} & = \Oc + \On[2] + \On[3] + \On[2] + \On[2] \\*
+    & = \On[3] \qedhere
+\end{align*}
+
+TODO: finish
 \end{proof}
 
 \begin{theorem}
