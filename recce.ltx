@@ -421,9 +421,8 @@ Chapters
 \ref{ch:leo},
 \ref{ch:pseudocode},
 \ref{ch:correctness},
-\ref{ch:linear},
 and
-\ref{ch:other-complexity}
+\ref{ch:complexity}
 are in \dfn{early draft} stage.
 ``Early draft'' means that the author's thoughts are not well settled,
 and the chapters are likely to contain inconsistencies and errors.
@@ -3703,6 +3702,7 @@ A parse instance is often called simply an \dfn{instance}.
 
 \begin{definition}
 \dtitle{Symbolic and EIM equivalent}
+\label{symbolic-and-eim-equivalent}
 If a parse instance is a symbol instance or
 a complete EIM,
 its ``symbolic equivalent'' is defined.
@@ -3843,13 +3843,8 @@ of the pair of matching causes.
 \end{definition}
 
 \begin{definition}
-\dtitle{Causes}
+\dtitle{Causes of confirmed EIM's}
 \label{def:causes-confirmed}
-\label{def:causes-predicted}
-
-TODO: Split this?  Check all uses.
-
-This definition has two cases.
 If
 \[
    [ \Veim{down}, \Vinst{up} ]
@@ -3876,7 +3871,11 @@ and that \Vsym{up} is a
 \xdfn{bottom-up cause}{bottom-up cause!of a confirmed EIM}
 of \Veim{effect}.
 In this case, \Veim{effect} is always a confirmation.
+\end{definition}
 
+\begin{definition}
+\dtitle{Causes of predicted EIM's}
+\label{def:causes-predicted}
 If \Veim{effect} is a prediction,
 \Vdr{down}
 is any top-down dotted rule cause of \DR{\Veim{effect}},
@@ -6461,7 +6460,7 @@ a top-down cause of \DR{\Veim{prd}}.
 From this observation,
 the assumption for this theorem that \Veim{prd} is a prediction,
 and
-\dref[causes of predicted EIM]{def:causes-prediction},
+\dref[causes of predicted EIM]{def:causes-predicted},
 we see that
 \begin{equation}
 \label{lem:eim-tether-prediction-25a}
@@ -11535,13 +11534,30 @@ of \Veim{eff2} and $\Veim{eff} \neq \Veim{eff2}$.
 & \myparbox{%
 \Veim{cuz} is a complete EIM
 \becuz{}
+\dref[symbolic equivalent]{def:symbolic-and-eim-equivalent},
 ASM for this theorem.
-} \\
+}
+\intertext{%
+  \Veim{cuz} is clearly not ethereal so that
+}
 \label{eq:leo-effect-104}
 & \myparbox{%
 If \Veim{cuz} has an effect,
-it has a matching top-down cause.
+that effect is not a predicted EIM
 \becuz{}
+\dref[causes of predicted EIM]{def:causes-predicted}.
+}
+\intertext{%
+Any EIM which is not predicted is confirmed,
+so that
+}
+\label{eq:leo-effect-106}
+& \myparbox{%
+If \Veim{cuz} has an effect,
+it has a matching top-down cause
+\becuz{}
+\eqref{eq:leo-effect-104},
+\dref[causes of confirmed EIM]{def:causes-confirmed}.
 } \\
 \end{align}
 By assumption for this theorem,
@@ -16364,7 +16380,7 @@ Start tries: \Oc{} \becuz{} \tref{t:start-tries}.
 \item
 Read tries: \On[2] \becuz{} \tref{t:read-tries}.
 \item
-Reduction tries: \On[3] \becuz{} \tref{t:ambig-reduction-tries}.
+Reduction tries: \On[3] \becuz{} \tref{t:reduction-tries}.
 \end{itemize}
 \item
 Ethereal tries: \On[2] \becuz{} \tref{t:ethereal-tries}.
