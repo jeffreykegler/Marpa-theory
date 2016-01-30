@@ -3797,6 +3797,19 @@ then the symbolic equivalent of \Veim{up} is
 \Vinst{ins} = \Vmkl{i} \Vsym{up} \Vmkr{j}.
 \end{equation}
 
+\begin{definition}
+\label{def:parse-instance-locsym}
+The
+\dfn{locsym}%
+\index{recce-definitions}{locsym@locsym!of an INST}
+of the parse instance \Vinst{inst}
+is
+\[
+<\Symbol{\Vinst{inst}}, \Left{\Vinst{inst}}>.
+\]
+We also write the locsym of \Vinst{inst} as \LSY{\Vinst{inst}}.
+\end{definition}
+
 \begin{theorem}
 \ttitle{Symbolic equivalent from complete EIM}
 \label{t:valid-symbolic-equivalent-from-eim}
@@ -3882,8 +3895,7 @@ are
 \dfn{matching causes}
 if and only if
 \begin{gather*}
-\Postdot{\Veim{down}} = \Symbol{\Vinst{up}} \quad \text{and} \\
-\Right{\Veim{down}} = \Left{\Vinst{up}}.
+\PLSY{\Veim{down}} = \LSY{\Vinst{up}}.
 \end{gather*}
 When \Veim{down} and \Vinst{up} are matching causes,
 we say that
@@ -5209,6 +5221,8 @@ and
 \ttitle{Null scan arithmetic}
 \label{t:null-scan-arithmetic}
 If \var{fc} is the fleeting closure of \Veim{eim},
+and
+$0 \le \var{i} \le \Vlastix{fc}$,
 then
 \[
  \Vel{fc}{i} = \left[
@@ -5225,29 +5239,25 @@ then
 \begin{proof}
 Let, without loss of generality,
 \begin{gather*}
-\el{ns}{0} = \big[ [ \Vrule{r}, \var{lo} ], \var{i}, \var{k} \big]
+\el{fc}{0} = \big[ [ \Vrule{r}, \var{lo} ], \var{i}, \var{k} \big]
   \quad \text{and} \\
-\var{hi} = \var{lo} + \Vlastix{ns}.
+\var{hi} = \var{lo} + \Vlastix{fc}.
 \end{gather*}
 By the definition of a fleeting closure
 and the definition of \myfnname{null-scan-op},
 we have
-\begin{gather*}
-\forall \; \var{a} : \var{lo} \le \var{a} < \var{hi}
+\begin{align*}
+& \forall \; \var{a} : \var{lo} \le \var{a} < \var{hi}
    \implies \Vop{RHS}{\Vrule{r}, \var{a}} = \epsilon
-\quad \text{and} \\
-\begin{aligned}
-& \qquad \forall \; \var{b} : 0 \le \var{b} \le \xxsubtract{\var{hi}}{\var{lo}}
-\implies \\
-& \qquad \qquad \left(
-\begin{gathered}
-\el{ns}{\var{b}} =
-\big[ [ \Vrule{r}, \var{lo}+\var{b} ], \var{i}, \var{k} \big]
-\end{gathered}
+\intertext{so that}
+& \forall \; \var{i} : 0 \le \var{i} \le \xxsubtract{\var{hi}}{\var{lo}}
+\\
+& \qquad \qquad \implies \left(
+\el{ns}{\var{i}} =
+\big[ [ \Vrule{r}, \var{lo}+\var{i} ], \var{i}, \var{k} \big]
 \right).
 \qedhere
-\end{aligned}
-\end{gather*}
+\end{align*}
 \end{proof}
 
 \begin{theorem}
@@ -10021,11 +10031,7 @@ where \Veim{basis} is the basis of \Vleo{eff}.
 Let \Vleo{down} be a Leo memo.
 If
 \begin{equation*}
-\begin{gathered}
-  \Symbol{\Vleo{down}} = \LHS{\Veim{basis}} \\
-  \; \land \;
-  \Current{\Vleo{down}} =  \Origin{\Veim{basis}}
-\end{gathered}
+  \LSY{\Vleo{down}} = \LSY{\Veim{basis}}
 \end{equation*}
 then
 we say that
@@ -10161,9 +10167,8 @@ are said to
 \xdfn{match}{match!between a Leo memo and an EIM}
 if and only if
 \begin{gather*}
-\text{\Veim{eim} is a quasi-completion,} \\
-\Symbol{\Vleo{leo}} = \LHS{\Veim{eim}} \quad \text{and} \\
-\Current{\Vleo{leo}} = \Left{\Veim{eim}}.
+\text{\Veim{eim} is a quasi-completion and} \\
+\LSY{\Vleo{leo}} = \LSY{\Veim{eim}}.
 \end{gather*}
 We also say that \Vleo{leo} is the
 \xdfn{matching}{matching (Leo memo)!wrt an EIM}
@@ -11304,45 +11309,24 @@ that Leo memo is the top-down cause of \Vleo{leo}.
 } \\
 \label{eq:leo-effect-10}
 & \myparbox{%
-$\Symbol{\Vleo{l}} = \Postdot{\Veim{bas}}$
+$\LSY{\Vleo{l}} = \PLSY{\Veim{bas}}$
 \becuz{} \eqref{eq:leo-effect-8h},
 \dref[basis of Leo memo]{def:basis-of-leo-memo}.
 } \\
-\label{eq:leo-effect-12}
-& \myparbox{%
-$\Current{\Vleo{l}} =  \Current{\Veim{bas}}$
-\becuz{} \eqref{eq:leo-effect-8h},
-\dref{def:basis-of-leo-memo}.
-} \\
 \label{eq:leo-effect-14}
 & \myparbox{%
-$\Symbol{\Vleo{l}} = \LHS{\Veim{cuz}}$
+$\LSY{\Vleo{l}} = \LSY{\Veim{cuz}}$
 \becuz{}
 \eqref{eq:leo-effect-8d},
 \eqref{eq:leo-effect-8f},
 \dref[matching Leo memo]{def:matching-leo-memo}.
 } \\
-\label{eq:leo-effect-16}
-& \myparbox{%
-$\Current{\Vleo{l}} = \Origin{\Veim{cuz}}$
-\becuz{}
-\eqref{eq:leo-effect-8d},
-\eqref{eq:leo-effect-8f},
-\dref{def:matching-leo-memo}.
-} \\
 \label{eq:leo-effect-17b}
 & \myparbox{%
-$\Postdot{\Veim{bas}} = \LHS{\Veim{cuz}}$
+$\PLSY{\Veim{bas}} = \LSY{\Veim{cuz}}$
 \becuz{}
 \eqref{eq:leo-effect-10},
 \eqref{eq:leo-effect-14}.
-} \\
-\label{eq:leo-effect-17d}
-& \myparbox{%
-$\Current{\Veim{bas}} = \Origin{\Veim{cuz}}$
-\becuz{}
-\eqref{eq:leo-effect-12},
-\eqref{eq:leo-effect-16}.
 } \\
 \label{eq:leo-effect-18}
 & \myparbox{%
@@ -11350,7 +11334,6 @@ $\Current{\Veim{bas}} = \Origin{\Veim{cuz}}$
 \becuz{}
 \eqref{eq:leo-effect-8e},
 \eqref{eq:leo-effect-17b},
-\eqref{eq:leo-effect-17d},
 \dref[matching top-down and bottom-up causes]
   {def:matching-causes}.
 } \\
@@ -11499,19 +11482,17 @@ $\exists \; \Vleo{eff} : \Memo{\Veim{eff}} = \Vleo{eff}$
 } \\
 \label{eq:leo-effect-54}
 & \myparbox{%
-$\Symbol{\Vleo{eff}} = \LHS{\Veim{eff}}$
+$\LSY{\Vleo{eff}} = \LSY{\Veim{eff}}$
 \becuz{}
 \eqref{eq:leo-effect-50},
 \dref[matching Leo memo]{def:matching-leo-memo}.
-} \\
-\label{eq:leo-effect-56}
-& \myparbox{%
-$\Current{\Vleo{eff}} = \Origin{\Veim{eff}}$
-\becuz{}
-\eqref{eq:leo-effect-8d},
-\eqref{eq:leo-effect-8f},
-\dref{def:matching-leo-memo}.
-} \\
+}
+\intertext{%
+Deducing the top-down cause (\Veim{bas})
+from its effect (\Veim{eff}),
+taking into account that the bottom-up cause (\Veim{cuz})
+is telluric, we have
+}
 \label{eq:leo-effect-58}
 & \myparbox{%
 $\Veim{bas} = \big[\Prev{\DR{\Veim{eff}}}, \Origin{\Veim{eff}}, \var{j}
@@ -11534,19 +11515,19 @@ $\Origin{\Veim{bas}} = \Origin{\Veim{eff}}$
 \becuz{}
 \eqref{eq:leo-effect-58}.
 } \\
+\label{eq:leo-effect-63}
+& \myparbox{%
+$\LSY{\Veim{bas}} = \LSY{\Veim{eff}}$
+\becuz{}
+\eqref{eq:leo-effect-60},
+\eqref{eq:leo-effect-62}.
+} \\
 \label{eq:leo-effect-64}
 & \myparbox{%
-$\Symbol{\Vleo{eff}} = \LHS{\Veim{bas}}$
+$\LSY{\Vleo{eff}} = \LSY{\Veim{bas}}$
 \becuz{}
 \eqref{eq:leo-effect-54},
-\eqref{eq:leo-effect-60}.
-} \\
-\label{eq:leo-effect-66}
-& \myparbox{%
-$\Current{\Vleo{eff}} = \Origin{\Veim{bas}}$
-\becuz{}
-\eqref{eq:leo-effect-56},
-\eqref{eq:leo-effect-62}.
+\eqref{eq:leo-effect-63}.
 } \\
 \label{eq:leo-effect-68}
 & \myparbox{%
@@ -11554,15 +11535,28 @@ $\Current{\Vleo{eff}} = \Origin{\Veim{bas}}$
 \becuz{}
 \eqref{eq:leo-effect-8h},
 \eqref{eq:leo-effect-64},
-\eqref{eq:leo-effect-66}.
+\dref[Leo top-down cause]{def:down-cause-of-leo-memo}.
 }
-\end{align}
-%
-From the conditional proof
-starting at \eqref{eq:leo-effect-50},
-we have Requirement 
+\intertext{%
+And now,
+using
+the assumption for the conditional proof
+\eqref{eq:leo-effect-50}
+and 
+\eqref{eq:leo-effect-68},
+we have
+Requirement 
 \eqref{eq:leo-effect-5l}
-for this theorem.
+for this theorem:
+}
+\notag
+&
+\begin{aligned}
+& \exists \; \Vleo{eff} : \Memo{\Veim{eff}} = \Vleo{eff}
+\\
+& \qquad \implies \text{\Vleo{eff} is the top-down cause of \Vleo{l}}.
+\end{aligned}
+\end{align}
 
 \textbf{Reductio to show \eqref{eq:leo-effect-5f}}:
 To show \eqref{eq:leo-effect-5f},
@@ -11578,15 +11572,26 @@ There is a \Veim{eff2}, such that
 is a bottom-up cause
 of \Veim{eff2} and $\Veim{eff} \neq \Veim{eff2}$.
 } \\
+\label{eq:leo-effect-101}
+& \myparbox{%
+If an EIM has a symbolic equivalent,
+it is complete
+\dref[symbolic equivalent]{def:symbolic-and-eim-equivalent}.
+}
+\intertext{%
+We assumed for the reduction that \Veim{cuz}
+has a symbolic equivalent, so that
+}
 \label{eq:leo-effect-102}
 & \myparbox{%
 \Veim{cuz} is a complete EIM
 \becuz{}
-\dref[symbolic equivalent]{def:symbolic-and-eim-equivalent},
-ASM for this theorem.
+\eqref{eq:leo-effect-101}.
 }
 \intertext{%
-  \Veim{cuz} is clearly not ethereal so that
+If
+\Veim{cuz} is complete,
+it is not ethereal, so that
 }
 \label{eq:leo-effect-104}
 & \myparbox{%
@@ -11608,7 +11613,6 @@ it has a matching top-down cause
 \dref[causes of confirmed EIM]{def:causes-confirmed}.
 } \\
 \end{align}
-By assumption for this theorem,
 
 TODO: Finish.
 \end{proof}
