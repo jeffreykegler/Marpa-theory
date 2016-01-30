@@ -233,6 +233,8 @@
 \newcommand{\Symbol}[1]{\ensuremath{\myfnname{Symbol}(#1)}}
 \newcommand{\Valid}[1]{\ensuremath{\myfnname{Valid}(#1)}}
 \newcommand{\Instantiated}[1]{\ensuremath{\myfnname{Instantiated}(#1)}}
+\newcommand{\PLSY}[1]{\ensuremath{\myfnname{PLSY}(#1)}}
+\newcommand{\LSY}[1]{\ensuremath{\myfnname{LSY}(#1)}}
 
 \newcommand\Ctables{\var{tables}}
 \newcommand\Vtables[1]{\Ctables[\alg{#1}]}
@@ -3466,6 +3468,58 @@ in the input or in the initial state of the parse,
 while
 ethereal dotted rules emerge out of an invisible realm.
 
+\section{Locsyms}
+
+\begin{definition}
+\label{def:locsym}
+A
+\dfn{located symbol}
+or
+\dfn{locsym}
+is a duple consisting of a symbol
+and a parse location:
+\[
+< \Vsym{sym}, \Vloc{loc} >.
+\]
+\end{definition}
+
+\begin{definition}
+\label{def:eim-locsym}
+The
+\dfn{external locsym}%
+\index{recce-definitions}{external locsym@external locsym!of an EIM}%
+\index{recce-definitions}{external locsym@external locsym}%
+of the EIM \Veim{eim}
+is
+\[
+<\LHS{\Veim{e}}, \Origin{\Veim{e}}>.
+\]
+References to the
+\dfn{locsym}%
+\dfn{locsym|seealso {external locsym}}%
+\index{recce-definitions}{locsym@locsym!of an EIM}
+are to its external locsym.
+We also write the locsym of \Veim{eim} as \LSY{\Veim{eim}}.
+\end{definition}
+
+\begin{definition}
+\label{def:postdot-locsym}
+The
+\dfn{postdot locsym}%
+\index{recce-definitions}{postdot locsym@postdot locsym!of an EIM}%
+\index{recce-definitions}{postdot locsym@postdot locsym}
+of the EIM \Veim{eim}
+is
+\[
+<\Postdot{\Veim{e}}, \Current{\Veim{e}}>,
+\]
+if
+\Postdot{\Veim{e}} is defined.
+We also write the postdot locsym of \Veim{eim} as \PLSY{\Veim{eim}}.
+If \Postdot{\Veim{e}} is not defined,
+then \PLSY{\Veim{eim}} is undefined.
+\end{definition}
+
 \section{Validity}
 
 \begin{definition}
@@ -3702,7 +3756,7 @@ A parse instance is often called simply an \dfn{instance}.
 
 \begin{definition}
 \dtitle{Symbolic and EIM equivalent}
-\label{symbolic-and-eim-equivalent}
+\label{def:symbolic-and-eim-equivalent}
 If a parse instance is a symbol instance or
 a complete EIM,
 its ``symbolic equivalent'' is defined.
@@ -9680,6 +9734,20 @@ an Earley item,
 and therefore, strictly speaking,
 not in any Earley set.
 
+\begin{definition}
+\label{def:leo-locsym}
+The
+\dfn{locsym}%
+\index{recce-definitions}{locsym@locsym!of an Leo memo}%
+\index{recce-definitions}{locsym@locsym}
+of the Leo memo \Vleo{l}
+is
+\[
+<\Symbol{\Vleo{l}}, \Current{\Vleo{l}}>.
+\]
+We also write the locsym of \Vleo{l} as \LSY{\Vleo{l}}.
+\end{definition}
+
 \section{Leo memo validity}
 
 We now look at the conditions under which Leo memos become valid.
@@ -9695,29 +9763,9 @@ if and only if it is
 \end{equation*}
 
 \begin{definition}
-\label{def:postdot-instance}
-A
-\dfn{postdot instance}
-is a duple consisting of a postdot symbol
-and a parse location.
-The 
-\xdfn{postdot instance}{postdot instance!of an EIM}
-of the EIM \Veim{e} is the duple
-\[
-<\Postdot{\Veim{e}}, \Current{\Veim{e}}>.
-\]
-The 
-\xdfn{postdot instance}{postdot instance!of a Leo memo}
-of the Leo memo \Vleo{l} is the duple
-\[
-<\Symbol{\Vleo{l}}, \Current{\Vleo{l}}>.
-\]
-\end{definition}
-
-\begin{definition}
 \dtitle{Postdot-unique}
 \label{def:postdot-unique}
-An EIM is \dfn{postdot-unique} if its postdot instance
+An EIM is \dfn{postdot-unique} if its postdot locsym
 is unique.
 That is,
 \Veim{uniq} is \dfn{postdot-unique}
@@ -9795,13 +9843,13 @@ and $\Vstr{nul2} = \epsilon$.
 Let \Vleo{eff} be a Leo memo.
 We say that \Veim{basis} is
 a \xdfn{basis}{basis (EIM)!wrt a Leo memo}
-of \Vleo{eff} is they have the same postdot instance,
+of \Vleo{eff} if the postdot locsym of \Veim{basis}
+is equal to the locsym of \Vleo{eff},
 that is,
 if
 \begin{equation}
 \label{eq:def-basis-of-leo-memo-10}
-  \Symbol{\Vleo{eff}} = \Vsym{trans} \; \land \;
-  \Current{\Vleo{eff}} =  \Vloc{j}.
+  \LSY{\Vleo{eff}} = \PLSY{\Veim{basis}}.
 \end{equation}
 When \Veim{basis} is the basis of \Vleo{eff},
 we say that \Veim{basis} is a
@@ -9813,9 +9861,9 @@ of \Veim{basis}.
 \end{definition}
 
 \begin{theorem}
-\ttitle{Leo basis uniqueness by postdot instance}
-\label{leo-basis-uniqueness-by-postdot-instance}
-For every postdot instance, there is at most one Leo basis.
+\ttitle{Leo basis uniqueness by postdot locsym}
+\label{leo-basis-uniqueness-by-postdot-locsym}
+For every postdot locsym, there is at most one Leo basis.
 \end{theorem}
 
 \begin{proof}
@@ -9828,12 +9876,12 @@ are distinct.
 
 Assume for a reductio that
 \begin{equation}
-\label{leo-basis-uniqueness-by-postdot-instance-10}
+\label{leo-basis-uniqueness-by-postdot-locsym-10}
 \tag{RAA}
 \begin{gathered}
 \Veim{bas1} \neq \Veim{bas2} \; \text{and}
 \\
-\text{\Veim{bas1} and \Veim{bas2} have the same postdot instance.}
+\text{\Veim{bas1} and \Veim{bas2} have the same postdot locsym.}
 \end{gathered}
 \end{equation}
 We know that \Veim{bas1} is Leo-eligible
@@ -9841,10 +9889,10 @@ We know that \Veim{bas1} is Leo-eligible
 Therefore \Veim{bas1} is postdot-unique
 \dref[Leo eligibility of an EIM]{def:leo-eligible}.
 Therefore \Veim{bas1} and \Veim{bas2}
-cannot have the same postdot instance
+cannot have the same postdot locsym
 \dref[postdot unique]{def:postdot-unique}.
 This contradicts
-\eqref{leo-basis-uniqueness-by-postdot-instance-10}
+\eqref{leo-basis-uniqueness-by-postdot-locsym-10}
 and show the reductio and the theorem.
 \end{proof}
 
@@ -9853,7 +9901,7 @@ and show the reductio and the theorem.
 Let
 \Vleo{l1}, \Vleo{l2}
 be two Leo memos
-with the same postdot instance,
+with the same locsym,
 that is
 \begin{equation}
 \label{eq:leo-basis-symloc-uniqueness-10}
@@ -10263,7 +10311,7 @@ The lemma follows from
 \label{lem:leo-catena-cycle}
 In a Leo catena,
 no two distinct elements
-share the same postdot instance.
+share the same locsym.
 \end{lemma}
 
 \begin{proof}
@@ -10795,8 +10843,8 @@ are identical.
 \end{proof}
 
 \begin{theorem}
-\ttitle{Leo memos are unique by postdot instance}
-\label{t:leo-memo-uniqueness-by-postdot-instance}
+\ttitle{Leo memos are unique by locsym}
+\label{t:leo-memo-uniqueness-by-locsym}
 Let \Vsym{A} be a symbol in a grammar
 and \Vloc{i} a location in a parse.
 There is at most one instantiated Leo memo with
@@ -10814,7 +10862,7 @@ for all
 \begin{proof}
 We assume, for a reductio, that there is
 an instantiated Leo memo, call it \Vleo{l}, whose
-postdot instance is identical to some
+locsym is identical to some
 another instantiated Leo memo, call it \Vleo{l2},
 where $\Vleo{l} \neq \Vleo{l2}$.
 Every Leo memo is in a catena, even if it is only a
@@ -10822,7 +10870,7 @@ trivial catena of length 1.
 So let \var{cat} be a catena that contains \Vleo{l2}.
 Our assumption for the reductio can then be written as
 \begin{equation}
-\label{eq:leo-memo-uniqueness-by-postdot-instance-10}
+\label{eq:leo-memo-uniqueness-by-postdot-locsym-10}
 \tag{RAA}
 \begin{gathered}
 \exists \; \Vleo{l} \; \exists \; \var{ix} : \Instantiated{\Vleo{l}} \\
@@ -10835,15 +10883,15 @@ Our assumption for the reductio can then be written as
 A Leo catena is finite in length
 \tref{t:leo-catenas-are-finite}.
 Therefore, if any \var{ix} satisfies
-\eqref{eq:leo-memo-uniqueness-by-postdot-instance-10},
+\eqref{eq:leo-memo-uniqueness-by-postdot-locsym-10},
 then there is a last \var{ix} that satisfies
-\eqref{eq:leo-memo-uniqueness-by-postdot-instance-10}.
+\eqref{eq:leo-memo-uniqueness-by-postdot-locsym-10}.
 Let the last \var{ix} that satisfies
-\eqref{eq:leo-memo-uniqueness-by-postdot-instance-10}
+\eqref{eq:leo-memo-uniqueness-by-postdot-locsym-10}
 be \var{z}.
 
 We note that,
-by \eqref{eq:leo-memo-uniqueness-by-postdot-instance-10}
+by \eqref{eq:leo-memo-uniqueness-by-postdot-locsym-10}
 and Lemma \ref{lem:leo-basis-symloc-uniqueness},
 \Vel{cat}{z} and \Vleo{l} have the same basis.
 Call this basis, \Veim{bas}.
@@ -10864,7 +10912,7 @@ is also a top-down cause of \Vleo{l}
 \dref[Leo top-down cause]{def:down-cause-of-leo-memo}.
 Therefore
 \begin{equation}
-\label{eq:leo-memo-uniqueness-by-postdot-instance-12}
+\label{eq:leo-memo-uniqueness-by-postdot-locsym-12}
 \text{\Vleo{down} is the top-down cause of both \Vel{cat}{z} and \Vleo{l}.}
 \end{equation}
 Note that $\Vleo{down} \neq \undefined$ if and only if
@@ -10872,7 +10920,7 @@ Note that $\Vleo{down} \neq \undefined$ if and only if
 
 Assume for an inner reductio that
 \begin{equation}
-\label{eq:leo-memo-uniqueness-by-postdot-instance-13}
+\label{eq:leo-memo-uniqueness-by-postdot-locsym-13}
 \tag{RAA1}
 \var{z} = \Vlastix{cat}.
 \end{equation}
@@ -10880,10 +10928,10 @@ Then \Vel{cat}{z} has no top-down cause
 \dref[catena]{def:leo-catena}.
 Therefore, using
 \dref[validity of Leo memo with no top-down cause]{def:validity-of-leo-memo}
-and \eqref{eq:leo-memo-uniqueness-by-postdot-instance-10},
+and \eqref{eq:leo-memo-uniqueness-by-postdot-locsym-10},
 we have
 \begin{equation}
-\label{eq:leo-memo-uniqueness-by-postdot-instance-16}
+\label{eq:leo-memo-uniqueness-by-postdot-locsym-16}
 \Vel{cat}{z} = \left[
 \begin{gathered}
   \Symbol{\Vleo{l}}, \Next{\DR{\Veim{bas}}}, \\
@@ -10892,11 +10940,11 @@ we have
 \right].
 \end{equation}
 And since from
-\eqref{eq:leo-memo-uniqueness-by-postdot-instance-12}
+\eqref{eq:leo-memo-uniqueness-by-postdot-locsym-12}
 we know that
 \Vleo{l} also has no top-down cause, we have
 \begin{equation}
-\label{eq:leo-memo-uniqueness-by-postdot-instance-19}
+\label{eq:leo-memo-uniqueness-by-postdot-locsym-19}
 \begin{gathered}
 \DR{\Vleo{l}} = \Next{\DR{\Veim{bas}}} \; \text{and} \\
 \Origin{\Vleo{l}} = \Origin{\Veim{bas}}.
@@ -10904,38 +10952,38 @@ we know that
 \end{equation}
 
 From
-\eqref{eq:leo-memo-uniqueness-by-postdot-instance-16}
-and \eqref{eq:leo-memo-uniqueness-by-postdot-instance-19},
+\eqref{eq:leo-memo-uniqueness-by-postdot-locsym-16}
+and \eqref{eq:leo-memo-uniqueness-by-postdot-locsym-19},
 we know that
 \[
   \Vleo{l} = \Vel{cat}{z}.
 \]
 This contradicts
-\eqref{eq:leo-memo-uniqueness-by-postdot-instance-10}
+\eqref{eq:leo-memo-uniqueness-by-postdot-locsym-10}
 and shows the inner reductio.
 From the inner reductio we conclude that
 \begin{align}
-\label{eq:leo-memo-uniqueness-by-postdot-instance-22}
+\label{eq:leo-memo-uniqueness-by-postdot-locsym-22}
 & 0 \le \var{z} < \Vlastix{cat}, \; \text{so that}
 \\
-\label{eq:leo-memo-uniqueness-by-postdot-instance-23b}
+\label{eq:leo-memo-uniqueness-by-postdot-locsym-23b}
 & \text{\el{cat}{\Vincr{z}} exists
-\eqref{eq:leo-memo-uniqueness-by-postdot-instance-22}; and
+\eqref{eq:leo-memo-uniqueness-by-postdot-locsym-22}; and
 }
 \\
-\label{eq:leo-memo-uniqueness-by-postdot-instance-23d}
+\label{eq:leo-memo-uniqueness-by-postdot-locsym-23d}
 & \el{cat}{\Vincr{z}} = \Vleo{down} \neq \undefined
 \becuz
-\eqref{eq:leo-memo-uniqueness-by-postdot-instance-23b},
+\eqref{eq:leo-memo-uniqueness-by-postdot-locsym-23b},
 \dref[catena]{def:leo-catena}.
 \end{align}
 Therefore, using
 \dref[validity of Leo memo with top-down cause]{def:validity-of-leo-memo},
-\eqref{eq:leo-memo-uniqueness-by-postdot-instance-10},
-and \eqref{eq:leo-memo-uniqueness-by-postdot-instance-23d}
+\eqref{eq:leo-memo-uniqueness-by-postdot-locsym-10},
+and \eqref{eq:leo-memo-uniqueness-by-postdot-locsym-23d}
 we have
 \begin{equation}
-\label{eq:leo-memo-uniqueness-by-postdot-instance-25}
+\label{eq:leo-memo-uniqueness-by-postdot-locsym-25}
 \Vel{cat}{z} = \left[
 \begin{gathered}
   \Symbol{\Vleo{l}}, \DR{\Vleo{down}}, \\
@@ -10944,25 +10992,25 @@ we have
 \right].
 \end{equation}
 And by
-\eqref{eq:leo-memo-uniqueness-by-postdot-instance-12}
+\eqref{eq:leo-memo-uniqueness-by-postdot-locsym-12}
 and \dref[validity of Leo memo with top-down cause]{def:validity-of-leo-memo},
 \begin{equation}
-\label{eq:leo-memo-uniqueness-by-postdot-instance-28}
+\label{eq:leo-memo-uniqueness-by-postdot-locsym-28}
 \begin{gathered}
 \DR{\Vleo{l}} = \DR{\Vleo{down}} \; \text{and} \\
 \Origin{\Vleo{l}} = \Origin{\Vleo{down}}.
 \end{gathered}
 \end{equation}
 From
-\eqref{eq:leo-memo-uniqueness-by-postdot-instance-25}
-and \eqref{eq:leo-memo-uniqueness-by-postdot-instance-28},
+\eqref{eq:leo-memo-uniqueness-by-postdot-locsym-25}
+and \eqref{eq:leo-memo-uniqueness-by-postdot-locsym-28},
 we again have that
 \[
   \Vleo{l} = \Vel{cat}{z},
 \]
 which again
 contradicts
-\eqref{eq:leo-memo-uniqueness-by-postdot-instance-10}
+\eqref{eq:leo-memo-uniqueness-by-postdot-locsym-10}
 and again shows a reductio, this time the outer one.
 With the outer reductio, we have the theorem.
 \end{proof}
@@ -11032,7 +11080,7 @@ $\Current{\Vleo{l1}} = \Current{\Vleo{l2}}$
 & \myparbox{
 \Vleo{l1} = \Vleo{l2}
 \becuz{}
-\tref{t:leo-memo-uniqueness-by-postdot-instance}.
+\tref{t:leo-memo-uniqueness-by-locsym}.
 }
 \end{align}
 Equation
