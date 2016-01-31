@@ -1479,6 +1479,9 @@ and we avoid it in favor of
 which more clearly conveys what it means for a
 Marpa internal symbol to be ``nulling''.
 
+\begin{definition}
+\dtitle{Accept rule and symbol}
+\label{def:accept-rule-and-symbol}
 A Marpa internal grammar always has
 a dedicated acceptance rule, \Vrule{accept}
 and a dedicated acceptance symbol,
@@ -1494,6 +1497,7 @@ and
 \[
 \Vsym{accept} = \LHS{\Vrule{x}} \implies \Vrule{accept} = \Vrule{x}.
 \]
+\end{definition}
 
 We assume that a Marpa grammar is cycle-free ---
 that none of its rules are cyclic.
@@ -4535,27 +4539,35 @@ so that we have
 \label{t:effect-from-symbol}
 Let
 \begin{equation}
-\var{A-inst} = \Vmkm{j} \Vsym{A} \Vmkm{k}
+\label{eq:effect-from-symbol-0}
+\var{Ai} = \Vmkm{j} \Vsym{A} \Vmkm{k}
 \end{equation}
 be a valid symbol instance.
 If $\Vsym{A} \neq \Vsym{accept}$
-then
+then we have the following:
 \begin{enumerate}
 \item
 \label{req:effect-from-symbol-1}
-\var{A-inst} is the bottom-up cause of a valid effect, call
-it \Veim{effect}
+\var{Ai} is the bottom-up cause of at least one valid effect.
 \item
 \label{req:effect-from-symbol-2}
-\var{A-inst} has a matching valid top-down cause, call it
-\Veim{down},
+\var{Ai} has at least one matching valid top-down cause.
 \item
 \label{req:effect-from-symbol-3}
-\Vloc{j} is such that for some \Vloc{i}, \Vdr{down},
-\[\Veim{down} = [\Vdr{down}, \Vloc{i}, \Vloc{j}] \quad \text{and}\]
+If \Veim{down} is a top-down cause of \Vinst{Ai} then
+$\Left{\Veim{down}} = \Left{\Vinst{Ai}}$.
 \item
-\label{req:effect-from-symbol-4}
-$\Vsym{A} = \Postdot{\Veim{down}} = \Predot{\Veim{effect}}.$
+\label{req:effect-from-symbol-4a}
+If \Veim{down} is a top-down cause of \Vinst{Ai} then
+$\Vsym{A} = \Postdot{\Veim{down}}.$
+\item
+\label{req:effect-from-symbol-4b}
+If \Veim{effect} is an effect of \Vinst{Ai} then
+$\Vsym{A} = \Predot{\Veim{effect}}.$
+\item
+\label{req:effect-from-symbol-5}
+If \Veim{down} is a top-down cause of \Vinst{Ai} then
+$\PLSY{\Veim{down}} = \LSY{\Vinst{Ai}}.$
 \end{enumerate}
 \end{theorem}
 
@@ -4563,17 +4575,11 @@ $\Vsym{A} = \Postdot{\Veim{down}} = \Predot{\Veim{effect}}.$
 \end{sloppypar}
 
 \begin{proof}
-Without loss of generality,
-we let the symbolic equivalent of the bottom-up cause be
-\begin{equation}
-\label{eq:effect-from-symbol-6}
-\Vmkl{j} \Vsym{A} \Vmkr{k}.
-\end{equation}
 By assumption for the theorem,
 $\Vsym{A} \neq \Vsym{accept}$.
 Therefore,
 there is at least one derivation step before
-\eqref{eq:effect-from-symbol-6},
+\eqref{eq:effect-from-symbol-0},
 so that, without loss of generality, we may write
 \begin{equation}
 \label{eq:effect-from-symbol-9}
@@ -4591,23 +4597,22 @@ From
 \eqref{eq:effect-from-symbol-25},
 and the definition of validity for an Earley item,
 we know that
-\begin{equation}
+\begin{gather}
 \label{eq:effect-from-symbol-28}
 \begin{gathered}
 \Veim{down} =
 [ [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j} ] \\
-\text{is valid}
+\text{is valid; and}
 \end{gathered}
-\end{equation}
-and
-\begin{equation}
+\\
 \label{eq:effect-from-symbol-29}
+\begin{gathered}
 \Veim{effect} =
 [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ]
 \\
 \text{is valid and confirmed.}
-\end{equation}
-are valid.
+\end{gathered}
+\end{gather}
 
 From
 \eqref{eq:effect-from-symbol-29}
@@ -4622,11 +4627,52 @@ we have requirement
 \ref{req:effect-from-symbol-2} of this theorem.
 \eqref{eq:effect-from-symbol-28} shows
 requirement \ref{req:effect-from-symbol-3}.
-And requirement \ref{req:effect-from-symbol-4}
+Requirement \ref{req:effect-from-symbol-4a}
+follows from \eqref{eq:effect-from-symbol-28}.
+Requirement \ref{req:effect-from-symbol-4b}
+follows from \eqref{eq:effect-from-symbol-29}.
+
+To show
+Requirement \ref{req:effect-from-symbol-5}:
+\begin{align}
+\label{eq:effect-from-symbol-35}
+& \Symbol{\Vinst{Ai}} = \Vsym{A} \becuz
+\eqref{eq:effect-from-symbol-0}.
+\\
+\label{eq:effect-from-symbol-37}
+& \Left{\Vinst{Ai}} = \Vloc{j} \becuz
+\eqref{eq:effect-from-symbol-0}.
+\\
+\label{eq:effect-from-symbol-39}
+& \LSY{\Vinst{Ai}} = [ \Vsym{A}, \Vloc{j} ] \becuz 
+\eqref{eq:effect-from-symbol-35},
+\eqref{eq:effect-from-symbol-37}.
+\\
+\label{eq:effect-from-symbol-42}
+& \begin{aligned}
+& \PLSY{\Veim{down}} = 
+\left[
+\begin{gathered}
+\Postdot{\Veim{down}}, \\
+\Current{\Veim{down}}
+\end{gathered}
+\right]
+\\
+& \qquad \qquad \becuz{} \dref[postdot locsym of an EIM]{def:postdot-locsym}.
+\end{aligned}
+\\
+\label{eq:effect-from-symbol-44}
+& \myparbox{%
+\PLSY{\Veim{down}} = [ \Vsym{A}, \Vloc{j} ] \becuz{}
+\eqref{eq:effect-from-symbol-28}.
+}
+\end{align}
+Requirement 
+\ref{req:effect-from-symbol-5}
 follows from
-\eqref{eq:effect-from-symbol-28}
+\eqref{eq:effect-from-symbol-39}
 and
-\eqref{eq:effect-from-symbol-29}.
+\eqref{eq:effect-from-symbol-44}.
 \end{proof}
 
 \begin{theorem}
@@ -9836,20 +9882,6 @@ large.
 \begin{definition}
 \label{def:basis-of-leo-memo}
 \dtitle{Basis of a Leo memo}
-Let, without loss of generality,
-a Leo-eligible EIM be
-\begin{equation}
-\label{eq:def-basis-of-leo-memo-5}
-\Veim{basis} = \left[
-  \begin{gathered}
-     [ \Vsym{A} \de \Vstr{prefix} \mydot \Vsym{trans} \Vstr{nul2} ], \\
-     \Vloc{i}, \qquad \Vloc{j}
-  \end{gathered}
-\right]
-\end{equation}
-where
-$\Vsym{trans} \neq \epsilon$
-and $\Vstr{nul2} = \epsilon$.
 Let \Vleo{eff} be a Leo memo.
 We say that \Veim{basis} is
 a \xdfn{basis}{basis (EIM)!wrt a Leo memo}
@@ -11578,6 +11610,20 @@ If an EIM has a symbolic equivalent,
 it is complete
 \dref[symbolic equivalent]{def:symbolic-and-eim-equivalent}.
 }
+\\
+\label{eq:leo-effect-102a}
+& \Symbol{\op{Sym-Eq}{\Veim{cuz}}} = \Predot{\Veim{eff}}
+\becuz \tref{t:effect-from-symbol}.
+\\
+\label{eq:leo-effect-102}
+& \myparbox{%
+$\Symbol{\op{Sym-Eq}{\Veim{cuz}}} \neq \Vsym{accept}$
+because 
+\Symbol{\op{Sym-Eq}{\Veim{cuz}}} appears on the RHS of \Veim{eff}
+\eqref{eq:leo-effect-102a},
+but \Vsym{accept} is never a RHS symbol
+\dref[accept symbol]{def:accept-rule-and-symbol}.
+}
 \intertext{%
 We assumed for the reduction that \Veim{cuz}
 has a symbolic equivalent, so that
@@ -11613,6 +11659,12 @@ it has a matching top-down cause
 \dref[causes of confirmed EIM]{def:causes-confirmed}.
 } \\
 \end{align}
+
+TODO: We will need \tref{t:effect-from-symbol}.
+to show that
+$\LSY{\op{Sym-Eq}{\Veim{cuz}}}
+=
+\PLSY{\Veim{down}}$ for all of its top-down causes.
 
 TODO: Finish.
 \end{proof}
