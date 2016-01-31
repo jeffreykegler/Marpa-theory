@@ -11615,7 +11615,7 @@ it is complete
 & \Symbol{\op{Sym-Eq}{\Veim{cuz}}} = \Predot{\Veim{eff}}
 \becuz \tref{t:effect-from-symbol}.
 \\
-\label{eq:leo-effect-102}
+\label{eq:leo-effect-102b}
 & \myparbox{%
 $\Symbol{\op{Sym-Eq}{\Veim{cuz}}} \neq \Vsym{accept}$
 because 
@@ -11652,12 +11652,43 @@ so that
 }
 \label{eq:leo-effect-106}
 & \myparbox{%
-If \Veim{cuz} has an effect,
-it has a matching top-down cause
-\becuz{}
-\eqref{eq:leo-effect-104},
-\dref[causes of confirmed EIM]{def:causes-confirmed}.
-} \\
+any effect of
+\Veim{cuz} is confirmed.
+}
+\\
+\label{eq:leo-effect-108}
+& \begin{aligned}
+& \text{Let one effect of \Veim{cuz} be} \\
+& \quad \Veim{eff1} =
+\left[
+  \begin{gathered}
+    \Next{\DR{\Veim{down1}}}, \\
+    \Origin{\Veim{down1}}, \\
+    \Left{\Veim{cuz}}
+  \end{gathered}
+\right]
+\\
+& \qquad \text{for some \Veim{down1}} \\
+& \qquad \text{\becuz{} \eqref{eq:leo-effect-106},
+\dref[causes of confirmed EIM]{def:causes-confirmed}.}
+\end{aligned}
+\\
+\label{eq:leo-effect-108}
+& \begin{aligned}
+& \text{Let the other effect of \Veim{cuz} be} \\
+& \quad \Veim{eff2} =
+\left[
+  \begin{gathered}
+    \Next{\DR{\Veim{down2}}}, \\
+    \Origin{\Veim{down2}}, \\
+    \Left{\Veim{cuz}}
+  \end{gathered}
+\right]
+\\
+& \qquad \text{for some \Veim{down2}} \\
+& \qquad \text{\becuz{} \eqref{eq:leo-effect-106},
+\dref[causes of confirmed EIM]{def:causes-confirmed}.}
+\end{aligned}
 \end{align}
 
 TODO: We will need \tref{t:effect-from-symbol}.
