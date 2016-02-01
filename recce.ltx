@@ -48,6 +48,8 @@
 % \DeclareMathSizes{20.74}{20.74}{20.74}{20.74}
 % \DeclareMathSizes{24.88}{24.88}{24.88}{24.88}
 
+\newcommand{\mysee}[2]{\emph{see} #1}
+
 % \newcommand{\todo}[1]{\par{\large\textbf Todo: #1}\par}
 
 % I use multi-character variable names, and TeX's usual math italic
@@ -235,6 +237,7 @@
 \newcommand{\Instantiated}[1]{\ensuremath{\myfnname{Instantiated}(#1)}}
 \newcommand{\PLSY}[1]{\ensuremath{\myfnname{PLSY}(#1)}}
 \newcommand{\LSY}[1]{\ensuremath{\myfnname{LSY}(#1)}}
+\newcommand{\SymEq}[1]{\ensuremath{\myfnname{Sym-Eq}(#1)}}
 
 \newcommand\Ctables{\var{tables}}
 \newcommand\Vtables[1]{\Ctables[\alg{#1}]}
@@ -3475,11 +3478,12 @@ ethereal dotted rules emerge out of an invisible realm.
 \section{Locsyms}
 
 \begin{definition}
+\dtitle{Locysm}
 \label{def:locsym}
 A
-\dfn{located symbol}
+\xdfn{located symbol}{located symbol@located symbol|mysee{locsym}}
 or
-\dfn{locsym}
+\qdfn{locsym}
 is a duple consisting of a symbol
 and a parse location:
 \[
@@ -3488,30 +3492,45 @@ and a parse location:
 \end{definition}
 
 \begin{definition}
+\dtitle{Locysm of an EIM}
 \label{def:eim-locsym}
 The
-\dfn{external locsym}%
-\index{recce-definitions}{external locsym@external locsym!of an EIM}%
-\index{recce-definitions}{external locsym@external locsym}%
+\qdfn{external locsym}%
+\index{recce-definitions}{external locsym@external locsym!of an EIM}
 of the EIM \Veim{eim}
 is
 \[
 <\LHS{\Veim{e}}, \Origin{\Veim{e}}>.
 \]
 References to the
-\dfn{locsym}%
-\dfn{locsym|seealso {external locsym}}%
-\index{recce-definitions}{locsym@locsym!of an EIM}
+\qdfn{locsym}%
+\index{recce-definitions}{locsym@locsym!of an EIM}%
+\index{recce-definitions}{locsym@locsym|seealso {external locsym}}
+of an EIM
 are to its external locsym.
 We also write the locsym of \Veim{eim} as \LSY{\Veim{eim}}.
 \end{definition}
 
 \begin{definition}
+\dtitle{Locysm of a parse instance}
+\label{def:inst-locsym}
+The
+\qdfn{locsym}%
+\index{recce-definitions}{locsym@locsym!of an INST}
+of the parse instance \Vinst{inst}
+is
+\[
+<\Symbol{\Vinst{inst}}, \Left{\Vinst{inst}}>.
+\]
+We also write the locsym of \Vinst{inst} as \LSY{\Vinst{inst}}.
+\end{definition}
+
+\begin{definition}
+\dtitle{Postdot locysm}
 \label{def:postdot-locsym}
 The
-\dfn{postdot locsym}%
-\index{recce-definitions}{postdot locsym@postdot locsym!of an EIM}%
-\index{recce-definitions}{postdot locsym@postdot locsym}
+\qdfn{postdot locsym}%
+\index{recce-definitions}{postdot locsym@postdot locsym!of an EIM}
 of the EIM \Veim{eim}
 is
 \[
@@ -3773,8 +3792,8 @@ with the same left and right locations
 as the EIM.
 We also write the symbolic
 equivalent of \var{x} as
-$\var{Sym-Eq}(\var{x})$.%
-\index{recce-notation}{Sym-Eq(x)@\Vop{Sym-Eq}{x}}
+$\SymEq{\var{x}}$.%
+\index{recce-notation}{SymEq(x)@\SymEq{\var{x}}}
 We say that \Veim{eim} is the
 \dfn{EIM equivalent}
 of \Vinst{x} if and only if
@@ -9793,9 +9812,8 @@ not in any Earley set.
 \begin{definition}
 \label{def:leo-locsym}
 The
-\dfn{locsym}%
-\index{recce-definitions}{locsym@locsym!of an Leo memo}%
-\index{recce-definitions}{locsym@locsym}
+\qdfn{locsym}%
+\index{recce-definitions}{locsym@locsym!of a Leo memo}
 of the Leo memo \Vleo{l}
 is
 \[
@@ -11269,6 +11287,24 @@ also called a
 \dfn{direct Leo effect}.
 \end{definition}
 
+\begin{lemma}
+\label{lem:TODO}
+Let \SymEq{\Veim{cuz}} be a valid, complete, EIM;
+and let \Vleo{l} be a matching,
+instantiated, Leo memo.
+Then \Veim{cuz} has exactly one
+matching top-down cause.
+\end{lemma}
+
+\begin{proof}
+TODO: expand outline
+
+$\LHS{\Veim{cuz}} \neq \Vsym{accept}$
+because it is transition symbol of \Vleo{l}, so \ldots
+
+TODO: finish
+\end{proof}
+
 \begin{theorem}
 \ttitle{Leo cause and effect}
 \label{t:leo-effect}
@@ -11292,7 +11328,7 @@ call it \Veim{eff}.
 } \\
 \label{eq:leo-effect-5f}
 \myparbox{%
-\Veim{eff} is the only effect of \op{Sym-Eq}{\Veim{cuz}}.
+\Veim{eff} is the only effect of \SymEq{\Veim{cuz}}.
 } \\
 \label{eq:leo-effect-5h}
 \myparbox{%
@@ -11593,14 +11629,14 @@ for this theorem:
 \textbf{Reductio to show \eqref{eq:leo-effect-5f}}:
 To show \eqref{eq:leo-effect-5f},
 we assume for a reductio that
-\op{Sym-Eq}{\Veim{cuz}} has another effect,
+\SymEq{\Veim{cuz}} has another effect,
 one distinct from \Veim{eff}.
 \begin{align}
 \label{eq:leo-effect-100}
 \tag{RAA}
 & \myparbox{%
 There is a \Veim{eff2}, such that
-\op{Sym-Eq}{\Veim{cuz}}
+\SymEq{\Veim{cuz}}
 is a bottom-up cause
 of \Veim{eff2} and $\Veim{eff} \neq \Veim{eff2}$.
 } \\
@@ -11612,14 +11648,14 @@ it is complete
 }
 \\
 \label{eq:leo-effect-102a}
-& \Symbol{\op{Sym-Eq}{\Veim{cuz}}} = \Predot{\Veim{eff}}
+& \Symbol{\SymEq{\Veim{cuz}}} = \Predot{\Veim{eff}}
 \becuz \tref{t:effect-from-symbol}.
 \\
 \label{eq:leo-effect-102b}
 & \myparbox{%
-$\Symbol{\op{Sym-Eq}{\Veim{cuz}}} \neq \Vsym{accept}$
+$\Symbol{\SymEq{\Veim{cuz}}} \neq \Vsym{accept}$
 because 
-\Symbol{\op{Sym-Eq}{\Veim{cuz}}} appears on the RHS of \Veim{eff}
+\Symbol{\SymEq{\Veim{cuz}}} appears on the RHS of \Veim{eff}
 \eqref{eq:leo-effect-102a},
 but \Vsym{accept} is never a RHS symbol
 \dref[accept symbol]{def:accept-rule-and-symbol}.
@@ -11693,7 +11729,7 @@ any effect of
 
 TODO: We will need \tref{t:effect-from-symbol}.
 to show that
-$\LSY{\op{Sym-Eq}{\Veim{cuz}}}
+$\LSY{\SymEq{\Veim{cuz}}}
 =
 \PLSY{\Veim{down}}$ for all of its top-down causes.
 
