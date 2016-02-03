@@ -5346,7 +5346,7 @@ we have
 
 \begin{theorem}
 \ttitle{Fleeting closure shared properties}
-\label{fleeting-closure-shared-properties}
+\label{t:fleeting-closure-shared-properties}
 Let \var{fc} be a fleeting closure,
 and let \Veim{e1} and \Veim{e2} be two EIM's
 such that
@@ -5360,42 +5360,68 @@ Then
 \end{align*}
 \end{theorem}
 
-\begin{theorem}
-Let \var{fc} be a fleeting closure,
-and let \Veim{q} and \Veim{e} be two EIM's,
-such that
-$\Veim{q} \in \var{fc}$
-and $\Veim{e} \in \var{fc}$,
-where \Veim{q} is quasi-complete.
-Then \Veim{e} is also quasi-complete.
-\end{theorem}
-
-\begin{theorem}
-Let \var{fc} be a fleeting closure,
-and let \Veim{q} and \Veim{e} be two EIM's.
-where \Veim{q} is quasi-complete.
-Then
-\[
-    \Veim{q} \in \var{fc} \implies \forall \; \Veim{e} \in \var{fc} 
-\]
-\end{theorem}
-
-\begin{proof}
-TODO
-where \Veim{q} is quasi-complete.
-Then
-\[
-    \Veim{q} \in \var{fc} \implies \forall \; \Veim{e} \in \var{fc} 
-\]
-\end{theorem}
-
-\begin{proof}
-TODO
-\end{proof}
-
 \begin{proof}
 This theorem follows directly from
 \tref{t:null-scan-arithmetic}.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Fleeting closure shares quasi-completeness}
+\label{t:fleeting-closure-shares-quasi-completeness}
+Let \var{fc} be a fleeting closure,
+and let \Veim{q} and \Veim{e} be two EIM's,
+such that
+\begin{align}
+\label{eq:fleeting-closure-shares-quasi-completeness-10}
+& \Veim{q} \in \var{fc}, \\
+\label{eq:fleeting-closure-shares-quasi-completeness-12}
+& \Veim{e} \in \var{fc}, \text{and} \\
+\label{eq:fleeting-closure-shares-quasi-completeness-14}
+& \Veim{q} is quasi-complete.
+\end{align}
+Then \Veim{e} is also quasi-complete.
+\end{theorem}
+
+\begin{proof}
+\Veim{q} and \Veim{e} share the same 
+rule
+\tref{t:fleeting-closure-shared-properties},
+\eqref{eq:fleeting-closure-shares-quasi-completeness-10},
+\eqref{eq:fleeting-closure-shares-quasi-completeness-12}.
+Call this rule \Vrule{r}.
+
+\begin{align}
+\label{eq:fleeting-closure-shares-quasi-completeness-20}
+& \begin{aligned}
+  & \forall \; \var{a} : \Dotix{Veim{q}} \le \var{a} < \Vsize{\Vrule{r}} \\
+  & \qquad \implies \RHS{\Vrule{r}, \var{a}} = \epsilon \\
+  & \becuz{}
+  \eqref{eq:fleeting-closure-shares-quasi-completeness-14},
+  \dref[quasi-complete EIM]{def:eim-dr-notions}.
+\end{aligned}
+\\
+\label{eq:fleeting-closure-shares-quasi-completeness-22}
+& \begin{aligned}
+  & \forall \; \var{a} : \Dotix{\el{fc}{0}} \le \var{a} \le \Dotix{\el{fc}{\Vlastix{fc}}} \\
+  & \qquad \implies \RHS{\Vrule{r}, \var{a}} = \epsilon \\
+  & \becuz \tref{t:null-scan-arithmetic}.
+\end{aligned}
+\\
+\label{eq:fleeting-closure-shares-quasi-completeness-24}
+&  \Dotix{\el{fc}{0}} < \Dotix{\Veim{e}} \becuz \Veim{e} \in \var{fx}.
+\\
+\label{eq:fleeting-closure-shares-quasi-completeness-26}
+& \begin{aligned}
+  & \forall \; \var{a} : \Dotix{\Vel{fc}{0}} \le \var{a} < \Vsize{\Vrule{r}} \\
+  & \qquad \implies \RHS{\Vrule{r}, \var{a}} = \epsilon \\
+  & \becuz{}
+  \eqref{eq:fleeting-closure-shares-quasi-completeness-20},
+  \eqref{eq:fleeting-closure-shares-quasi-completeness-22},
+  \eqref{eq:fleeting-closure-shares-quasi-completeness-24}.
+\end{aligned}
+\end{align}
+
+TODO: finish this.
 \end{proof}
 
 \begin{theorem}
