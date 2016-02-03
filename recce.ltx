@@ -5236,6 +5236,9 @@ Any EIM which is not a lasting base
 is a
 \xdfn{fleeting base}{fleeting base (EIM)}.
 
+\begin{definition}
+\title{\myfnname{null-scan-op}}
+\label{def:null-scan-op}
 In
 Theorem \ref{t:null-scan-from-down-cause}
 we showed that, for a null-scan,
@@ -5248,7 +5251,8 @@ given an effect,
 its top-down cause is unique,
 so that the top-down function has an inverse.
 Accordingly, we will sometimes overload
-\myfnname{null-scan-op} and use it as a function,
+\myfnname{null-scan-op}
+and use it as a function,
 so that the two statements
 \[
 \op{null-scan-op}{\Veim{x}, \Veim{y}}
@@ -5260,22 +5264,8 @@ and
 \index{recce-notation}{null-scan-op@\Vop{null-scan-op}{eim1}!as a function}
 are equivalent.
 
-We defined \op{fleeting-closure}{\Veim{x}}
-as a set.
-But since
-\myfnname{null-scan-op} can be used as a function,
-but we can treat the fleeting closure as a sequence,
-such that if
-\begin{equation*}
-\var{ns} = \op{fleeting-closure}{\Veim{x}},
-\end{equation*}
-then
-\begin{equation*}
-\Vel{ns}{i} =
-    {\myfnname{null-scan-op}^{\displaystyle (\var{i})}}(\Veim{x}).
-\end{equation*}
-
-We write the inverse of \myfnname{null-scan-op}
+We write the inverse of \myfnname{null-scan-op}%
+\index{recce-notation}{null-scan-op@\Vop{null-scan-op}{eim1}!as an inverse function}
 as
 \[
 \iop{null-scan-op}{-1}{\Veim{eff}} = \Veim{cuz}.
@@ -5300,6 +5290,29 @@ and
 & \quad \implies \iop{null-scan-op}{(-1)}{\Veim{eff}} = \undefined.
 \end{aligned}
 \]
+\end{definition}
+
+\begin{definition}
+\dtitle{Fleeting closures as a sequence}
+\label{def:fleeting-closure-sequence}
+We defined \op{fleeting-closure}{\Veim{x}}
+as a set.
+But since
+\myfnname{null-scan-op} can be used as a function,
+we can treat the
+\xdfn{fleeting closure}{fleeting closure@fleeting closure!as a sequence}
+as a sequence,
+such that if
+\begin{equation*}
+\var{ns} = \op{fleeting-closure}{\Veim{x}},
+\end{equation*}
+then
+\begin{equation*}
+\Vel{ns}{i} =
+    {\myfnname{null-scan-op}^{\displaystyle (\var{i})}}(\Veim{x}).
+\end{equation*}
+\end{definition}
+
 
 \begin{theorem}
 \ttitle{Null scan arithmetic}
@@ -5373,11 +5386,11 @@ and let \Veim{q} and \Veim{e} be two EIM's,
 such that
 \begin{align}
 \label{eq:fleeting-closure-shares-quasi-completeness-10}
-& \Veim{q} \in \var{fc}, \\
+& \text{\Veim{q} is quasi-complete}, \\
 \label{eq:fleeting-closure-shares-quasi-completeness-12}
-& \Veim{e} \in \var{fc}, \text{and} \\
+& \text{$\Veim{q} \in \var{fc}$ and} \\
 \label{eq:fleeting-closure-shares-quasi-completeness-14}
-& \Veim{q} is quasi-complete.
+& \Veim{e} \in \var{fc}.
 \end{align}
 Then \Veim{e} is also quasi-complete.
 \end{theorem}
@@ -5386,17 +5399,17 @@ Then \Veim{e} is also quasi-complete.
 \Veim{q} and \Veim{e} share the same 
 rule
 \tref{t:fleeting-closure-shared-properties},
-\eqref{eq:fleeting-closure-shares-quasi-completeness-10},
-\eqref{eq:fleeting-closure-shares-quasi-completeness-12}.
-Call this rule \Vrule{r}.
+\eqref{eq:fleeting-closure-shares-quasi-completeness-12},
+\eqref{eq:fleeting-closure-shares-quasi-completeness-14}.
+Call this rule, \Vrule{r}.  Then
 
 \begin{align}
 \label{eq:fleeting-closure-shares-quasi-completeness-20}
 & \begin{aligned}
-  & \forall \; \var{a} : \Dotix{Veim{q}} \le \var{a} < \Vsize{\Vrule{r}} \\
+  & \forall \; \var{a} : \Dotix{\Veim{q}} \le \var{a} < \Vsize{\Vrule{r}} \\
   & \qquad \implies \RHS{\Vrule{r}, \var{a}} = \epsilon \\
-  & \becuz{}
-  \eqref{eq:fleeting-closure-shares-quasi-completeness-14},
+  & \qquad \qquad \becuz{}
+  \eqref{eq:fleeting-closure-shares-quasi-completeness-10},
   \dref[quasi-complete EIM]{def:eim-dr-notions}.
 \end{aligned}
 \\
@@ -5404,25 +5417,61 @@ Call this rule \Vrule{r}.
 & \begin{aligned}
   & \forall \; \var{a} : \Dotix{\el{fc}{0}} \le \var{a} \le \Dotix{\el{fc}{\Vlastix{fc}}} \\
   & \qquad \implies \RHS{\Vrule{r}, \var{a}} = \epsilon \\
-  & \becuz \tref{t:null-scan-arithmetic}.
+  & \qquad \qquad \becuz
+    \dref[fleeting closure]{def:fleeting-closure-sequence}.
 \end{aligned}
 \\
 \label{eq:fleeting-closure-shares-quasi-completeness-24}
-&  \Dotix{\el{fc}{0}} < \Dotix{\Veim{e}} \becuz \Veim{e} \in \var{fx}.
+& \begin{aligned}
+& \Dotix{\el{fc}{0}} < \Dotix{\Veim{e}} \\
+& \qquad \qquad \becuz \Veim{e} \in \var{fx}.
+\end{aligned}
 \\
 \label{eq:fleeting-closure-shares-quasi-completeness-26}
 & \begin{aligned}
-  & \forall \; \var{a} : \Dotix{\Vel{fc}{0}} \le \var{a} < \Vsize{\Vrule{r}} \\
+  & \forall \; \var{a} : \Dotix{\el{fc}{0}} \le \var{a} < \Vsize{\Vrule{r}} \\
   & \qquad \implies \RHS{\Vrule{r}, \var{a}} = \epsilon \\
-  & \becuz{}
+  & \qquad \qquad \becuz{}
   \eqref{eq:fleeting-closure-shares-quasi-completeness-20},
   \eqref{eq:fleeting-closure-shares-quasi-completeness-22},
   \eqref{eq:fleeting-closure-shares-quasi-completeness-24}.
 \end{aligned}
+\\
+\label{eq:fleeting-closure-shares-quasi-completeness-28}
+& \begin{aligned}
+  & \forall \; \var{i} : 0 \le \var{i} \le \Vlastix{fc} \\
+  & \qquad \implies \Dotix{\el{fc}{0}} \le \Dotix{\Vel{fc}{i}} \\
+  & \qquad \qquad \becuz \tref{t:null-scan-arithmetic}.
+\end{aligned}
+\\
+\label{eq:fleeting-closure-shares-quasi-completeness-30}
+& \begin{aligned}
+  & \forall \; \var{i}, \var{a} :
+  \left(
+  \begin{gathered}
+    0 \le \var{i} \le \Vlastix{fc} \; \text{and} \\
+    \Dotix{\Vel{fc}{i}} \le \var{a} < \Vsize{\Vrule{r}}
+  \end{gathered}
+  \right) \\
+  & \qquad \implies \RHS{\Vrule{r}, \var{a}} = \epsilon \\
+  & \qquad \qquad \becuz
+    \eqref{eq:fleeting-closure-shares-quasi-completeness-26},
+    \eqref{eq:fleeting-closure-shares-quasi-completeness-28}.
+\end{aligned}
+\\
+\label{eq:fleeting-closure-shares-quasi-completeness-32}
+& \begin{aligned}
+  & \forall \; \var{i} : 0 \le \var{i} \le \Vlastix{fc} \\
+  & \qquad \implies \text{\Vel{fc}{i} is quasi-complete} \\
+  & \qquad \qquad \becuz
+    \dref[quasi-complete EIM]{def:eim-dr-notions},
+    \eqref{eq:fleeting-closure-shares-quasi-completeness-30}.
+    \qedhere
+\end{aligned}
 \end{align}
-
-TODO: finish this.
 \end{proof}
+
+TODO: More theorems here?
 
 \begin{theorem}
 \ttitle{EIM lasting base}
