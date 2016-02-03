@@ -3415,30 +3415,49 @@ either explicitly or implicitly.
 
 \section{Types}
 
+\begin{definition}
+\dtitle{Dotted rule notions applied to EIMs}
+\label{def:eim-dr-notions}
 Whenever a dotted rule notion is applied to an EIM,
 it refers to the dotted rule of the EIM.
-For example,
+For example, a
+\xdfn{completion EIM}{completion (EIM)!wrt another EIM}
 a completion EIM is an EIM with a completion
-dotted rule,
-and a predicted EIM is an EIM with a predicted dotted rule.
+dotted rule, and a
+\xdfn{predicted EIM}{predicted (EIM)}
+is an EIM with a predicted dotted rule.
 If
-\[\Veim{quasi} = [ \Vdr{quasi}, \var{i}, \var{j} ]\]
+\[
+  \Veim{quasi} = [ \Vdr{quasi}, \var{i}, \var{j} ]
+\]
 is a quasi-complete EIM,
 then its completion EIM is
-\[[ \Vdr{complete}, \var{i}, \var{j} ],\]
-where \Vdr{complete} is the completion dotted
-rule of \Vdr{quasi}.
+\[
+  \big[ [ \Rule{\Veim{quasi}}, \Vdecr{\Vsize{\Rule{\Veim{quasi}}}} ],
+    \var{i}, \var{j}
+  \big].
+\]
+\end{definition}
 
+\begin{definition}
+\dtitle{Start EIM}
+\label{def:start-eim}
 The \dfn{start EIM} is
 \begin{equation}
 \label{eq:def-start-eim-10}
 \Veim{start} = [ [\Vsym{accept} \de \mydot \Vsym{start} ], 0, 0 ].
 \end{equation}
+\end{definition}
+
+\begin{definition}
+\dtitle{Accept EIM}
+\label{def:accept-eim}
 The \dfn{accept EIM} is
 \begin{equation}
 \label{eq:def-accept-eim-10}
 \Vdr{accept} = [ [\Vsym{accept} \de \Vsym{start} \mydot ], 0, \Vsize{\Cw} ].
 \end{equation}
+\end{definition}
 
 \begin{theorem}
 \ttitle{Earley item types}
@@ -5323,6 +5342,60 @@ we have
 \right).
 \qedhere
 \end{align*}
+\end{proof}
+
+\begin{theorem}
+\ttitle{Fleeting closure shared properties}
+\label{fleeting-closure-shared-properties}
+Let \var{fc} be a fleeting closure,
+and let \Veim{e1} and \Veim{e2} be two EIM's
+such that
+ $\Veim{e1} \in \var{fc}$
+ and $\Veim{e2} \in \var{fc}$.
+Then
+\begin{align*}
+    \Rule{\Veim{e1}} & = \Rule{\Veim{e2}}, \\
+    \Left{\Veim{e1}} & = \Left{\Veim{e2}}, \text{and} \\
+    \Right{\Veim{e1}} & = \Right{\Veim{e2}}.
+\end{align*}
+\end{theorem}
+
+\begin{theorem}
+Let \var{fc} be a fleeting closure,
+and let \Veim{q} and \Veim{e} be two EIM's,
+such that
+$\Veim{q} \in \var{fc}$
+and $\Veim{e} \in \var{fc}$,
+where \Veim{q} is quasi-complete.
+Then \Veim{e} is also quasi-complete.
+\end{theorem}
+
+\begin{theorem}
+Let \var{fc} be a fleeting closure,
+and let \Veim{q} and \Veim{e} be two EIM's.
+where \Veim{q} is quasi-complete.
+Then
+\[
+    \Veim{q} \in \var{fc} \implies \forall \; \Veim{e} \in \var{fc} 
+\]
+\end{theorem}
+
+\begin{proof}
+TODO
+where \Veim{q} is quasi-complete.
+Then
+\[
+    \Veim{q} \in \var{fc} \implies \forall \; \Veim{e} \in \var{fc} 
+\]
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
+\begin{proof}
+This theorem follows directly from
+\tref{t:null-scan-arithmetic}.
 \end{proof}
 
 \begin{theorem}
@@ -10209,41 +10282,108 @@ $\Vsym{trans} \neq \Vsym{accept}$.
 % depending on the implementation.
 
 \begin{definition}
-\dtitle{Matching Leo memo}
+\dtitle{Matching Leo memo of an parse instance}
+\label{def:inst-matching-leo-memo}
+A Leo memo, call it \Vleo{l},
+and an parse instance, call it \Vinst{i},
+are said to
+\xdfn{match}{match!between a Leo memo and an INST}
+if and only if
+\begin{gather*}
+\LSY{\Vleo{l}} = \Vinst{i}.
+\end{gather*}
+We say that \Vleo{l} is a
+\xdfn{matching}{matching (Leo memo)!wrt an INST}
+Leo memo of \Vinst{i}
+and that \Vinst{i} is a
+\xdfn{matching}{matching (INST)!wrt a Leo memo}
+EIM of \Vleo{l}.
+We write $\Memo{\Vinst{i}} = \Vleo{l}$%
+\index{recce-notation}{Memo@\myfnname{Memo}!\Vop{Memo}{\Vinst{i}} = \Vleo{l}}
+to indicate that the Leo memo \Vleo{l} matches
+the \Vinst{i}.
+\end{definition}
+
+\begin{definition}
+\dtitle{Matching Leo memo of an EIM}
 \label{def:matching-leo-memo}
-A Leo memo, call it \Vleo{leo},
-and an EIM, call it \Veim{eim},
+A Leo memo, call it \Vleo{l},
+and a completed EIM, call it \Veim{e},
 are said to
 \xdfn{match}{match!between a Leo memo and an EIM}
 if and only if
-\begin{gather*}
-\text{\Veim{eim} is a quasi-completion and} \\
-\LSY{\Vleo{leo}} = \LSY{\Veim{eim}}.
-\end{gather*}
-We also say that \Vleo{leo} is the
+\[
+\text{\LSY{\Vleo{l}} matches \SymEq{\Veim{e}}}.
+\]
+If \Veim{e}
 \xdfn{matching}{matching (Leo memo)!wrt an EIM}
-Leo memo of \Veim{eim}
-and that \Veim{eim} is the
+Leo memo of \Veim{e}
+and that \Veim{e} is a
 \xdfn{matching}{matching (EIM)!wrt a Leo memo}
-EIM of \Vleo{leo}.
-We also write $\Memo{\Veim{eim}} = \Vleo{l}$%
+EIM of \Vleo{l}.
+We write $\Memo{\Veim{e}} = \Vleo{l}$%
 \index{recce-notation}{Memo@\myfnname{Memo}!\Vop{Memo}{\Veim{e}} = \Vleo{l}}
 to indicate that the Leo memo \Vleo{l} matches
-the \Veim{eim}.
+the \Veim{e}.
 \end{definition}
 
+\begin{definition}
+\dtitle{Quasi-matching Leo memo}
+\label{def:quasi-matching-leo-memo}
+A Leo memo, call it \Vleo{l},
+and a quasi-complete EIM, call it \Veim{q},
+are said to
+\xdfn{quasi-match}{quasi-match!between a Leo memo and an EIM}
+if and only if
+\Vleo{l} matches the completion EIM of \Veim{q}.
+Recall from
+\dref[completion EIM of a quasi-complete EIM]{def:eim-dr-notions}
+that the completion EIM of the quasi-complete EIM \Veim{q} is
+\[
+   \left[
+   \begin{gathered}
+     \big[ \Rule{\Veim{q}}, \Vdecr{\Vsize{\Rule{\Veim{q}}}} \big],
+     \\
+     \Origin{\Veim{q}}, \Current{\Veim{q}}
+   \end{gathered}
+   \right].
+\]
+We say that \Vleo{leo} is a
+\xdfn{quasi-matching}{quasi-matching (Leo memo)!wrt an EIM}
+Leo memo of \Veim{q}
+and that \Veim{q} is a
+\xdfn{quasi-matching}{quasi-matching (EIM)!wrt a Leo memo}
+EIM of \Vleo{l}.
+We write $\Memo{\Veim{q}} = \Vleo{l}$%
+\index{recce-notation}{Memo@\myfnname{Memo}!\Vop{Memo}{\Veim{e}} = \Vleo{l}}
+to indicate that the Leo memo \Vleo{l} matches
+the \Veim{q}.
+\end{definition}
+
+Note that, by
+\dref{def:eim-matching-leo-memo}
+and
+\dref{def:quasi-matching-leo-memo},
+that if a Leo memo matches an EIM,
+also that Leo memo also quasi-matches that EIM.
+
 \begin{theorem}
-\ttitle{A fleeting closure shares a Leo memo}
+\ttitle{Fleeting closure quasi-match}
 \label{t:leo-memo-fleeting closure}
 Let \Veim{e1} and \Veim{e2} be EIM's
 in the same fleeting closure,
 and let
 \Vleo{l}
-be a Leo memo matching \Veim{e1}.
-Then \Vleo{l} matches \Veim{e2}.
+be a Leo memo quasi-matching \Veim{e1}.
+Then \Vleo{l} quasi-matches \Veim{e2}.
 \end{theorem}
 
 \begin{proof}
+TODO: fix this.
+
+TODO: prove that quasi-complete eims that share a fleeting closure must
+share their EIM completion?
+
 By assumption for the theorem,
 \Veim{e1} and \Veim{e2} are in the same fleeting
 closure.
@@ -10259,10 +10399,7 @@ the same rule and origin,
 so that
 \begin{equation}
 \label{eq:leo-memo-fleeting-closure-10}
-\begin{gathered}
-\Left{\Veim{e1}} = \Left{\Veim{last}} = \Left{\Veim{e2}}, \; \text{and} \\
-\LHS{\Veim{e1}} = \LHS{\Veim{last}} = \LHS{\Veim{e2}}.
-\end{gathered}
+\LSY{\Veim{e1}} = \LSY{\Veim{last}} = \LSY{\Veim{e2}}.
 \end{equation}
 
 By assumption for the theorem
