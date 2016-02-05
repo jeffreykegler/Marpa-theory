@@ -2694,14 +2694,12 @@ or
 is a dotted rule
 with a dot position greater than zero.
 A
-\xdfn{completed dotted rule}{completed (dotted rule)},
-or a
-\xdfn{completion}{completion (dotted rule)},
+\xdfn{complete dotted rule}{complete (dotted rule)},
 is a dotted rule with its dot
 position after the end of its RHS,
 for example,
 \begin{equation*}
-\Vdr{completed} = [\Vsym{A} \de \Vstr{alpha} \mydot ].
+\Vdr{complete} = [\Vsym{A} \de \Vstr{alpha} \mydot ].
 \end{equation*}
 A
 \xdfn{penultimate dotted rule}{penultimate (dotted rule)},
@@ -2731,7 +2729,7 @@ A dotted rule which has only nulling symbols in its dot
 suffix is
 \xdfn{quasi-complete}{quasi-complete (dotted rule)}.
 A quasi-complete dotted rule is called an
-\xdfn{quasi-completion}{quasi-completion (dotted rule)}.
+\xdfn{quasi-complete}{quasi-complete (dotted rule)}.
 
 A dotted rule which has exactly one telluric symbol in
 its dot suffix is
@@ -2741,9 +2739,7 @@ A quasi-penultimate dotted rule is called an
 
 If a dotted rule is not quasi-complete,
 it is said to be
-\xdfn{quasi-incomplete}{quasi-incomplete (dotted rule)},
-or a
-\xdfn{quasi-incompletion}{quasi-incompletion (dotted rule)}.
+\xdfn{quasi-incomplete}{quasi-incomplete (dotted rule)}.
 
 A dotted rule which has only nulling symbols before the dot
 is a
@@ -2762,9 +2758,9 @@ or a
 
 The definitions of the quasi-types may be satisfied vacuously:
 for example,
-all completions are quasi-completions
+all complete dotted rules are quasi-complete dotted rules
 and
-all predictions are quasi-predictions.
+all predicted dotted are quasi-predicted dotted rules.
 
 \begin{definition}
 \dtitle{Completion of a dotted rule}
@@ -2780,17 +2776,18 @@ If
 is a pair of dotted rules,
 we say that \Vdr{completion} is the
 \xdfn{completion dotted rule}{completion (dotted rule)!wrt another dotted rule}
-of the quasi-completion \Vdr{quasi}.
+of the quasi-complete dotted rule \Vdr{quasi}.
 \end{definition}
 
 This definition may be satisfied vacuously:
 all predictions are quasi-predictions.
 
 \begin{theorem}
-\title{Quasi-predictions and quasi-completions are disjoint}
+\title{Quasi-predicted and quasi-completed dotted rules are disjoint}
 \label{t:quasi-drs-disjoint}.
 In Marpa grammars,
-no quasi-completion is a quasi-prediction.
+no quasi-completed dotted rule
+is a quasi-predicted dotted rule.
 \end{theorem}
 
 \begin{proof}
@@ -2804,11 +2801,11 @@ at least one telluric symbol
 and it must come either before the dot
 or after it.
 If a telluric symbol comes before the dot,
-the dotted rule might be a quasi-completion,
+the dotted rule might be quasi-completed,
 but it cannot be a quasi-prediction.
 If a telluric symbol comes after the dot,
 the dotted rule might be a quasi-prediction,
-but it cannot be a quasi-completion.
+but it cannot be quasi-complete.
 \end{proof}
 
 \section{Fleeting and lasting bases}
@@ -3421,8 +3418,8 @@ either explicitly or implicitly.
 Whenever a dotted rule notion is applied to an EIM,
 it refers to the dotted rule of the EIM.
 For example, a
-\xdfn{completion EIM}{completion (EIM)!wrt another EIM}
-a completion EIM is an EIM with a completion
+\xdfn{complete EIM}{complete (EIM)!wrt another EIM}
+a complete EIM is an EIM with a complete
 dotted rule, and a
 \xdfn{predicted EIM}{predicted (EIM)}
 is an EIM with a predicted dotted rule.
@@ -3431,7 +3428,11 @@ If
   \Veim{quasi} = [ \Vdr{quasi}, \var{i}, \var{j} ]
 \]
 is a quasi-complete EIM,
-then its completion EIM is
+then its
+\xdfn{completion EIM}{completion EIM!wrt another EIM}
+or
+\xdfn{completion (EIM)}{completion (EIM)!wrt another EIM}
+is
 \[
   \big[ [ \Rule{\Veim{quasi}}, \Vdecr{\Vsize{\Rule{\Veim{quasi}}}} ],
     \var{i}, \var{j}
@@ -4028,7 +4029,7 @@ then the top-down cause of its dotted
 rule is an incomplete dotted rule
 \dref[top-down cause of a predicted dotted rule]{def:causes-predicted-dr},
 so that the top-down cause of \Veim{eff} must be an incomplete EIM.
-\Veim{comp} is, by assumption for the theorem, a completion
+\Veim{comp} is, by assumption for the theorem, a complete EIM
 so that \Veim{comp} is not the top-down cause of \Veim{eff}.
 
 \textbf{Bottom-up cause of a prediction}:
@@ -6038,11 +6039,11 @@ are both in \var{mfc}.
 \end{proof}
 
 \begin{theorem}
-\ttitle{Quasi-completion fleeting closure properties}
-\label{t:quasi-completion-fleeting-closure-properties}
+\ttitle{Quasi-complete fleeting closure properties}
+\label{t:quasi-complete-fleeting-closure-properties}
 Let
 \begin{equation}
-\label{eq:quasi-completion-fleeting-closure-properties-5}
+\label{eq:quasi-complete-fleeting-closure-properties-5}
 \Veim{down} = \big[ [ \Vrule{r}, \var{lo} ], \var{i}, \var{k} \big],
 \end{equation}
 be a valid quasi-complete EIM,
@@ -6051,47 +6052,47 @@ If the series \var{ns} is the fleeting closure of
 either \Veim{bas} or \Veim{down},
 then we have all of the following:
 \begin{align}
-\label{eq:quasi-completion-fleeting-closure-properties-9}
+\label{eq:quasi-complete-fleeting-closure-properties-9}
 & \text{\var{ns} contains at most \Vsize{\Vrule{r}}
   elements
 }
 \\
-\label{eq:quasi-completion-fleeting-closure-properties-10}
+\label{eq:quasi-complete-fleeting-closure-properties-10}
 & \text{$\var{ns}\big[ \Vlastix{ns} \big]$
-  is a completion
+  is a complete EIM
 }
 \\
-\label{eq:quasi-completion-fleeting-closure-properties-12}
+\label{eq:quasi-complete-fleeting-closure-properties-12}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} < \Vlastix{ns} \\
 & \quad \implies \text{\Vel{ns}{a} is an incomplete EIM}
 \end{aligned}
 \\
-\label{eq:quasi-completion-fleeting-closure-properties-13}
+\label{eq:quasi-complete-fleeting-closure-properties-13}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns} \\
 & \quad \implies \text{\Vel{ns}{a} is an quasi-complete EIM}
 \end{aligned}
 \\
-\label{eq:quasi-completion-fleeting-closure-properties-14}
+\label{eq:quasi-complete-fleeting-closure-properties-14}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns}
   \implies \Valid{\Vel{ns}{a}}
 \end{aligned}
 \\
-\label{eq:quasi-completion-fleeting-closure-properties-16}
+\label{eq:quasi-complete-fleeting-closure-properties-16}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns} \\
 & \qquad \implies \Right{\el{ns}{0}} = \Right{\Vel{ns}{a}}
 \end{aligned}
 \\
-\label{eq:quasi-completion-fleeting-closure-properties-18}
+\label{eq:quasi-complete-fleeting-closure-properties-18}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{ns} \\
 & \qquad \implies \op{Rule}{\el{ns}{0}} = \op{Rule}{\Vel{ns}{a}}
 \end{aligned}
 \\
-\label{eq:quasi-completion-fleeting-closure-properties-20}
+\label{eq:quasi-complete-fleeting-closure-properties-20}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{ns}} \\
 & \qquad \implies \text{\Vel{ns}{a} is the
@@ -6100,7 +6101,7 @@ then we have all of the following:
 }
 \end{aligned}
 \\
-\label{eq:quasi-completion-fleeting-closure-properties-22}
+\label{eq:quasi-complete-fleeting-closure-properties-22}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{ns}} \\
 & \qquad \implies \text{\el{ns}{\Vincr{a}}
@@ -6117,7 +6118,7 @@ By assumption for the theorem,
 By Theorem \ref{t:eim-lasting-base}, \Veim{down}
 has a valid lasting base:
 \begin{equation}
-\label{eq:quasi-completion-fleeting-closure-properties-24a}
+\label{eq:quasi-complete-fleeting-closure-properties-24a}
 \Valid{\Veim{bas}}.
 \end{equation}
 By assumption for theorem, \Veim{down}
@@ -6136,7 +6137,7 @@ Therefore all of the symbols in the dot
 suffix of \Veim{bas} are nulling,
 so that, by the definition of quasi-complete,
 \begin{equation}
-\label{eq:quasi-completion-fleeting-closure-properties-24b}
+\label{eq:quasi-complete-fleeting-closure-properties-24b}
 \text{\Veim{bas} is quasi-complete.}
 \end{equation}
 
@@ -6152,17 +6153,17 @@ using
 Theorem
 \ref{t:partial-fleeting-closure-validity},
 Requirements
-\eqref{eq:quasi-completion-fleeting-closure-properties-14},
-\eqref{eq:quasi-completion-fleeting-closure-properties-20}
+\eqref{eq:quasi-complete-fleeting-closure-properties-14},
+\eqref{eq:quasi-complete-fleeting-closure-properties-20}
 and
-\eqref{eq:quasi-completion-fleeting-closure-properties-22}
+\eqref{eq:quasi-complete-fleeting-closure-properties-22}
 for the theorem.
 
 Because \Veim{quasi},
-is a quasi-completion,
+is a quasi-complete EIM,
 we know that
 \begin{multline}
-\label{eq:quasi-completion-fleeting-closure-properties-28}
+\label{eq:quasi-complete-fleeting-closure-properties-28}
 \el{ns1}{0} = \Veim{quasi} \\
 \text{and} \quad
   \forall \; \var{a} : 0 \le \var{a} < (\xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}})
@@ -6173,13 +6174,13 @@ we know that
 \end{multline}
 and
 \begin{equation}
-\label{eq:quasi-completion-fleeting-closure-properties-30}
+\label{eq:quasi-complete-fleeting-closure-properties-30}
 \forall \; \var{a} : 0 \le \var{a} < (\xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}})
   \implies \Vop{RHS}{\Vrule{r}, \var{lo}+\var{a}} = \epsilon
 \end{equation}
 
 From
-\eqref{eq:quasi-completion-fleeting-closure-properties-28},
+\eqref{eq:quasi-complete-fleeting-closure-properties-28},
 we can see that
 \begin{gather*}
 \Vlastix{ns1} = \xxsubtract{\Vsize{\Vrule{r}}}{\var{lo}}, \quad
@@ -6191,11 +6192,11 @@ we can see that
 \end{aligned}
 \end{gather*}
 which shows
-\eqref{eq:quasi-completion-fleeting-closure-properties-10}.
+\eqref{eq:quasi-complete-fleeting-closure-properties-10}.
 Simlarly,
 we see
 from
-\eqref{eq:quasi-completion-fleeting-closure-properties-28},
+\eqref{eq:quasi-complete-fleeting-closure-properties-28},
 \begin{equation*}
 \begin{aligned}
 && \var{ix} & < \Vlastix{ns1} \\
@@ -6206,28 +6207,28 @@ from
 \end{aligned}
 \end{equation*}
 shows
-\eqref{eq:quasi-completion-fleeting-closure-properties-12}.
+\eqref{eq:quasi-complete-fleeting-closure-properties-12}.
 
 We see from
-\eqref{eq:quasi-completion-fleeting-closure-properties-28}
+\eqref{eq:quasi-complete-fleeting-closure-properties-28}
 that every element of \var{ns1},
 is an EIM which differs from
 the other elements of \var{ns1}
 only in its dot index,
 which gives us
-\eqref{eq:quasi-completion-fleeting-closure-properties-16}
+\eqref{eq:quasi-complete-fleeting-closure-properties-16}
 and
-\eqref{eq:quasi-completion-fleeting-closure-properties-18}.
+\eqref{eq:quasi-complete-fleeting-closure-properties-18}.
 From
-\eqref{eq:quasi-completion-fleeting-closure-properties-28},
+\eqref{eq:quasi-complete-fleeting-closure-properties-28},
 we also see that
 \begin{equation}
 \var{ix} > 0 \implies \Dotix{\Vel{ns1}{ix}} > \Dotix{\el{ns1}{0}}
 \end{equation}
 so that using
-\eqref{eq:quasi-completion-fleeting-closure-properties-30},
+\eqref{eq:quasi-complete-fleeting-closure-properties-30},
 \begin{equation}
-\label{eq:quasi-completion-fleeting-closure-properties-40}
+\label{eq:quasi-complete-fleeting-closure-properties-40}
 \begin{gathered}
 \forall \; \var{nsix}, \var{rhix} :
 0 \le \var{nsix} \le \Vlastix{ns1} \\
@@ -6238,16 +6239,16 @@ so that using
 \end{gathered}
 \end{equation}
 and since every layer of \var{ns1} shares the same rule,
-\eqref{eq:quasi-completion-fleeting-closure-properties-40}
+\eqref{eq:quasi-complete-fleeting-closure-properties-40}
 shows
-\eqref{eq:quasi-completion-fleeting-closure-properties-13}.
+\eqref{eq:quasi-complete-fleeting-closure-properties-13}.
 
 As we already noted, the layers of \var{ns1} differ
 \textbf{only} in their dot index.
 There are at most
 distinct dot \incr{\Vsize{\Vrule{r}}} indexes.
 By
-\eqref{eq:quasi-completion-fleeting-closure-properties-13},
+\eqref{eq:quasi-complete-fleeting-closure-properties-13},
 every layer is quasi-complete,
 so that,
 by Theorem \ref{t:quasi-drs-disjoint},
@@ -6256,7 +6257,7 @@ Therefore no layer of \var{ns1} uses dot index 0.
 So that there are at most
 \Vsize{\Vrule{r}} layers in \var{ns1},
 which shows
-\eqref{eq:quasi-completion-fleeting-closure-properties-9}.
+\eqref{eq:quasi-complete-fleeting-closure-properties-9}.
 With this, we have shown the last of the requirements
 for the theorem for \Veim{quasi}.
 
@@ -6267,9 +6268,9 @@ EIM,
 and therefore we have shown the requirements
 for the theorem for \Veim{down}.
 From
-\eqref{eq:quasi-completion-fleeting-closure-properties-24a}
+\eqref{eq:quasi-complete-fleeting-closure-properties-24a}
 and
-\eqref{eq:quasi-completion-fleeting-closure-properties-24b},
+\eqref{eq:quasi-complete-fleeting-closure-properties-24b},
 we know that \Veim{bas} is a valid quasi-complete EIM,
 and therefore we have shown the requirements
 for the theorem for \Veim{bas} as well.
@@ -6429,7 +6430,7 @@ The left locations of \Veim{up1} and \Veim{up2} must be identical
 \eqref{eq:multi-up-cause-ambiguous-30}.
 So the two up-causes can differ only in the RHS of their dotted rule.
 An EIM bottom-up cause of \Veim{effect}
-must be a completion \becuz{}
+must be a complete EIM \becuz{}
 \eqref{eq:multi-up-cause-ambiguous-20}.
 Therefore
 without loss of generalization,
@@ -8135,8 +8136,8 @@ directly from Theorem
 \end{proof}
 
 \begin{theorem}
-\ttitle{Consecutive silo incompletions}
-\label{t:consecutive-silo-incompletions}
+\ttitle{Consecutive silo incomplete EIM's}
+\label{t:consecutive-silo-incompletes}
 No run of consecutive incomplete silo layers
 is longer than \var{c},
 where \var{c} is a constant which depends on
@@ -8147,25 +8148,25 @@ the grammar.
 Let \var{slo} be a silo, and
 let
 \begin{equation}
-\label{eq:consecutive-silo-incompletions-5}
+\label{eq:consecutive-silo-incompletes-5}
 \Vel{slo}{x} \; \text{be an incomplete silo layer.}
 \end{equation}
 Since every silo layer is quasi-complete,
 we know that $\Postdot{\Vel{slo}{x}} = \epsilon$,
 so that
 \begin{align}
-\label{eq:consecutive-silo-incompletions-10a}
+\label{eq:consecutive-silo-incompletes-10a}
 & \Predot{\el{slo}{\Vincr{x}}} = \epsilon
 \\
-\label{eq:consecutive-silo-incompletions-10c}
+\label{eq:consecutive-silo-incompletes-10c}
 & \text{\el{slo}{\Vincr{x}} is a null-scan
-   $\because$ \eqref{eq:consecutive-silo-incompletions-10a}
+   $\because$ \eqref{eq:consecutive-silo-incompletes-10a}
 }
 \\
-\label{eq:consecutive-silo-incompletions-10e}
+\label{eq:consecutive-silo-incompletes-10e}
 & \text{\el{slo}{\var{x}} is top-down cause of
   \el{slo}{\Vincr{x}}
-  $\because$ \eqref{eq:consecutive-silo-incompletions-10c},
+  $\because$ \eqref{eq:consecutive-silo-incompletes-10c},
     \tref{t:silo-causes},
 }
 \\
@@ -8173,8 +8174,8 @@ so that
 \begin{multlined}
 \el{slo}{\Vincr{x}} = \op{null-scan-op}{\el{slo}{\var{x}}} \\
    \because
-    \eqref{eq:consecutive-silo-incompletions-10c},
-    \eqref{eq:consecutive-silo-incompletions-10e},
+    \eqref{eq:consecutive-silo-incompletes-10c},
+    \eqref{eq:consecutive-silo-incompletes-10e},
     \; \text{Def of \myfnname{null-scan-op}}
 \end{multlined}
 \end{align}
@@ -8187,12 +8188,12 @@ where $\var{y} \ge \var{x}$.
 By the definition of a fleeting closure,
 \el{slo}{\var{x} \ldots \var{y}} is part of a fleeting closure
 whose first element is \Vel{slo}{x}.
-\eqref{eq:quasi-completion-fleeting-closure-properties-9}
-of Theorem \ref{t:quasi-completion-fleeting-closure-properties}
+\eqref{eq:quasi-complete-fleeting-closure-properties-9}
+of Theorem \ref{t:quasi-complete-fleeting-closure-properties}
 sets a maximum limit to the size of a fleeting closure whose
-first element is a quasi-completion,
+first element is a quasi-complete EIM,
 so that,
-recalling \eqref{eq:consecutive-silo-incompletions-5},
+recalling \eqref{eq:consecutive-silo-incompletes-5},
 we see that the fleeting closure containing
 \el{slo}{\var{x} \ldots \var{y}} has at most
 \Vsize{\Rule{\Vel{slo}{x}}} elements.
@@ -8228,15 +8229,16 @@ the grammar.
 \end{theorem}
 
 \begin{proof}
-Every layer is \var{slo} is either complete or incomplete,
+Every layer is \var{slo} is either a complete EIM
+or an incomplete EIM,
 so that we can treat \var{slo} as a series of
 \Vincr{comps}
-runs, each run containing zero or more incompletions,
+runs, each run containing zero or more incomplete EIM's,
 with each of the runs
-separated by one of the \var{comps} completions.
+separated by one of the \var{comps} complete EIM's.
 From Theorem
-\eqref{eq:consecutive-silo-incompletions-10e},
-we know that the maximum length of a run of incompletions in
+\eqref{eq:consecutive-silo-incompletes-10e},
+we know that the maximum length of a run of incomplete EIM's in
 a silo is \var{maxrun},
 where \var{maxrun} is a constant which depends on the grammar.
 Letting $\var{a} = \var{maxrun}$,
@@ -9168,7 +9170,7 @@ has the following properties:
 \\
 \label{eq:fleeting-closure-silo-prop-10}
 & \text{$\var{slo}\big[ \Vlastix{slo} \big]$
-  is a completion
+  is a complete EIM.
 }
 \\
 \label{eq:fleeting-closure-silo-prop-12}
@@ -9230,7 +9232,7 @@ has the following properties:
 \begin{theorem}
 \ttitle{Fleeting closure silo}
 \label{t:fleeting-closure-silo}
-Let \Veim{qc} be a valid quasi-completion.
+Let \Veim{qc} be a valid quasi-complete EIM.
 Then there is a silo, call it \var{slo},
 such that
 \begin{equation}
@@ -9248,12 +9250,12 @@ follows from
 \item
 the assumption for the theorem that \el{slo}{0} is quasi-complete;
 \item
-\eqref{eq:quasi-completion-fleeting-closure-properties-13},
-\eqref{eq:quasi-completion-fleeting-closure-properties-16}
+\eqref{eq:quasi-complete-fleeting-closure-properties-13},
+\eqref{eq:quasi-complete-fleeting-closure-properties-16}
 and
-\eqref{eq:quasi-completion-fleeting-closure-properties-20}
+\eqref{eq:quasi-complete-fleeting-closure-properties-20}
 of Theorem
-\ref{t:quasi-completion-fleeting-closure-properties};
+\ref{t:quasi-complete-fleeting-closure-properties};
 and
 \item
 the definition of a silo;
@@ -9270,58 +9272,58 @@ follows from
 Property
 \eqref{eq:fleeting-closure-silo-prop-9}
 follows from
-\eqref{eq:quasi-completion-fleeting-closure-properties-9}
+\eqref{eq:quasi-complete-fleeting-closure-properties-9}
 of Theorem
-\ref{t:quasi-completion-fleeting-closure-properties}.
+\ref{t:quasi-complete-fleeting-closure-properties}.
 \item
 Property
 \eqref{eq:fleeting-closure-silo-prop-10}
 follows from
-\eqref{eq:quasi-completion-fleeting-closure-properties-10}
+\eqref{eq:quasi-complete-fleeting-closure-properties-10}
 of Theorem
-\ref{t:quasi-completion-fleeting-closure-properties};
+\ref{t:quasi-complete-fleeting-closure-properties};
 \item
 Property
 \eqref{eq:fleeting-closure-silo-prop-12}
 follows from
-\eqref{eq:quasi-completion-fleeting-closure-properties-12}
+\eqref{eq:quasi-complete-fleeting-closure-properties-12}
 of Theorem
-\ref{t:quasi-completion-fleeting-closure-properties};
+\ref{t:quasi-complete-fleeting-closure-properties};
 \item
 Property
 \eqref{eq:fleeting-closure-silo-prop-13}
 follows from
-\eqref{eq:quasi-completion-fleeting-closure-properties-13}
+\eqref{eq:quasi-complete-fleeting-closure-properties-13}
 of Theorem
-\ref{t:quasi-completion-fleeting-closure-properties};
+\ref{t:quasi-complete-fleeting-closure-properties};
 \item
 Property
 \eqref{eq:fleeting-closure-silo-prop-14}
 follows from
-\eqref{eq:quasi-completion-fleeting-closure-properties-14}
+\eqref{eq:quasi-complete-fleeting-closure-properties-14}
 of Theorem
-\ref{t:quasi-completion-fleeting-closure-properties};
+\ref{t:quasi-complete-fleeting-closure-properties};
 \item
 Property
 \eqref{eq:fleeting-closure-silo-prop-16}
 follows from
-\eqref{eq:quasi-completion-fleeting-closure-properties-16}
+\eqref{eq:quasi-complete-fleeting-closure-properties-16}
 of Theorem
-\ref{t:quasi-completion-fleeting-closure-properties};
+\ref{t:quasi-complete-fleeting-closure-properties};
 \item
 Property
 \eqref{eq:fleeting-closure-silo-prop-18}
 follows from
-\eqref{eq:quasi-completion-fleeting-closure-properties-18}
+\eqref{eq:quasi-complete-fleeting-closure-properties-18}
 of Theorem
-\ref{t:quasi-completion-fleeting-closure-properties};
+\ref{t:quasi-complete-fleeting-closure-properties};
 \item
 Property
 \eqref{eq:fleeting-closure-silo-prop-20}
 follows from
-\eqref{eq:quasi-completion-fleeting-closure-properties-20}
+\eqref{eq:quasi-complete-fleeting-closure-properties-20}
 of Theorem
-\ref{t:quasi-completion-fleeting-closure-properties};
+\ref{t:quasi-complete-fleeting-closure-properties};
 \item
 Property
 \eqref{eq:fleeting-closure-silo-prop-21} follows from
@@ -9333,15 +9335,18 @@ and
 Property
 \eqref{eq:fleeting-closure-silo-prop-22}
 follows from
-\eqref{eq:quasi-completion-fleeting-closure-properties-22}
+\eqref{eq:quasi-complete-fleeting-closure-properties-22}
 of Theorem
-\ref{t:quasi-completion-fleeting-closure-properties}.
+\ref{t:quasi-complete-fleeting-closure-properties}.
 \qedhere
 \end{itemize}
 \end{proof}
 
 \begin{definition}
 \dtitle{Completion of a fleeting closure silo}
+
+TODO: Is this right?
+
 If \var{fcs} is a fleeting closure silo,
 we say that \el{fcs}{\Vlastix{fcs}}
 is the
@@ -9554,9 +9559,9 @@ Def of silo
 \label{maximal-silo-top-is-complete-23}
 & \text{\el{fc}{\Vlastix{fc}} is complete:
 \eqref{maximal-silo-top-is-complete-15},
-\eqref{eq:quasi-completion-fleeting-closure-properties-10}
+\eqref{eq:quasi-complete-fleeting-closure-properties-10}
 of
-Th \ref{t:quasi-completion-fleeting-closure-properties}
+Th \ref{t:quasi-complete-fleeting-closure-properties}
 }
 \\
 \label{maximal-silo-top-is-complete-26}
@@ -9568,8 +9573,8 @@ Th \ref{t:quasi-completion-fleeting-closure-properties}
 & \text{\Veim{top} has a silo effect:
 \eqref{maximal-silo-top-is-complete-13},
 \eqref{maximal-silo-top-is-complete-26},
-\eqref{eq:quasi-completion-fleeting-closure-properties-22} of
-Th \ref{t:quasi-completion-fleeting-closure-properties}
+\eqref{eq:quasi-complete-fleeting-closure-properties-22} of
+Th \ref{t:quasi-complete-fleeting-closure-properties}
 }
 \\
 \label{maximal-silo-top-is-complete-30}
@@ -9944,7 +9949,7 @@ is the
 \dfn{Leo transition symbol}
 or
 \xdfn{transition symbol}{transition symbol!wrt a Leo memo}.
-\DR{\Vleo{leo}} must be a quasi-completion.
+\DR{\Vleo{leo}} must be quasi-complete.
 
 \Vleo{leo} is considered to be located at \Vloc{memloc},
 and \Vloc{memloc} is called the
@@ -12114,6 +12119,7 @@ $}
 \intertext{We know that
 \Veim{comp1} and \Veim{comp2} are the completions of fleeting closures
 and therefore are complete EIM's, and since by 
+(TODO -- is this right?}
 \eqref{t:memoized-top-to-completed-top-20}
 they are completions of the same rule,}
 \label{t:memoized-top-to-completed-top-22}
@@ -12215,7 +12221,7 @@ every element of \var{cat} has the same completed Leo top
 \end{proof}
 
 \begin{lemma}
-\label{lem:leo-memo-of-incompletion}
+\label{lem:leo-memo-of-incomplete-eim}
 Let \Veim{cuz} be a valid EIM which is quasi-complete,
 but incomplete.
 Then
@@ -12235,29 +12241,29 @@ so that,
 by Theorem \ref{t:null-scan-from-down-cause},
 there is a valid \Veim{eff} such that
 \begin{equation}
-\label{eq:lem-leo-memo-of-incompletion-9}
+\label{eq:lem-leo-memo-of-incomplete-eim-9}
 \text{\Veim{eff}
 is the unique effect
 of \Veim{cuz},}
 \end{equation}
 and \Veim{eff} is such that
 \begin{equation}
-\label{eq:lem-leo-memo-of-incompletion-10a}
+\label{eq:lem-leo-memo-of-incomplete-eim-10a}
 \Right{\Veim{cuz}} = \Right{\Veim{eff}}
 \end{equation}
 
 \Veim{cuz} is quasi-complete by assumption for the theorem,
 so that from
-\eqref{eq:lem-leo-memo-of-incompletion-10a}
+\eqref{eq:lem-leo-memo-of-incomplete-eim-10a}
 we know that
 \begin{equation}
-\label{eq:lem-leo-memo-of-incompletion-11}
+\label{eq:lem-leo-memo-of-incomplete-eim-11}
 \text{\Veim{eff} is quasi-complete}.
 \end{equation}
 From
-\eqref{eq:lem-leo-memo-of-incompletion-9},
-\eqref{eq:lem-leo-memo-of-incompletion-10a},
-and \eqref{eq:lem-leo-memo-of-incompletion-11},
+\eqref{eq:lem-leo-memo-of-incomplete-eim-9},
+\eqref{eq:lem-leo-memo-of-incomplete-eim-10a},
+and \eqref{eq:lem-leo-memo-of-incomplete-eim-11},
 we see that
 \Veim{eff}
 is the unique silo effect
@@ -12281,7 +12287,7 @@ and
 
 \begin{proof}
 From Theorem
-\ref{lem:leo-memo-of-incompletion},
+\ref{lem:leo-memo-of-incomplete-eim},
 we know that
 \Veim{cuz} has a valid effect,
 so that
@@ -12387,8 +12393,8 @@ TODO: finish.
 \label{alg:reconstruct-memoized-eims}
 \begin{algorithmic}[1]
 \Procedure{Reconstruct}{\Veim{lb}}
-\Statex \Veim{lb} is required to be a valid completion
-  with an instantiated matching Leo memo
+\Statex \Veim{lb} is required to be valid, complete,
+  and to have an instantiated matching Leo memo
 \label{line:reconstruct-memoized-eims-preloop-5}
 \State $\Veim{up} \gets \Veim{lb}$
 \label{line:reconstruct-memoized-eims-preloop-10}
@@ -12646,15 +12652,15 @@ by Theorem
 \ref{t:maximal-fleeting-closure-silo},
 \vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{i}}
 is a fleeting closure silo.
-By the properties of a fleeting closure
-silo, we know that all of its layers are valid
-and that its last layer is a completion,
+By the properties of a fleeting closure silo,
+we know that all of its layers are valid
+and that its last layer is a complete EIM,
 so that
 \begin{align}
 \label{t:leo-reconstruction-wellformedness-39}
 & \myparbox{
 \vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
-is valid and a completion.
+is valid and complete.
 }
 \\
 \label{t:leo-reconstruction-wellformedness-40b}
@@ -12734,7 +12740,7 @@ line \ref{line:reconstruct-memoized-eims-loop-first};
 \label{t:leo-reconstruction-wellformedness-40s}
 & \myparbox{
 \vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
-is valid and a completion
+is valid and complete
 $\because$
 \eqref{t:leo-reconstruction-wellformedness-39},
 \eqref{t:leo-reconstruction-wellformedness-40q};
@@ -12866,7 +12872,7 @@ of \vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\var{p}},
 which is \vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{p}},
 is therefore a quasi-complete fleeting closure.
 By theorem
-\ref{t:quasi-completion-fleeting-closure-properties}
+\ref{t:quasi-complete-fleeting-closure-properties}
 we know that
 \vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\var{p}}
 contains exactly one complete EIM.
@@ -13449,7 +13455,7 @@ By theorem
 every Leo silo has a catena consisting of
 of all of its Leo memos.
 By the same theorem,
-every Leo silo has a completion
+every Leo silo has a complete EIM
 for every element of its catena,
 plus a top layer.
 Every Leo silo, by definition has a bottom
@@ -13457,7 +13463,7 @@ layer with a matching Leo memo,
 so every Leo silo has a catena whose length
 is at least 1.
 A Leo silo therefore contains at least
-one completion corresponding to a
+one complete EIM corresponding to a
 Leo memo catena,
 plus the top layer.
 \end{proof}
@@ -15640,11 +15646,11 @@ by line \ref{line:eim-set-20} is
 complete, consistent and therefore correct.
 \end{proof}
 
-\begin{theorem}\label{t:quasi-completion-correct}
-Let \Veim{base} be a quasi-completion.
+\begin{theorem}\label{t:quasi-complete-correct}
+Let \Veim{base} be quasi-complete.
 If Algorithm \ref{alg:eim-set} adds \Veim{base},
 it also adds all null transitions from it,
-including the completion EIM.
+including the completion EIM of \Veim{base}.
 \end{theorem}
 
 \begin{proof}
@@ -15654,6 +15660,9 @@ from theorem \ref{t:ethereal-closure-op-correct}.
 By the definition of completion EIM,
 a completion EIM is the result of null transition
 from any of its quasi-completions,
+
+TODO: Is this still right?
+
 so that case also follows
 from theorem \ref{t:ethereal-closure-op-correct}.
 \end{proof}
