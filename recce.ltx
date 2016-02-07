@@ -10570,52 +10570,68 @@ Then \Vleo{l} quasi-matches \Veim{e2}.
 \end{theorem}
 
 \begin{proof}
-TODO: fix this.
-
-TODO: prove that quasi-complete eims that share a fleeting closure must
-share their EIM completion?
-
-By assumption for the theorem,
-\Veim{e1} and \Veim{e2} are in the same fleeting
-closure.
-Let \Veim{bas} be the base of this fleeting closure.
-By the definition of fleeting closure,
-\Veim{e1} and
-\Veim{e2} are the result of a series
-of null-scans forward from \Veim{bas}.
-By Theorem \ref{t:null-scan-arithmetic},
-we see that
-the operand and result of a null-scan share
-the same rule and origin,
-so that
-\begin{equation}
-\label{eq:leo-memo-fleeting-closure-10}
-\LSY{\Veim{e1}} = \LSY{\Veim{last}} = \LSY{\Veim{e2}}.
-\end{equation}
-
-By assumption for the theorem
-and the definition of a matching Leo memo
-\begin{equation}
-\label{eq:leo-memo-fleeting-closure-20}
-\begin{aligned}
-\Left{\Veim{e1}} & = \Current{\Vleo{l}} \\
-\land \quad \LHS{\Veim{e1}} & = \Symbol{\Vleo{l}}.
-\end{aligned}
-\end{equation}
-Combining
-\eqref{eq:leo-memo-fleeting-closure-10}
-and
-\eqref{eq:leo-memo-fleeting-closure-20},
-\begin{equation}
-\label{eq:leo-memo-fleeting-closure-30}
-\begin{aligned}
-\Left{\Veim{e2}} & = \Current{\Vleo{l}} \\
-\land \quad \LHS{\Veim{e2}} & = \Symbol{\Vleo{l}}.
-\end{aligned}
-\end{equation}
-The definition of a matching Leo memo,
-and \eqref{eq:leo-memo-fleeting-closure-30}
-tell us that \Vleo{l} matches \Veim{e2}.
+Let \var{fc} be the fleeting closure that contains
+\Veim{e1} and \Veim{e2}.  Then
+\begin{align}
+\label{eq:leo-memo-fleeting closure-10}
+& \myparbox{%
+$\Veim{e1} \in \var{fc}$
+\becuz{} WLOG, ASM for Th.
+} \\
+\label{eq:leo-memo-fleeting closure-12}
+& \myparbox{%
+$\Veim{e2} \in \var{fc}$
+\becuz{} WLOG, ASM for Th.
+} \\
+\label{eq:leo-memo-fleeting closure-14}
+& \myparbox{%
+\Vleo{l} quasi-matches \Veim{e1}
+\becuz{} ASM for Th.
+} \\
+\label{eq:leo-memo-fleeting closure-16}
+& \myparbox{%
+\Veim{e1} is quasi-complete
+\becuz{} 
+\eqref{eq:leo-memo-fleeting closure-14},
+\dref[quasi-matching EIM]{def:quasi-matching-leo-memo},
+} \\
+\label{eq:leo-memo-fleeting closure-18}
+& \myparbox{%
+\Veim{e2} is quasi-complete
+\becuz{} 
+\eqref{eq:leo-memo-fleeting closure-10},
+\eqref{eq:leo-memo-fleeting closure-12},
+\eqref{eq:leo-memo-fleeting closure-16},
+\tref{t:fleeting-closure-shares-quasi-completeness}.
+} \\
+\label{eq:leo-memo-fleeting closure-20}
+& \myparbox{%
+\Veim{e1} and \Veim{e2} share the same
+EIM completion, call it \Veim{comp}
+\becuz{} 
+\eqref{eq:leo-memo-fleeting closure-10},
+\eqref{eq:leo-memo-fleeting closure-12},
+\eqref{eq:leo-memo-fleeting closure-16},
+\eqref{eq:leo-memo-fleeting closure-18},
+\tref{t:fc-shares-eim-completion}.
+} \\
+\label{eq:leo-memo-fleeting closure-22}
+& \myparbox{%
+\Vleo{l} matches \Veim{comp}
+\becuz{}
+\eqref{eq:leo-memo-fleeting closure-14},
+\dref[quasi-matching EIM]{def:quasi-matching-leo-memo}.
+} \\
+\label{eq:leo-memo-fleeting closure-24}
+& \myparbox{%
+\Vleo{l} quasi-matches \Veim{e2}
+\becuz{}
+\eqref{eq:leo-memo-fleeting closure-20},
+\eqref{eq:leo-memo-fleeting closure-22},
+\dref{def:quasi-matching-leo-memo}.
+\qedhere
+}
+\end{align}
 \end{proof}
 
 \chapter{Leo catenas}
