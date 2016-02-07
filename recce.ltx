@@ -6,7 +6,9 @@
 \usepackage{microtype}
 \usepackage{ragged2e}
 \usepackage{mathtools}
+\usepackage{tikz-cd}
 \usepackage{tikz-qtree}
+\usetikzlibrary{decorations.pathmorphing}
 \usepackage{amssymb}
 \usepackage{amsmidx}
 \usepackage{url}
@@ -6574,7 +6576,7 @@ for the reductio.\qedhere
 \label{t:right-location-of-top-down-cause}
 Let \Veim{effect} be a valid EIM other than
 the start EIM.
-Then it has a top down cause,
+Then it has a top-down cause,
 that cause is an EIM, call it \Veim{down},
 and
 \begin{align}
@@ -11607,6 +11609,26 @@ shows the outer reductio.
 \end{proof}
 
 \chapter{Leo silos}
+
+\begin{tikzcd}[column sep=huge, row sep=huge]
+\Vleo{cat2}
+\arrow[dr, dotted]
+\arrow[dd, "\text{down}"]
+&
+& \Veim{slo1}
+\arrow[dd, "\text{up}"]
+\\
+& \Veim{basis}
+  \arrow[dr, "\text{down}"]
+  \arrow[dl, "\text{up}" bend right, swap]
+&
+\\
+\Vleo{cat1}
+  \arrow[uurr, dotted, swap, leftrightarrow, bend left]
+  \arrow[ur, "\text{LSY/PLSY}", bend right, swap, dotted]
+  \arrow[rr, "\text{down}", swap, bend right]
+& & \Veim{slo2}
+\end{tikzcd}
 
 \begin{definition}
 \dtitle{Leo silo effect}
