@@ -5472,7 +5472,117 @@ Call this rule, \Vrule{r}.  Then
 \end{align}
 \end{proof}
 
-TODO: More theorems here?
+\begin{theorem}
+\ttitle{Fleeting closure shares EIM completion}
+\label{t:fc-shares-eim-completion}
+Let \Veim{e1} and \Veim{e2} be two
+quasi-complete EIM's
+in the same fleeting closure.
+Let \Veim{comp1} be the EIM completion of \Veim{e1}
+and let \Veim{comp1} be the EIM completion of \Veim{e2}.
+Then $\Veim{comp1} = \Veim{comp2}$.
+\end{theorem}
+
+\begin{proof}
+Let \var{fc} be a fleeting closure such that
+\begin{align}
+\label{eq:fc-shares-eim-completion-10}
+& \Veim{e1} \in \var{fc}
+\becuz \text{ASM for this theorem} \; \text{and}
+\\
+\label{eq:fc-shares-eim-completion-12}
+& \Veim{e2} \in \var{fc}
+\becuz \text{ASM for this theorem}.
+\\
+\label{eq:fc-shares-eim-completion-14}
+& \myparbox{%
+\Veim{comp1} is the EIM completion of \Veim{e1}
+\becuz{} ASM for this theorem.
+} \\
+\label{eq:fc-shares-eim-completion-16}
+& \myparbox{%
+\Veim{comp2} is the EIM completion of \Veim{e2}
+\becuz{} ASM for this theorem.
+} \\
+%
+\label{eq:fc-shares-eim-completion-18}
+& \Rule{\Veim{e1}} = \Rule{\Veim{e2}}
+\becuz
+\eqref{eq:fc-shares-eim-completion-10},
+\eqref{eq:fc-shares-eim-completion-12},
+\tref{t:fleeting-closure-shared-properties}.
+\\
+\label{eq:fc-shares-eim-completion-20}
+& \myparbox{%
+$\Rule{\Veim{comp1}} = \Rule{\Veim{e1}}$
+\becuz
+\eqref{eq:fc-shares-eim-completion-14},
+\dref[completion EIM of an EIM]{def:eim-dr-notions}.
+} \\
+\label{eq:fc-shares-eim-completion-22}
+& \myparbox{%
+$\Rule{\Veim{comp2}} = \Rule{\Veim{e2}}$
+\becuz
+\eqref{eq:fc-shares-eim-completion-16},
+\dref{def:eim-dr-notions}.
+} \\
+\label{eq:fc-shares-eim-completion-23}
+& \Rule{\Veim{comp1}} = \Rule{\Veim{comp2}}
+\becuz
+\eqref{eq:fc-shares-eim-completion-20},
+\eqref{eq:fc-shares-eim-completion-22}.
+\\
+\label{eq:fc-shares-eim-completion-24}
+& \myparbox{%
+$\Dotix{\Veim{comp1}} = \Vsize{\Rule{\Veim{e1}}}$
+\becuz
+\eqref{eq:fc-shares-eim-completion-14},
+\dref[completion EIM of an EIM]{def:eim-dr-notions}.
+} \\
+\label{eq:fc-shares-eim-completion-26}
+& \myparbox{%
+$\Dotix{\Veim{comp2}} = \Vsize{\Rule{\Veim{e2}}}$
+\becuz
+\eqref{eq:fc-shares-eim-completion-16},
+\dref{def:eim-dr-notions}.
+} \\
+\label{eq:fc-shares-eim-completion-28}
+& \Dotix{\Veim{comp1}} = \Dotix{\Veim{comp2}}
+\becuz
+\eqref{eq:fc-shares-eim-completion-24},
+\eqref{eq:fc-shares-eim-completion-26}.
+\\
+\label{eq:fc-shares-eim-completion-30}
+& \DR{\Veim{e1}} = \DR{\Veim{e2}}
+\becuz
+\eqref{eq:fc-shares-eim-completion-23},
+\eqref{eq:fc-shares-eim-completion-28}.
+\\
+%
+\label{eq:fc-shares-eim-completion-32}
+& \Left{\Veim{e1}} = \Left{\Veim{e2}}
+\becuz
+\eqref{eq:fc-shares-eim-completion-10},
+\eqref{eq:fc-shares-eim-completion-12},
+\tref{t:fleeting-closure-shared-properties}.
+\\
+\label{eq:fc-shares-eim-completion-34}
+& \myparbox{%
+\Right{\Veim{e1}} = \Right{\Veim{e2}}
+\becuz
+\eqref{eq:fc-shares-eim-completion-10},
+\eqref{eq:fc-shares-eim-completion-12},
+\tref{t:fleeting-closure-shared-properties}.
+} \\
+\label{eq:fc-shares-eim-completion-36}
+& \Veim{comp1} = \Veim{comp2}
+\becuz 
+\eqref{eq:fc-shares-eim-completion-30},
+\eqref{eq:fc-shares-eim-completion-32},
+\eqref{eq:fc-shares-eim-completion-34}.
+\qedhere
+\end{align}
+\end{proof}
 
 \begin{theorem}
 \ttitle{EIM lasting base}
@@ -9345,7 +9455,8 @@ of Theorem
 \begin{definition}
 \dtitle{Completion of a fleeting closure silo}
 
-TODO: Is this right?
+TODO: Eliminate all references to "completion" of a silo?
+Or revise?
 
 If \var{fcs} is a fleeting closure silo,
 we say that \el{fcs}{\Vlastix{fcs}}
@@ -10417,7 +10528,7 @@ are said to
 if and only if
 \Vleo{l} matches the completion EIM of \Veim{q}.
 Recall from
-\dref[completion EIM of a quasi-complete EIM]{def:eim-dr-notions}
+\dref[completion EIM of an EIM]{def:eim-dr-notions}
 that the completion EIM of the quasi-complete EIM \Veim{q} is
 \[
    \left[
