@@ -14,6 +14,8 @@
 \usepackage{url}
 \usepackage{amsfonts}% to get the \mathbb alphabet
 \usepackage{float}
+\floatstyle{boxed}
+\restylefloat{figure}
 % \usepackage[columns=1]{idxlayout}
 \usepackage[pdfpagelabels]{hyperref}
 \usepackage{algpseudocode}
@@ -31,6 +33,7 @@
 \newcommand{\Pipe}{\char‘\|}
 \makeindex{recce-general}
 \makeindex{recce-algorithms}
+\makeindex{recce-figures}
 \makeindex{recce-theorems}
 \makeindex{recce-definitions}
 \makeindex{recce-notation}
@@ -11610,13 +11613,18 @@ shows the outer reductio.
 
 \chapter{Leo silos}
 
+\begin{figure}[tb]
+\index{recce-figures}{Direct Leo effects}
+\caption{Direct Leo effects}
+\vspace{\baselineskip}
 \begin{tikzcd}[column sep=huge, row sep=huge]
-\Vleo{cat2}
-\arrow[dr, dotted]
+?\Vleo{cat2}?
+\arrow[dr, dotted, leftrightarrow]
 \arrow[dd, "\text{down}"]
 &
 & \Veim{slo1}
 \arrow[dd, "\text{up}"]
+\arrow[dl, dotted, leftrightarrow, two heads]
 \\
 & \Veim{basis}
   \arrow[dr, "\text{down}"]
@@ -11625,10 +11633,22 @@ shows the outer reductio.
 \\
 \Vleo{cat1}
   \arrow[uurr, dotted, swap, leftrightarrow, bend left]
-  \arrow[ur, "\text{LSY/PLSY}", bend right, swap, dotted]
-  \arrow[rr, "\text{down}", swap, bend right]
+  \arrow[ur, bend right, dotted, leftrightarrow, two heads]
+  \arrow[rr, "\text{down}", bend right]
 & & \Veim{slo2}
 \end{tikzcd}
+\vspace{\baselineskip}
+\begin{flushleft}
+Solid arrows represent causes and are labeled with their type.
+Dotted arrows represents matching nodes.
+If both ends are single headed, the match is LSY/LSY.
+If one end is double headed, the match is PLSY/LSY,
+where the double-headed end is the PLSY tuple.
+\Vleo{cat2} is optional --
+\Vleo{cat1} may have no top-down cause.
+\end{flushleft}
+\vspace{\baselineskip}
+\end{figure}
 
 \begin{definition}
 \dtitle{Leo silo effect}
@@ -17115,6 +17135,10 @@ Klaus Wich.
 \clearpage
 \def\indexname{Index of algorithms}
 \printindex{recce-algorithms}
+
+\clearpage
+\def\indexname{Index of figures}
+\printindex{recce-figures}
 
 \clearpage
 \def\indexname{Index of theorems and lemmas}

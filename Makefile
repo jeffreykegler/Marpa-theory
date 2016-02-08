@@ -29,7 +29,7 @@ quick:
 	$(MAKE) recce-indexes
 
 recce-indexes:
-	for ix in definitions general algorithms theorems notation; do \
+	for ix in definitions general algorithms figures theorems notation; do \
 	  if ! test -f recce-$$ix.idx ; then touch recce-$$ix.idx; fi; \
 	  makeindex -t recce-$$ix.ilg -o recce-$$ix.ind recce-$$ix.idx; \
 	done
@@ -48,7 +48,7 @@ ah2002_notes.pdf: ah2002_notes.ltx
 clean:
 	rm -f ah2002_notes.pdf
 	rm -f recce.aux recce.pdf recce.toc recce.out
-	for ix in definitions general algorithms theorems notation; do \
+	for ix in definitions general algorithms figures theorems notation; do \
 	    rm -f recce-$$ix.ind recce-$$ix.ilg; \
 	done
 
