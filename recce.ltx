@@ -10683,19 +10683,103 @@ EIM completion, call it \Veim{comp}
 \end{proof}
 
 \begin{theorem}
-Let \Vinst{i} be a valid parse inatance,
+\ttitle{Basis top-down equivalence}
+\label{t:basis-top-down-equivalence}
+Let \Vinst{up} be a valid parse instance,
 and let \Vleo{l} be an
 instantiated Leo memo
 that matches \Vinst{i}.
-Then any EIM which matches \Vinst{i}
-is a basis of \Vleo{l}.
+Let \Veim{down} be a valid EIM
+that matches \Vinst{up}.
+Then \Veim{down} matches \Vinst{up}
+if and only if
+is \Veim{down} is a basis of \Vleo{l}.
 \end{theorem}
 
 \begin{proof}
-If \Veim{e} matches \Vleo{l},
-then \Veim{e} is complete.
-Let \Veim{down} be a matching
-TODO
+By assumption for the theorem \Vleo{l} matches
+\Vinst{up}, so that
+\begin{align}
+\label{eq:basis-top-down-equivalence-10}
+& \myparbox{%
+$\LSY{\Vleo{l}} = \LSY{\Vinst{up}}$
+\becuz{}
+\dref[EIM/LEO match]{def:eim-matching-leo-memo},
+ASM for this theorem.
+}
+\intertext{%
+\textbf{``If'' direction}:
+We assume for the direction that
+}
+\label{eq:basis-top-down-equivalence-12}
+& \myparbox{%
+\Veim{down} is a basis of \Vleo{l}
+\becuz{}
+ASM for the ``if'' direction.
+} \\
+\label{eq:basis-top-down-equivalence-14}
+& \myparbox{%
+$\PLSY{\Veim{down}} = \LSY{\Vleo{l}}$
+\becuz{}
+\eqref{eq:basis-top-down-equivalence-12},
+\dref[basis of an Leo memo]{def:basis-of-leo-memo}.
+} \\
+\label{eq:basis-top-down-equivalence-16}
+& \myparbox{%
+$\PLSY{\Veim{down}} = \LSY{\Vleo{up}}$
+\becuz
+\eqref{eq:basis-top-down-equivalence-10},
+\eqref{eq:basis-top-down-equivalence-14}.
+} \\
+\label{eq:basis-top-down-equivalence-18}
+& \myparbox{%
+\Veim{down} matches \Vinst{up}
+\becuz{}
+\eqref{eq:basis-top-down-equivalence-16},
+\dref[matching causes]{def:matching-causes},
+}
+\intertext{%
+where
+\eqref{eq:basis-top-down-equivalence-18}
+is what we needed to show for the ``if'' direction.
+}
+\intertext{%
+\textbf{``Only if'' direction}:
+We assume for the direction that
+}
+\label{eq:basis-top-down-equivalence-32}
+& \myparbox{%
+\Veim{down} matches \Vinst{up}
+\becuz{}
+ASM for the ``only if'' direction.
+} \\
+\label{eq:basis-top-down-equivalence-34}
+& \myparbox{%
+$\PLSY{\Veim{down}} = \LSY{\Vinst{up}}$
+\becuz{}
+\eqref{eq:basis-top-down-equivalence-32},
+\dref[matching causes]{def:matching-causes},
+} \\
+\label{eq:basis-top-down-equivalence-36}
+& \myparbox{%
+$\PLSY{\Veim{down}} = \LSY{\Vleo{l}}$
+\becuz
+\eqref{eq:basis-top-down-equivalence-10},
+\eqref{eq:basis-top-down-equivalence-34}.
+} \\
+\label{eq:basis-top-down-equivalence-38}
+& \myparbox{%
+\Veim{down} is a basis of \Vleo{l}
+\becuz{}
+\eqref{eq:basis-top-down-equivalence-36},
+\dref[basis of an Leo memo]{def:basis-of-leo-memo},
+}
+\end{align}
+where
+\eqref{eq:basis-top-down-equivalence-38}
+is what we needed to show for the ``only if'' direction.
+
+TODO: finish
 \end{proof}
 
 \begin{theorem}
@@ -11763,11 +11847,13 @@ where the double-headed end is the PLSY tuple.
 
 \begin{lemma}
 \label{lem:TODO}
-Let \SymEq{\Veim{cuz}} be a valid, complete, EIM;
-and let \Vleo{l} be a matching,
-instantiated, Leo memo.
-Then \Veim{cuz} has exactly one
+Let \Vinst{up} be a valid instance
+and let \Vleo{l} be a instantiated
+Leo memo that matches \Vinst{up}.
+Then \Vinst{cuz} has exactly one
 matching top-down cause.
+
+TODO: Replace.
 \end{lemma}
 
 \begin{proof}
