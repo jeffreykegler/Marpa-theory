@@ -10683,17 +10683,16 @@ EIM completion, call it \Veim{comp}
 \end{proof}
 
 \begin{theorem}
-\ttitle{Basis top-down equivalence}
+\ttitle{Basis/top-down equivalence}
 \label{t:basis-top-down-equivalence}
 Let \Vinst{up} be a valid parse instance,
 and let \Vleo{l} be an
 instantiated Leo memo
-that matches \Vinst{i}.
-Let \Veim{down} be a valid EIM
 that matches \Vinst{up}.
+Let \Veim{down} be a valid EIM.
 Then \Veim{down} matches \Vinst{up}
 if and only if
-is \Veim{down} is a basis of \Vleo{l}.
+\Veim{down} is a basis of \Vleo{l}.
 \end{theorem}
 
 \begin{proof}
@@ -10709,7 +10708,6 @@ ASM for this theorem.
 }
 \intertext{%
 \textbf{``If'' direction}:
-We assume for the direction that
 }
 \label{eq:basis-top-down-equivalence-12}
 & \myparbox{%
@@ -10726,7 +10724,7 @@ $\PLSY{\Veim{down}} = \LSY{\Vleo{l}}$
 } \\
 \label{eq:basis-top-down-equivalence-16}
 & \myparbox{%
-$\PLSY{\Veim{down}} = \LSY{\Vleo{up}}$
+$\PLSY{\Veim{down}} = \LSY{\Vinst{up}}$
 \becuz
 \eqref{eq:basis-top-down-equivalence-10},
 \eqref{eq:basis-top-down-equivalence-14}.
@@ -10741,11 +10739,10 @@ $\PLSY{\Veim{down}} = \LSY{\Vleo{up}}$
 \intertext{%
 where
 \eqref{eq:basis-top-down-equivalence-18}
-is what we needed to show for the ``if'' direction.
+is what we needed to show the ``if'' direction.
 }
 \intertext{%
 \textbf{``Only if'' direction}:
-We assume for the direction that
 }
 \label{eq:basis-top-down-equivalence-32}
 & \myparbox{%
@@ -10775,11 +10772,11 @@ $\PLSY{\Veim{down}} = \LSY{\Vleo{l}}$
 \dref[basis of an Leo memo]{def:basis-of-leo-memo},
 }
 \end{align}
-where
+With
+\eqref{eq:basis-top-down-equivalence-18}
+and
 \eqref{eq:basis-top-down-equivalence-38}
-is what we needed to show for the ``only if'' direction.
-
-TODO: finish
+we have both directions and the theorem.
 \end{proof}
 
 \begin{theorem}
