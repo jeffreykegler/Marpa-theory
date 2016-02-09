@@ -10234,10 +10234,7 @@ with the same locsym,
 that is
 \begin{equation}
 \label{eq:leo-basis-symloc-uniqueness-10}
-\begin{gathered}
-\Current{\Vleo{l1}} = \Current{\Vleo{l2}} \\
-\; \land \; \Symbol{\Vleo{l1}} = \Symbol{\Vleo{l2}}.
-\end{gathered}
+\LSY{\Vleo{l1}} = \LSY{\Vleo{l2}}
 \end{equation}
 Let \Veim{b1} be the EIM basis of \Vleo{l1} and
 let \Veim{b2} be the EIM basis of \Vleo{l2}.
@@ -10254,44 +10251,56 @@ By the definition of the basis of a Leo memo,
 \begin{equation}
 \label{eq:leo-basis-symloc-uniqueness-16}
 \begin{gathered}
-\Current{\Veim{b1}} = \Current{\Vleo{l1}} \\
-\; \land \;
-\Postdot{\Veim{b1}} = \Symbol{\Vleo{l1}}
+\PLSY{\Veim{b1}} = \LSY{\Vleo{l1}}
 \\
-\land \; \Current{\Veim{b2}} = \Current{\Vleo{l2}} \\
-\; \land \;
-\Postdot{\Veim{b2}} = \Symbol{\Vleo{l2}}
+\PLSY{\Veim{b2}} = \LSY{\Vleo{l2}}
 \end{gathered}
 \end{equation}
 so that,
-using
-\eqref{eq:leo-basis-symloc-uniqueness-10}
-we have
-\begin{equation}
+\begin{align}
 \label{eq:leo-basis-symloc-uniqueness-22}
-\begin{gathered}
-\Current{\Veim{b1}} = \Current{\Veim{b2}} \\
-\; \land \; \Postdot{\Veim{b1}} = \Postdot{\Vleo{b2}}.
-\end{gathered}
-\end{equation}
-
-But,
-in the light of
+& \PLSY{\Veim{b1}} = \PLSY{\Veim{b2}}
+\becuz
+\eqref{eq:leo-basis-symloc-uniqueness-10},
+\eqref{eq:leo-basis-symloc-uniqueness-16}.
+\\
+\label{eq:leo-basis-symloc-uniqueness-24}
+& \Veim{b1} \neq \Veim{b2} \becuz
+\text{ASM for reductio}.
+\\
+\label{eq:leo-basis-symloc-uniqueness-26}
+& \myparbox{%
+\Veim{b1} is not postdot-unique
+\becuz{}
 \eqref{eq:leo-basis-symloc-uniqueness-22},
-if $\Veim{b1} \neq \Veim{b2}$,
-as we assumed for the reductio,
-then neither
-\Veim{b1} or \Veim{b2}
-will be postdot-unique
-according to the definition of postdot-unique.
-If \Veim{b1} is not postdot-unique,
-it is not Leo-eligible.
-If \Veim{b1} is not Leo-eligible,
-it cannot, by the definition of the basis
-of a Leo memo, be the basis of a Leo memo.
-So we must have
-$\Veim{b1} = \Veim{b2}$.
-This shows the reductio and the theorem.
+\eqref{eq:leo-basis-symloc-uniqueness-24}.
+} \\
+\label{eq:leo-basis-symloc-uniqueness-28}
+& \myparbox{%
+\Veim{b1} is not Leo-eligible
+\becuz{}
+\eqref{eq:leo-basis-symloc-uniqueness-26},
+\dref[Leo eligibility of an EIM]{def:leo-eligible}.
+} \\
+\label{eq:leo-basis-symloc-uniqueness-30}
+& \myparbox{%
+\Veim{b1} is not the basis of a Leo memo
+\becuz{}
+\eqref{eq:leo-basis-symloc-uniqueness-28},
+\dref[basis of a Leo memo]{def:basis-of-leo-memo}.
+} \\
+\label{eq:leo-basis-symloc-uniqueness-32}
+& \myparbox{%
+\Veim{b1} is the basis of \Vleo{l1}
+\becuz{}
+ASM for the theorem.
+}
+\end{align}
+The contradiction between
+\eqref{eq:leo-basis-symloc-uniqueness-30}
+and 
+\eqref{eq:leo-basis-symloc-uniqueness-32}
+shows the reductio and the theorem.
 \end{proof}
 
 \begin{theorem}
@@ -10313,15 +10322,7 @@ From \dref[basis of an Leo memo]{def:basis-of-leo-memo},
 we know that
 \begin{equation}
 \label{eq:leo-basis-uniqueness-10}
-\begin{gathered}
-\Current{\Veim{bas1}} =
-\Current{\Vleo{l}} =
-\Current{\Veim{bas2}} \; \text{and}
-\\
-\Postdot{\Veim{bas1}} =
-\Symbol{\Vleo{l}} =
-\Postdot{\Veim{bas2}}.
-\end{gathered}
+\PLSY{\Veim{bas1}} = \LSY{\Vleo{l}} = \PLSY{\Veim{bas2}}.
 \end{equation}
 Because \Veim{bas1} is the basis of \Vleo{l},
 \Veim{bas1} is Leo-eligible
@@ -10637,6 +10638,24 @@ EIM completion, call it \Veim{comp}
 \qedhere
 }
 \end{align}
+\end{proof}
+
+TODO: new theorems here
+
+\begin{theorem}
+Let \Veim{e} be a valid EIM
+and let \Vleo{l} be an
+instantiated Leo memo
+that matches \Veim{e}.
+Then \Veim{e} has exactly one
+matching top-down cause,
+call it \Veim{down},
+and \Veim{down} is the only
+basis of \Vleo{l}
+\end{theorem}
+
+\begin{proof}
+TODO
 \end{proof}
 
 \chapter{Leo catenas}
