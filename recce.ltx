@@ -54,6 +54,7 @@
 % \DeclareMathSizes{24.88}{24.88}{24.88}{24.88}
 
 \newcommand{\mysee}[2]{\emph{see} #1}
+\newcommand{\myixentry}[2]{#1}
 
 % \newcommand{\todo}[1]{\par{\large\textbf Todo: #1}\par}
 
@@ -3940,20 +3941,47 @@ and let \Vinst{up}
 be a symbolic parse instance.
 We say that \Veim{down} and \Vinst{up}
 are
-\dfn{matching causes}
+\qdfn{matching causes}%
+\index{recce-definitions}{matching causes|myixentry{\emph{see} match \emph{and} matching}}
 if and only if
 \begin{gather*}
 \PLSY{\Veim{down}} = \LSY{\Vinst{up}}.
 \end{gather*}
 When \Veim{down} and \Vinst{up} are matching causes,
 we say that
-\Veim{down} and \Vinst{up} \dfn{match}.
+\Veim{down} and \Vinst{up} \qdfn{match}.%
+\index{recce-definitions}{match!between an EIM and an INST}
 We call \Veim{down} the
-\xdfn{top-down cause}{top-down cause!in a pair of matching causes}
+\xdfn{top-down cause}{top-down cause (EIM)!in a pair of matching causes}%
+\index{recce-definitions}{matching!EIM, of an INST}
 of the pair of matching causes, and
 we call \Vinst{up} the
-\xdfn{bottom-up cause}{bottom-up cause!in a pair of matching causes}.
+\xdfn{bottom-up cause}{bottom-up cause (INST)!in a pair of matching causes}.%
+\index{recce-definitions}{matching!INST, of an EIM}
 of the pair of matching causes.
+
+Let $\var{pair} = [\Veim{down}, \Veim{up}]$
+be an ordered pair of EIM's.
+We say that the
+\Veim{down} and \Veim{up}
+are \qdfn{matching causes}
+if and only if
+\Veim{down} and \SymEq{\Veim{up}}
+are matching causes.
+When
+\Veim{down} and \Veim{up}
+are matching causes,
+we say that
+\Veim{down} and \Veim{up} match.%
+\index{recce-definitions}{match!between two EIM's}
+We call \Veim{down} the
+\xdfn{top-down cause}{top-down cause (EIM)!in a pair of matching EIM's}%
+\index{recce-definitions}{matching!EIM, of another EIM}
+of \var{pair}, and
+we call \Veim{up} the
+\xdfn{bottom-up cause}{bottom-up cause (EIM)!in a pair of matching EIM's}%
+\index{recce-definitions}{matching!EIM, of another EIM}
+of \var{pair}.
 \end{definition}
 
 \begin{definition}
@@ -10354,13 +10382,27 @@ If
   \LSY{\Vleo{down}} = \LSY{\Veim{basis}}
 \end{equation*}
 then
-we say that
+we say the following:
+\begin{itemize}
+\item
 \Vleo{down} is a
-\xdfn{top-down cause}{top-down cause (Leo memo)!wrt a 2nd Leo memo}
-of \Vleo{eff};
-and that \Vleo{eff} is the
-\xdfn{effect}{effect (Leo memo)!wrt a 2nd Leo memo}
+\xdfn{top-down cause}{top-down cause!LEO top-down cause of a 2nd Leo memo}%
+\index{recce-definitions}{matching!LEO, of an incomplete EIM}
+of \Vleo{eff}.
+\item
+\Vleo{eff} is the
+\xdfn{effect}{effect!LEO}
 of \Vleo{down}.
+\item
+\Veim{basis} is a
+\xdfn{bottom-up cause}{bottom-up cause!EIM bottom-up cause of a LEO}%
+\index{recce-definitions}{matching!incomplete EIM, of a LEO}
+of \Vleo{eff}.
+\item
+\Vleo{down} and \Veim{basis} \qdfn{match}%
+\index{recce-definitions}{match!between a LEO and an incomplete EIM}.
+\end{itemize}
+
 If there is no Leo memo of the form of
 \Vleo{down},
 then we say that \Vleo{eff} has no
@@ -10484,16 +10526,16 @@ $\Vsym{trans} \neq \Vsym{accept}$.
 A Leo memo, call it \Vleo{l},
 and an parse instance, call it \Vinst{i},
 are said to
-\xdfn{match}{match!between a Leo memo and an INST}
+\xdfn{match}{match!between a LEO and an INST}
 if and only if
 \begin{gather*}
 \LSY{\Vleo{l}} = \Vinst{i}.
 \end{gather*}
 We say that \Vleo{l} is a
-\xdfn{matching}{matching (Leo memo)!wrt an INST}
+\xdfn{matching}{matching!LEO, of an INST}
 Leo memo of \Vinst{i}
 and that \Vinst{i} is a
-\xdfn{matching}{matching (INST)!wrt a Leo memo}
+\xdfn{matching}{matching!INST, of a LEO}
 EIM of \Vleo{l}.
 We write $\Memo{\Vinst{i}} = \Vleo{l}$%
 \index{recce-notation}{Memo@\myfnname{Memo}!\Vop{Memo}{\Vinst{i}} = \Vleo{l}}
@@ -10507,16 +10549,16 @@ the \Vinst{i}.
 A Leo memo, call it \Vleo{l},
 and a completed EIM, call it \Veim{e},
 are said to
-\xdfn{match}{match!between a Leo memo and an EIM}
+\xdfn{match}{match!between a LEO and a complete EIM}
 if and only if
 \[
 \text{\LSY{\Vleo{l}} matches \SymEq{\Veim{e}}}.
 \]
 If \Veim{e}
-\xdfn{matching}{matching (Leo memo)!wrt an EIM}
+\xdfn{matching}{matching!LEO, of a complete EIM}
 Leo memo of \Veim{e}
 and that \Veim{e} is a
-\xdfn{matching}{matching (EIM)!wrt a Leo memo}
+\xdfn{matching}{matching!complete EIM, of a LEO}
 EIM of \Vleo{l}.
 We write $\Memo{\Veim{e}} = \Vleo{l}$%
 \index{recce-notation}{Memo@\myfnname{Memo}!\Vop{Memo}{\Veim{e}} = \Vleo{l}}
@@ -10530,7 +10572,7 @@ the \Veim{e}.
 A Leo memo, call it \Vleo{l},
 and a quasi-complete EIM, call it \Veim{q},
 are said to
-\xdfn{quasi-match}{quasi-match!between a Leo memo and an EIM}
+\xdfn{quasi-match}{quasi-match!between a LEO and an EIM}
 if and only if
 \Vleo{l} matches the completion EIM of \Veim{q}.
 Recall from
@@ -10546,10 +10588,10 @@ that the completion EIM of the quasi-complete EIM \Veim{q} is
    \right].
 \]
 We say that \Vleo{leo} is a
-\xdfn{quasi-matching}{quasi-matching (Leo memo)!wrt an EIM}
+\xdfn{quasi-matching}{quasi-matching (LEO)!of an EIM}
 Leo memo of \Veim{q}
 and that \Veim{q} is a
-\xdfn{quasi-matching}{quasi-matching (EIM)!wrt a Leo memo}
+\xdfn{quasi-matching}{quasi-matching (EIM)!of a LEO}
 EIM of \Vleo{l}.
 We write $\Memo{\Veim{q}} = \Vleo{l}$%
 \index{recce-notation}{Memo@\myfnname{Memo}!\Vop{Memo}{\Veim{e}} = \Vleo{l}}
@@ -10640,18 +10682,42 @@ EIM completion, call it \Veim{comp}
 \end{align}
 \end{proof}
 
-TODO: new theorems here
+\begin{theorem}
+Let \Vinst{i} be a valid parse inatance,
+and let \Vleo{l} be an
+instantiated Leo memo
+that matches \Vinst{i}.
+Then any EIM which matches \Vinst{i}
+is a basis of \Vleo{l}.
+\end{theorem}
+
+\begin{proof}
+If \Veim{e} matches \Vleo{l},
+then \Veim{e} is complete.
+Let \Veim{down} be a matching
+TODO
+\end{proof}
 
 \begin{theorem}
 Let \Veim{e} be a valid EIM
 and let \Vleo{l} be an
 instantiated Leo memo
 that matches \Veim{e}.
-Then \Veim{e} has exactly one
-matching top-down cause,
-call it \Veim{down},
-and \Veim{down} is the only
-basis of \Vleo{l}
+Then exactly one EIM is a matching
+cause of \Veim{e}.
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
+\begin{theorem}
+Let \Veim{e} be a valid EIM
+and let \Vleo{l} be an
+instantiated Leo memo
+that matches \Veim{e}.
+Then
+\Veim{e} has exactly one valid effect.
 \end{theorem}
 
 \begin{proof}
