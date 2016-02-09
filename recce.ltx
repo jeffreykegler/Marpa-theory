@@ -11613,6 +11613,29 @@ shows the outer reductio.
 
 \chapter{Leo silos}
 
+\begin{definition}
+\dtitle{Leo silo effect}
+We say that \Veim{eff}
+is the
+\dfn{direct Leo silo effect}
+of \Veim{cuz}
+if and only if
+\begin{itemize}
+\item
+\Veim{cuz} is a valid EIM;
+\item
+\Vleo{l} is an instantiated Leo memo that matches \Veim{cuz};
+\item
+\Veim{bas} is a basis of \Vleo{l}; and
+\item
+\Veim{eff} is the effect of \Veim{cuz} and \Veim{bas}.
+\end{itemize}
+For brevity,
+a direct Leo silo effect is
+also called a
+\dfn{direct Leo effect}.
+\end{definition}
+
 \begin{figure}[tb]
 \index{recce-figures}{Direct Leo effects}
 \caption{Direct Leo effects}
@@ -11637,41 +11660,21 @@ shows the outer reductio.
   \arrow[rr, "\text{down}", bend right]
 & & \Veim{slo2}
 \end{tikzcd}
-\vspace{\baselineskip}
+\vspace{.5\baselineskip}
 \begin{flushleft}
-Solid arrows represent causes and are labeled with their type.
-Dotted arrows represents matching nodes.
-If both ends are single headed, the match is LSY/LSY.
-If one end is double headed, the match is PLSY/LSY,
-where the double-headed end is the PLSY tuple.
 \Vleo{cat2} is optional --
 \Vleo{cat1} may have no top-down cause.
+Solid arrows run from cause to effect
+and are labeled "down" or "up"
+according to the cause type.
+If both ends of a dotted arrow are single headed,
+the dotted arrow represents an LSY/LSY match.
+If one end of a dotted arrow is double headed,
+the dotted arrow represents an LSY/PLSY match,
+where the double-headed end is the PLSY tuple.
 \end{flushleft}
-\vspace{\baselineskip}
+\vspace{.5\baselineskip}
 \end{figure}
-
-\begin{definition}
-\dtitle{Leo silo effect}
-We say that \Veim{eff}
-is the
-\dfn{direct Leo silo effect}
-of \Veim{cuz}
-if and only if
-\begin{itemize}
-\item
-\Veim{cuz} is a valid EIM;
-\item
-\Vleo{l} is an instantiated Leo memo that matches \Veim{cuz};
-\item
-\Veim{bas} is a basis of \Vleo{l}; and
-\item
-\Veim{eff} is the effect of \Veim{cuz} and \Veim{bas}.
-\end{itemize}
-For brevity,
-a direct Leo silo effect is
-also called a
-\dfn{direct Leo effect}.
-\end{definition}
 
 \begin{lemma}
 \label{lem:TODO}
