@@ -10793,6 +10793,8 @@ TODO
 \end{proof}
 
 \begin{theorem}
+\ttitle{Effect from Leo memo and EIM}
+\label{t:effect-from-leo-memo-and-eim}
 Let \Veim{e} be a valid EIM
 and let \Vleo{l} be an
 instantiated Leo memo
@@ -11781,6 +11783,7 @@ shows the outer reductio.
 
 \begin{definition}
 \dtitle{Leo silo effect}
+\label{def:direct-leo-silo-effect}
 We say that \Veim{eff}
 is the
 \dfn{direct Leo silo effect}
@@ -11790,11 +11793,9 @@ if and only if
 \item
 \Veim{cuz} is a valid EIM;
 \item
-\Vleo{l} is an instantiated Leo memo that matches \Veim{cuz};
+\Vleo{l} is an instantiated Leo memo that matches \Veim{cuz}; and
 \item
-\Veim{bas} is a basis of \Vleo{l}; and
-\item
-\Veim{eff} is the effect of \Veim{cuz} and \Veim{bas}.
+\Veim{eff} is an effect of \Veim{cuz}.
 \end{itemize}
 For brevity,
 a direct Leo silo effect is
@@ -11803,44 +11804,125 @@ also called a
 \end{definition}
 
 \begin{figure}[tb]
-\index{recce-figures}{Direct Leo effects}
-\caption{Direct Leo effects}
+\index{recce-figures}{Direct Leo effect}
+\caption{Direct Leo effect}
+\label{fig:direct-leo-effect}
 \vspace{\baselineskip}
 \begin{tikzcd}[column sep=huge, row sep=huge]
-?\Vleo{cat2}?
-\arrow[dr, dotted, leftrightarrow]
-\arrow[dd, "\text{down}"]
+?\Vleo{l2}?
+\arrow[dd, rightarrow, swap, "\text{\large{*}}" very near start]
 &
-& \Veim{slo1}
-\arrow[dd, "\text{up}"]
-\arrow[dl, dotted, leftrightarrow, two heads]
+& \Veim{cuz}
+\arrow[dd, Rightarrow, "\text{\large{*}}" very near start]
+\arrow[dl, dotted, rightarrow, two heads]
 \\
-& \Veim{basis}
-  \arrow[dr, "\text{down}"]
-  \arrow[dl, "\text{up}" bend right, swap]
+& \Veim{bas}
+  \arrow[ul, dotted, leftrightarrow, swap, "\text{\large{*}}" very near start]
+  \arrow[dr, rightarrow, swap, "\text{\large{*}}" very near start]
+  \arrow[dl, Rightarrow]
 &
 \\
-\Vleo{cat1}
+\Vleo{l}
   \arrow[uurr, dotted, swap, leftrightarrow, bend left]
-  \arrow[ur, bend right, dotted, leftrightarrow, two heads]
-  \arrow[rr, "\text{down}", bend right]
-& & \Veim{slo2}
+  \arrow[ur, bend right, dotted, rightarrow, two heads]
+  \arrow[rr, rightarrow, bend right]
+& & \Veim{eff}
 \end{tikzcd}
 \vspace{.5\baselineskip}
 \begin{flushleft}
-\Vleo{cat2} is optional --
+\begin{tikzcd}
+\var{down} \arrow[r, rightarrow] & \var{effect}
+\end{tikzcd}:
+\var{down} is the top-down cause of \var{effect}.
+\\[-.4em]
+\begin{tikzcd}
+\var{up} \arrow[r, Rightarrow] & \var{effect}
+\end{tikzcd}:
+\var{up} is the bottom-up cause of \var{effect}.
+\\[-.5em]
+\begin{tikzcd}
+\var{a} \arrow[r, dotted, leftrightarrow] & \var{b}
+\end{tikzcd}:
+\LSY{\var{a}} matches \LSY{\var{b}}.
+\\[-.2em]
+\begin{tikzcd}
+\var{a} \arrow[r, rightarrow, dotted, two heads] & \var{b}
+\end{tikzcd}:
+\LSY{\var{a}} matches \PLSY{\var{b}}.
+\par
+Arrows with an asterisk (``*'') at one end signify
+many-to-one relations, where the asterisk is at the
+``many'' end.
+All other arrows signify one-to-one relations.
+\\
+\Veim{cuz} and \Vleo{l} are required to exist
+to satisfy
+\dref[direct Leo silo effect]{def:direct-leo-silo-effect}.
+\Veim{bas} and \Veim{eff} must exist as a result.
+\Vleo{cat2} is optional:
 \Vleo{cat1} may have no top-down cause.
-Solid arrows run from cause to effect
-and are labeled "down" or "up"
-according to the cause type.
-If both ends of a dotted arrow are single headed,
-the dotted arrow represents an LSY/LSY match.
-If one end of a dotted arrow is double headed,
-the dotted arrow represents an LSY/PLSY match,
-where the double-headed end is the PLSY tuple.
 \end{flushleft}
 \vspace{.5\baselineskip}
 \end{figure}
+
+\begin{theorem}
+\ttitle{Direct Leo effect summary}
+\label{t:direct-leo-effect-summary}
+Figure \ref{fig:direct-leo-effect}
+is correct.
+\end{theorem}
+
+\begin{proof}
+To show that
+Figure \ref{fig:direct-leo-effect}
+is correct, we first show that all nodes
+in it exist.
+We then show, for each of the arrows,
+that the relation exists as indicated by the
+arrow;
+and that each direction of the arrow is one-to-one,
+with the exceptions as indicated
+in Figure \ref{fig:direct-leo-effect}.
+
+\textbf{Nodes}:
+Figure \ref{fig:direct-leo-effect} is for a direct
+Leo effect, so to satisfy its definition
+we assume that
+\begin{align}
+\label{eq:direct-leo-effect-summary-10}
+& \myparbox{%
+\Veim{cuz} exists and is valid
+\becuz{}
+\dref[direct Leo silo effect]{def:direct-leo-silo-effect}; and
+} \\
+\label{eq:direct-leo-effect-summary-12}
+& \myparbox{%
+\Vleo{l} exists and is instantiated
+\becuz{}
+\dref{def:direct-leo-silo-effect}.
+} \\
+\label{eq:direct-leo-effect-summary-14}
+& \myparbox{%
+\Veim{bas} exists
+\becuz{}
+\eqref{eq:direct-leo-effect-summary-12},
+\dref[validity of a Leo memo]{def:validity-of-leo-memo}.
+} \\
+\label{eq:direct-leo-effect-summary-16}
+& \myparbox{%
+\Veim{eff} exists and is valid
+\becuz{}
+\eqref{eq:direct-leo-effect-summary-10},
+\eqref{eq:direct-leo-effect-summary-12},
+\tref{t:effect-from-leo-memo-and-eim}.
+}
+\end{align}
+We do not prove the existence of \Vleo{l2} because
+Figure \ref{fig:direct-leo-effect} states that it
+is optional.
+
+TODO: finish
+\end{proof}
 
 \begin{lemma}
 \label{lem:TODO}
