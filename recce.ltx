@@ -10331,45 +10331,6 @@ and
 shows the reductio and the theorem.
 \end{proof}
 
-\begin{theorem}
-\ttitle{Leo basis uniqueness by memo}
-\label{t:leo-basis-uniqueness}
-The basis of a Leo memo is unique.
-\end{theorem}
-
-\begin{proof}
-Assume for a reductio that \Vleo{l} is a Leo memo
-with two basis EIM's, call them \Veim{bas1}
-and \Veim{bas2},
-such that
-\begin{equation}
-\label{eq:leo-basis-uniqueness-5}
-\Veim{bas1} \neq \Veim{bas2}
-\end{equation}
-From \dref[basis of an Leo memo]{def:basis-of-leo-memo},
-we know that
-\begin{equation}
-\label{eq:leo-basis-uniqueness-10}
-\PLSY{\Veim{bas1}} = \LSY{\Vleo{l}} = \PLSY{\Veim{bas2}}.
-\end{equation}
-Because \Veim{bas1} is the basis of \Vleo{l},
-\Veim{bas1} is Leo-eligible
-\dref[basis of an Leo memo]{def:basis-of-leo-memo}.
-Because \Veim{bas1} is Leo-eligible,
-it must be postdot-unique
-\dref[Leo-eligible]{def:leo-eligible}.
-But \Veim{bas1} is not postdot-unique
-\becuz{}
-\eqref{eq:leo-basis-uniqueness-10},
-\dref[postdot-unique]{def:postdot-unique}.
-Therefore \Veim{bas1} is not the basis of a Leo memo
-\dref[basis of an Leo memo]{def:basis-of-leo-memo}.
-This is contrary to the assumption for the reductio
-\eqref{eq:leo-basis-uniqueness-5},
-and therefore $\Veim{eim1} = \Veim{bas2}$,
-which was what we needed to show for the theorem.
-\end{proof}
-
 \begin{definition}
 \label{def:down-cause-of-leo-memo}
 \dtitle{Top-down cause of an Leo memo}
@@ -10377,18 +10338,19 @@ Let \Veim{basis} be an EIM, and let
 \Vleo{eff} be a Leo memo,
 where \Veim{basis} is the basis of \Vleo{eff}.
 Let \Vleo{down} be a Leo memo.
-If
+If and only if
 \begin{equation*}
-  \LSY{\Vleo{down}} = \LSY{\Veim{basis}}
+  \LSY{\Vleo{down}} = \LSY{\Veim{basis}},
 \end{equation*}
-then
-we say the following:
-\begin{itemize}
-\item
+we say that
 \Vleo{down} is a
 \xdfn{top-down cause}{top-down cause!LEO top-down cause of a 2nd Leo memo}%
 \index{recce-definitions}{matching!LEO, of an incomplete EIM}
 of \Vleo{eff}.
+
+If and only if \Vleo{down} is a top-down cause of \Vleo{eff},
+we also say the following:
+\begin{itemize}
 \item
 \Vleo{eff} is the
 \xdfn{effect}{effect!LEO}
@@ -10402,11 +10364,6 @@ of \Vleo{eff}.
 \Vleo{down} and \Veim{basis} \qdfn{match}%
 \index{recce-definitions}{match!between a LEO and an incomplete EIM}.
 \end{itemize}
-
-If there is no Leo memo of the form of
-\Vleo{down},
-then we say that \Vleo{eff} has no
-top-down cause.
 \end{definition}
 
 \begin{definition}
@@ -10460,6 +10417,74 @@ In this document,
 we will sometimes also call a valid Leo memo an
 \xdfn{instantiated}{instantiated (Leo memo)}
 Leo memo.
+
+\begin{theorem}
+\ttitle{Leo basis uniqueness by memo}
+\label{t:leo-basis-uniqueness}
+An instantiated Leo memo has at most one valid basis.
+\end{theorem}
+
+\begin{proof}
+An instantiated Leo memo must have at least one basis
+\becuz{} \dref[validity of Leo memo]{def:validity-of-leo-memo}.
+It remains to show that a Leo memo cannot have more than
+one basis.
+
+Assume for a reductio that \Vleo{l} is a Leo memo
+with two basis EIM's, call them \Veim{bas1}
+and \Veim{bas2},
+such that
+\begin{equation}
+\tag{RAA}
+\label{eq:leo-basis-uniqueness-5}
+\Veim{bas1} \neq \Veim{bas2}
+\end{equation}
+From \dref[basis of an Leo memo]{def:basis-of-leo-memo},
+we know that
+\begin{equation}
+\label{eq:leo-basis-uniqueness-10}
+\PLSY{\Veim{bas1}} = \LSY{\Vleo{l}} = \PLSY{\Veim{bas2}}.
+\end{equation}
+Because \Veim{bas1} is the basis of \Vleo{l},
+\Veim{bas1} is Leo-eligible
+\dref[basis of an Leo memo]{def:basis-of-leo-memo}.
+Because \Veim{bas1} is Leo-eligible,
+it must be postdot-unique
+\dref[Leo-eligible]{def:leo-eligible}.
+But \Veim{bas1} is not postdot-unique
+\becuz{}
+\eqref{eq:leo-basis-uniqueness-10},
+\dref[postdot-unique]{def:postdot-unique}.
+Therefore \Veim{bas1} is not the basis of a Leo memo
+\dref[basis of an Leo memo]{def:basis-of-leo-memo}.
+This is contrary to the assumption for the reductio
+\eqref{eq:leo-basis-uniqueness-5},
+and therefore $\Veim{bas1} = \Veim{bas2}$,
+which was what we needed to show for the theorem.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Leo memo uniqueness by basis}
+\label{t:leo-memo-uniqueness-by-basis}
+A valid EIM is the basis of at most one valid Leo memo.
+\end{theorem}
+
+\begin{proof}
+For a reductio, assume that
+\Veim{e} is a valid EIM that is the basis of two
+Leo memos, call them \Vleo{l1} and \Vleo{l2}.
+From \dref[basis of an Leo memo]{def:basis-of-leo-memo},
+we know that
+\begin{gather}
+\notag
+\LSY{\Vleo{l1}} = \PLSY{\Veim{bas1}} = \LSY{\Vleo{l2}}
+\\
+\label{t:leo-memo-uniqueness-by-basis-10}
+\therefore \LSY{\Vleo{l1}} = \LSY{\Vleo{l2}}.
+\end{gather}
+
+TODO: Finish.
+\end{proof}
 
 \begin{theorem}
 \label{t:leo-transition-symbol-non-terminal}
@@ -11855,7 +11880,7 @@ many-to-one relations, where the asterisk is at the
 ``many'' end.
 All other arrows signify one-to-one relations.
 \\
-\Veim{cuz} and \Vleo{l} are required to exist
+\Veim{cuz} and \Vleo{l} exist
 to satisfy
 \dref[direct Leo silo effect]{def:direct-leo-silo-effect}.
 \Veim{bas} and \Veim{eff} must exist as a result.
@@ -11880,7 +11905,7 @@ in it exist.
 We then show, for each of the arrows,
 that the relation exists as indicated by the
 arrow;
-and that each direction of the arrow is one-to-one,
+and that each direction of the arrow is univalent,
 with the exceptions as indicated
 in Figure \ref{fig:direct-leo-effect}.
 
@@ -11897,29 +11922,47 @@ we assume that
 } \\
 \label{eq:direct-leo-effect-summary-12}
 & \myparbox{%
-\Vleo{l} exists and is instantiated
+\Vleo{l} exists, is instantiated
+and matches \Veim{cuz}
 \becuz{}
 \dref{def:direct-leo-silo-effect}.
 } \\
 \label{eq:direct-leo-effect-summary-14}
 & \myparbox{%
-\Veim{bas} exists
+\Veim{bas} exists, is valid,
+and is the basis of \Vleo{l}
 \becuz{}
 \eqref{eq:direct-leo-effect-summary-12},
 \dref[validity of a Leo memo]{def:validity-of-leo-memo}.
 } \\
 \label{eq:direct-leo-effect-summary-16}
 & \myparbox{%
-\Veim{eff} exists and is valid
+\Veim{eff} exists, is valid
+and is the effect of down-cause \Vleo{l}
+and up-cause \Veim{cuz}
 \becuz{}
 \eqref{eq:direct-leo-effect-summary-10},
 \eqref{eq:direct-leo-effect-summary-12},
 \tref{t:effect-from-leo-memo-and-eim}.
 }
+\intertext{%
+Figure \ref{fig:direct-leo-effect} states that \Vleo{l2}
+is optional, so we are allowed to assume, without proof,
+that
+}
+\label{eq:direct-leo-effect-summary-18}
+& \myparbox{%
+\Vleo{l2} exists, is instantiated
+and is the top-down cause of \Vleo{l}.
+}
 \end{align}
-We do not prove the existence of \Vleo{l2} because
-Figure \ref{fig:direct-leo-effect} states that it
-is optional.
+
+\textbf{Up-cause arrows}: The up-cause from \Veim{bas} to \Vleo{l}
+exists \becuz 
+\eqref{eq:direct-leo-effect-summary-14},
+\dref[basis of a Leo memo]{def:basis-of-leo-memo}.
+Every \Veim{bas} has at most one \Vleo{l} \becuz TODO.
+Every \Vleo{l} has at most one \Veim{bas} \becuz TODO.
 
 TODO: finish
 \end{proof}
