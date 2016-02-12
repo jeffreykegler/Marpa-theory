@@ -2936,10 +2936,10 @@ pairs of dotted rules
 In equation
 \eqref{eq:def-null-scan-dr-op},
 we say that \Vdr{cause} is the
-\xdfn{top-down cause}{top-down cause!DR, as down-cause of null-scan DR}
+\xdfn{top-down cause}{top-down cause!DR as down-cause of null-scan DR}
 of \Vdr{effect},
 and that \Predot{\Vdr{effect}} is the
-\xdfn{bottom-up cause}{bottom-up cause!DR, as up-cause of null-scan DR}
+\xdfn{bottom-up cause}{bottom-up cause!DR as up-cause of null-scan DR}
 of \Vdr{effect}.
 \end{definition}
 
@@ -2974,7 +2974,7 @@ pairs of dotted rules
 In equation
 \eqref{eq:def-predict-dr-op},
 we say that \Vdr{cause} is the
-\xdfn{top-down cause}{top-down cause!DR, as down-cause of a predicted DR}
+\xdfn{top-down cause}{top-down cause!DR as down-cause of a predicted DR}
 of \Vdr{effect}.
 For symmetry with other types of dotted rule,
 we say that \Vdr{effect}
@@ -3526,7 +3526,7 @@ The
 of the EIM \Veim{eim}
 is
 \[
-<\LHS{\Veim{e}}, \Origin{\Veim{e}}>.
+<\LHS{\Veim{e}}, \Left{\Veim{e}}>.
 \]
 References to the
 \qdfn{locsym}%
@@ -3952,11 +3952,11 @@ we say that
 \Veim{down} and \Vinst{up} \qdfn{match}.%
 \index{recce-definitions}{match!between an EIM and an INST}
 We call \Veim{down} the
-\xdfn{top-down cause}{top-down cause (EIM)!in a pair of matching causes}%
+\xdfn{top-down cause}{top-down cause!EIM, in a pair of matching causes}%
 \index{recce-definitions}{matching!EIM, of an INST}
 of the pair of matching causes, and
 we call \Vinst{up} the
-\xdfn{bottom-up cause}{bottom-up cause (INST)!in a pair of matching causes}.%
+\xdfn{bottom-up cause}{bottom-up cause!INST, in a pair of matching causes}.%
 \index{recce-definitions}{matching!INST, of an EIM}
 of the pair of matching causes.
 
@@ -3975,11 +3975,11 @@ we say that
 \Veim{down} and \Veim{up} match.%
 \index{recce-definitions}{match!between two EIM's}
 We call \Veim{down} the
-\xdfn{top-down cause}{top-down cause (EIM)!in a pair of matching EIM's}%
+\xdfn{top-down cause}{top-down cause!EIM, in a pair of matching EIM's}%
 \index{recce-definitions}{matching!EIM, of another EIM}
 of \var{pair}, and
 we call \Veim{up} the
-\xdfn{bottom-up cause}{bottom-up cause (EIM)!in a pair of matching EIM's}%
+\xdfn{bottom-up cause}{bottom-up cause!EIM, in a pair of matching EIM's}%
 \index{recce-definitions}{matching!EIM, of another EIM}
 of \var{pair}.
 \end{definition}
@@ -4041,10 +4041,10 @@ we say that every
 \Veim{down} = [ \Vdr{down}, \var{i}, \Current{\Veim{effect}} ]
 \end{gather*}
 is a
-\xdfn{top-down cause}{top-down cause!of an predicted EIM}
+\xdfn{top-down cause}{top-down cause!EIM as down-cause of a predicted EIM}
 of \Veim{effect}.
 We say that the
-\xdfn{bottom-up cause}{bottom-up cause!of an predicted EIM}
+\xdfn{bottom-up cause}{bottom-up cause!up-cause of a predicted EIM}
 of \Veim{effect} is ethereal.
 We call \Veim{effect} the
 \xdfn{effect}{effect!predicted EIM, as the effect of another EIM}
@@ -10798,19 +10798,83 @@ we have both directions and the theorem.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Leo memos force EIM match uniqueness}:
+\label{t:leo-forces-eim-match-uniqueness}
 Let \Veim{e} be a valid EIM
 and let \Vleo{l} be an
 instantiated Leo memo
 that matches \Veim{e}.
-Then exactly one EIM is a matching
-cause of \Veim{e}.
+Then
+\begin{itemize}
+\item
+\Veim{e} is an up-cause in 
+exactly one matching pair of EIM
+causes.
+\item
+\Veim{e} is never a down-cause.
+\end{itemize}
 \end{theorem}
 
 \begin{proof}
-If \Veim{e} matches \Vleo{l},
-then it is a completed EIM
+By assumption for the theorem,
+\begin{align}
+\label{eq:leo-forces-eim-match-uniqueness-5}
+& \myparbox{%
+\Veim{e} matches \Vleo{l}, so that
+} \\
+\label{eq:leo-forces-eim-match-uniqueness-10}
+& \myparbox{%
+\Veim{e} is a completed EIM
+\becuz{}
 \dref[matching EIM of a Leo memo]{def:inst-matching-leo-memo}.
-TODO
+} \\
+\label{eq:leo-forces-eim-match-uniqueness-12}
+& \myparbox{%
+$\Vinst{ei} = \SymEq{\Veim{e}}$ is a symbol instance.
+TODO: requires that symbol is not accept symbol!
+} \\
+\label{eq:leo-forces-eim-match-uniqueness-14}
+& \myparbox{%
+If \Veim{e} is a cause of an effect,
+it is an up-cause
+\becuz
+\tref{t:completed-eim-as-a-cause}.
+} \\
+\label{eq:leo-forces-eim-match-uniqueness-16}
+& \myparbox{%
+\Veim{e} is the up-cause of at least one
+effect
+\becuz{}
+\eqref{eq:leo-forces-eim-match-uniqueness-10},
+\tref{t:effect-from-symbol}.
+} \\
+\label{eq:leo-forces-eim-match-uniqueness-18}
+& \myparbox{%
+\Veim{e} has at least one matching down-cause,
+call it \Veim{down}
+\becuz{}
+\eqref{eq:leo-forces-eim-match-uniqueness-10},
+\tref{t:effect-from-symbol}.
+} \\
+\label{eq:leo-forces-eim-match-uniqueness-20}
+& \myparbox{%
+Every matching down-cause of \Veim{up}
+is a basis of \Vleo{l}
+\becuz{}
+\eqref{eq:leo-forces-eim-match-uniqueness-5}
+\tref{t:basis-top-down-equivalence}
+} \\
+\label{eq:leo-forces-eim-match-uniqueness-22}
+& \myparbox{%
+there is exactly one down-cause which
+matches \Veim{up}
+\becuz{}
+\eqref{eq:leo-forces-eim-match-uniqueness-20},
+\tref{t:basis-top-down-equivalence}.
+}
+\end{align}
+
+TODO: finished?
 \end{proof}
 
 \begin{theorem}
@@ -11889,7 +11953,6 @@ also called a
 \Vleo{l}
   \arrow[uurr, dotted, swap, leftrightarrow, bend left]
   \arrow[ur, bend right, dotted, rightarrow, two heads]
-  \arrow[rr, rightarrow, bend right]
 & & \Veim{eff}
 \end{tikzcd}
 \vspace{.5\baselineskip}
