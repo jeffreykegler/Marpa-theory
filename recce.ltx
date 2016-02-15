@@ -4209,8 +4209,8 @@ of a non-terminal symbol.
 \section{Confirmed Earley items}
 
 \begin{theorem}
-\ttitle{Effect from symbolic causes}
-\label{t:effect-from-symbolic-causes}
+\ttitle{Effect from matching causes}
+\label{t:effect-from-matching-causes}
 If a symbolic bottom-up cause
 and a top-down cause match
 and are both valid,
@@ -4221,7 +4221,7 @@ then they have exactly one valid effect.
 Without loss of generality,
 let the top-down cause be
 \begin{equation}
-\label{eq:effect-from-symbolic-causes-3}
+\label{eq:effect-from-matching-causes-3}
 \begin{split}
 & \Veim{down} =  \\
 & \qquad \qquad [ [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j} ].
@@ -4229,20 +4229,20 @@ let the top-down cause be
 \end{equation}
 and let the symbolic equivalent of the bottom-up cause be
 \begin{equation}
-\label{eq:effect-from-symbolic-causes-6}
+\label{eq:effect-from-matching-causes-6}
 \,[\var{j}]\, \Vsym{A} \,[\var{k}]\, .
 \end{equation}
-The effect of \Veim{down} and \eqref{eq:effect-from-symbolic-causes-6}
+The effect of \Veim{down} and \eqref{eq:effect-from-matching-causes-6}
 will be
 \begin{equation}
-\label{eq:effect-from-symbolic-causes-9}
+\label{eq:effect-from-matching-causes-9}
 \begin{split}
 & \Veim{effect} =  \\
 & \qquad \qquad [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
 \end{split}
 \end{equation}
 \Veim{effect} is fully determined by
-\Veim{down} and \eqref{eq:effect-from-symbolic-causes-6}
+\Veim{down} and \eqref{eq:effect-from-matching-causes-6}
 and is therefore unique.
 
 It remains to show that \Veim{effect}
@@ -4250,37 +4250,37 @@ is valid.
 By the definition of validity for an Earley item,
 we will have shown this if we can show that
 \begin{equation}
-\label{eq:effect-from-symbolic-causes-12}
+\label{eq:effect-from-matching-causes-12}
 \Vsym{down} \derives [\var{i}] \Vstr{pre} \cat \Vstr{A} [\var{k}] \Vstr{post}.
 \end{equation}
 
 By assumption,
-\eqref{eq:effect-from-symbolic-causes-3}
+\eqref{eq:effect-from-matching-causes-3}
 is valid.
 From the definition of validity for an Earley item:
 \begin{equation}
-\label{eq:effect-from-symbolic-causes-20}
+\label{eq:effect-from-matching-causes-20}
 \Vsym{down} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{A} \cat \Vstr{post}
 \end{equation}
 
 We see that the location markers in
-\eqref{eq:effect-from-symbolic-causes-6}
+\eqref{eq:effect-from-matching-causes-6}
 and
-\eqref{eq:effect-from-symbolic-causes-20}
+\eqref{eq:effect-from-matching-causes-20}
 are compatible:
 \var{i} and \var{k} are unrestricted,
 while the use of \var{j} in both derivations is compatible.
 Composing them we have
 \begin{alignat}{2}
-\label{eq:effect-from-symbolic-causes-25}
+\label{eq:effect-from-matching-causes-25}
 & \Vsym{down} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{A} \,[\var{k}]\, \Vstr{post} \\
 \therefore \quad & \Vsym{down} \derives [\var{i}]\, \Vstr{pre} \cat \Vsym{A} \,[\var{k}]\, \Vstr{post}
-\label{eq:effect-from-symbolic-causes-28}
+\label{eq:effect-from-matching-causes-28}
 \end{alignat}
 Where
-\eqref{eq:effect-from-symbolic-causes-28}
+\eqref{eq:effect-from-matching-causes-28}
 is
-\eqref{eq:effect-from-symbolic-causes-12},
+\eqref{eq:effect-from-matching-causes-12},
 which is what we needed to show for the theorem.
 \end{proof}
 
@@ -5216,7 +5216,7 @@ that
 \end{align}
 Also, for null-scans, we know from
 Theorem
-\ref{t:effect-from-symbolic-causes}
+\ref{t:effect-from-matching-causes}
 that
 \begin{equation}
 \label{eq:ethereal-closure-42}
@@ -10896,7 +10896,15 @@ Then
 \end{theorem}
 
 \begin{proof}
-TODO
+\Veim{e} can only be an up-cause
+and has exactly one valid matching down-cause
+\becuz{}
+\tref{t:leo-forces-eim-match-uniqueness}.
+Call the matching down-cause, \Veim{down}.
+\Veim{down} and
+\Veim{e} has exactly one valid effect
+\becuz{}
+\tref{t:effect-from-matching-causes}.
 \end{proof}
 
 \chapter{Leo catenas}
@@ -11945,15 +11953,15 @@ also called a
 \vspace{\baselineskip}
 \begin{tikzcd}[column sep=huge, row sep=huge]
 ?\Vleo{l2}?
-\arrow[dd, rightarrow, swap, "\text{\large{*}}" very near start]
+\arrow[dd, rightarrow]
 &
 & \Veim{cuz}
-\arrow[dd, Rightarrow, "\text{\large{*}}" very near start]
+\arrow[dd, Rightarrow]
 \arrow[dl, dotted, rightarrow, two heads]
 \\
 & \Veim{bas}
-  \arrow[ul, dotted, leftrightarrow, swap, "\text{\large{*}}" very near start]
-  \arrow[dr, rightarrow, swap, "\text{\large{*}}" very near start]
+  \arrow[ul, dotted, leftrightarrow]
+  \arrow[dr, rightarrow]
   \arrow[dl, Rightarrow]
 &
 \\
@@ -11984,16 +11992,12 @@ also called a
 \end{tikzcd}:
 \LSY{\var{a}} matches \PLSY{\var{b}}.
 \par
-Arrows with an asterisk (``*'') at one end signify
-many-to-one relations, where the asterisk is at the
-``many'' end.
-All other arrows signify one-to-one relations.
-\\
-\Veim{cuz} and \Vleo{l} exist
+We assume a matching \Veim{cuz} and \Vleo{l} exist
 to satisfy
 \dref[direct Leo silo effect]{def:direct-leo-silo-effect}.
-\Veim{bas} and \Veim{eff} must exist as a result.
-\Vleo{cat2}, and its arrows, are optional:
+\Veim{bas} and \Veim{eff} must exist
+and be unique as a result.
+\Vleo{cat2} is optional:
 \Vleo{cat1} may have no top-down cause.
 \end{flushleft}
 \vspace{.5\baselineskip}
@@ -12067,11 +12071,11 @@ Every \Veim{bas} has at most one \Vleo{l} \becuz{}
 \tref{t:leo-memo-uniqueness-by-basis}.
 
 The up-cause from \Veim{cuz} to \Veim{eff}
-exists \becuz 
-TODO.
+exists \becuz{}
+\tref{t:effect-from-leo-memo-and-eim}.
 Every \Veim{cuz} with a matching instantiated
 Leo item has at most one \Veim{eff} \becuz{}
-TODO.
+\tref{t:effect-from-leo-memo-and-eim}.
 A \Veim{eff} may have more than one \Veim{cuz}
 \becuz{} TODO.
 
@@ -12221,7 +12225,7 @@ $\PLSY{\Veim{bas}} = \LSY{\Veim{cuz}}$
 call it \Veim{eff}
 \becuz{}
 \eqref{eq:leo-effect-18} and
-\tref{t:effect-from-symbolic-causes}.
+\tref{t:effect-from-matching-causes}.
 } \\
 \label{eq:leo-effect-21a}
 & \myparbox{%
@@ -15227,7 +15231,7 @@ Call this the ``cause-correctness'' observation.
 
 From the cause-correctness observation and
 Theorem
-\ref{t:effect-from-symbolic-causes}
+\ref{t:effect-from-matching-causes}
 we know that the EIM's we attempt to add
 at line
 \ref{line:read-pass-40}
@@ -15391,7 +15395,7 @@ reduction pass effect.
 
 \begin{proof}
 From Theorem
-\ref{t:effect-from-symbolic-causes},
+\ref{t:effect-from-matching-causes},
 we know that the telluric base EIM's we attempt to add
 at line
 \ref{line:earley-reduction-op-20}
