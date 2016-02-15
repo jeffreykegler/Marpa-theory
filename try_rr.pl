@@ -36,7 +36,7 @@ END_OF_DSL
 
 my $recce         = Marpa::R2::Scanless::R->new( { grammar => $grammar } );
 my $thick_recce         = $recce->thick_g1_recce();
-my $input         = 'aaaa';
+my $input         = 'aaa';
 my $pos           = $recce->read( \$input, 0, 0 );
 my $set = 0;
 READ: while (1) {
