@@ -10826,55 +10826,62 @@ By assumption for the theorem,
 & \myparbox{%
 \Veim{e} is a completed EIM
 \becuz{}
+\eqref{eq:leo-forces-eim-match-uniqueness-5},
 \dref[matching EIM of a Leo memo]{def:inst-matching-leo-memo}.
 } \\
-\label{eq:leo-forces-eim-match-uniqueness-12}
+\label{eq:leo-forces-eim-match-uniqueness-11b}
 & \myparbox{%
-$\Vinst{ei} = \SymEq{\Veim{e}}$ is a symbol instance.
-TODO: requires that symbol is not accept symbol!
+$\Symbol{\Vleo{l}} \neq \Vsym{accept}$
+\becuz{}
+\tref{t:leo-transition-symbol-non-terminal}.
+} \\
+\label{eq:leo-forces-eim-match-uniqueness-11d}
+& \myparbox{%
+$\LSY{\Vleo{l}} = \LSY{\Veim{e}}$
+\becuz{}
+\eqref{eq:leo-forces-eim-match-uniqueness-5},
+\dref[EIM/LEO match]{def:eim-matching-leo-memo}.
+} \\
+\label{eq:leo-forces-eim-match-uniqueness-11f}
+& \myparbox{%
+$\LSY{\Veim{e}} \neq \Vsym{accept}$
+\becuz{}
+\eqref{eq:leo-forces-eim-match-uniqueness-11b},
+\eqref{eq:leo-forces-eim-match-uniqueness-11d}.
 } \\
 \label{eq:leo-forces-eim-match-uniqueness-14}
 & \myparbox{%
-If \Veim{e} is a cause of an effect,
+If \Veim{e} is a cause of a valid effect,
 it is an up-cause
-\becuz
+\becuz{}
 \tref{t:completed-eim-as-a-cause}.
-} \\
-\label{eq:leo-forces-eim-match-uniqueness-16}
-& \myparbox{%
-\Veim{e} is the up-cause of at least one
-effect
-\becuz{}
-\eqref{eq:leo-forces-eim-match-uniqueness-10},
-\tref{t:effect-from-symbol}.
-} \\
-\label{eq:leo-forces-eim-match-uniqueness-18}
-& \myparbox{%
-\Veim{e} has at least one matching down-cause,
-call it \Veim{down}
-\becuz{}
-\eqref{eq:leo-forces-eim-match-uniqueness-10},
-\tref{t:effect-from-symbol}.
 } \\
 \label{eq:leo-forces-eim-match-uniqueness-20}
 & \myparbox{%
-Every matching down-cause of \Veim{up}
-is a basis of \Vleo{l}
+\Veim{down} is a valid matching down-cause of \Veim{up}
+if and only if \Veim{down} is a valid basis of \Vleo{l}
 \becuz{}
-\eqref{eq:leo-forces-eim-match-uniqueness-5}
+\eqref{eq:leo-forces-eim-match-uniqueness-5},
 \tref{t:basis-top-down-equivalence}
 } \\
 \label{eq:leo-forces-eim-match-uniqueness-22}
 & \myparbox{%
-there is exactly one down-cause which
-matches \Veim{up}
+\Vleo{l} has exactly one valid basis
 \becuz{}
+\tref{t:leo-basis-uniqueness}.
+} \\
+\label{eq:leo-forces-eim-match-uniqueness-24}
+& \myparbox{%
+\Veim{up} has exactly one matching down-cause
+\becuz
 \eqref{eq:leo-forces-eim-match-uniqueness-20},
-\tref{t:basis-top-down-equivalence}.
+\eqref{eq:leo-forces-eim-match-uniqueness-22}.
 }
 \end{align}
-
-TODO: finished?
+The theorem follows from
+\eqref{eq:leo-forces-eim-match-uniqueness-14}
+and
+\eqref{eq:leo-forces-eim-match-uniqueness-24}.
 \end{proof}
 
 \begin{theorem}
