@@ -1,37 +1,72 @@
-\intertext{%
-\textbf{``Only if'' direction}:
-We assume for the direction that
-}
-\label{eq:basis-top-down-equivalence-32}
-\tag{ONLY}
+\begin{proof}
+In this proof, we justify the existence
+and form
+of
+the nodes and arrows of 
+Figure \ref{fig:indirect-leo-effect}.
+Figure \ref{fig:indirect-leo-effect}
+illustrates a indirect Leo effect,
+which from
+\dref[indirect Leo silo effect]{def:indirect-leo-silo-effect}
+is a \Veim{eff}
+such that the following preconditons hold:
+\begin{align}
+\label{eq:direct-leo-effect-summary-10}
 & \myparbox{%
-\Veim{down} matches \Vinst{up}
-\becuz{}
-ASM for the ``only if'' direction.
+\Veim{cuz} is a valid EIM.
 } \\
-\label{eq:basis-top-down-equivalence-34}
+\label{eq:direct-leo-effect-summary-12}
 & \myparbox{%
-$\PLSY{\Veim{down}} = \LSY{\Vinst{up}}$
-\becuz{}
-\eqref{eq:basis-top-down-equivalence-32},
-\dref[matching causes]{def:matching-causes},
+\Vleo{l} is an instantiated Leo memo.
 } \\
-\label{eq:basis-top-down-equivalence-36}
+\label{eq:direct-leo-effect-summary-14}
 & \myparbox{%
-$\PLSY{\Veim{down}} = \LSY{\Vleo{l}}$
-\becuz
-\eqref{eq:basis-top-down-equivalence-10},
-\eqref{eq:basis-top-down-equivalence-34}.
+\Vleo{l} does not match \Veim{cuz}.
 } \\
-\label{eq:basis-top-down-equivalence-38}
+\label{eq:direct-leo-effect-summary-16}
 & \myparbox{%
-\Veim{down} is a basis of \Vleo{l}
+\Vleo{l} quasi-matches \Veim{cuz}.
+}
+\end{align}
+
+We take preconditions
+\eqref{eq:direct-leo-effect-summary-10},
+\eqref{eq:direct-leo-effect-summary-12},
+\eqref{eq:direct-leo-effect-summary-14}
+and
+\eqref{eq:direct-leo-effect-summary-16}
+as assumptions for this theorem.
+
+\begin{align}
+\label{eq:direct-leo-effect-summary-20}
+& \myparbox{%
+\Veim{cuz} is quasi-complete
 \becuz{}
-\eqref{eq:basis-top-down-equivalence-36},
-\dref[basis of an Leo memo]{def:basis-of-leo-memo}.
-}
-\intertext{%
-where
-\eqref{eq:basis-top-down-equivalence-38}
-is what we needed to show for the ``only if'' direction.
-}
+TODO
+} \\
+\label{eq:direct-leo-effect-summary-22}
+& \myparbox{%
+TODO
+} \\
+\label{eq:direct-leo-effect-summary-24}
+& \myparbox{%
+TODO
+} \\
+\end{align}
+
+\textbf{Summary}:
+For the nodes,
+we have the correctness
+of \Veim{cuz} \becuz{}
+\eqref{eq:direct-leo-effect-summary-10};
+the correctness of \Vleo{l} \becuz{}
+\eqref{eq:direct-leo-effect-summary-12};
+and
+the correctness of \Veim{eff} \becuz{}
+TODO.
+We have the correctness of the top-down cause
+TODO.
+We have the correctness of the
+quasi-matches from TODO.
+\end{proof}
+
