@@ -10576,7 +10576,7 @@ are said to
 \xdfn{match}{match!between a LEO and a complete EIM}
 if and only if
 \[
-\text{\LSY{\Vleo{l}} matches \SymEq{\Veim{e}}}.
+\text{\Vleo{l} matches \SymEq{\Veim{e}}}.
 \]
 If \Veim{e}
 \xdfn{matching}{matching!LEO, of a complete EIM}
@@ -11779,28 +11779,28 @@ Then
 & \myparbox{
 $\Symbol{\Vleo{l1}} = \LHS{\Veim{eim}}$
 \becuz{}
-\dref[matching Leo memo]{def:matching-leo-memo};
+\dref[matching Leo memo]{def:eim-matching-leo-memo};
 }
 \\
 \label{eq:leo-memos-match-uniquely-12}
 & \myparbox{
 $\Current{\Vleo{l1}} = \Left{\Veim{eim}}$
 \becuz{}
-\dref{def:matching-leo-memo};
+\dref{def:eim-matching-leo-memo};
 }
 \\
 \label{eq:leo-memos-match-uniquely-14}
 & \myparbox{
 $\Symbol{\Vleo{l2}} = \LHS{\Veim{eim}}$
 \becuz{}
-\dref{def:matching-leo-memo};
+\dref{def:eim-matching-leo-memo};
 }
 \\
 \label{eq:leo-memos-match-uniquely-16}
 & \myparbox{
 $\Current{\Vleo{l2}} = \Left{\Veim{eim}}$
 \becuz{}
-\dref{def:matching-leo-memo};
+\dref{def:eim-matching-leo-memo};
 }
 \\
 \label{eq:leo-memos-match-uniquely-18}
@@ -12122,7 +12122,7 @@ $\PLSY{\Veim{bas}} = \LSY{\Veim{cuz}}$
 $\LSY{\Vleo{l}} = \LSY{\Veim{cuz}}$
 \becuz{}
 \eqref{eq:direct-leo-effect-summary-14},
-\dref[matching Leo memo]{def:matching-leo-memo}.
+\dref[matching Leo memo]{def:eim-matching-leo-memo}.
 } \\
 \label{eq:direct-leo-effect-summary-32}
 & \myparbox{%
@@ -12142,7 +12142,7 @@ We make the conditional assumption that
 & \myparbox{%
 \Vleo{l2} exists, is instantiated
 and is the top-down cause of \Vleo{l}
-\becuz
+\becuz{}
 conditional ASM.
 } \\
 \label{eq:direct-leo-effect-summary-102}
@@ -12150,7 +12150,7 @@ conditional ASM.
 \LSY{\Veim{bas}} = \LSY{\Veim{l2}}
 \becuz{}
 \eqref{eq:direct-leo-effect-summary-20},
-\eqref{eq:direct-leo-effect-summary-100}.
+\eqref{eq:direct-leo-effect-summary-100},
 \dref[Leo top-down cause]{def:down-cause-of-leo-memo}.
 }
 \end{align}
@@ -12186,7 +12186,7 @@ matches from
 \eqref{eq:direct-leo-effect-summary-30} and
 \eqref{eq:direct-leo-effect-summary-102}.
 We have the correctness of the LSY/PLSY
-matches
+matches from
 \eqref{eq:direct-leo-effect-summary-28}
 and
 \eqref{eq:direct-leo-effect-summary-32}.
@@ -12277,7 +12277,7 @@ $\LSY{\Vleo{l}} = \LSY{\Veim{cuz}}$
 \becuz{}
 \eqref{eq:leo-effect-8d},
 \eqref{eq:leo-effect-8f},
-\dref[matching Leo memo]{def:matching-leo-memo}.
+\dref[matching Leo memo]{def:eim-matching-leo-memo}.
 } \\
 \label{eq:leo-effect-17b}
 & \myparbox{%
@@ -12443,7 +12443,7 @@ $\exists \; \Vleo{eff} : \Memo{\Veim{eff}} = \Vleo{eff}$
 $\LSY{\Vleo{eff}} = \LSY{\Veim{eff}}$
 \becuz{}
 \eqref{eq:leo-effect-50},
-\dref[matching Leo memo]{def:matching-leo-memo}.
+\dref[matching Leo memo]{def:eim-matching-leo-memo}.
 }
 \intertext{%
 Deducing the top-down cause (\Veim{bas})
