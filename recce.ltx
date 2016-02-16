@@ -2936,10 +2936,10 @@ pairs of dotted rules
 In equation
 \eqref{eq:def-null-scan-dr-op},
 we say that \Vdr{cause} is the
-\xdfn{top-down cause}{top-down cause!DR as down-cause of null-scan DR}
+\xdfn{top-down cause}{top-down cause!DR as top-down cause of null-scan DR}
 of \Vdr{effect},
 and that \Predot{\Vdr{effect}} is the
-\xdfn{bottom-up cause}{bottom-up cause!DR as up-cause of null-scan DR}
+\xdfn{bottom-up cause}{bottom-up cause!DR as bottom-up cause of null-scan DR}
 of \Vdr{effect}.
 \end{definition}
 
@@ -2974,13 +2974,13 @@ pairs of dotted rules
 In equation
 \eqref{eq:def-predict-dr-op},
 we say that \Vdr{cause} is the
-\xdfn{top-down cause}{top-down cause!DR as down-cause of a predicted DR}
+\xdfn{top-down cause}{top-down cause!DR as top-down cause of a predicted DR}
 of \Vdr{effect}.
 For symmetry with other types of dotted rule,
 we say that \Vdr{effect}
 has a bottom-up cause,
 but that the
-\xdfn{bottom-up cause}{bottom-up cause!DR, as up-cause of a predicted DR}
+\xdfn{bottom-up cause}{bottom-up cause!DR, as bottom-up cause of a predicted DR}
 of \Vdr{effect}
 is ethereal.
 \end{definition}
@@ -4021,16 +4021,16 @@ we also say that
 \begin{itemize}
 \item
 \Veim{down} is a
-\xdfn{top-down cause}{top-down cause!EIM as down-cause of a confirmed EIM}
+\xdfn{top-down cause}{top-down cause!EIM as top-down cause of a confirmed EIM}
 of \Veim{effect}.
 \item
 \Vinst{up} is a
-\xdfn{bottom-up cause}{bottom-up cause!INST as up-cause of a confirmed EIM}
+\xdfn{bottom-up cause}{bottom-up cause!INST as bottom-up cause of a confirmed EIM}
 of \Veim{effect}.
 \item
 if $\SymEq{\Veim{up}} = \Vinst{up}$, that
 \Veim{up} is a
-\xdfn{bottom-up cause}{bottom-up cause!EIM as up-cause of a confirmed EIM}
+\xdfn{bottom-up cause}{bottom-up cause!EIM as bottom-up cause of a confirmed EIM}
 of \Veim{effect}.
 \end{itemize}
 \end{definition}
@@ -4047,10 +4047,10 @@ we say that every
 \Veim{down} = [ \Vdr{down}, \var{i}, \Current{\Veim{effect}} ]
 \end{gather*}
 is a
-\xdfn{top-down cause}{top-down cause!EIM as down-cause of a predicted EIM}
+\xdfn{top-down cause}{top-down cause!EIM as top-down cause of a predicted EIM}
 of \Veim{effect}.
 We say that the
-\xdfn{bottom-up cause}{bottom-up cause!up-cause of a predicted EIM}
+\xdfn{bottom-up cause}{bottom-up cause!bottom-up cause of a predicted EIM}
 of \Veim{effect} is ethereal.
 We call \Veim{effect} the
 \xdfn{effect}{effect!predicted EIM, as the effect of another EIM}
@@ -6462,7 +6462,7 @@ Since \Veim{effect} is confirmed,
 the dotted rule and origin of its top-down cause are determined by \Veim{effect}
 \dref[causes of confirmed EIM]{def:causes-confirmed}.
 Therefore, if \Veim{effect} has two distinct
-down-causes, they can differ only in their current position.
+top-down causes, they can differ only in their current position.
 Let the two distinct top-down causes be
 \begin{gather*}
 \Veim{down1} = [ [ \Vsym{down} \derives \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j1} ] \\
@@ -6500,7 +6500,7 @@ let \Veim{effect} be
 \big[ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k}
 \big]
 \end{equation}
-and call the two differing up-causes, \Vinst{up1}
+and call the two differing bottom-up causes, \Vinst{up1}
 and \Vinst{up2}.
 \Veim{effect} is confirmed by assumption for the theorem,
 so that by
@@ -6527,21 +6527,21 @@ ASM for reductio.
 } \\
 \label{eq:multi-up-cause-ambiguous-22}
 & \myparbox{ %
-The up-causes of \Veim{effect} have matching down causes
+The bottom-up causes of \Veim{effect} have matching down causes
 \becuz{}
 \eqref{eq:multi-up-cause-ambiguous-20},
 \tref{t:symbolic-causes-from-effect}.
 } \\
 \label{eq:multi-up-cause-ambiguous-24}
 & \myparbox{ %
-If two up-causes differ in their left location,
+If two bottom-up causes differ in their left location,
 their matching down causes will differ in their right location
 \becuz{}
 \dref[matching causes]{def:matching-causes}.
 } \\
 \label{eq:multi-up-cause-ambiguous-26}
 & \myparbox{ %
-If \Veim{effect} has two different down-causes,
+If \Veim{effect} has two different top-down causes,
 \Cg{} is ambiguous.
 \becuz{}
 \eqref{eq:multi-up-cause-ambiguous-20},
@@ -6564,7 +6564,7 @@ because
 Since
 $\Symbol{\var{up1}} = \Symbol{\var{up2}}$,
 and every symbol is either a terminal or a non-terminal,
-two up-causes cannot differ in whether they have an EIM equivalent.
+two bottom-up causes cannot differ in whether they have an EIM equivalent.
 Theorem
 \ref{t:eim-equivalent-from-non-terminal}
 shows that an parse instance has an EIM equivalent
@@ -6583,21 +6583,21 @@ and
 \eqref{eq:multi-up-cause-ambiguous-30},
 they are identical.
 
-It remains to examine the case where up-causes differ in their EIM equivalent.
+It remains to examine the case where bottom-up causes differ in their EIM equivalent.
 By
 \eqref{eq:multi-up-cause-ambiguous-15}
 and \eqref{eq:multi-up-cause-ambiguous-16}
-the symbol and right location of the two up-causes must be the same.
+the symbol and right location of the two bottom-up causes must be the same.
 \dref[causes of confirmed EIM]{def:causes-confirmed}.
 The left locations of \Veim{up1} and \Veim{up2} must be identical
 \eqref{eq:multi-up-cause-ambiguous-30}.
-So the two up-causes can differ only in the RHS of their dotted rule.
+So the two bottom-up causes can differ only in the RHS of their dotted rule.
 An EIM bottom-up cause of \Veim{effect}
 must be a complete EIM \becuz{}
 \eqref{eq:multi-up-cause-ambiguous-20}.
 Therefore
 without loss of generalization,
-let the two differing up-causes be
+let the two differing bottom-up causes be
 \begin{gather*}
 \Veim{up1} = \big[ [ \Vsym{up} \derives \Vstr{up-rhs1} \mydot ], \var{j}, \var{k}
 \big] \\
@@ -10804,20 +10804,27 @@ we have both directions and the theorem.
 \end{proof}
 
 \begin{theorem}
-\ttitle{Leo memos force EIM match uniqueness}:
-\label{t:leo-forces-eim-match-uniqueness}
+\ttitle{Effect from Leo memo and EIM}
+\label{t:effect-from-leo-memo-and-eim}
 Let \Veim{e} be a valid EIM
 and let \Vleo{l} be an
 instantiated Leo memo
 that matches \Veim{e}.
+Let \Veim{bas} be the basis of \Vleo{l}.
 Then
 \begin{itemize}
 \item
-\Veim{e} is an up-cause in 
-exactly one matching pair of EIM
-causes.
+\Veim{e} is the cause of exactly one valid effect,
+call it \Veim{eff}.
 \item
-\Veim{e} is never a down-cause.
+\Veim{e} is a bottom-up cause of \Veim{eff}.
+\item
+\Veim{e} is never a top-down cause of \Veim{eff}.
+\item
+\Veim{bas} is the only matching top-down cause
+of \Veim{e}.
+\item
+\Veim{bas} is a top-down cause of \Veim{eff}.
 \end{itemize}
 \end{theorem}
 
@@ -10843,14 +10850,15 @@ $\Symbol{\Vleo{l}} \neq \Vsym{accept}$
 } \\
 \label{eq:leo-forces-eim-match-uniqueness-11d}
 & \myparbox{%
-$\LSY{\Vleo{l}} = \LSY{\Veim{e}}$
+$\Symbol{\Vleo{l}} = \Symbol{\Veim{e}}$
 \becuz{}
 \eqref{eq:leo-forces-eim-match-uniqueness-5},
-\dref[EIM/LEO match]{def:eim-matching-leo-memo}.
+\dref[EIM/LEO match]{def:eim-matching-leo-memo},
+\dref[LSY]{def:eim-locsym}.
 } \\
 \label{eq:leo-forces-eim-match-uniqueness-11f}
 & \myparbox{%
-$\LSY{\Veim{e}} \neq \Vsym{accept}$
+$\Symbol{\Veim{e}} \neq \Vsym{accept}$
 \becuz{}
 \eqref{eq:leo-forces-eim-match-uniqueness-11b},
 \eqref{eq:leo-forces-eim-match-uniqueness-11d}.
@@ -10858,59 +10866,73 @@ $\LSY{\Veim{e}} \neq \Vsym{accept}$
 \label{eq:leo-forces-eim-match-uniqueness-14}
 & \myparbox{%
 If \Veim{e} is a cause of a valid effect,
-it is an up-cause
+it is an bottom-up cause
 \becuz{}
 \tref{t:completed-eim-as-a-cause}.
 } \\
 \label{eq:leo-forces-eim-match-uniqueness-20}
 & \myparbox{%
-\Veim{down} is a valid matching down-cause of \Veim{up}
+\Veim{down} is a valid matching top-down cause of \Veim{e}
 if and only if \Veim{down} is a valid basis of \Vleo{l}
 \becuz{}
 \eqref{eq:leo-forces-eim-match-uniqueness-5},
-\tref{t:basis-top-down-equivalence}
+\tref{t:basis-top-down-equivalence}.
 } \\
 \label{eq:leo-forces-eim-match-uniqueness-22}
 & \myparbox{%
-\Vleo{l} has exactly one valid basis
+\Vleo{l} has exactly one valid basis,
+call it \Veim{bas},
 \becuz{}
 \tref{t:leo-basis-uniqueness}.
 } \\
 \label{eq:leo-forces-eim-match-uniqueness-24}
 & \myparbox{%
-\Veim{up} has exactly one matching down-cause
-\becuz
+\Veim{e} has exactly one matching top-down cause,
+which is \Veim{bas},
+\becuz{}
 \eqref{eq:leo-forces-eim-match-uniqueness-20},
 \eqref{eq:leo-forces-eim-match-uniqueness-22}.
+} \\
+\label{eq:leo-forces-eim-match-uniqueness-30}
+& \myparbox{%
+\Veim{bas} and
+\Veim{e} have exactly one valid effect,
+call it \Veim{eff}
+\becuz{}
+\eqref{eq:leo-forces-eim-match-uniqueness-24},
+\tref{t:effect-from-matching-causes}.
+} \\
+\label{eq:leo-forces-eim-match-uniqueness-32}
+& \myparbox{%
+\Veim{e} is an bottom-up cause of \Veim{eff}
+\becuz{}
+\eqref{eq:leo-forces-eim-match-uniqueness-14},
+\eqref{eq:leo-forces-eim-match-uniqueness-30}.
+} \\
+\label{eq:leo-forces-eim-match-uniqueness-34}
+& \myparbox{%
+\Veim{bas} is a top-down cause of \Veim{eff}
+\becuz{}
+\eqref{eq:leo-forces-eim-match-uniqueness-14},
+\eqref{eq:leo-forces-eim-match-uniqueness-24},
+\eqref{eq:leo-forces-eim-match-uniqueness-30}.
+} \\
+\label{eq:leo-forces-eim-match-uniqueness-36}
+& \myparbox{%
+\Veim{e} has exactly one valid effect, \Veim{eff},
+\becuz{}
+\eqref{eq:leo-forces-eim-match-uniqueness-14},
+\eqref{eq:leo-forces-eim-match-uniqueness-24},
+\eqref{eq:leo-forces-eim-match-uniqueness-30}.
 }
 \end{align}
 The theorem follows from
-\eqref{eq:leo-forces-eim-match-uniqueness-14}
+\eqref{eq:leo-forces-eim-match-uniqueness-14},
+\eqref{eq:leo-forces-eim-match-uniqueness-24},
+\eqref{eq:leo-forces-eim-match-uniqueness-32},
+\eqref{eq:leo-forces-eim-match-uniqueness-34}
 and
-\eqref{eq:leo-forces-eim-match-uniqueness-24}.
-\end{proof}
-
-\begin{theorem}
-\ttitle{Effect from Leo memo and EIM}
-\label{t:effect-from-leo-memo-and-eim}
-Let \Veim{e} be a valid EIM
-and let \Vleo{l} be an
-instantiated Leo memo
-that matches \Veim{e}.
-Then
-\Veim{e} has exactly one valid effect.
-\end{theorem}
-
-\begin{proof}
-\Veim{e} can only be an up-cause
-and has exactly one valid matching down-cause
-\becuz{}
-\tref{t:leo-forces-eim-match-uniqueness}.
-Call the matching down-cause, \Veim{down}.
-\Veim{down} and
-\Veim{e} has exactly one valid effect
-\becuz{}
-\tref{t:effect-from-matching-causes}.
+\eqref{eq:leo-forces-eim-match-uniqueness-36}.
 \end{proof}
 
 \chapter{Leo catenas}
@@ -11998,7 +12020,9 @@ also called a
 \end{tikzcd}:
 \LSY{\var{a}} matches \PLSY{\var{b}}.
 \par
-For justifications, see \tref{t:direct-leo-effect-summary}.
+The node for \Vleo{l2} is optional.
+For a proof of correctness,
+see \tref{t:direct-leo-effect-summary}.
 \end{flushleft}
 \vspace{.5\baselineskip}
 \end{figure}
@@ -12021,50 +12045,28 @@ illustrates a direct Leo effect,
 which from
 \dref[direct Leo silo effect]{def:direct-leo-silo-effect}
 is a \Veim{eff}
-such that
+such that the following preconditons hold:
 \begin{align}
 \label{eq:direct-leo-effect-summary-10}
 & \myparbox{%
-\Veim{cuz} is a valid EIM
-\becuz{}
-ASM for this theorem.
+\Veim{cuz} is a valid EIM.
 } \\
 \label{eq:direct-leo-effect-summary-12}
 & \myparbox{%
-\Vleo{l} is an instantiated Leo memo
-\becuz{}
-ASM for this theorem.
+\Vleo{l} is an instantiated Leo memo.
 } \\
 \label{eq:direct-leo-effect-summary-14}
 & \myparbox{%
-\Vleo{l} matches \Veim{cuz}
-\becuz{}
-ASM for this theorem.
-} \\
-\label{eq:direct-leo-effect-summary-16}
-& \myparbox{%
-\Veim{eff} is an effect of \Veim{cuz}
-\becuz{}
-\eqref{eq:direct-leo-effect-summary-10},
-\eqref{eq:direct-leo-effect-summary-12},
-\eqref{eq:direct-leo-effect-summary-14}.
+\Vleo{l} matches \Veim{cuz}.
 }
 \end{align}
 
-Note that the preconditions stated in
-\dref[direct Leo silo effect]{def:direct-leo-silo-effect},
-can be assumed for the theorem, since
-\dref{def:direct-leo-silo-effect},
-and therefore Figure \ref{fig:direct-leo-effect},
-do not
-claim that we can show the existence of \Veim{eff}
-if the preconditions do not hold.
-The preconditions
-of \dref{def:direct-leo-silo-effect}
-are stated as
+We take preconditions
 \eqref{eq:direct-leo-effect-summary-10},
-\eqref{eq:direct-leo-effect-summary-12},
-\eqref{eq:direct-leo-effect-summary-14}.
+\eqref{eq:direct-leo-effect-summary-12}
+and
+\eqref{eq:direct-leo-effect-summary-14}
+as assumptions for this theorem.
 
 \begin{align}
 \label{eq:direct-leo-effect-summary-20}
@@ -12078,69 +12080,118 @@ and the basis of \Vleo{l}
 } \\
 \label{eq:direct-leo-effect-summary-22}
 & \myparbox{%
-An EIM is a
-valid basis of \Vleo{l} if and only
-if it is a matching top-down cause
-of \Veim{cuz}
+\Veim{cuz} is the bottom-up cause of an effect,
+call it \Veim{eff}.
 \becuz{}
+\eqref{eq:direct-leo-effect-summary-10},
+\eqref{eq:direct-leo-effect-summary-12},
 \eqref{eq:direct-leo-effect-summary-14},
-\tref{t:basis-top-down-equivalence}.
+\tref{t:effect-from-leo-memo-and-eim}.
 } \\
 \label{eq:direct-leo-effect-summary-24}
 & \myparbox{%
-\Veim{eff} has exactly one top-down cause,
-which is \Veim{bas}
+\Veim{bas} is the top-down cause of \Veim{eff}
 \becuz{}
+\eqref{eq:direct-leo-effect-summary-10},
+\eqref{eq:direct-leo-effect-summary-12},
+\eqref{eq:direct-leo-effect-summary-14},
 \eqref{eq:direct-leo-effect-summary-20},
-\eqref{eq:direct-leo-effect-summary-22}.
+\eqref{eq:direct-leo-effect-summary-22},
+\tref{t:effect-from-leo-memo-and-eim}.
 } \\
 \label{eq:direct-leo-effect-summary-26}
 & \myparbox{%
-\Veim{cuz} is a completed EIM
-\becuz{} TODO.
+\Veim{bas} is a matching cause of \Veim{cuz}
+\becuz{}
+\eqref{eq:direct-leo-effect-summary-10},
+\eqref{eq:direct-leo-effect-summary-12},
+\eqref{eq:direct-leo-effect-summary-14},
+\eqref{eq:direct-leo-effect-summary-20},
+\eqref{eq:direct-leo-effect-summary-22},
+\tref{t:effect-from-leo-memo-and-eim}.
 } \\
 \label{eq:direct-leo-effect-summary-28}
 & \myparbox{%
-$\Symbol{\Vleo{l}} \neq \Vsym{accept}$
-\becuz{} TODO.
+$\PLSY{\Veim{bas}} = \LSY{\Veim{cuz}}$
+\becuz{}
+\eqref{eq:direct-leo-effect-summary-26},
+\dref[matching causes]{def:matching-causes}.
 } \\
 \label{eq:direct-leo-effect-summary-30}
 & \myparbox{%
-$\Symbol{\Vleo{l}} = \Symbol{\Veim{cuz}}$
-\becuz{} TODO.
+$\LSY{\Vleo{l}} = \LSY{\Veim{cuz}}$
+\becuz{}
+\eqref{eq:direct-leo-effect-summary-14},
+\dref[matching Leo memo]{def:matching-leo-memo}.
 } \\
 \label{eq:direct-leo-effect-summary-32}
 & \myparbox{%
-$\Symbol{\Veim{cuz}} \neq \Vsym{accept}$
+$\LSY{\Vleo{l}} = \PLSY{\Veim{bas}}$
 \becuz{}
-\eqref{eq:direct-leo-effect-summary-28},
-\eqref{eq:direct-leo-effect-summary-30}.
-} \\
-\label{eq:direct-leo-effect-summary-34}
-& \myparbox{%
-$\Symbol{\SymEq{\Veim{cuz}}} \neq \Vsym{accept}$
-\becuz{}
-\eqref{eq:direct-leo-effect-summary-26},
-\eqref{eq:direct-leo-effect-summary-32},
-\dref[symbolic equivalent]{def:symbolic-and-eim-equivalent}.
-} \\
-\end{align}
-
-TODO: finish required elements
-
-\textbf{Optional elements}:
-Figure \ref{fig:direct-leo-effect} states that \Vleo{l2}
-is optional, so that we are allowed to assume, without proof,
-that
-\begin{align}
-\label{eq:direct-leo-effect-summary-18}
-& \myparbox{%
-\Vleo{l2} exists, is instantiated
-and is the top-down cause of \Vleo{l}.
+\eqref{eq:direct-leo-effect-summary-20},
+\dref[basis of a Leo memo]{def:basis-of-leo-memo}.
 }
 \end{align}
 
-TODO: finish
+\textbf{Optional elements}:
+Figure \ref{fig:direct-leo-effect} states that \Vleo{l2}
+is optional.
+We make the conditional assumption that
+\begin{align}
+\label{eq:direct-leo-effect-summary-100}
+& \myparbox{%
+\Vleo{l2} exists, is instantiated
+and is the top-down cause of \Vleo{l}
+\becuz
+conditional ASM.
+} \\
+\label{eq:direct-leo-effect-summary-102}
+& \myparbox{%
+\LSY{\Veim{bas}} = \LSY{\Veim{l2}}
+\becuz{}
+\eqref{eq:direct-leo-effect-summary-20},
+\eqref{eq:direct-leo-effect-summary-100}.
+\dref[Leo top-down cause]{def:down-cause-of-leo-memo}.
+}
+\end{align}
+
+\textbf{Summary}:
+For the nodes,
+we have the correctness
+of \Veim{cuz} \becuz{}
+\eqref{eq:direct-leo-effect-summary-10};
+the correctness of \Veim{bas} \becuz{}
+\eqref{eq:direct-leo-effect-summary-20};
+the correctness of \Veim{eff} \becuz{}
+\eqref{eq:direct-leo-effect-summary-22};
+the correctness of \Vleo{l} \becuz{}
+\eqref{eq:direct-leo-effect-summary-12};
+and the correctness of \Vleo{l2} \becuz{}
+\eqref{eq:direct-leo-effect-summary-100}.
+We have the correctness of the bottom-up cause
+of \Vleo{l} from
+\eqref{eq:direct-leo-effect-summary-20}
+and
+\dref[basis as bottom-up cause]{def:basis-of-leo-memo}.
+We have the correctness of the bottom-up cause
+of \Veim{eff} from
+\eqref{eq:direct-leo-effect-summary-22}.
+We have the correctness of the top-down causes
+from
+\eqref{eq:direct-leo-effect-summary-24}
+and
+\eqref{eq:direct-leo-effect-summary-100}.
+We have the correctness of the LSY/LSY
+matches from
+\eqref{eq:direct-leo-effect-summary-30} and
+\eqref{eq:direct-leo-effect-summary-102}.
+We have the correctness of the LSY/PLSY
+matches
+\eqref{eq:direct-leo-effect-summary-28}
+and
+\eqref{eq:direct-leo-effect-summary-32}.
+
+TODO: finished?
 
 \end{proof}
 
@@ -17263,9 +17314,9 @@ Recall that the first element of each pair of matching causes
 is its top-down cause,
 and the second element of each pair is its bottom-up cause.
 For brevity, we will call the top-down cause of a matching pair
-of causes, its ``down-cause'',
+of causes, its ``top-down cause'',
 and we will call the bottom-up cause of a matching pair of
-cause, its ``up-cause''.
+cause, its ``bottom-up cause''.
 We can see that
 \begin{equation}
 \label{eq:reduction-tries-15}
@@ -17273,9 +17324,9 @@ We can see that
 \end{equation}
 where
 \var{up-count} is the number of EIM's which are
-up-causes,
+bottom-up causes,
 and \var{downs-per-up} is the maximum number of 
-down-causes for any up-cause, that is
+top-down causes for any bottom-up cause, that is
 \[
    \var{downs-per-up} =
    \max_{\Veim{up}} \left|
@@ -17302,9 +17353,9 @@ We know that
 \becuz \dref[matching causes]{def:matching-causes}.
 \end{gathered}
 \intertext{%
-Let \var{ups} be the set of up-causes in \var{pairs}.
-Because every down-cause must be in 
-the Earley set which is the origin of its up-cause,
+Let \var{ups} be the set of bottom-up causes in \var{pairs}.
+Because every top-down cause must be in 
+the Earley set which is the origin of its bottom-up cause,
 we see that
 }
 \label{eq:reduction-tries-27}
@@ -17340,7 +17391,7 @@ upper bound for \var{downs-per-up}:
 \eqref{eq:reduction-tries-31}.
 \intertext{%
 As an upper bound, we allow
-every EIM to be an up-cause so that
+every EIM to be an bottom-up cause so that
 }
 \label{eq:reduction-tries-35}
 & \var{up-count} =
