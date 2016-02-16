@@ -3812,10 +3812,16 @@ its ``symbolic equivalent'' is defined.
 If the parse instance is a symbol instance,
 it is its own \dfn{symbolic equivalent}.
 If the parse instance is a complete EIM,
-its \dfn{symbolic equivalent} is the instance
-of its LHS symbol
-with the same left and right locations
-as the EIM.
+call it \Veim{e},
+then its \dfn{symbolic equivalent} is
+\begin{gather*}
+  \Vmkl{left} \Vsym{sym} \Vmkr{right}, \\
+  \begin{aligned}
+& \text{where} \; & \Vmk{left} & = \Left{\Veim{e}}, \\
+                 && \Vmk{right} & = \Right{\Veim{e}}, \; \text{and} \\
+                 && \Vsym{sym} & = \Symbol{\Veim{e}}.
+  \end{aligned}
+\end{gather*}
 We also write the symbolic
 equivalent of \var{x} as
 $\SymEq{\var{x}}$.%
@@ -11699,7 +11705,7 @@ For a reductio, assume that
 distinct Leo memos, call them \Vleo{l1} and \Vleo{l2},
 so that
 \begin{equation}
-\label{t:leo-memo-uniqueness-by-basis-5}
+\label{eq:leo-memo-uniqueness-by-basis-5}
 \tag{RAA}
 \Vleo{l1} \neq \Vleo{l2}.
 \end{equation}
@@ -11709,24 +11715,24 @@ we know that
 \notag
 \LSY{\Vleo{l1}} = \PLSY{\Veim{bas1}} = \LSY{\Vleo{l2}}
 \\
-\label{t:leo-memo-uniqueness-by-basis-10}
+\label{eq:leo-memo-uniqueness-by-basis-10}
 \therefore \LSY{\Vleo{l1}} = \LSY{\Vleo{l2}}.
 \end{gather}
 But from
 \tref{t:leo-memo-uniqueness-by-locsym}
 we know that
 \begin{align}
-\label{t:leo-memo-uniqueness-by-basis-20}
+\label{eq:leo-memo-uniqueness-by-basis-20}
 & \LSY{\Vleo{l1}} = \LSY{\Vleo{l2}} \implies \Vleo{l1} = \Vleo{l2}.
 \\
-\label{t:leo-memo-uniqueness-by-basis-22}
+\label{eq:leo-memo-uniqueness-by-basis-22}
 & \Vleo{l1} = \Vleo{l2} \becuz
-\eqref{t:leo-memo-uniqueness-by-basis-10},
-\eqref{t:leo-memo-uniqueness-by-basis-20}.
+\eqref{eq:leo-memo-uniqueness-by-basis-10},
+\eqref{eq:leo-memo-uniqueness-by-basis-20}.
 \end{align}
-Equation \eqref{t:leo-memo-uniqueness-by-basis-22}
+Equation \eqref{eq:leo-memo-uniqueness-by-basis-22}
 contradicts 
-\eqref{t:leo-memo-uniqueness-by-basis-5},
+\eqref{eq:leo-memo-uniqueness-by-basis-5},
 which shows the reductio and the theorem.
 \end{proof}
 
@@ -11992,13 +11998,7 @@ also called a
 \end{tikzcd}:
 \LSY{\var{a}} matches \PLSY{\var{b}}.
 \par
-We assume a matching \Veim{cuz} and \Vleo{l} exist
-to satisfy
-\dref[direct Leo silo effect]{def:direct-leo-silo-effect}.
-\Veim{bas} and \Veim{eff} must exist
-and be unique as a result.
-\Vleo{cat2} is optional:
-\Vleo{cat1} may have no top-down cause.
+For justifications, see \tref{t:direct-leo-effect-summary}.
 \end{flushleft}
 \vspace{.5\baselineskip}
 \end{figure}
@@ -12011,75 +12011,120 @@ is correct.
 \end{theorem}
 
 \begin{proof}
-To show that
+In this proof, we justify the existence
+and form
+of
+the nodes and arrows of 
+Figure \ref{fig:direct-leo-effect}.
 Figure \ref{fig:direct-leo-effect}
-is correct, we first show that all nodes
-in it exist.
-We then show, for each of the arrows,
-that the relation exists as indicated by the
-arrow;
-and that each direction of the arrow is univalent,
-with the exceptions as indicated
-in Figure \ref{fig:direct-leo-effect}.
-
-\textbf{Nodes}:
-Figure \ref{fig:direct-leo-effect} is for a direct
-Leo effect, so to satisfy its definition
-we assume that
+illustrates a direct Leo effect,
+which from
+\dref[direct Leo silo effect]{def:direct-leo-silo-effect}
+is a \Veim{eff}
+such that
 \begin{align}
 \label{eq:direct-leo-effect-summary-10}
 & \myparbox{%
-\Veim{cuz} exists and is valid
+\Veim{cuz} is a valid EIM
 \becuz{}
-\dref[direct Leo silo effect]{def:direct-leo-silo-effect}; and
+ASM for this theorem.
 } \\
 \label{eq:direct-leo-effect-summary-12}
 & \myparbox{%
-\Vleo{l} exists, is instantiated
-and matches \Veim{cuz}
+\Vleo{l} is an instantiated Leo memo
 \becuz{}
-\dref{def:direct-leo-silo-effect}.
+ASM for this theorem.
 } \\
 \label{eq:direct-leo-effect-summary-14}
 & \myparbox{%
-\Veim{bas} exists, is valid,
-and is the basis of \Vleo{l}
+\Vleo{l} matches \Veim{cuz}
 \becuz{}
-\eqref{eq:direct-leo-effect-summary-12},
-\dref[validity of a Leo memo]{def:validity-of-leo-memo}.
+ASM for this theorem.
 } \\
 \label{eq:direct-leo-effect-summary-16}
 & \myparbox{%
-\Veim{eff} exists, is valid
-and is the effect of down-cause \Vleo{l}
-and up-cause \Veim{cuz}
+\Veim{eff} is an effect of \Veim{cuz}
 \becuz{}
 \eqref{eq:direct-leo-effect-summary-10},
 \eqref{eq:direct-leo-effect-summary-12},
-\tref{t:effect-from-leo-memo-and-eim}.
+\eqref{eq:direct-leo-effect-summary-14}.
 }
 \end{align}
 
-\textbf{Up-cause arrows}:
-The up-cause from \Veim{bas} to \Vleo{l}
-exists \becuz 
-\eqref{eq:direct-leo-effect-summary-14},
-\dref[basis of a Leo memo]{def:basis-of-leo-memo}.
-Every \Vleo{l} has at most one \Veim{bas} \becuz{}
+Note that the preconditions stated in
+\dref[direct Leo silo effect]{def:direct-leo-silo-effect},
+can be assumed for the theorem, since
+\dref{def:direct-leo-silo-effect},
+and therefore Figure \ref{fig:direct-leo-effect},
+do not
+claim that we can show the existence of \Veim{eff}
+if the preconditions do not hold.
+The preconditions
+of \dref{def:direct-leo-silo-effect}
+are stated as
+\eqref{eq:direct-leo-effect-summary-10},
+\eqref{eq:direct-leo-effect-summary-12},
+\eqref{eq:direct-leo-effect-summary-14}.
+
+\begin{align}
+\label{eq:direct-leo-effect-summary-20}
+& \myparbox{%
+There is exactly one \Veim{bas},
+such that \Veim{bas} is valid
+and the basis of \Vleo{l}
+\becuz{}
+\eqref{eq:direct-leo-effect-summary-12},
 \tref{t:leo-basis-uniqueness}.
-Every \Veim{bas} has at most one \Vleo{l} \becuz{}
-\tref{t:leo-memo-uniqueness-by-basis}.
-
-The up-cause from \Veim{cuz} to \Veim{eff}
-exists \becuz{}
-\tref{t:effect-from-leo-memo-and-eim}.
-Every \Veim{cuz} with a matching instantiated
-Leo item has at most one \Veim{eff} \becuz{}
-\tref{t:effect-from-leo-memo-and-eim}.
-A \Veim{eff} may have more than one \Veim{cuz}
+} \\
+\label{eq:direct-leo-effect-summary-22}
+& \myparbox{%
+An EIM is a
+valid basis of \Vleo{l} if and only
+if it is a matching top-down cause
+of \Veim{cuz}
+\becuz{}
+\eqref{eq:direct-leo-effect-summary-14},
+\tref{t:basis-top-down-equivalence}.
+} \\
+\label{eq:direct-leo-effect-summary-24}
+& \myparbox{%
+\Veim{eff} has exactly one top-down cause,
+which is \Veim{bas}
+\becuz{}
+\eqref{eq:direct-leo-effect-summary-20},
+\eqref{eq:direct-leo-effect-summary-22}.
+} \\
+\label{eq:direct-leo-effect-summary-26}
+& \myparbox{%
+\Veim{cuz} is a completed EIM
 \becuz{} TODO.
-
-\textbf{Down-cause arrows}:
+} \\
+\label{eq:direct-leo-effect-summary-28}
+& \myparbox{%
+$\Symbol{\Vleo{l}} \neq \Vsym{accept}$
+\becuz{} TODO.
+} \\
+\label{eq:direct-leo-effect-summary-30}
+& \myparbox{%
+$\Symbol{\Vleo{l}} = \Symbol{\Veim{cuz}}$
+\becuz{} TODO.
+} \\
+\label{eq:direct-leo-effect-summary-32}
+& \myparbox{%
+$\Symbol{\Veim{cuz}} \neq \Vsym{accept}$
+\becuz{}
+\eqref{eq:direct-leo-effect-summary-28},
+\eqref{eq:direct-leo-effect-summary-30}.
+} \\
+\label{eq:direct-leo-effect-summary-34}
+& \myparbox{%
+$\Symbol{\SymEq{\Veim{cuz}}} \neq \Vsym{accept}$
+\becuz{}
+\eqref{eq:direct-leo-effect-summary-26},
+\eqref{eq:direct-leo-effect-summary-32},
+\dref[symbolic equivalent]{def:symbolic-and-eim-equivalent}.
+} \\
+\end{align}
 
 TODO: finish required elements
 
