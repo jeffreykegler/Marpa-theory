@@ -12101,7 +12101,7 @@ call it \Veim{eff}.
 } \\
 \label{eq:direct-leo-effect-summary-26}
 & \myparbox{%
-\Veim{bas} is a matching cause of \Veim{cuz}
+\Veim{bas} is a top-down matching cause of \Veim{cuz}
 \becuz{}
 \eqref{eq:direct-leo-effect-summary-10},
 \eqref{eq:direct-leo-effect-summary-12},
@@ -12190,9 +12190,75 @@ matches from
 \eqref{eq:direct-leo-effect-summary-28}
 and
 \eqref{eq:direct-leo-effect-summary-32}.
+\end{proof}
 
-TODO: finished?
+\begin{definition}
+\dtitle{Indirect Leo silo effect}
+\label{def:indirect-leo-silo-effect}
+We say that \Veim{eff}
+is the
+\dfn{indirect Leo silo effect}
+of \Veim{cuz}
+if and only if
+\begin{itemize}
+\item
+\Veim{cuz} is a valid EIM;
+\item
+\Vleo{l} is an instantiated Leo memo.
+\item
+\Vleo{l} does not match \Veim{cuz}.
+\item
+\Vleo{l} quasi-matches \Veim{cuz}.
+\item
+\Veim{eff} is a valid effect of \Veim{cuz}.
+\end{itemize}
+For brevity,
+a indirect Leo silo effect is
+also called a
+\dfn{indirect Leo effect}.
+\end{definition}
 
+\begin{figure}[tb]
+\index{recce-figures}{Indirect Leo effect}
+\caption{Indirect Leo effect}
+\label{fig:indirect-leo-effect}
+\vspace{\baselineskip}
+\begin{tikzcd}[column sep=huge, row sep=huge]
+\Vleo{l}
+  \arrow[r, leftrightarrow, dotted]
+  \arrow[dr, leftrightarrow, dotted]
+& \Veim{cuz}
+\arrow[d, rightarrow]
+\\
+& \Veim{eff}
+\end{tikzcd}
+\vspace{.5\baselineskip}
+\begin{flushleft}
+\begin{tikzcd}
+\var{down} \arrow[r, rightarrow] & \var{effect}
+\end{tikzcd}:
+\var{down} is the top-down cause of \var{effect}.
+\\[-.3em]
+\begin{tikzcd}
+\var{a} \arrow[r, dotted, leftrightarrow] & \var{b}
+\end{tikzcd}:
+\LSY{\var{a}} quasi-matches \LSY{\var{b}}.
+\par
+For a proof of correctness,
+see \tref{t:indirect-leo-effect-summary}.
+\end{flushleft}
+\vspace{.5\baselineskip}
+\end{figure}
+
+\begin{theorem}
+\ttitle{Indirect Leo summary}
+\label{t:indirect-leo-effect-summary}
+Figure \ref{fig:indirect-leo-effect}
+is correct.
+\end{theorem}
+
+\begin{proof}
+TODO
 \end{proof}
 
 \begin{theorem}
