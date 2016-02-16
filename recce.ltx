@@ -12133,7 +12133,6 @@ $\LSY{\Vleo{l}} = \PLSY{\Veim{bas}}$
 }
 \end{align}
 
-\textbf{Optional elements}:
 Figure \ref{fig:direct-leo-effect} states that \Vleo{l2}
 is optional.
 We make the conditional assumption that
@@ -12190,78 +12189,6 @@ matches from
 \eqref{eq:direct-leo-effect-summary-28}
 and
 \eqref{eq:direct-leo-effect-summary-32}.
-\end{proof}
-
-\begin{proof}
-In this proof, we justify the existence
-and form
-of
-the nodes and arrows of 
-Figure \ref{fig:indirect-leo-effect}.
-Figure \ref{fig:indirect-leo-effect}
-illustrates a indirect Leo effect,
-which from
-\dref[indirect Leo silo effect]{def:indirect-leo-silo-effect}
-is a \Veim{eff}
-such that the following preconditons hold:
-\begin{align}
-\label{eq:direct-leo-effect-summary-10}
-& \myparbox{%
-\Veim{cuz} is a valid EIM.
-} \\
-\label{eq:direct-leo-effect-summary-12}
-& \myparbox{%
-\Vleo{l} is an instantiated Leo memo.
-} \\
-\label{eq:direct-leo-effect-summary-14}
-& \myparbox{%
-\Vleo{l} does not match \Veim{cuz}.
-} \\
-\label{eq:direct-leo-effect-summary-16}
-& \myparbox{%
-\Vleo{l} quasi-matches \Veim{cuz}.
-}
-\end{align}
-
-We take preconditions
-\eqref{eq:direct-leo-effect-summary-10},
-\eqref{eq:direct-leo-effect-summary-12},
-\eqref{eq:direct-leo-effect-summary-14}
-and
-\eqref{eq:direct-leo-effect-summary-16}
-as assumptions for this theorem.
-
-\begin{align}
-\label{eq:direct-leo-effect-summary-20}
-& \myparbox{%
-\Veim{cuz} is quasi-complete
-\becuz{}
-TODO
-} \\
-\label{eq:direct-leo-effect-summary-22}
-& \myparbox{%
-TODO
-} \\
-\label{eq:direct-leo-effect-summary-24}
-& \myparbox{%
-TODO
-} \\
-\end{align}
-
-\textbf{Summary}:
-For the nodes,
-we have the correctness
-of \Veim{cuz} \becuz{}
-\eqref{eq:direct-leo-effect-summary-10};
-the correctness of \Vleo{l} \becuz{}
-\eqref{eq:direct-leo-effect-summary-12};
-and
-the correctness of \Veim{eff} \becuz{}
-TODO.
-We have the correctness of the top-down cause
-TODO.
-We have the correctness of the
-quasi-matches from TODO.
 \end{proof}
 
 \begin{definition}
@@ -12330,7 +12257,112 @@ is correct.
 \end{theorem}
 
 \begin{proof}
-TODO
+In this proof, we justify the existence
+and form
+of
+the nodes and arrows of 
+Figure \ref{fig:indirect-leo-effect}.
+Figure \ref{fig:indirect-leo-effect}
+illustrates an indirect Leo effect,
+which from
+\dref[indirect Leo silo effect]{def:indirect-leo-silo-effect}
+is an \Veim{eff}
+such that the following preconditons hold:
+\begin{align}
+\label{eq:indirect-leo-effect-summary-10}
+& \myparbox{%
+\Veim{cuz} is a valid EIM.
+} \\
+\label{eq:indirect-leo-effect-summary-12}
+& \myparbox{%
+\Vleo{l} is an instantiated Leo memo.
+} \\
+\label{eq:indirect-leo-effect-summary-14}
+& \myparbox{%
+\Vleo{l} does not match \Veim{cuz}.
+} \\
+\label{eq:indirect-leo-effect-summary-16}
+& \myparbox{%
+\Vleo{l} quasi-matches \Veim{cuz}.
+}
+\end{align}
+
+We take preconditions
+\eqref{eq:indirect-leo-effect-summary-10},
+\eqref{eq:indirect-leo-effect-summary-12},
+\eqref{eq:indirect-leo-effect-summary-14}
+and
+\eqref{eq:indirect-leo-effect-summary-16}
+as assumptions for this theorem.
+
+\begin{align}
+\label{eq:indirect-leo-effect-summary-22}
+& \myparbox{%
+\Veim{cuz} is incomplete
+\becuz{}
+\eqref{eq:indirect-leo-effect-summary-14},
+\dref{def:quasi-matching-leo-memo},
+\dref[matching Leo memo]{def:eim-matching-leo-memo}.
+} \\
+\label{eq:indirect-leo-effect-summary-24}
+& \myparbox{%
+\Veim{cuz} is the top-down cause of an
+null-scan effect, call it \Veim{eff}
+\becuz
+\eqref{eq:indirect-leo-effect-summary-10},
+\eqref{eq:indirect-leo-effect-summary-22},
+\tref{t:null-scan-from-down-cause}.
+} \\
+\label{eq:indirect-leo-effect-summary-26}
+& \myparbox{%
+\Veim{cuz} and \Veim{eff} are in the same
+fleeting closure
+\becuz
+\eqref{eq:indirect-leo-effect-summary-24}
+\dref[fleeting closure]{def:fleeting-closure-sequence}.
+} \\
+\label{eq:indirect-leo-effect-summary-28}
+& \myparbox{%
+\Veim{cuz} and \Veim{eff} share the same EIM completion
+\becuz
+\eqref{eq:indirect-leo-effect-summary-26},
+\tref{t:fc-shares-eim-completion}.
+} \\
+\label{eq:indirect-leo-effect-summary-29}
+& \myparbox{%
+\Veim{cuz} is quasi-complete
+\becuz{}
+\eqref{eq:indirect-leo-effect-summary-16},
+\dref[quasi-matching Leo memo]{def:quasi-matching-leo-memo}.
+} \\
+\label{eq:indirect-leo-effect-summary-30}
+& \myparbox{%
+\Vleo{l} quasi-matches \Veim{eff}
+\becuz
+\eqref{eq:indirect-leo-effect-summary-28},
+\eqref{eq:indirect-leo-effect-summary-29},
+\dref[quasi-matching Leo memo]{def:quasi-matching-leo-memo}.
+}
+\end{align}
+
+\textbf{Summary}:
+For the nodes,
+we have the correctness
+of \Veim{cuz} \becuz{}
+\eqref{eq:indirect-leo-effect-summary-10};
+the correctness of \Vleo{l} \becuz{}
+\eqref{eq:indirect-leo-effect-summary-12};
+and
+the correctness of \Veim{eff} \becuz{}
+\eqref{eq:indirect-leo-effect-summary-24}.
+We have the correctness of the top-down cause
+of \Veim{eff} from
+\eqref{eq:indirect-leo-effect-summary-24}.
+We have the correctness of the
+quasi-matches from
+\eqref{eq:indirect-leo-effect-summary-16}
+and
+\eqref{eq:indirect-leo-effect-summary-28}.
 \end{proof}
 
 \begin{theorem}
