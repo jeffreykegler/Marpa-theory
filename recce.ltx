@@ -4457,35 +4457,50 @@ If
 \[\Veim{effect} = [ \Vdr{effect}, \var{i}, \var{k} ],\]
 is a valid, confirmed EIM,
 then
-\begin{enumerate}
-\RaggedRight
-\item
-\label{item:symbolic-causes-from-effect-3}
+\begin{subequations}
+\renewcommand{\theequation}{R\arabic{equation}}
+\begin{align}
+\label{eq:symbolic-causes-from-effect-3}
+& \myparbox{%
 \Veim{effect} must have a valid symbolic bottom-up cause,
-call it $\Vinst{up}$,
-\item
-\label{item:symbolic-causes-from-effect-6}
+call it $\Vinst{up}$.
+} \\
+\label{eq:symbolic-causes-from-effect-6}
+& \myparbox{%
 \Veim{effect} must have a valid top-down cause,
-call it $\Veim{down}$,
-\item
-\label{item:symbolic-causes-from-effect-9}
-\Vinst{up} and \Veim{down} must be matching causes,
-\item
-\label{item:symbolic-causes-from-effect-12}
-$\Right{\Vinst{up}}  = \Vloc{k}$,
-\item
-\label{item:symbolic-causes-from-effect-15}
-$\Left{\Veim{down}} = \Vloc{i}$,
-\item
-\label{item:symbolic-causes-from-effect-18}
-$\Symbol{\Vinst{up}} = \Predot{\Veim{effect}}$,
-\item
-\label{item:symbolic-causes-from-effect-19}
-$\Predot{\Veim{effect}} = \Postdot{\Veim{down}}$, and
-\item
-\label{item:symbolic-causes-from-effect-21}
-$\Next{\Vdr{down}} = \Vdr{effect}$
-\end{enumerate}
+call it $\Veim{down}$.
+} \\
+\label{eq:symbolic-causes-from-effect-9}
+& \myparbox{%
+\Vinst{up} and \Veim{down} must be matching causes.
+}
+\intertext{%
+And, for every matching pair of causes,
+where we call the top-down cause \Veim{down},
+and we call the bottom-up cause \Vinst{up}.
+}
+\label{eq:symbolic-causes-from-effect-12}
+& \myparbox{%
+$\Right{\Vinst{up}}  = \Vloc{k}$.
+} \\
+\label{eq:symbolic-causes-from-effect-15}
+& \myparbox{%
+$\Left{\Veim{down}} = \Vloc{i}$.
+} \\
+\label{eq:symbolic-causes-from-effect-18}
+& \myparbox{%
+$\Symbol{\Vinst{up}} = \Predot{\Veim{effect}}$.
+} \\
+\label{eq:symbolic-causes-from-effect-19}
+& \myparbox{%
+$\Predot{\Veim{effect}} = \Postdot{\Veim{down}}$.
+} \\
+\label{eq:symbolic-causes-from-effect-21}
+& \myparbox{%
+$\Next{\Vdr{down}} = \Vdr{effect}$.
+}
+\end{align}
+\end{subequations}
 \end{theorem}
 
 \begin{proof}
@@ -4497,7 +4512,7 @@ let \Veim{effect} be
 \big[ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k}
 \big].
 \end{equation}
-so that by
+By
 \dref[causes of a confirmed EIM]{def:causes-confirmed},
 the bottom-up cause of \Veim{effect} is
 \begin{equation}
@@ -4509,6 +4524,10 @@ and the top-down cause is
 \label{eq:symbolic-causes-from-effect-30}
 \Veim{down} = [ [ \Vsym{down} \derives \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j} ].
 \end{equation}
+The statement of \Vinst{up} and \Veim{down} in
+\eqref{eq:symbolic-causes-from-effect-25} and
+\eqref{eq:symbolic-causes-from-effect-30}
+is without loss of generality.
 
 Trivially, we can see that
 \eqref{eq:symbolic-causes-from-effect-20},
@@ -4516,13 +4535,13 @@ Trivially, we can see that
 and
 \eqref{eq:symbolic-causes-from-effect-30}
 satisfy
-requirements \ref{item:symbolic-causes-from-effect-9}
-\ref{item:symbolic-causes-from-effect-12},
-\ref{item:symbolic-causes-from-effect-15},
-\ref{item:symbolic-causes-from-effect-18},
-\ref{item:symbolic-causes-from-effect-19}
+Requirements \eqref{eq:symbolic-causes-from-effect-9}
+\eqref{eq:symbolic-causes-from-effect-12},
+\eqref{eq:symbolic-causes-from-effect-15},
+\eqref{eq:symbolic-causes-from-effect-18},
+\eqref{eq:symbolic-causes-from-effect-19}
 and
-\ref{item:symbolic-causes-from-effect-21}
+\eqref{eq:symbolic-causes-from-effect-21}
 in the statement of the theorem.
 It remains to show that
 \eqref{eq:symbolic-causes-from-effect-25},
@@ -4550,7 +4569,7 @@ we have
 \eqref{eq:symbolic-causes-from-effect-25},
 our bottom-up cause.
 This shows that \Vinst{up} is valid
-which was requirement \ref{item:symbolic-causes-from-effect-3}
+which was Requirement \eqref{eq:symbolic-causes-from-effect-3}
 in the statement of this theorem.
 
 A different simplification of
@@ -4568,7 +4587,7 @@ we have
 \eqref{eq:symbolic-causes-from-effect-30}.
 This shows that \Veim{down} is valid
 which was
-requirement \ref{item:symbolic-causes-from-effect-6},
+Requirement \eqref{eq:symbolic-causes-from-effect-6},
 the only remaining requirement
 in the statement of this theorem.
 \end{proof}
@@ -12617,13 +12636,14 @@ $\Right{\Veim{eff}} = \Right{\Veim{cuz}}$
 \becuz{}
 \eqref{eq:leo-effect-props-28},
 \eqref{eq:leo-effect-props-30},
-\tref{t:effect-from-matching-causes}
+\tref{t:symbolic-causes-from-effect}
 which shows requirement
 \eqref{eq:leo-effect-props-req-5}
 for this theorem.
 } \\
 \label{eq:leo-effect-props-38}
 & \myparbox{%
+TOHERE
 \Veim{eff} is right-recursive
 \becuz{}
 \eqref{eq:leo-effect-props-16},
