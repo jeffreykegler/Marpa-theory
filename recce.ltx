@@ -10416,17 +10416,29 @@ of \Vleo{eff}.
 \end{itemize}
 \end{definition}
 
+In this document,
+we will sometimes also call a valid Leo memo an
+\xdfn{instantiated}{instantiated (Leo memo)}
+Leo memo.
+
 \begin{definition}
 \label{def:validity-of-leo-memo}
 \dtitle{Validity of an Leo memo}
 Let \Vleo{eff} be a Leo memo,
-and let \Veim{basis} be a valid EIM
-which is the basis of \Vleo{eff}.
 \Vleo{eff} is
 \xdfn{valid}{valid (Leo memo)}
-if and only if
-it falls into one of
-two cases,
+if and only if the following hold:
+
+\begin{itemize}
+\item
+There is a valid EIM,
+call it \Veim{basis},
+which is the basis of \Vleo{eff}.
+\item
+One of the following two cases are true.
+\end{itemize}
+
+The two cases are
 based on whether or not \Veim{eff}
 has a top-down cause.
 
@@ -10435,8 +10447,7 @@ In the first case,
 \Vleo{eff} has
 an instantiated top-down cause.
 Let that top-down cause be \Vleo{down}.
-In this case,
-\Vleo{eff} is valid if and only if
+This case holds if and only if
 \begin{equation*}
 \Vleo{eff} = \left[
   \begin{gathered}
@@ -10450,8 +10461,7 @@ In this case,
 In the second case,
 there is no instantiated
 top-down cause for \Vleo{eff}.
-In this case,
-\Vleo{eff} is valid if and only if
+This case holds if and only if
 \begin{equation*}
 \Vleo{eff} = \left[
   \begin{gathered}
@@ -10461,12 +10471,8 @@ In this case,
   \end{gathered}
 \right].
 \end{equation*}
+\vspace{.5ex} % extra space needed before end marker
 \end{definition}
-
-In this document,
-we will sometimes also call a valid Leo memo an
-\xdfn{instantiated}{instantiated (Leo memo)}
-Leo memo.
 
 \begin{theorem}
 \ttitle{Leo basis uniqueness by memo}
@@ -10853,7 +10859,8 @@ call it \Veim{eff}.
 \Veim{bas} is the only matching top-down cause
 of \Veim{e}.
 \item
-\Veim{bas} is a top-down cause of \Veim{eff}.
+\Veim{bas} is a top-down cause of
+exactly one effect, \Veim{eff}.
 \end{itemize}
 \end{theorem}
 
@@ -12512,7 +12519,11 @@ We begin with the assumptions for the theorem:
 \label{eq:leo-effect-props-16}
 & \myparbox{%
 \Veim{bas} is the basis of \Vleo{l}
-\becuz{} ASM for Th.
+and \Valid{\Veim{bas}}
+\becuz{}
+\eqref{eq:leo-effect-props-10},
+\dref{def:validity-of-leo-memo},
+ASM for Th.
 } \\
 \label{eq:leo-effect-props-25}
 & \myparbox{%
@@ -12584,6 +12595,7 @@ exactly one effect, \Veim{eff}
 \becuz{}
 \eqref{eq:leo-effect-props-28},
 \eqref{eq:leo-effect-props-30},
+\tref{t:effect-from-leo-memo-and-eim}
 which shows requirement
 \eqref{eq:leo-effect-props-req-3-2}
 of this theorem.
@@ -12625,7 +12637,7 @@ for this theorem.
 & \myparbox{%
 \Veim{cuz} is complete
 \becuz{}
-\eqref{eq:leo-effect-props-14}
+\eqref{eq:leo-effect-props-14},
 \dref[matching Leo memo]{def:eim-matching-leo-memo}
 which shows requirement
 \eqref{eq:leo-effect-props-req-6a}
@@ -12651,16 +12663,10 @@ for this theorem.
   \left[
   \begin{gathered}
   \Vincr{\Dotix{\Veim{bas}}} \\
-  \ldots \; \Vlastix{\RHS{\Veim{bas}}} \\
+  \quad \ldots \; \Vlastix{\RHS{\Veim{bas}}} \\
   \end{gathered}
   \right].
-\intertext{%
-Note that in
-\eqref{eq:leo-effect-props-46} we can say that \var{suffix} is nulling wherever it occurs,
-because, in a Marpa grammar, every symbol is always either
-telluric (non-nulling) or nulling --- there are no proper nullables.
-Therefore, we can say that
-}
+\\
 \label{eq:leo-effect-props-48}
 & \myparbox{%
 $\var{suffix} \derives \epsilon$
@@ -12669,7 +12675,13 @@ $\var{suffix} \derives \epsilon$
 \eqref{eq:leo-effect-props-46},
 \dref[quasi-penult DR]{def:quasi-types},
 \dref[DR notions for EIM's]{def:eim-dr-notions}.
-} \\
+}
+\intertext{%
+Note that in
+\eqref{eq:leo-effect-props-48} we can say that \var{suffix} is nulling wherever it occurs,
+because, in a Marpa grammar, every symbol is always either
+telluric (non-nulling) or nulling --- there are no proper nullables.
+}
 \label{eq:leo-effect-props-50}
 & \myparbox{%
 $\Dotix{\Veim{eff}} = \Vincr{\Dotix{\Veim{bas}}}$
@@ -12687,7 +12699,7 @@ $\RHS{\Veim{eff}}[\Dotix{\Veim{eff}} \ldots \Vlastix{\RHS{\Veim{eff}}}] = \var{s
 } \\
 \label{eq:leo-effect-props-54}
 & \myparbox{%
-$\RHS{\Veim{eff}}[\Dotix{\Veim{eff}} \ldots \Vlastix{\RHS{\Veim{eff}}}] \derives \epsilon$
+$\RHS{\Veim{eff}}[\Dotix{\Veim{eff}} \ldots \Vlastix{\RHS{\Veim{eff}}}] \destar \epsilon$
 \becuz{}
 \eqref{eq:leo-effect-props-48},
 \eqref{eq:leo-effect-props-52}.
@@ -12698,6 +12710,7 @@ $\RHS{\Veim{eff}}[\Dotix{\Veim{eff}} \ldots \Vlastix{\RHS{\Veim{eff}}}] \derives
 \becuz{}
 \eqref{eq:leo-effect-props-54},
 \dref[quasi-penult DR]{def:quasi-types},
+\dref[DR notions for EIM's]{def:eim-dr-notions},
 which shows requirement
 \eqref{eq:leo-effect-props-req-7}
 for this theorem.
@@ -12725,17 +12738,6 @@ for this theorem.
 which is requirement
 \eqref{eq:leo-effect-props-req-9}
 for this theorem.
-} \\
-& \myparbox{%
-TOHERE
-TODO: pieces.
-\dref[Leo-eligible]{def:leo-eligible}
-\dref[basis of Leo memo]{def:basis-of-leo-memo}.
-\dref[causes of confirmed EIM]{def:causes-confirmed}.
-\dref[matching Leo memo]{def:eim-matching-leo-memo}.
-\dref[matching top-down and bottom-up causes]{def:matching-causes}.
-\dref[quasi-penult]{def:quasi-types}.
-\dref[silo]{def:silo}
 }
 \end{align}
 
@@ -12743,6 +12745,15 @@ TODO: Finish.
 \end{proof}
 
 TODO: TOHERE
+
+TODO: pieces.
+\dref[Leo-eligible]{def:leo-eligible}.
+\dref[basis of Leo memo]{def:basis-of-leo-memo}.
+\dref[causes of confirmed EIM]{def:causes-confirmed}.
+\dref[matching Leo memo]{def:eim-matching-leo-memo}.
+\dref[matching top-down and bottom-up causes]{def:matching-causes}.
+\dref[quasi-penult]{def:quasi-types}.
+\dref[silo]{def:silo}.
 
 \begin{theorem}
 \ttitle{Matching Leo memo of Leo effect}
