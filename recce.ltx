@@ -1050,6 +1050,23 @@ $\var{s1} + \var{s2}$,%
 for the concatenation of the series \var{s2} after the series
 \var{s1}.
 
+Where \var{seq} is a sequence,
+We will write \el{seq}{\var{i} \ldots \var{j}} to refer
+to the contiguous subsequence of \var{seq} which starts with
+\Vel{seq}{i} and ends with \Vel{seq}{j}.
+The range is inclusive, so that
+the length of \el{seq}{\var{i} \ldots \var{j}}
+is $(\xxsubtract{\var{j}}{\var{i}})+1$.
+We will write
+\Vel{seq}{\var{a} \ldots \var{z}}
+for the sequence of symbol instances
+\[
+    \Vel{seq}{a}, \;\;
+    \el{seq}{\Vincr{a}}, \;\;
+    \ldots \;\;
+    \Vel{seq}{z}
+\]
+
 The following theorem will prove useful.
 
 \begin{theorem}
@@ -1259,23 +1276,47 @@ $\RHS{\Vrule{r}}$,%
 and
 respectively.
 
+We will sometimes treat 
+\RHS{\Vrule{r}} as a sequence,
+so that \el{\RHS{\Vrule{r}}}{0} is the first
+symbol instance on the RHS of \Vrule{r}.
 Where \Vrule{r} is a rule,
 \Vsize{\Vrule{r}}%
-\index{recce-notation}{\Pipe{}rule\Pipe{}@\Vsize{rule} (size of a rule)}
-is the length of its RHS, in symbols.
-Occasionally, we will need to look at the RHS of a rule
-symbol by symbol.
-\op{RHS}{\Vrule{r}, \var{i}}%
-\index{recce-notation}{RHS(r, ix)@\op{RHS}{\Vrule{r}, \var{ix}}}
-is the \var{i}'th symbol on the RHS
-of \Vrule{r}.
-The numbering is zero-based,
-so that
-\op{RHS}{\Vrule{r}, 0}
-is the first symbol on the RHS of \Vrule{r},
+\index{recce-notation}{\Pipe{}rule\Pipe{}@\Vsize{rule}!size of a RULE}
+is the length of its RHS, in symbols;
 and
-\op{RHS}{\Vrule{r}, \Vdecr{\Vsize{\Vrule{r}}}}
-is the last symbol on the RHS of \Vrule{r}.
+\Vlastix{\Vrule{r}}%
+\index{recce-notation}{#rule@\Vlastix{rule}!last index of the RHS of a RULE}
+is equal to \Vlastix{\RHS{\Vrule{r}}}.
+Therefore, the last symbol instance of the RHS of \Vrule{r}
+may be referred to as any of
+\begin{gather*}
+\el{\RHS{\Vrule{r}}}{\Vlastix{\RHS{\Vrule{r}}}}, \\
+\el{\RHS{\Vrule{r}}}{\Vlastix{\Vrule{r}}} \quad \text{or} \\
+\el{\RHS{\Vrule{r}}}{(\Vdecr{\Vsize{\RHS{\Vrule{r}}}})}. \\
+\end{gather*}
+
+When we need to look at the RHS of a rule
+symbol by symbol,
+we will treat the RHS as a sequence,
+and write
+\Vel{\RHS{\Vrule{r}}}{i}%
+\index{recce-notation}{RHS[r](ix)@\Vel{\RHS{\Vrule{r}}}{ix}}
+to refer to the \var{i}'th RHS symbol instance
+of \Vrule{r}.
+But another way of referring to the \var{i}'th RHS symbol instance
+of \Vrule{r} will be
+\op{RHS}{\Vrule{r}, \var{i}}.%
+\index{recce-notation}{RHS(r, ix)@\op{RHS}{\Vrule{r}, \var{ix}}}
+We will write
+\el{\RHS{\Vrule{r}}}{\var{a} \ldots \var{z}}
+for the subsequence of RHS symbol instances
+\[
+    \el{\RHS{\Vrule{r}}}{\var{a}}, \;\;
+    \el{\RHS{\Vrule{r}}}{\Vincr{a}}, \;\;
+    \ldots \;\;
+    \el{\RHS{\Vrule{r}}}{\var{z}}.
+\]
 
 The rules imply the traditional rewriting system.
 We write
@@ -1730,7 +1771,6 @@ for the sequence of symbol instances
     \ldots \;\;
     \drvVV{d}{s}{z}
 \]
-
 
 \section{Focused derivations}
 
@@ -10174,9 +10214,6 @@ for all \Veim{eim} in the parse,
 \begin{definition}
 \dtitle{Leo-eligible}
 \label{def:leo-eligible}
-An EIM can be the basis of a Leo memo
-only if it is
-Leo-eligible.
 A rule is
 \xdfn{Leo-eligible}{Leo-eligible (rule)}
 if and only if it is right-recursive.
@@ -10220,14 +10257,14 @@ large.
 Let \Vleo{eff} be a Leo memo.
 We say that \Veim{basis} is
 a \xdfn{basis}{basis (EIM)!wrt a Leo memo}
-of \Vleo{eff} if the postdot locsym of \Veim{basis}
-is equal to the locsym of \Vleo{eff},
-that is,
-if
-\begin{equation}
-\label{eq:def-basis-of-leo-memo-10}
-  \LSY{\Vleo{eff}} = \PLSY{\Veim{basis}}.
-\end{equation}
+of \Vleo{eff} if and only if
+both of the following conditions are true:
+\begin{itemize}
+\item
+\Veim{bas} is Leo-eligible.
+\item
+$\LSY{\Vleo{eff}} = \PLSY{\Veim{basis}}$.
+\end{itemize}
 When \Veim{basis} is the basis of \Vleo{eff},
 we say that \Veim{basis} is a
 \xdfn{bottom-up cause}{bottom-up cause (of a Leo memo)}
@@ -12592,14 +12629,35 @@ which shows requirement
 \eqref{eq:leo-effect-props-req-6}
 for this theorem.
 } \\
+\label{eq:leo-effect-props-40}
 & \myparbox{%
-TOHERE
 \Veim{cuz} is complete
-\becuz{} ASM for Th.
+\becuz{}
+\eqref{eq:leo-effect-props-14}
+\dref[matching Leo memo]{def:eim-matching-leo-memo}
+which shows requirement
+\eqref{eq:leo-effect-props-req- 6a}
+for this theorem.
+} \\
+\label{eq:leo-effect-props-42}
+& \myparbox{%
+\Veim{bas} is a Leo-eligible.
+\becuz{}
+\eqref{eq:leo-effect-props-16},
+\dref[basis of Leo memo]{def:basis-of-leo-memo}.
+} \\
+\label{eq:leo-effect-props-44}
+& \myparbox{%
+\Veim{bas} is a quasi-penult.
+\becuz{}
+\eqref{eq:leo-effect-props-42},
+\dref[Leo-eligible]{def:leo-eligible}.
 } \\
 \label{eq:leo-effect-props-8h}
 & \myparbox{%
+TOHERE
 TODO: pieces.
+\dref[Leo-eligible]{def:leo-eligible}
 \dref[basis of Leo memo]{def:basis-of-leo-memo}.
 \dref[causes of confirmed EIM]{def:causes-confirmed}.
 \dref[matching Leo memo]{def:eim-matching-leo-memo}.
