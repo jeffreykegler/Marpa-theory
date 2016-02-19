@@ -97,7 +97,7 @@
   \index{recce-notation}{#1@\ensuremath{\var{x}_{#1}} (#1 type)}%
 }
 
-\newcommand{\defined}{\underset{\text{def}}{\equiv}}
+\newcommand{\defined}{\mathrel{\underset{\text{def}}{\equiv}}}
 \newcommand{\xdfn}[2]{\textbf{#1}\index{recce-definitions}{#2}}
 \newcommand{\dfn}[1]{\xdfn{#1}{#1}}
 \newcommand{\qdfn}[1]{{\textbf{#1}}}
@@ -1049,22 +1049,14 @@ $\var{s1} + \var{s2}$,%
 \index{recce-notation}{+@$+$!\var{seq1}+\var{seq2}}
 for the concatenation of the series \var{s2} after the series
 \var{s1}.
-
-Where \var{seq} is a sequence,
-We will write \el{seq}{\var{i} \ldots \var{j}} to refer
-to the contiguous subsequence of \var{seq} which starts with
-\Vel{seq}{i} and ends with \Vel{seq}{j}.
-The range is inclusive, so that
-the length of \el{seq}{\var{i} \ldots \var{j}}
-is $(\xxsubtract{\var{j}}{\var{i}})+1$.
 We will write
-\Vel{seq}{\var{a} \ldots \var{z}}
-for the sequence of symbol instances
+\Vel{s1}{\var{a} \ldots \var{z}}
+for the subsequence
 \[
-    \Vel{seq}{a}, \;\;
-    \el{seq}{\Vincr{a}}, \;\;
+    \Vel{s1}{a}, \;\;
+    \el{s1}{\Vincr{a}}, \;\;
     \ldots \;\;
-    \Vel{seq}{z}
+    \Vel{s1}{z}.
 \]
 
 The following theorem will prove useful.
@@ -1304,7 +1296,7 @@ and write
 \index{recce-notation}{RHS[r](ix)@\Vel{\RHS{\Vrule{r}}}{ix}}
 to refer to the \var{i}'th RHS symbol instance
 of \Vrule{r}.
-But another way of referring to the \var{i}'th RHS symbol instance
+Another way of referring to the \var{i}'th RHS symbol instance
 of \Vrule{r} will be
 \op{RHS}{\Vrule{r}, \var{i}}.%
 \index{recce-notation}{RHS(r, ix)@\op{RHS}{\Vrule{r}, \var{ix}}}
@@ -12479,7 +12471,7 @@ $\Right{\Veim{cuz}} = \Right{\Veim{eff}}$
 & \myparbox{%
 \Veim{eff} is right-recursive.
 } \\
-\label{eq:leo-effect-props-req- 6a}
+\label{eq:leo-effect-props-req-6a}
 & \myparbox{%
 \Veim{cuz} is complete.
 } \\
@@ -12636,7 +12628,7 @@ for this theorem.
 \eqref{eq:leo-effect-props-14}
 \dref[matching Leo memo]{def:eim-matching-leo-memo}
 which shows requirement
-\eqref{eq:leo-effect-props-req- 6a}
+\eqref{eq:leo-effect-props-req-6a}
 for this theorem.
 } \\
 \label{eq:leo-effect-props-42}
@@ -12653,7 +12645,63 @@ for this theorem.
 \eqref{eq:leo-effect-props-42},
 \dref[Leo-eligible]{def:leo-eligible}.
 } \\
-\label{eq:leo-effect-props-8h}
+\label{eq:leo-effect-props-46}
+& \var{suffix} \defined
+\RHS{\Veim{bas}}
+  \left[
+  \begin{gathered}
+  \Vincr{\Dotix{\Veim{bas}}} \\
+  \ldots \; \Vlastix{\RHS{\Veim{bas}}} \\
+  \end{gathered}
+  \right].
+\intertext{%
+Note that in
+\eqref{eq:leo-effect-props-46} we can say that \var{suffix} is nulling wherever it occurs,
+because, in a Marpa grammar, every symbol is always either
+telluric (non-nulling) or nulling --- there are no proper nullables.
+Therefore, we can say that
+}
+\label{eq:leo-effect-props-48}
+& \myparbox{%
+$\var{suffix} \derives \epsilon$
+\becuz{}
+\eqref{eq:leo-effect-props-44},
+\eqref{eq:leo-effect-props-46},
+\dref[quasi-penult DR]{def:quasi-types},
+\dref[DR notions for EIM's]{def:eim-dr-notions}.
+} \\
+\label{eq:leo-effect-props-50}
+& \myparbox{%
+$\Dotix{\Veim{eff}} = \Vincr{\Dotix{\Veim{bas}}}$
+\becuz{}
+\eqref{eq:leo-effect-props-32},
+\tref{t:effect-from-matching-causes}.
+} \\
+\label{eq:leo-effect-props-52}
+& \myparbox{%
+$\RHS{\Veim{eff}}[\Dotix{\Veim{eff}} \ldots \Vlastix{\RHS{\Veim{eff}}}] = \var{suffix}$
+\becuz{}
+\eqref{eq:leo-effect-props-34},
+\eqref{eq:leo-effect-props-46},
+\eqref{eq:leo-effect-props-50}.
+} \\
+\label{eq:leo-effect-props-54}
+& \myparbox{%
+$\RHS{\Veim{eff}}[\Dotix{\Veim{eff}} \ldots \Vlastix{\RHS{\Veim{eff}}}] \derives \epsilon$
+\becuz{}
+\eqref{eq:leo-effect-props-48},
+\eqref{eq:leo-effect-props-52}.
+} \\
+\label{eq:leo-effect-props-56}
+& \myparbox{%
+\Veim{eff} is quasi-complete
+\becuz{}
+\eqref{eq:leo-effect-props-54},
+\dref[quasi-penult DR]{def:quasi-types},
+which shows requirement
+\eqref{eq:leo-effect-props-req-7}
+for this theorem.
+} \\
 & \myparbox{%
 TOHERE
 TODO: pieces.
@@ -12663,6 +12711,7 @@ TODO: pieces.
 \dref[matching Leo memo]{def:eim-matching-leo-memo}.
 \dref[matching top-down and bottom-up causes]{def:matching-causes}.
 \dref[quasi-penult]{def:quasi-types}.
+\dref[silo]{def:silo}
 }
 \end{align}
 
