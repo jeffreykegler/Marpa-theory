@@ -12516,7 +12516,7 @@ We begin with the assumptions for the theorem:
 } \\
 \label{eq:leo-effect-props-25}
 & \myparbox{%
-\Veim{cuz} is the cause of exactly valid
+\Veim{cuz} is the cause of exactly one valid
 effect, \Veim{eff}
 \becuz{}
 \eqref{eq:leo-effect-props-10},
@@ -12700,6 +12700,30 @@ $\RHS{\Veim{eff}}[\Dotix{\Veim{eff}} \ldots \Vlastix{\RHS{\Veim{eff}}}] \derives
 \dref[quasi-penult DR]{def:quasi-types},
 which shows requirement
 \eqref{eq:leo-effect-props-req-7}
+for this theorem.
+} \\
+\label{eq:leo-effect-props-58}
+& \myparbox{%
+\Veim{cuz} is a silo cause of \Veim{eff}
+\becuz{}
+\eqref{eq:leo-effect-props-27},
+\eqref{eq:leo-effect-props-36},
+\eqref{eq:leo-effect-props-40},
+\eqref{eq:leo-effect-props-56},
+\dref[silo]{def:silo},
+which is requirement
+\eqref{eq:leo-effect-props-req-8}
+for this theorem.
+} \\
+\label{eq:leo-effect-props-60}
+& \myparbox{%
+\Veim{eff} is the only silo effect of \Veim{cuz}
+\becuz{}
+\eqref{eq:leo-effect-props-25},
+\eqref{eq:leo-effect-props-58},
+\dref{def:silo},
+which is requirement
+\eqref{eq:leo-effect-props-req-9}
 for this theorem.
 } \\
 & \myparbox{%
@@ -13157,84 +13181,6 @@ we see that
 is the unique silo effect
 of \Veim{cuz}.
 \end{proof}
-
-\begin{lemma}
-TODO: probably delete this lemma
-
-\label{lem:leo-memo-carryforward}
-Let \Veim{cuz} be a valid EIM which is quasi-complete,
-but incomplete;
-and let
-\Vleo{l}
-be a instantiated Leo memo matching \Veim{cuz}.
-Then \Veim{cuz} has a effect,
-call it \Veim{eff},
-and
-\Vleo{l} matches \Veim{eff}.
-\end{lemma}
-
-\begin{proof}
-From Theorem
-\ref{lem:leo-memo-of-incomplete-eim},
-we know that
-\Veim{cuz} has a valid effect,
-so that
-\Veim{eff} exists.
-Since, by assumption for the theorem,
-\Veim{cuz} is incomplete, it has a postdot symbol.
-Since, by assumption for the theorem,
-\Veim{cuz} is quasi-complete, the postdot symbol must be nulling.
-Therefore \Veim{eff} is a null-scan with \Veim{cuz} as its
-top-down cause.
-By Theorem
-\ref{t:null-scan-from-down-cause},
-\Veim{eff} is such that
-\begin{align}
-\label{eq:lem-leo-memo-carryforward-10b}
-\Left{\Veim{cuz}} & = \Left{\Veim{eff}} \\
-\label{eq:lem-leo-memo-carryforward-10c}
-\land \quad \LHS{\Veim{cuz}} & = \LHS{\Veim{eff}}.
-\end{align}
-
-By assumption for the theorem
-and the definition of a matching Leo memo
-\begin{equation}
-\label{eq:lem-leo-memo-carryforward-20}
-\begin{aligned}
-\Left{\Veim{cuz}} & = \Current{\Vleo{l}} \\
-\land \quad \LHS{\Veim{cuz}} & = \Symbol{\Vleo{l}}.
-\end{aligned}
-\end{equation}
-Combining
-\eqref{eq:lem-leo-memo-carryforward-10b},
-\eqref{eq:lem-leo-memo-carryforward-10c}
-and
-\eqref{eq:lem-leo-memo-carryforward-20},
-\begin{equation}
-\label{eq:lem-leo-memo-carryforward-30}
-\begin{aligned}
-\Left{\Veim{eff}} & = \Current{\Vleo{l}} \\
-\land \quad \LHS{\Veim{eff}} & = \Symbol{\Vleo{l}}.
-\end{aligned}
-\end{equation}
-The definition of a matching Leo memo,
-and \eqref{eq:lem-leo-memo-carryforward-30}
-tell us the \Vleo{l} matches \Veim{cuz}.
-\end{proof}
-
-\begin{definition}
-\dtitle{Fleeting Leo silo}
-TODO: Wrong!  Redefine in terms of top and bottom.
-
-The
-\xdfn{fleeting Leo silo}{fleeting Leo silo}
-of an EIM \Veim{lb} is a silo
-containing \Veim{lb} and the set of
-EIM's potentially added to the Earley tables
-by 
-the call
-\call{Reconstruct}{\Veim{lb}}.
-\end{definition}
 
 \begin{theorem}
 \ttitle{Leo silo uniqueness}
@@ -13945,6 +13891,7 @@ and the theorem.
 \begin{theorem}
 \ttitle{Leo reconstruction silo effects}
 \label{t:leo-reconstruction-silo-effects}
+TODO: probably delete this.
 Let \mycallname{Reconstruct} be as specified in
 Algorithm \ref{alg:reconstruct-memoized-eims};
 let \Vleo{leo} be an instantiated Leo memo;
@@ -13971,194 +13918,7 @@ Then
 \end{theorem}
 
 \begin{proof}
-We proceed by induction
-on the number of passes through the main loop.
-For the purposes of this proof,
-we write
-\[
-  \var{a} \rightarrowtail \var{b}
-\]
-to indicate that \var{b} is the unique silo effect
-of \var{a}.
-Our induction hypothesis is
-\begin{align}
-\label{eq:leo-reconstruction-silo-effects-IND1}
-\tag{IND1}
-& (\Vel{sqsq}{x})[0] = \Veim{lb} \; \text{and}
-\\
-\label{eq:leo-reconstruction-silo-effects-IND2}
-\tag{IND2}
-&
-\begin{aligned}
-& \forall \; \var{a} : 1 \le \var{a} \le \Vlastix{(\Vel{sqsq}{x})}
-\\
-& \qquad \implies (\Vel{sqsq}{x})[\Vdecr{a}] \rightarrowtail
-  (\Vel{sqsq}{x})[\var{a}],
-\end{aligned}
-\end{align}
-where \var{x} is a pass through the main loop.
-
-From \eqref{eq:def-sqsq},
-we see that
-\begin{equation}
-\label{eq:leo-reconstruction-silo-effects-17}
-\el{sqsq}{0} = [ \Veim{lb} ].
-\end{equation}
-\el{sqsq}{0} satisfies
-\eqref{eq:leo-reconstruction-silo-effects-IND1}
-directly from
-\eqref{eq:leo-reconstruction-silo-effects-17},
-and
-\eqref{eq:leo-reconstruction-silo-effects-IND2}, trivially.
-We take $\var{x} = 0$
-as the basis of our induction.
-
-For the step of the induction, we assume
-\eqref{eq:leo-reconstruction-silo-effects-IND1}
-and \eqref{eq:leo-reconstruction-silo-effects-IND2}
-for $\var{x} = \var{i}$,
-to show
-\eqref{eq:leo-reconstruction-silo-effects-IND1}
-and \eqref{eq:leo-reconstruction-silo-effects-IND2}
-for $\var{x} = \Vincr{i}$.
-
-\textbf{\eqref{eq:leo-reconstruction-silo-effects-IND1} for the Step}:
-\begin{align}
-\label{eq:leo-reconstruction-silo-effects-18b}
-& (\Vel{sqsq}{i})[0] = \Veim{lb}
-\because \text{ASM for the step}
-\\
-\label{eq:leo-reconstruction-silo-effects-18d}
-& (\Vel{sqsq}{\Vincr{i}})[0] = (\Vel{sqsq}{i})[0]
-\because \eqref{eq:def-sqsq}
-\\
-\label{eq:leo-reconstruction-silo-effects-18f}
-& (\Vel{sqsq}{\Vincr{i}})[0] = \Veim{lb}
-\because \eqref{eq:leo-reconstruction-silo-effects-18b},
-\eqref{eq:leo-reconstruction-silo-effects-18d},
-\end{align}
-where 
-\eqref{eq:leo-reconstruction-silo-effects-18f}
-is
-\eqref{eq:leo-reconstruction-silo-effects-IND1} for the step.
-
-\textbf{\eqref{eq:leo-reconstruction-silo-effects-IND2} for the Step}:
-By assumption for the step,
-\begin{equation}
-\label{eq:leo-reconstruction-silo-effects-24}
-\begin{aligned}
-& \forall \; \var{a} : 1 \le \var{a} \le \Vlastix{(\Vel{sqsq}{i})}
-\\
-& \qquad \implies (\Vel{sqsq}{i})[\Vdecr{a}] \rightarrowtail (\Vel{sqsq}{i})[\var{a}]
-\end{aligned}
-\end{equation}
-As a convenience, let
-\begin{equation}
-\label{eq:leo-reconstruction-silo-effects-25}
-\var{next-mfc} = \vatp{\var{mfc}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\Vincr{i}}
-\end{equation}
-in the rest of this proof.
-
-\begin{align}
-\label{eq:leo-reconstruction-silo-effects-32}
-& \myparbox{
-$\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
-\rightarrowtail
-\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}}
-\because$
-Lemma \ref{lem:reconstruction-effect}
-and 
-\eqref{eq:def-leo-effect-10a} and
-\eqref{eq:def-leo-effect-13}
-of Def of Leo effect;
-}
-\\
-\label{eq:leo-reconstruction-silo-effects-34}
-& \myparbox{
-$\vatp{\Veim{up}}{\var{top}}{\Vincr{i}}
-\rightarrowtail
-\vatp{\el{mfc}{0}}{\ref{line:reconstruct-memoized-eims-loop-39}}{\Vincr{i}}
-\because$
-line 
-\ref{line:reconstruct-memoized-eims-loop-39},
-\eqref{eq:leo-reconstruction-silo-effects-32};
-}
-\\
-\label{eq:leo-reconstruction-silo-effects-34c}
-& \vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
-= \vatp{\Veim{up}}{\var{top}}{\Vincr{i}},
-\because \text{Algorithm \ref{alg:reconstruct-memoized-eims}};
-\\
-\label{eq:leo-reconstruction-silo-effects-34d}
-& \big(\Vel{sqsq}{i}\big)\big[\Vlastix{(\Vel{sqsq}{i})}\big]
-= \vatp{\Veim{up}}{\ref{line:reconstruct-memoized-eims-loop-43}}{\var{i}}
-\because
-\eqref{eq:def-sqsq}
-\\
-\label{eq:leo-reconstruction-silo-effects-34f}
-& \big(\Vel{sqsq}{i}\big)\big[\Vlastix{(\Vel{sqsq}{i})}\big]
-  = \vatp{\Veim{up}}{\var{top}}{\Vincr{i}}.
-\because
-\eqref{eq:leo-reconstruction-silo-effects-34c},
-\eqref{eq:leo-reconstruction-silo-effects-34d}
-\\
-\label{eq:leo-reconstruction-silo-effects-35}
-& \myparbox{
-$\big(\Vel{sqsq}{i}\big)\big[\Vlastix{(\Vel{sqsq}{i})}\big]
-\rightarrowtail
-\el{next-mfc}{0}
-\because$
-\eqref{eq:leo-reconstruction-silo-effects-34f},
-\eqref{eq:leo-reconstruction-silo-effects-25},
-\eqref{eq:leo-reconstruction-silo-effects-34}
-}
-\\
-\label{eq:leo-reconstruction-silo-effects-36b}
-& \myparbox{
-\var{next-mfc}
-is the fleeting closure of
-\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}},
-$\because$ \eqref{line:reconstruct-memoized-eims-loop-39};
-}
-\\
-\label{eq:leo-reconstruction-silo-effects-36d}
-& \myparbox{
-\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}}
-is a silo effect
-$\because$ \eqref{eq:leo-reconstruction-silo-effects-32};
-}
-\\
-\label{eq:leo-reconstruction-silo-effects-36f}
-& \myparbox{
-\vatp{\Veim{lasting}}{\ref{line:reconstruct-memoized-eims-loop-23}}{\Vincr{i}}
-is quasi-complete
-$\because$ \eqref{eq:leo-reconstruction-silo-effects-36d}.
-}
-\end{align}
-From \eqref{eq:leo-reconstruction-silo-effects-36f},
-Theorem \ref{t:fleeting-closure-silo},
-and property \eqref{eq:fleeting-closure-silo-prop-21} of fleeting closure
-silos,
-\begin{equation}
-\label{eq:leo-reconstruction-silo-effects-40}
-\begin{aligned}
-& \forall \; \var{a} : 1 \le \var{a} \le \Vlastix{nextmfc}
-\\
-& \qquad \implies \el{next-mfc}{\Vdecr{a}} \rightarrowtail \Vel{next-mfc}{a}
-\end{aligned}
-\end{equation}
-
-It will always the case that $\Vincr{i} \ge 1$,
-so that
-\eqref{eq:leo-reconstruction-silo-effects-IND2} for the step follows
-from
-\eqref{eq:def-sqsq},
-\eqref{eq:leo-reconstruction-silo-effects-24},
-\eqref{eq:leo-reconstruction-silo-effects-25},
-\eqref{eq:leo-reconstruction-silo-effects-35}
-and \eqref{eq:leo-reconstruction-silo-effects-40}.
-This gives us the step of the induction, the induction
-and the theorem.
+TODO: delete this.
 \end{proof}
 
 TODO: to here
