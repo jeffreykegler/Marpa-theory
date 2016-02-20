@@ -12791,44 +12791,64 @@ TODO: Finish.
 
 TODO: TOHERE
 
-TODO: pieces.
-\dref[Leo-eligible]{def:leo-eligible}.
-\dref[basis of Leo memo]{def:basis-of-leo-memo}.
-\dref[causes of confirmed EIM]{def:causes-confirmed}.
-\dref[matching Leo memo]{def:eim-matching-leo-memo}.
-\dref[matching top-down and bottom-up causes]{def:matching-causes}.
-\dref[quasi-penult]{def:quasi-types}.
-\dref[silo]{def:silo}.
-
 \begin{theorem}
-\ttitle{Matching Leo memo of Leo effect}
+\ttitle{Matching memo of Leo effect}
 \label{matching-memo-of-Leo-effect}
-Let \Veim{cuz} be a valid EIM;
-and let \Vleo{l} be a matching,
-instantiated, Leo memo.
-Let \Veim{bas} be the basis of \Vleo{l}.
-Then,
+Assume that
+\begin{subequations}
+\renewcommand{\theequation}{A\arabic{equation}}
+\begin{align}
+\label{eq:matching-memo-of-leo-effect-asm-1}
+& \myparbox{%
+\Veim{cuz} is a valid EIM.
+} \\
+\label{eq:matching-memo-of-leo-effect-asm-2}
+& \myparbox{%
+\Vleo{cuz} is an instantiated Leo memo.
+} \\
+\label{eq:matching-memo-of-leo-effect-asm-3}
+& \myparbox{%
+\Vleo{cuz} matches \Veim{cuz}.
+} \\
+\label{eq:matching-memo-of-leo-effect-asm-4}
+& \myparbox{%
+\Veim{eff} is a direct Leo effect of \Veim{cuz}
+}
+\end{align}
+\end{subequations}
+Then
 \begin{subequations}
 \renewcommand{\theequation}{R\arabic{equation}}
 \begin{align}
 \label{eq:matching-memo-of-leo-effect-req-1}
 & \myparbox{%
-\Veim{eff} has an instantiated matching Leo memo,
-if and only if \Vleo{l} has a top-down cause.
+If \Vleo{cuz} is the top-down cause
+of an instantiated Leo memo,
+call it \Vleo{eff},
+then \Vleo{eff} matches \Veim{eff}.
 } \\
 \label{eq:matching-memo-of-leo-effect-req-2}
 & \myparbox{%
 If \Veim{eff} has an instantiated matching Leo memo,
-that Leo memo is the top-down cause of \Vleo{leo}.
+call it \Vleo{eff},
+then \Vleo{cuz} is the top-down cause of \Vleo{eff}.
 }
 \end{align}
 \end{subequations}
 \end{theorem}
 
 \begin{proof}
-To show Requirement
-\eqref{eq:matching-memo-of-leo-effect-5l}
-of this theorem,
+\begin{align}
+\label{eq:matching-memo-of-leo-effect-10}
+& \myparbox{%
+\Veim{bas} is the basis of \Vleo{l}
+and \Valid{\Veim{bas}}
+\becuz{}
+\eqref{eq:matching-memo-of-leo-effect-asm-2}
+\dref{def:validity-of-leo-memo}.
+} \\
+\end{align}
+
 we use a conditional proof, where we
 assume
 \begin{align}
@@ -12923,6 +12943,15 @@ for this theorem:
 
 TODO: Finish.
 \end{proof}
+
+TODO: pieces.
+\dref[Leo-eligible]{def:leo-eligible}.
+\dref[basis of Leo memo]{def:basis-of-leo-memo}.
+\dref[causes of confirmed EIM]{def:causes-confirmed}.
+\dref[matching Leo memo]{def:eim-matching-leo-memo}.
+\dref[matching top-down and bottom-up causes]{def:matching-causes}.
+\dref[quasi-penult]{def:quasi-types}.
+\dref[silo]{def:silo}.
 
 \chapter{Leo silos}
 
