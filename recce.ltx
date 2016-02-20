@@ -4041,7 +4041,9 @@ Let
 \[
    \var{pair} = [ \Veim{down}, \Vinst{up} ]
 \]
-be a pair of matching causes.
+be a pair of matching causes
+such that
+\Valid{\Veim{down}} and \Valid{\Vinst{up}}.
 We say that \Veim{effect} is the
 \xdfn{effect}{effect!EIM, as the
    effect of another EIM and an INST}
@@ -10887,6 +10889,9 @@ we have both directions and the theorem.
 \begin{theorem}
 \ttitle{Effect from Leo memo and EIM}
 \label{t:effect-from-leo-memo-and-eim}
+
+TODO: revise.
+
 Let \Veim{e} be a valid EIM
 and let \Vleo{l} be an
 instantiated Leo memo
@@ -12463,14 +12468,26 @@ which shows requirement
 \eqref{eq:leo-direct-effect-props-req-5}
 for this theorem.
 } \\
-\label{eq:leo-direct-effect-props-38}
+\label{eq:leo-direct-effect-props-37}
 & \myparbox{%
-TOHERE
-\Veim{eff} is right-recursive
+\Veim{bas} is Leo-eligible.
 \becuz{}
 \eqref{eq:leo-direct-effect-props-16},
+\dref[basis of Leo memo]{def:basis-of-leo-memo}.
+} \\
+\label{eq:leo-direct-effect-props-37-1}
+& \myparbox{%
+\Veim{bas} is right-recursive.
+\becuz{}
+\eqref{eq:leo-direct-effect-props-37},
+\dref[Leo-eligible]{def:leo-eligible}.
+} \\
+\label{eq:leo-direct-effect-props-38}
+& \myparbox{%
+\Veim{eff} is right-recursive
+\becuz{}
 \eqref{eq:leo-direct-effect-props-34},
-\dref[basis of Leo memo]{def:basis-of-leo-memo},
+\eqref{eq:leo-direct-effect-props-37-1},
 which shows requirement
 \eqref{eq:leo-direct-effect-props-req-6}
 for this theorem.
@@ -12485,18 +12502,11 @@ which shows requirement
 \eqref{eq:leo-direct-effect-props-req-6a}
 for this theorem.
 } \\
-\label{eq:leo-direct-effect-props-42}
-& \myparbox{%
-\Veim{bas} is a Leo-eligible.
-\becuz{}
-\eqref{eq:leo-direct-effect-props-16},
-\dref[basis of Leo memo]{def:basis-of-leo-memo}.
-} \\
 \label{eq:leo-direct-effect-props-44}
 & \myparbox{%
 \Veim{bas} is a quasi-penult.
 \becuz{}
-\eqref{eq:leo-direct-effect-props-42},
+\eqref{eq:leo-direct-effect-props-37},
 \dref[Leo-eligible]{def:leo-eligible}.
 } \\
 \label{eq:leo-direct-effect-props-46}
@@ -12528,8 +12538,10 @@ telluric (non-nulling) or nulling --- there are no proper nullables.
 & \myparbox{%
 $\Dotix{\Veim{eff}} = \Vincr{\Dotix{\Veim{bas}}}$
 \becuz{}
-\eqref{eq:leo-direct-effect-props-32},
-\tref{t:effect-from-matching-causes}.
+\eqref{eq:leo-direct-effect-props-12},
+\eqref{eq:leo-direct-effect-props-25},
+\eqref{eq:leo-direct-effect-props-30},
+\dref[causes of confirmed EIM's]{def:causes-confirmed}.
 } \\
 \label{eq:leo-direct-effect-props-52}
 & \myparbox{%
@@ -12582,11 +12594,7 @@ which is requirement
 for this theorem.
 }
 \end{align}
-
-TODO: Finish.
 \end{proof}
-
-TODO: TOHERE
 
 \begin{theorem}
 \ttitle{Matching memo of Leo effect}
@@ -12635,6 +12643,12 @@ then \Vleo{cuz} is the top-down cause of \Vleo{eff}.
 \end{theorem}
 
 \begin{proof}
+We first show a preliminary result:
+that $\LSY{\Veim{eff}} = \LSY{\Veim{eff}}$
+where \Veim{bas} is the top-down cause of \Veim{eff}.
+
+TODO: TOHERE
+
 \begin{align}
 \label{eq:matching-memo-of-leo-direct-effect-10}
 & \myparbox{%
