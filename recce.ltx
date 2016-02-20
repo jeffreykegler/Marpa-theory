@@ -334,7 +334,7 @@
    \else{\rawdref{#1}{#2}}%
    \fi%
 }
-\newcommand\qdtitle[1]{\textbf{#1}:}
+% \newcommand\qdtitle[1]{\textbf{#1}:}
 \newcommand\ttitle[1]{\textbf{#1}:\index{recce-theorems}{%
   \padnum{\theoldtheorem}@Theorem \theoldtheorem. #1%
 }
@@ -345,9 +345,11 @@
   \padnum{\theoldtheorem}@Lemma \theoldtheorem. #1%
 }}
 
-\newcommand\ctitle[1]{\index{recce-theorems}{%
-  \padnum{\theoldtheorem}@Construction \theoldtheorem. #1%
-}}
+\newcommand{\algtitle}[2]{%
+  \caption{#1}
+  \label{#2}
+  \index{recce-algorithms}{\padnum{\thealgorithm}@Algorithm \thealgorithm: #1}
+}
 
 \newcommand{\becuz}{\ensuremath{\because}}
 
@@ -2681,7 +2683,7 @@ We divide all dotted rules into five disjoint types:
 start, prediction, null-scan, read and reduction.
 
 \begin{baredefinition}
-\qdtitle{Start}
+\dtitle{Start}
 \label{def:start-dr}
 The
 start dotted rule was defined
@@ -2691,7 +2693,7 @@ Its type is
 \end{baredefinition}
 
 \begin{baredefinition}
-\qdtitle{Prediction}
+\dtitle{Prediction}
 \label{def:prediction-dr}
 If a rule does not have a predot symbol and is not the start dotted rule,
 it is a
@@ -2701,7 +2703,7 @@ or a
 \end{baredefinition}
 
 \begin{baredefinition}
-\qdtitle{Null-scan}
+\dtitle{Null-scan}
 \label{def:null-scan-dr}
 If a rule does have a predot symbol and that symbol is a nulling terminal,
 that rule
@@ -2711,7 +2713,7 @@ dotted rule.
 \end{baredefinition}
 
 \begin{baredefinition}
-\qdtitle{Read}
+\dtitle{Read}
 \label{def:read-dr}
 If a rule does have a predot symbol and that symbol is a telluric terminal,
 the rule is a
@@ -2720,7 +2722,7 @@ dotted rule.
 \end{baredefinition}
 
 \begin{definition}
-\qdtitle{Reduction}
+\dtitle{Reduction}
 \label{def:reduction-dr}
 If a rule does have a predot symbol and that symbol is a non-terminal
 it is a
@@ -2839,7 +2841,7 @@ This definition may be satisfied vacuously:
 all predictions are quasi-predictions.
 
 \begin{theorem}
-\title{Quasi-predicted and quasi-completed dotted rules are disjoint}
+\ttitle{Quasi-predicted dotted rule is not quasi-completed}
 \label{t:quasi-drs-disjoint}.
 In Marpa grammars,
 no quasi-completed dotted rule
@@ -3183,8 +3185,7 @@ and in any case,
 we certainly want to show that
 the ethereal closure has finite time complexity.
 \begin{algorithm}[tb]
-\caption{Add a generation to the ethereal closure}
-\label{alg:ethereal-generation}
+\algtitle{Add a generation to the ethereal closure}{alg:ethereal-generation}
 \begin{algorithmic}[1]
 \Procedure{Ethereal next}{\Vdr{this}, \Vdrset{results}, \Vdrset{work}}
 \If{\Vdr{this} has no postdot symbol}
@@ -3218,12 +3219,10 @@ the ethereal closure has finite time complexity.
 \State return
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}%
-\index{recce-algorithms}{Add a generation to the ethereal closure}
+\end{algorithm}
 
 \begin{algorithm}[tb]
-\caption{Create ethereal closure}
-\label{alg:ethereal-closure}
+\algtitle{Create ethereal closure}{alg:ethereal-closure}
 \begin{algorithmic}[1]
 \Function{Create ethereal closure}{\Vdr{base}}
 \State $\Vdrset{result} \gets \emptyset$
@@ -3536,6 +3535,7 @@ above.
 \end{proof}
 
 \begin{definition}
+\dtitle{Telluric EIM's}
 Following the convention for dotted rules,
 EIM's are
 \xdfn{telluric}{telluric (EIM)}
@@ -3554,7 +3554,7 @@ ethereal dotted rules emerge out of an invisible realm.
 \section{Locsyms}
 
 \begin{definition}
-\dtitle{Locysm}
+\dtitle{Locsym}
 \label{def:locsym}
 A
 \xdfn{located symbol}{located symbol@located symbol|mysee{locsym}}
@@ -3568,7 +3568,7 @@ and a parse location:
 \end{definition}
 
 \begin{definition}
-\dtitle{Locysm of an EIM}
+\dtitle{Locsym of an EIM}
 \label{def:eim-locsym}
 The
 \qdfn{external locsym}%
@@ -3588,7 +3588,7 @@ We also write the locsym of \Veim{eim} as \LSY{\Veim{eim}}.
 \end{definition}
 
 \begin{definition}
-\dtitle{Locysm of a parse instance}
+\dtitle{Locsym of a parse instance}
 \label{def:inst-locsym}
 The
 \qdfn{locsym}%
@@ -3902,19 +3902,6 @@ then the symbolic equivalent of \Veim{up} is
 \Vinst{ins} = \Vmkl{i} \Vsym{up} \Vmkr{j}.
 \end{equation}
 
-\begin{definition}
-\label{def:parse-instance-locsym}
-The
-\dfn{locsym}%
-\index{recce-definitions}{locsym@locsym!of an INST}
-of the parse instance \Vinst{inst}
-is
-\[
-<\Symbol{\Vinst{inst}}, \Left{\Vinst{inst}}>.
-\]
-We also write the locsym of \Vinst{inst} as \LSY{\Vinst{inst}}.
-\end{definition}
-
 \begin{theorem}
 \ttitle{Symbolic equivalent from complete EIM}
 \label{t:valid-symbolic-equivalent-from-eim}
@@ -4199,7 +4186,7 @@ causes.
 An ethereal cause is always valid.
 
 \begin{definition}
-\qdtitle{Validity of terminal symbols}
+\dtitle{Validity of terminal symbols}
 If \Vsym{T} is a telluric terminal symbol,
 and if \CW{} has been seen as far as \Vloc{j}.
 we say that
@@ -4234,7 +4221,7 @@ of the terminal symbol instance \Vinst{x}.
 
 \begin{definition}
 \label{def:validity-of-non-terminal}
-\qdtitle{Validity of non-terminal symbols}
+\dtitle{Validity of non-terminal symbols}
 If \Vsym{N} is a non-terminal symbol,
 we say that
 \begin{equation}
@@ -6794,7 +6781,7 @@ which is requirement
 
 \begin{definition}
 \label{def:tether}
-\qdtitle{Tether}
+\dtitle{Tether}
 Let \Veim{base} be an Earley item.
 The sequence
 \begin{equation}
@@ -7261,6 +7248,8 @@ the same set of EIM's.
 
 We construct \var{teth} using
 the following algorithm:
+\begin{algorithm}[tb]
+\algtitle{Construct tether}{alg:construct-tether}
 \begin{algorithmic}[1]
 \Procedure{Construct tether}{}
 \State $\el{teth}{0} \gets \Veim{eim}$
@@ -7281,8 +7270,8 @@ the following algorithm:
 \EndWhile
 \label{line:eim-tether-90}
 \EndProcedure
-\end{algorithmic}%
-\ctitle{recce-theorems}{Construct tether}
+\end{algorithmic}
+\end{algorithm}
 
 \textbf{``Only if'', first requirement}:
 We have
@@ -13274,8 +13263,7 @@ TODO: finish.
 \section{Reconstructing Leo silos}
 
 \begin{algorithm}[tb]
-\caption{Reconstruct memoized EIM's}
-\label{alg:reconstruct-memoized-eims}
+\algtitle{Reconstruct memoized EIM's}{alg:reconstruct-memoized-eims}
 \begin{algorithmic}[1]
 \Procedure{Reconstruct}{\Veim{lb}}
 \Statex \Veim{lb} is required to be valid, complete,
@@ -13316,8 +13304,7 @@ TODO: finish.
 % \label{line:reconstruct-memoized-eims-90}
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}%
-\ctitle{Reconstruct memoized EIM's}
+\end{algorithm}
 
 This section will present,
 and will present several theorems whose proofs
@@ -15054,8 +15041,7 @@ and a per-set-list.
 Per-set-lists will be described in Section \ref{s:per-set-lists}.
 
 \begin{algorithm}[tb]
-\caption{Marpa Top-level}
-\label{alg:top}
+\algtitle{Marpa Top-level}{alg:top}
 \begin{algorithmic}[1]
 \Procedure{Main}{}
 \State \Call{Initialization}{}
@@ -15104,8 +15090,7 @@ including which tokens are acceptable during the scanning phase.
 
 
 \begin{algorithm}[tb]
-\caption{Initialization}
-\label{alg:initial}
+\algtitle{Initialization}{alg:initial}
 \begin{algorithmic}[1]
 \Procedure{Initial}{}
 \State \Call{Add EIM set}{$\dr{start}, 0, 0$}
@@ -15189,8 +15174,7 @@ of Algorithm \ref{alg:initial}.
 \end{proof}
 
 \begin{algorithm}[tb]
-\caption{Read pass}
-\label{alg:read-pass}
+\algtitle{Read pass}{alg:read-pass}
 \begin{algorithmic}[1]
 \Procedure{Read pass}{$\Vloc{i},\Vsym{up}$}
 \State Note: Each pass through this loop is an EIM attempt
@@ -15377,8 +15361,7 @@ as required for the theorem.
 \label{p:reduction-op-complexity}
 
 \begin{algorithm}[tb]
-\caption{Reduction pass}
-\label{alg:reduction-pass}
+\algtitle{Reduction pass}{alg:reduction-pass}
 \begin{algorithmic}[1]
 \Procedure{Reduction pass}{\Vloc{i}}
 \State Note: \Vtable{i} may include EIM's added by
@@ -15969,8 +15952,7 @@ is correct for \Veimset{reduced-closure}.
 \end{proof}
 
 \begin{algorithm}[tb]
-\caption{Memoize transitions}
-\label{alg:memoize-transitions}
+\algtitle{Memoize transitions}{alg:memoize-transitions}
 \begin{algorithmic}[1]
 \Procedure{Memoize transitions}{\Vloc{i}}
 \For{every \Vsym{postdot}, a telluric postdot symbol of $\Ves{i}$}
@@ -16044,8 +16026,7 @@ TODO: Make sure this accounts for the completeness of all top-down causes.
 \end{proof}
 
 \begin{algorithm}[tb]
-\caption{Reduce one up-cause}
-\label{alg:reduce-one-up-cause}
+\algtitle{Reduce one up-cause}{alg:reduce-one-up-cause}
 \begin{algorithmic}[1]
 \Procedure{Reduce one up-cause}{\Veim{up}}
 \State Note: Each pass through this loop is an EIM attempt
@@ -16097,8 +16078,7 @@ is charged to each EIM attempt.
 Overhead is \Oc{} and caller-included.
 
 \begin{algorithm}[tb]
-\caption{Earley reduction operation}
-\label{alg:earley-reduction-op}
+\algtitle{Earley reduction operation}{alg:earley-reduction-op}
 \begin{algorithmic}[1]
 \Procedure{Earley reduction operation}{\Vloc{current}, \Veim{down}, \Vsym{up}}
 \State $\Vdr{effect} \gets \GOTO(\DR{\Veim{down}}, \Vsym{up})$
@@ -16119,8 +16099,7 @@ and inclusive time and space is charged to the EIM
 attempt.
 
 \begin{algorithm}[tb]
-\caption{Leo reduction operation}
-\label{alg:leo-reduction-op}
+\algtitle{Leo reduction operation}{alg:leo-reduction-op}
 \begin{algorithmic}[1]
 \Procedure{Leo reduction operation}{\Vloc{current}, \Vleo{down}}
 \State $[\Vdr{down}, \Vsym{up}, \Vloc{origin}] \gets \Vleo{down}$
@@ -16142,7 +16121,7 @@ and inclusive time and space is charged to the EIM
 attempt.
 
 \begin{algorithm}[tb]
-\caption{Add EIM set}\label{alg:eim-set}
+\algtitle{Add EIM set}{alg:eim-set}
 \begin{algorithmic}[1]
 \Procedure{Add EIM set}{$\Vdr{base}, \Vloc{origin}, Vloc{i}$}
 \State $\Veim{confirmed} \gets [\Vdr{base}, \Vloc{origin}]$
