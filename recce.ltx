@@ -33,7 +33,7 @@
 \newcommand{\Pipe}{\char‘\|}
 \makeindex{recce-general}
 \makeindex{recce-algorithms}
-\makeindex{recce-figures}
+% \makeindex{recce-figures}
 \makeindex{recce-theorems}
 \makeindex{recce-definitions}
 \makeindex{recce-notation}
@@ -348,8 +348,16 @@
 \newcommand{\algtitle}[2]{%
   \caption{#1}
   \label{#2}
-  \index{recce-algorithms}{\padnum{\thealgorithm}@Algorithm \thealgorithm: #1}
-}
+  \index{recce-algorithms}{%
+  Algorithm \padnum{\thealgorithm}@Algorithm \thealgorithm: #1%
+}}
+
+\newcommand{\figtitle}[2]{%
+  \caption{#1}
+  \label{#2}
+  \index{recce-algorithms}{%
+  Figure \padnum{\thefigure}@Figure \thefigure: #1%
+}}
 
 \newcommand{\becuz}{\ensuremath{\because}}
 
@@ -3235,8 +3243,7 @@ the ethereal closure has finite time complexity.
 \State return \Vdrset{result}
 \EndFunction
 \end{algorithmic}
-\end{algorithm}%
-\index{recce-algorithms}{Create ethereal closure}
+\end{algorithm}
 
 Algorithm \ref{alg:ethereal-closure}
 is not actually used by any
@@ -6827,6 +6834,7 @@ for two derivations from the same parse tree,
 the sets of EIM validity equivalents are the same.
 
 \begin{theorem}
+\ttitle{EIM-derivation equivalence}
 \label{t:derivation-eim-equivalence}
 Let \Veim{eim} be an EIM,
 and let \var{d1} and \var{d2} be two derivations
@@ -9734,6 +9742,7 @@ and Theorem \ref{t:maximal-silo}.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Maximal silo bottom is read EIM}
 The bottom of every maximal silo is
 a read EIM.
 \end{theorem}
@@ -10193,6 +10202,7 @@ and therefore, strictly speaking,
 not in any Earley set.
 
 \begin{definition}
+\dtitle{Locsym of a Leo memo}
 \label{def:leo-locsym}
 The
 \qdfn{locsym}%
@@ -10338,14 +10348,15 @@ and show the reductio and the theorem.
 \end{proof}
 
 \begin{lemma}
-\label{lem:leo-basis-symloc-uniqueness}
+\ltitle{Leo basic locsym uniqueness}
+\label{lem:leo-basis-locsym-uniqueness}
 Let
 \Vleo{l1}, \Vleo{l2}
 be two Leo memos
 with the same locsym,
 that is
 \begin{equation}
-\label{eq:leo-basis-symloc-uniqueness-10}
+\label{eq:leo-basis-locsym-uniqueness-10}
 \LSY{\Vleo{l1}} = \LSY{\Vleo{l2}}
 \end{equation}
 Let \Veim{b1} be the EIM basis of \Vleo{l1} and
@@ -10356,12 +10367,12 @@ Then $\Veim{b1} = \Veim{b2}$.
 \begin{proof}
 Assume, for a reductio,
 that
-\eqref{eq:leo-basis-symloc-uniqueness-10}
+\eqref{eq:leo-basis-locsym-uniqueness-10}
 holds, and
 that $\Veim{b1} \neq \Veim{b2}$.
 By the definition of the basis of a Leo memo,
 \begin{equation}
-\label{eq:leo-basis-symloc-uniqueness-16}
+\label{eq:leo-basis-locsym-uniqueness-16}
 \begin{gathered}
 \PLSY{\Veim{b1}} = \LSY{\Vleo{l1}}
 \\
@@ -10370,38 +10381,38 @@ By the definition of the basis of a Leo memo,
 \end{equation}
 so that,
 \begin{align}
-\label{eq:leo-basis-symloc-uniqueness-22}
+\label{eq:leo-basis-locsym-uniqueness-22}
 & \PLSY{\Veim{b1}} = \PLSY{\Veim{b2}}
 \becuz
-\eqref{eq:leo-basis-symloc-uniqueness-10},
-\eqref{eq:leo-basis-symloc-uniqueness-16}.
+\eqref{eq:leo-basis-locsym-uniqueness-10},
+\eqref{eq:leo-basis-locsym-uniqueness-16}.
 \\
-\label{eq:leo-basis-symloc-uniqueness-24}
+\label{eq:leo-basis-locsym-uniqueness-24}
 & \Veim{b1} \neq \Veim{b2} \becuz
 \text{ASM for reductio}.
 \\
-\label{eq:leo-basis-symloc-uniqueness-26}
+\label{eq:leo-basis-locsym-uniqueness-26}
 & \myparbox{%
 \Veim{b1} is not postdot-unique
 \becuz{}
-\eqref{eq:leo-basis-symloc-uniqueness-22},
-\eqref{eq:leo-basis-symloc-uniqueness-24}.
+\eqref{eq:leo-basis-locsym-uniqueness-22},
+\eqref{eq:leo-basis-locsym-uniqueness-24}.
 } \\
-\label{eq:leo-basis-symloc-uniqueness-28}
+\label{eq:leo-basis-locsym-uniqueness-28}
 & \myparbox{%
 \Veim{b1} is not Leo-eligible
 \becuz{}
-\eqref{eq:leo-basis-symloc-uniqueness-26},
+\eqref{eq:leo-basis-locsym-uniqueness-26},
 \dref[Leo eligibility of an EIM]{def:leo-eligible}.
 } \\
-\label{eq:leo-basis-symloc-uniqueness-30}
+\label{eq:leo-basis-locsym-uniqueness-30}
 & \myparbox{%
 \Veim{b1} is not the basis of a Leo memo
 \becuz{}
-\eqref{eq:leo-basis-symloc-uniqueness-28},
+\eqref{eq:leo-basis-locsym-uniqueness-28},
 \dref[basis of a Leo memo]{def:basis-of-leo-memo}.
 } \\
-\label{eq:leo-basis-symloc-uniqueness-32}
+\label{eq:leo-basis-locsym-uniqueness-32}
 & \myparbox{%
 \Veim{b1} is the basis of \Vleo{l1}
 \becuz{}
@@ -10409,9 +10420,9 @@ ASM for the theorem.
 }
 \end{align}
 The contradiction between
-\eqref{eq:leo-basis-symloc-uniqueness-30}
+\eqref{eq:leo-basis-locsym-uniqueness-30}
 and 
-\eqref{eq:leo-basis-symloc-uniqueness-32}
+\eqref{eq:leo-basis-locsym-uniqueness-32}
 shows the reductio and the theorem.
 \end{proof}
 
@@ -10555,6 +10566,7 @@ to show for the theorem.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Leo transition symbol is non-terminal}
 \label{t:leo-transition-symbol-non-terminal}
 The transition symbol of a valid Leo memo
 must be a non-terminal other than the accept symbol.
@@ -11028,6 +11040,7 @@ is \Vleo{l}.
 \end{definition}
 
 \begin{lemma}
+\ltitle{Leo catena non-increasing location}
 \label{lem:leo-catena-non-increasing-location}
 The current location of the Leo memos in a Leo catena
 is non-increasing.
@@ -11078,6 +11091,7 @@ The lemma follows from
 \end{proof}
 
 \begin{lemma}
+\ltitle{Leo catena cycle}
 \label{lem:leo-catena-cycle}
 In a Leo catena,
 no two distinct elements
@@ -11662,7 +11676,7 @@ be \var{z}.
 
 We note that,
 by \eqref{eq:leo-memo-uniqueness-by-postdot-locsym-10}
-and Lemma \ref{lem:leo-basis-symloc-uniqueness},
+and Lemma \ref{lem:leo-basis-locsym-uniqueness},
 \Vel{cat}{z} and \Vleo{l} have the same basis.
 Call this basis, \Veim{bas}.
 
@@ -12045,9 +12059,7 @@ also called a
 \end{definition}
 
 \begin{figure}[tb]
-\index{recce-figures}{Direct Leo effect}
-\caption{Direct Leo effect}
-\label{fig:direct-leo-effect}
+\figtitle{Direct Leo effect}{fig:direct-leo-effect}
 \vspace{\baselineskip}
 \begin{tikzcd}[column sep=huge, row sep=huge]
 ?\Vleo{l2}?
@@ -12288,9 +12300,7 @@ also called a
 \end{definition}
 
 \begin{figure}[tb]
-\index{recce-figures}{Indirect Leo effect}
-\caption{Indirect Leo effect}
-\label{fig:indirect-leo-effect}
+\figtitle{Indirect Leo effect}{fig:indirect-leo-effect}
 \vspace{\baselineskip}
 \begin{tikzcd}[column sep=huge, row sep=huge]
 \Vleo{l}
@@ -15070,8 +15080,7 @@ Per-set-lists will be described in Section \ref{s:per-set-lists}.
 \State reject \Cw{}
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}%
-\index{recce-algorithms}{Marpa Top-level}
+\end{algorithm}
 
 \section{Top-level code}
 
@@ -15196,8 +15205,7 @@ of Algorithm \ref{alg:initial}.
 \EndFor
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}%
-\index{recce-algorithms}{Read pass}
+\end{algorithm}
 
 \section{Read pass}
 \label{p:read-op}
@@ -15386,8 +15394,7 @@ as required for the theorem.
 \State \Call{Memoize transitions}{\Vloc{i}}
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}%
-\index{recce-algorithms}{Reduction pass}
+\end{algorithm}
 
 The loop over \Vtable{i} must also include
 any items added
@@ -15978,8 +15985,7 @@ is correct for \Veimset{reduced-closure}.
 \EndFor
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}%
-\index{recce-algorithms}{Memoize transitions}
+\end{algorithm}
 
 \section{Memoize transitions}
 
@@ -16057,8 +16063,7 @@ TODO: Make sure this accounts for the completeness of all top-down causes.
 \EndFor
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}%
-\index{recce-algorithms}{Reduce one op-cause}
+\end{algorithm}
 
 \section{Reduce one up-cause}
 \label{p:reduce-one-up-cause}
@@ -16094,8 +16099,7 @@ Overhead is \Oc{} and caller-included.
 \label{line:earley-reduction-op-20}
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}%
-\index{recce-algorithms}{Earley reduction operation}
+\end{algorithm}
 
 \section{Earley Reduction operation}
 \label{p:reduction-op}
@@ -16116,8 +16120,7 @@ attempt.
 \label{line:leo-reduction-op-20}
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}%
-\index{recce-algorithms}{Leo reduction operation}
+\end{algorithm}
 
 \section{Leo reduction operation}
 \label{p:leo-op}
@@ -16154,8 +16157,7 @@ attempt.
 \EndFor
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}%
-\index{recce-algorithms}{Add EIM set}
+\end{algorithm}
 
 \section{Adding a set of Earley items}
 \label{p:add-eim-set}
@@ -17652,20 +17654,23 @@ Klaus Wich.
 \printindex{recce-general}
 
 \clearpage
-\def\indexname{Index of algorithms}
+% \def\indexname{List of algorithms}
+% uses .mst file
 \printindex{recce-algorithms}
 
-\clearpage
-\def\indexname{Index of figures}
-\printindex{recce-figures}
+% Merged into algorithms list
+% \clearpage
+% \def\indexname{Index of figures}
+% \printindex{recce-figures}
 
 \clearpage
-\def\indexname{Index of theorems and lemmas}
+% \def\indexname{List of definitions, theorems and lemmas}
+% uses .mst file
 \printindex{recce-theorems}
 
 \clearpage
-\def\indexname{Index of abbreviations and definitions}
-\renewcommand{\indexintro}{XXXX XXX}
+% \def\indexname{Index of abbreviations and definitions}
+% uses .mst file
 \printindex{recce-definitions}
 
 \clearpage

@@ -15,8 +15,6 @@ after a definition
 indicates that the
 definition applies to that type.
 ``wrt'' abbreviates ``with respect to''.
-%	\\vspace{2ex}
-% \indexintro
 \\par}%
      \\endgroup
      \\global\\topskip 24\\p@\\relax

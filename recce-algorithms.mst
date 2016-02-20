@@ -16,7 +16,7 @@ preamble "
   \\columnseprule\\z@ \\columnsep 35\\p@
   \\let\\@makeschapterhead\\myindexchap
   \\@xp\\chapter\\@xp*\\@xp{
-List of algorithms
+List of algorithms and figures
 }%
   \\thispagestyle{plain}%
   \\let\\item\\@idxitem
