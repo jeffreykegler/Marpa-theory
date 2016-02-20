@@ -17679,8 +17679,9 @@ Klaus Wich.
 \end{thebibliography}
 
 \clearpage
-\def\indexname{General index}
-\printindex{recce-general}
+% \def\indexname{List of definitions, theorems and lemmas}
+% uses .mst file
+\printindex{recce-theorems}
 
 \clearpage
 % \def\indexname{List of algorithms}
@@ -17693,11 +17694,6 @@ Klaus Wich.
 % \printindex{recce-figures}
 
 \clearpage
-% \def\indexname{List of definitions, theorems and lemmas}
-% uses .mst file
-\printindex{recce-theorems}
-
-\clearpage
 % \def\indexname{Index of abbreviations and definitions}
 % uses .mst file
 \printindex{recce-definitions}
@@ -17705,6 +17701,10 @@ Klaus Wich.
 \clearpage
 \def\indexname{Index of notation}
 \printindex{recce-notation}
+
+\clearpage
+\def\indexname{General index}
+\printindex{recce-general}
 
 \tableofcontents
 
