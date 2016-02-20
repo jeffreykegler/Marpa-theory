@@ -23,7 +23,7 @@ List of algorithms and figures
   \\parindent\\z@  \\parskip\\z@\\@plus.3\\p@\\relax
   \\raggedright
   \\hyphenpenalty\\@M
-  % \\footnotesize
+  \\footnotesize
 \\makeatother
 "
 

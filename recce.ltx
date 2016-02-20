@@ -12273,6 +12273,483 @@ and
 \eqref{eq:direct-leo-effect-summary-32}.
 \end{proof}
 
+\begin{theorem}
+\ttitle{Leo direct effect properties}
+\label{t:leo-direct-effect-props}
+Let \Veim{cuz} be a valid EIM;
+and let \Vleo{l} be a matching,
+instantiated, Leo memo.
+Let \Veim{bas} be the basis of \Vleo{l}.
+Then,
+\begin{subequations}
+\renewcommand{\theequation}{R\arabic{equation}}
+\begin{align}
+\label{eq:leo-direct-effect-props-req-1}
+& \myparbox{%
+\Veim{cuz} and \Vleo{l} have exactly one valid direct Leo effect,
+call it \Veim{eff}.
+} \\
+\label{eq:leo-direct-effect-props-req-2}
+& \myparbox{%
+\Veim{cuz} is a bottom-up cause of \Veim{eff}.
+} \\
+\label{eq:leo-direct-effect-props-req-3}
+& \myparbox{%
+\Veim{eff} is the only effect of \Veim{cuz}.
+} \\
+\label{eq:leo-direct-effect-props-req-3-1}
+& \myparbox{%
+\Veim{bas} is the only matching top-down cause
+of \Veim{cuz}.
+} \\
+\label{eq:leo-direct-effect-props-req-3-2}
+& \myparbox{%
+\Veim{bas} is a top-down cause of
+exactly one effect, \Veim{eff}.
+} \\
+\label{eq:leo-direct-effect-props-req-4}
+& \myparbox{%
+$\Rule{\Veim{eff}} = \Rule{\Veim{bas}}$
+} \\
+\label{eq:leo-direct-effect-props-req-5}
+& \myparbox{%
+$\Right{\Veim{cuz}} = \Right{\Veim{eff}}$
+} \\
+\label{eq:leo-direct-effect-props-req-6}
+& \myparbox{%
+\Veim{eff} is right-recursive.
+} \\
+\label{eq:leo-direct-effect-props-req-6a}
+& \myparbox{%
+\Veim{cuz} is complete.
+} \\
+\label{eq:leo-direct-effect-props-req-7}
+& \myparbox{%
+\Veim{eff} is quasi-complete.
+} \\
+\label{eq:leo-direct-effect-props-req-8}
+& \myparbox{%
+\Veim{cuz} is a silo cause of \Veim{eff}.
+} \\
+\label{eq:leo-direct-effect-props-req-9}
+& \myparbox{%
+\Veim{eff} is the only silo effect of \Veim{cuz}.
+}
+\end{align}
+\end{subequations}
+\end{theorem}
+
+\begin{proof}
+We begin with the assumptions for the theorem:
+\begin{align}
+\label{eq:leo-direct-effect-props-10}
+& \myparbox{%
+\Instantiated{\Vleo{l}}
+\becuz{} ASM for Th.
+} \\
+\label{eq:leo-direct-effect-props-12}
+& \myparbox{%
+\Valid{\Veim{cuz}}
+\becuz{} ASM for Th.
+} \\
+\label{eq:leo-direct-effect-props-14}
+& \myparbox{%
+\Vleo{l} matches \Veim{cuz}
+\becuz{} ASM for Th.
+} \\
+\label{eq:leo-direct-effect-props-16}
+& \myparbox{%
+\Veim{bas} is the basis of \Vleo{l}
+and \Valid{\Veim{bas}}
+\becuz{}
+\eqref{eq:leo-direct-effect-props-10},
+\dref{def:validity-of-leo-memo},
+ASM for Th.
+} \\
+\label{eq:leo-direct-effect-props-25}
+& \myparbox{%
+\Veim{cuz} is the cause of exactly one valid
+effect, \Veim{eff}
+\becuz{}
+\eqref{eq:leo-direct-effect-props-10},
+\eqref{eq:leo-direct-effect-props-12},
+\eqref{eq:leo-direct-effect-props-14},
+\tref{t:effect-from-leo-memo-and-eim}.
+} \\
+\label{eq:leo-direct-effect-props-26}
+& \myparbox{%
+\Veim{cuz} and \Vleo{l} have exactly one valid direct Leo effect,
+which is \Veim{eff},
+\becuz{}
+\eqref{eq:leo-direct-effect-props-10},
+\eqref{eq:leo-direct-effect-props-12},
+\eqref{eq:leo-direct-effect-props-14},
+\eqref{eq:leo-direct-effect-props-25}
+and
+\dref[direct Leo silo effect]{def:direct-leo-silo-effect}.
+This shows requirement
+\eqref{eq:leo-direct-effect-props-req-1}
+for this theorem.
+} \\
+\label{eq:leo-direct-effect-props-27}
+& \myparbox{%
+\Veim{cuz} is a bottom-up cause of \Veim{eff}
+\becuz{}
+\eqref{eq:leo-direct-effect-props-10},
+\eqref{eq:leo-direct-effect-props-12},
+\eqref{eq:leo-direct-effect-props-14},
+\tref{t:effect-from-leo-memo-and-eim},
+which shows requirement
+\eqref{eq:leo-direct-effect-props-req-2}
+of this theorem.
+} \\
+\label{eq:leo-direct-effect-props-28}
+& \myparbox{%
+\Veim{cuz} is the cause of exactly one valid effect,
+call it \Veim{eff}
+\becuz{}
+\eqref{eq:leo-direct-effect-props-10},
+\eqref{eq:leo-direct-effect-props-12},
+\eqref{eq:leo-direct-effect-props-14},
+\tref{t:effect-from-leo-memo-and-eim},
+which shows requirement
+\eqref{eq:leo-direct-effect-props-req-3}
+of this theorem.
+} \\
+\label{eq:leo-direct-effect-props-30}
+& \myparbox{%
+\Veim{bas} is the only matching top-down cause
+of \Veim{cuz}
+\becuz{}
+\eqref{eq:leo-direct-effect-props-10},
+\eqref{eq:leo-direct-effect-props-12},
+\eqref{eq:leo-direct-effect-props-14},
+\tref{t:effect-from-leo-memo-and-eim},
+which shows requirement
+\eqref{eq:leo-direct-effect-props-req-3-1}
+of this theorem.
+} \\
+\label{eq:leo-direct-effect-props-32}
+& \myparbox{%
+\Veim{bas} is a top-down cause of
+exactly one effect, \Veim{eff}
+\becuz{}
+\eqref{eq:leo-direct-effect-props-28},
+\eqref{eq:leo-direct-effect-props-30},
+\tref{t:effect-from-leo-memo-and-eim}
+which shows requirement
+\eqref{eq:leo-direct-effect-props-req-3-2}
+of this theorem.
+} \\
+\label{eq:leo-direct-effect-props-34}
+& \myparbox{%
+$\Rule{\Veim{eff}} = \Rule{\Veim{bas}}$
+\becuz{}
+\eqref{eq:leo-direct-effect-props-30},
+\eqref{eq:leo-direct-effect-props-32},
+\tref{t:effect-from-matching-causes}
+which shows requirement
+\eqref{eq:leo-direct-effect-props-req-4}
+for this theorem.
+} \\
+\label{eq:leo-direct-effect-props-36}
+& \myparbox{%
+$\Right{\Veim{eff}} = \Right{\Veim{cuz}}$
+\becuz{}
+\eqref{eq:leo-direct-effect-props-28},
+\eqref{eq:leo-direct-effect-props-30},
+\tref{t:symbolic-causes-from-effect}
+which shows requirement
+\eqref{eq:leo-direct-effect-props-req-5}
+for this theorem.
+} \\
+\label{eq:leo-direct-effect-props-38}
+& \myparbox{%
+TOHERE
+\Veim{eff} is right-recursive
+\becuz{}
+\eqref{eq:leo-direct-effect-props-16},
+\eqref{eq:leo-direct-effect-props-34},
+\dref[basis of Leo memo]{def:basis-of-leo-memo},
+which shows requirement
+\eqref{eq:leo-direct-effect-props-req-6}
+for this theorem.
+} \\
+\label{eq:leo-direct-effect-props-40}
+& \myparbox{%
+\Veim{cuz} is complete
+\becuz{}
+\eqref{eq:leo-direct-effect-props-14},
+\dref[matching Leo memo]{def:eim-matching-leo-memo}
+which shows requirement
+\eqref{eq:leo-direct-effect-props-req-6a}
+for this theorem.
+} \\
+\label{eq:leo-direct-effect-props-42}
+& \myparbox{%
+\Veim{bas} is a Leo-eligible.
+\becuz{}
+\eqref{eq:leo-direct-effect-props-16},
+\dref[basis of Leo memo]{def:basis-of-leo-memo}.
+} \\
+\label{eq:leo-direct-effect-props-44}
+& \myparbox{%
+\Veim{bas} is a quasi-penult.
+\becuz{}
+\eqref{eq:leo-direct-effect-props-42},
+\dref[Leo-eligible]{def:leo-eligible}.
+} \\
+\label{eq:leo-direct-effect-props-46}
+& \var{suffix} \defined
+\RHS{\Veim{bas}}
+  \left[
+  \begin{gathered}
+  \Vincr{\Dotix{\Veim{bas}}} \\
+  \quad \ldots \; \Vlastix{\RHS{\Veim{bas}}} \\
+  \end{gathered}
+  \right].
+\\
+\label{eq:leo-direct-effect-props-48}
+& \myparbox{%
+$\var{suffix} \derives \epsilon$
+\becuz{}
+\eqref{eq:leo-direct-effect-props-44},
+\eqref{eq:leo-direct-effect-props-46},
+\dref[quasi-penult DR]{def:quasi-types},
+\dref[DR notions for EIM's]{def:eim-dr-notions}.
+}
+\intertext{%
+Note that in
+\eqref{eq:leo-direct-effect-props-48} we can say that \var{suffix} is nulling wherever it occurs,
+because, in a Marpa grammar, every symbol is always either
+telluric (non-nulling) or nulling --- there are no proper nullables.
+}
+\label{eq:leo-direct-effect-props-50}
+& \myparbox{%
+$\Dotix{\Veim{eff}} = \Vincr{\Dotix{\Veim{bas}}}$
+\becuz{}
+\eqref{eq:leo-direct-effect-props-32},
+\tref{t:effect-from-matching-causes}.
+} \\
+\label{eq:leo-direct-effect-props-52}
+& \myparbox{%
+$\RHS{\Veim{eff}}[\Dotix{\Veim{eff}} \ldots \Vlastix{\RHS{\Veim{eff}}}] = \var{suffix}$
+\becuz{}
+\eqref{eq:leo-direct-effect-props-34},
+\eqref{eq:leo-direct-effect-props-46},
+\eqref{eq:leo-direct-effect-props-50}.
+} \\
+\label{eq:leo-direct-effect-props-54}
+& \myparbox{%
+$\RHS{\Veim{eff}}[\Dotix{\Veim{eff}} \ldots \Vlastix{\RHS{\Veim{eff}}}] \destar \epsilon$
+\becuz{}
+\eqref{eq:leo-direct-effect-props-48},
+\eqref{eq:leo-direct-effect-props-52}.
+} \\
+\label{eq:leo-direct-effect-props-56}
+& \myparbox{%
+\Veim{eff} is quasi-complete
+\becuz{}
+\eqref{eq:leo-direct-effect-props-54},
+\dref[quasi-penult DR]{def:quasi-types},
+\dref[DR notions for EIM's]{def:eim-dr-notions},
+which shows requirement
+\eqref{eq:leo-direct-effect-props-req-7}
+for this theorem.
+} \\
+\label{eq:leo-direct-effect-props-58}
+& \myparbox{%
+\Veim{cuz} is a silo cause of \Veim{eff}
+\becuz{}
+\eqref{eq:leo-direct-effect-props-27},
+\eqref{eq:leo-direct-effect-props-36},
+\eqref{eq:leo-direct-effect-props-40},
+\eqref{eq:leo-direct-effect-props-56},
+\dref[silo]{def:silo},
+which is requirement
+\eqref{eq:leo-direct-effect-props-req-8}
+for this theorem.
+} \\
+\label{eq:leo-direct-effect-props-60}
+& \myparbox{%
+\Veim{eff} is the only silo effect of \Veim{cuz}
+\becuz{}
+\eqref{eq:leo-direct-effect-props-25},
+\eqref{eq:leo-direct-effect-props-58},
+\dref{def:silo},
+which is requirement
+\eqref{eq:leo-direct-effect-props-req-9}
+for this theorem.
+}
+\end{align}
+
+TODO: Finish.
+\end{proof}
+
+TODO: TOHERE
+
+\begin{theorem}
+\ttitle{Matching memo of Leo effect}
+\label{matching-memo-of-Leo-effect}
+Assume that
+\begin{subequations}
+\renewcommand{\theequation}{A\arabic{equation}}
+\begin{align}
+\label{eq:matching-memo-of-leo-direct-effect-asm-1}
+& \myparbox{%
+\Veim{cuz} is a valid EIM.
+} \\
+\label{eq:matching-memo-of-leo-direct-effect-asm-2}
+& \myparbox{%
+\Vleo{cuz} is an instantiated Leo memo.
+} \\
+\label{eq:matching-memo-of-leo-direct-effect-asm-3}
+& \myparbox{%
+\Vleo{cuz} matches \Veim{cuz}.
+} \\
+\label{eq:matching-memo-of-leo-direct-effect-asm-4}
+& \myparbox{%
+\Veim{eff} is a direct Leo effect of \Veim{cuz}
+}
+\end{align}
+\end{subequations}
+Then
+\begin{subequations}
+\renewcommand{\theequation}{R\arabic{equation}}
+\begin{align}
+\label{eq:matching-memo-of-leo-direct-effect-req-1}
+& \myparbox{%
+If \Vleo{cuz} is the top-down cause
+of an instantiated Leo memo,
+call it \Vleo{eff},
+then \Vleo{eff} matches \Veim{eff}.
+} \\
+\label{eq:matching-memo-of-leo-direct-effect-req-2}
+& \myparbox{%
+If \Veim{eff} has an instantiated matching Leo memo,
+call it \Vleo{eff},
+then \Vleo{cuz} is the top-down cause of \Vleo{eff}.
+}
+\end{align}
+\end{subequations}
+\end{theorem}
+
+\begin{proof}
+\begin{align}
+\label{eq:matching-memo-of-leo-direct-effect-10}
+& \myparbox{%
+\Veim{bas} is the basis of \Vleo{l}
+and \Valid{\Veim{bas}}
+\becuz{}
+\eqref{eq:matching-memo-of-leo-direct-effect-asm-2}
+\dref{def:validity-of-leo-memo}.
+} \\
+\end{align}
+
+we use a conditional proof, where we
+assume
+\begin{align}
+\label{eq:matching-memo-of-leo-direct-effect-50}
+\tag{CD}
+& \myparbox{%
+$\exists \; \Vleo{eff} : \Memo{\Veim{eff}} = \Vleo{eff}$
+\becuz{} ASM for conditional; and
+} \\
+\label{eq:matching-memo-of-leo-direct-effect-52}
+& \myparbox{%
+\Instantiated{\Vleo{eff}}
+\becuz{} ASM for conditional.
+} \\
+\label{eq:matching-memo-of-leo-direct-effect-54}
+& \myparbox{%
+$\LSY{\Vleo{eff}} = \LSY{\Veim{eff}}$
+\becuz{}
+\eqref{eq:matching-memo-of-leo-direct-effect-50},
+\dref[matching Leo memo]{def:eim-matching-leo-memo}.
+}
+\intertext{%
+Deducing the top-down cause (\Veim{bas})
+from its effect (\Veim{eff}),
+taking into account that the bottom-up cause (\Veim{cuz})
+is telluric, we have
+}
+\label{eq:matching-memo-of-leo-direct-effect-58}
+& \myparbox{%
+$\Veim{bas} = \big[\Prev{\DR{\Veim{eff}}}, \Origin{\Veim{eff}}, \var{j}
+\big]$
+for some $\var{j} < \Current{\Veim{eff}}$
+\becuz{}
+\eqref{eq:matching-memo-of-leo-direct-effect-21a},
+\eqref{eq:matching-memo-of-leo-direct-effect-36},
+\tref{t:down-cause-from-effect}.
+} \\
+\label{eq:matching-memo-of-leo-direct-effect-60}
+& \myparbox{%
+$\LHS{\Veim{bas}} = \LHS{\Veim{eff}}$
+\becuz{}
+\eqref{eq:matching-memo-of-leo-direct-effect-58}.
+} \\
+\label{eq:matching-memo-of-leo-direct-effect-62}
+& \myparbox{%
+$\Origin{\Veim{bas}} = \Origin{\Veim{eff}}$
+\becuz{}
+\eqref{eq:matching-memo-of-leo-direct-effect-58}.
+} \\
+\label{eq:matching-memo-of-leo-direct-effect-63}
+& \myparbox{%
+$\LSY{\Veim{bas}} = \LSY{\Veim{eff}}$
+\becuz{}
+\eqref{eq:matching-memo-of-leo-direct-effect-60},
+\eqref{eq:matching-memo-of-leo-direct-effect-62}.
+} \\
+\label{eq:matching-memo-of-leo-direct-effect-64}
+& \myparbox{%
+$\LSY{\Vleo{eff}} = \LSY{\Veim{bas}}$
+\becuz{}
+\eqref{eq:matching-memo-of-leo-direct-effect-54},
+\eqref{eq:matching-memo-of-leo-direct-effect-63}.
+} \\
+\label{eq:matching-memo-of-leo-direct-effect-68}
+& \myparbox{%
+\Vleo{eff} is the top-down cause of \Vleo{l}
+\becuz{}
+\eqref{eq:matching-memo-of-leo-direct-effect-8h},
+\eqref{eq:matching-memo-of-leo-direct-effect-64},
+\dref[Leo top-down cause]{def:down-cause-of-leo-memo}.
+}
+\intertext{%
+And now,
+using
+the assumption for the conditional proof
+\eqref{eq:matching-memo-of-leo-direct-effect-50}
+and 
+\eqref{eq:matching-memo-of-leo-direct-effect-68},
+we have
+Requirement 
+\eqref{eq:matching-memo-of-leo-direct-effect-5l}
+for this theorem:
+}
+\notag
+&
+\begin{aligned}
+& \exists \; \Vleo{eff} : \Memo{\Veim{eff}} = \Vleo{eff}
+\\
+& \qquad \implies \text{\Vleo{eff} is the top-down cause of \Vleo{l}}.
+\end{aligned}
+\end{align}
+
+TODO: Finish.
+\end{proof}
+
+TODO: pieces.
+\dref[Leo-eligible]{def:leo-eligible}.
+\dref[basis of Leo memo]{def:basis-of-leo-memo}.
+\dref[causes of confirmed EIM]{def:causes-confirmed}.
+\dref[matching Leo memo]{def:eim-matching-leo-memo}.
+\dref[matching top-down and bottom-up causes]{def:matching-causes}.
+\dref[quasi-penult]{def:quasi-types}.
+\dref[silo]{def:silo}.
+
 \begin{definition}
 \dtitle{Indirect Leo silo effect}
 \label{def:indirect-leo-silo-effect}
@@ -12475,483 +12952,6 @@ We define a
 to be any EIM which is the Leo cause
 of some Leo effect.
 \end{definition}
-
-\begin{theorem}
-\ttitle{Leo effect properties}
-\label{t:leo-effect-props}
-Let \Veim{cuz} be a valid EIM;
-and let \Vleo{l} be a matching,
-instantiated, Leo memo.
-Let \Veim{bas} be the basis of \Vleo{l}.
-Then,
-\begin{subequations}
-\renewcommand{\theequation}{R\arabic{equation}}
-\begin{align}
-\label{eq:leo-effect-props-req-1}
-& \myparbox{%
-\Veim{cuz} and \Vleo{l} have exactly one valid direct Leo effect,
-call it \Veim{eff}.
-} \\
-\label{eq:leo-effect-props-req-2}
-& \myparbox{%
-\Veim{cuz} is a bottom-up cause of \Veim{eff}.
-} \\
-\label{eq:leo-effect-props-req-3}
-& \myparbox{%
-\Veim{eff} is the only effect of \Veim{cuz}.
-} \\
-\label{eq:leo-effect-props-req-3-1}
-& \myparbox{%
-\Veim{bas} is the only matching top-down cause
-of \Veim{cuz}.
-} \\
-\label{eq:leo-effect-props-req-3-2}
-& \myparbox{%
-\Veim{bas} is a top-down cause of
-exactly one effect, \Veim{eff}.
-} \\
-\label{eq:leo-effect-props-req-4}
-& \myparbox{%
-$\Rule{\Veim{eff}} = \Rule{\Veim{bas}}$
-} \\
-\label{eq:leo-effect-props-req-5}
-& \myparbox{%
-$\Right{\Veim{cuz}} = \Right{\Veim{eff}}$
-} \\
-\label{eq:leo-effect-props-req-6}
-& \myparbox{%
-\Veim{eff} is right-recursive.
-} \\
-\label{eq:leo-effect-props-req-6a}
-& \myparbox{%
-\Veim{cuz} is complete.
-} \\
-\label{eq:leo-effect-props-req-7}
-& \myparbox{%
-\Veim{eff} is quasi-complete.
-} \\
-\label{eq:leo-effect-props-req-8}
-& \myparbox{%
-\Veim{cuz} is a silo cause of \Veim{eff}.
-} \\
-\label{eq:leo-effect-props-req-9}
-& \myparbox{%
-\Veim{eff} is the only silo effect of \Veim{cuz}.
-}
-\end{align}
-\end{subequations}
-\end{theorem}
-
-\begin{proof}
-We begin with the assumptions for the theorem:
-\begin{align}
-\label{eq:leo-effect-props-10}
-& \myparbox{%
-\Instantiated{\Vleo{l}}
-\becuz{} ASM for Th.
-} \\
-\label{eq:leo-effect-props-12}
-& \myparbox{%
-\Valid{\Veim{cuz}}
-\becuz{} ASM for Th.
-} \\
-\label{eq:leo-effect-props-14}
-& \myparbox{%
-\Vleo{l} matches \Veim{cuz}
-\becuz{} ASM for Th.
-} \\
-\label{eq:leo-effect-props-16}
-& \myparbox{%
-\Veim{bas} is the basis of \Vleo{l}
-and \Valid{\Veim{bas}}
-\becuz{}
-\eqref{eq:leo-effect-props-10},
-\dref{def:validity-of-leo-memo},
-ASM for Th.
-} \\
-\label{eq:leo-effect-props-25}
-& \myparbox{%
-\Veim{cuz} is the cause of exactly one valid
-effect, \Veim{eff}
-\becuz{}
-\eqref{eq:leo-effect-props-10},
-\eqref{eq:leo-effect-props-12},
-\eqref{eq:leo-effect-props-14},
-\tref{t:effect-from-leo-memo-and-eim}.
-} \\
-\label{eq:leo-effect-props-26}
-& \myparbox{%
-\Veim{cuz} and \Vleo{l} have exactly one valid direct Leo effect,
-which is \Veim{eff},
-\becuz{}
-\eqref{eq:leo-effect-props-10},
-\eqref{eq:leo-effect-props-12},
-\eqref{eq:leo-effect-props-14},
-\eqref{eq:leo-effect-props-25}
-and
-\dref[direct Leo silo effect]{def:direct-leo-silo-effect}.
-This shows requirement
-\eqref{eq:leo-effect-props-req-1}
-for this theorem.
-} \\
-\label{eq:leo-effect-props-27}
-& \myparbox{%
-\Veim{cuz} is a bottom-up cause of \Veim{eff}
-\becuz{}
-\eqref{eq:leo-effect-props-10},
-\eqref{eq:leo-effect-props-12},
-\eqref{eq:leo-effect-props-14},
-\tref{t:effect-from-leo-memo-and-eim},
-which shows requirement
-\eqref{eq:leo-effect-props-req-2}
-of this theorem.
-} \\
-\label{eq:leo-effect-props-28}
-& \myparbox{%
-\Veim{cuz} is the cause of exactly one valid effect,
-call it \Veim{eff}
-\becuz{}
-\eqref{eq:leo-effect-props-10},
-\eqref{eq:leo-effect-props-12},
-\eqref{eq:leo-effect-props-14},
-\tref{t:effect-from-leo-memo-and-eim},
-which shows requirement
-\eqref{eq:leo-effect-props-req-3}
-of this theorem.
-} \\
-\label{eq:leo-effect-props-30}
-& \myparbox{%
-\Veim{bas} is the only matching top-down cause
-of \Veim{cuz}
-\becuz{}
-\eqref{eq:leo-effect-props-10},
-\eqref{eq:leo-effect-props-12},
-\eqref{eq:leo-effect-props-14},
-\tref{t:effect-from-leo-memo-and-eim},
-which shows requirement
-\eqref{eq:leo-effect-props-req-3-1}
-of this theorem.
-} \\
-\label{eq:leo-effect-props-32}
-& \myparbox{%
-\Veim{bas} is a top-down cause of
-exactly one effect, \Veim{eff}
-\becuz{}
-\eqref{eq:leo-effect-props-28},
-\eqref{eq:leo-effect-props-30},
-\tref{t:effect-from-leo-memo-and-eim}
-which shows requirement
-\eqref{eq:leo-effect-props-req-3-2}
-of this theorem.
-} \\
-\label{eq:leo-effect-props-34}
-& \myparbox{%
-$\Rule{\Veim{eff}} = \Rule{\Veim{bas}}$
-\becuz{}
-\eqref{eq:leo-effect-props-30},
-\eqref{eq:leo-effect-props-32},
-\tref{t:effect-from-matching-causes}
-which shows requirement
-\eqref{eq:leo-effect-props-req-4}
-for this theorem.
-} \\
-\label{eq:leo-effect-props-36}
-& \myparbox{%
-$\Right{\Veim{eff}} = \Right{\Veim{cuz}}$
-\becuz{}
-\eqref{eq:leo-effect-props-28},
-\eqref{eq:leo-effect-props-30},
-\tref{t:symbolic-causes-from-effect}
-which shows requirement
-\eqref{eq:leo-effect-props-req-5}
-for this theorem.
-} \\
-\label{eq:leo-effect-props-38}
-& \myparbox{%
-TOHERE
-\Veim{eff} is right-recursive
-\becuz{}
-\eqref{eq:leo-effect-props-16},
-\eqref{eq:leo-effect-props-34},
-\dref[basis of Leo memo]{def:basis-of-leo-memo},
-which shows requirement
-\eqref{eq:leo-effect-props-req-6}
-for this theorem.
-} \\
-\label{eq:leo-effect-props-40}
-& \myparbox{%
-\Veim{cuz} is complete
-\becuz{}
-\eqref{eq:leo-effect-props-14},
-\dref[matching Leo memo]{def:eim-matching-leo-memo}
-which shows requirement
-\eqref{eq:leo-effect-props-req-6a}
-for this theorem.
-} \\
-\label{eq:leo-effect-props-42}
-& \myparbox{%
-\Veim{bas} is a Leo-eligible.
-\becuz{}
-\eqref{eq:leo-effect-props-16},
-\dref[basis of Leo memo]{def:basis-of-leo-memo}.
-} \\
-\label{eq:leo-effect-props-44}
-& \myparbox{%
-\Veim{bas} is a quasi-penult.
-\becuz{}
-\eqref{eq:leo-effect-props-42},
-\dref[Leo-eligible]{def:leo-eligible}.
-} \\
-\label{eq:leo-effect-props-46}
-& \var{suffix} \defined
-\RHS{\Veim{bas}}
-  \left[
-  \begin{gathered}
-  \Vincr{\Dotix{\Veim{bas}}} \\
-  \quad \ldots \; \Vlastix{\RHS{\Veim{bas}}} \\
-  \end{gathered}
-  \right].
-\\
-\label{eq:leo-effect-props-48}
-& \myparbox{%
-$\var{suffix} \derives \epsilon$
-\becuz{}
-\eqref{eq:leo-effect-props-44},
-\eqref{eq:leo-effect-props-46},
-\dref[quasi-penult DR]{def:quasi-types},
-\dref[DR notions for EIM's]{def:eim-dr-notions}.
-}
-\intertext{%
-Note that in
-\eqref{eq:leo-effect-props-48} we can say that \var{suffix} is nulling wherever it occurs,
-because, in a Marpa grammar, every symbol is always either
-telluric (non-nulling) or nulling --- there are no proper nullables.
-}
-\label{eq:leo-effect-props-50}
-& \myparbox{%
-$\Dotix{\Veim{eff}} = \Vincr{\Dotix{\Veim{bas}}}$
-\becuz{}
-\eqref{eq:leo-effect-props-32},
-\tref{t:effect-from-matching-causes}.
-} \\
-\label{eq:leo-effect-props-52}
-& \myparbox{%
-$\RHS{\Veim{eff}}[\Dotix{\Veim{eff}} \ldots \Vlastix{\RHS{\Veim{eff}}}] = \var{suffix}$
-\becuz{}
-\eqref{eq:leo-effect-props-34},
-\eqref{eq:leo-effect-props-46},
-\eqref{eq:leo-effect-props-50}.
-} \\
-\label{eq:leo-effect-props-54}
-& \myparbox{%
-$\RHS{\Veim{eff}}[\Dotix{\Veim{eff}} \ldots \Vlastix{\RHS{\Veim{eff}}}] \destar \epsilon$
-\becuz{}
-\eqref{eq:leo-effect-props-48},
-\eqref{eq:leo-effect-props-52}.
-} \\
-\label{eq:leo-effect-props-56}
-& \myparbox{%
-\Veim{eff} is quasi-complete
-\becuz{}
-\eqref{eq:leo-effect-props-54},
-\dref[quasi-penult DR]{def:quasi-types},
-\dref[DR notions for EIM's]{def:eim-dr-notions},
-which shows requirement
-\eqref{eq:leo-effect-props-req-7}
-for this theorem.
-} \\
-\label{eq:leo-effect-props-58}
-& \myparbox{%
-\Veim{cuz} is a silo cause of \Veim{eff}
-\becuz{}
-\eqref{eq:leo-effect-props-27},
-\eqref{eq:leo-effect-props-36},
-\eqref{eq:leo-effect-props-40},
-\eqref{eq:leo-effect-props-56},
-\dref[silo]{def:silo},
-which is requirement
-\eqref{eq:leo-effect-props-req-8}
-for this theorem.
-} \\
-\label{eq:leo-effect-props-60}
-& \myparbox{%
-\Veim{eff} is the only silo effect of \Veim{cuz}
-\becuz{}
-\eqref{eq:leo-effect-props-25},
-\eqref{eq:leo-effect-props-58},
-\dref{def:silo},
-which is requirement
-\eqref{eq:leo-effect-props-req-9}
-for this theorem.
-}
-\end{align}
-
-TODO: Finish.
-\end{proof}
-
-TODO: TOHERE
-
-\begin{theorem}
-\ttitle{Matching memo of Leo effect}
-\label{matching-memo-of-Leo-effect}
-Assume that
-\begin{subequations}
-\renewcommand{\theequation}{A\arabic{equation}}
-\begin{align}
-\label{eq:matching-memo-of-leo-effect-asm-1}
-& \myparbox{%
-\Veim{cuz} is a valid EIM.
-} \\
-\label{eq:matching-memo-of-leo-effect-asm-2}
-& \myparbox{%
-\Vleo{cuz} is an instantiated Leo memo.
-} \\
-\label{eq:matching-memo-of-leo-effect-asm-3}
-& \myparbox{%
-\Vleo{cuz} matches \Veim{cuz}.
-} \\
-\label{eq:matching-memo-of-leo-effect-asm-4}
-& \myparbox{%
-\Veim{eff} is a direct Leo effect of \Veim{cuz}
-}
-\end{align}
-\end{subequations}
-Then
-\begin{subequations}
-\renewcommand{\theequation}{R\arabic{equation}}
-\begin{align}
-\label{eq:matching-memo-of-leo-effect-req-1}
-& \myparbox{%
-If \Vleo{cuz} is the top-down cause
-of an instantiated Leo memo,
-call it \Vleo{eff},
-then \Vleo{eff} matches \Veim{eff}.
-} \\
-\label{eq:matching-memo-of-leo-effect-req-2}
-& \myparbox{%
-If \Veim{eff} has an instantiated matching Leo memo,
-call it \Vleo{eff},
-then \Vleo{cuz} is the top-down cause of \Vleo{eff}.
-}
-\end{align}
-\end{subequations}
-\end{theorem}
-
-\begin{proof}
-\begin{align}
-\label{eq:matching-memo-of-leo-effect-10}
-& \myparbox{%
-\Veim{bas} is the basis of \Vleo{l}
-and \Valid{\Veim{bas}}
-\becuz{}
-\eqref{eq:matching-memo-of-leo-effect-asm-2}
-\dref{def:validity-of-leo-memo}.
-} \\
-\end{align}
-
-we use a conditional proof, where we
-assume
-\begin{align}
-\label{eq:matching-memo-of-leo-effect-50}
-\tag{CD}
-& \myparbox{%
-$\exists \; \Vleo{eff} : \Memo{\Veim{eff}} = \Vleo{eff}$
-\becuz{} ASM for conditional; and
-} \\
-\label{eq:matching-memo-of-leo-effect-52}
-& \myparbox{%
-\Instantiated{\Vleo{eff}}
-\becuz{} ASM for conditional.
-} \\
-\label{eq:matching-memo-of-leo-effect-54}
-& \myparbox{%
-$\LSY{\Vleo{eff}} = \LSY{\Veim{eff}}$
-\becuz{}
-\eqref{eq:matching-memo-of-leo-effect-50},
-\dref[matching Leo memo]{def:eim-matching-leo-memo}.
-}
-\intertext{%
-Deducing the top-down cause (\Veim{bas})
-from its effect (\Veim{eff}),
-taking into account that the bottom-up cause (\Veim{cuz})
-is telluric, we have
-}
-\label{eq:matching-memo-of-leo-effect-58}
-& \myparbox{%
-$\Veim{bas} = \big[\Prev{\DR{\Veim{eff}}}, \Origin{\Veim{eff}}, \var{j}
-\big]$
-for some $\var{j} < \Current{\Veim{eff}}$
-\becuz{}
-\eqref{eq:matching-memo-of-leo-effect-21a},
-\eqref{eq:matching-memo-of-leo-effect-36},
-\tref{t:down-cause-from-effect}.
-} \\
-\label{eq:matching-memo-of-leo-effect-60}
-& \myparbox{%
-$\LHS{\Veim{bas}} = \LHS{\Veim{eff}}$
-\becuz{}
-\eqref{eq:matching-memo-of-leo-effect-58}.
-} \\
-\label{eq:matching-memo-of-leo-effect-62}
-& \myparbox{%
-$\Origin{\Veim{bas}} = \Origin{\Veim{eff}}$
-\becuz{}
-\eqref{eq:matching-memo-of-leo-effect-58}.
-} \\
-\label{eq:matching-memo-of-leo-effect-63}
-& \myparbox{%
-$\LSY{\Veim{bas}} = \LSY{\Veim{eff}}$
-\becuz{}
-\eqref{eq:matching-memo-of-leo-effect-60},
-\eqref{eq:matching-memo-of-leo-effect-62}.
-} \\
-\label{eq:matching-memo-of-leo-effect-64}
-& \myparbox{%
-$\LSY{\Vleo{eff}} = \LSY{\Veim{bas}}$
-\becuz{}
-\eqref{eq:matching-memo-of-leo-effect-54},
-\eqref{eq:matching-memo-of-leo-effect-63}.
-} \\
-\label{eq:matching-memo-of-leo-effect-68}
-& \myparbox{%
-\Vleo{eff} is the top-down cause of \Vleo{l}
-\becuz{}
-\eqref{eq:matching-memo-of-leo-effect-8h},
-\eqref{eq:matching-memo-of-leo-effect-64},
-\dref[Leo top-down cause]{def:down-cause-of-leo-memo}.
-}
-\intertext{%
-And now,
-using
-the assumption for the conditional proof
-\eqref{eq:matching-memo-of-leo-effect-50}
-and 
-\eqref{eq:matching-memo-of-leo-effect-68},
-we have
-Requirement 
-\eqref{eq:matching-memo-of-leo-effect-5l}
-for this theorem:
-}
-\notag
-&
-\begin{aligned}
-& \exists \; \Vleo{eff} : \Memo{\Veim{eff}} = \Vleo{eff}
-\\
-& \qquad \implies \text{\Vleo{eff} is the top-down cause of \Vleo{l}}.
-\end{aligned}
-\end{align}
-
-TODO: Finish.
-\end{proof}
-
-TODO: pieces.
-\dref[Leo-eligible]{def:leo-eligible}.
-\dref[basis of Leo memo]{def:basis-of-leo-memo}.
-\dref[causes of confirmed EIM]{def:causes-confirmed}.
-\dref[matching Leo memo]{def:eim-matching-leo-memo}.
-\dref[matching top-down and bottom-up causes]{def:matching-causes}.
-\dref[quasi-penult]{def:quasi-types}.
-\dref[silo]{def:silo}.
 
 \chapter{Leo silos}
 
