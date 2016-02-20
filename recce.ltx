@@ -5347,7 +5347,7 @@ is a
 \xdfn{fleeting base}{fleeting base (EIM)}.
 
 \begin{definition}
-\title{\myfnname{null-scan-op}}
+\dtitle{\myfnname{null-scan-op}}
 \label{def:null-scan-op}
 In
 Theorem \ref{t:null-scan-from-down-cause}
@@ -5944,6 +5944,7 @@ in the fleeting closure.
 \end{proof}
 
 \begin{definition}
+\dtitle{Maximal fleeting closure}
 The
 \dfn{maximal fleeting closure}
 of an EIM is the fleeting closure
@@ -6893,6 +6894,7 @@ this shows the theorem.
 \end{proof}
 
 \begin{lemma}
+\ltitle{EIM tether prediction}
 \label{lem:eim-tether-prediction}
 Let
 $\Veim{prd} = \langle \var{s}, \var{rha1}, \var{rhz1}, 0\rangle$ be a prediction
@@ -7057,6 +7059,7 @@ and the lemma.
 \end{proof}
 
 \begin{lemma}
+\ltitle{EIM tether confirmation}
 \label{lem:eim-tether-confirmation}
 Let
 \begin{equation}
@@ -7471,6 +7474,7 @@ and that the direction from
 \xdfn{downward}{downward!in a tether}.
 
 \begin{theorem}
+\ttitle{Tether non-decreasing location}
 \label{t:non-decreasing-location}
 If we follow a tether downward,
 the right locations of its elements are non-decreasing:
@@ -8473,6 +8477,7 @@ Letting $\var{a} = \var{maxrun}$,
 \end{proof}
 
 \begin{lemma}
+\ltitle{Silo reflection of non-terminals}
 \label{lem:silo-reflection-nt}
 Let \el{silo}{\Vincr{i}},
 \Vel{silo}{i},
@@ -8565,6 +8570,7 @@ which shows \eqref{eq:lem-silo-reflection-nt-3}.
 \end{proof}
 
 \begin{lemma}
+\ltitle{Silo reflection of nulling terminal}
 \label{lem:silo-reflection-nulling1}
 Let \el{silo}{\Vincr{i}},
 \Vel{silo}{i},
@@ -8745,6 +8751,7 @@ which is the theorem.
 \end{proof}
 
 \begin{lemma}
+\ltitle{Silo reflection nulling induction}
 \label{lem:silo-reflection-nulling-induction}
 \begin{multline}
 \label{eq:lem-silo-reflection-nulling-induction-10}
@@ -8845,6 +8852,7 @@ have the theorem.
 \end{proof}
 
 \begin{lemma}
+\ltitle{Silo reflection of predot null}
 \label{lem:silo-reflection-nulling}
 Let \el{silo}{\Vincr{i}} and
 \Vel{silo}{i},
@@ -16688,7 +16696,9 @@ the rewrite and its reversal can be done
 in amortized \Oc{} time and space
 per Earley item.
 
-\begin{lemma}\label{l:nulling-rewrite}
+\begin{lemma}
+\ltitle{Nulling rewrite}
+\label{l:nulling-rewrite}
 All time and space required
 to rewrite the grammar to eliminate nulling
 symbols, and to restore those rules afterwards
