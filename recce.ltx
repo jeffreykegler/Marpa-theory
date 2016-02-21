@@ -10890,136 +10890,182 @@ we have both directions and the theorem.
 \ttitle{Effect from Leo memo and EIM}
 \label{t:effect-from-leo-memo-and-eim}
 
+Assume that
+\begin{subequations}
+\renewcommand{\theequation}{A\arabic{equation}}
+\begin{align}
+\label{eq:leo-match-props-asm-1}
+& \myparbox{%
+\Veim{e} is a valid EIM.
+} \\
+\label{eq:leo-match-props-asm-2}
+& \myparbox{%
+\Vleo{e} is an instantiated Leo memo.
+} \\
+\label{eq:leo-match-props-asm-3}
+& \myparbox{%
+\Vleo{l} matches \Veim{e}.
+}
+\end{align}
+\end{subequations}
+
 TODO: revise.
 
-Let \Veim{e} be a valid EIM
-and let \Vleo{l} be an
-instantiated Leo memo
-that matches \Veim{e}.
-Let \Veim{bas} be the basis of \Vleo{l}.
 Then
-\begin{itemize}
-\item
-\Veim{e} is the cause of exactly one valid effect,
-call it \Veim{eff}.
-\item
-\Veim{e} is a bottom-up cause of \Veim{eff}.
-\item
-\Veim{e} is never a top-down cause of \Veim{eff}.
-\item
+\label{eq:leo-direct-effect-props-12}
+\begin{subequations}
+\renewcommand{\theequation}{R\arabic{equation}}
+\begin{align}
+\label{eq:leo-match-props-req-1}
+& \myparbox{%
+\Vleo{l}
+has exactly one valid basis,
+call it \Veim{bas}.
+} \\
+\label{eq:leo-match-props-req-2}
+& \myparbox{%
 \Veim{bas} is the only matching top-down cause
 of \Veim{e}.
-\item
+} \\
+\label{eq:leo-match-props-req-3}
+& \myparbox{%
+The matching pair of causes,
+$[ \Veim{bas}, \Veim{e} ]$
+is the cause of exactly one valid effect,
+call it \Veim{eff}.
+} \\
+\label{eq:leo-match-props-req-4}
+& \myparbox{%
+\Veim{e} is the cause of exactly one valid
+effect, \Veim{eff}.
+} \\
+\label{eq:leo-match-props-req-5}
+& \myparbox{%
+\Veim{e} is not the top-down cause of any effect.
+} \\
+\label{eq:leo-match-props-req-6}
+& \myparbox{%
 \Veim{bas} is a top-down cause of
 exactly one effect, \Veim{eff}.
-\end{itemize}
+}
+\end{align}
+\end{subequations}
 \end{theorem}
 
 \begin{proof}
 By assumption for the theorem,
 \begin{align}
-\label{eq:leo-forces-eim-match-uniqueness-5}
+\label{eq:leo-match-props-5}
 & \myparbox{%
-\Veim{e} matches \Vleo{l}, so that
+\Vleo{l}
+has exactly one valid basis,
+call it \Veim{bas}
+\becuz{}
+\eqref{t:leo-basis-uniqueness},
+which is 
+requirement
+\eqref{eq:leo-match-props-req-1}
+of this theorem.
 } \\
-\label{eq:leo-forces-eim-match-uniqueness-10}
+\label{eq:leo-match-props-10}
 & \myparbox{%
 \Veim{e} is a completed EIM
 \becuz{}
-\eqref{eq:leo-forces-eim-match-uniqueness-5},
+\eqref{eq:leo-match-props-asm-3},
+\eqref{eq:leo-match-props-5},
 \dref[matching EIM of a Leo memo]{def:inst-matching-leo-memo}.
 } \\
-\label{eq:leo-forces-eim-match-uniqueness-11b}
+\label{eq:leo-match-props-11b}
 & \myparbox{%
 $\Symbol{\Vleo{l}} \neq \Vsym{accept}$
 \becuz{}
 \tref{t:leo-transition-symbol-non-terminal}.
 } \\
-\label{eq:leo-forces-eim-match-uniqueness-11d}
+\label{eq:leo-match-props-11d}
 & \myparbox{%
 $\Symbol{\Vleo{l}} = \Symbol{\Veim{e}}$
 \becuz{}
-\eqref{eq:leo-forces-eim-match-uniqueness-5},
+\eqref{eq:leo-match-props-5},
 \dref[EIM/LEO match]{def:eim-matching-leo-memo},
 \dref[LSY]{def:eim-locsym}.
 } \\
-\label{eq:leo-forces-eim-match-uniqueness-11f}
+\label{eq:leo-match-props-11f}
 & \myparbox{%
 $\Symbol{\Veim{e}} \neq \Vsym{accept}$
 \becuz{}
-\eqref{eq:leo-forces-eim-match-uniqueness-11b},
-\eqref{eq:leo-forces-eim-match-uniqueness-11d}.
+\eqref{eq:leo-match-props-11b},
+\eqref{eq:leo-match-props-11d}.
 } \\
-\label{eq:leo-forces-eim-match-uniqueness-14}
+\label{eq:leo-match-props-14}
 & \myparbox{%
 If \Veim{e} is a cause of a valid effect,
 it is an bottom-up cause
 \becuz{}
 \tref{t:completed-eim-as-a-cause}.
 } \\
-\label{eq:leo-forces-eim-match-uniqueness-20}
+\label{eq:leo-match-props-20}
 & \myparbox{%
 \Veim{down} is a valid matching top-down cause of \Veim{e}
 if and only if \Veim{down} is a valid basis of \Vleo{l}
 \becuz{}
-\eqref{eq:leo-forces-eim-match-uniqueness-5},
+\eqref{eq:leo-match-props-5},
 \tref{t:basis-top-down-equivalence}.
 } \\
-\label{eq:leo-forces-eim-match-uniqueness-22}
+\label{eq:leo-match-props-22}
 & \myparbox{%
 \Vleo{l} has exactly one valid basis,
 call it \Veim{bas},
 \becuz{}
 \tref{t:leo-basis-uniqueness}.
 } \\
-\label{eq:leo-forces-eim-match-uniqueness-24}
+\label{eq:leo-match-props-24}
 & \myparbox{%
 \Veim{e} has exactly one matching top-down cause,
 which is \Veim{bas},
 \becuz{}
-\eqref{eq:leo-forces-eim-match-uniqueness-20},
-\eqref{eq:leo-forces-eim-match-uniqueness-22}.
+\eqref{eq:leo-match-props-20},
+\eqref{eq:leo-match-props-22}.
 } \\
-\label{eq:leo-forces-eim-match-uniqueness-30}
+\label{eq:leo-match-props-30}
 & \myparbox{%
 \Veim{bas} and
 \Veim{e} have exactly one valid effect,
 call it \Veim{eff}
 \becuz{}
-\eqref{eq:leo-forces-eim-match-uniqueness-24},
+\eqref{eq:leo-match-props-24},
 \tref{t:effect-from-matching-causes}.
 } \\
-\label{eq:leo-forces-eim-match-uniqueness-32}
+\label{eq:leo-match-props-32}
 & \myparbox{%
 \Veim{e} is an bottom-up cause of \Veim{eff}
 \becuz{}
-\eqref{eq:leo-forces-eim-match-uniqueness-14},
-\eqref{eq:leo-forces-eim-match-uniqueness-30}.
+\eqref{eq:leo-match-props-14},
+\eqref{eq:leo-match-props-30}.
 } \\
-\label{eq:leo-forces-eim-match-uniqueness-34}
+\label{eq:leo-match-props-34}
 & \myparbox{%
 \Veim{bas} is a top-down cause of \Veim{eff}
 \becuz{}
-\eqref{eq:leo-forces-eim-match-uniqueness-14},
-\eqref{eq:leo-forces-eim-match-uniqueness-24},
-\eqref{eq:leo-forces-eim-match-uniqueness-30}.
+\eqref{eq:leo-match-props-14},
+\eqref{eq:leo-match-props-24},
+\eqref{eq:leo-match-props-30}.
 } \\
-\label{eq:leo-forces-eim-match-uniqueness-36}
+\label{eq:leo-match-props-36}
 & \myparbox{%
 \Veim{e} has exactly one valid effect, \Veim{eff},
 \becuz{}
-\eqref{eq:leo-forces-eim-match-uniqueness-14},
-\eqref{eq:leo-forces-eim-match-uniqueness-24},
-\eqref{eq:leo-forces-eim-match-uniqueness-30}.
+\eqref{eq:leo-match-props-14},
+\eqref{eq:leo-match-props-24},
+\eqref{eq:leo-match-props-30}.
 }
 \end{align}
 The theorem follows from
-\eqref{eq:leo-forces-eim-match-uniqueness-14},
-\eqref{eq:leo-forces-eim-match-uniqueness-24},
-\eqref{eq:leo-forces-eim-match-uniqueness-32},
-\eqref{eq:leo-forces-eim-match-uniqueness-34}
+\eqref{eq:leo-match-props-14},
+\eqref{eq:leo-match-props-24},
+\eqref{eq:leo-match-props-32},
+\eqref{eq:leo-match-props-34}
 and
-\eqref{eq:leo-forces-eim-match-uniqueness-36}.
+\eqref{eq:leo-match-props-36}.
 \end{proof}
 
 \chapter{Leo catenas}
