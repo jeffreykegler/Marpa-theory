@@ -3997,18 +3997,25 @@ if and only if
 \begin{gather*}
 \PLSY{\Veim{down}} = \LSY{\Vinst{up}}.
 \end{gather*}
-When \Veim{down} and \Vinst{up} are matching causes,
+We say that the duple
+\[
+    [ \Veim{down}, \Vinst{up} ]
+\]
+is a \qdfn{cause-pair}.%
+\index{recce-definitions}{cause-pair|myixentry{\emph{see} match \emph{and} matching}}
+
+When $[ \Veim{down}, \Vinst{up} ]$ is a cause-pair,
 we say that
 \Veim{down} and \Vinst{up} \qdfn{match}.%
 \index{recce-definitions}{match!between an EIM and an INST}
 We call \Veim{down} the
-\xdfn{top-down cause}{top-down cause!EIM, in a pair of matching causes}%
+\xdfn{top-down cause}{top-down cause!EIM, in a cause-pair}%
 \index{recce-definitions}{matching!EIM, of an INST}
-of the pair of matching causes, and
+of the cause-pair, and
 we call \Vinst{up} the
-\xdfn{bottom-up cause}{bottom-up cause!INST, in a pair of matching causes}.%
+\xdfn{bottom-up cause}{bottom-up cause!INST, in a cause-pair}.%
 \index{recce-definitions}{matching!INST, of an EIM}
-of the pair of matching causes.
+of the cause-pair.
 
 Let $\var{pair} = [\Veim{down}, \Veim{up}]$
 be an ordered pair of EIM's.
@@ -4018,20 +4025,30 @@ are \qdfn{matching causes}
 if and only if
 \Veim{down} and \SymEq{\Veim{up}}
 are matching causes.
-When
-\Veim{down} and \Veim{up}
-are matching causes,
+We call the duple
+\[
+    [ \Veim{down}, \Veim{up} ]
+\]
+a \qdfn{cause-pair}.%
+\index{recce-definitions}{cause-pair|myixentry{\emph{see} match \emph{and} matching}}
+When $[ \Veim{down}, \Veim{up} ]$
+is a cause-pair,
 we say that
 \Veim{down} and \Veim{up} match.%
 \index{recce-definitions}{match!between two EIM's}
 We call \Veim{down} the
-\xdfn{top-down cause}{top-down cause!EIM, in a pair of matching EIM's}%
+\xdfn{top-down cause}{top-down cause!EIM, in a cause-pair}%
 \index{recce-definitions}{matching!EIM, of another EIM}
 of \var{pair}, and
 we call \Veim{up} the
-\xdfn{bottom-up cause}{bottom-up cause!EIM, in a pair of matching EIM's}%
+\xdfn{bottom-up cause}{bottom-up cause!EIM, in a cause-pair}%
 \index{recce-definitions}{matching!EIM, of another EIM}
 of \var{pair}.
+
+We say that a cause-pair is
+\xdfn{valid}{valid!of a cause-pair}
+if both its top-down cause
+and its bottom-up cause are valid.
 \end{definition}
 
 \begin{definition}
@@ -4041,9 +4058,7 @@ Let
 \[
    \var{pair} = [ \Veim{down}, \Vinst{up} ]
 \]
-be a pair of matching causes
-such that
-\Valid{\Veim{down}} and \Valid{\Vinst{up}}.
+be a valid cause-pair.
 We say that \Veim{effect} is the
 \xdfn{effect}{effect!EIM, as the
    effect of another EIM and an INST}
@@ -4552,7 +4567,7 @@ Trivially, we can see that
 and
 \eqref{eq:symbolic-causes-from-effect-30}
 satisfy
-Requirements \eqref{eq:symbolic-causes-from-effect-9}
+Requirements~\eqref{eq:symbolic-causes-from-effect-9}
 \eqref{eq:symbolic-causes-from-effect-12},
 \eqref{eq:symbolic-causes-from-effect-15},
 \eqref{eq:symbolic-causes-from-effect-18},
@@ -4586,7 +4601,7 @@ we have
 \eqref{eq:symbolic-causes-from-effect-25},
 our bottom-up cause.
 This shows that \Vinst{up} is valid
-which was Requirement \eqref{eq:symbolic-causes-from-effect-3}
+which was Requirement~\eqref{eq:symbolic-causes-from-effect-3}
 in the statement of this theorem.
 
 A different simplification of
@@ -4604,7 +4619,7 @@ we have
 \eqref{eq:symbolic-causes-from-effect-30}.
 This shows that \Veim{down} is valid
 which was
-Requirement \eqref{eq:symbolic-causes-from-effect-6},
+Requirement~\eqref{eq:symbolic-causes-from-effect-6},
 the only remaining requirement
 in the statement of this theorem.
 \end{proof}
@@ -4777,23 +4792,23 @@ we know that
 From
 \eqref{eq:effect-from-symbol-29}
 and \dref[causes of confirmed EIM]{def:causes-confirmed},
-we have requirement
+we have Requirement
 \ref{req:effect-from-symbol-1} of this theorem.
 From
 \eqref{eq:effect-from-symbol-28},
 \eqref{eq:effect-from-symbol-29},
 and \dref[causes of confirmed EIM]{def:causes-confirmed}
-we have requirement
+we have Requirement
 \ref{req:effect-from-symbol-2} of this theorem.
 \eqref{eq:effect-from-symbol-28} shows
-requirement \ref{req:effect-from-symbol-3}.
-Requirement \ref{req:effect-from-symbol-4a}
+Requirement~\ref{req:effect-from-symbol-3}.
+Requirement~\ref{req:effect-from-symbol-4a}
 follows from \eqref{eq:effect-from-symbol-28}.
-Requirement \ref{req:effect-from-symbol-4b}
+Requirement~\ref{req:effect-from-symbol-4b}
 follows from \eqref{eq:effect-from-symbol-29}.
 
 To show
-Requirement \ref{req:effect-from-symbol-5}:
+Requirement~\ref{req:effect-from-symbol-5}:
 \begin{align}
 \label{eq:effect-from-symbol-35}
 & \Symbol{\Vinst{Ai}} = \Vsym{A} \becuz
@@ -4827,8 +4842,7 @@ Requirement \ref{req:effect-from-symbol-5}:
 \eqref{eq:effect-from-symbol-28}.
 }
 \end{align}
-Requirement 
-\ref{req:effect-from-symbol-5}
+Requirement~\ref{req:effect-from-symbol-5}
 follows from
 \eqref{eq:effect-from-symbol-39}
 and
@@ -5142,8 +5156,8 @@ We take as our induction hypothesis:
 \label{eq:ethereal-closure-18}
 \myparbox{
 The EIM's in $\var{eims}[\var{x}]$
-obey requirements
-\eqref{req:ethereal-closure-3},
+obey Requirements
+\ref{req:ethereal-closure-3},
 \ref{req:ethereal-closure-5},
 \ref{req:ethereal-closure-8},
 \ref{req:ethereal-closure-12}
@@ -5174,31 +5188,31 @@ for $\var{x} = 0$.
 By the definition of an ethereal closure,
 $\var{eims}[0] = \lbrace \Veim{base} \rbrace.$
 By assumption for the theorem, \Veim{base} is valid.
-This shows requirement~\ref{req:ethereal-closure-3}.
+This shows Requirement~\ref{req:ethereal-closure-3}.
 Trivially, \DR{\Veim{base}} is in its own ethereal closure.
-This shows requirement \ref{req:ethereal-closure-5}.
+This shows Requirement~\ref{req:ethereal-closure-5}.
 Also trivially, its current location is self-identical,
-which shows requirement \ref{req:ethereal-closure-8}.
+which shows Requirement~\ref{req:ethereal-closure-8}.
 
 If \Veim{base} is a quasi-prediction,
 then
 we have
-requirement \ref{req:ethereal-closure-12},
+Requirement~\ref{req:ethereal-closure-12},
 by self-identity and
 \eqref{eq:ethereal-closure-20}.
 If \Veim{base} is quasi-confirmed, we
 have
-requirement \ref{req:ethereal-closure-12}
+Requirement~\ref{req:ethereal-closure-12}
 vacuously.
 
 If \Veim{base} is quasi-prediction,
 then
 we have
-requirement \ref{req:ethereal-closure-15}
+Requirement~\ref{req:ethereal-closure-15}
 vacuously.
 If \Veim{base} is quasi-confirmed, we
 have
-requirement \ref{req:ethereal-closure-15}
+Requirement~\ref{req:ethereal-closure-15}
 by self-identity.
 This shows all the requirements for the basis of the induction.
 
@@ -5217,7 +5231,7 @@ cause in
 $\var{eims}[\var{i}]$.
 Call this top-down cause, \Veim{wlog1}.
 
-We show requirement \ref{req:ethereal-closure-3}
+We show Requirement~\ref{req:ethereal-closure-3}
 by cases,
 depending on the type of \Veim{wlog2}.
 By definition of \var{ethereal-closure} for EIM's,
@@ -5238,7 +5252,7 @@ is sufficient to make
 if \Veim{wlog2} is a null-scan.
 We have both cases
 and therefore have shown
-requirement \ref{req:ethereal-closure-3}
+Requirement~\ref{req:ethereal-closure-3}
 for the step.
 
 The EIM types are defined in terms of the types of their
@@ -5268,7 +5282,7 @@ we have
 \begin{equation*}
 \DR{\Veim{wlog2}} \in \var{ethereal-dr-closure}(\DR{\Veim{base}}),
 \end{equation*}
-which is requirement \ref{req:ethereal-closure-5}
+which is Requirement~\ref{req:ethereal-closure-5}
 for the step.
 
 If \Veim{wlog2} is a prediction,
@@ -5315,12 +5329,11 @@ for predictions and from
 \eqref{eq:ethereal-closure-39}
 for null-scans.
 Either way, we have
-requirement
-\ref{req:ethereal-closure-8} for
+Requirement~\ref{req:ethereal-closure-8} for
 the step of the induction.
 
 We have
-requirement \ref{req:ethereal-closure-12}
+Requirement~\ref{req:ethereal-closure-12}
 from
 \eqref{eq:ethereal-closure-20} and
 \eqref{eq:ethereal-closure-48}
@@ -5328,7 +5341,7 @@ for quasi-predictions;
 and vacuously for quasi-confirmed EIM's.
 
 We have
-requirement \ref{req:ethereal-closure-15}
+Requirement~\ref{req:ethereal-closure-15}
 from \eqref{eq:ethereal-closure-42} for
 quasi-confirmed EIM's,
 and vacuously for quasi-predictions.
@@ -6719,8 +6732,7 @@ and
 If \Veim{effect} is a prediction,
 this theorem follows from
 Theorem \ref{t:prediction-from-cause}.
-This shows requirement
-\ref{req:right-location-of-top-down-cause-3}.
+This shows Requirement~\ref{req:right-location-of-top-down-cause-3}.
 
 For the remaining cases,
 we will
@@ -6765,8 +6777,7 @@ we have
 \[
   \Right{\Veim{down}} = \Right{\Veim{effect}},
 \]
-which is requirement
-\ref{req:right-location-of-top-down-cause-4}.
+which is Requirement~\ref{req:right-location-of-top-down-cause-4}.
 
 If \Veim{effect} is a read, \Vinst{up} is
 a terminal symbol instance,
@@ -6776,8 +6787,7 @@ Using
 \[
   \Right{\Veim{down}} = \Right{\Veim{down}} \subtract 1,
 \]
-which is requirement
-\ref{req:right-location-of-top-down-cause-6}.
+which is Requirement~\ref{req:right-location-of-top-down-cause-6}.
 
 If \Veim{effect} is a reduction, \Vinst{up} is
 a non-terminal symbol instance,
@@ -6787,8 +6797,7 @@ Using
 \[
   \Right{\Veim{down}} < \Right{\Veim{effect}},
 \]
-which is requirement
-\ref{req:right-location-of-top-down-cause-9}.
+which is Requirement~\ref{req:right-location-of-top-down-cause-9}.
 
 \end{proof}
 
@@ -7239,8 +7248,7 @@ To do this, we will first construct a
 \var{teth} which has \Veim{eim}
 as its base,
 and then we will show that \var{teth}
-satisfies requirements
-\eqref{eq:def-tether-10},
+satisfies Requirements~\eqref{eq:def-tether-10},
 \eqref{eq:def-tether-20}
 and
 \eqref{eq:def-tether-30}
@@ -10911,8 +10919,6 @@ We make the following assumptions:
 \end{align}
 \end{subequations}
 
-TODO: revise.
-
 On those assumptions,
 we have the following:
 \begin{subequations}
@@ -10944,11 +10950,6 @@ call it \Veim{eff}.
 & \myparbox{%
 \Veim{e} is the cause of exactly one valid
 effect, \Veim{eff}.
-} \\
-\label{eq:leo-match-props-req-6}
-& \myparbox{%
-\Veim{bas} is a top-down cause of
-exactly one effect, \Veim{eff}.
 }
 \end{align}
 \end{subequations}
@@ -10965,8 +10966,7 @@ call it \Veim{bas}
 \becuz{}
 \tref{t:leo-basis-uniqueness},
 which is 
-requirement
-\eqref{eq:leo-match-props-req-1}
+Requirement~\eqref{eq:leo-match-props-req-1}
 of this theorem.
 } \\
 \label{eq:leo-match-props-8}
@@ -11002,10 +11002,11 @@ of this theorem.
 } \\
 \label{eq:leo-match-props-14}
 & \myparbox{%
-The matching pair of causes,
+The cause-pair
 $[ \Veim{bas}, \Veim{e} ]$
 is the cause of exactly one valid effect,
-call it \Veim{eff}.
+call it \Veim{eff}
+\becuz{}
 \eqref{eq:leo-match-props-8},
 \tref{t:effect-from-matching-causes},
 which is Requirement
@@ -11023,38 +11024,7 @@ effect, \Veim{eff}
 \eqref{eq:leo-match-props-14},
 which is Requirement
 \eqref{eq:leo-match-props-req-5}
-of this theorem.
-} \\
-\label{eq:leo-match-props-18}
-& \myparbox{%
-\Veim{bas} is a top-down cause of
-exactly one effect, \Veim{eff},
-\becuz{}
-TODO,
-which is Requirement
-\eqref{eq:leo-match-props-req-6}
-of this theorem.
-} \\
-\label{eq:leo-match-props-11b}
-& \myparbox{%
-$\Symbol{\Vleo{l}} \neq \Vsym{accept}$
-\becuz{}
-\tref{t:leo-transition-symbol-non-terminal}.
-} \\
-\label{eq:leo-match-props-11d}
-& \myparbox{%
-$\Symbol{\Vleo{l}} = \Symbol{\Veim{e}}$
-\becuz{}
-\eqref{eq:leo-match-props-5},
-\dref[EIM/LEO match]{def:eim-matching-leo-memo},
-\dref[LSY]{def:eim-locsym}.
-} \\
-\label{eq:leo-match-props-11f}
-& \myparbox{%
-$\Symbol{\Veim{e}} \neq \Vsym{accept}$
-\becuz{}
-\eqref{eq:leo-match-props-11b},
-\eqref{eq:leo-match-props-11d}.
+of this theorem. \qedhere
 }
 \end{align}
 \end{proof}
@@ -12429,8 +12399,7 @@ which is \Veim{eff},
 \eqref{eq:leo-direct-effect-props-25}
 and
 \dref[direct Leo silo effect]{def:direct-leo-silo-effect}.
-This shows requirement
-\eqref{eq:leo-direct-effect-props-req-1}
+This shows Requirement~\eqref{eq:leo-direct-effect-props-req-1}
 for this theorem.
 } \\
 \label{eq:leo-direct-effect-props-27}
@@ -12441,8 +12410,7 @@ for this theorem.
 \eqref{eq:leo-direct-effect-props-12},
 \eqref{eq:leo-direct-effect-props-14},
 \tref{t:leo-match-props},
-which shows requirement
-\eqref{eq:leo-direct-effect-props-req-2}
+which shows Requirement~\eqref{eq:leo-direct-effect-props-req-2}
 of this theorem.
 } \\
 \label{eq:leo-direct-effect-props-28}
@@ -12454,8 +12422,7 @@ call it \Veim{eff}
 \eqref{eq:leo-direct-effect-props-12},
 \eqref{eq:leo-direct-effect-props-14},
 \tref{t:leo-match-props},
-which shows requirement
-\eqref{eq:leo-direct-effect-props-req-3}
+which shows Requirement~\eqref{eq:leo-direct-effect-props-req-3}
 of this theorem.
 } \\
 \label{eq:leo-direct-effect-props-30}
@@ -12467,8 +12434,7 @@ of \Veim{cuz}
 \eqref{eq:leo-direct-effect-props-12},
 \eqref{eq:leo-direct-effect-props-14},
 \tref{t:leo-match-props},
-which shows requirement
-\eqref{eq:leo-direct-effect-props-req-3-1}
+which shows Requirement~\eqref{eq:leo-direct-effect-props-req-3-1}
 of this theorem.
 } \\
 \label{eq:leo-direct-effect-props-32}
@@ -12480,8 +12446,7 @@ exactly one effect, \Veim{eff}
 \eqref{eq:leo-direct-effect-props-28},
 \eqref{eq:leo-direct-effect-props-30},
 \tref{t:leo-match-props}
-which shows requirement
-\eqref{eq:leo-direct-effect-props-req-3-2}
+which shows Requirement~\eqref{eq:leo-direct-effect-props-req-3-2}
 of this theorem.
 } \\
 \label{eq:leo-direct-effect-props-34}
@@ -12491,8 +12456,7 @@ $\Rule{\Veim{eff}} = \Rule{\Veim{bas}}$
 \eqref{eq:leo-direct-effect-props-30},
 \eqref{eq:leo-direct-effect-props-32},
 \tref{t:effect-from-matching-causes}
-which shows requirement
-\eqref{eq:leo-direct-effect-props-req-4}
+which shows Requirement~\eqref{eq:leo-direct-effect-props-req-4}
 for this theorem.
 } \\
 \label{eq:leo-direct-effect-props-36}
@@ -12502,8 +12466,7 @@ $\Right{\Veim{eff}} = \Right{\Veim{cuz}}$
 \eqref{eq:leo-direct-effect-props-28},
 \eqref{eq:leo-direct-effect-props-30},
 \tref{t:symbolic-causes-from-effect}
-which shows requirement
-\eqref{eq:leo-direct-effect-props-req-5}
+which shows Requirement~\eqref{eq:leo-direct-effect-props-req-5}
 for this theorem.
 } \\
 \label{eq:leo-direct-effect-props-37}
@@ -12526,8 +12489,7 @@ for this theorem.
 \becuz{}
 \eqref{eq:leo-direct-effect-props-34},
 \eqref{eq:leo-direct-effect-props-37-1},
-which shows requirement
-\eqref{eq:leo-direct-effect-props-req-6}
+which shows Requirement~\eqref{eq:leo-direct-effect-props-req-6}
 for this theorem.
 } \\
 \label{eq:leo-direct-effect-props-40}
@@ -12536,8 +12498,7 @@ for this theorem.
 \becuz{}
 \eqref{eq:leo-direct-effect-props-14},
 \dref[matching Leo memo]{def:eim-matching-leo-memo}
-which shows requirement
-\eqref{eq:leo-direct-effect-props-req-6a}
+which shows Requirement~\eqref{eq:leo-direct-effect-props-req-6a}
 for this theorem.
 } \\
 \label{eq:leo-direct-effect-props-44}
@@ -12603,8 +12564,7 @@ $\RHS{\Veim{eff}}[\Dotix{\Veim{eff}} \ldots \Vlastix{\RHS{\Veim{eff}}}] \destar 
 \eqref{eq:leo-direct-effect-props-54},
 \dref[quasi-penult DR]{def:quasi-types},
 \dref[DR notions for EIM's]{def:eim-dr-notions},
-which shows requirement
-\eqref{eq:leo-direct-effect-props-req-7}
+which shows Requirement~\eqref{eq:leo-direct-effect-props-req-7}
 for this theorem.
 } \\
 \label{eq:leo-direct-effect-props-58}
@@ -12616,8 +12576,7 @@ for this theorem.
 \eqref{eq:leo-direct-effect-props-40},
 \eqref{eq:leo-direct-effect-props-56},
 \dref[silo]{def:silo},
-which is requirement
-\eqref{eq:leo-direct-effect-props-req-8}
+which is Requirement~\eqref{eq:leo-direct-effect-props-req-8}
 for this theorem.
 } \\
 \label{eq:leo-direct-effect-props-60}
@@ -12627,8 +12586,7 @@ for this theorem.
 \eqref{eq:leo-direct-effect-props-25},
 \eqref{eq:leo-direct-effect-props-58},
 \dref{def:silo},
-which is requirement
-\eqref{eq:leo-direct-effect-props-req-9}
+which is Requirement~\eqref{eq:leo-direct-effect-props-req-9}
 for this theorem.
 }
 \end{align}
@@ -12777,8 +12735,7 @@ the assumption for the conditional proof
 and 
 \eqref{eq:matching-memo-of-leo-direct-effect-68},
 we have
-Requirement 
-\eqref{eq:matching-memo-of-leo-direct-effect-5l}
+Requirement~\eqref{eq:matching-memo-of-leo-direct-effect-5l}
 for this theorem:
 }
 \notag
