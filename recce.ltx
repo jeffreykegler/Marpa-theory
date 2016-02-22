@@ -4069,7 +4069,7 @@ if and only if these two conditions hold:
 \left[
 \begin{gathered}
 \Next{\DR{\Veim{down}}}, \\
-\Origin{\Veim{down}}, \Current{\Vinst{up}}
+\Left{\Veim{down}}, \Current{\Vinst{up}}
 \end{gathered}
 \right]
 \; \text{and}
@@ -4279,19 +4279,17 @@ of a non-terminal symbol.
 \section{Confirmed Earley items}
 
 \begin{theorem}
-\ttitle{Effect from matching causes}
-\label{t:effect-from-matching-causes}
-If a symbolic bottom-up cause
-and a top-down cause match
-and are both valid,
-then they have exactly one valid effect.
+\ttitle{Effect from symbolic cause-pair}
+\label{t:effect-from-symbolic-cause-pair}
+A cause-pair, both of whose causes are symbolic,
+has exactly one valid effect.
 \end{theorem}
 
 \begin{proof}
 Without loss of generality,
 let the top-down cause be
 \begin{equation}
-\label{eq:effect-from-matching-causes-3}
+\label{eq:effect-from-symbolic-cause-pair-3}
 \begin{split}
 & \Veim{down} =  \\
 & \qquad \qquad [ [ \Vsym{down} \de \Vstr{pre} \mydot \Vsym{A} \cat \Vstr{post} ], \var{i}, \var{j} ].
@@ -4299,20 +4297,20 @@ let the top-down cause be
 \end{equation}
 and let the symbolic equivalent of the bottom-up cause be
 \begin{equation}
-\label{eq:effect-from-matching-causes-6}
+\label{eq:effect-from-symbolic-cause-pair-6}
 \,[\var{j}]\, \Vsym{A} \,[\var{k}]\, .
 \end{equation}
-The effect of \Veim{down} and \eqref{eq:effect-from-matching-causes-6}
+The effect of \Veim{down} and \eqref{eq:effect-from-symbolic-cause-pair-6}
 will be
 \begin{equation}
-\label{eq:effect-from-matching-causes-9}
+\label{eq:effect-from-symbolic-cause-pair-9}
 \begin{split}
 & \Veim{effect} =  \\
 & \qquad \qquad [ [ \Vsym{down} \de \Vstr{pre} \cat \Vsym{A} \mydot \Vstr{post} ], \var{i}, \var{k} ].
 \end{split}
 \end{equation}
 \Veim{effect} is fully determined by
-\Veim{down} and \eqref{eq:effect-from-matching-causes-6}
+\Veim{down} and \eqref{eq:effect-from-symbolic-cause-pair-6}
 and is therefore unique.
 
 It remains to show that \Veim{effect}
@@ -4320,37 +4318,37 @@ is valid.
 By the definition of validity for an Earley item,
 we will have shown this if we can show that
 \begin{equation}
-\label{eq:effect-from-matching-causes-12}
+\label{eq:effect-from-symbolic-cause-pair-12}
 \Vsym{down} \derives [\var{i}] \Vstr{pre} \cat \Vstr{A} [\var{k}] \Vstr{post}.
 \end{equation}
 
 By assumption,
-\eqref{eq:effect-from-matching-causes-3}
+\eqref{eq:effect-from-symbolic-cause-pair-3}
 is valid.
 From the definition of validity for an Earley item:
 \begin{equation}
-\label{eq:effect-from-matching-causes-20}
+\label{eq:effect-from-symbolic-cause-pair-20}
 \Vsym{down} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{A} \cat \Vstr{post}
 \end{equation}
 
 We see that the location markers in
-\eqref{eq:effect-from-matching-causes-6}
+\eqref{eq:effect-from-symbolic-cause-pair-6}
 and
-\eqref{eq:effect-from-matching-causes-20}
+\eqref{eq:effect-from-symbolic-cause-pair-20}
 are compatible:
 \var{i} and \var{k} are unrestricted,
 while the use of \var{j} in both derivations is compatible.
 Composing them we have
 \begin{alignat}{2}
-\label{eq:effect-from-matching-causes-25}
+\label{eq:effect-from-symbolic-cause-pair-25}
 & \Vsym{down} \derives [\var{i}]\, \Vstr{pre} \,[\var{j}]\, \Vsym{A} \,[\var{k}]\, \Vstr{post} \\
 \therefore \quad & \Vsym{down} \derives [\var{i}]\, \Vstr{pre} \cat \Vsym{A} \,[\var{k}]\, \Vstr{post}
-\label{eq:effect-from-matching-causes-28}
+\label{eq:effect-from-symbolic-cause-pair-28}
 \end{alignat}
 Where
-\eqref{eq:effect-from-matching-causes-28}
+\eqref{eq:effect-from-symbolic-cause-pair-28}
 is
-\eqref{eq:effect-from-matching-causes-12},
+\eqref{eq:effect-from-symbolic-cause-pair-12},
 which is what we needed to show for the theorem.
 \end{proof}
 
@@ -4441,7 +4439,7 @@ then that effect must be
 \left[
 \begin{gathered}
 \Next{\DR{\Veim{cuz}}}, \\
-\Origin{\Veim{cuz}}, \Current{\Veim{cuz}}
+\Left{\Veim{cuz}}, \Current{\Veim{cuz}}
 \end{gathered}
 \right],
 \end{equation}
@@ -4460,7 +4458,7 @@ then its top-down cause must be
 \left[
 \begin{gathered}
 \Prev{\DR{\Veim{eff}}}, \\
-\Origin{\Veim{eff}}, \Current{\Veim{eff}}
+\Left{\Veim{eff}}, \Current{\Veim{eff}}
 \end{gathered}
 \right],
 \end{equation}
@@ -5130,13 +5128,13 @@ $\Current{\Veim{desc}} = \Current{\Veim{base}},$
 \item
 \label{req:ethereal-closure-12}
 if \Veim{desc} is a quasi-prediction,
-$\Origin{\Veim{desc}} = \Current{\Veim{base}}$,
+$\Left{\Veim{desc}} = \Current{\Veim{base}}$,
 and
 \item
 \label{req:ethereal-closure-15}
 if \Veim{desc} is quasi-confirmed,
 then
-$\Origin{\Veim{desc}} = \Origin{\Veim{base}}.$
+$\Left{\Veim{desc}} = \Left{\Veim{base}}.$
 \end{enumerate}
 \end{theorem}
 \end{FlushLeft}
@@ -5177,7 +5175,7 @@ and of \myfnname{Dotix},
 \begin{gathered}
 \text{if \Veim{qpred} is a quasi-prediction, then} \\
 \var{i} < \op{Dotix}{\Veim{qpred}} \implies \RHS{\Veim{dr}, \var{i}} \derives \epsilon \quad \text{and} \\
-\text{\Current{\Veim{qpred}} = \Origin{\Veim{qpred}}}.
+\text{\Current{\Veim{qpred}} = \Left{\Veim{qpred}}}.
 \end{gathered}
 \end{equation}
 
@@ -5304,18 +5302,18 @@ that
 \end{align}
 Also, for null-scans, we know from
 Theorem
-\ref{t:effect-from-matching-causes}
+\ref{t:effect-from-symbolic-cause-pair}
 that
 \begin{equation}
 \label{eq:ethereal-closure-42}
-\Origin{\Veim{wlog1}} = \Origin{\Veim{wlog2}}.
+\Left{\Veim{wlog1}} = \Left{\Veim{wlog2}}.
 \end{equation}
 
 If \Veim{wlog2} is a quasi-prediction, we know from
 \eqref{eq:ethereal-closure-20} that
 \begin{equation}
 \label{eq:ethereal-closure-45}
-\Current{\Veim{wlog2}} = \Origin{\Veim{wlog2}}.
+\Current{\Veim{wlog2}} = \Left{\Veim{wlog2}}.
 \end{equation}
 
 We have
@@ -5461,7 +5459,7 @@ then
 \begin{gathered}
   [
 \Rule{\Veim{eim}}, (\Dotix{\Veim{eim}} + \var{i}) ], \\
-  \Origin{\Veim{eim}},
+  \Left{\Veim{eim}},
   \Current{\Veim{eim}},
 \end{gathered}
 \right]
@@ -5823,7 +5821,7 @@ we have, for some \var{ix1}, \var{ix2},
 \begin{gathered}
   [
 \Rule{\Veim{bas1}}, (\Dotix{\Veim{bas1}} + \var{ix1}) ], \\
-  \Origin{\Veim{bas1}},
+  \Left{\Veim{bas1}},
   \Current{\Veim{bas1}},
 \end{gathered}
 \right]
@@ -5837,7 +5835,7 @@ and
 \begin{gathered}
   [
 \Rule{\Veim{bas2}}, (\Dotix{\Veim{bas2}} + \var{ix2}) ], \\
-  \Origin{\Veim{bas2}},
+  \Left{\Veim{bas2}},
   \Current{\Veim{bas2}},
 \end{gathered}
 \right]
@@ -5857,10 +5855,10 @@ we know that
 \label{eq:eim-lasting-base-49}
 \begin{gathered}
 \Rule{\Veim{eim}}  = \Rule{\Veim{bas1}} \; \land \\
-\Origin{\Veim{eim}}  = \Origin{\Veim{bas1}} \; \land \\
+\Left{\Veim{eim}}  = \Left{\Veim{bas1}} \; \land \\
 \Current{\Veim{eim}}  = \Current{\Veim{bas1}} \; \land \\
 \Rule{\Veim{eim}}  = \Rule{\Veim{bas2}} \; \land \\
-\Origin{\Veim{eim}}  = \Origin{\Veim{bas2}} \; \land \\
+\Left{\Veim{eim}}  = \Left{\Veim{bas2}} \; \land \\
 \Current{\Veim{eim}}  = \Current{\Veim{bas2}},
 \end{gathered}
 \end{equation}
@@ -5869,7 +5867,7 @@ so that
 \label{eq:eim-lasting-base-50}
 \begin{gathered}
 \Rule{\Veim{bas1}}  = \Rule{\Veim{bas2}} \; \land \\
-\Origin{\Veim{bas1}}  = \Origin{\Veim{bas2}} \; \land \\
+\Left{\Veim{bas1}}  = \Left{\Veim{bas2}} \; \land \\
 \Current{\Veim{bas1}}  = \Current{\Veim{bas2}}.
 \end{gathered}
 \end{equation}
@@ -10178,7 +10176,7 @@ we write
 \begin{alignat*}{1}
 \Symbol{\Vleo{leo}} & \; \text{to say \Vsym{transition}}, \\
 \DR{\Vleo{leo}} & \; \text{to say \Vdr{top}}, \\
-\Origin{\Vleo{leo}} & \; \text{to say \Vorig{top}} \\
+\Left{\Vleo{leo}} & \; \text{to say \Vorig{top}} \\
 \text{and \Current{\Vleo{leo}}} & \; \text{to say \Vloc{memloc}.}
 \end{alignat*}
 
@@ -10191,7 +10189,7 @@ some of the layers of certain silos occuring after
 The elements
 \Symbol{\Vleo{leo}},
 \DR{\Vleo{leo}},
-and \Origin{\Vleo{leo}}
+and \Left{\Vleo{leo}}
 are
 used to define which silo layers will be memoized
 in a way that will be detailed later in this chapter.
@@ -10510,7 +10508,7 @@ This case holds if and only if
 \Vleo{eff} = \left[
   \begin{gathered}
   \Postdot{\Veim{basis}}, \DR{\Vleo{down}}, \\
-  \Origin{\Vleo{down}}, \Current{\Veim{basis}}
+  \Left{\Vleo{down}}, \Current{\Veim{basis}}
   \end{gathered}
 \right].
 \end{equation*}
@@ -10525,7 +10523,7 @@ This case holds if and only if
   \begin{gathered}
   \Postdot{\Veim{basis}},
   \Next{\DR{\Veim{basis}}}, \\
-  \Origin{\Veim{basis}}, \Current{\Veim{basis}}
+  \Left{\Veim{basis}}, \Current{\Veim{basis}}
   \end{gathered}
 \right].
 \end{equation*}
@@ -10701,7 +10699,7 @@ that the completion EIM of the quasi-complete EIM \Veim{q} is
    \begin{gathered}
      \big[ \Rule{\Veim{q}}, \Vdecr{\Vsize{\Rule{\Veim{q}}}} \big],
      \\
-     \Origin{\Veim{q}}, \Current{\Veim{q}}
+     \Left{\Veim{q}}, \Current{\Veim{q}}
    \end{gathered}
    \right].
 \]
@@ -10941,7 +10939,7 @@ of \Veim{e}.
 } \\
 \label{eq:leo-match-props-req-4}
 & \myparbox{%
-The matching pair of causes,
+The cause-pair
 $[ \Veim{bas}, \Veim{e} ]$
 is the cause of exactly one valid effect,
 call it \Veim{eff}.
@@ -11008,7 +11006,7 @@ is the cause of exactly one valid effect,
 call it \Veim{eff}
 \becuz{}
 \eqref{eq:leo-match-props-8},
-\tref{t:effect-from-matching-causes},
+\tref{t:effect-from-symbolic-cause-pair},
 which is Requirement
 \eqref{eq:leo-match-props-req-4}
 of this theorem.
@@ -11081,13 +11079,13 @@ $\Current{\Vel{cat}{a}} = \Current{\Veim{bas}}$
 \label{eq:lem-leo-catena-non-increasing-location-15}
 &
 \myparbox{
-$\Current{\el{cat}{\Vincr{a}}} = \Origin{\Veim{bas}}$
+$\Current{\el{cat}{\Vincr{a}}} = \Left{\Veim{bas}}$
 \becuz{} \dref[top-down cause of a Leo memo]{def:down-cause-of-leo-memo}.
 }
 \intertext{The current location of every EIM is at or after
 its origin, so that}
 \label{eq:lem-leo-catena-non-increasing-location-20}
-& \forall \; \Veim{x} : \Origin{\Veim{x}} \le \Current{\Veim{x}}
+& \forall \; \Veim{x} : \Left{\Veim{x}} \le \Current{\Veim{x}}
 \; \text{and}
 \\
 \label{eq:lem-leo-catena-non-increasing-location-22}
@@ -11198,7 +11196,7 @@ of
 }
 \\
 \label{eq:lem-leo-catena-cycle-14}
-& \myparbox{$\Current{\el{cat}{\Vincr{i}}} = \Origin{\Veim{bas}}$
+& \myparbox{$\Current{\el{cat}{\Vincr{i}}} = \Left{\Veim{bas}}$
 \becuz{}
 \eqref{eq:lem-leo-catena-cycle-9},
 \eqref{eq:lem-leo-catena-cycle-12},
@@ -11213,7 +11211,7 @@ of
 }
 \\
 \label{eq:lem-leo-catena-cycle-18}
-& \myparbox{$\Current{\Veim{bas}} = \Origin{\Veim{bas}}$
+& \myparbox{$\Current{\Veim{bas}} = \Left{\Veim{bas}}$
 \becuz{}
 \eqref{eq:lem-leo-catena-cycle-10},
 \eqref{eq:lem-leo-catena-cycle-14},
@@ -11336,7 +11334,7 @@ and $0 \le \var{b} \le \Vlastix{cat}$,
 \begin{equation*}
 \DR{\Vel{cat}{a}} = \DR{\Vel{cat}{b}}
 \; \land \;
-\Origin{\Vel{cat}{a}} = \Origin{\Vel{cat}{b}}
+\Left{\Vel{cat}{a}} = \Left{\Vel{cat}{b}}
 \end{equation*}
 \end{theorem}
 
@@ -11351,7 +11349,7 @@ such that
 \left(
 \begin{gathered}
 \DR{\Vel{cat}{x}} \neq \DR{\el{cat}{0}} \\
-\lor \; \Origin{\Vel{cat}{x}} \neq \Origin{\el{cat}{0}}
+\lor \; \Left{\Vel{cat}{x}} \neq \Left{\el{cat}{0}}
 \end{gathered}
 \right).
 \end{equation}
@@ -11376,7 +11374,7 @@ we have
 \becuz \eqref{eq:catena-top-elements-identical-19};
 \\
 \label{eq:catena-top-elements-identical-20d}
-& \Origin{\el{cat}{\Vdecr{x1}}} = \Origin{\el{cat}{0}}
+& \Left{\el{cat}{\Vdecr{x1}}} = \Left{\el{cat}{0}}
 \becuz \eqref{eq:catena-top-elements-identical-19};
 \\
 \label{eq:catena-top-elements-identical-22}
@@ -11399,7 +11397,7 @@ of
 \label{eq:catena-top-elements-identical-24d}
 &
 \myparbox{
-\Origin{\Vel{cat}{x1}} = \Origin{\el{cat}{\Vdecr{x1}}}
+\Left{\Vel{cat}{x1}} = \Left{\el{cat}{\Vdecr{x1}}}
 \becuz{}
 \dref[validity of Leo memo with top-down cause]{def:validity-of-leo-memo};
 }
@@ -11412,7 +11410,7 @@ of
 \; \text{and}
 \\
 \label{eq:catena-top-elements-identical-26d}
-& \Origin{\Vel{cat}{x1}} = \Origin{\el{cat}{0}}
+& \Left{\Vel{cat}{x1}} = \Left{\el{cat}{0}}
 \becuz \eqref{eq:catena-top-elements-identical-20d}
 \eqref{eq:catena-top-elements-identical-24d}.
 \end{align}
@@ -11539,7 +11537,7 @@ By \dref[Leo top-down cause]{def:down-cause-of-leo-memo},
 we know that
 \begin{gather*}
 \LHS{\Veim{bas}} = \Vsym{sym1} \; \land \; \LHS{\Veim{bas}} = \Vsym{sym2} \quad \text{and} \\
-\Origin{\Veim{bas}} = \Vloc{curr1} \; \land \; \Origin{\Veim{bas}} = \Vloc{curr2}.
+\Left{\Veim{bas}} = \Vloc{curr1} \; \land \; \Left{\Veim{bas}} = \Vloc{curr2}.
 \end{gather*}
 so that
 \begin{equation}
@@ -11731,7 +11729,7 @@ we have
 \Vel{cat}{z} = \left[
 \begin{gathered}
   \Symbol{\Vleo{l}}, \Next{\DR{\Veim{bas}}}, \\
-  \Origin{\Veim{bas}}, \Current{\Vleo{l}}
+  \Left{\Veim{bas}}, \Current{\Vleo{l}}
 \end{gathered}
 \right].
 \end{equation}
@@ -11743,7 +11741,7 @@ we know that
 \label{eq:leo-memo-uniqueness-by-postdot-locsym-19}
 \begin{gathered}
 \DR{\Vleo{l}} = \Next{\DR{\Veim{bas}}} \; \text{and} \\
-\Origin{\Vleo{l}} = \Origin{\Veim{bas}}.
+\Left{\Vleo{l}} = \Left{\Veim{bas}}.
 \end{gathered}
 \end{equation}
 
@@ -11783,7 +11781,7 @@ we have
 \Vel{cat}{z} = \left[
 \begin{gathered}
   \Symbol{\Vleo{l}}, \DR{\Vleo{down}}, \\
-  \Origin{\Vleo{down}}, \Current{\Vleo{l}}
+  \Left{\Vleo{down}}, \Current{\Vleo{l}}
 \end{gathered}
 \right].
 \end{equation}
@@ -11794,7 +11792,7 @@ and \dref[validity of Leo memo with top-down cause]{def:validity-of-leo-memo},
 \label{eq:leo-memo-uniqueness-by-postdot-locsym-28}
 \begin{gathered}
 \DR{\Vleo{l}} = \DR{\Vleo{down}} \; \text{and} \\
-\Origin{\Vleo{l}} = \Origin{\Vleo{down}}.
+\Left{\Vleo{l}} = \Left{\Vleo{down}}.
 \end{gathered}
 \end{equation}
 From
@@ -12288,14 +12286,33 @@ and
 \begin{theorem}
 \ttitle{Leo direct effect properties}
 \label{t:leo-direct-effect-props}
-Let \Veim{cuz} be a valid EIM;
-and let \Vleo{l} be a matching,
-instantiated, Leo memo.
-Let \Veim{bas} be the basis of \Vleo{l}.
-Then,
+We make the following assumptions:
+\begin{subequations}
+\renewcommand{\theequation}{A\arabic{equation}}
+\begin{align}
+\label{eq:leo-direct-effect-props-asm-1}
+& \myparbox{%
+\Veim{cuz} is a valid EIM.
+} \\
+\label{eq:leo-direct-effect-props-asm-2}
+& \myparbox{%
+\Vleo{l} is an instantiated Leo memo.
+} \\
+\label{eq:leo-direct-effect-props-asm-3}
+& \myparbox{%
+\Vleo{l} matches \Veim{cuz}.
+}
+\end{align}
+\end{subequations}
+
+If these assumptions hold, then
 \begin{subequations}
 \renewcommand{\theequation}{R\arabic{equation}}
 \begin{align}
+\label{eq:leo-direct-effect-props-req-0-5}
+& \myparbox{%
+\Vleo{l} has exactly one valid basis, \Veim{bas}.
+} \\
 \label{eq:leo-direct-effect-props-req-1}
 & \myparbox{%
 \Veim{cuz} and \Vleo{l} have exactly one valid direct Leo effect,
@@ -12316,8 +12333,10 @@ of \Veim{cuz}.
 } \\
 \label{eq:leo-direct-effect-props-req-3-2}
 & \myparbox{%
-\Veim{bas} is a top-down cause of
-exactly one effect, \Veim{eff}.
+The cause-pair
+$[ \Veim{bas}, \Veim{cuz} ]$
+is the cause of exactly one valid effect,
+\Veim{eff}.
 } \\
 \label{eq:leo-direct-effect-props-req-4}
 & \myparbox{%
@@ -12354,38 +12373,25 @@ $\Right{\Veim{cuz}} = \Right{\Veim{eff}}$
 \begin{proof}
 We begin with the assumptions for the theorem:
 \begin{align}
-\label{eq:leo-direct-effect-props-10}
-& \myparbox{%
-\Instantiated{\Vleo{l}}
-\becuz{} ASM for Th.
-} \\
-\label{eq:leo-direct-effect-props-12}
-& \myparbox{%
-\Valid{\Veim{cuz}}
-\becuz{} ASM for Th.
-} \\
-\label{eq:leo-direct-effect-props-14}
-& \myparbox{%
-\Vleo{l} matches \Veim{cuz}
-\becuz{} ASM for Th.
-} \\
 \label{eq:leo-direct-effect-props-16}
 & \myparbox{%
 \Veim{bas} is the basis of \Vleo{l}
 and \Valid{\Veim{bas}}
 \becuz{}
-\eqref{eq:leo-direct-effect-props-10},
+\eqref{eq:leo-direct-effect-props-asm-1}
 \dref{def:validity-of-leo-memo},
-ASM for Th.
+which shows
+Requirement~\eqref{eq:leo-direct-effect-props-req-0-5}
+for this theorem.
 } \\
 \label{eq:leo-direct-effect-props-25}
 & \myparbox{%
 \Veim{cuz} is the cause of exactly one valid
 effect, \Veim{eff}
 \becuz{}
-\eqref{eq:leo-direct-effect-props-10},
-\eqref{eq:leo-direct-effect-props-12},
-\eqref{eq:leo-direct-effect-props-14},
+\eqref{eq:leo-direct-effect-props-asm-1},
+\eqref{eq:leo-direct-effect-props-asm-2},
+\eqref{eq:leo-direct-effect-props-asm-3},
 \tref{t:leo-match-props}.
 } \\
 \label{eq:leo-direct-effect-props-26}
@@ -12393,22 +12399,22 @@ effect, \Veim{eff}
 \Veim{cuz} and \Vleo{l} have exactly one valid direct Leo effect,
 which is \Veim{eff},
 \becuz{}
-\eqref{eq:leo-direct-effect-props-10},
-\eqref{eq:leo-direct-effect-props-12},
-\eqref{eq:leo-direct-effect-props-14},
+\eqref{eq:leo-direct-effect-props-asm-1},
+\eqref{eq:leo-direct-effect-props-asm-2},
+\eqref{eq:leo-direct-effect-props-asm-3},
 \eqref{eq:leo-direct-effect-props-25}
 and
-\dref[direct Leo silo effect]{def:direct-leo-silo-effect}.
-This shows Requirement~\eqref{eq:leo-direct-effect-props-req-1}
+\dref[direct Leo silo effect]{def:direct-leo-silo-effect},
+which shows Requirement~\eqref{eq:leo-direct-effect-props-req-1}
 for this theorem.
 } \\
 \label{eq:leo-direct-effect-props-27}
 & \myparbox{%
 \Veim{cuz} is a bottom-up cause of \Veim{eff}
 \becuz{}
-\eqref{eq:leo-direct-effect-props-10},
-\eqref{eq:leo-direct-effect-props-12},
-\eqref{eq:leo-direct-effect-props-14},
+\eqref{eq:leo-direct-effect-props-asm-1},
+\eqref{eq:leo-direct-effect-props-asm-2},
+\eqref{eq:leo-direct-effect-props-asm-3},
 \tref{t:leo-match-props},
 which shows Requirement~\eqref{eq:leo-direct-effect-props-req-2}
 of this theorem.
@@ -12418,9 +12424,9 @@ of this theorem.
 \Veim{cuz} is the cause of exactly one valid effect,
 call it \Veim{eff}
 \becuz{}
-\eqref{eq:leo-direct-effect-props-10},
-\eqref{eq:leo-direct-effect-props-12},
-\eqref{eq:leo-direct-effect-props-14},
+\eqref{eq:leo-direct-effect-props-asm-1},
+\eqref{eq:leo-direct-effect-props-asm-2},
+\eqref{eq:leo-direct-effect-props-asm-3},
 \tref{t:leo-match-props},
 which shows Requirement~\eqref{eq:leo-direct-effect-props-req-3}
 of this theorem.
@@ -12430,22 +12436,25 @@ of this theorem.
 \Veim{bas} is the only matching top-down cause
 of \Veim{cuz}
 \becuz{}
-\eqref{eq:leo-direct-effect-props-10},
-\eqref{eq:leo-direct-effect-props-12},
-\eqref{eq:leo-direct-effect-props-14},
+\eqref{eq:leo-direct-effect-props-asm-1},
+\eqref{eq:leo-direct-effect-props-asm-2},
+\eqref{eq:leo-direct-effect-props-asm-3},
 \tref{t:leo-match-props},
 which shows Requirement~\eqref{eq:leo-direct-effect-props-req-3-1}
 of this theorem.
 } \\
-\label{eq:leo-direct-effect-props-32}
+\label{eq:leo-direct-effect-props-31}
 & \myparbox{%
-TODO: Is this right?
-\Veim{bas} is a top-down cause of
-exactly one effect, \Veim{eff}
+The cause-pair
+$[ \Veim{bas}, \Veim{cuz} ]$
+is the cause of exactly one valid effect,
+\Veim{eff}
 \becuz{}
+\eqref{eq:leo-direct-effect-props-asm-1},
+\eqref{eq:leo-direct-effect-props-asm-2},
+\eqref{eq:leo-direct-effect-props-asm-3},
 \eqref{eq:leo-direct-effect-props-28},
-\eqref{eq:leo-direct-effect-props-30},
-\tref{t:leo-match-props}
+\tref{t:leo-match-props},
 which shows Requirement~\eqref{eq:leo-direct-effect-props-req-3-2}
 of this theorem.
 } \\
@@ -12453,9 +12462,8 @@ of this theorem.
 & \myparbox{%
 $\Rule{\Veim{eff}} = \Rule{\Veim{bas}}$
 \becuz{}
-\eqref{eq:leo-direct-effect-props-30},
-\eqref{eq:leo-direct-effect-props-32},
-\tref{t:effect-from-matching-causes}
+\eqref{eq:leo-direct-effect-props-31},
+\tref{t:effect-from-symbolic-cause-pair}
 which shows Requirement~\eqref{eq:leo-direct-effect-props-req-4}
 for this theorem.
 } \\
@@ -12463,8 +12471,8 @@ for this theorem.
 & \myparbox{%
 $\Right{\Veim{eff}} = \Right{\Veim{cuz}}$
 \becuz{}
-\eqref{eq:leo-direct-effect-props-28},
-\eqref{eq:leo-direct-effect-props-30},
+\eqref{eq:leo-direct-effect-props-27},
+\tref{t:confirmation-from-up-cause},
 \tref{t:symbolic-causes-from-effect}
 which shows Requirement~\eqref{eq:leo-direct-effect-props-req-5}
 for this theorem.
@@ -12496,7 +12504,7 @@ for this theorem.
 & \myparbox{%
 \Veim{cuz} is complete
 \becuz{}
-\eqref{eq:leo-direct-effect-props-14},
+\eqref{eq:leo-direct-effect-props-asm-3},
 \dref[matching Leo memo]{def:eim-matching-leo-memo}
 which shows Requirement~\eqref{eq:leo-direct-effect-props-req-6a}
 for this theorem.
@@ -12537,9 +12545,7 @@ telluric (non-nulling) or nulling --- there are no proper nullables.
 & \myparbox{%
 $\Dotix{\Veim{eff}} = \Vincr{\Dotix{\Veim{bas}}}$
 \becuz{}
-\eqref{eq:leo-direct-effect-props-12},
-\eqref{eq:leo-direct-effect-props-25},
-\eqref{eq:leo-direct-effect-props-30},
+\eqref{eq:leo-direct-effect-props-31},
 \dref[causes of confirmed EIM's]{def:causes-confirmed}.
 } \\
 \label{eq:leo-direct-effect-props-52}
@@ -12605,15 +12611,11 @@ Assume that
 } \\
 \label{eq:matching-memo-of-leo-direct-effect-asm-2}
 & \myparbox{%
-\Vleo{cuz} is an instantiated Leo memo.
+\Vleo{l} is an instantiated Leo memo.
 } \\
 \label{eq:matching-memo-of-leo-direct-effect-asm-3}
 & \myparbox{%
-\Vleo{cuz} matches \Veim{cuz}.
-} \\
-\label{eq:matching-memo-of-leo-direct-effect-asm-4}
-& \myparbox{%
-\Veim{eff} is a direct Leo effect of \Veim{cuz}
+\Vleo{l} matches \Veim{cuz}.
 }
 \end{align}
 \end{subequations}
@@ -12621,10 +12623,14 @@ Then
 \begin{subequations}
 \renewcommand{\theequation}{R\arabic{equation}}
 \begin{align}
+\label{eq:matching-memo-of-leo-direct-effect-req-0-5}
+& \myparbox{%
+\Veim{cuz} has exactly one 
+direct Leo effect, \Veim{eff}.
+} \\
 \label{eq:matching-memo-of-leo-direct-effect-req-1}
 & \myparbox{%
-If \Vleo{cuz} is the top-down cause
-of an instantiated Leo memo,
+If \Vleo{l} has an instantiated top-down cause,
 call it \Vleo{eff},
 then \Vleo{eff} matches \Veim{eff}.
 } \\
@@ -12632,126 +12638,96 @@ then \Vleo{eff} matches \Veim{eff}.
 & \myparbox{%
 If \Veim{eff} has an instantiated matching Leo memo,
 call it \Vleo{eff},
-then \Vleo{cuz} is the top-down cause of \Vleo{eff}.
+then \Vleo{eff} is the top-down cause of \Vleo{l}.
 }
 \end{align}
 \end{subequations}
 \end{theorem}
 
 \begin{proof}
-We first show a preliminary result:
-that $\LSY{\Veim{eff}} = \LSY{\Veim{eff}}$
-where \Veim{bas} is the top-down cause of \Veim{eff}.
-
-TODO: TOHERE
-
 \begin{align}
 \label{eq:matching-memo-of-leo-direct-effect-10}
 & \myparbox{%
-\Veim{bas} is the basis of \Vleo{l}
-and \Valid{\Veim{bas}}
+\Veim{cuz} has exactly one 
+direct Leo effect, \Veim{eff}
 \becuz{}
-\eqref{eq:matching-memo-of-leo-direct-effect-asm-2}
-\dref{def:validity-of-leo-memo}.
+\eqref{eq:matching-memo-of-leo-direct-effect-asm-1},
+\eqref{eq:matching-memo-of-leo-direct-effect-asm-2},
+\eqref{eq:matching-memo-of-leo-direct-effect-asm-3},
+\eqref{eq:leo-direct-effect-props-req-1}
+of \tref{t:leo-direct-effect-props},
+which
+shows
+Requirement~\eqref{eq:matching-memo-of-leo-direct-effect-req-0-5}
+of this theorem.
 } \\
-\end{align}
-
-we use a conditional proof, where we
-assume
-\begin{align}
-\label{eq:matching-memo-of-leo-direct-effect-50}
-\tag{CD}
+\label{eq:matching-memo-of-leo-direct-effect-12}
 & \myparbox{%
-$\exists \; \Vleo{eff} : \Memo{\Veim{eff}} = \Vleo{eff}$
-\becuz{} ASM for conditional; and
-} \\
-\label{eq:matching-memo-of-leo-direct-effect-52}
-& \myparbox{%
-\Instantiated{\Vleo{eff}}
-\becuz{} ASM for conditional.
-} \\
-\label{eq:matching-memo-of-leo-direct-effect-54}
-& \myparbox{%
-$\LSY{\Vleo{eff}} = \LSY{\Veim{eff}}$
+\Veim{bas} is the only matching top-down cause
+of \Veim{cuz}
 \becuz{}
-\eqref{eq:matching-memo-of-leo-direct-effect-50},
-\dref[matching Leo memo]{def:eim-matching-leo-memo}.
-}
-\intertext{%
-Deducing the top-down cause (\Veim{bas})
-from its effect (\Veim{eff}),
-taking into account that the bottom-up cause (\Veim{cuz})
-is telluric, we have
-}
-\label{eq:matching-memo-of-leo-direct-effect-58}
-& \myparbox{%
-$\Veim{bas} = \big[\Prev{\DR{\Veim{eff}}}, \Origin{\Veim{eff}}, \var{j}
-\big]$
-for some $\var{j} < \Current{\Veim{eff}}$
-\becuz{}
-\eqref{eq:matching-memo-of-leo-direct-effect-21a},
-\eqref{eq:matching-memo-of-leo-direct-effect-36},
-\tref{t:down-cause-from-effect}.
+\eqref{eq:matching-memo-of-leo-direct-effect-asm-1},
+\eqref{eq:matching-memo-of-leo-direct-effect-asm-2},
+\eqref{eq:matching-memo-of-leo-direct-effect-asm-3},
+\eqref{eq:leo-direct-effect-props-req-3-1}
+of \tref{t:leo-direct-effect-props}.
 } \\
-\label{eq:matching-memo-of-leo-direct-effect-60}
+\label{eq:matching-memo-of-leo-direct-effect-14}
 & \myparbox{%
-$\LHS{\Veim{bas}} = \LHS{\Veim{eff}}$
+The cause-pair
+$[ \Veim{bas}, \Veim{cuz} ]$
+is the cause of exactly one valid effect,
+\Veim{eff}
 \becuz{}
-\eqref{eq:matching-memo-of-leo-direct-effect-58}.
+\eqref{eq:matching-memo-of-leo-direct-effect-asm-1},
+\eqref{eq:matching-memo-of-leo-direct-effect-asm-2},
+\eqref{eq:matching-memo-of-leo-direct-effect-asm-3},
+\eqref{eq:matching-memo-of-leo-direct-effect-10},
+\eqref{eq:leo-direct-effect-props-req-3-2}
+of \tref{t:leo-direct-effect-props}.
 } \\
-\label{eq:matching-memo-of-leo-direct-effect-62}
+\label{eq:matching-memo-of-leo-direct-effect-15}
 & \myparbox{%
-$\Origin{\Veim{bas}} = \Origin{\Veim{eff}}$
+\Veim{eff} is a confirmed EIM
 \becuz{}
-\eqref{eq:matching-memo-of-leo-direct-effect-58}.
+\eqref{eq:matching-memo-of-leo-direct-effect-14},
+\tref{t:confirmation-from-up-cause}.
 } \\
-\label{eq:matching-memo-of-leo-direct-effect-63}
+\label{eq:matching-memo-of-leo-direct-effect-16}
+& \myparbox{%
+$\Left{\Veim{bas}} = \Left{\Veim{eff}}$
+\becuz{}
+\eqref{eq:matching-memo-of-leo-direct-effect-14},
+\eqref{eq:matching-memo-of-leo-direct-effect-15},
+\dref[cause-pair of confirmed EIM]{def:causes-confirmed}
+} \\
+\label{eq:matching-memo-of-leo-direct-effect-18}
+& \myparbox{%
+$\Rule{\Veim{bas}} = \Rule{\Veim{eff}}$
+\becuz{}
+\eqref{eq:matching-memo-of-leo-direct-effect-asm-1},
+\eqref{eq:matching-memo-of-leo-direct-effect-asm-2},
+\eqref{eq:matching-memo-of-leo-direct-effect-asm-3},
+\eqref{eq:leo-direct-effect-props-req-4}
+of \tref{t:leo-direct-effect-props}.
+} \\
+\label{eq:matching-memo-of-leo-direct-effect-20}
 & \myparbox{%
 $\LSY{\Veim{bas}} = \LSY{\Veim{eff}}$
 \becuz{}
-\eqref{eq:matching-memo-of-leo-direct-effect-60},
-\eqref{eq:matching-memo-of-leo-direct-effect-62}.
+\eqref{eq:matching-memo-of-leo-direct-effect-16},
+\eqref{eq:matching-memo-of-leo-direct-effect-18}.
 } \\
-\label{eq:matching-memo-of-leo-direct-effect-64}
-& \myparbox{%
-$\LSY{\Vleo{eff}} = \LSY{\Veim{bas}}$
-\becuz{}
-\eqref{eq:matching-memo-of-leo-direct-effect-54},
-\eqref{eq:matching-memo-of-leo-direct-effect-63}.
-} \\
-\label{eq:matching-memo-of-leo-direct-effect-68}
-& \myparbox{%
-\Vleo{eff} is the top-down cause of \Vleo{l}
-\becuz{}
-\eqref{eq:matching-memo-of-leo-direct-effect-8h},
-\eqref{eq:matching-memo-of-leo-direct-effect-64},
-\dref[Leo top-down cause]{def:down-cause-of-leo-memo}.
-}
-\intertext{%
-And now,
-using
-the assumption for the conditional proof
-\eqref{eq:matching-memo-of-leo-direct-effect-50}
-and 
-\eqref{eq:matching-memo-of-leo-direct-effect-68},
-we have
-Requirement~\eqref{eq:matching-memo-of-leo-direct-effect-5l}
-for this theorem:
-}
-\notag
-&
-\begin{aligned}
-& \exists \; \Vleo{eff} : \Memo{\Veim{eff}} = \Vleo{eff}
-\\
-& \qquad \implies \text{\Vleo{eff} is the top-down cause of \Vleo{l}}.
-\end{aligned}
 \end{align}
+
+TODO: TOHERE
 
 TODO: Finish.
 \end{proof}
 
 TODO: pieces.
 \dref[Leo-eligible]{def:leo-eligible}.
+\dref[Leo top-down cause]{def:down-cause-of-leo-memo}.
 \dref[basis of Leo memo]{def:basis-of-leo-memo}.
 \dref[causes of confirmed EIM]{def:causes-confirmed}.
 \dref[matching Leo memo]{def:eim-matching-leo-memo}.
@@ -12973,7 +12949,7 @@ Let
 \\
 & \text{\Vleo{l} be a matching Leo memo;}
 \\
-& \Veim{mem-top} = \big[ \DR{\Vleo{l}}, \Origin{\Vleo{l}}, \Vloc{i} \big];
+& \Veim{mem-top} = \big[ \DR{\Vleo{l}}, \Left{\Vleo{l}}, \Vloc{i} \big];
 \\
 & \begin{aligned}
 & \text{\Veim{top} be a completion of \Veim{mem-top}, so that}
@@ -12982,7 +12958,7 @@ Let
 \big[ \Rule{\Veim{mem-top}}, \Vsize{\Rule{\Veim{mem-top}}}
 \big] \; \text{and}
 \\
-  & \qquad \Origin{\Veim{top}} = \Origin{\Veim{mem-top}}.
+  & \qquad \Left{\Veim{top}} = \Left{\Veim{mem-top}}.
 \end{aligned}
 \end{align*}
 Let
@@ -13112,7 +13088,7 @@ $\because$ Th \ref{t:leo-top-fleeting-closure};}
 $}
 \\
 \label{t:memoized-top-to-completed-top-18}
-& \myparbox{$\Origin{\var{comp1}} = \Origin{\var{comp2}} = \Origin{\var{mem1}} = \Origin{\var{mem2}}
+& \myparbox{$\Left{\var{comp1}} = \Left{\var{comp2}} = \Left{\var{mem1}} = \Left{\var{mem2}}
 \because \eqref{t:memoized-top-to-completed-top-10},
 \eqref{t:memoized-top-to-completed-top-12},
 \eqref{t:memoized-top-to-completed-top-14};
@@ -14110,7 +14086,7 @@ we know that
 \left(
 \begin{gathered}
 \DR{\Vleo{l1}} = \DR{\Vleo{l2}} \\
-\land \quad \Origin{\Vleo{l1}} = \Origin{\Vleo{l2}}
+\land \quad \Left{\Vleo{l1}} = \Left{\Vleo{l2}}
 \end{gathered}
 \right)
 \end{multline}
@@ -15371,7 +15347,7 @@ Call this the ``cause-correctness'' observation.
 
 From the cause-correctness observation and
 Theorem
-\ref{t:effect-from-matching-causes}
+\ref{t:effect-from-symbolic-cause-pair}
 we know that the EIM's we attempt to add
 at line
 \ref{line:read-pass-40}
@@ -15533,7 +15509,7 @@ reduction pass effect.
 
 \begin{proof}
 From Theorem
-\ref{t:effect-from-matching-causes},
+\ref{t:effect-from-symbolic-cause-pair},
 we know that the telluric base EIM's we attempt to add
 at line
 \ref{line:earley-reduction-op-20}
@@ -16082,7 +16058,7 @@ TODO: Make sure this accounts for the completeness of all top-down causes.
 \begin{algorithmic}[1]
 \Procedure{Reduce one up-cause}{\Veim{up}}
 \State Note: Each pass through this loop is an EIM attempt
-\State $\Vloc{orig} \gets \Origin{\Veim{up}}$
+\State $\Vloc{orig} \gets \Left{\Veim{up}}$
 \State $\Vsym{lhs} \gets \LHS{\Veim{up}}$
 \State $\Vloc{current} \gets \Current{\Veim{up}}$
 \For{each $\var{down} \in \var{transitions}(\var{orig},\var{lhs})$}
@@ -16133,7 +16109,7 @@ Overhead is \Oc{} and caller-included.
 \begin{algorithmic}[1]
 \Procedure{Earley reduction operation}{\Vloc{current}, \Veim{down}, \Vsym{up}}
 \State $\Vdr{effect} \gets \GOTO(\DR{\Veim{down}}, \Vsym{up})$
-\State \Call{Add EIM set}{\Vdr{effect}, \Origin{\Veim{down}}, \var{current}}
+\State \Call{Add EIM set}{\Vdr{effect}, \Left{\Veim{down}}, \var{current}}
 \label{line:earley-reduction-op-20}
 \EndProcedure
 \end{algorithmic}
