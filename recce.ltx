@@ -13135,37 +13135,6 @@ and
 \eqref{eq:indirect-leo-effect-summary-28}.
 \end{proof}
 
-\begin{definition}
-\dtitle{Leo effect}
-\label{def:leo-effect}
-We define a
-\xdfn{Leo effect}{Leo effect!EIM}
-as an EIM which
-is either a direct Leo effect
-or an indirect Leo effect.
-Let \Veim{eff} be a Leo effect.
-We define the
-\xdfn{Leo cause}{Leo cause!EIM, of an EIM}
-of \Veim{eff}
-as
-\begin{itemize}
-\item
-the bottom-up cause of \Veim{eff},
-if \Veim{eff} is a direct Leo effect.
-\item
-the top-down cause of \Veim{eff},
-if \Veim{eff} is an indirect Leo effect.
-\end{itemize}
-Let \Veim{cuz} be the Leo cause of \Veim{eff}.
-We define the
-\xdfn{Leo effect}{Leo effect!EIM, of an EIM}
-of \Veim{cuz} as \Veim{eff}.
-We define a
-\xdfn{Leo cause}{Leo cause!EIM}
-to be any EIM which is the Leo cause
-of some Leo effect.
-\end{definition}
-
 TODO: TOHERE
 
 \begin{theorem}
@@ -13190,10 +13159,6 @@ We make the following assumptions:
 \label{eq:leo-indirect-effect-props-asm-4}
 & \myparbox{%
 \Vleo{l} quasi-matches \Veim{cuz}.
-} \\
-\label{eq:leo-indirect-effect-props-asm-5}
-& \myparbox{%
-\Veim{eff} is an effect of \Veim{cuz}.
 }
 \end{align}
 \end{subequations}
@@ -13208,7 +13173,7 @@ If these assumptions hold, then
 } \\
 \label{eq:leo-indirect-effect-props-req-1}
 & \myparbox{%
-\Veim{cuz} and \Vleo{l} have exactly one valid direct Leo effect,
+\Veim{cuz} and \Vleo{l} have exactly one valid indirect Leo effect,
 call it \Veim{eff}.
 } \\
 \label{eq:leo-indirect-effect-props-req-2}
@@ -13265,7 +13230,28 @@ $\Right{\Veim{eff}} = \Right{\Veim{cuz}}$.
 \end{theorem}
 
 \begin{proof}
+\begin{align}
+\label{eq:leo-indirect-effect-props-10}
+& \myparbox{%
+\Vleo{l} has exactly one valid basis, \Veim{bas},
+\becuz{}
+\eqref{eq:leo-indirect-effect-props-asm-2},
+\tref{t:leo-basis-uniqueness},
+which is
+Requirement~\eqref{eq:leo-indirect-effect-props-req-0-5}
+of this theorem.
+} \\
+\label{eq:leo-indirect-effect-props-30}
+& \myparbox{%
+\Veim{cuz} and \Vleo{l} have exactly one valid indirect Leo effect,
+call it \Veim{eff},
+\becuz{}
 TODO
+which is
+Requirement~\eqref{eq:leo-indirect-effect-props-req-1}
+of this theorem.
+} \\
+\end{align}
 \end{proof}
 
 TODO: pieces.
@@ -13277,6 +13263,26 @@ TODO: pieces.
 \dref[matching top-down and bottom-up causes]{def:matching-causes}.
 \dref[quasi-penult]{def:quasi-types}.
 \dref[silo]{def:silo}.
+
+\begin{definition}
+\dtitle{Leo effect}
+\label{def:leo-effect}
+A
+\xdfn{Leo effect}{Leo effect!EIM}
+is an EIM which
+is either a direct Leo effect
+or an indirect Leo effect.
+If \Veim{eff} is a Leo effect,
+the
+\xdfn{Leo cause}{Leo cause!EIM, of an EIM}
+of \Veim{eff}
+is
+the silo cause of \Veim{eff}.
+We define a
+\xdfn{Leo cause}{Leo cause!EIM}
+to be any EIM which is the Leo cause
+of some Leo effect.
+\end{definition}
 
 \chapter{Leo silos}
 
