@@ -1,100 +1,89 @@
 \begin{theorem}
-\ttitle{Leo indirect effect properties}
-\label{t:leo-indirect-effect-props}
-We make the following assumptions:
-\begin{subequations}
-\renewcommand{\theequation}{A\arabic{equation}}
+\ttitle{Medial EIM as a cause}
+\label{t:medial-eim-as-cause}
+Assume that
+\begin{subequation}
+\rewew
 \begin{align}
-\label{eq:leo-indirect-effect-props-asm-1}
+\label{t:medial-eim-as-cause-asm-1}
 & \myparbox{%
-\Veim{cuz} is a valid EIM.
+There exist two valid EIM's,
+such that \Veim{cuz}
+is the cause of \Veim{eff}.
 } \\
-\label{eq:leo-indirect-effect-props-asm-2}
-& \myparbox{%
-\Vleo{l} is an instantiated Leo memo.
-} \\
-\label{eq:leo-indirect-effect-props-asm-3}
-& \myparbox{%
-\Vleo{l} does not match \Veim{cuz}.
-} \\
-\label{eq:leo-indirect-effect-props-asm-4}
-& \myparbox{%
-\Vleo{l} quasi-matches \Veim{cuz}.
-} \\
-\label{eq:leo-indirect-effect-props-asm-5}
-& \myparbox{%
-\Vleo{l} matches \Veim{cuz}.
-}
-\end{align}
-\end{subequations}
-
-If these assumptions hold, then
-\begin{subequations}
-\renewcommand{\theequation}{R\arabic{equation}}
-\begin{align}
-\label{eq:leo-indirect-effect-props-req-0-5}
-& \myparbox{%
-\Vleo{l} has exactly one valid basis, \Veim{bas}.
-} \\
-\label{eq:leo-indirect-effect-props-req-1}
-& \myparbox{%
-\Veim{cuz} and \Vleo{l} have exactly one valid direct Leo effect,
-call it \Veim{eff}.
-} \\
-\label{eq:leo-indirect-effect-props-req-2}
-& \myparbox{%
-\Veim{cuz} is a top-down cause of \Veim{eff}.
-} \\
-\label{eq:leo-indirect-effect-props-req-3}
-& \myparbox{%
-\Veim{eff} is the only effect of \Veim{cuz}.
-} \\
-& \myparbox{%
-The only bottom-up cause of
-\Veim{eff} is ethereal.
-} \\
-\label{eq:leo-indirect-effect-props-req-4}
-& \myparbox{%
-\Veim{cuz} is the only top-down cause
-of \Veim{eff}.
-} \\
-\label{eq:leo-indirect-effect-props-req-5}
-& \myparbox{%
-$\Rule{\Veim{eff}} = \Rule{\Veim{cuz}}$.
-} \\
-\label{eq:leo-indirect-effect-props-req-6}
-& \myparbox{%
-$\Right{\Veim{eff}} = \Right{\Veim{cuz}}$.
-} \\
-\label{eq:leo-indirect-effect-props-req-7}
-& \myparbox{%
-\Veim{cuz} is quasi-complete.
-} \\
-\label{eq:leo-indirect-effect-props-req-8}
+\label{t:medial-eim-as-cause-asm-1}
 & \myparbox{%
 \Veim{cuz} is incomplete.
 } \\
-\label{eq:leo-indirect-effect-props-req-9}
+\label{t:medial-eim-as-cause-asm-1}
 & \myparbox{%
-\Veim{eff} is quasi-complete.
+\Veim{cuz} is not a prediction.
 } \\
-\label{eq:leo-indirect-effect-props-req-10}
+\end{align}
+\end{subequation}
+Given these assumptions, then
+\begin{subequation}
+\rewew
+\begin{align}
+\label{t:medial-eim-as-cause-req-1}
 & \myparbox{%
-\Veim{cuz} is a silo cause of \Veim{eff}.
+\Veim{cuz} is a top-down cause of \Veim{eff}.
 } \\
-\label{eq:leo-indirect-effect-props-req-11}
+\label{t:medial-eim-as-cause-req-2}
 & \myparbox{%
-\Veim{eff} is the only silo effect of \Veim{cuz}.
+\Veim{cuz} is not the bottom-up cause of any effect.
+}
+\intertext{%
+and one of the following two
+cases hold:
+}
+\label{t:medial-eim-as-cause-req-3a}
+& \myparbox{%
+\Veim{eff} is a confirmed EIM.
+and the effect of the cause-pair
+$[ \Veim{cuz}, \Vinst{up} ]$,
+where \Vinst{up} is a parse instance.
 } \\
-\label{eq:leo-indirect-effect-props-req-12}
-& \myparbox{%
-\Vleo{l} matches \Veim{eff}.
+\label{t:medial-eim-as-cause-req-3b}
+& \myparbox{
+\Veim{eff} is a predicted EIM
+whose top-down cause is \Veim{cuz}
+and whose bottom-up cause is ethereal.
 }
 \end{align}
-\end{subequations}
+\end{subequation}
 \end{theorem}
 
 \begin{proof}
-TODO
+We proceed by cases.
+
+\textbf{Top-down cause of a prediction}:
+If \Veim{eff} is a prediction,
+then its bottom-up cause is ethereal
+\becuz{} TODO.
+Therefore, \Veim{cuz} must be its top-down cause.
+
+\textbf{Bottom-up cause of a prediction}:
+If \Veim{eff} has no predot symbol,
+then its bottom-up cause is ethereal
+\dref[causes of a predicted EIM]{def:causes-predicted}.
+\Veim{cuz} is clearly not ethereal,
+so that \Veim{cuz} is not the bottom-up cause of \Veim{eff}.
+
+\textbf{Top-down cause of a confirmation}:
+If \Veim{eff} has a predot symbol,
+its causes are in a pair of matching causes
+\dref[causes of a confirmed EIM]{def:causes-confirmed}.
+TODO: finished?
+
+\textbf{Bottom-up cause of a confirmation}:
+The bottom-up cause of a confirmation must have a
+symbolic equivalent
+\becuz{} TODO.
+\Veim{cuz} is incomplete and therefore has no
+symbolic equivalent
+\becuz{} TODO.
+
+TODO: finished?
 \end{proof}
 
