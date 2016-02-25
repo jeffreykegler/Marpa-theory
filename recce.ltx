@@ -4176,26 +4176,22 @@ This shows the theorem.
 \end{proof}
 
 \begin{theorem}
-\ttitle{Medial EIM as a cause}
-\label{t:medial-eim-as-cause}
+\ttitle{Incomplete EIM as a cause}
+\label{t:incomplete-eim-as-cause}
 Assume that
 \begin{subequations}
 \renewcommand{\theequation}{A\arabic{equation}}
 \begin{align}
-\label{t:medial-eim-as-cause-asm-1}
+\label{t:incomplete-eim-as-cause-asm-1}
 & \myparbox{%
 There exist two valid EIM's,
 \Veim{cuz} and \Veim{eff},
 such that \Veim{cuz}
 is the cause of \Veim{eff}.
 } \\
-\label{t:medial-eim-as-cause-asm-2}
+\label{t:incomplete-eim-as-cause-asm-2}
 & \myparbox{%
 \Veim{cuz} is incomplete.
-} \\
-\label{t:medial-eim-as-cause-asm-3}
-& \myparbox{%
-\Veim{cuz} is not a prediction.
 }
 \end{align}
 \end{subequations}
@@ -4203,30 +4199,27 @@ Given these assumptions, then
 \begin{subequations}
 \renewcommand{\theequation}{R\arabic{equation}}
 \begin{align}
-\label{t:medial-eim-as-cause-req-1}
+\label{t:incomplete-eim-as-cause-req-1}
 & \myparbox{%
 \Veim{cuz} is never the bottom-up cause of any effect.
 } \\
-\label{t:medial-eim-as-cause-req-2}
+\label{t:incomplete-eim-as-cause-req-2}
 & \myparbox{%
 \Veim{cuz} is a top-down cause of \Veim{eff}.
-}
-\intertext{%
-and one of the following two
-cases hold:
-}
-\label{t:medial-eim-as-cause-req-3a}
+} \\
+\label{t:incomplete-eim-as-cause-req-3a}
 & \myparbox{%
-\Veim{eff} is a confirmed EIM.
-and the effect of the cause-pair
+If \Veim{eff} is a confirmed EIM,
+then it is the effect of the cause-pair
 $[ \Veim{cuz}, \Vinst{up} ]$,
 where \Vinst{up} is a parse instance.
 } \\
-\label{t:medial-eim-as-cause-req-3b}
+\label{t:incomplete-eim-as-cause-req-3b}
 & \myparbox{
-\Veim{eff} is a predicted EIM
-whose top-down cause is \Veim{cuz}
-and whose bottom-up cause is ethereal.
+If \Veim{eff} is a predicted EIM,
+then its
+top-down cause is \Veim{cuz}
+and its bottom-up cause is ethereal.
 }
 \end{align}
 \end{subequations}
@@ -4234,84 +4227,85 @@ and whose bottom-up cause is ethereal.
 
 \begin{proof}
 \begin{align}
-\label{eq:medial-eim-as-cause-10}
+\label{eq:incomplete-eim-as-cause-10}
 & \myparbox{%
 If \Veim{eff} is a prediction, it's
 bottom-up cause is not an EIM
 \becuz{}
-TODO
+\dref[causes of a predicted EIM]{def:causes-predicted}.
 } \\
-\label{eq:medial-eim-as-cause-12}
+\label{eq:incomplete-eim-as-cause-12}
 & \myparbox{%
 If \Veim{eff} is a prediction,
 \Veim{cuz} is not the bottom-up
 cause of \Veim{eim}
 \becuz{}
-\eqref{eq:medial-eim-as-cause-10},
-\dref[causes of a predicted EIM]{def:causes-predicted}.
+\eqref{t:incomplete-eim-as-cause-asm-1},
+\eqref{eq:incomplete-eim-as-cause-10}.
 } \\
-\label{eq:medial-eim-as-cause-14}
+\label{eq:incomplete-eim-as-cause-14}
 & \myparbox{%
 If \Veim{eff} is confirmed, it's
 bottom-up cause is a complete EIM.
 \becuz{}
 \dref[causes of a confirmed EIM]{def:causes-confirmed}.
 } \\
-\label{eq:medial-eim-as-cause-16}
+\label{eq:incomplete-eim-as-cause-16}
 & \myparbox{%
 If \Veim{eff} is confirmed, \Veim{cuz}
 is not its bottom-up cause.
 \becuz{}
-\eqref{t:medial-eim-as-cause-asm-2},
-\eqref{eq:medial-eim-as-cause-14}.
+\eqref{t:incomplete-eim-as-cause-asm-1},
+\eqref{t:incomplete-eim-as-cause-asm-2},
+\eqref{eq:incomplete-eim-as-cause-14}.
 }
 \intertext{%
 Since every EIM is either confirmed or
 a prediction,
 }
-\label{eq:medial-eim-as-cause-18}
+\label{eq:incomplete-eim-as-cause-18}
 & \myparbox{%
 \Veim{cuz}
 is never a bottom-up cause.
 \becuz{}
-\eqref{t:medial-eim-as-cause-asm-2},
-\eqref{eq:medial-eim-as-cause-12},
-\eqref{eq:medial-eim-as-cause-16},
+\eqref{eq:incomplete-eim-as-cause-12},
+\eqref{eq:incomplete-eim-as-cause-16},
 which is
-Requirement~\eqref{t:medial-eim-as-cause-req-1}
+Requirement~\eqref{t:incomplete-eim-as-cause-req-1}
 of this theorem.
 } \\
-\label{t:medial-eim-as-cause-30}
+\label{t:incomplete-eim-as-cause-30}
 & \myparbox{%
 \Veim{cuz} is a top-down cause of \Veim{eff}
 \becuz{}
-\eqref{eq:medial-eim-as-cause-18},
+\eqref{eq:incomplete-eim-as-cause-18},
 which is
-Requirement~\eqref{t:medial-eim-as-cause-req-2}
+Requirement~\eqref{t:incomplete-eim-as-cause-req-2}
 of this theorem.
 } \\
-\label{t:medial-eim-as-cause-40}
+\label{t:incomplete-eim-as-cause-40}
 & \myparbox{%
-\Veim{eff} is a confirmed EIM.
-and the effect of the cause-pair
+If \Veim{eff} is a confirmed EIM,
+then it is the effect of the cause-pair
 $[ \Veim{cuz}, \Vinst{up} ]$,
-where \Vinst{up} is a parse instance,
+where \Vinst{up} is a parse instance
 \becuz{}
-\eqref{t:medial-eim-as-cause-30},
+\eqref{t:incomplete-eim-as-cause-30},
 \dref[causes of a confirmed EIM]{def:causes-confirmed},
 which is
-Requirement~\eqref{t:medial-eim-as-cause-req-3a}
+Requirement~\eqref{t:incomplete-eim-as-cause-req-3a}
 of this theorem.
 } \\
-\label{t:medial-eim-as-cause-50}
+\label{t:incomplete-eim-as-cause-50}
 & \myparbox{
-\Veim{eff} is a predicted EIM
-whose top-down cause is \Veim{cuz}
-and whose bottom-up cause is ethereal
+If \Veim{eff} is a predicted EIM,
+then its
+top-down cause is \Veim{cuz}
+and its bottom-up cause is ethereal
 \becuz{}
 \dref[causes of a predicted EIM]{def:causes-predicted},
 which is
-Requirement~\eqref{t:medial-eim-as-cause-req-3b}
+Requirement~\eqref{t:incomplete-eim-as-cause-req-3b}
 of this theorem.
 }
 \end{align}
