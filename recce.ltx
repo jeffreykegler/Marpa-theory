@@ -2791,7 +2791,8 @@ or a
 \begin{definition}
 \dtitle{Ethereal and telluric dotted rules}
 \label{def:telluric-dr}
-A dotted rule with a telluric predot symbol
+A start dotted rule,
+or a dotted rule with a telluric predot symbol
 is called
 a \xdfn{telluric}{telluric!DR}
 dotted rule.
@@ -2800,9 +2801,14 @@ All other dotted rules are called
 dotted rules.
 \end{definition}
 
+The idea is that telluric dotted rules are ``grounded'' either
+in the input or in the initial state of the parse,
+while
+ethereal dotted rules emerge out of an ``invisible'' realm.
+
 \begin{theorem}
 \ttitle{Ethereal and telluric dotted rules}
-\label{eq:telluric-dr}
+\label{t:telluric-dr}
 Prediction and null-scan dotted rules are ethereal
 dotted rules.
 Start, reduction and read dotted rules are telluric.
@@ -2925,7 +2931,7 @@ all predictions are quasi-predictions.
 
 \begin{theorem}
 \ttitle{Quasi-predicted dotted rule is not quasi-completed}
-\label{t:quasi-drs-disjoint}.
+\label{t:quasi-drs-disjoint}
 In Marpa grammars,
 no quasi-completed dotted rule
 is a quasi-predicted dotted rule.
@@ -3242,10 +3248,6 @@ In both cases,
 we have shown that
 \Vdr{tell} is the telluric base of \Vdr{dr2}.
 \end{proof}
-
-Predicted dotted rules may have more than one telluric base,
-but for null-scan dotted rules the telluric base
-will be unique.
 
 \begin{theorem}
 \ttitle{Telluric base of a quasi-confirmed dotted rule is unique}
@@ -3617,21 +3619,31 @@ above.
 \end{proof}
 
 \begin{definition}
-\dtitle{Telluric EIM's}
-Following the convention for dotted rules,
-EIM's are
-\xdfn{telluric}{telluric (EIM)}
-if they are the start EIM,
-a read EIM or a reduction EIM.
+\dtitle{Telluric and ethereal EIM's}
+\label{def:telluric-eim}
 An EIM is
-\xdfn{ethereal}{ethereal (EIM)}
-if it is not telluric.
+\xdfn{telluric}{telluric!EIM}
+if its dotted rule is telluric
+and 
+\xdfn{ethereal}{ethereal!EIM}
+if its dotted rule is ethereal.
 \end{definition}
 
-The idea is that telluric dotted rules are ``grounded'' either
-in the input or in the initial state of the parse,
-while
-ethereal dotted rules emerge out of an invisible realm.
+\begin{theorem}
+\ttitle{Telluric and ethereal EIM's}
+\label{t:telluric-eim}
+An EIM is telluric if it is the
+start EIM,
+a read EIM or a reduction EIM.
+An EIM is ethereal if it is a null-scan
+EIM or a prediction EIM.
+\end{theorem}
+
+\begin{proof}
+The theorem follows directly from
+\tref{t:telluric-dr} and
+\dref[telluric EIM's]{def:telluric-eim}.
+\end{proof}
 
 \section{Locsyms}
 
@@ -9615,55 +9627,85 @@ Theorem
 \end{proof}
 
 \begin{definition}
-\dtitle{Fleeting closure silo properties}
-A
-\dfn{fleeting closure silo}
-has the following properties:
+\ttitle{Fleeting closure silo}
+\label{def:fleeting-closure-silo}
+If \Veim{qc} is quasi-complete,
+and \var{fc} is the fleeting closure
+of \Veim{qc},
+the \var{fc} is a
+\dfn{fleeting closure silo}.
+\end{definition}
+
+\begin{theorem}
+\ttitle{Fleeting closure silo properties}
+\label{t:fleeting-closure-silo-props}
+Assume that
+\begin{subequations}
+\renewcommand{\theequation}{A\arabic{equation}}
 \begin{align}
-\label{eq:fleeting-closure-silo-prop-5}
+\label{eq:fleeting-closure-silo-prop-asm-1}
+& \myparbox{%
+\Veim{qc} is a valid quasi-complete EIM.
+} \\
+\label{eq:fleeting-closure-silo-prop-asm-2}
+& \myparbox{%
+$\var{slo} = \op{fleeting-closure}{\Veim{qc}}$.
+}
+\end{align}
+\end{subequations}
+
+TODO
+
+\begin{subequations}
+\renewcommand{\theequation}{R\arabic{equation}}
+\begin{align}
+\label{eq:fleeting-closure-silo-prop-req-3}
+& \el{slo}{0} = \Veim{qc}
+\\
+\label{eq:fleeting-closure-silo-prop-req-5}
 & \text{\var{slo} contains at least one layer}
 \\
-\label{eq:fleeting-closure-silo-prop-9}
+\label{eq:fleeting-closure-silo-prop-req-9}
 & \text{\var{slo} contains at most \Vsize{\Rule{\el{slo}{0}}}
   layers
 }
 \\
-\label{eq:fleeting-closure-silo-prop-10}
+\label{eq:fleeting-closure-silo-prop-req-10}
 & \text{$\var{slo}\big[ \Vlastix{slo} \big]$
   is a complete EIM.
 }
 \\
-\label{eq:fleeting-closure-silo-prop-12}
+\label{eq:fleeting-closure-silo-prop-req-12}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} < \Vlastix{slo} \\
 & \quad \implies \text{\Vel{slo}{a} is an incomplete EIM}
 \end{aligned}
 \\
-\label{eq:fleeting-closure-silo-prop-13}
+\label{eq:fleeting-closure-silo-prop-req-13}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo} \\
 & \quad \implies \text{\Vel{slo}{a} is a quasi-complete EIM}
 \end{aligned}
 \\
-\label{eq:fleeting-closure-silo-prop-14}
+\label{eq:fleeting-closure-silo-prop-req-14}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo}
   \implies \Valid{\Vel{slo}{a}}
 \end{aligned}
 \\
-\label{eq:fleeting-closure-silo-prop-16}
+\label{eq:fleeting-closure-silo-prop-req-16}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo} \\
 & \qquad \implies \op{Right}{\el{slo}{0}} = \op{Right}{\Vel{slo}{a}}
 \end{aligned}
 \\
-\label{eq:fleeting-closure-silo-prop-18}
+\label{eq:fleeting-closure-silo-prop-req-18}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \Vlastix{slo} \\
 & \qquad \implies \op{Rule}{\el{slo}{0}} = \op{Rule}{\Vel{slo}{a}}
 \end{aligned}
 \\
-\label{eq:fleeting-closure-silo-prop-20}
+\label{eq:fleeting-closure-silo-prop-req-20}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{slo}} \\
 & \qquad \implies \text{\Vel{slo}{a} is the unique
@@ -9671,7 +9713,7 @@ has the following properties:
 }
 \end{aligned}
 \\
-\label{eq:fleeting-closure-silo-prop-21}
+\label{eq:fleeting-closure-silo-prop-req-21}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{slo}} \\
 & \qquad \implies \text{\Vel{slo}{a} is
@@ -9679,7 +9721,7 @@ has the following properties:
 }
 \end{aligned}
 \\
-\label{eq:fleeting-closure-silo-prop-22}
+\label{eq:fleeting-closure-silo-prop-req-req-22}
 & \begin{aligned}
 & \forall \var{a} : 0 \le \var{a} \le \decr{\Vlastix{slo}} \\
 & \qquad \implies \text{\el{slo}{\Vincr{a}}
@@ -9687,20 +9729,8 @@ has the following properties:
 }
 \end{aligned}
 \end{align}
-\end{definition}
+\end{subequations}
 
-\begin{theorem}
-\ttitle{Fleeting closure silo}
-\label{t:fleeting-closure-silo}
-Let \Veim{qc} be a valid quasi-complete EIM.
-Then there is a silo, call it \var{slo},
-such that
-\begin{equation}
-\label{eq:fleeting-closure-silo-5}
-\el{slo}{0} = \Veim{qc}
-\end{equation}
-and \var{slo} is a
-fleeting closure silo.
 \end{theorem}
 
 \begin{proof}
@@ -9725,75 +9755,75 @@ For the fleeting closure silo properties,
 \begin{itemize}
 \item
 Property
-\eqref{eq:fleeting-closure-silo-prop-5}
+\eqref{eq:fleeting-closure-silo-prop-req-5}
 follows from
 \eqref{eq:fleeting-closure-silo-5};
 \item
 Property
-\eqref{eq:fleeting-closure-silo-prop-9}
+\eqref{eq:fleeting-closure-silo-prop-req-9}
 follows from
 \eqref{eq:quasi-complete-fleeting-closure-properties-9}
 of Theorem
 \ref{t:quasi-complete-fleeting-closure-properties}.
 \item
 Property
-\eqref{eq:fleeting-closure-silo-prop-10}
+\eqref{eq:fleeting-closure-silo-prop-req-10}
 follows from
 \eqref{eq:quasi-complete-fleeting-closure-properties-10}
 of Theorem
 \ref{t:quasi-complete-fleeting-closure-properties};
 \item
 Property
-\eqref{eq:fleeting-closure-silo-prop-12}
+\eqref{eq:fleeting-closure-silo-prop-req-12}
 follows from
 \eqref{eq:quasi-complete-fleeting-closure-properties-12}
 of Theorem
 \ref{t:quasi-complete-fleeting-closure-properties};
 \item
 Property
-\eqref{eq:fleeting-closure-silo-prop-13}
+\eqref{eq:fleeting-closure-silo-prop-req-13}
 follows from
 \eqref{eq:quasi-complete-fleeting-closure-properties-13}
 of Theorem
 \ref{t:quasi-complete-fleeting-closure-properties};
 \item
 Property
-\eqref{eq:fleeting-closure-silo-prop-14}
+\eqref{eq:fleeting-closure-silo-prop-req-14}
 follows from
 \eqref{eq:quasi-complete-fleeting-closure-properties-14}
 of Theorem
 \ref{t:quasi-complete-fleeting-closure-properties};
 \item
 Property
-\eqref{eq:fleeting-closure-silo-prop-16}
+\eqref{eq:fleeting-closure-silo-prop-req-16}
 follows from
 \eqref{eq:quasi-complete-fleeting-closure-properties-16}
 of Theorem
 \ref{t:quasi-complete-fleeting-closure-properties};
 \item
 Property
-\eqref{eq:fleeting-closure-silo-prop-18}
+\eqref{eq:fleeting-closure-silo-prop-req-18}
 follows from
 \eqref{eq:quasi-complete-fleeting-closure-properties-18}
 of Theorem
 \ref{t:quasi-complete-fleeting-closure-properties};
 \item
 Property
-\eqref{eq:fleeting-closure-silo-prop-20}
+\eqref{eq:fleeting-closure-silo-prop-req-20}
 follows from
 \eqref{eq:quasi-complete-fleeting-closure-properties-20}
 of Theorem
 \ref{t:quasi-complete-fleeting-closure-properties};
 \item
 Property
-\eqref{eq:fleeting-closure-silo-prop-21} follows from
-\eqref{eq:fleeting-closure-silo-prop-13},
-\eqref{eq:fleeting-closure-silo-prop-16}
+\eqref{eq:fleeting-closure-silo-prop-req-21} follows from
+\eqref{eq:fleeting-closure-silo-prop-req-13},
+\eqref{eq:fleeting-closure-silo-prop-req-16}
 and
-\eqref{eq:fleeting-closure-silo-prop-20};
+\eqref{eq:fleeting-closure-silo-prop-req-20};
 \item
 Property
-\eqref{eq:fleeting-closure-silo-prop-22}
+\eqref{eq:fleeting-closure-silo-prop-req-22}
 follows from
 \eqref{eq:quasi-complete-fleeting-closure-properties-22}
 of Theorem
@@ -10857,7 +10887,7 @@ are said to
 \xdfn{match}{match!between a LEO and an INST}
 if and only if
 \begin{gather*}
-\LSY{\Vleo{l}} = \Vinst{i}.
+\LSY{\Vleo{l}} = \LSY{\Vinst{i}}.
 \end{gather*}
 We say that \Vleo{l} is a
 \xdfn{matching}{matching!LEO, of an INST}
@@ -10903,18 +10933,6 @@ are said to
 \xdfn{quasi-match}{quasi-match!between a LEO and an EIM}
 if and only if
 \Vleo{l} matches the completion EIM of \Veim{q}.
-Recall from
-\dref[completion EIM of an EIM]{def:eim-dr-notions}
-that the completion EIM of the quasi-complete EIM \Veim{q} is
-\[
-   \left[
-   \begin{gathered}
-     \big[ \Rule{\Veim{q}}, \Vdecr{\Vsize{\Rule{\Veim{q}}}} \big],
-     \\
-     \Left{\Veim{q}}, \Current{\Veim{q}}
-   \end{gathered}
-   \right].
-\]
 We say that \Vleo{leo} is a
 \xdfn{quasi-matching}{quasi-matching (LEO)!of an EIM}
 Leo memo of \Veim{q}
@@ -10927,12 +10945,47 @@ to indicate that the Leo memo \Vleo{l} matches
 the \Veim{q}.
 \end{definition}
 
+\begin{theorem}
+\ttitle{Matching Leo memo is quasi-matching}
+\label{t:matching-leo-is-quasi-matching}
+Let \Vleo{l} be a Leo memo which matches
+an Earley item, call it \Veim{e}.
+Then \Vleo{l} quasi-matches \Veim{e}.
+\end{theorem}
+
+\begin{proof}
+TODO
+Recall from
+\dref[completion EIM of an EIM]{def:eim-dr-notions}
+that the completion EIM of the quasi-complete EIM \Veim{q} is
+\[
+   \left[
+   \begin{gathered}
+     \big[ \Rule{\Veim{q}}, \Vdecr{\Vsize{\Rule{\Veim{q}}}} \big],
+     \\
+     \Left{\Veim{q}}, \Current{\Veim{q}}
+   \end{gathered}
+   \right].
+\]
 Note that, by
 \dref{def:eim-matching-leo-memo}
 and
 \dref{def:quasi-matching-leo-memo},
 that if a Leo memo matches an EIM,
 also that Leo memo also quasi-matches that EIM.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Matching Leo memo is quasi-matching}
+\label{t:quasi-matching-completion-is-matching}
+Let \Vleo{l} be a Leo memo which quasi-matches
+a completed Earley item, call it \Veim{e}.
+Then \Vleo{l} matches \Veim{e}.
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
 
 \begin{theorem}
 \ttitle{Fleeting closure quasi-match}
