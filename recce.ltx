@@ -1470,25 +1470,54 @@ $\myL{\alg{Recce},\Cg}$ will be the language accepted by $\alg{Recce}$
 when parsing \Cg{}.
 
 \section{Marpa internal grammars}
-In traditional parsing theory,
-a symbol \Vsym{x} is \dfn{nullable} if and only if
-$\Vsym{x} = \epsilon$.
-We say that symbol \Vsym{x} is \dfn{nulling} if and only if
-\[
-  \forall \Vstr{y} \mid \Vsym{x} \destar \Vstr{y}
-  \implies \Vstr{y} = \epsilon.
-\]
-A symbol is a
-\xdfn{proper nullable}{proper nullable (symbol)}
-if it is nullable, but not nulling.
-
 Following Aycock and Horspool~\cite{AH2002},
 Marpa grammars use a rewrite to eliminate proper nullables,
 and nulling rules.
-The pre-rewrite grammar is called the
-\dfn{external grammar},
-and the post-rewrite grammar is Marpa's
-\dfn{internal grammar}.
+In traditional parsing theory,
+a symbol \Vsym{x} is
+\xdfn{nullable}{nullable!in traditional parsing theory} if and only if
+$\Vsym{x} \destar \epsilon$.
+We say that symbol \Vsym{x} is
+\xdfn{nulling}{nulling!in traditional parsing theory}
+if and only if
+\[
+  \forall \Vstr{y} ( \Vsym{x} \destar \Vstr{y}
+  \implies \Vstr{y} = \epsilon ).
+\]
+A symbol is a
+\xdfn{proper nullable}{proper nullable!in traditional parsing theory}
+if it is nullable, but not nulling.
+
+\begin{definition}
+\dtitle{Marpa external and internal grammars}
+\label{def:marpa-grammar}
+The pre-rewrite grammar is called a
+\dfn{Marpa external grammar},
+or, more briefly,
+an
+\dfn{external grammar}.
+The post-rewrite grammar is a
+\dfn{Marpa internal grammar}%
+\index{recce-definitions}{grammar, Marpa internal|mysee{Marpa internal grammar}}%
+\index{recce-definitions}{grammar, internal|mysee{Marpa internal grammar}}
+or, more briefly,
+an
+\xdfn{internal grammar}{internal grammar|mysee{Marpa internal grammar}}.
+When we refer to a
+\xdfn{Marpa grammar}{grammar, Marpa|mysee{Marpa internal grammar}}%
+\index{recce-definitions}{grammar, Marpa|mysee{Marpa internal grammar}}
+we mean an internal grammar.
+
+Because of the rewrite,
+a Marpa internal grammar
+\begin{itemize}
+\item
+has no nulling rules, and
+\item
+has no proper nullable symbols.
+\end{itemize}
+\end{definition}
+
 The external, pre-rewrite grammars
 are the only ones visible to
 the users of Marpa::R2.
@@ -1499,14 +1528,17 @@ the ones described in this paper.
 Details of this rewrite are given
 in Chapter \ref{ch:rewrite}.
 
+\begin{definition}
+\dtitle{Nulling symbols and strings}
 In discussing Marpa's internal grammars,
 we say that a symbol is
-\xdfn{nulling}{nulling (Marpa internal symbol)}
+\xdfn{nulling}{nulling!SYM}
 if and only if
 \[
   \Vsym{x} = \epsilon.
 \]
-We say that \Vstr{y} is nulling,
+We say that \Vstr{y} is
+\xdfn{nulling}{nulling!STR},
 if and only
 if every symbol in \Vstr{y} is nulling.
 We also write ``\Vstr{y} is nulling'' as
@@ -1515,12 +1547,18 @@ This can be the case vacuously ---
 if \Vstr{y} is the empty string of symbols,
 then
 $\Vstr{y} = \epsilon$.
+\end{definition}
 
-If a symbol is not nullable, we may say that it is
-\dfn{non-nullable},
-but more often we say it is
-\xdfn{telluric}{telluric (symbol)}.
-We will find telluric less confusing in the context of
+\begin{definition}
+\dtitle{Telluric symbols and strings}
+When discussing Marpa's internal grammars,
+if a symbol is not nullable, we may say that it is
+\xdfn{non-nullable}{non-nullable!SYM}.
+More often we say it is
+\xdfn{telluric}{telluric!SYM}.
+\end{definition}
+
+We consider the term ``telluric'' less confusing in the context of
 Marpa's internal grammars,
 because
 it can be used as an antonym of ``nulling''.
@@ -1528,9 +1566,12 @@ For Marpa's external grammars,
 and in traditional parsing theory,
 ``non-nullable'' is not, strictly speaking,
 an antonym of nulling.
+The term ``telluric'' originally means, roughly, ``of the earth''.
+Later we will use it in contrast to the term
+``ethereal''.
 
 Since there are no nulling rules in Marpa's internal grammars,
-a symbol is not nulled as the result of a derivation step.
+a symbol is never nulled as the result of a derivation step.
 Therefore, where \Vsym{nulling} is a nulling symbol,
 \begin{align*}
     \Vsym{nulling} & \nxderives{1} \epsilon \quad \text{and} \\
@@ -2740,12 +2781,36 @@ or a
 \xdfn{reduction}{reduction (dotted rule)}.
 \end{definition}
 
-Prediction and null-scan dotted rules are called
-\xdfn{ethereal}{ethereal (dotted rule)}
-dotted rules.
+\begin{definition}
+\dtitle{Ethereal and telluric dotted rules}
+\label{def:telluric-dr}
+A dotted rule with a telluric predot symbol
+is called
+a \xdfn{telluric}{telluric!DR}
+dotted rule.
 All other dotted rules are called
-\xdfn{telluric}{telluric (dotted rule)}
+\xdfn{ethereal}{ethereal!DR}
 dotted rules.
+\end{definition}
+
+\begin{theorem}
+\ttitle{Ethereal and telluric dotted rules}
+\label{eq:telluric-dr}
+Prediction and null-scan dotted rules are ethereal
+dotted rules.
+Start, reduction and read dotted rules are telluric.
+\end{theorem}
+
+\begin{proof}
+The theorem follows from
+\dref[start DR]{def:start-dr},
+\dref[prediction DR]{def:prediction-dr},
+\dref[null-scan DR]{def:null-scan-dr},
+\dref[read DR]{def:read-dr},
+\dref[reduction DR]{def:reduction-dr},
+and
+\dref[telluric and ethereal DR's]{def:telluric-dr}.
+\end{proof}
 
 A predicted dotted rule
 always has a dot position of zero,
@@ -2753,6 +2818,10 @@ for example,
 \begin{equation*}
 \Vdr{predicted} = [\Vsym{A} \de \mydot \Vstr{alpha} ].
 \end{equation*}
+
+\begin{definition}
+\dtitle{Confirmed dotted rules}
+\label{def:confirmed-drs}
 A
 \xdfn{confirmed dotted rule}{confirmed (dotted rule)},
 or
@@ -2767,6 +2836,11 @@ for example,
 \begin{equation*}
 \Vdr{complete} = [\Vsym{A} \de \Vstr{alpha} \mydot ].
 \end{equation*}
+\end{definition}
+
+\begin{definition}
+\dtitle{Penultimate dotted rules}
+\label{def:penultimate-drs}
 A
 \xdfn{penultimate dotted rule}{penultimate (dotted rule)},
 or a
@@ -2778,6 +2852,7 @@ for example,
 \begin{equation*}
 \Vdr{penult} = [\Vsym{A} \de \Vstr{alpha} \mydot \Vsym{B} ].
 \end{equation*}
+\end{definition}
 
 \section{Quasi-types}
 
