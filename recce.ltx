@@ -5582,16 +5582,84 @@ and the theorem.
 \section{Fleeting closures}
 
 Recall that dotted rule notions applied to EIM's
-refer to the dotted rule of the EIM.
-Accordingly,
-a
-\xdfn{lasting base}{lasting base (EIM)}
+refer to the dotted rule of the EIM
+\dref{def:eim-dr-notions}.
+The following definition makes explicit a specific case
+of \dref{def:eim-dr-notions}.
+
+\begin{definition}
+\dtitle{Lasting and fleeting bases}
+\label{lasting-and-fleeting-bases}
+A
+\xdfn{lasting base}{lasting base!EIM}
 EIM
 is an EIM
 whose dotted rule is a lasting base.
 Any EIM which is not a lasting base
 is a
-\xdfn{fleeting base}{fleeting base (EIM)}.
+\xdfn{fleeting base}{fleeting base!EIM}.
+\end{definition}
+
+\begin{definition}
+\dtitle{Partial Fleeting Sequence}
+\label{def:partial=fleeting=sequence}
+A
+\dfn{partial fleeting sequence}%
+\index{recce-definitions}{fleeting sequence@fleeting sequence!partial}
+is a sequence, call it \var{pfs},
+of valid EIM's such that
+\[
+\forall \; \var{i} : 0 \le \var{i} \implies \op{null-scan-op}{\Vel{seq}{i}} = \el{seq}{\Vincr{i}}.
+\]
+\end{definition}
+
+\begin{theorem}
+\ttitle{Partial Fleeting Sequence}
+\label{t:partial-fleeting-sequence}
+Let \Veim{e} be a valid EIM
+and let \var{fc} be the fleeting closure of 
+\Veim{e}.
+Then there is a partial fleeting closure,
+call it \var{pfc},
+such that \var{pfc} contains all and only
+the EIM's in \var{fc}.
+\end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
+
+\begin{theorem}
+The length of a partial fleeting sequence
+\begin{itemize}
+\item
+is less than the longest consecutive run of nulling
+symbols on the RHS of a rule;
+\item
+is less than the length of the longest rule; and
+\item
+is \order{c}, where \var{c} is a constant
+which depends on the grammar.
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
+
+\begin{theorem}
+\myfnname{null-scan-op}
+and its inverse are partial functions
+of the domain of valid EIM's,
+and their codomain is
+the set of valid EIM's.
+\end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
+
+TODO:TOHERE
 
 \begin{definition}
 \dtitle{\myfnname{null-scan-op}}
