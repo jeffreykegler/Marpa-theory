@@ -9629,11 +9629,16 @@ Theorem
 \begin{definition}
 \ttitle{Fleeting closure silo}
 \label{def:fleeting-closure-silo}
-If \Veim{qc} is quasi-complete,
-and \var{fc} is the fleeting closure
-of \Veim{qc},
-the \var{fc} is a
-\dfn{fleeting closure silo}.
+\var{slo} is
+the \dfn{fleeting closure silo}
+if and only if
+these two conditions hold:
+\begin{itemize}
+\item
+\Veim{qc} is quasi-complete,
+\item
+\var{slo} is the fleeting closure of \Veim{qc}.
+\end{itemize}
 \end{definition}
 
 \begin{theorem}
@@ -9642,28 +9647,36 @@ the \var{fc} is a
 Assume that
 \begin{subequations}
 \renewcommand{\theequation}{A\arabic{equation}}
-\begin{align}
+\begin{equation}
 \label{eq:fleeting-closure-silo-prop-asm-1}
-& \myparbox{%
-\Veim{qc} is a valid quasi-complete EIM.
-} \\
-\label{eq:fleeting-closure-silo-prop-asm-2}
-& \myparbox{%
-$\var{slo} = \op{fleeting-closure}{\Veim{qc}}$.
+\myparbox{%
+\var{slo} is the fleeting closure silo of
+\Veim{qc}.
 }
-\end{align}
+\end{equation}
 \end{subequations}
+
+Under that assumption,
+we have
 
 TODO
 
 \begin{subequations}
 \renewcommand{\theequation}{R\arabic{equation}}
 \begin{align}
+\label{eq:fleeting-closure-silo-prop-req-1}
+& \myparbox{%
+$\var{slo} = \op{fleeting-closure}{\Veim{qc}}$
+\becuz{}
+\eqref{eq:fleeting-closure-silo-prop-asm-1},
+\dref[fleeting closure silo]{def:fleeting-closure-silo}
+}
+\\
 \label{eq:fleeting-closure-silo-prop-req-3}
-& \el{slo}{0} = \Veim{qc}
+& \el{slo}{0} = \Veim{qc}.
 \\
 \label{eq:fleeting-closure-silo-prop-req-5}
-& \text{\var{slo} contains at least one layer}
+& \text{\var{slo} contains at least one layer.}
 \\
 \label{eq:fleeting-closure-silo-prop-req-9}
 & \text{\var{slo} contains at most \Vsize{\Rule{\el{slo}{0}}}
