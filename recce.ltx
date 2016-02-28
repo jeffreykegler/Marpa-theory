@@ -988,64 +988,87 @@ For example, we would write
 \end{aligned}
 \]
 
+\section{Undefineds and non-well-defineds}
+
 We will use the symbol \undefined%
 \index{recce-notation}{"!@\undefined}
 to mean ``undefined''
 in various contexts.
 For partial functions,
 we will use the term ``domain'' as in category theory,
-so that a partial function is not necessary defined
+so that a partial function is not necessarily defined
 for every element of its domain.
-For example, we will write $\Vop{f}{x} = \undefined$
+For example, we will write
+\[
+\Vop{f}{x} = \undefined
+\]
 to say that the partial function \myfnname{f} is
 undefined for the domain element \var{x}.
 
+\begin{definition}
+\dtitle{Comparison involving undefineds}
+\label{comparison-involving-undefineds}
 If a value is undefined,
 a second value is considered to be equal to it if and only if
 that second value is also undefined:
 \[
    \var{x} \, = \, \undefined \;\; \implies \;\; (\var{x} \, = \, \var{y} \; \equiv \; \var{y} \, = \, \undefined).
 \]
+\end{definition}
 
-We will find it convenient to use the logical operations
+Traditionally, an expression is not well-defined if any element of
+the expression is not well-defined.
+We will find it convenient to define the result of
 logical conjunction ($\land$),
 logical disjunction ($\lor$),
-and implication ($\implies$)
-even in some cases where their arguments are not necessarily
+and implication ($\Longrightarrow$)
+% [ \Longrightarrow, not \implies, to avoid math spacing ]
+for some cases where their second argument is not
 well-defined.
-If the antecedant of an implication is false,
-the value of the implication will be well-defined and true,
-even if the consequent of the implication is not well-defined.
-If the left hand side of a logical conjunction is false,
-the value of the logical conjunction will be well-defined and false,
-even if the right hand side of the logical conjunction is not well-defined.
-If the left hand side of a logical disjunction is true,
-the value of the logical conjunction will be well-defined and true,
-even if the right hand side of the logical disjunction is not well-defined.
-For example, let
-$\var{x} = \undefined$,
-and let \Vop{F}{\undefined} not be well-defined.
-Then
-\[
-\begin{aligned}
-& \myparbox{
-$(\var{x} = \undefined) \lor \; \Vop{F}{x}$
-is well-defined and true;}
-\\
-& \myparbox{
-$(\var{x} \neq \undefined) \land \; \Vop{F}{x}$
-is well-defined and false; and}
-\\
-& \myparbox{
-$(\var{x} \neq \undefined) \implies \Vop{F}{x}$
-is well-defined and true.}
-\end{aligned}
-\]
+Where its second argument is not well-defined,
+\begin{itemize}
+\item
+an implication is well-defined and true,
+if its first argument is false;
+\item
+a logical conjunction is well-defined and false,
+if its first argument is false; and
+\item
+a logical disjunction is well-defined and true,
+if its first argument is true.
+\end{itemize}
+Note that, under this convention,
+logical conjunction and logical disjunction are assymmetric.
 
-As just stated formally,
-our conventions for logical operations in the presence
-of operands that are not well-defined may seem arcane.
-But these conventions eliminate the need for a lot of
+For example, in most cases the value of a function
+will not be well-defined if its argument is undefined.
+In the following, let
+$\var{x} = \undefined$,
+and assume that \Vop{F}{\undefined} is not well-defined.
+Then
+\begin{align}
+\label{eq:not-well-def-example-1}
+& (\var{x} = \undefined) \lor \; \Vop{F}{x}
+&& \text{is well-defined and true;}
+\\
+\label{eq:not-well-def-example-2}
+& (\var{x} \neq \undefined) \land \; \Vop{F}{x}
+&& \text{is well-defined and false; and}
+\\
+\label{eq:not-well-def-example-3}
+& (\var{x} \neq \undefined) \implies \Vop{F}{x}
+&& \text{is well-defined and true.}
+\end{align}
+Note that
+the first arguments in 
+\eqref{eq:not-well-def-example-1},
+\eqref{eq:not-well-def-example-2}
+and
+\eqref{eq:not-well-def-example-3}
+are well-defined, because
+of \dref[comparison of undefineds]{comparison-involving-undefineds}.
+
+These conventions eliminate the need for a lot of
 special cases.
 We believe the reader will find these conventions
 natural and convenient in practice.
@@ -1054,6 +1077,8 @@ we write the logical operations out verbally
 (``if \var{X} and \var{Y}, then \var{X} or \var{Y}'')
 instead of symbolically
 ($\var{X} \; \land \; \var{Y} \implies \var{X} \; \lor \; \var{Y}$).
+
+\section{Algorithms}
 
 When referring to the value of a variable in a algorithm, we
 will usually need, not just the variable's name, but its line
