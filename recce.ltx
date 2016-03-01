@@ -5319,52 +5319,76 @@ and the theorem.
 
 \section{Ethereal closure}
 
+\begin{definition}
+\dtitle{Ethereal closure operations}
+\label{def:ethereal-closure-operations}
 In the following definitions,
 $\langle \Veim{down}, \Veim{effect} \rangle$
 is a duple,
 where \Veim{down} is a top-down cause
 of \Veim{effect}:
 \begin{align}
-\var{predict-op} \; & \defined \left\lbrace \;
-  \langle \var{down}, \var{effect} \rangle
-  \; \middle| \;
+\label{def:predict-op}
+\index{recce-definitions}{predict-op}
+\index{recce-notation}{predict-op@\op{predict-op}{\var{eim1}, \var{eim2}}}
+& \var{predict-op} \defined \left\lbrace
+  \begin{gathered}
+  \langle \var{down}, \var{effect} \rangle \; \text{such that}
+  \\
   \text{\var{effect} is a prediction}
+  \end{gathered}
 \; \right\rbrace ,
-\notag \\
-\var{null-scan-op} \; & \defined \left\lbrace \;
-  \langle \var{down}, \var{effect} \rangle
-  \; \middle| \;
-  \text{\var{effect} is a null-scan}
-\; \right\rbrace ,
-\notag \\
-\var{read-op} \; & \defined \left\lbrace \;
-  \langle \var{down}, \var{effect} \rangle
-  \; \middle| \;
-  \text{\var{effect} is a read}
-\; \right\rbrace ,
-\notag \\
-\var{reduction-op} \; & \defined \left\lbrace \;
-  \langle \var{down}, \var{effect} \rangle
-  \; \middle| \;
-  \text{\var{effect} is a reduction}
-\; \right\rbrace ,
-\notag \\
-\label{eq:def-epsilon-op-10}
-\var{epsilon-op} \; & \defined \var{predict-op} \cup \var{null-scan-op}
 \\
-\var{fleeting-closure} \; & \defined \var{null-scan-op}^\ast
+\label{def:null-scan-op}
+\index{recce-definitions}{null-scan-op}
+\index{recce-notation}{null-scan-op@\op{null-scan-op}{\var{eim1}, \var{eim2}}!as a relation}
+& \var{null-scan-op} \defined \left\lbrace
+  \begin{gathered}
+  \langle \var{down}, \var{effect} \rangle \; \text{such that}
+  \\
+  \text{\var{effect} is a null-scan}
+  \end{gathered}
+\; \right\rbrace ,
+\\
+\label{def:read-op}
+\index{recce-definitions}{read-op}
+\index{recce-notation}{read-op@\op{read-op}{\var{eim1}, \var{eim2}}}
+& \var{read-op} \defined \left\lbrace
+  \begin{gathered}
+  \langle \var{down}, \var{effect} \rangle \; \text{such that}
+  \\
+  \text{\var{effect} is a read}
+  \end{gathered}
+\; \right\rbrace ,
+\\
+\label{def:reduction-op}
+\index{recce-definitions}{reduction-op}
+\index{recce-notation}{reduction-op@\op{reduction-op}{\var{eim1}, \var{eim2}}}
+& \var{reduction-op} \defined \left\lbrace
+  \begin{gathered}
+  \langle \var{down}, \var{effect} \rangle \; \text{such that}
+  \\
+  \text{\var{effect} is a reduction}
+  \end{gathered}
+\; \right\rbrace ,
+\\
+\label{def:epsilon-op}
+\index{recce-definitions}{epsilon-op}
+\index{recce-notation}{epsilon-op@\op{epsilon-op}{\var{eim1}, \var{eim2}}}
+& \var{epsilon-op} \defined \var{predict-op} \cup \var{null-scan-op},
+\\
+\label{def:fleeting-closure}
+\index{recce-definitions}{fleeting-closure}
+\index{recce-notation}{fleeting-closure@\op{fleeting-closure}{\var{eim}}}
+& \var{fleeting-closure} \defined \var{null-scan-op}^\ast
 \; \text{and}
-\notag \\
-\var{ethereal-closure} \; & \defined \var{epsilon-op}^\ast
-\notag
-\end{align}%
-\index{recce-notation}{predict-op@\op{predict-op}{\var{eim1}, \var{eim2}}}%
-\index{recce-notation}{read-op@\op{read-op}{\var{eim1}, \var{eim2}}}%
-\index{recce-notation}{reduction-op@\op{reduction-op}{\var{eim1}, \var{eim2}}}%
-\index{recce-notation}{epsilon-op@\op{epsilon-op}{\var{eim1}, \var{eim2}}}%
-\index{recce-notation}{null-scan-op@\op{null-scan-op}{\var{eim1}, \var{eim2}}!as a relation}%
-\index{recce-notation}{fleeting-closure@\op{fleeting-closure}{\var{eim}}}%
+\\
+\label{def:ethereal-closure}
+\index{recce-definitions}{ethereal-closure}
 \index{recce-notation}{ethereal-closure@\op{ethereal-closure}{\var{eim}}}
+& \var{ethereal-closure} \defined \var{epsilon-op}^\ast.
+\end{align}
+\end{definition}
 
 \begin{sloppypar}
 \begin{FlushLeft}
@@ -5619,6 +5643,199 @@ and the theorem.
 
 \section{Fleeting closures}
 
+\begin{theorem}
+\label{t:null-scan-op-function}
+\myfnname{null-scan-op}
+and its inverse are partial functions
+of the domain of valid EIM's,
+and their codomain is
+the set of valid EIM's.
+\end{theorem}
+
+\begin{proof}
+\begin{align}
+\label{eq:null-scan-op-function-10}
+& \myparbox{%
+\myfnname{null-scan-op}
+is a relation whose domain is the valid EIM's
+and whose codomain is the valid EIM's
+\becuz{}
+\dref[\myfnname{null-scan-op}]{def:null-scan-op}.
+} \\
+\label{eq:null-scan-op-function-14}
+& \myparbox{%
+$[ \Veim{down}, \Veim{eff} ] \in \myfnname{null-scan-op}$
+if and only if two conditions hold:
+\Veim{eff} is a null-scan and
+\Veim{down} is the top-down cause
+of \Veim{eff}
+\becuz{}
+\dref[\myfnname{null-scan-op}]{def:null-scan-op}.
+} \\
+\label{eq:null-scan-op-function-16}
+& \myparbox{%
+For every \Veim{down}, there is at most one
+\Veim{eff}
+\tref{t:null-scan-from-down-cause},
+\becuz{}
+\eqref{eq:null-scan-op-function-14},
+\tref{t:null-scan-from-down-cause},
+so that \myfnname{null-scan-op} is a function
+} \\
+\label{eq:null-scan-op-function-18}
+& \myparbox{%
+For every \Veim{eff}, there is at most one
+\Veim{down}
+\becuz{}
+\eqref{eq:null-scan-op-function-14},
+\tref{t:null-scan-from-down-cause},
+so that the inverse of \myfnname{null-scan-op} is a function.
+}
+\end{align}
+The theorem follows from
+\eqref{eq:null-scan-op-function-10}
+\eqref{eq:null-scan-op-function-16}
+and
+\eqref{eq:null-scan-op-function-18}.
+\end{proof}
+
+\begin{definition}
+\dtitle{Partial fleeting sequence}
+\label{def:partial=fleeting=sequence}
+A
+\dfn{partial fleeting sequence}%
+\index{recce-definitions}{fleeting sequence@fleeting sequence!partial}
+is a sequence, call it \var{pfs},
+of valid EIM's such that
+\[
+\forall \; \var{i} : 0 \le \var{i} < \Vlastix{pfs} \implies \op{null-scan-op}{\Vel{pfs}{i}} = \el{pfs}{\Vincr{i}}.
+\]
+\end{definition}
+
+\begin{theorem}
+\ttitle{Partial fleeting sequence properties}
+\label{t:partial-fleeting-sequence-properties}
+Let \var{pfs} be a partial fleeting sequence.
+Then the following hold:
+\begin{subequations}
+\renewcommand{\theequation}{R\arabic{equation}}
+\begin{align}
+\label{eq:partial-fleeting-sequence-properties-req-20}
+& \begin{aligned}
+  & \forall \; \var{i}, \var{j} : (0 \le \var{i} \le \Vlastix{pfs} \land 0 \le \var{j} \le \Vlastix{pfs})
+  \\
+  & \qquad \implies \Rule{\Vel{pfs}{i}} = \Rule{\Vel{pfs}{j}}.
+  \end{aligned}
+\\[0.5ex]
+\label{eq:partial-fleeting-sequence-properties-req-22}
+& \begin{aligned}
+  & \forall \; \var{i}, \var{j} : (0 \le \var{i} \le \Vlastix{pfs} \land 0 \le \var{j} \le \Vlastix{pfs})
+  \\
+  & \qquad \implies \Left{\Vel{pfs}{i}} = \Left{\Vel{pfs}{j}}.
+  \end{aligned}
+\\[0.5ex]
+\label{eq:partial-fleeting-sequence-properties-req-24}
+& \begin{aligned}
+  & \forall \; \var{i}, \var{j} : (0 \le \var{i} \le \Vlastix{pfs} \land 0 \le \var{j} \le \Vlastix{pfs})
+  \\
+  & \qquad \implies \Right{\Vel{pfs}{i}} = \Right{\Vel{pfs}{j}}.
+  \end{aligned}
+\\[0.5ex]
+\label{eq:partial-fleeting-sequence-properties-req-26}
+& \begin{aligned}
+  & \forall \; \var{i} : (0 \le \var{i} < \Vlastix{pfs})
+  \\
+  & \qquad \implies \Vincr{\Dotix{\Vel{pfs}{i}}} = \Dotix{\el{pfs}{\Vincr{i}}}.
+  \end{aligned}
+\\[0.5ex]
+\label{eq:partial-fleeting-sequence-properties-req-27}
+& \forall \; \var{i} : (0 \le \var{i} < \Vlastix{pfs})
+  \implies \Postdot{\Vel{pfs}{i}} = \epsilon.
+\\
+\label{eq:partial-fleeting-sequence-properties-req-28}
+& \myparbox{%
+    If $\var{r} = \Rule{\Vel{pfs}{i}}$
+    for any
+    $0 \le \var{i} \le \Vlastix{pfs}$, then
+    \newline
+  \hspace*{2em} $\RHS{\var{r}} \big[
+    \Dotix{\el{pfs}{0}} \ldots \Dotix{\el{pfs}{\Vlastix{pfs}}}
+  \big] = \epsilon$.
+} \\
+\label{eq:partial-fleeting-sequence-properties-req-30-1}
+& \myparbox{%
+  For every \var{i} such that
+  $0 \le \var{i} < \Vlastix{pfs}$,
+  \Vel{pfs}{i} is never the bottom-up cause of any effect.
+} \\
+\label{eq:partial-fleeting-sequence-properties-req-30-2}
+& \myparbox{%
+  For every \var{i} such that
+  $0 \le \var{i} < \Vlastix{pfs}$,
+  \Vel{pfs}{i} is the only top-down cause of
+  \el{pfs}{\Vincr{i}}.
+} \\
+\label{eq:partial-fleeting-sequence-properties-req-30-3}
+& \myparbox{%
+  For every \var{i} such that
+  $0 \le \var{i} < \Vlastix{pfs}$,
+  \el{pfs}{\Vincr{i}} is the only effect of
+  \Vel{pfs}{i}.
+} \\
+\label{eq:partial-fleeting-sequence-properties-req-30-4}
+& \myparbox{%
+  For every \var{i} such that
+  $0 \le \var{i} < \Vlastix{pfs}$,
+  \el{pfs}{\Vincr{i}} is the only effect of
+  the cause-pair $[\Vel{pfs}{i}, \Vinst{nul}]$,
+  where \Vinst{nul} is such that \newline
+   \hspace*{2em} $\Symbol{\Vinst{nul}} = \Postdot{\Vel{pfs}{i}} = \epsilon$, \newline
+    \hspace*{2em} $\Left{\Vinst{nul}} = \Right{\Vel{pfs}{i}},$ and \newline
+    \hspace*{2em} $\Right{\Vinst{nul}} = \Right{\Vel{pfs}{i}}.$
+} \\
+\label{eq:partial-fleeting-sequence-properties-req-30}
+& \myparbox{%
+The length of \var{pfs}
+is less than the longest consecutive run of nulling
+symbols on the RHS of a rule.
+} \\
+\label{eq:partial-fleeting-sequence-properties-req-32}
+& \myparbox{%
+The length of \var{pfs}
+is less than the length of the longest rule.
+} \\
+\label{eq:partial-fleeting-sequence-properties-req-34}
+& \myparbox{%
+The length of \var{pfs}
+is \order{c}, where \var{c} is a constant
+which depends on the grammar.
+}
+\end{align}
+\end{subequations}
+\end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Partial fleeting sequence uniqueness}
+\label{t:partial-fleeting-sequence-uniq}
+Let \Veim{e} be a valid EIM
+and let \var{fc} be the fleeting closure of 
+\Veim{e}.
+Then there is exactly one partial fleeting closure,
+call it \var{pfc},
+such that \var{pfc} contains all and only
+the EIM's in \var{fc}.
+\end{theorem}
+
+\begin{proof}
+TODO.
+\end{proof}
+
+TODO: TOHERE
+
 Recall that dotted rule notions applied to EIM's
 refer to the dotted rule of the EIM
 \dref{def:eim-dr-notions}.
@@ -5637,65 +5854,6 @@ Any EIM which is not a lasting base
 is a
 \xdfn{fleeting base}{fleeting base!EIM}.
 \end{definition}
-
-\begin{definition}
-\dtitle{Partial Fleeting Sequence}
-\label{def:partial=fleeting=sequence}
-A
-\dfn{partial fleeting sequence}%
-\index{recce-definitions}{fleeting sequence@fleeting sequence!partial}
-is a sequence, call it \var{pfs},
-of valid EIM's such that
-\[
-\forall \; \var{i} : 0 \le \var{i} \implies \op{null-scan-op}{\Vel{seq}{i}} = \el{seq}{\Vincr{i}}.
-\]
-\end{definition}
-
-\begin{theorem}
-\ttitle{Partial Fleeting Sequence}
-\label{t:partial-fleeting-sequence}
-Let \Veim{e} be a valid EIM
-and let \var{fc} be the fleeting closure of 
-\Veim{e}.
-Then there is a partial fleeting closure,
-call it \var{pfc},
-such that \var{pfc} contains all and only
-the EIM's in \var{fc}.
-\end{theorem}
-
-\begin{proof}
-TODO.
-\end{proof}
-
-\begin{theorem}
-The length of a partial fleeting sequence
-\begin{itemize}
-\item
-is less than the longest consecutive run of nulling
-symbols on the RHS of a rule;
-\item
-is less than the length of the longest rule; and
-\item
-is \order{c}, where \var{c} is a constant
-which depends on the grammar.
-\end{itemize}
-\end{theorem}
-
-\begin{proof}
-TODO.
-\end{proof}
-
-\begin{theorem}
-\myfnname{null-scan-op}
-and its inverse are partial functions
-of the domain of valid EIM's,
-and their codomain is
-the set of valid EIM's.
-\end{theorem}
-
-\begin{proof}
-TODO.
-\end{proof}
 
 TODO:TOHERE
 
