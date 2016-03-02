@@ -5699,6 +5699,83 @@ and
 \eqref{eq:null-scan-op-function-18}.
 \end{proof}
 
+Based on Theorem
+\tref{t:null-scan-op-function},
+we will write null-scan-op,
+and its inverse, as functions
+so that
+the relation
+\[
+\op{null-scan-op}{\Veim{x}, \Veim{y}}
+\]
+is equivalent to the functions
+\begin{gather*}
+\op{null-scan-op}{\Veim{x}} = \Veim{y}%
+\index{recce-notation}{null-scan-op@\Vop{null-scan-op}{eim1}!as a function}
+\quad \text{and}
+\\
+\iop{null-scan-op}{(-1)}{\Veim{y}} = \Veim{x}.%
+\index{recce-notation}{null-scan-op@\Vop{null-scan-op}{eim1}!as an inverse function}
+\end{gather*}
+
+\begin{theorem}
+\ttitle{\myfnname{null-scan-op} definedness}
+\label{t:null-scan-op-definedness}
+\myfnname{null-scan-op} is defined if and only if
+the postdot symbol of its argument is nulling:
+\[
+\op{null-scan-op}{\Veim{cuz}} \neq \undefined
+\equiv \Postdot{\Veim{cuz}} = \epsilon.
+\]
+Further, if \myfnname{null-scan-op} is defined,
+then
+\[
+\begin{gathered}
+\Rule{\Veim{e}} = \Rule{\Vop{null-scan-op}{\Veim{e}}}, \\
+\Left{\Veim{e}} = \Left{\Vop{null-scan-op}{\Veim{e}}}, \\
+\Right{\Veim{e}} = \Right{\Vop{null-scan-op}{\Veim{e}}}, \text{and} \\
+\Vincr{\Dotix{\Veim{e}}} = \Dotix{\Vop{null-scan-op}{\Veim{e}}}.
+\end{gathered}
+\]
+\end{theorem}
+
+\begin{proof}
+This theorem follows from
+\dref[\myfnname{null-scan-op}]{def:null-scan-op},
+\tref{t:null-scan-from-down-cause}
+and
+\tref{t:null-scan-op-function}.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Inverse \myfnname{null-scan-op} definedness}
+\label{t:inverse-null-scan-op-definedness}
+The inverse of
+\myfnname{null-scan-op} is defined if and only if
+the predot symbol of its argument is nulling:
+\[
+\iop{null-scan-op}{(-1)}{\Veim{cuz}} \neq \undefined
+\equiv \Predot{\Veim{cuz}} = \epsilon.
+\]
+Further, if \myfnname{null-scan-op} is defined,
+then
+\[
+\begin{gathered}
+\Rule{\Veim{e}} = \Rule{\Vop{null-scan-op}{\Veim{e}}}, \\
+\Left{\Veim{e}} = \Left{\Vop{null-scan-op}{\Veim{e}}}, \\
+\Right{\Veim{e}} = \Right{\Vop{null-scan-op}{\Veim{e}}}, \text{and} \\
+\Vdecr{\Dotix{\Veim{e}}} = \Dotix{\iop{null-scan-op}{(-1)}{\Veim{e}}}.
+\end{gathered}
+\]
+\end{theorem}
+
+\begin{proof}
+This theorem follows from
+\tref{t:null-scan-op-function}
+and
+\tref{t:inverse-null-scan-op-definedness}.
+\end{proof}
+
 \begin{definition}
 \dtitle{Partial fleeting sequence}
 \label{def:partial=fleeting=sequence}
@@ -5856,84 +5933,6 @@ is a
 \end{definition}
 
 TODO:TOHERE
-
-\begin{definition}
-\dtitle{\myfnname{null-scan-op}}
-\label{def:null-scan-op}
-In
-Theorem \ref{t:null-scan-from-down-cause}
-we showed that, for a null-scan,
-given a top-down cause,
-its effect is unique,
-so that \myfnname{null-scan-op} is a function.
-Theorem \ref{t:null-scan-from-down-cause}
-also showed that, for a null-scan,
-given an effect,
-its top-down cause is unique,
-so that the top-down function has an inverse.
-Accordingly, we will sometimes overload
-\myfnname{null-scan-op}
-and use it as a function,
-so that the two statements
-\[
-\op{null-scan-op}{\Veim{x}, \Veim{y}}
-\]
-and
-\[
-\op{null-scan-op}{\Veim{x}} = \Veim{y}
-\]%
-\index{recce-notation}{null-scan-op@\Vop{null-scan-op}{eim1}!as a function}
-are equivalent.
-
-We write the inverse of \myfnname{null-scan-op}%
-\index{recce-notation}{null-scan-op@\Vop{null-scan-op}{eim1}!as an inverse function}
-as
-\[
-\iop{null-scan-op}{-1}{\Veim{eff}} = \Veim{cuz}.
-\]
-Both \myfnname{null-scan-op} and its inverse are
-partial functions.
-Using our notation for undefinedness,
-\[
-\begin{aligned}
-& \Veim{cuz} = \undefined \\
-\lor \; & \Postdot{\Veim{cuz}} = \undefined \\
-\lor \; & \Postdot{\Veim{cuz}} \neq \epsilon \\
-& \quad \implies \op{null-scan-op}{\Veim{cuz}} = \undefined.
-\end{aligned}
-\]
-and
-\[
-\begin{aligned}
-& \Veim{eff} = \undefined \\
-\lor \; & \Predot{\Veim{eff}} = \undefined \\
-\lor \; & \Predot{\Veim{eff}} \neq \epsilon \\
-& \quad \implies \iop{null-scan-op}{(-1)}{\Veim{eff}} = \undefined.
-\end{aligned}
-\]
-\end{definition}
-
-\begin{definition}
-\dtitle{Fleeting closures as a sequence}
-\label{def:fleeting-closure-sequence}
-We defined \op{fleeting-closure}{\Veim{x}}
-as a set.
-But since
-\myfnname{null-scan-op} can be used as a function,
-we can treat the
-\xdfn{fleeting closure}{fleeting closure@fleeting closure!as a sequence}
-as a sequence,
-such that if
-\begin{equation*}
-\var{ns} = \op{fleeting-closure}{\Veim{x}},
-\end{equation*}
-then
-\begin{equation*}
-\Vel{ns}{i} =
-    {\myfnname{null-scan-op}^{\displaystyle (\var{i})}}(\Veim{x}).
-\end{equation*}
-\end{definition}
-
 
 \begin{theorem}
 \ttitle{Null scan arithmetic}
