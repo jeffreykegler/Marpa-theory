@@ -293,8 +293,11 @@
 \newtheorem{baredefinition}[oldtheorem]{Definition}
 \newenvironment{definition}{ \begin{baredefinition}
 }{ \begin{center}
-\vspace{-.4\baselineskip}
+\nopagebreak[4]%
+\vspace{-.4\baselineskip}%
+\nopagebreak[4]%
 \rule{3em}{.5pt}
+\pagebreak[0]
 \end{center} \end{baredefinition} }
 
 \newtheorem{bareobservation}[oldtheorem]{Observation}
@@ -5776,18 +5779,151 @@ and
 \tref{t:inverse-null-scan-op-definedness}.
 \end{proof}
 
+\begin{theorem}
+\ttitle{Iterated \myfnname{null-scan-op}}
+\label{t:iterated-null-scan-op}
+Let \Veim{e} be a valid EIM,
+and let \var{rhs} be the RHS of its rule
+such that, for some \var{x},
+\[
+\forall \; \var{i} : \Dotix{\Veim{e}} \le \var{i} < \Dotix{\Veim{e}}+\var{x} \implies \Vel{rhs}{i} = \epsilon.
+\]
+Then
+\[
+\Dotix{\iop{null-scan-op}{\var{x}}{\Veim{e}}} = \Dotix{\Veim{e}} + \var{x}.
+\]
+\end{theorem}
+
+\begin{proof}
+We proceed by induction, where the induction hypothesis is that
+\begin{subequations}
+\label{eq:iterated-null-scan-op-10}
+\begin{align}
+\label{eq:iterated-null-scan-op-10a}
+& \text{If} \quad \forall \; \var{i}
+\left(
+\begin{aligned}
+& \Dotix{\Veim{e}} \le \var{i} < \Dotix{\Veim{e}}+\var{x}
+\\
+& \qquad \implies \Vel{rhs}{i} = \epsilon
+\end{aligned}
+\right)
+\\
+\label{eq:iterated-null-scan-op-10b}
+& \text{then} \quad \Dotix{\iop{null-scan-op}{\var{x}}{\Veim{e}}} = \Dotix{\Veim{e}} + \var{x}.
+\end{align}
+\end{subequations}
+We take as the basis \eqref{eq:iterated-null-scan-op-10}
+for $\var{x} = 0$.
+If 
+$\var{x} = 0$,
+\eqref{eq:iterated-null-scan-op-10b} is true
+because
+$\iop{null-scan-op}{0}{\Veim{e}} = \Veim{e}$,
+which shows
+\eqref{eq:iterated-null-scan-op-10}
+and the basis.
+
+For the step, we assume 
+\eqref{eq:iterated-null-scan-op-10}
+for $\var{x} = \var{n}$,
+to show
+\eqref{eq:iterated-null-scan-op-10}
+for $\var{x} = \Vincr{n}$.
+If 
+\eqref{eq:iterated-null-scan-op-10a}
+is false
+for $\var{x} = \Vincr{n}$,
+then
+\eqref{eq:iterated-null-scan-op-10}
+is vacuously true for 
+$\var{x} = \Vincr{n}$.
+It remains to consider the step
+for the case where
+\begin{align}
+\label{eq:iterated-null-scan-op-20}
+& \myparbox{%
+\eqref{eq:iterated-null-scan-op-10a}
+is true for 
+$\var{x} = \Vincr{n}$
+\becuz{}
+ASM for case of step.
+} \\
+\label{eq:iterated-null-scan-op-22}
+& \begin{aligned}
+  & \forall \; \var{i}
+  \left(
+  \begin{aligned}
+    & \Dotix{\Veim{e}} \le \var{i} < \Dotix{\Veim{e}}+\Vincr{n}
+    \\
+    & \qquad \implies \Vel{rhs}{i} = \epsilon
+    \\
+  \end{aligned}
+  \right)
+  \\
+  & \qquad \becuz
+  \eqref{eq:iterated-null-scan-op-20}.
+\end{aligned}
+\\
+\label{eq:iterated-null-scan-op-24}
+& \begin{aligned}
+  & \forall \; \var{i}
+  \left(
+  \begin{aligned}
+    & \Dotix{\Veim{e}} \le \var{i} < \Dotix{\Veim{e}}+\var{n}
+    \\
+    & \qquad \implies \Vel{rhs}{i} = \epsilon
+    \\
+  \end{aligned}
+  \right)
+  \\
+  & \qquad \becuz
+  \eqref{eq:iterated-null-scan-op-22}.
+\end{aligned}
+\\
+\label{eq:iterated-null-scan-op-26}
+& \myparbox{%
+\eqref{eq:iterated-null-scan-op-10a} for
+$\var{x} = \var{n}$
+\becuz{}
+\eqref{eq:iterated-null-scan-op-24}.
+}
+\end{align}
+
+TODO
+\end{proof}
+
 \begin{definition}
 \dtitle{Partial fleeting sequence}
-\label{def:partial=fleeting=sequence}
-A
+\label{def:partial-fleeting-sequence}
+Let \var{pfs} be a sequence.
+We define the
 \dfn{partial fleeting sequence}%
 \index{recce-definitions}{fleeting sequence@fleeting sequence!partial}
-is a sequence, call it \var{pfs},
-of valid EIM's such that
+of an valid EIM, call it \Veim{e},
+as a sequence, call it \var{pfs},
+such that for all $\var{i} > 0$,
+if \iop{null-scan-op}{\var{i}}{\Veim{e}}) is defined,
+then
 \[
-\forall \; \var{i} : 0 \le \var{i} < \Vlastix{pfs} \implies \op{null-scan-op}{\Vel{pfs}{i}} = \el{pfs}{\Vincr{i}}.
+   \Vel{pfs}{i} = \iop{null-scan-op}{\var{i}}{\Veim{e}}.
+\]
+Note the special case where
+\[
+   \el{pfs}{0} = \iop{null-scan-op}{0}{\Veim{e}} = \Veim{e}.
 \]
 \end{definition}
+
+\begin{theorem}
+Let \var{fc} be the fleeting closure of \Veim{e},
+and let \var{pfs} be its partial fleeting sequence.
+Then the sequence \var{pfs} contains all and only
+the elements of \var{fc}.
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
 
 \begin{theorem}
 \ttitle{Partial fleeting sequence properties}
