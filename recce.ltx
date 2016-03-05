@@ -2636,19 +2636,26 @@ of the external rule RHS.
 
 \section{Definition}
 
+\begin{definition}
+\dtitle{Dotted rule}
+\label{def:dotted-rule}
 Let $\Vrule{r} \in \Crules$
 be a rule.
 Recall that \Vsize{r}
 is the length of its RHS.
-A dotted rule (type \dtype{DR}) is a duple, $[\Vrule{r}, \var{dotix}]$,
-where $0 \le \var{dotix} \le \size{\Vrule{r}}$.
-The
+A dotted rule (type \dtype{DR}) is a duple, $[\Vrule{r}, \var{dotix}]$.
+\var{dotix} is
+the
 \dfn{dot RHS index}
 or
 \dfn{dot index},
-\var{dotix}, indicates the extent to which
-the rule has been recognized,
-and is represented with a large raised dot,
+and is such that
+$0 \le \var{dotix} \le \size{\Vrule{r}}$.
+The dot index
+indicates the extent to which
+the rule has been recognized.
+It is often
+represented with a large raised dot.
 so that if
 \begin{equation*}
 [\Vsym{A} \de \Vsym{X} \Vsym{Y} \Vsym{Z}]
@@ -2678,9 +2685,10 @@ For example, where \Vdr{dr} is as in
   \text{and} \quad
 \op{Rule}{\Vdr{dr}} = [\Vsym{A} \de \Vsym{X} \Vsym{Y} \Vsym{Z}].
 \end{gather*}
+\end{definition}
 
 In the discussions to follow
-we will often refer to the
+we will also refer to a
 ``dot location''.
 The dot location should not be confused with the
 dot index.
@@ -2705,26 +2713,42 @@ or redundantly, as
 
 \section{Properties}
 
-Let
-\begin{align*}
-%
-\Postdot{\Vdr{x}} & \defined
+\begin{definition}
+\dtitle{Postdot}
+\label{def:postdot}
+\index{recce-notation}{Postdot(dr)}%
+\[
+\Postdot{\Vdr{x}} \defined
 \begin{cases}
 \begin{aligned}
 & \Vsym{B}, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{s1} \mydot \Vsym{B} \cat \Vstr{s2}]$} \\
 & \undefined, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{rhs} \mydot]$}
 \end{aligned}
-\end{cases} \\
-%
-\Predot{\Vdr{x}} & \defined
+\end{cases}
+\]
+\end{definition}
+
+\begin{definition}
+\dtitle{Predot}
+\label{def:predot}
+\index{recce-notation}{Predot(dr)}%
+\[
+\Predot{\Vdr{x}} \defined
 \begin{cases}
 \begin{aligned}
 & \Vsym{B}, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{s1} \cat \Vsym{B} \mydot \Vstr{s2}]$} \\
 & \undefined, \; && \text{if $\Vdr{x} = [\Vsym{A} \de \mydot \Vstr{rhs} ]$}
 \end{aligned}
-\end{cases} \\
-%
-\Next{\Vdr{x}} & \defined
+\end{cases}
+\]
+\end{definition}
+
+\begin{definition}
+\dtitle{Next}
+\label{def:next}
+\index{recce-notation}{Next(dr)}%
+\[
+\Next{\Vdr{x}} \defined
 \begin{cases}
 [\Vsym{A} \de \Vstr{s1} \cat \Vsym{B} \mydot \Vstr{s2}],  \\
 \begin{aligned}
@@ -2732,9 +2756,16 @@ Let
 [\Vsym{A} \de \Vstr{s1} \mydot \Vsym{B} \cat \Vstr{s2}]$} \\
 & \undefined, && \text{if $\Vdr{x} = [\Vsym{A} \de \Vstr{rhs} \mydot]$}
 \end{aligned}
-\end{cases} \\
-%
-\Prev{\Vdr{x}} & \defined
+\end{cases}
+\]
+\end{definition}
+
+\begin{definition}
+\dtitle{Prev}
+\label{def:prev}
+\index{recce-notation}{Prev(dr)}%
+\[
+\Prev{\Vdr{x}} \defined
 \begin{cases}
 [\Vsym{A} \de \Vstr{s1} \mydot \Vsym{B} \cat \Vstr{s2}],  \\
 \begin{aligned}
@@ -2742,11 +2773,14 @@ Let
 [\Vsym{A} \de \Vstr{s1} \cat \Vsym{B} \mydot \Vstr{s2}]$} \\
 & \undefined, && \text{if $\Vdr{x} = [\Vsym{A} \de \mydot \Vstr{rhs} ]$}
 \end{aligned}
-\end{cases} \\
-%
-\end{align*}
+\end{cases}
+\]
+\end{definition}
 
-In addition, if a dotted rule is
+\begin{definition}
+\dtitle{Prefix and suffix}
+\label{def:prefix}
+If a dotted rule is
 \[
 [\Vsym{A} \de \Vstr{prefix} \mydot \Vstr{suffix}]
 \]
@@ -2755,6 +2789,7 @@ we say that \Vstr{prefix} is the
 and that
 \Vstr{suffix} is the
 \dfn{dot suffix}.
+\end{definition}
 
 \section{Types}
 
@@ -5912,6 +5947,55 @@ $\var{x} = \var{n}$
 $\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{e}}} = \Dotix{\Veim{e}} + \var{n}$
 \becuz
 \eqref{eq:iterated-null-scan-op-30}.
+} \\
+\label{eq:iterated-null-scan-op-34}
+& \myparbox{%
+\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{e}}} \newline
+\hspace*{3em} $= \el{rhs}{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{e}}}}$
+\newline
+\becuz{}
+\dref[Postdot]{def:postdot},
+\dref[Dot index]{def:dotted-rule},
+\dref[DR notion refering to EIM]{def:eim-dr-notions}.
+} \\
+\label{eq:iterated-null-scan-op-36}
+& \myparbox{%
+\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{e}}} \newline
+\hspace*{3em} $= \el{rhs}{\Dotix{\Veim{e} + \var{n}}}$
+\newline
+\becuz{}
+\eqref{eq:iterated-null-scan-op-32},
+\eqref{eq:iterated-null-scan-op-34}.
+} \\
+\label{eq:iterated-null-scan-op-38}
+& \myparbox{%
+$\el{rhs}{\Dotix{\Veim{e} + \var{n}}} = \epsilon$
+\becuz{}
+\eqref{eq:iterated-null-scan-op-22}.
+} \\
+\label{eq:iterated-null-scan-op-40}
+& \myparbox{%
+$\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{e}}} = \epsilon$
+\becuz{}
+\eqref{eq:iterated-null-scan-op-36},
+\eqref{eq:iterated-null-scan-op-38}.
+}
+\intertext{%
+From
+\eqref{eq:iterated-null-scan-op-40},
+we know that 
+\iop{null-scan-op}{\Vincr{n}}{\Veim{e}}
+is defined, so that
+}
+\label{eq:iterated-null-scan-op-42}
+& \myparbox{%
+\Dotix{\iop{null-scan-op}{(\Vincr{n})}{\Veim{e}}}
+\newline
+\hspace*{3em} $= \Vincr{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{e}}}}$
+\newline
+\becuz{}
+\eqref{eq:iterated-null-scan-op-40},
+\tref{t:null-scan-op-definedness}.
 } \\
 \end{align}
 
