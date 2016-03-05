@@ -5858,23 +5858,52 @@ $\iop{null-scan-op}{0}{\Veim{e}} = \Veim{e}$,
 which shows
 \eqref{eq:iterated-null-scan-op-10}
 and the basis.
-
 For the step, we assume 
+\begin{equation}
+\label{eq:iterated-null-scan-op-11-2}
+\myparbox{%
 \eqref{eq:iterated-null-scan-op-10}
 for $\var{x} = \var{n}$,
+}
+\end{equation}
 to show
+\begin{equation}
+\label{eq:iterated-null-scan-op-11-4}
+\myparbox{%
 \eqref{eq:iterated-null-scan-op-10}
 for $\var{x} = \Vincr{n}$.
-If 
+}
+\end{equation}
+We proceed by cases.
+
+\textbf{Step Case 1}:
+For the first case of the induction step,
+assume that
+\begin{align}
+\label{eq:iterated-null-scan-op-12}
+& \myparbox{%
 \eqref{eq:iterated-null-scan-op-10a}
 is false
-for $\var{x} = \Vincr{n}$,
-then
+for $\var{x} = \Vincr{n}$
+\becuz{}
+ASM for this case of the step.
+} \\
+\label{eq:iterated-null-scan-op-14}
+& \myparbox{%
 \eqref{eq:iterated-null-scan-op-10}
-is vacuously true for 
-$\var{x} = \Vincr{n}$.
-It remains to consider the step
-for the case where
+for $\var{x} = \Vincr{n}$
+\becuz{}
+vacuously, from
+\eqref{eq:iterated-null-scan-op-12}.
+}
+\end{align}
+Equation
+\eqref{eq:iterated-null-scan-op-14}
+shows this case of the step.
+
+\textbf{Step Case 2}:
+For the 2nd case,
+assume that
 \begin{align}
 \label{eq:iterated-null-scan-op-20}
 & \myparbox{%
