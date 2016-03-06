@@ -5894,12 +5894,12 @@ ASM for this case of the step.
 for $\var{x} = \Vincr{n}$
 \becuz{}
 vacuously, from
-\eqref{eq:iterated-null-scan-op-12}.
+\eqref{eq:iterated-null-scan-op-12},
+which shows the first case
+of the induction step.
 }
 \end{align}
 Equation
-\eqref{eq:iterated-null-scan-op-14}
-shows this case of the step.
 
 \textbf{Step Case 2}:
 For the 2nd case,
@@ -6022,9 +6022,37 @@ is defined, so that
 \eqref{eq:iterated-null-scan-op-40},
 \tref{t:null-scan-op-definedness}.
 } \\
+\label{eq:iterated-null-scan-op-44}
+& \myparbox{%
+\Dotix{\iop{null-scan-op}{(\Vincr{n})}{\Veim{e}}}
+\newline
+\hspace*{3em} $= \Dotix{\Veim{e}} + \var{n} + 1$
+\newline
+\becuz{}
+\eqref{eq:iterated-null-scan-op-32},
+\eqref{eq:iterated-null-scan-op-42}.
+} \\
+\label{eq:iterated-null-scan-op-46}
+& \myparbox{%
+\eqref{eq:iterated-null-scan-op-10b}
+is true for 
+$\var{x} = \Vincr{n}$
+\becuz{}
+\eqref{eq:iterated-null-scan-op-44},
+which show the second case of the
+induction step.
+}
 \end{align}
 
-TODO
+Equations
+\eqref{eq:iterated-null-scan-op-14}
+and
+\eqref{eq:iterated-null-scan-op-46}
+show the induction step.
+From the step, we have the induction
+and the theorem.
+
+TODO: finished?
 \end{proof}
 
 \begin{definition}
