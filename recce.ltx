@@ -5876,7 +5876,7 @@ for $\var{x} = \Vincr{n}$.
 \end{equation}
 We proceed by cases.
 
-\textbf{Step Case 1}:
+\textbf{Step case 1}:
 For the first case of the induction step,
 assume that
 \begin{align}
@@ -5899,9 +5899,8 @@ which shows the first case
 of the induction step.
 }
 \end{align}
-Equation
 
-\textbf{Step Case 2}:
+\textbf{Step case 2}:
 For the 2nd case,
 assume that
 \begin{align}
@@ -6039,7 +6038,7 @@ is true for
 $\var{x} = \Vincr{n}$
 \becuz{}
 \eqref{eq:iterated-null-scan-op-44},
-which show the second case of the
+which shows the second case of the
 induction step.
 }
 \end{align}
@@ -6051,8 +6050,6 @@ and
 show the induction step.
 From the step, we have the induction
 and the theorem.
-
-TODO: finished?
 \end{proof}
 
 \begin{definition}
@@ -6077,14 +6074,64 @@ Note the special case where
 \end{definition}
 
 \begin{theorem}
-Let \var{fc} be the fleeting closure of \Veim{e},
+\ttitle{Partial fleeting sequence}
+\label{t:partial-fleeting-sequence}
+Let \var{fc} be the fleeting closure of \Veim{bas},
 and let \var{pfs} be its partial fleeting sequence.
 Then the sequence \var{pfs} contains all and only
 the elements of \var{fc}.
 \end{theorem}
 
 \begin{proof}
+To show that \var{pfs} contains only elements of \var{fc},
+we note that, by the definition of a closure,
+
 TODO
+
+Directly from
+and
+\eqref{eq:partial-fleeting-sequence-10},
+\dref[partial fleeting sequence]{def:partial-fleeting-sequence},
+we see that all elements of \var{pfs} are elements of \var{fc}.
+
+It remains to show that \textbf{every} element of \var{fc} is an element
+of \var{pfs}.
+\begin{align}
+\label{eq:partial-fleeting-sequence-20}
+& \myparbox{%
+\var{fc} is the reflexive and transitive closure of \myfnname{null-scan-op}
+\becuz{} \dref[fleeting closure]{def:fleeting-closure}. 
+} \\
+\label{eq:partial-fleeting-sequence-22}
+& \myparbox{%
+$\Veim{e} \in \var{fc} \equiv
+\exists \var{i} : 
+\iop{null-scan-op}{i}{\Veim{bas}} = \Veim{e}$
+\becuz{}
+\eqref{eq:partial-fleeting-sequence-20}.
+}
+\end{align}
+Let the sequence of sets \var{g} be
+such that 
+\begin{equation}
+\label{eq:partial-fleeting-sequence-30}
+    \Vel{g}{i} = \lbrace \Veim{eim} | \iop{null-scan-op}{i}{\Veim{bas}} = \Veim{eim}
+    \rbrace.
+\end{equation}
+Every \myfnname{null-scan-op} is a partial function
+\becuz{} \tref{t:null-scan-op-function}.
+Therefore its iterated form,
+$\myfnname{null-scan-op}^{\displaystyle \var{i}}$, is a partial function.
+Therefore every non-empty \Vel{g}{i} in 
+\eqref{eq:partial-fleeting-sequence-30} is a singleton.
+And, from
+\dref[partial fleeting sequence]{def:partial-fleeting-sequence},
+we see that, for very \var{i} such that \Vel{g}{i} is non-empty,
+$\Vel{pfs}{i} = \Vel{g}{i}$.
+Therefore \var{pfs} contains every element of every set in the sequence \var{g}.
+Therefore \var{pfs} contains every element of \var{fc}.
+
+TODO: finish
 \end{proof}
 
 \begin{theorem}
