@@ -5682,6 +5682,7 @@ and the theorem.
 \section{Fleeting closures}
 
 \begin{theorem}
+\title{\myfnname{null-scan-op} is a function}
 \label{t:null-scan-op-function}
 \myfnname{null-scan-op}
 and its inverse are partial functions
@@ -6074,6 +6075,99 @@ Note the special case where
 \end{definition}
 
 \begin{theorem}
+\ttitle{Partial fleeting sequence is consecutive}
+\label{t:partial-fleeting-sequence-contiguous}
+Let \var{fc} be the fleeting closure of \Veim{bas},
+and let \var{pfs} be its partial fleeting sequence.
+Then the sequence \var{pfs} is contiguous,
+starting at 0.
+\end{theorem}
+
+\begin{proof}
+From 
+\dref[partial fleeting sequence]{def:partial-fleeting-sequence},
+it can be seen directly that the indexes of \var{pfs} are iterations
+of a function, and therefore non-negative.
+It can also be seen directly from
+\dref{def:partial-fleeting-sequence} that $\el{pfs}{0} = \Veim{bas}$,
+so that there is a zero'th element of \var{pfs}.
+
+It remains to show that the elements of \var{pfs} are contiguous.
+We assume for a reductio that
+\begin{align}
+\label{eq:partial-fleeting-sequence-contiguous-20}
+& \myparbox{%
+\var{pfs} contains at least one non-contiguous element
+\becuz{}
+ASM for reductio.
+Let the first non-contiguous element be \Vel{pfs}{j}.
+} \\
+\label{eq:partial-fleeting-sequence-contiguous-20-5}
+& \myparbox{%
+$\var{j} > 0$ \becuz{}
+an element at index 0 is always contiguous.
+} \\
+\label{eq:partial-fleeting-sequence-contiguous-21-1}
+& \myparbox{%
+\Vel{pfs}{j} is defined.
+\becuz{}
+\eqref{eq:partial-fleeting-sequence-contiguous-20}.
+} \\
+\label{eq:partial-fleeting-sequence-contiguous-21-2}
+& \myparbox{%
+\el{pfs}{\Vdecr{j}} is not defined.
+\becuz{}
+\eqref{eq:partial-fleeting-sequence-contiguous-20}.
+} \\
+\label{eq:partial-fleeting-sequence-contiguous-24}
+& \myparbox{%
+\Vel{pfs}{j} = \op{null-scan-op}{\iop{null-scan-op}{(\Vdecr{j})}{\Veim{bas}}}
+\becuz{}
+\dref[partial fleeting sequence]{def:partial-fleeting-sequence},
+\eqref{eq:partial-fleeting-sequence-contiguous-20-5},
+\eqref{eq:partial-fleeting-sequence-contiguous-21-1}.
+} \\
+\label{eq:partial-fleeting-sequence-contiguous-26}
+& \myparbox{%
+If \op{null-scan-op}{\var{x}} is well-defined,
+then \var{x} is a valid EIM
+\becuz{}
+\tref{t:null-scan-op-function}.
+} \\
+\label{eq:partial-fleeting-sequence-contiguous-28}
+& \myparbox{%
+\iop{null-scan-op}{(\Vdecr{j})}{\Veim{bas}}
+is a valid EIM
+\becuz{}
+\eqref{eq:partial-fleeting-sequence-contiguous-21-1},
+\eqref{eq:partial-fleeting-sequence-contiguous-24},
+\eqref{eq:partial-fleeting-sequence-contiguous-26}.
+} \\
+\label{eq:partial-fleeting-sequence-contiguous-30}
+& \myparbox{%
+$\el{pfs}{\Vdecr{j}} = \iop{null-scan-op}{(\Vdecr{j})}{\Veim{bas}}$
+\becuz{}
+\dref[partial fleeting sequence]{def:partial-fleeting-sequence}.
+} \\
+\label{eq:partial-fleeting-sequence-contiguous-32}
+& \myparbox{%
+\el{pfs}{\Vdecr{j}} is defined.
+\becuz{}
+\eqref{eq:partial-fleeting-sequence-contiguous-28},
+\eqref{eq:partial-fleeting-sequence-contiguous-30},
+which contradicts
+\eqref{eq:partial-fleeting-sequence-contiguous-21-2}
+and shows the reductio.
+}
+\end{align}
+
+From the reductio of
+\eqref{eq:partial-fleeting-sequence-contiguous-20}--%
+\eqref{eq:partial-fleeting-sequence-contiguous-32},
+we conclude that \var{pfs} is contiguous.
+\end{proof}
+
+\begin{theorem}
 \ttitle{Partial fleeting sequence}
 \label{t:partial-fleeting-sequence}
 Let \var{fc} be the fleeting closure of \Veim{bas},
@@ -6083,56 +6177,83 @@ the elements of \var{fc}.
 \end{theorem}
 
 \begin{proof}
-To show that \var{pfs} contains only elements of \var{fc},
-we note that, by the definition of a closure,
-
-TODO
-
-Directly from
-and
-\eqref{eq:partial-fleeting-sequence-10},
-\dref[partial fleeting sequence]{def:partial-fleeting-sequence},
-we see that all elements of \var{pfs} are elements of \var{fc}.
-
-It remains to show that \textbf{every} element of \var{fc} is an element
-of \var{pfs}.
 \begin{align}
 \label{eq:partial-fleeting-sequence-20}
 & \myparbox{%
 \var{fc} is the reflexive and transitive closure of \myfnname{null-scan-op}
 \becuz{} \dref[fleeting closure]{def:fleeting-closure}. 
 } \\
+\label{eq:partial-fleeting-sequence-21}
+& \myparbox{%
+$\forall \; \Veim{e} : \Veim{e} \in \var{pfs} \implies
+\Veim{e} \in \var{fc}$
+\becuz{}
+\eqref{eq:partial-fleeting-sequence-20},
+and directly from
+\dref[partial fleeting sequence]{def:partial-fleeting-sequence}.
+} \\
 \label{eq:partial-fleeting-sequence-22}
 & \myparbox{%
-$\Veim{e} \in \var{fc} \equiv
+$\forall \; \Veim{e} :
+\Veim{e} \in \var{fc} \implies
 \exists \var{i} : 
-\iop{null-scan-op}{i}{\Veim{bas}} = \Veim{e}$
+\iop{null-scan-op}{\var{i}}{\Veim{bas}} = \Veim{e}$
 \becuz{}
 \eqref{eq:partial-fleeting-sequence-20}.
+} \\
+\label{eq:partial-fleeting-sequence-24}
+& \myparbox{%
+$\forall \; \Veim{e} :
+\Veim{e} \in \var{fc} \implies
+\exists \var{i} : 
+\Vel{pfs}{i} = \Veim{e}$
+\becuz{}
+\eqref{eq:partial-fleeting-sequence-22},
+\dref[partial fleeting sequence]{def:partial-fleeting-sequence}.
+} \\
+\label{eq:partial-fleeting-sequence-26}
+& \myparbox{%
+$\forall \; \Veim{e} : \Veim{e} \in \var{fc} \implies
+\Veim{e} \in \var{pfs}$
+\becuz{}
+\eqref{eq:partial-fleeting-sequence-24}.
+} \\
+\label{eq:partial-fleeting-sequence-29}
+& \myparbox{%
+$\forall \; \Veim{e} : \Veim{e} \in \var{fc} \equiv
+\Veim{e} \in \var{pfs}$
+\becuz{}
+\eqref{eq:partial-fleeting-sequence-22},
+\eqref{eq:partial-fleeting-sequence-26},
+which shows the theorem.
+\qedhere
 }
 \end{align}
-Let the sequence of sets \var{g} be
-such that 
-\begin{equation}
-\label{eq:partial-fleeting-sequence-30}
-    \Vel{g}{i} = \lbrace \Veim{eim} | \iop{null-scan-op}{i}{\Veim{bas}} = \Veim{eim}
-    \rbrace.
-\end{equation}
-Every \myfnname{null-scan-op} is a partial function
-\becuz{} \tref{t:null-scan-op-function}.
-Therefore its iterated form,
-$\myfnname{null-scan-op}^{\displaystyle \var{i}}$, is a partial function.
-Therefore every non-empty \Vel{g}{i} in 
-\eqref{eq:partial-fleeting-sequence-30} is a singleton.
-And, from
-\dref[partial fleeting sequence]{def:partial-fleeting-sequence},
-we see that, for very \var{i} such that \Vel{g}{i} is non-empty,
-$\Vel{pfs}{i} = \Vel{g}{i}$.
-Therefore \var{pfs} contains every element of every set in the sequence \var{g}.
-Therefore \var{pfs} contains every element of \var{fc}.
-
-TODO: finish
 \end{proof}
+
+\begin{theorem}
+\ttitle{Length of partial fleeting sequence}
+\label{t:partial-fleeting-sequence-length}
+The length of a partial fleeting sequence is
+\begin{itemize}
+\item
+less than or equal to \Vincr{nulrun},
+where \var{nulrun} is
+the longest consecutive run of nulling
+symbols on the RHS of a rule;
+\item
+less than the length of the longest rule; and
+\item
+\order{c}, where \var{c} is a constant
+which depends on the grammar.
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+TODO
+\end{proof}
+
+TODO: TOHERE
 
 \begin{theorem}
 \ttitle{Partial fleeting sequence properties}
@@ -6215,41 +6336,8 @@ Then the following hold:
     \hspace*{2em} $\Left{\Vinst{nul}} = \Right{\Vel{pfs}{i}},$ and \newline
     \hspace*{2em} $\Right{\Vinst{nul}} = \Right{\Vel{pfs}{i}}.$
 } \\
-\label{eq:partial-fleeting-sequence-properties-req-30}
-& \myparbox{%
-The length of \var{pfs}
-is less than the longest consecutive run of nulling
-symbols on the RHS of a rule.
-} \\
-\label{eq:partial-fleeting-sequence-properties-req-32}
-& \myparbox{%
-The length of \var{pfs}
-is less than the length of the longest rule.
-} \\
-\label{eq:partial-fleeting-sequence-properties-req-34}
-& \myparbox{%
-The length of \var{pfs}
-is \order{c}, where \var{c} is a constant
-which depends on the grammar.
-}
 \end{align}
 \end{subequations}
-\end{theorem}
-
-\begin{proof}
-TODO.
-\end{proof}
-
-\begin{theorem}
-\ttitle{Partial fleeting sequence uniqueness}
-\label{t:partial-fleeting-sequence-uniq}
-Let \Veim{e} be a valid EIM
-and let \var{fc} be the fleeting closure of 
-\Veim{e}.
-Then there is exactly one partial fleeting closure,
-call it \var{pfc},
-such that \var{pfc} contains all and only
-the EIM's in \var{fc}.
 \end{theorem}
 
 \begin{proof}
