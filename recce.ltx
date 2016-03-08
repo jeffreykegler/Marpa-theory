@@ -6053,6 +6053,106 @@ From the step, we have the induction
 and the theorem.
 \end{proof}
 
+\begin{theorem}
+\ttitle{Iterated \myfnname{null-scan-op} and nulls}
+\label{t:iterated-null-scan-op-and-nulls}
+Let \iop{null-scan-op}{\var{n}}{\Veim{e}} be
+defined for some valid \Veim{e}.
+Then
+\begin{subequations}
+\renewcommand{\theequation}{R\arabic{equation}}
+\begin{align}
+\label{eq:iterated-null-scan-op-and-nulls-req-10}
+& \myparbox{%
+$\forall \; \var{i} : (0 \le \var{i} < \var{n})$
+\newline
+\hspace*{2em} $\implies \Postdot{\iop{null-scan-op}{\var{i}}{\Veim{e}}} = \epsilon$.
+}
+\\
+\label{eq:iterated-null-scan-op-and-nulls-req-12}
+& \myparbox{%
+$\forall \; \var{i} : (0 < \var{i} \le \var{n})$
+\newline
+\hspace*{2em} $\implies \Predot{\iop{null-scan-op}{\var{i}}{\Veim{e}}} = \epsilon$.
+}
+\\
+\label{eq:iterated-null-scan-op-and-nulls-req-14}
+& \myparbox{%
+    If $\var{r} = \Rule{\iop{null-scan-op}{\var{i}}{\Veim{e}}}$
+    for any
+    $0 \le \var{j} \le \var{n}$, then
+    \newline
+  \hspace*{1em} $\RHS{\var{r}} \big[
+    \Dotix{\el{pfs}{0}} \ldots \Dotix{\el{pfs}{\Vdecr{n}}}
+  \big] = \epsilon$.
+}
+\end{align}
+\end{subequations}
+\end{theorem}
+
+\begin{proof}
+TODO
+
+\myparbox{%
+$\forall \var{i} : 0 < \var{i} \le \var{n}$ \newline
+\hspace*{1em} $\implies (\Predot{\iop{null-scan-op}{\var{n}}{\Veim{e}}}$ \newline
+\hspace*{3em} $= \Postdot{\iop{null-scan-op}{(\Vdecr{n})}{\Veim{e}}})$ \newline
+\becuz{}
+\dref[Predot]{def:predot},
+\dref[Postdot]{def:postdot},
+\dref[\myfnname{null-scan-op}]{def:null-scan-op},
+\tref{t:null-scan-from-down-cause}
+and
+\tref{t:null-scan-op-function}.
+}
+
+\myparbox{%
+$\forall \var{i} : 0 \le \var{i} < \var{n}$ \newline
+\hspace*{1em} $\implies ( \Postdot{\iop{null-scan-op}{\var{n}}{\Veim{e}}}$ \newline
+\hspace*{3em} $= \el{rhs}{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{e}}}})$
+\newline
+\becuz{}
+\dref[Postdot]{def:postdot},
+\dref[Dot index]{def:dotted-rule},
+\dref[DR notion refering to EIM]{def:eim-dr-notions}.
+}
+
+\myparbox{%
+\iop{null-scan-op}{\var{n}}{\Veim{e}} is defined
+\becuz{}
+ASM for this theorem.
+}
+
+\myparbox{%
+$\forall \var{i} : 0 \le \var{i} \le \var{n}$ \newline
+\hspace*{1em} $\implies \iop{null-scan-op}{\var{i}}{\Veim{e}}$ are defined
+\newline
+\becuz{}
+ASM for this theorem.
+}
+
+\myparbox{%
+$\forall \var{i} : 0 < \var{i} \le \var{n}$ \newline
+\hspace*{1em} $\implies \iop{null-scan-op}{\var{i}}{\Veim{e}}$ \newline
+\hspace*{3em} $= \op{null-scan-op}{\iop{null-scan-op}{(\Vdecr{i})}{\Veim{e}}}$.
+\newline
+\becuz{}
+definition of an iterated function.
+}
+
+\myparbox{%
+$\forall \var{i} : 0 \le \var{i} < \var{n}$ \newline
+\hspace*{1em} $\implies \Postdot{\iop{null-scan-op}{\var{i}}{\Veim{e}}} = \epsilon$ \newline
+\becuz{}
+TODO,
+\tref{t:null-scan-op-definedness}.
+}
+
+
+TODO: finish
+
+\end{proof}
+
 \begin{definition}
 \dtitle{Partial fleeting sequence}
 \label{def:partial-fleeting-sequence}
@@ -6312,6 +6412,14 @@ of \Veim{bas}.
 \end{theorem}
 
 \begin{proof}
+
+$\forall \; \var{i} : (0 < \var{i} \le \Vlastix{pfs})
+\implies (\exists \Veim{e} :
+\Vel{pfs}{i} = \Vop{null-scan-op}{\iop{null-scan-op}{(Vdecr{i})}{\Veim{e}}}
+$
+\becuz{}
+TODO
+
 TODO
 \end{proof}
 
