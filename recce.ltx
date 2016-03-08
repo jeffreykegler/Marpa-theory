@@ -6288,7 +6288,30 @@ which shows the reductio.
 From the reductio,
 we conclude that
 \var{pfs1} = \var{pfs2}.
+\end{proof}
 
+\begin{theorem}
+Let \var{pfs} be the partial fleeting sequence
+of \Veim{bas}.
+\begin{align}
+\label{eq:partial-fleeting-sequence-properties-req-27}
+& \forall \; \var{i} : (0 \le \var{i} < \Vlastix{pfs})
+  \implies \Postdot{\Vel{pfs}{i}} = \epsilon.
+\\
+\label{eq:partial-fleeting-sequence-properties-req-28}
+& \myparbox{%
+    If $\var{r} = \Rule{\Vel{pfs}{i}}$
+    for any
+    $0 \le \var{i} \le \Vlastix{pfs}$, then
+    \newline
+  \hspace*{2em} $\RHS{\var{r}} \big[
+    \Dotix{\el{pfs}{0}} \ldots \Dotix{\el{pfs}{\Vlastix{pfs}}}
+  \big] = \epsilon$.
+}
+\end{align}
+\end{theorem}
+
+\begin{proof}
 TODO
 \end{proof}
 
@@ -6352,20 +6375,6 @@ Then the following hold:
   & \qquad \implies \Vincr{\Dotix{\Vel{pfs}{i}}} = \Dotix{\el{pfs}{\Vincr{i}}}.
   \end{aligned}
 \\[0.5ex]
-\label{eq:partial-fleeting-sequence-properties-req-27}
-& \forall \; \var{i} : (0 \le \var{i} < \Vlastix{pfs})
-  \implies \Postdot{\Vel{pfs}{i}} = \epsilon.
-\\
-\label{eq:partial-fleeting-sequence-properties-req-28}
-& \myparbox{%
-    If $\var{r} = \Rule{\Vel{pfs}{i}}$
-    for any
-    $0 \le \var{i} \le \Vlastix{pfs}$, then
-    \newline
-  \hspace*{2em} $\RHS{\var{r}} \big[
-    \Dotix{\el{pfs}{0}} \ldots \Dotix{\el{pfs}{\Vlastix{pfs}}}
-  \big] = \epsilon$.
-} \\
 \label{eq:partial-fleeting-sequence-properties-req-30-1}
 & \myparbox{%
   For every \var{i} such that
