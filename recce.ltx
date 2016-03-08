@@ -6232,6 +6232,67 @@ which shows the theorem.
 \end{proof}
 
 \begin{theorem}
+\ttitle{Partial fleeting sequence is unique}
+\label{t:partial-fleeting-sequence-uniq}
+Let \Veim{bas} be a valid EIM.
+The partial fleeting sequence of \Veim{bas} is unique.
+\end{theorem}
+
+\begin{proof}
+The proof is by reductio.
+\begin{align}
+\label{eq:partial-fleeting-sequence-uniq-10}
+\myparbox{%
+\var{pfs1} and \var{pfs2} are partial fleeting sequences
+of \Veim{bas},
+and $\var{pfs1} \neq \var{pfs2}$
+\becuz{}
+ASM for reductio.
+} \\
+\label{eq:partial-fleeting-sequence-uniq-12}
+\myparbox{%
+There is at least one index, \var{ix}, such that
+$\Vel{pfs1}{ix} \neq \Vel{pfs2}{ix}$
+\becuz{}
+\eqref{eq:partial-fleeting-sequence-uniq-10}.
+} \\
+\label{eq:partial-fleeting-sequence-uniq-14}
+\myparbox{%
+There is a first index, \var{ix1}, such that
+$\Vel{pfs1}{ix1} \neq \Vel{pfs2}{ix1}$
+\becuz{}
+\eqref{eq:partial-fleeting-sequence-uniq-12}.
+} \\
+\label{eq:partial-fleeting-sequence-uniq-16}
+\myparbox{%
+$\Vel{pfs1}{ix1} = \iop{null-scan-op}{(\var{ix1})}{\Veim{bas}}$
+\becuz{}
+\dref[partial fleeting sequence]{def:partial-fleeting-sequence}.
+} \\
+\label{eq:partial-fleeting-sequence-uniq-18}
+\myparbox{%
+$\Vel{pfs2}{ix1} = \iop{null-scan-op}{(\var{ix1})}{\Veim{bas}}$
+\becuz{}
+\dref{def:partial-fleeting-sequence}.
+} \\
+\label{eq:partial-fleeting-sequence-uniq-20}
+\myparbox{%
+$\Vel{pfs1}{ix1} = \Vel{pfs2}{ix1}$
+\becuz{}
+\eqref{eq:partial-fleeting-sequence-uniq-16},
+\eqref{eq:partial-fleeting-sequence-uniq-18},
+which shows the reductio.
+}
+\end{align}
+
+From the reductio,
+we conclude that
+\var{pfs1} = \var{pfs2}.
+
+TODO
+\end{proof}
+
+\begin{theorem}
 \ttitle{Length of partial fleeting sequence}
 \label{t:partial-fleeting-sequence-length}
 The length of a partial fleeting sequence is
@@ -6242,7 +6303,7 @@ where \var{nulrun} is
 the longest consecutive run of nulling
 symbols on the RHS of a rule;
 \item
-less than the length of the longest rule; and
+less that or equal to the length of the longest rule; and
 \item
 \order{c}, where \var{c} is a constant
 which depends on the grammar.
