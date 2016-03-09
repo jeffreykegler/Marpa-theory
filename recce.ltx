@@ -5818,34 +5818,67 @@ and
 \begin{theorem}
 \ttitle{Iterated \myfnname{null-scan-op}}
 \label{t:iterated-null-scan-op}
-Let \Veim{e} be a valid EIM,
-and let \var{rhs} be the RHS of its rule
-such that, for some \var{x},
+Let \Veim{bas} be a valid EIM.
+Let \var{rhs} be the RHS of \Rule{\Veim{bas}}.
+Let \var{x} be an integer such that
 \[
-\forall \; \var{i} : \Dotix{\Veim{e}} \le \var{i} < \Dotix{\Veim{e}}+\var{x} \implies \Vel{rhs}{i} = \epsilon.
+0 \le \var{x} \le \big(
+  \xxsubtract{\Vsize{rhs}}{\Dotix{\Veim{bas}}}
+\big).
 \]
-Then
+Then, if
 \[
-\Dotix{\iop{null-scan-op}{\var{x}}{\Veim{e}}} = \Dotix{\Veim{e}} + \var{x}.
+\forall \; \var{i} :
+\left(
+\begin{aligned}
+  & \Dotix{\Veim{bas}} \le \var{i} < \Dotix{\Veim{bas}}+\var{x}
+  \\
+  & \quad \implies \Vel{rhs}{i} = \epsilon
+\end{aligned}
+\right),
 \]
+we have all of the following:
+\begin{subequations}
+\renewcommand{\theequation}{R\arabic{equation}}
+\begin{align}
+\label{eq:iterated-null-scan-op-req-1}
+\Rule{\iop{null-scan-op}{\var{x}}{\Veim{bas}}} & = \Rule{\Veim{bas}}. \\
+\label{eq:iterated-null-scan-op-req-2}
+\Left{\iop{null-scan-op}{\var{x}}{\Veim{bas}}} & = \Left{\Veim{bas}}. \\
+\label{eq:iterated-null-scan-op-req-3}
+\Right{\iop{null-scan-op}{\var{x}}{\Veim{bas}}} & = \Right{\Veim{bas}}. \\
+\label{eq:iterated-null-scan-op-req-4}
+\Dotix{\iop{null-scan-op}{\var{x}}{\Veim{bas}}} & = \Dotix{\Veim{bas}} + \var{x}.
+\end{align}
+\end{subequations}
 \end{theorem}
 
 \begin{proof}
+TODO
+
 We proceed by induction, where the induction hypothesis is that
 \begin{subequations}
 \label{eq:iterated-null-scan-op-10}
 \begin{align}
-\label{eq:iterated-null-scan-op-10a}
-& \text{If} \quad \forall \; \var{i}
+\label{eq:iterated-null-scan-op-10-4}
+& \text{if} \quad \forall \; \var{i}
 \left(
 \begin{aligned}
 & \Dotix{\Veim{e}} \le \var{i} < \Dotix{\Veim{e}}+\var{x}
 \\
-& \qquad \implies \Vel{rhs}{i} = \epsilon
+& \quad \implies \Vel{rhs}{i} = \epsilon
 \end{aligned}
 \right)
-\\
-\label{eq:iterated-null-scan-op-10b}
+\intertext{%
+then we have all of the following:
+}
+\label{eq:iterated-null-scan-op-10-6}
+& \Rule{\iop{null-scan-op}{\var{x}}{\Veim{e}}} = \Rule{\Veim{e}}. \\
+\label{eq:iterated-null-scan-op-10-8}
+& \Left{\iop{null-scan-op}{\var{x}}{\Veim{e}}} = \Left{\Veim{e}}. \\
+\label{eq:iterated-null-scan-op-10-10}
+& \Right{\iop{null-scan-op}{\var{x}}{\Veim{e}}} = \Right{\Veim{e}}. \\
+\label{eq:iterated-null-scan-op-10-12}
 & \text{then} \quad \Dotix{\iop{null-scan-op}{\var{x}}{\Veim{e}}} = \Dotix{\Veim{e}} + \var{x}.
 \end{align}
 \end{subequations}
@@ -5853,7 +5886,9 @@ We take as the basis \eqref{eq:iterated-null-scan-op-10}
 for $\var{x} = 0$.
 If 
 $\var{x} = 0$,
-\eqref{eq:iterated-null-scan-op-10b} is true
+\eqref{eq:iterated-null-scan-op-10-6}--%
+\eqref{eq:iterated-null-scan-op-10-12}
+are true
 because
 $\iop{null-scan-op}{0}{\Veim{e}} = \Veim{e}$,
 which shows
@@ -5883,7 +5918,7 @@ assume that
 \begin{align}
 \label{eq:iterated-null-scan-op-12}
 & \myparbox{%
-\eqref{eq:iterated-null-scan-op-10a}
+\eqref{eq:iterated-null-scan-op-10-4}
 is false
 for $\var{x} = \Vincr{n}$
 \becuz{}
@@ -5907,7 +5942,7 @@ assume that
 \begin{align}
 \label{eq:iterated-null-scan-op-20}
 & \myparbox{%
-\eqref{eq:iterated-null-scan-op-10a}
+\eqref{eq:iterated-null-scan-op-10-4}
 is true for 
 $\var{x} = \Vincr{n}$
 \becuz{}
@@ -5947,7 +5982,7 @@ ASM for case of step.
 \\
 \label{eq:iterated-null-scan-op-26}
 & \myparbox{%
-\eqref{eq:iterated-null-scan-op-10a} for
+\eqref{eq:iterated-null-scan-op-10-4} for
 $\var{x} = \var{n}$
 \becuz{}
 \eqref{eq:iterated-null-scan-op-24}.
