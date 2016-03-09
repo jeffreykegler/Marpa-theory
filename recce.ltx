@@ -5879,7 +5879,7 @@ then we have all of the following:
 \label{eq:iterated-null-scan-op-10-10}
 & \Right{\iop{null-scan-op}{\var{x}}{\Veim{e}}} = \Right{\Veim{e}}. \\
 \label{eq:iterated-null-scan-op-10-12}
-& \text{then} \quad \Dotix{\iop{null-scan-op}{\var{x}}{\Veim{e}}} = \Dotix{\Veim{e}} + \var{x}.
+& \Dotix{\iop{null-scan-op}{\var{x}}{\Veim{e}}} = \Dotix{\Veim{e}} + \var{x}.
 \end{align}
 \end{subequations}
 We take as the basis \eqref{eq:iterated-null-scan-op-10}
@@ -5996,7 +5996,8 @@ $\var{x} = \var{n}$
 } \\
 \label{eq:iterated-null-scan-op-30}
 & \myparbox{%
-\eqref{eq:iterated-null-scan-op-10b} for
+\eqref{eq:iterated-null-scan-op-10-12}
+for
 $\var{x} = \var{n}$
 \becuz{}
 \eqref{eq:iterated-null-scan-op-26},
@@ -6005,8 +6006,11 @@ $\var{x} = \var{n}$
 \label{eq:iterated-null-scan-op-32}
 & \myparbox{%
 $\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{e}}} = \Dotix{\Veim{e}} + \var{n}$
-\becuz
+\becuz{}
 \eqref{eq:iterated-null-scan-op-30}.
+} \\
+& \myparbox{%
+TODO: TOHERE
 } \\
 \label{eq:iterated-null-scan-op-34}
 & \myparbox{%
@@ -6074,9 +6078,55 @@ is true for
 $\var{x} = \Vincr{n}$
 \becuz{}
 \eqref{eq:iterated-null-scan-op-44},
-which shows the second case of the
+TODO which shows the second case of the
 induction step.
-}
+} \\
+%
+\label{eq:iterated-null-scan-op-50}
+& \myparbox{%
+\eqref{eq:iterated-null-scan-op-10-6}
+for
+$\var{x} = \var{n}$
+\becuz{}
+\eqref{eq:iterated-null-scan-op-26},
+\eqref{eq:iterated-null-scan-op-28}.
+} \\
+\label{eq:iterated-null-scan-op-52}
+& \myparbox{%
+$\Rule{\iop{null-scan-op}{\var{n}}{\Veim{e}}} = \Rule{\Veim{e}}$
+\becuz
+\eqref{eq:iterated-null-scan-op-50}.
+} \\
+\label{eq:iterated-null-scan-op-54}
+& \myparbox{%
+\eqref{eq:iterated-null-scan-op-10-8}
+for
+$\var{x} = \var{n}$
+\becuz{}
+\eqref{eq:iterated-null-scan-op-26},
+\eqref{eq:iterated-null-scan-op-28}.
+} \\
+\label{eq:iterated-null-scan-op-56}
+& \myparbox{%
+$\Left{\iop{null-scan-op}{\var{n}}{\Veim{e}}} = \Left{\Veim{e}}$
+\becuz{}
+\eqref{eq:iterated-null-scan-op-54}.
+} \\
+\label{eq:iterated-null-scan-op-58}
+& \myparbox{%
+\eqref{eq:iterated-null-scan-op-10-10}
+for
+$\var{x} = \var{n}$
+\becuz{}
+\eqref{eq:iterated-null-scan-op-26},
+\eqref{eq:iterated-null-scan-op-28}.
+} \\
+\label{eq:iterated-null-scan-op-60}
+& \myparbox{%
+$\Right{\iop{null-scan-op}{\var{n}}{\Veim{e}}} = \Right{\Veim{e}}$
+\becuz
+\eqref{eq:iterated-null-scan-op-58}.
+} \\
 \end{align}
 
 Equations
