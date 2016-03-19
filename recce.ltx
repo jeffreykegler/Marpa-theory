@@ -5830,11 +5830,11 @@ Then, if
 \[
 \forall \; \var{i} :
 \left(
-\begin{aligned}
-  & \Dotix{\Veim{bas}} \le \var{i} < \Dotix{\Veim{bas}}+\var{x}
+\begin{gathered}
+  \Dotix{\Veim{bas}} \le \var{i} < \Dotix{\Veim{bas}}+\var{x}
   \\
-  & \quad \implies \Vel{rhs}{i} = \epsilon
-\end{aligned}
+  \quad \implies \Vel{rhs}{i} = \epsilon
+\end{gathered}
 \right),
 \]
 we have all of the following:
@@ -5854,8 +5854,6 @@ we have all of the following:
 \end{theorem}
 
 \begin{proof}
-TODO
-
 We proceed by induction, where the induction hypothesis is that
 \begin{subequations}
 \label{eq:iterated-null-scan-op-10}
@@ -5863,15 +5861,17 @@ We proceed by induction, where the induction hypothesis is that
 \label{eq:iterated-null-scan-op-10-4}
 & \text{if} \quad \forall \; \var{i}
 \left(
-\begin{aligned}
-& \Dotix{\Veim{e}} \le \var{i} < \Dotix{\Veim{e}}+\var{x}
+\begin{gathered}
+\Dotix{\Veim{e}} \le \var{i} < \Dotix{\Veim{e}}+\var{x}
 \\
-& \quad \implies \Vel{rhs}{i} = \epsilon
-\end{aligned}
+\implies \Vel{rhs}{i} = \epsilon
+\\
+\end{gathered}
 \right)
-\intertext{%
-then we have all of the following:
-}
+\\
+\notag
+& \text{then we have all of the following:}
+\\
 \label{eq:iterated-null-scan-op-10-6}
 & \Rule{\iop{null-scan-op}{\var{x}}{\Veim{e}}} = \Rule{\Veim{e}}. \\
 \label{eq:iterated-null-scan-op-10-8}
@@ -5910,7 +5910,9 @@ to show
 for $\var{x} = \Vincr{n}$.
 }
 \end{equation}
-We proceed by cases.
+
+For the step,
+we proceed by cases.
 
 \textbf{Step case 1}:
 For the first case of the induction step,
