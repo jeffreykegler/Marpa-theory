@@ -5819,7 +5819,6 @@ and
 \ttitle{Iterated \myfnname{null-scan-op}}
 \label{t:iterated-null-scan-op}
 Let \Veim{bas} be a valid EIM.
-Let \var{rhs} be the RHS of \Rule{\Veim{bas}}.
 Let \var{x} be an integer such that
 \[
 0 \le \var{x} \le \big(
@@ -5833,7 +5832,7 @@ Then, if
 \begin{gathered}
   \Dotix{\Veim{bas}} \le \var{i} < \Dotix{\Veim{bas}}+\var{x}
   \\
-  \quad \implies \Vel{rhs}{i} = \epsilon
+  \quad \implies \el{\RHS{\Veim{bas}}}{\var{i}} = \epsilon
 \end{gathered}
 \right),
 \]
@@ -5862,9 +5861,9 @@ We proceed by induction, where the induction hypothesis is that
 & \text{if} \quad \forall \; \var{i}
 \left(
 \begin{gathered}
-\Dotix{\Veim{e}} \le \var{i} < \Dotix{\Veim{e}}+\var{x}
+\Dotix{\Veim{bas}} \le \var{i} < \Dotix{\Veim{bas}}+\var{x}
 \\
-\implies \Vel{rhs}{i} = \epsilon
+  \implies \el{\RHS{\Veim{bas}}}{\var{i}} = \epsilon
 \\
 \end{gathered}
 \right)
@@ -5873,13 +5872,13 @@ We proceed by induction, where the induction hypothesis is that
 & \text{then we have all of the following:}
 \\
 \label{eq:iterated-null-scan-op-10-6}
-& \Rule{\iop{null-scan-op}{\var{x}}{\Veim{e}}} = \Rule{\Veim{e}}. \\
+& \Rule{\iop{null-scan-op}{\var{x}}{\Veim{bas}}} = \Rule{\Veim{bas}}. \\
 \label{eq:iterated-null-scan-op-10-8}
-& \Left{\iop{null-scan-op}{\var{x}}{\Veim{e}}} = \Left{\Veim{e}}. \\
+& \Left{\iop{null-scan-op}{\var{x}}{\Veim{bas}}} = \Left{\Veim{bas}}. \\
 \label{eq:iterated-null-scan-op-10-10}
-& \Right{\iop{null-scan-op}{\var{x}}{\Veim{e}}} = \Right{\Veim{e}}. \\
+& \Right{\iop{null-scan-op}{\var{x}}{\Veim{bas}}} = \Right{\Veim{bas}}. \\
 \label{eq:iterated-null-scan-op-10-12}
-& \Dotix{\iop{null-scan-op}{\var{x}}{\Veim{e}}} = \Dotix{\Veim{e}} + \var{x}.
+& \Dotix{\iop{null-scan-op}{\var{x}}{\Veim{bas}}} = \Dotix{\Veim{bas}} + \var{x}.
 \end{align}
 \end{subequations}
 We take as the basis \eqref{eq:iterated-null-scan-op-10}
@@ -5890,7 +5889,7 @@ $\var{x} = 0$,
 \eqref{eq:iterated-null-scan-op-10-12}
 are true
 because
-$\iop{null-scan-op}{0}{\Veim{e}} = \Veim{e}$,
+$\iop{null-scan-op}{0}{\Veim{bas}} = \Veim{bas}$,
 which shows
 \eqref{eq:iterated-null-scan-op-10}
 and the basis.
@@ -5910,9 +5909,7 @@ to show
 for $\var{x} = \Vincr{n}$.
 }
 \end{equation}
-
-For the step,
-we proceed by cases.
+and proceed by cases.
 
 \textbf{Step case 1}:
 For the first case of the induction step,
@@ -5955,9 +5952,9 @@ ASM for case of step.
   & \forall \; \var{i}
   \left(
   \begin{aligned}
-    & \Dotix{\Veim{e}} \le \var{i} < \Dotix{\Veim{e}}+\Vincr{n}
+    & \Dotix{\Veim{bas}} \le \var{i} < \Dotix{\Veim{bas}}+\Vincr{n}
     \\
-    & \qquad \implies \Vel{rhs}{i} = \epsilon
+    & \qquad \implies \el{\RHS{\Veim{bas}}}{\var{i}} = \epsilon
     \\
   \end{aligned}
   \right)
@@ -5971,9 +5968,10 @@ ASM for case of step.
   & \forall \; \var{i}
   \left(
   \begin{aligned}
-    & \Dotix{\Veim{e}} \le \var{i} < \Dotix{\Veim{e}}+\var{n}
+    & \Dotix{\Veim{bas}} \le \var{i} < \Dotix{\Veim{bas}}+\var{n}
     \\
-    & \qquad \implies \Vel{rhs}{i} = \epsilon
+    & \qquad
+      \implies \el{\RHS{\Veim{bas}}}{\var{i}} = \epsilon
     \\
   \end{aligned}
   \right)
@@ -6007,7 +6005,7 @@ $\var{x} = \var{n}$
 } \\
 \label{eq:iterated-null-scan-op-32}
 & \myparbox{%
-$\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{e}}} = \Dotix{\Veim{e}} + \var{n}$
+$\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \Dotix{\Veim{bas}} + \var{n}$
 \becuz{}
 \eqref{eq:iterated-null-scan-op-30}.
 } \\
@@ -6016,8 +6014,8 @@ TODO: TOHERE
 } \\
 \label{eq:iterated-null-scan-op-34}
 & \myparbox{%
-\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{e}}} \newline
-\hspace*{3em} $= \el{rhs}{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{e}}}}$
+\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} \newline
+\hspace*{3em} $= \el{rhs}{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$
 \newline
 \becuz{}
 \dref[Postdot]{def:postdot},
@@ -6026,8 +6024,8 @@ TODO: TOHERE
 } \\
 \label{eq:iterated-null-scan-op-36}
 & \myparbox{%
-\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{e}}} \newline
-\hspace*{3em} $= \el{rhs}{\Dotix{\Veim{e} + \var{n}}}$
+\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} \newline
+\hspace*{3em} $= \el{rhs}{\Dotix{\Veim{bas} + \var{n}}}$
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-32},
@@ -6035,13 +6033,13 @@ TODO: TOHERE
 } \\
 \label{eq:iterated-null-scan-op-38}
 & \myparbox{%
-$\el{rhs}{\Dotix{\Veim{e} + \var{n}}} = \epsilon$
+$\el{rhs}{\Dotix{\Veim{bas} + \var{n}}} = \epsilon$
 \becuz{}
 \eqref{eq:iterated-null-scan-op-22}.
 } \\
 \label{eq:iterated-null-scan-op-40}
 & \myparbox{%
-$\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{e}}} = \epsilon$
+$\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \epsilon$
 \becuz{}
 \eqref{eq:iterated-null-scan-op-36},
 \eqref{eq:iterated-null-scan-op-38}.
@@ -6050,14 +6048,14 @@ $\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{e}}} = \epsilon$
 From
 \eqref{eq:iterated-null-scan-op-40},
 we know that 
-\iop{null-scan-op}{\Vincr{n}}{\Veim{e}}
+\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}
 is defined, so that
 }
 \label{eq:iterated-null-scan-op-42}
 & \myparbox{%
-\Dotix{\iop{null-scan-op}{(\Vincr{n})}{\Veim{e}}}
+\Dotix{\iop{null-scan-op}{(\Vincr{n})}{\Veim{bas}}}
 \newline
-\hspace*{3em} $= \Vincr{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{e}}}}$
+\hspace*{3em} $= \Vincr{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-40},
@@ -6065,9 +6063,9 @@ is defined, so that
 } \\
 \label{eq:iterated-null-scan-op-44}
 & \myparbox{%
-\Dotix{\iop{null-scan-op}{(\Vincr{n})}{\Veim{e}}}
+\Dotix{\iop{null-scan-op}{(\Vincr{n})}{\Veim{bas}}}
 \newline
-\hspace*{3em} $= \Dotix{\Veim{e}} + \var{n} + 1$
+\hspace*{3em} $= \Dotix{\Veim{bas}} + \var{n} + 1$
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-32},
@@ -6095,7 +6093,7 @@ $\var{x} = \var{n}$
 } \\
 \label{eq:iterated-null-scan-op-52}
 & \myparbox{%
-$\Rule{\iop{null-scan-op}{\var{n}}{\Veim{e}}} = \Rule{\Veim{e}}$
+$\Rule{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \Rule{\Veim{bas}}$
 \becuz
 \eqref{eq:iterated-null-scan-op-50}.
 } \\
@@ -6110,7 +6108,7 @@ $\var{x} = \var{n}$
 } \\
 \label{eq:iterated-null-scan-op-56}
 & \myparbox{%
-$\Left{\iop{null-scan-op}{\var{n}}{\Veim{e}}} = \Left{\Veim{e}}$
+$\Left{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \Left{\Veim{bas}}$
 \becuz{}
 \eqref{eq:iterated-null-scan-op-54}.
 } \\
@@ -6125,7 +6123,7 @@ $\var{x} = \var{n}$
 } \\
 \label{eq:iterated-null-scan-op-60}
 & \myparbox{%
-$\Right{\iop{null-scan-op}{\var{n}}{\Veim{e}}} = \Right{\Veim{e}}$
+$\Right{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \Right{\Veim{bas}}$
 \becuz
 \eqref{eq:iterated-null-scan-op-58}.
 } \\
