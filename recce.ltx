@@ -5853,7 +5853,33 @@ we have all of the following:
 \end{theorem}
 
 \begin{proof}
-We proceed by induction, where the induction hypothesis is that
+We proceed by induction.
+As a preliminary, two facts will be useful.
+First,
+the value of a function iterated zero times is
+its argument:
+\begin{equation}
+\label{eq:iterated-null-scan-op-NEW-4}
+\iop{null-scan-op}{0}{\Veim{bas}} = \Veim{bas}.
+\end{equation}
+Second,
+the postdot symbol of an EIM
+is the symbol on its RHS at the dot index:
+\begin{equation}
+\label{eq:iterated-null-scan-op-NEW-7}
+\myparbox{%
+$\forall \; \Veim{e} :
+\Postdot{\Veim{e}} = (\RHS{\Veim{e}})[\Dotix{\Veim{e}}]$
+\newline
+\becuz{}
+\dref[Postdot]{def:postdot},
+\dref[Dot index]{def:dotted-rule},
+\dref[DR notion refering to EIM]{def:eim-dr-notions}.
+}
+\end{equation}
+
+\textbf{Hypothesis}:
+The induction hypothesis is that
 \begin{subequations}
 \label{eq:iterated-null-scan-op-NEW-10}
 \begin{align}
@@ -5892,45 +5918,29 @@ We proceed by induction, where the induction hypothesis is that
 
 \textbf{Basis}:
 We take as the basis \eqref{eq:iterated-null-scan-op-NEW-10}
-for $\var{x} = 0$.
-The value of a function iterated zero times is considered to be
-its argument, so that
-\begin{align}
-\label{eq:iterated-null-scan-op-NEW-24}
-& \iop{null-scan-op}{0}{\Veim{bas}} = \Veim{bas}.
-\\
+on the assumption that
+\begin{equation}
 \label{eq:iterated-null-scan-op-NEW-26}
-& \var{x} = 0 \becuz \text{ASM for basis}.
-\\
-\label{eq:iterated-null-scan-op-NEW-28}
-& \myparbox{%
-$\forall \; \Veim{e} :
-\Postdot{\Veim{e}} = (\RHS{\Veim{e}})[\Dotix{\Veim{e}}]$
-\newline
-\becuz{}
-\dref[Postdot]{def:postdot},
-\dref[Dot index]{def:dotted-rule},
-\dref[DR notion refering to EIM]{def:eim-dr-notions}.
-}
-\end{align}
+\var{x} = 0 \becuz \text{ASM for basis}.
+\end{equation}
 We have
 \eqref{eq:iterated-null-scan-op-NEW-14}--%
 \eqref{eq:iterated-null-scan-op-NEW-18}
 from
-\eqref{eq:iterated-null-scan-op-NEW-24}
+\eqref{eq:iterated-null-scan-op-NEW-4}
 and
 \eqref{eq:iterated-null-scan-op-NEW-26}.
 We have
 \eqref{eq:iterated-null-scan-op-NEW-20}
 from
-\eqref{eq:iterated-null-scan-op-NEW-24},
+\eqref{eq:iterated-null-scan-op-NEW-4},
 \eqref{eq:iterated-null-scan-op-NEW-26}
 and
-\eqref{eq:iterated-null-scan-op-NEW-28}.
+\eqref{eq:iterated-null-scan-op-NEW-7}.
 The last requirement to show the basis is
-equation \eqref{eq:iterated-null-scan-op-NEW-22},
+\eqref{eq:iterated-null-scan-op-NEW-22},
 which follows from
-\eqref{eq:iterated-null-scan-op-NEW-24}
+\eqref{eq:iterated-null-scan-op-NEW-4}
 and
 \eqref{eq:iterated-null-scan-op-NEW-26}.
 
@@ -5983,7 +5993,7 @@ of the induction step.
 For the 2nd case,
 assume that
 \begin{align}
-\label{eq:iterated-null-scan-op-NEW-36}
+\label{eq:iterated-null-scan-op-NEW-37}
 & \myparbox{%
 \eqref{eq:iterated-null-scan-op-NEW-12}
 is true for 
@@ -6004,7 +6014,7 @@ ASM for case of step.
   \right)
   \\
   & \qquad \becuz
-  \eqref{eq:iterated-null-scan-op-NEW-36}.
+  \eqref{eq:iterated-null-scan-op-NEW-37}.
 \end{aligned}
 \\
 \label{eq:iterated-null-scan-op-NEW-40}
@@ -6046,14 +6056,14 @@ $\var{x} = \var{n}$
 } \\
 \label{eq:iterated-null-scan-op-NEW-48}
 & \myparbox{%
-\Right{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \Right{\Veim{bas}}
+\Left{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \Left{\Veim{bas}}
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-30},
 \eqref{eq:iterated-null-scan-op-NEW-44}.
 } \\
 \label{eq:iterated-null-scan-op-NEW-50}
 & \myparbox{%
-\Left{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \Left{\Veim{bas}}
+\Right{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \Right{\Veim{bas}}
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-30},
 \eqref{eq:iterated-null-scan-op-NEW-44}.
@@ -6068,132 +6078,95 @@ $\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \eqref{eq:iterated-null-scan-op-NEW-30},
 \eqref{eq:iterated-null-scan-op-NEW-44}.
 } \\
-\label{eq:iterated-null-scan-op-32}
+\label{eq:iterated-null-scan-op-NEW-53}
 & \myparbox{%
 $\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \Dotix{\Veim{bas}} + \var{n}$
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-30},
 \eqref{eq:iterated-null-scan-op-NEW-44}.
 } \\
-& \myparbox{%
-TODO: TOHERE
-} \\
-\label{eq:iterated-null-scan-op-34}
-& \myparbox{%
-\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} \newline
-\hspace*{3em} $= \el{rhs}{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$
-\newline
-\becuz{}
-\dref[Postdot]{def:postdot},
-\dref[Dot index]{def:dotted-rule},
-\dref[DR notion refering to EIM]{def:eim-dr-notions}.
-} \\
-\label{eq:iterated-null-scan-op-36}
-& \myparbox{%
-\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} \newline
-\hspace*{3em} $= \el{rhs}{\Dotix{\Veim{bas} + \var{n}}}$
-\newline
-\becuz{}
-\eqref{eq:iterated-null-scan-op-32},
-\eqref{eq:iterated-null-scan-op-34}.
-} \\
-\label{eq:iterated-null-scan-op-38}
-& \myparbox{%
-$\el{rhs}{\Dotix{\Veim{bas} + \var{n}}} = \epsilon$
-\becuz{}
-\eqref{eq:iterated-null-scan-op-22}.
-} \\
-\label{eq:iterated-null-scan-op-40}
+\label{eq:iterated-null-scan-op-NEW-54}
 & \myparbox{%
 $\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \epsilon$
 \becuz{}
-\eqref{eq:iterated-null-scan-op-36},
-\eqref{eq:iterated-null-scan-op-38}.
-}
-\intertext{%
-From
-\eqref{eq:iterated-null-scan-op-40},
-we know that 
-\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}
-is defined, so that
-}
-\label{eq:iterated-null-scan-op-42}
+\eqref{eq:iterated-null-scan-op-NEW-42},
+\eqref{eq:iterated-null-scan-op-NEW-52}.
+} \\
+\label{eq:iterated-null-scan-op-NEW-56}
 & \myparbox{%
-\Dotix{\iop{null-scan-op}{(\Vincr{n})}{\Veim{bas}}}
-\newline
-\hspace*{3em} $= \Vincr{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$
+$\Rule{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
+\hspace*{3em} $= \Rule{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}.$
 \newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-40},
+\eqref{eq:iterated-null-scan-op-NEW-54},
 \tref{t:null-scan-op-definedness}.
 } \\
-\label{eq:iterated-null-scan-op-44}
+\label{eq:iterated-null-scan-op-NEW-58}
 & \myparbox{%
-\Dotix{\iop{null-scan-op}{(\Vincr{n})}{\Veim{bas}}}
+$\Left{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
+\hspace*{3em} $= \Left{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}.$
 \newline
-\hspace*{3em} $= \Dotix{\Veim{bas}} + \var{n} + 1$
+\becuz{}
+\eqref{eq:iterated-null-scan-op-NEW-54},
+\tref{t:null-scan-op-definedness}.
+} \\
+\label{eq:iterated-null-scan-op-NEW-60}
+& \myparbox{%
+$\Right{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
+\hspace*{3em} $= \Right{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}.$
 \newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-32},
-\eqref{eq:iterated-null-scan-op-42}.
+\eqref{eq:iterated-null-scan-op-NEW-54},
+\tref{t:null-scan-op-definedness}.
 } \\
-\label{eq:iterated-null-scan-op-46}
+\label{eq:iterated-null-scan-op-NEW-62}
 & \myparbox{%
-\eqref{eq:iterated-null-scan-op-10b}
-is true for 
-$\var{x} = \Vincr{n}$
+$\incr{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$ \newline
+\hspace*{3em} $= \Dotix{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}.$
+\newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-44},
-TODO which shows the second case of the
-induction step.
+\eqref{eq:iterated-null-scan-op-NEW-54},
+\tref{t:null-scan-op-definedness}.
 } \\
-%
-\label{eq:iterated-null-scan-op-50}
+\label{eq:iterated-null-scan-op-NEW-64}
 & \myparbox{%
-\eqref{eq:iterated-null-scan-op-10-6}
-for
-$\var{x} = \var{n}$
+$\Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
+\hspace*{3em} $= \Rule{\op{null-scan-op}{\Veim{bas}}}.$
+\newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-26},
-\eqref{eq:iterated-null-scan-op-28}.
+\eqref{eq:iterated-null-scan-op-NEW-46},
+\eqref{eq:iterated-null-scan-op-NEW-56}.
 } \\
-\label{eq:iterated-null-scan-op-52}
+\label{eq:iterated-null-scan-op-NEW-66}
 & \myparbox{%
-$\Rule{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \Rule{\Veim{bas}}$
-\becuz
-\eqref{eq:iterated-null-scan-op-50}.
-} \\
-\label{eq:iterated-null-scan-op-54}
-& \myparbox{%
-\eqref{eq:iterated-null-scan-op-10-8}
-for
-$\var{x} = \var{n}$
+$\Left{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
+\hspace*{3em} $= \Left{\op{null-scan-op}{\Veim{bas}}}.$
+\newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-26},
-\eqref{eq:iterated-null-scan-op-28}.
+\eqref{eq:iterated-null-scan-op-NEW-48},
+\eqref{eq:iterated-null-scan-op-NEW-58}.
 } \\
-\label{eq:iterated-null-scan-op-56}
+\label{eq:iterated-null-scan-op-NEW-68}
 & \myparbox{%
-$\Left{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \Left{\Veim{bas}}$
+$\Right{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
+\hspace*{3em} $= \Right{\op{null-scan-op}{\Veim{bas}}}.$
+\newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-54}.
+\eqref{eq:iterated-null-scan-op-NEW-50},
+\eqref{eq:iterated-null-scan-op-NEW-60}.
 } \\
-\label{eq:iterated-null-scan-op-58}
+\label{eq:iterated-null-scan-op-NEW-68}
 & \myparbox{%
-\eqref{eq:iterated-null-scan-op-10-10}
-for
-$\var{x} = \var{n}$
+$\Dotix{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
+\hspace*{3em} $= \Dotix{\op{null-scan-op}{\Veim{bas}}} + \var{n} + 1.$
+\newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-26},
-\eqref{eq:iterated-null-scan-op-28}.
-} \\
-\label{eq:iterated-null-scan-op-60}
-& \myparbox{%
-$\Right{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \Right{\Veim{bas}}$
-\becuz
-\eqref{eq:iterated-null-scan-op-58}.
+\eqref{eq:iterated-null-scan-op-NEW-53},
+\eqref{eq:iterated-null-scan-op-NEW-62}.
 } \\
 \end{align}
+
+TODO: TOHERE
 
 Equations
 \eqref{eq:iterated-null-scan-op-14}
