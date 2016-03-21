@@ -991,6 +991,32 @@ For example, we would write
 \end{aligned}
 \]
 
+In this monograph,
+to avoid large numbers of trivial definitions,
+we allow a kind of ``inheritance''.
+For example,
+in what follows, we will define Earley items,
+which contain dotted rules.
+Dotted rules in turn contain rules.
+When we apply a rule notion to a dotted rule,
+we will mean to apply that notion to the rule of the dotted rule.
+When we apply a dotted rule notion to an Earley item,
+we will mean to apply that notion to the dotted rule
+of the Earley item.
+Inheritance will be transitive, so that when
+we apply a rule notion to an Earley item,
+we will mean to apply that notion to the rule
+of the dotted rule of the Earley item.
+
+In ordinary language,
+definitions are often inherited and
+our use of it will usually be natural
+and obvious.
+In the complex cases,
+and indeed in many of the simple ones,
+we will be explicit about our use
+of inherited definitions.
+
 \section{Undefineds and non-well-defineds}
 
 We will use the symbol \undefined%
@@ -2711,6 +2737,16 @@ or redundantly, as
 [ [ \Vsym{A} \de \Vsym{X} \Vsym{Y} \mydot \Vsym{Z} ], 2 ].
 \]
 
+\begin{definition}
+\dtitle{Rule notions applied to dotted rules}
+\label{def:dr-rule-notions}
+Whenever we apply a rule notion to a dotted rule,
+call it \Vdr{dr},
+we mean to apply that notion to
+the rule of the dotted rule,
+or \Rule{\Vdr{dr}}.
+\end{definition}
+
 \section{Properties}
 
 \begin{definition}
@@ -3630,8 +3666,8 @@ either explicitly or implicitly.
 \begin{definition}
 \dtitle{Dotted rule notions applied to EIMs}
 \label{def:eim-dr-notions}
-Whenever a dotted rule notion is applied to an EIM,
-it refers to the dotted rule of the EIM.
+Whenever we apply a dotted rule notion to an EIM,
+we mean to apply that notion to the dotted rule of the EIM.
 For example, a
 \xdfn{complete EIM}{complete (EIM)!wrt another EIM}
 a complete EIM is an EIM with a complete
@@ -3653,6 +3689,16 @@ is
     \var{i}, \var{j}
   \big].
 \]
+\end{definition}
+
+\begin{definition}
+\dtitle{Rule notions applied to EIMs}
+\label{def:eim-rule-notions}
+Whenever we apply a rule notion to an EIM,
+call it \Veim{e},
+we mean to apply that notion to
+the rule of the dotted rule of the EIM,
+or \Rule{\DR{\Veim{e}}}.
 \end{definition}
 
 \begin{definition}
@@ -5489,7 +5535,8 @@ in the statement of the theorem.
 }
 \end{equation}
 
-When we apply dotted rule notions
+Recall that
+when we apply dotted rule notions
 and functions to
 an EIM, we refer to its dotted rule.
 By the definition of a quasi-prediction
@@ -6649,8 +6696,8 @@ TODO.
 
 TODO: TOHERE
 
-Recall that dotted rule notions applied to EIM's
-refer to the dotted rule of the EIM
+Recall that when we apply dotted rule notions to EIM's
+we mean to apply them to the dotted rule of the EIM
 \dref{def:eim-dr-notions}.
 The following definition makes explicit a specific case
 of \dref{def:eim-dr-notions}.
