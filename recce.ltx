@@ -991,9 +991,15 @@ For example, we would write
 \end{aligned}
 \]
 
-In this monograph,
-to avoid large numbers of trivial definitions,
-we allow a kind of ``inheritance''.
+Metonymy, the subsitution of one thing for another with
+a related meaning,
+is common in language:
+for example, ``Hollywood'' is a town in California,
+but the word is often used to mean the U.S. entertainment
+industry.
+Where our use of metonymy is non-obvious or non-intuitive,
+we will make it a matter of explicit definition.
+
 For example,
 in what follows, we will define Earley items,
 which contain dotted rules.
@@ -1003,19 +1009,12 @@ we will mean to apply that notion to the rule of the dotted rule.
 When we apply a dotted rule notion to an Earley item,
 we will mean to apply that notion to the dotted rule
 of the Earley item.
-Inheritance will be transitive, so that when
-we apply a rule notion to an Earley item,
+Metonymic application of
+notions will be transitive so that,
+for example,
+when we apply a rule notion to an Earley item,
 we will mean to apply that notion to the rule
 of the dotted rule of the Earley item.
-
-In ordinary language,
-definitions are often inherited and
-our use of it will usually be natural
-and obvious.
-In the complex cases,
-and indeed in many of the simple ones,
-we will be explicit about our use
-of inherited definitions.
 
 \section{Undefineds and non-well-defineds}
 
@@ -6118,7 +6117,7 @@ $\var{x} = \var{n}$
 \label{eq:iterated-null-scan-op-NEW-52}
 & \myparbox{%
 $\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
-\hspace*{3em} $= \big( \RHS{\Rule{\Veim{bas}}} \big)
+\hspace*{1em} $= \big( \RHS{\Rule{\Veim{bas}}} \big)
 	      [\Dotix{\Veim{bas}} + \var{n}]$
 	      \newline
 \becuz{}
@@ -6142,7 +6141,7 @@ $\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \epsilon$
 \label{eq:iterated-null-scan-op-NEW-56}
 & \myparbox{%
 $\Rule{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
-\hspace*{3em} $= \Rule{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}.$
+\hspace*{1em} $= \Rule{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}.$
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-54},
@@ -6151,7 +6150,7 @@ $\Rule{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \label{eq:iterated-null-scan-op-NEW-58}
 & \myparbox{%
 $\Left{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
-\hspace*{3em} $= \Left{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}.$
+\hspace*{1em} $= \Left{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}.$
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-54},
@@ -6160,7 +6159,7 @@ $\Left{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \label{eq:iterated-null-scan-op-NEW-60}
 & \myparbox{%
 $\Right{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
-\hspace*{3em} $= \Right{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}.$
+\hspace*{1em} $= \Right{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}.$
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-54},
@@ -6169,7 +6168,7 @@ $\Right{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \label{eq:iterated-null-scan-op-NEW-62}
 & \myparbox{%
 $\incr{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$ \newline
-\hspace*{3em} $= \Dotix{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}.$
+\hspace*{1em} $= \Dotix{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}.$
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-54},
@@ -6178,7 +6177,7 @@ $\incr{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$ \newline
 \label{eq:iterated-null-scan-op-NEW-64}
 & \myparbox{%
 $\Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
-\hspace*{3em} $= \Rule{\op{null-scan-op}{\Veim{bas}}}.$
+\hspace*{1em} $= \Rule{\op{null-scan-op}{\Veim{bas}}}.$
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-46},
@@ -6187,7 +6186,7 @@ $\Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
 \label{eq:iterated-null-scan-op-NEW-66}
 & \myparbox{%
 $\Left{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
-\hspace*{3em} $= \Left{\op{null-scan-op}{\Veim{bas}}}.$
+\hspace*{1em} $= \Left{\op{null-scan-op}{\Veim{bas}}}.$
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-48},
@@ -6196,21 +6195,67 @@ $\Left{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
 \label{eq:iterated-null-scan-op-NEW-68}
 & \myparbox{%
 $\Right{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
-\hspace*{3em} $= \Right{\op{null-scan-op}{\Veim{bas}}}.$
+\hspace*{1em} $= \Right{\op{null-scan-op}{\Veim{bas}}}.$
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-50},
 \eqref{eq:iterated-null-scan-op-NEW-60}.
 } \\
-\label{eq:iterated-null-scan-op-NEW-68}
+\label{eq:iterated-null-scan-op-NEW-70}
 & \myparbox{%
 $\Dotix{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
-\hspace*{3em} $= \Dotix{\op{null-scan-op}{\Veim{bas}}} + \var{n} + 1.$
+\hspace*{1em} $= \Dotix{\op{null-scan-op}{\Veim{bas}}} + \var{n} + 1.$
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-53},
 \eqref{eq:iterated-null-scan-op-NEW-62}.
 } \\
+\label{eq:iterated-null-scan-op-NEW-72}
+& \myparbox{%
+\Postdot{\Veim{next}}
+\newline
+\hspace*{1em}
+$= (\RHS{\Veim{next}})[\Dotix{\Veim{next}}]$,
+\newline
+\hspace*{1em}
+where
+$\Veim{next} = \iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}$
+\newline
+\becuz{}
+\eqref{eq:iterated-null-scan-op-NEW-7}.
+} \\
+\label{eq:iterated-null-scan-op-NEW-74}
+& \myparbox{%
+\Postdot{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}
+\newline
+\hspace*{1em} $= (\RHS{
+ \Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}
+})[$
+\newline
+\hspace*{2em}
+  $\Dotix{\op{null-scan-op}{\Veim{bas}}} + \var{n} + 1$
+\newline
+\hspace*{1em}
+$]$, \becuz{}
+\eqref{eq:iterated-null-scan-op-NEW-70},
+\eqref{eq:iterated-null-scan-op-NEW-72},
+\dref[Rule notions applied to EIM's]{def:eim-rule-notions}.
+} \\
+\label{eq:iterated-null-scan-op-NEW-76}
+& \myparbox{%
+\Postdot{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}
+\newline
+\hspace*{1em}
+$= (\RHS{\Veim{bas}})[
+\Dotix{\op{null-scan-op}{\Veim{bas}}} + \var{n} + 1
+]$,
+\newline
+\hspace*{1em}
+\becuz{}
+\eqref{eq:iterated-null-scan-op-NEW-64},
+\eqref{eq:iterated-null-scan-op-NEW-74},
+\dref[Rule notions applied to EIM's]{def:eim-rule-notions}.
+}
 \end{align}
 
 TODO: TOHERE
