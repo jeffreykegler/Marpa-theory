@@ -6141,7 +6141,9 @@ $\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \epsilon$
 \label{eq:iterated-null-scan-op-NEW-56}
 & \myparbox{%
 $\Rule{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
-\hspace*{1em} $= \Rule{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}.$
+\hspace*{1em} $= \Rule{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$
+\newline
+\hspace*{1em} $= \Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$.
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-54},
@@ -6150,7 +6152,9 @@ $\Rule{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \label{eq:iterated-null-scan-op-NEW-58}
 & \myparbox{%
 $\Left{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
-\hspace*{1em} $= \Left{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}.$
+\hspace*{1em} $= \Left{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$
+\newline
+\hspace*{1em} $= \Left{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$.
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-54},
@@ -6159,7 +6163,9 @@ $\Left{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \label{eq:iterated-null-scan-op-NEW-60}
 & \myparbox{%
 $\Right{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
-\hspace*{1em} $= \Right{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}.$
+\hspace*{1em} $= \Right{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$
+\newline
+\hspace*{1em} $= \Right{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$.
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-54},
@@ -6168,7 +6174,9 @@ $\Right{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \label{eq:iterated-null-scan-op-NEW-62}
 & \myparbox{%
 $\incr{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$ \newline
-\hspace*{1em} $= \Dotix{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}.$
+\hspace*{1em} $= \Dotix{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$
+\newline
+\hspace*{1em} $= \Dotix{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$.
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-54},
@@ -6177,7 +6185,7 @@ $\incr{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$ \newline
 \label{eq:iterated-null-scan-op-NEW-64}
 & \myparbox{%
 $\Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
-\hspace*{1em} $= \Rule{\op{null-scan-op}{\Veim{bas}}}.$
+\hspace*{1em} $= \Rule{\Veim{bas}}.$
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-46},
@@ -6186,7 +6194,7 @@ $\Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
 \label{eq:iterated-null-scan-op-NEW-66}
 & \myparbox{%
 $\Left{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
-\hspace*{1em} $= \Left{\op{null-scan-op}{\Veim{bas}}}.$
+\hspace*{1em} $= \Left{\Veim{bas}}.$
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-48},
@@ -6195,7 +6203,7 @@ $\Left{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
 \label{eq:iterated-null-scan-op-NEW-68}
 & \myparbox{%
 $\Right{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
-\hspace*{1em} $= \Right{\op{null-scan-op}{\Veim{bas}}}.$
+\hspace*{1em} $= \Right{\Veim{bas}}.$
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-50},
@@ -6204,7 +6212,7 @@ $\Right{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
 \label{eq:iterated-null-scan-op-NEW-70}
 & \myparbox{%
 $\Dotix{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
-\hspace*{1em} $= \Dotix{\op{null-scan-op}{\Veim{bas}}} + \var{n} + 1.$
+\hspace*{1em} $= \Dotix{\Veim{bas}} + \var{n} + 1.$
 \newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-53},
@@ -6212,50 +6220,70 @@ $\Dotix{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
 } \\
 \label{eq:iterated-null-scan-op-NEW-72}
 & \myparbox{%
-\Postdot{\Veim{next}}
+\Postdot{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}
 \newline
 \hspace*{1em}
-$= (\RHS{\Veim{next}})[\Dotix{\Veim{next}}]$,
+$= (\RHS{
+  \iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}
+})[$
+\newline
+\hspace*{2em}
+  \Dotix{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}
 \newline
 \hspace*{1em}
-where
-$\Veim{next} = \iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}$
-\newline
+$]$,
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-7}.
+\eqref{eq:iterated-null-scan-op-NEW-7},
+\eqref{eq:iterated-null-scan-op-NEW-54},
+\tref{t:null-scan-op-definedness}.
 } \\
 \label{eq:iterated-null-scan-op-NEW-74}
 & \myparbox{%
 \Postdot{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}
 \newline
-\hspace*{1em} $= (\RHS{
- \Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}
-})[$
+\hspace*{1em}
+$= (\RHS{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}})[$
 \newline
 \hspace*{2em}
   $\Dotix{\op{null-scan-op}{\Veim{bas}}} + \var{n} + 1$
 \newline
 \hspace*{1em}
-$]$, \becuz{}
+$]$,
+\becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-70},
-\eqref{eq:iterated-null-scan-op-NEW-72},
-\dref[Rule notions applied to EIM's]{def:eim-rule-notions}.
+\eqref{eq:iterated-null-scan-op-NEW-72}.
 } \\
 \label{eq:iterated-null-scan-op-NEW-76}
 & \myparbox{%
 \Postdot{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}
 \newline
 \hspace*{1em}
-$= (\RHS{\Veim{bas}})[
-\Dotix{\op{null-scan-op}{\Veim{bas}}} + \var{n} + 1
-]$,
+$= (\RHS{\Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}})[$
+\newline
+\hspace*{2em}
+  $\Dotix{\op{null-scan-op}{\Veim{bas}}} + \var{n} + 1$
 \newline
 \hspace*{1em}
+$]$,
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-64},
-\eqref{eq:iterated-null-scan-op-NEW-74},
-\dref[Rule notions applied to EIM's]{def:eim-rule-notions}.
-}
+\eqref{eq:iterated-null-scan-op-NEW-74}.
+\dref[rule notions applied to EIM's]{def:eim-rule-notions}
+} \\
+\label{eq:iterated-null-scan-op-NEW-78}
+& \myparbox{%
+\Postdot{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}
+\newline
+\hspace*{1em}
+$= (\RHS{\Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}})[$
+\newline
+\hspace*{2em}
+  $\Dotix{\op{null-scan-op}{\Veim{bas}}} + \var{n} + 1$
+\newline
+\hspace*{1em}
+$]$,
+\becuz{}
+\eqref{eq:iterated-null-scan-op-NEW-76}.
+} \\
 \end{align}
 
 TODO: TOHERE
