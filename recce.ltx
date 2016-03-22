@@ -68,7 +68,7 @@
 % '\xyz' and '\Vxyz'.  The \Vxyz is the same
 % as the \xyz form, except that it typesets its
 % argument as a math variable in the style of this
-% document.
+% monograph.
 
 \newcommand{\myfnname}[1]{\ensuremath{\texttt{#1}}}
 \newcommand{\myopname}[1]{\ensuremath{\texttt{#1}}}
@@ -455,7 +455,7 @@ sometimes require changes
 to chapters whose content was thought to
 be settled.
 Therefore, it is possible that
-chapters in advanced draft status
+even chapters in advanced draft status
 will change dramatically.
 
 Chapters
@@ -497,7 +497,7 @@ in our earlier paper~\cite{Marpa-2013}.
 
 \section{A proven algorithm}
 
-While the presentation in this document is theoretical,
+While the presentation in this monograph is theoretical,
 the approach is practical.
 The Marpa::R2 implementation has been widely available
 for some time,
@@ -510,22 +510,21 @@ An algorithm may be as fast as reported, but may turn
 out not to allow
 adequate error reporting.
 Or a modification may speed up the recognizer,
-but require additional processing at evaluation time
-which undoes the speed advantage,
-leaving no compensating advantage for
-its additional complexity.
+but require additional processing at evaluation time,
+leaving no advantage to compensate for
+the additional complexity.
 
-In this document, we describe the Marpa
-algorithm,
-as it has been implemented in Marpa::R2.
+In this monograph, we describe the Marpa
+algorithm
+as it was implemented for Marpa::R2.
 In many cases,
-we believe there are approaches better than those we
+we believe there are better approaches better than those we
 have described.
-From our point of view, these techniques,
+But we treat these techniques,
 however solid their theory,
-are conjectures.
-When we mention a technique
-that is not implemented in
+as conjectures.
+Whenever we mention a technique
+that was not actually implemented in
 Marpa::R2,
 we will always explicitly state that
 that technique is not in Marpa as implemented.
@@ -547,7 +546,7 @@ those of Earley~\cite{Earley1970},
 and therefore never worse than $\order{\var{n}^3}$.
 
 \subsection{Linear time for practical grammars}
-Currently, the grammar suitable for practical
+Currently, the grammars suitable for practical
 use are thought to be a subset
 of the determistic context-free grammars.
 Using a technique discovered by
@@ -582,11 +581,11 @@ the error is fully recoverable.
 An application can try to read another
 token.
 The application can do this repeatedly
-for as long as the token is rejected.
+as long as none of the tokens is accepted.
 Once the application provides
-an acceptable token,
+an token that is accepted by the parser,
 parsing will continue
-as if the rejected scan attempt had never been made.
+as if the unsuccessful read attempts had never been made.
 
 \subsection{Ambiguous tokens}
 Marpa allows ambiguous tokens.
@@ -596,9 +595,7 @@ the same word might be a verb or a noun.
 Use of ambiguous tokens can be combined with
 with recovery from rejected tokens so that,
 for example, an application could react to the
-rejection of a token by reading two others,
-and letting the parser determine which one is
-correct.
+rejection of a token by reading two others.
 
 \section{Using the features}
 
@@ -609,16 +606,16 @@ Marpa's abilities in this respect are
 ground-breaking.
 For example,
 users typically regard an ambiguity as an error
-in the grammar, or at least in the input.
+in the grammar.
 Marpa, as currently implemented,
-will detect an ambiguity and report
+can detect an ambiguity and report
 specifically where it occurred
 and what the alternatives were.
 
 \subsection{Event driven parsing}
 As implemented,
 Marpa::R2~\cite{Marpa-R2},
-allows the user to define events.
+allows the user to define ``events''.
 Events can defined that trigger when a specified rule is complete,
 when a specified rule is predicted,
 when a specified symbol is nulled,
@@ -633,9 +630,11 @@ Left-eideticism, efficient error recovery
 and the event mechanism can be combined to allow
 the application to change the input in response to
 feedback from the parser.
-Unlike in traditional parser practice,
-where error detection is an act of desperation,
-Marpa's error detection can be used as the foundation
+In traditional parser practice,
+error detection is an act of desperation.
+In contrast,
+Marpa's error detection is so painless
+that it can be used as the foundation
 of new parsing techniques.
 
 For example,
@@ -669,12 +668,12 @@ treating them as highly defective HTML.
 
 \subsection{Ambiguity as a language design technique}
 In current practice, ambiguity is avoided in language design.
-This is very unlike the practice in the languages humans choose
+This is very different from the practice in the languages humans choose
 when communicating with each other.
 Human languages exploit ambiguity in order to design highly flexible,
 powerfully expressive languages.
 For example,
-the language of this document, English, is notoriously
+the language of this monograph, English, is notoriously
 ambiguous.
 
 Ambiguity of course can present a problem.
@@ -725,9 +724,9 @@ language could be efficiently parsed.
 With Marpa, this barrier is raised.
 As an example,
 Marpa::R2's own parser description language, the SLIF,
-allows precedenced rules,
-rules which are specified in an extended BNF,
-where the extension allows precedence and associativity
+allows ``precedenced rules''.
+Precedenced rules are specified in an extended BNF.
+The BNF extensions allow precedence and associativity
 to be specified for each RHS.
 
 Marpa::R2's precedenced rules are implemented as
@@ -736,20 +735,26 @@ The SLIF representation of the precedenced rule
 is parsed to create a BNF grammar which
 is equivalent and which
 has the desired precedence.
-Essentially, the SLIF does the usual textbook
-transformation of rules with precedence and
-associativity specified,
-into pure BNF.
+Essentially,
+the SLIF does a standard textbook transformation.
+The transformation starts
+with a set of rules,
+each of which has a precedence and
+an associativity specified.
+The result of the transformation is a set of
+rules in pure BNF.
 The SLIF's advantage is that it is powered by Marpa,
-and therefore can expect the grammar it auto-generates to
+and therefore the SLIF can be certain that the grammar
+that it auto-generates will
 parse in linear time.
 
 Notationally, Marpa's precedenced rules
 are an improvement over
 similar features
 in LALR-based parser generators like
-yacc or bison, but in the SLIF there are two important
-differences.
+yacc or bison.
+In the SLIF,
+there are two important differences.
 First, in the SLIF's precedenced rules,
 precedence is generalized, so that it does
 not depend on the operators:
@@ -768,7 +773,7 @@ syntax falls within the limits of LALR.
 
 Chapter
 \ref{ch:preliminaries} describes the notation and conventions
-of this document.
+of this monograph.
 Chapter \ref{ch:rewrite} deals with Marpa's
 grammar rewrites.
 The next three sections develop the ideas for Earley's algorithm.
@@ -797,8 +802,8 @@ contains a proof of Marpa's correctness.
 Chapter \ref{ch:complexity} sets out our
 time and space complexity results.
 
-Because of its immediate practical applications,
-we expect this document to be of interest to many
+Because of its practical applications,
+we expect this monograph to be of interest to many
 who do not ordinarily read documents with this
 level of mathematical apparatus.
 For those readers, we offer some suggestions
@@ -875,7 +880,7 @@ but previous familiarity will be helpful.
 
 \section{Notation}
 
-This document will
+This monograph will
 use subscripts to indicate commonly occurring types.
 \begin{center}
 \begin{tabular}{ll}
@@ -933,7 +938,7 @@ for the iterated function.
 \myfnname{f}^\var{n} \quad \text{for some $\var{n} \ge 1$}
 \end{align*}
 
-The statements of this document often require us to introduce
+The statements of this monograph often require us to introduce
 many new variables at once,
 so that we might say,
 ``for some \var{a}, \var{b}, \var{c}, \ldots{} \var{z},
@@ -1318,7 +1323,7 @@ Let $\var{syms}^+$ be
 \bigr\}.
 \end{equation*}
 
-In this document we use,
+In this monograph we use,
 without loss of generality,
 the grammar \Cg{},
 where \Cg{} is the 4-tuple
@@ -1524,13 +1529,13 @@ The language of \var{g} is $\myL{\Cg}$, where
 \Vstr{z} \mid \Vstr{z} \in \var{term}^\ast \land \Vsym{accept} \destar \Vstr{z}
 \right\rbrace
 \end{equation}
-In this document,
+In this monograph,
 \Earley{} will refer to the Earley's original
 recognizer~\cite{Earley1970}.
 \Leo{} will refer to Leo's revision of \Earley{}
 as described in~\cite{Leo1991}.
 \Marpa{} will refer to the parser described in
-this document.
+this monograph.
 Where $\alg{Recce}$ is a recognizer,
 $\myL{\alg{Recce},\Cg}$ will be the language accepted by $\alg{Recce}$
 when parsing \Cg{}.
@@ -1712,7 +1717,7 @@ of \Cw{} does not allow zero-length inputs.
 The Marpa parser
 deals with null parses
 and nulling grammars as special cases,
-and this document will not consider them.
+and this monograph will not consider them.
 (Nulling grammars are those that recognize only the null string.)
 
 Parsers typically do work while examining their input,
@@ -1757,7 +1762,7 @@ or that
 \xdfn{seen as far as}{seen as far as \var{j}!wrt an input set}
 \var{j},
 if \CW{} is seen between locations 0 and \Vloc{j}.
-In this document we will usually speak of input sets that are seen
+In this monograph we will usually speak of input sets that are seen
 as far as some \Vloc{j}.
 If \CW{} is seen to location 0, none of its input symbols have been
 seen.
@@ -2498,7 +2503,7 @@ without loss of generality.
 
 Because Marpa claims to be a practical parser,
 it is important to emphasize
-that all grammar rewrites in this document
+that all grammar rewrites in this monograph
 allow the original grammar to be reconstructed
 simply and efficiently at evaluation time.
 As implemented,
@@ -2579,7 +2584,7 @@ but also to eliminate nulling symbols.
 We conjecture that elimination of nulling symbols
 from the internal grammar will greatly simplify the implementation.
 The reader may observe that it would
-simplify this document if it did not have to deal with nulling
+simplify this monograph if it did not have to deal with nulling
 symbols.
 
 Not all rewrites lend themselves to easy translation
@@ -11549,7 +11554,7 @@ the right recursion is unambiguous.
 Potential right recursions are memoized by
 Earley set, using what Leo called
 ``transitive items''.
-In this document Leo's ``transitive items''
+In this monograph, Leo's ``transitive items''
 will be called Leo memos.
 
 Implementation of Leo memoization
@@ -11874,7 +11879,7 @@ of \Vleo{eff}.
 \end{itemize}
 \end{definition}
 
-In this document,
+In this monograph,
 we will sometimes also call a valid Leo memo an
 \xdfn{instantiated}{instantiated (Leo memo)}
 Leo memo.
@@ -18046,7 +18051,7 @@ But neither source gives them a name.
 The term PSL
 (``per-Earley set list'')
 is new
-with this document.
+with Marpa.
 
 A PSL is a fixed-length array of
 integers, indexed by an integer,
@@ -18308,7 +18313,7 @@ properly nullable symbols.
 This corresponds directly
 to a grammar rewrite in the \Marpa{} implementation,
 and its reversal during \Marpa's evaluation phase.
-For the correctness and complexity proofs in this document,
+For the correctness and complexity proofs in this monograph,
 we assume an additional rewrite,
 this time to eliminate nulling symbols.
 
