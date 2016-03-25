@@ -131,19 +131,22 @@
 
 \newcommand{\de}{\rightarrow}
 \newcommand{\derives}{\Rightarrow}
-\newcommand{\nderives}{\not\Rightarrow}
+\newcommand{\nderives}[1]{
+\mathrel{%
+  \ifthenelse{\equal{#1}{}}{%
+    {\not\Rightarrow}%
+  }{%
+    {\mbox{$\:\stackrel{\!{#1}}{\not\Rightarrow\!}\:$}}%
+  }%
+}}%
 \newcommand{\xderives}[1]
     {\mathrel{\mbox{$\:\stackrel{\!{#1}}{\Rightarrow\!}\:$}}}
-\newcommand{\nxderives}[1]
-    {\mathrel{\mbox{$\:\stackrel{\!{#1}}{\not\Rightarrow\!}\:$}}}
 \newcommand{\destar}
     {\mathrel{\mbox{$\:\stackrel{\!{\ast}}{\Rightarrow\!}\:$}}}
-\newcommand{\ndestar}
-    {\mathrel{\mbox{$\:\stackrel{\!{\ast}}{\not\Rightarrow\!}\:$}}}
+\newcommand{\ndestar}{\nderives{\ast}}
 \newcommand{\deplus}
     {\mathrel{\mbox{$\:\stackrel{\!{+}}{\Rightarrow\!}\:$}}}
-\newcommand{\ndeplus}
-    {\mathrel{\mbox{$\:\stackrel{\!{+}}{\not\Rightarrow\!}\:$}}}
+\newcommand{\ndeplus}{\nderives{+}}
 \newcommand{\derivg}[1]{\mathrel{\mbox{$\:\Rightarrow\:$}}}
 \newcommand{\derivrg}[2]{\mathrel{\mbox{$\:\stackrel{\!{#1}}%
         {\Rightarrow\!}\:$}}}
@@ -458,6 +461,8 @@ Therefore, it is possible that
 even chapters in advanced draft status
 will change dramatically.
 
+TODO: When done with this revision, update chapters
+
 Chapters
 \ref{ch:silos},
 \ref{ch:leo},
@@ -768,9 +773,9 @@ to get exactly the language that the precedenced rule specifies.
 The user of the yacc equivalent must hope their
 syntax falls within the limits of LALR.
 
-TODO: Reviewed to HERE
-
 \section{How to read this document}
+
+TODO: When done with this revision, update chapters
 
 Chapter
 \ref{ch:preliminaries} describes the notation and conventions
@@ -834,7 +839,7 @@ that the proofs are unimportant.
 The proofs explore how our ideas
 and claims
 are connected to each other.
-There is a theoretical satisfaction in
+There is a aesthetic satisfaction in
 this deeper level of knowledge.
 And the proofs
 increase our
@@ -845,11 +850,11 @@ even to the programmer who is willing to
 take our word for everything in these pages.
 If, when coding,
 the programmer only knows ``what'' and ``how'',
-he will find it hard to keep all of this materinal
+he will find it hard to keep all of this material
 in his mind at once.
 If the programmer knows,
 not just ``what'' and ``how'',
-but ``why'',
+but also ``why'',
 he will understand the connections among
 these ideas.
 When the programmer
@@ -864,7 +869,9 @@ to have a practical bent.
 For those readers,
 one way to start is to read the preliminary
 material for as long as it seems relevant,
-skipping the proofs.
+skipping the lemmas,
+as well as the proofs for both lemmas and
+theorems.
 When impatience for something ``closer to
 the metal'' arises,
 this reader should
@@ -912,6 +919,10 @@ is obvious from the context.
 The notation for
 constants is the same as that for variables.
 Multi-character variable names will be common.
+
+Concatenation is shown
+only when useful for clarity.
+All other operations are always explicit.
 \begin{center}
 \begin{tabular}{ll}
 Multiplication &  $\var{a} \times \var{b}$ \\
@@ -919,24 +930,19 @@ Concatenation & $\var{a} \Cat \var{b}$ \\
 Subtraction & $\var{symbol-count} \subtract \var{terminal-count}$ \\
 \end{tabular}
 \end{center}
-Operations are never implicit, with the exception of concatenation.
-Concatenation is not shown when its use is obvious.
-Type names are often used in the text
-as a convenient way to refer to
-their type.
 
 Where $\myfnname{f}$ is a function,
 we use the notation $\myfnname{f}^{\displaystyle \var{n}}$
-for the iterated function.
+for the iterated function, so that
 \begin{align*}
-\myfnname{f}^0(\var{x}) \quad & \defined \quad \var{x} \\
-\myfnname{f}^1(\var{x}) \quad & \defined \quad \myfnname{f}(\var{x}) \\
+\myfnname{f}^0(\var{x}) \quad & \defined \quad \var{x}, \\
+\myfnname{f}^1(\var{x}) \quad & \defined \quad \myfnname{f}(\var{x}), \\
 \myfnname{f}^2(\var{x}) \quad & \defined \quad
-\myfnname{f}(\myfnname{f}(\var{x})), \quad \text{etc.} \\
-\myfnname{f}^\ast \quad & \defined \quad
-\myfnname{f}^\var{n} \quad \text{for some $\var{n} \ge 0$} \\
+  \myfnname{f}(\myfnname{f}(\var{x})), \quad \text{etc.} \\
+\text{Also,} \quad \myfnname{f}^\ast \quad & \defined \quad
+\myfnname{f}^\var{n} \quad \text{for some $\var{n} \ge 0$ and} \\
 \myfnname{f}^+ \quad & \defined \quad
-\myfnname{f}^\var{n} \quad \text{for some $\var{n} \ge 1$}
+\myfnname{f}^\var{n} \quad \text{for some $\var{n} \ge 1$}.
 \end{align*}
 
 The statements of this monograph often require us to introduce
@@ -950,8 +956,8 @@ which cause no loss of generality,
 we will prefer to simply say so,
 noting any exceptions.
 In cases where brevity is important,
-such as in some of the proofs,
-we will abbreviate
+such as in proofs,
+we may abbreviate
 ``without loss of generality'' as \dfn{WLOG},
 ``assumption'' as \dfn{ASM},
 ``theorem'' as \dfn{Th},
@@ -962,7 +968,6 @@ We use the standard notation for equations,
 writing
 ``(\textit{n})'' to refer to equation \textit{n}.%
 \index{recce-notation}{(0)@(\textit{n})}
-We also write
 To indicate references, we write,
 where \var{n} is a reference number,
 (L\textit{n})%
@@ -997,10 +1002,11 @@ For example, we would write
 \end{aligned}
 \]
 
-Metonymy, the subsitution of one thing for another with
+Metonymy,
+the subsitution of one thing for another thing with
 a related meaning,
-is common in language:
-for example, ``Hollywood'' is a town in California,
+is common in language.
+For example, ``Hollywood'' is a town in California,
 but the word is often used to mean the U.S. entertainment
 industry.
 Where our use of metonymy is non-obvious or non-intuitive,
@@ -1164,6 +1170,9 @@ The following theorem will prove useful.
 \begin{theorem}
 \ttitle{Sequence overlap}
 \label{t:sequence-overlap}
+
+TODO: Needed?  Delete this?
+
 Let \var{mast} be a master sequence containing two subsequences,
 \var{con} and \var{con2},
 such that \var{con} does not contain the top or bottom
@@ -1324,10 +1333,8 @@ Let $\var{syms}^+$ be
 \bigr\}.
 \end{equation*}
 
-In this monograph we use,
-without loss of generality,
-the grammar \Cg{},
-where \Cg{} is the 4-tuple
+A grammar
+is a 4-tuple:
 \begin{equation*}
     (\Vsymset{nt}, \Vsymset{term}, \var{rules}, \Vsym{accept}).
 \end{equation*}
@@ -1370,8 +1377,18 @@ respectively.
 
 We will sometimes treat 
 \RHS{\Vrule{r}} as a sequence,
-so that \el{\RHS{\Vrule{r}}}{0} is the first
+so that
+\Vel{\RHS{\Vrule{r}}}{i}%
+\index{recce-notation}{RHS[r](ix)@\Vel{\RHS{\Vrule{r}}}{ix}}
+to refer to the \var{i}'th RHS symbol instance
+of \Vrule{r}.
+For example,
+\el{\RHS{\Vrule{r}}}{0} is the first
+symbol instance on the RHS of \Vrule{r};
+and
+\el{\RHS{\Vrule{r}}}{2} is the third
 symbol instance on the RHS of \Vrule{r}.
+
 Where \Vrule{r} is a rule,
 \Vsize{\Vrule{r}}%
 \index{recce-notation}{\Pipe{}rule\Pipe{}@\Vsize{rule}!size of a RULE}
@@ -1388,16 +1405,8 @@ may be referred to as any of
 \el{\RHS{\Vrule{r}}}{(\Vdecr{\Vsize{\RHS{\Vrule{r}}}})}. \\
 \end{gather*}
 
-When we need to look at the RHS of a rule
-symbol by symbol,
-we will treat the RHS as a sequence,
-and write
-\Vel{\RHS{\Vrule{r}}}{i}%
-\index{recce-notation}{RHS[r](ix)@\Vel{\RHS{\Vrule{r}}}{ix}}
-to refer to the \var{i}'th RHS symbol instance
-of \Vrule{r}.
-Another way of referring to the \var{i}'th RHS symbol instance
-of \Vrule{r} will be
+An alternative way of referring to the \var{i}'th RHS symbol instance
+of \Vrule{r} is
 \op{RHS}{\Vrule{r}, \var{i}}.%
 \index{recce-notation}{RHS(r, ix)@\op{RHS}{\Vrule{r}, \var{ix}}}
 We will write
@@ -1412,39 +1421,55 @@ for the subsequence of RHS symbol instances
 
 The rules imply the traditional rewriting system.
 We write
+\begin{align*}
+& \myparbox{%
 $\Vstr{x} \derives \Vstr{y}$
 to say that
 \Vstr{x} derives \Vstr{y} in exactly one step.
+}
+\intertext{%
 If a superscript is placed over the arrow,
 it indicates
 the number of derivation steps.
-So we can also write
+So we also write
+}
+& \myparbox{%
 $\Vstr{x} \xderives{1} \Vstr{y}$
 to say that
-\Vstr{x} derives \Vstr{y} in one step.
-We write
+\Vstr{x} derives \Vstr{y} in one step;
+} \\
+& \myparbox{%
 $\Vstr{x} \xderives{\var{n}} \Vstr{y}$
 to say that
-\Vstr{x} derives \Vstr{y} in \var{n} steps.
+\Vstr{x} derives \Vstr{y} in \var{n} steps;
+} \\
+& \myparbox{%
 $\Vstr{x} \xderives{0} \Vstr{y}$
-is a derivation in zero steps,
-and is called a
-\xdfn{trivial derivation}{trivial (derivation)}.
-
-We write $\Vstr{x} \destar \Vstr{y}$
+is a derivation in zero steps;
+} \\
+& \myparbox{%
+$\Vstr{x} \destar \Vstr{y}$
 to say that
-\Vstr{x} derives \Vstr{y} in zero or more steps,
+\Vstr{x} derives \Vstr{y} in zero or more steps;
 and
+} \\
+& \myparbox{%
 $\Vstr{x} \deplus \Vstr{y}$
 to say that
 \Vstr{x} derives \Vstr{y} in one or more steps.
+}
+\end{align*}
+
+A derivation in zero steps,
+is called a
+\xdfn{trivial derivation}{trivial (derivation)}.
 Note that
 \begin{gather*}
 \Vstr{x} \destar \Vstr{y} \implies
 \exists \; \var{n},
 \Vstr{x} \xderives{\var{n}} \Vstr{y}
+\quad \text{and}
 \\
-\text{and} \quad
 \Vstr{x} \deplus \Vstr{y} \implies
 \exists \; \var{n},
 \big(\var{n} \ge 1 \; \land \;
@@ -1493,18 +1518,32 @@ When we want to make clear which step a symbol instance is from,
 we will write $\var{si}@\var{x}$ to indicate
 the symbol instance \Vinst{si} at Step \var{x}.
 We will sometimes write the symbol instance using only
-the symbol, so that
+the symbol, in which case
 $\var{A}@\var{x}$ will indicate
-an instance of symbol \Vsym{A} at Step \var{x}.
-For example, if
-\begin{align}
-    & \Vsym{A} && \text{Step 1} \\
-    \derives & \Vsym{A} && \text{Step 2}
-\end{align}
-is a derivation,
+an instance of symbol \Vsym{A} at Step \var{x},
+For example, let
+\begin{equation}
+\label{eq:symbol-step-instance-notation}
+    \Vsym{A} \derives \Vsym{A}
+\end{equation}
+be a derivation,
+where the left hand side of the derivation
+in \eqref{eq:symbol-step-instance-notation}
+is Step 1 of the derivation,
+so that
+the right hand side of the derivation
+in \eqref{eq:symbol-step-instance-notation}
+must be Step 2 of the derivation.
+Then
 $\var{A}@1$ indicates the instance of \Vsym{A} in Step 1,
-while
-$\var{A}@2$ indicates the instance of \Vsym{A} in Step 2.
+and
+$\var{A}@2$ indicates the instance of \Vsym{A} in Step 2,
+so that
+\begin{equation*}
+\var{A}@1 \derives \var{A}@2
+\end{equation*}
+is equivalent to
+\eqref{eq:symbol-step-instance-notation}.
 
 Consider the derivation
 \begin{equation}
@@ -1515,22 +1554,31 @@ and the symbol \Vsym{A} are
 \begin{center}
 \begin{tabular}{ll}
 \dfn{middle-recursive} & if
-  $\Vstr{left} \neq \epsilon \land \Vstr{right} \neq \epsilon$ \\
-\dfn{left-recursive} &  if $\Vstr{left} = \epsilon$ \\
-\dfn{right-recursive} &  if $\Vstr{right} = \epsilon$ \\
+  \text{$\Vstr{left} \ndestar \epsilon$ and $\Vstr{right} \ndestar \epsilon$} \\
+\dfn{left-recursive} &  if $\Vstr{left} \destar \epsilon$ \\
+\dfn{right-recursive} &  if $\Vstr{right} \destar \epsilon$ \\
 \dfn{cyclic} & if
-  $\Vstr{left} = \epsilon \land \Vstr{right} = \epsilon$.
+  \text{$\Vstr{left} \destar \epsilon$ and $\Vstr{right} \destar \epsilon$}.
 \end{tabular}
 \end{center}
 
-The language of \var{g} is $\myL{\Cg}$, where
+Except where otherwise stated,
+our discussions in this monograph will
+assume, without loss of generality,
+a grammar of interest in that context,
+\var{g}, such that
+\begin{gather*}
+    \var{g} = (\Vsymset{nt}, \Vsymset{term}, \var{rules}, \Vsym{accept}), \quad \text{where}
+    \\
+  \Vsymset{vocab} = \Vsymset{nt} \cup \Vsymset{term}.
+\end{gather*}
+The language of \var{g} is
 \begin{equation}
 \label{eq:def-L-g-10}
 \myL{\Cg} \defined \left\lbrace
 \Vstr{z} \mid \Vstr{z} \in \var{term}^\ast \land \Vsym{accept} \destar \Vstr{z}
 \right\rbrace
 \end{equation}
-In this monograph,
 \Earley{} will refer to the Earley's original
 recognizer~\cite{Earley1970}.
 \Leo{} will refer to Leo's revision of \Earley{}
@@ -1540,6 +1588,8 @@ this monograph.
 Where $\alg{Recce}$ is a recognizer,
 $\myL{\alg{Recce},\Cg}$ will be the language accepted by $\alg{Recce}$
 when parsing \Cg{}.
+
+TODO: Reviewed to HERE
 
 \section{Marpa internal grammars}
 Following Aycock and Horspool~\cite{AH2002},
@@ -1646,7 +1696,7 @@ Since there are no nulling rules in Marpa's internal grammars,
 a symbol is never nulled as the result of a derivation step.
 Therefore, where \Vsym{nulling} is a nulling symbol,
 \begin{align*}
-    \Vsym{nulling} & \nxderives{1} \epsilon \quad \text{and} \\
+    \Vsym{nulling} & \nderives{1} \epsilon \quad \text{and} \\
     \Vsym{nulling} & \ndeplus \epsilon.
 \end{align*}
 Strictly speaking, it is not wrong to say that
@@ -5906,10 +5956,10 @@ we have all of the following:
 
 \begin{proof}
 We proceed by induction.
-As a preliminary, two facts will be useful.
+As a preliminary, a few reminders will be useful.
 First,
 the value of a function iterated zero times is
-its argument:
+the value of its argument:
 \begin{equation}
 \label{eq:iterated-null-scan-op-NEW-4}
 \iop{null-scan-op}{0}{\Veim{bas}} = \Veim{bas}.
@@ -5920,8 +5970,7 @@ is the symbol on its RHS at the dot index:
 \begin{equation}
 \label{eq:iterated-null-scan-op-NEW-7}
 \myparbox{%
-$\forall \; \Veim{e} :
-\Postdot{\Veim{e}} = (\RHS{\Veim{e}})[\Dotix{\Veim{e}}]$
+$\Postdot{\Veim{e}} = (\RHS{\Veim{e}})[\Dotix{\Veim{e}}]$
 \newline
 \becuz{}
 \dref[Postdot]{def:postdot},
@@ -5929,6 +5978,17 @@ $\forall \; \Veim{e} :
 \dref[DR notion refering to EIM]{def:eim-dr-notions}.
 }
 \end{equation}
+Finally, because rule notions applied to
+a dotted rule apply to its rule
+\dref{def:dr-rule-notions},
+\begin{equation}
+\label{eq:iterated-null-scan-op-NEW-8}
+\RHS{\Rule{\Veim{e}}} \equiv \RHS{\Veim{e}}.
+\end{equation}
+In this proof,
+unless clarity or emphasis suggests otherwise,
+use of these reminders
+will be implicit.
 
 \textbf{Hypothesis}:
 The induction hypothesis is that
@@ -6001,7 +6061,7 @@ For the step, we assume
 \begin{equation}
 \label{eq:iterated-null-scan-op-NEW-30}
 \myparbox{%
-\eqref{eq:iterated-null-scan-op-NEW-10}
+The induction hypothesis \eqref{eq:iterated-null-scan-op-NEW-10}
 for $\var{x} = \var{n}$,
 }
 \end{equation}
@@ -6009,7 +6069,7 @@ to show
 \begin{equation}
 \label{eq:iterated-null-scan-op-NEW-32}
 \myparbox{%
-\eqref{eq:iterated-null-scan-op-NEW-10}
+The induction hypothesis \eqref{eq:iterated-null-scan-op-NEW-10}
 for $\var{x} = \Vincr{n}$.
 }
 \end{equation}
@@ -6021,7 +6081,7 @@ assume that
 \begin{align}
 \label{eq:iterated-null-scan-op-NEW-34}
 & \myparbox{%
-\eqref{eq:iterated-null-scan-op-NEW-12}
+equation \eqref{eq:iterated-null-scan-op-NEW-12}
 is false
 for $\var{x} = \Vincr{n}$
 \becuz{}
@@ -6032,7 +6092,7 @@ so that, vacuously,
 }
 \label{eq:iterated-null-scan-op-NEW-36}
 & \myparbox{%
-\eqref{eq:iterated-null-scan-op-NEW-10}
+equation \eqref{eq:iterated-null-scan-op-NEW-10}
 for $\var{x} = \Vincr{n}$
 \becuz{}
 \eqref{eq:iterated-null-scan-op-NEW-34},
@@ -6047,7 +6107,7 @@ assume that
 \begin{align}
 \label{eq:iterated-null-scan-op-NEW-37}
 & \myparbox{%
-\eqref{eq:iterated-null-scan-op-NEW-12}
+equation \eqref{eq:iterated-null-scan-op-NEW-12}
 is true for 
 $\var{x} = \Vincr{n}$
 \becuz{}
@@ -6093,7 +6153,7 @@ ASM for case of step.
 \\
 \label{eq:iterated-null-scan-op-NEW-44}
 & \myparbox{%
-\eqref{eq:iterated-null-scan-op-NEW-12}
+Equation \eqref{eq:iterated-null-scan-op-NEW-12}
 for
 $\var{x} = \var{n}$
 \becuz{}
@@ -6144,6 +6204,13 @@ $\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \epsilon$
 \eqref{eq:iterated-null-scan-op-NEW-42},
 \eqref{eq:iterated-null-scan-op-NEW-52}.
 } \\
+\label{eq:iterated-null-scan-op-NEW-55}
+& \myparbox{%
+$\iop{null-scan-op}{\var{n}}{\Veim{bas}} \neq \undefined$
+\becuz{}
+\eqref{eq:iterated-null-scan-op-NEW-54},
+\tref{t:null-scan-op-definedness}.
+} \\
 \label{eq:iterated-null-scan-op-NEW-56}
 & \myparbox{%
 $\Rule{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
@@ -6152,7 +6219,7 @@ $\Rule{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \hspace*{1em} $= \Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$.
 \newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-54},
+\eqref{eq:iterated-null-scan-op-NEW-55},
 \tref{t:null-scan-op-definedness}.
 } \\
 \label{eq:iterated-null-scan-op-NEW-58}
@@ -6163,7 +6230,7 @@ $\Left{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \hspace*{1em} $= \Left{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$.
 \newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-54},
+\eqref{eq:iterated-null-scan-op-NEW-55},
 \tref{t:null-scan-op-definedness}.
 } \\
 \label{eq:iterated-null-scan-op-NEW-60}
@@ -6174,7 +6241,7 @@ $\Right{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \hspace*{1em} $= \Right{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$.
 \newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-54},
+\eqref{eq:iterated-null-scan-op-NEW-55},
 \tref{t:null-scan-op-definedness}.
 } \\
 \label{eq:iterated-null-scan-op-NEW-62}
@@ -6185,7 +6252,7 @@ $\incr{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$ \newline
 \hspace*{1em} $= \Dotix{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$.
 \newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-54},
+\eqref{eq:iterated-null-scan-op-NEW-55},
 \tref{t:null-scan-op-definedness}.
 } \\
 \label{eq:iterated-null-scan-op-NEW-64}
@@ -6292,7 +6359,7 @@ $]$,
 \Postdot{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}
 \newline
 \hspace*{1em}
-$= (\RHS{\Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}})[$
+$= (\RHS{\Rule{\Veim{bas}}})[$
 \newline
 \hspace*{2em}
   $\Dotix{\Veim{bas}} + \var{n} + 1$
@@ -6300,6 +6367,7 @@ $= (\RHS{\Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}})[$
 \hspace*{1em}
 $]$,
 \becuz{}
+\eqref{eq:iterated-null-scan-op-NEW-64},
 \eqref{eq:iterated-null-scan-op-NEW-76}.
 } \\
 \label{eq:iterated-null-scan-op-NEW-80}
@@ -6311,25 +6379,41 @@ $]$,
 \newline
 \hspace*{1em}
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-64},
 \eqref{eq:iterated-null-scan-op-NEW-78},
 \dref[rule notions applied to EIM's]{def:eim-rule-notions},
 which is requirement
 \eqref{eq:iterated-null-scan-op-NEW-20}
 for this case of the step.
+} \\
+\label{eq:iterated-null-scan-op-NEW-82}
+& \myparbox{%
+Equation \eqref{eq:iterated-null-scan-op-NEW-10}
+for $\var{x} = \Vincr{n}$
+\becuz{}
+\eqref{eq:iterated-null-scan-op-NEW-64},
+\eqref{eq:iterated-null-scan-op-NEW-66},
+\eqref{eq:iterated-null-scan-op-NEW-68},
+\eqref{eq:iterated-null-scan-op-NEW-70},
+\eqref{eq:iterated-null-scan-op-NEW-80},
+which shows the second case
+of the induction step.
 }
 \end{align}
 
-TODO: TOHERE
-
 Equations
-\eqref{eq:iterated-null-scan-op-14}
+\eqref{eq:iterated-null-scan-op-NEW-36}
 and
-\eqref{eq:iterated-null-scan-op-46}
-show the induction step.
-From the step, we have the induction
+\eqref{eq:iterated-null-scan-op-NEW-82}
+show both cases of the induction step,
+and therefore the induction step.
+From the induction step, we have the induction
 and the theorem.
+
+TODO: finished?
+
 \end{proof}
+
+TODO: TOHERE
 
 \begin{theorem}
 \ttitle{Iterated \myfnname{null-scan-op} and nulls}
