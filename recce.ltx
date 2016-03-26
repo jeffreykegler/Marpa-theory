@@ -6040,6 +6040,7 @@ $\Postdot{\Veim{e}} = (\RHS{\Veim{e}})[\Dotix{\Veim{e}}]$
 Finally, because rule notions applied to
 a dotted rule apply to its rule
 \dref{def:dr-rule-notions},
+we have
 \begin{equation}
 \label{eq:iterated-null-scan-op-8}
 \RHS{\Rule{\Veim{e}}} \equiv \RHS{\Veim{e}}.
@@ -6124,7 +6125,7 @@ For the step, we assume
 \begin{equation}
 \label{eq:iterated-null-scan-op-30}
 \myparbox{%
-The induction hypothesis \eqref{eq:iterated-null-scan-op-10}
+the induction hypothesis \eqref{eq:iterated-null-scan-op-10}
 for $\var{x} = \var{n}$,
 }
 \end{equation}
@@ -6132,7 +6133,7 @@ to show
 \begin{equation}
 \label{eq:iterated-null-scan-op-32}
 \myparbox{%
-The induction hypothesis \eqref{eq:iterated-null-scan-op-10}
+the induction hypothesis \eqref{eq:iterated-null-scan-op-10}
 for $\var{x} = \Vincr{n}$.
 }
 \end{equation}
@@ -6151,7 +6152,7 @@ for $\var{x} = \Vincr{n}$
 ASM for this case of the step.
 }
 \intertext{%
-so that, vacuously,
+so that we have, vacuously, that
 }
 \label{eq:iterated-null-scan-op-36}
 & \myparbox{%
@@ -6269,7 +6270,10 @@ $\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \epsilon$
 } \\
 \label{eq:iterated-null-scan-op-55}
 & \myparbox{%
-$\iop{null-scan-op}{\var{n}}{\Veim{bas}} \neq \undefined$
+$\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$
+\newline
+\hspace*{1em} $= \iop{null-scan-op}{\Vincr{n}}{\Veim{bas}} \neq \undefined$
+\newline
 \becuz{}
 \eqref{eq:iterated-null-scan-op-54},
 \tref{t:null-scan-op-definedness}.
@@ -6414,8 +6418,8 @@ $= (\RHS{\Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}})[$
 \hspace*{1em}
 $]$,
 \becuz{}
-\eqref{eq:iterated-null-scan-op-74}.
-\dref[rule notions applied to EIM's]{def:eim-rule-notions}
+\eqref{eq:iterated-null-scan-op-74},
+\dref[rule notions applied to EIM's]{def:eim-rule-notions}.
 } \\
 \label{eq:iterated-null-scan-op-78}
 & \myparbox{%
@@ -6486,9 +6490,6 @@ so that we have
 \eqref{eq:iterated-null-scan-op-10} vacuously.
 The theorem follows directly from
 \eqref{eq:iterated-null-scan-op-84}.
-
-TODO: finished?
-
 \end{proof}
 
 TODO: TOHERE
