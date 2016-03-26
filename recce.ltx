@@ -1171,7 +1171,8 @@ The following theorem will prove useful.
 \ttitle{Sequence overlap}
 \label{t:sequence-overlap}
 
-TODO: Needed?  Delete this?
+TODO: This theorem not reviewed.  Is it needed?
+Can I delete it?
 
 Let \var{mast} be a master sequence containing two subsequences,
 \var{con} and \var{con2},
@@ -1684,12 +1685,14 @@ in Chapter \ref{ch:rewrite}.
 \begin{definition}
 \dtitle{Telluric symbols and strings}
 \label{def:telluric}
-if a symbol of a Marpa internal grammar is non-nulling,
-we say that it is
-\xdfn{telluric}{telluric!SYM}.
-If a string contains a telluric symbol,
-we say that the string is
+We say that
+a symbol of a Marpa internal grammar is
+\xdfn{telluric}{telluric!SYM}
+if and only if it is non-nulling.
+We say that a string is
 \xdfn{telluric}{telluric!STR}.
+if and only if
+the string contains a telluric symbol,
 \end{definition}
 
 We use
@@ -1722,7 +1725,44 @@ unless stated otherwise.
 A symbol is not nullable
 if and only if it is telluric.
 \end{theorem}
-\begin{proof} TODO \end{proof}
+\begin{proof}
+For the ``if'' direction assume,
+for a reductio,
+that a symbol, call it \Vsym{s}, is telluric and nullable.
+Since \Vsym{s} is not nulling
+\dref[telluric]{def:telluric},
+\Vsym{s} must be nullable but not nulling,
+in other words
+\Vsym{s} must be a proper nullable.
+But Marpa internal grammars have no
+proper nullable symbols
+\dref[marpa internal grammar]{def:marpa-grammar},
+which shows the reductio,
+and the ``if'' direction.
+
+For the ``only if'' direction assume,
+as a reductio,
+that a symbol, call it \Vsym{s},
+is not nullable and not telluric.
+\Vsym{s} must be not nullable but nulling
+\dref[telluric]{def:telluric}.
+But all nulling symbols are nullable,
+which shows the reductio,
+the ``only if'' direction,
+and the theorem.
+
+TODO: recheck
+
+\end{proof}
+
+\begin{theorem}
+A string is not nullable
+if and only if it is telluric.
+\end{theorem}
+\begin{proof}
+For the ``if'' direction assume,
+as a reductio,
+\end{proof}
 
 \begin{theorem}
 All LHS symbols are telluric.
