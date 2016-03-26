@@ -129,31 +129,31 @@
 \newcommand{\incr}[1]{\ensuremath{#1 + 1}}
 \newcommand{\Vincr}[1]{\incr{\var{#1}}}
 
-\newcommand{\de}{\rightarrow}
-\newcommand{\derives}{\Rightarrow}
+\newcommand{\de}{\mathrel{::=}}
+\newcommand{\derives}{\mapsto}
 \newcommand{\nderives}[1]{
 \mathrel{%
   \ifthenelse{\equal{#1}{}}{%
-    {\not\Rightarrow}%
+    {\not\mapsto}%
   }{%
-    {\mbox{$\:\stackrel{\!{#1}}{\not\Rightarrow\!}\:$}}%
+    {\mbox{$\:\stackrel{\!{#1}}{\not\mapsto\!}\:$}}%
   }%
 }}%
 \newcommand{\xderives}[1]
-    {\mathrel{\mbox{$\:\stackrel{\!{#1}}{\Rightarrow\!}\:$}}}
+    {\mathrel{\mbox{$\:\stackrel{\!{#1}}{\mapsto\!}\:$}}}
 \newcommand{\destar}
-    {\mathrel{\mbox{$\:\stackrel{\!{\ast}}{\Rightarrow\!}\:$}}}
+    {\mathrel{\mbox{$\:\stackrel{\!{\ast}}{\mapsto\!}\:$}}}
 \newcommand{\ndestar}{\nderives{\ast}}
 \newcommand{\deplus}
-    {\mathrel{\mbox{$\:\stackrel{\!{+}}{\Rightarrow\!}\:$}}}
+    {\mathrel{\mbox{$\:\stackrel{\!{+}}{\mapsto\!}\:$}}}
 \newcommand{\ndeplus}{\nderives{+}}
-\newcommand{\derivg}[1]{\mathrel{\mbox{$\:\Rightarrow\:$}}}
+\newcommand{\derivg}[1]{\mathrel{\mbox{$\:\mapsto\:$}}}
 \newcommand{\derivrg}[2]{\mathrel{\mbox{$\:\stackrel{\!{#1}}%
-        {\Rightarrow\!}\:$}}}
+        {\mapsto\!}\:$}}}
 \newcommand{\drv}[3]{\ensuremath{\texttt{#1}[#2][#3]}}
 \newcommand{\drvVV}[3]{\drv{#1}{\var{#2}}{\var{#3}}}
 % \newcommand{\lblarrow}[1]
-    % {\mathrel{\mbox{$\:\stackrel{\!{#1}}{\Rightarrow\!}\:$}}}
+    % {\mathrel{\mbox{$\:\stackrel{\!{#1}}{\mapsto\!}\:$}}}
 
 \newcommand{\set}[1]{{\left\lbrace #1 \right\rbrace} }
 \newcommand{\bigset}[1]{{\bigl\lbrace #1 \bigr\rbrace} }
@@ -1463,21 +1463,63 @@ to say that
 A derivation in zero steps,
 is called a
 \xdfn{trivial derivation}{trivial (derivation)}.
-Note that
-\begin{gather*}
-\Vstr{x} \destar \Vstr{y} \implies
-\exists \; \var{n},
-\Vstr{x} \xderives{\var{n}} \Vstr{y}
-\quad \text{and}
-\\
-\Vstr{x} \deplus \Vstr{y} \implies
-\exists \; \var{n},
-\big(\var{n} \ge 1 \; \land \;
-\Vstr{x} \xderives{\var{n}} \Vstr{y}
-\big),
-\end{gather*}
-where \var{n} is a non-negative integer~
-\cite[Vol. 1, p. 86]{AU1972}.
+A symbol \Vsym{x} is
+\xdfn{nullable}{nullable!in traditional parsing theory} if and only if
+$\Vsym{x} \destar \epsilon$.
+We say that symbol \Vsym{x} is
+\xdfn{nulling}{nulling!in traditional parsing theory}
+if and only if
+\[
+  \text{for all \Vstr{y}, if $\Vsym{x} \destar \Vstr{y}$,
+  then $\Vstr{y} \destar \epsilon$.
+  }
+\]
+A symbol is a
+\xdfn{proper nullable}{proper nullable!in traditional parsing theory}
+if it is nullable, but not nulling.
+Note that,
+following \cite[Vol. 1, p. 86]{AU1972},
+\[
+\text{%
+  if $\Vstr{x} \destar \Vstr{y}$ then,
+  for some \var{n}, $\var{n} \ge 0$,
+  we have
+  $\Vstr{x} \xderives{\var{n}} \Vstr{y}$
+}
+\]
+and
+\[
+\text{%
+if $\Vstr{x} \deplus \Vstr{y}$,
+then for some \var{n},
+$\var{n} \ge 1$, we have
+$\Vstr{x} \xderives{\var{n}} \Vstr{y}$.
+}
+\]
+
+\begin{definition}
+\dtitle{Nulling strings}
+We say that a string, call it \Vstr{x}, is
+\xdfn{nulling}{nulling!STR},
+if and only if
+\[
+\Vstr{x} \destar \epsilon.
+\]
+We say that a string, call it \Vstr{x}, is
+\xdfn{nullable}{nullable!STR}
+if and only if
+\[
+\text{%
+  for all \Vstr{y}, if $\Vstr{x} \destar \Vstr{y}$,
+  then $\Vstr{y} \destar \epsilon$.
+}
+\]
+These definitions can be satisfied vacuously.
+If \Vstr{x} is the empty string of symbols,
+then \Vstr{x} is nullable.
+And, if \Vstr{x} is the empty string of symbols,
+then \Vstr{x} is nulling.
+\end{definition}
 
 The literature does not always distinguish between two
 meanings of the term ``derivation step''.
@@ -1595,21 +1637,6 @@ TODO: Reviewed to HERE
 Following Aycock and Horspool~\cite{AH2002},
 Marpa grammars use a rewrite to eliminate proper nullables,
 and nulling rules.
-In traditional parsing theory,
-a symbol \Vsym{x} is
-\xdfn{nullable}{nullable!in traditional parsing theory} if and only if
-$\Vsym{x} \destar \epsilon$.
-We say that symbol \Vsym{x} is
-\xdfn{nulling}{nulling!in traditional parsing theory}
-if and only if
-\[
-  \forall \Vstr{y} ( \Vsym{x} \destar \Vstr{y}
-  \implies \Vstr{y} = \epsilon ).
-\]
-A symbol is a
-\xdfn{proper nullable}{proper nullable!in traditional parsing theory}
-if it is nullable, but not nulling.
-
 \begin{definition}
 \dtitle{Marpa external and internal grammars}
 \label{def:marpa-grammar}
@@ -1625,10 +1652,6 @@ The post-rewrite grammar is a
 or, more briefly,
 an
 \xdfn{internal grammar}{internal grammar|mysee{Marpa internal grammar}}.
-When we refer to a
-\xdfn{Marpa grammar}{grammar, Marpa|mysee{Marpa internal grammar}}%
-\index{recce-definitions}{grammar, Marpa|mysee{Marpa internal grammar}}
-we mean an internal grammar.
 
 Because of the rewrite,
 a Marpa internal grammar
@@ -1638,6 +1661,14 @@ has no nulling rules, and
 \item
 has no proper nullable symbols.
 \end{itemize}
+In the rest of this monograph,
+when we refer to either a
+\xdfn{grammar}{grammar|myixentry{defaulting to Marpa internal grammar}}
+or a
+\xdfn{Marpa grammar}{Marpa grammar|myixentry{defaulting to Marpa internal grammar}}%
+\index{recce-definitions}{grammar, Marpa|myixentry{defaulting to Marpa internal grammar}}
+we will mean a Marpa internal grammar,
+unless otherwise stated.
 \end{definition}
 
 The external, pre-rewrite grammars
@@ -1651,46 +1682,77 @@ Details of this rewrite are given
 in Chapter \ref{ch:rewrite}.
 
 \begin{definition}
-\dtitle{Nulling symbols and strings}
-In discussing Marpa's internal grammars,
-we say that a symbol is
-\xdfn{nulling}{nulling!SYM}
-if and only if
-\[
-  \Vsym{x} = \epsilon.
-\]
-We say that \Vstr{y} is
-\xdfn{nulling}{nulling!STR},
-if and only
-if every symbol in \Vstr{y} is nulling.
-We also write ``\Vstr{y} is nulling'' as
-$\Vstr{y} = \epsilon$.
-This can be the case vacuously ---
-if \Vstr{y} is the empty string of symbols,
-then
-$\Vstr{y} = \epsilon$.
-\end{definition}
-
-\begin{definition}
 \dtitle{Telluric symbols and strings}
-When discussing Marpa's internal grammars,
-if a symbol is not nullable, we may say that it is
-\xdfn{non-nullable}{non-nullable!SYM}.
-More often we say it is
+\label{def:telluric}
+if a symbol of a Marpa internal grammar is non-nulling,
+we say that it is
 \xdfn{telluric}{telluric!SYM}.
+If a string contains a telluric symbol,
+we say that the string is
+\xdfn{telluric}{telluric!STR}.
 \end{definition}
 
-We consider the term ``telluric'' less confusing in the context of
-Marpa's internal grammars,
-because
-it can be used as an antonym of ``nulling''.
-For Marpa's external grammars,
-and in traditional parsing theory,
-``non-nullable'' is not, strictly speaking,
-an antonym of nulling.
+We use
+the term ``telluric'' only for Marpa internal grammars.
+In Marpa internal grammars, we know that there
+are no proper nullable symbols,
+so that we 
+can rely on
+``telluric'' to be strict antonym of ``nullable''.
+This is \textbf{not} the case for Marpa external grammars ---
+non-nulling symbols of Marpa external grammars may be proper
+nullables, so that ``non-nulling'' is not always
+an antonym of ``nullable''.
+We will make frequent use
+of the fact that Marpa internal telluric symbols
+are never nullable.
+Calling such symbols ``telluric'' makes
+it clear they have this property,
+and will save us much confusion.
 The term ``telluric'' originally means, roughly, ``of the earth''.
 Later we will use it in contrast to the term
 ``ethereal''.
+
+In the statement of the following theorems,
+as in the rest of this monograph,
+we will assume that we are speaking of Marpa internal grammars,
+unless stated otherwise.
+
+\begin{theorem}
+A symbol is not nullable
+if and only if it is telluric.
+\end{theorem}
+\begin{proof} TODO \end{proof}
+
+\begin{theorem}
+All LHS symbols are telluric.
+\end{theorem}
+\begin{proof} TODO \end{proof}
+
+\begin{theorem}
+All nullable symbols are terminals.
+\end{theorem}
+\begin{proof} TODO \end{proof}
+
+\begin{theorem}
+A string is derived from a telluric string
+if and only if
+it contains at least one telluric symbol.
+\end{theorem}
+\begin{proof} TODO \end{proof}
+
+\begin{theorem}
+A string is derived from a telluric string
+if and only if it is telluric.
+\end{theorem}
+\begin{proof} TODO \end{proof}
+
+\begin{theorem}
+A sentence is derived from a telluric string
+if and only if
+it has an input length of at least one.
+\end{theorem}
+\begin{proof} TODO \end{proof}
 
 Since there are no nulling rules in Marpa's internal grammars,
 a symbol is never nulled as the result of a derivation step.
@@ -5920,13 +5982,10 @@ and
 \begin{theorem}
 \ttitle{Iterated \myfnname{null-scan-op}}
 \label{t:iterated-null-scan-op}
-Let \Veim{bas} be a valid EIM.
-Let \var{x} be an integer such that
-\[
-0 \le \var{x} \le \big(
-  \xxsubtract{\Vsize{rhs}}{\Dotix{\Veim{bas}}}
-\big).
-\]
+Let \Veim{bas} be a valid EIM
+and
+let \var{x} be an integer
+such that $\var{x} \ge 0$.
 Then, if
 \[
 \forall \; \var{i} :
@@ -5961,14 +6020,14 @@ First,
 the value of a function iterated zero times is
 the value of its argument:
 \begin{equation}
-\label{eq:iterated-null-scan-op-NEW-4}
+\label{eq:iterated-null-scan-op-4}
 \iop{null-scan-op}{0}{\Veim{bas}} = \Veim{bas}.
 \end{equation}
 Second,
 the postdot symbol of an EIM
 is the symbol on its RHS at the dot index:
 \begin{equation}
-\label{eq:iterated-null-scan-op-NEW-7}
+\label{eq:iterated-null-scan-op-7}
 \myparbox{%
 $\Postdot{\Veim{e}} = (\RHS{\Veim{e}})[\Dotix{\Veim{e}}]$
 \newline
@@ -5982,20 +6041,20 @@ Finally, because rule notions applied to
 a dotted rule apply to its rule
 \dref{def:dr-rule-notions},
 \begin{equation}
-\label{eq:iterated-null-scan-op-NEW-8}
+\label{eq:iterated-null-scan-op-8}
 \RHS{\Rule{\Veim{e}}} \equiv \RHS{\Veim{e}}.
 \end{equation}
 In this proof,
-unless clarity or emphasis suggests otherwise,
+unless clarity or emphasis suggest otherwise,
 use of these reminders
 will be implicit.
 
 \textbf{Hypothesis}:
 The induction hypothesis is that
 \begin{subequations}
-\label{eq:iterated-null-scan-op-NEW-10}
+\label{eq:iterated-null-scan-op-10}
 \begin{align}
-\label{eq:iterated-null-scan-op-NEW-12}
+\label{eq:iterated-null-scan-op-12}
 & \text{if} \quad \forall \; \var{i}
 \left(
 \begin{gathered}
@@ -6009,13 +6068,13 @@ The induction hypothesis is that
 \notag
 & \text{then we have all of the following:}
 \\
-\label{eq:iterated-null-scan-op-NEW-14}
+\label{eq:iterated-null-scan-op-14}
 & \Rule{\iop{null-scan-op}{\var{x}}{\Veim{bas}}} = \Rule{\Veim{bas}}. \\
-\label{eq:iterated-null-scan-op-NEW-16}
+\label{eq:iterated-null-scan-op-16}
 & \Left{\iop{null-scan-op}{\var{x}}{\Veim{bas}}} = \Left{\Veim{bas}}. \\
-\label{eq:iterated-null-scan-op-NEW-18}
+\label{eq:iterated-null-scan-op-18}
 & \Right{\iop{null-scan-op}{\var{x}}{\Veim{bas}}} = \Right{\Veim{bas}}. \\
-\label{eq:iterated-null-scan-op-NEW-20}
+\label{eq:iterated-null-scan-op-20}
 & \begin{aligned}
 & \Postdot{\iop{null-scan-op}{\var{x}}{\Veim{bas}}}
 \\
@@ -6023,53 +6082,57 @@ The induction hypothesis is that
 	      [\Dotix{\Veim{bas}} + \var{x}].
 \end{aligned}
 \\
-\label{eq:iterated-null-scan-op-NEW-22}
+\label{eq:iterated-null-scan-op-22}
 & \Dotix{\iop{null-scan-op}{\var{x}}{\Veim{bas}}} = \Dotix{\Veim{bas}} + \var{x}.
 \end{align}
 \end{subequations}
 
 \textbf{Basis}:
-We take as the basis \eqref{eq:iterated-null-scan-op-NEW-10}
+We take as the basis \eqref{eq:iterated-null-scan-op-10}
 on the assumption that
 \begin{equation}
-\label{eq:iterated-null-scan-op-NEW-26}
+\label{eq:iterated-null-scan-op-26}
 \var{x} = 0 \becuz \text{ASM for basis}.
 \end{equation}
+Where $\var{x} = 0$,
+the antecedent of the induction hypothesis,
+\eqref{eq:iterated-null-scan-op-12},
+is vacuously true.
 We have
-\eqref{eq:iterated-null-scan-op-NEW-14}--%
-\eqref{eq:iterated-null-scan-op-NEW-18}
+\eqref{eq:iterated-null-scan-op-14}--%
+\eqref{eq:iterated-null-scan-op-18}
 from
-\eqref{eq:iterated-null-scan-op-NEW-4}
+\eqref{eq:iterated-null-scan-op-4}
 and
-\eqref{eq:iterated-null-scan-op-NEW-26}.
+\eqref{eq:iterated-null-scan-op-26}.
 We have
-\eqref{eq:iterated-null-scan-op-NEW-20}
+\eqref{eq:iterated-null-scan-op-20}
 from
-\eqref{eq:iterated-null-scan-op-NEW-4},
-\eqref{eq:iterated-null-scan-op-NEW-26}
+\eqref{eq:iterated-null-scan-op-4},
+\eqref{eq:iterated-null-scan-op-26}
 and
-\eqref{eq:iterated-null-scan-op-NEW-7}.
+\eqref{eq:iterated-null-scan-op-7}.
 The last requirement to show the basis is
-\eqref{eq:iterated-null-scan-op-NEW-22},
+\eqref{eq:iterated-null-scan-op-22},
 which follows from
-\eqref{eq:iterated-null-scan-op-NEW-4}
+\eqref{eq:iterated-null-scan-op-4}
 and
-\eqref{eq:iterated-null-scan-op-NEW-26}.
+\eqref{eq:iterated-null-scan-op-26}.
 
 \textbf{Step}:
 For the step, we assume 
 \begin{equation}
-\label{eq:iterated-null-scan-op-NEW-30}
+\label{eq:iterated-null-scan-op-30}
 \myparbox{%
-The induction hypothesis \eqref{eq:iterated-null-scan-op-NEW-10}
+The induction hypothesis \eqref{eq:iterated-null-scan-op-10}
 for $\var{x} = \var{n}$,
 }
 \end{equation}
 to show
 \begin{equation}
-\label{eq:iterated-null-scan-op-NEW-32}
+\label{eq:iterated-null-scan-op-32}
 \myparbox{%
-The induction hypothesis \eqref{eq:iterated-null-scan-op-NEW-10}
+The induction hypothesis \eqref{eq:iterated-null-scan-op-10}
 for $\var{x} = \Vincr{n}$.
 }
 \end{equation}
@@ -6079,9 +6142,9 @@ The step proceeds by cases.
 For the first case of the induction step,
 assume that
 \begin{align}
-\label{eq:iterated-null-scan-op-NEW-34}
+\label{eq:iterated-null-scan-op-34}
 & \myparbox{%
-equation \eqref{eq:iterated-null-scan-op-NEW-12}
+equation \eqref{eq:iterated-null-scan-op-12}
 is false
 for $\var{x} = \Vincr{n}$
 \becuz{}
@@ -6090,12 +6153,12 @@ ASM for this case of the step.
 \intertext{%
 so that, vacuously,
 }
-\label{eq:iterated-null-scan-op-NEW-36}
+\label{eq:iterated-null-scan-op-36}
 & \myparbox{%
-equation \eqref{eq:iterated-null-scan-op-NEW-10}
+equation \eqref{eq:iterated-null-scan-op-10}
 for $\var{x} = \Vincr{n}$
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-34},
+\eqref{eq:iterated-null-scan-op-34},
 which shows the first case
 of the induction step.
 }
@@ -6105,15 +6168,15 @@ of the induction step.
 For the 2nd case,
 assume that
 \begin{align}
-\label{eq:iterated-null-scan-op-NEW-37}
+\label{eq:iterated-null-scan-op-37}
 & \myparbox{%
-equation \eqref{eq:iterated-null-scan-op-NEW-12}
+equation \eqref{eq:iterated-null-scan-op-12}
 is true for 
 $\var{x} = \Vincr{n}$
 \becuz{}
 ASM for case of step.
 } \\
-\label{eq:iterated-null-scan-op-NEW-38}
+\label{eq:iterated-null-scan-op-38}
 & \begin{aligned}
   & \forall \; \var{i}
   \left(
@@ -6126,10 +6189,10 @@ ASM for case of step.
   \right)
   \\
   & \qquad \becuz
-  \eqref{eq:iterated-null-scan-op-NEW-37}.
+  \eqref{eq:iterated-null-scan-op-37}.
 \end{aligned}
 \\
-\label{eq:iterated-null-scan-op-NEW-40}
+\label{eq:iterated-null-scan-op-40}
 & \begin{aligned}
   & \forall \; \var{i}
   \left(
@@ -6143,75 +6206,75 @@ ASM for case of step.
   \right)
   \\
   & \qquad \becuz
-  \eqref{eq:iterated-null-scan-op-NEW-38}.
+  \eqref{eq:iterated-null-scan-op-38}.
 \end{aligned}
 \\
-\label{eq:iterated-null-scan-op-NEW-42}
+\label{eq:iterated-null-scan-op-42}
 & (\RHS{\Veim{bas}})[\Dotix{\Veim{bas}}+\var{n}] = \epsilon
   \becuz
-  \eqref{eq:iterated-null-scan-op-NEW-38}.
+  \eqref{eq:iterated-null-scan-op-38}.
 \\
-\label{eq:iterated-null-scan-op-NEW-44}
+\label{eq:iterated-null-scan-op-44}
 & \myparbox{%
-Equation \eqref{eq:iterated-null-scan-op-NEW-12}
+Equation \eqref{eq:iterated-null-scan-op-12}
 for
 $\var{x} = \var{n}$
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-40}.
+\eqref{eq:iterated-null-scan-op-40}.
 } \\
-\label{eq:iterated-null-scan-op-NEW-46}
+\label{eq:iterated-null-scan-op-46}
 & \myparbox{%
 \Rule{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \Rule{\Veim{bas}}
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-30},
-\eqref{eq:iterated-null-scan-op-NEW-44}.
+\eqref{eq:iterated-null-scan-op-30},
+\eqref{eq:iterated-null-scan-op-44}.
 } \\
-\label{eq:iterated-null-scan-op-NEW-48}
+\label{eq:iterated-null-scan-op-48}
 & \myparbox{%
 \Left{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \Left{\Veim{bas}}
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-30},
-\eqref{eq:iterated-null-scan-op-NEW-44}.
+\eqref{eq:iterated-null-scan-op-30},
+\eqref{eq:iterated-null-scan-op-44}.
 } \\
-\label{eq:iterated-null-scan-op-NEW-50}
+\label{eq:iterated-null-scan-op-50}
 & \myparbox{%
 \Right{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \Right{\Veim{bas}}
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-30},
-\eqref{eq:iterated-null-scan-op-NEW-44}.
+\eqref{eq:iterated-null-scan-op-30},
+\eqref{eq:iterated-null-scan-op-44}.
 } \\
-\label{eq:iterated-null-scan-op-NEW-52}
+\label{eq:iterated-null-scan-op-52}
 & \myparbox{%
 $\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \hspace*{1em} $= \big( \RHS{\Rule{\Veim{bas}}} \big)
 	      [\Dotix{\Veim{bas}} + \var{n}]$
 	      \newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-30},
-\eqref{eq:iterated-null-scan-op-NEW-44}.
+\eqref{eq:iterated-null-scan-op-30},
+\eqref{eq:iterated-null-scan-op-44}.
 } \\
-\label{eq:iterated-null-scan-op-NEW-53}
+\label{eq:iterated-null-scan-op-53}
 & \myparbox{%
 $\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \Dotix{\Veim{bas}} + \var{n}$
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-30},
-\eqref{eq:iterated-null-scan-op-NEW-44}.
+\eqref{eq:iterated-null-scan-op-30},
+\eqref{eq:iterated-null-scan-op-44}.
 } \\
-\label{eq:iterated-null-scan-op-NEW-54}
+\label{eq:iterated-null-scan-op-54}
 & \myparbox{%
 $\Postdot{\iop{null-scan-op}{\var{n}}{\Veim{bas}}} = \epsilon$
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-42},
-\eqref{eq:iterated-null-scan-op-NEW-52}.
+\eqref{eq:iterated-null-scan-op-42},
+\eqref{eq:iterated-null-scan-op-52}.
 } \\
-\label{eq:iterated-null-scan-op-NEW-55}
+\label{eq:iterated-null-scan-op-55}
 & \myparbox{%
 $\iop{null-scan-op}{\var{n}}{\Veim{bas}} \neq \undefined$
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-54},
+\eqref{eq:iterated-null-scan-op-54},
 \tref{t:null-scan-op-definedness}.
 } \\
-\label{eq:iterated-null-scan-op-NEW-56}
+\label{eq:iterated-null-scan-op-56}
 & \myparbox{%
 $\Rule{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \hspace*{1em} $= \Rule{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$
@@ -6219,10 +6282,10 @@ $\Rule{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \hspace*{1em} $= \Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$.
 \newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-55},
+\eqref{eq:iterated-null-scan-op-55},
 \tref{t:null-scan-op-definedness}.
 } \\
-\label{eq:iterated-null-scan-op-NEW-58}
+\label{eq:iterated-null-scan-op-58}
 & \myparbox{%
 $\Left{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \hspace*{1em} $= \Left{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$
@@ -6230,10 +6293,10 @@ $\Left{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \hspace*{1em} $= \Left{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$.
 \newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-55},
+\eqref{eq:iterated-null-scan-op-55},
 \tref{t:null-scan-op-definedness}.
 } \\
-\label{eq:iterated-null-scan-op-NEW-60}
+\label{eq:iterated-null-scan-op-60}
 & \myparbox{%
 $\Right{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \hspace*{1em} $= \Right{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$
@@ -6241,10 +6304,10 @@ $\Right{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}$ \newline
 \hspace*{1em} $= \Right{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$.
 \newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-55},
+\eqref{eq:iterated-null-scan-op-55},
 \tref{t:null-scan-op-definedness}.
 } \\
-\label{eq:iterated-null-scan-op-NEW-62}
+\label{eq:iterated-null-scan-op-62}
 & \myparbox{%
 $\incr{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$ \newline
 \hspace*{1em} $= \Dotix{\op{null-scan-op}{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$
@@ -6252,58 +6315,58 @@ $\incr{\Dotix{\iop{null-scan-op}{\var{n}}{\Veim{bas}}}}$ \newline
 \hspace*{1em} $= \Dotix{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$.
 \newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-55},
+\eqref{eq:iterated-null-scan-op-55},
 \tref{t:null-scan-op-definedness}.
 } \\
-\label{eq:iterated-null-scan-op-NEW-64}
+\label{eq:iterated-null-scan-op-64}
 & \myparbox{%
 $\Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
 \hspace*{1em} $= \Rule{\Veim{bas}}.$
 \newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-46},
-\eqref{eq:iterated-null-scan-op-NEW-56},
+\eqref{eq:iterated-null-scan-op-46},
+\eqref{eq:iterated-null-scan-op-56},
 which is requirement
-\eqref{eq:iterated-null-scan-op-NEW-14}
+\eqref{eq:iterated-null-scan-op-14}
 for this case of the step.
 } \\
-\label{eq:iterated-null-scan-op-NEW-66}
+\label{eq:iterated-null-scan-op-66}
 & \myparbox{%
 $\Left{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
 \hspace*{1em} $= \Left{\Veim{bas}}.$
 \newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-48},
-\eqref{eq:iterated-null-scan-op-NEW-58},
+\eqref{eq:iterated-null-scan-op-48},
+\eqref{eq:iterated-null-scan-op-58},
 which is requirement
-\eqref{eq:iterated-null-scan-op-NEW-16}
+\eqref{eq:iterated-null-scan-op-16}
 for this case of the step.
 } \\
-\label{eq:iterated-null-scan-op-NEW-68}
+\label{eq:iterated-null-scan-op-68}
 & \myparbox{%
 $\Right{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
 \hspace*{1em} $= \Right{\Veim{bas}}.$
 \newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-50},
-\eqref{eq:iterated-null-scan-op-NEW-60},
+\eqref{eq:iterated-null-scan-op-50},
+\eqref{eq:iterated-null-scan-op-60},
 which is requirement
-\eqref{eq:iterated-null-scan-op-NEW-18}
+\eqref{eq:iterated-null-scan-op-18}
 for this case of the step.
 } \\
-\label{eq:iterated-null-scan-op-NEW-70}
+\label{eq:iterated-null-scan-op-70}
 & \myparbox{%
 $\Dotix{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}$ \newline
 \hspace*{1em} $= \Dotix{\Veim{bas}} + \var{n} + 1.$
 \newline
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-53},
-\eqref{eq:iterated-null-scan-op-NEW-62},
+\eqref{eq:iterated-null-scan-op-53},
+\eqref{eq:iterated-null-scan-op-62},
 which is requirement
-\eqref{eq:iterated-null-scan-op-NEW-22}
+\eqref{eq:iterated-null-scan-op-22}
 for this case of the step.
 } \\
-\label{eq:iterated-null-scan-op-NEW-72}
+\label{eq:iterated-null-scan-op-72}
 & \myparbox{%
 \Postdot{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}
 \newline
@@ -6318,11 +6381,11 @@ $= (\RHS{
 \hspace*{1em}
 $]$,
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-7},
-\eqref{eq:iterated-null-scan-op-NEW-54},
+\eqref{eq:iterated-null-scan-op-7},
+\eqref{eq:iterated-null-scan-op-55},
 \tref{t:null-scan-op-definedness}.
 } \\
-\label{eq:iterated-null-scan-op-NEW-74}
+\label{eq:iterated-null-scan-op-74}
 & \myparbox{%
 \Postdot{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}
 \newline
@@ -6335,10 +6398,10 @@ $= (\RHS{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}})[$
 \hspace*{1em}
 $]$,
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-70},
-\eqref{eq:iterated-null-scan-op-NEW-72}.
+\eqref{eq:iterated-null-scan-op-70},
+\eqref{eq:iterated-null-scan-op-72}.
 } \\
-\label{eq:iterated-null-scan-op-NEW-76}
+\label{eq:iterated-null-scan-op-76}
 & \myparbox{%
 \Postdot{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}
 \newline
@@ -6351,10 +6414,10 @@ $= (\RHS{\Rule{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}})[$
 \hspace*{1em}
 $]$,
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-74}.
+\eqref{eq:iterated-null-scan-op-74}.
 \dref[rule notions applied to EIM's]{def:eim-rule-notions}
 } \\
-\label{eq:iterated-null-scan-op-NEW-78}
+\label{eq:iterated-null-scan-op-78}
 & \myparbox{%
 \Postdot{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}
 \newline
@@ -6367,10 +6430,10 @@ $= (\RHS{\Rule{\Veim{bas}}})[$
 \hspace*{1em}
 $]$,
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-64},
-\eqref{eq:iterated-null-scan-op-NEW-76}.
+\eqref{eq:iterated-null-scan-op-64},
+\eqref{eq:iterated-null-scan-op-76}.
 } \\
-\label{eq:iterated-null-scan-op-NEW-80}
+\label{eq:iterated-null-scan-op-80}
 & \myparbox{%
 \Postdot{\iop{null-scan-op}{\Vincr{n}}{\Veim{bas}}}
 \newline
@@ -6379,35 +6442,50 @@ $]$,
 \newline
 \hspace*{1em}
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-78},
+\eqref{eq:iterated-null-scan-op-78},
 \dref[rule notions applied to EIM's]{def:eim-rule-notions},
 which is requirement
-\eqref{eq:iterated-null-scan-op-NEW-20}
+\eqref{eq:iterated-null-scan-op-20}
 for this case of the step.
 } \\
-\label{eq:iterated-null-scan-op-NEW-82}
+\label{eq:iterated-null-scan-op-82}
 & \myparbox{%
-Equation \eqref{eq:iterated-null-scan-op-NEW-10}
+Equation \eqref{eq:iterated-null-scan-op-10}
 for $\var{x} = \Vincr{n}$
 \becuz{}
-\eqref{eq:iterated-null-scan-op-NEW-64},
-\eqref{eq:iterated-null-scan-op-NEW-66},
-\eqref{eq:iterated-null-scan-op-NEW-68},
-\eqref{eq:iterated-null-scan-op-NEW-70},
-\eqref{eq:iterated-null-scan-op-NEW-80},
+\eqref{eq:iterated-null-scan-op-64},
+\eqref{eq:iterated-null-scan-op-66},
+\eqref{eq:iterated-null-scan-op-68},
+\eqref{eq:iterated-null-scan-op-70},
+\eqref{eq:iterated-null-scan-op-80},
 which shows the second case
 of the induction step.
 }
 \end{align}
 
 Equations
-\eqref{eq:iterated-null-scan-op-NEW-36}
+\eqref{eq:iterated-null-scan-op-36}
 and
-\eqref{eq:iterated-null-scan-op-NEW-82}
+\eqref{eq:iterated-null-scan-op-82}
 show both cases of the induction step,
 and therefore the induction step.
-From the induction step, we have the induction
-and the theorem.
+From the induction step, we have
+\begin{equation}
+\label{eq:iterated-null-scan-op-84}
+\myparbox{the induction hypothesis
+  \eqref{eq:iterated-null-scan-op-10}
+  for all $\var{x} \ge 0$.
+}
+\end{equation}
+Note that,
+in \eqref{eq:iterated-null-scan-op-84},
+where $\var{x} > \Vlastix{\RHS{\Veim{bas}}}$,
+then 
+$(\RHS{\Veim{bas}})[\var{x}] = \undefined$,
+so that we have
+\eqref{eq:iterated-null-scan-op-10} vacuously.
+The theorem follows directly from
+\eqref{eq:iterated-null-scan-op-84}.
 
 TODO: finished?
 
