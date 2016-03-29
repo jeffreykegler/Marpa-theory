@@ -489,7 +489,7 @@ Tools of this kind
 had long existed
 for LALR~\cite{Johnson} and
 regular expressions.
-But, despite a encouraging academic literature,
+But, despite an encouraging academic literature,
 no such tool had existed for context-free parsing.
 
 The first stable version of Marpa was uploaded to
@@ -1690,7 +1690,7 @@ a symbol of a Marpa internal grammar is
 \xdfn{telluric}{telluric!SYM}
 if and only if it is non-nulling.
 We say that a string is
-\xdfn{telluric}{telluric!STR}.
+\xdfn{telluric}{telluric!STR}
 if and only if
 the string contains a telluric symbol,
 \end{definition}
@@ -1722,46 +1722,172 @@ we will assume that we are speaking of Marpa internal grammars,
 unless stated otherwise.
 
 \begin{theorem}
-A symbol is not nullable
-if and only if it is telluric.
+\ttitle{Nullable symbol if and only if nulling}
+\label{t:nullable-iff-nulling}
+A symbol is nullable if and only if it is nulling.
 \end{theorem}
 \begin{proof}
-For the ``if'' direction assume,
-for a reductio,
-that a symbol, call it \Vsym{s}, is telluric and nullable.
-Since \Vsym{s} is not nulling
-\dref[telluric]{def:telluric},
-\Vsym{s} must be nullable but not nulling,
-in other words
-\Vsym{s} must be a proper nullable.
-But Marpa internal grammars have no
-proper nullable symbols
-\dref[marpa internal grammar]{def:marpa-grammar},
-which shows the reductio,
-and the ``if'' direction.
-
-For the ``only if'' direction assume,
-as a reductio,
-that a symbol, call it \Vsym{s},
-is not nullable and not telluric.
-\Vsym{s} must be not nullable but nulling
-\dref[telluric]{def:telluric}.
-But all nulling symbols are nullable,
-which shows the reductio,
-the ``only if'' direction,
-and the theorem.
-
-TODO: recheck
-
+For the purposes of this proof we read
+\op{Nulling}{\Vsym{x}} as ``symbol \var{x} is nulling'',
+and we read
+\op{Nullable}{\Vsym{x}} as ``symbol \var{x} is nullable''.
+Recall that, by default, we are speaking of Marpa internal
+grammars.
+No symbol in a Marpa internal grammar is a proper nullable,
+that is,
+\begin{align}
+\label{eq:nullable-iff-nulling-10}
+& \myparbox{%
+there is no
+\Vsym{s} such that
+$\op{Nullable}{\Vsym{s}} \land \neg \op{Nulling}{\Vsym{s}}$
+\becuz{}
+\dref[Marpa internal grammar]{def:marpa-grammar},
+} \\
+\label{eq:nullable-iff-nulling-12}
+& \myparbox{%
+For all \Vsym{s},
+$\neg \op{Nullable}{\Vsym{s}} \lor \op{Nulling}{\Vsym{s}}$
+\becuz{}
+\eqref{eq:nullable-iff-nulling-10}.
+} \\
+\label{eq:nullable-iff-nulling-14}
+& \myparbox{%
+For all \Vsym{s},
+$\op{Nullable}{\Vsym{s}} \implies \op{Nulling}{\Vsym{s}}$
+\becuz{}
+\eqref{eq:nullable-iff-nulling-12}.
+} \\
+\label{eq:nullable-iff-nulling-16}
+& \myparbox{%
+For all \Vsym{s},
+$\op{Nulling}{\Vsym{s}} \implies \op{Nullable}{\Vsym{s}}$
+\becuz{}
+Def of nulling and nullable for symbols.
+} \\
+\label{eq:nullable-iff-nulling-18}
+& \myparbox{%
+For all \Vsym{s},
+$\op{Nulling}{\Vsym{s}} \iff \op{Nullable}{\Vsym{s}}$
+\becuz{}
+\eqref{eq:nullable-iff-nulling-14},
+\eqref{eq:nullable-iff-nulling-16},
+which shows the theorem.
+\qedhere
+}
+\end{align}
 \end{proof}
 
 \begin{theorem}
-A string is not nullable
-if and only if it is telluric.
+\ttitle{Telluric is not nullable}
+\label{t:telluric-iff-non-nullable}
+A symbol is telluric,
+if and only if
+it is both non-nulling and non-nullable.
 \end{theorem}
 \begin{proof}
-For the ``if'' direction assume,
-as a reductio,
+For the purposes of this proof,
+we write \op{Telluric}{\Vsym{x}}
+to say that ``symbol \var{x} is telluric'';
+\op{Nulling}{\Vsym{x}}
+to say that ``symbol \var{x} is nulling'';
+and \op{Nullable}{\Vsym{x}}
+to say that ``symbol \var{x} is nullable''.
+\begin{align}
+\label{eq:telluric-non-nullable-10}
+& \myparbox{%
+For all \Vsym{s},
+$\op{Telluric}{\Vsym{s}}
+\iff
+\op{Nulling}{\Vsym{s}}$
+\becuz{}
+\dref[telluric]{def:telluric}.
+} \\
+\label{eq:telluric-non-nullable-12}
+& \myparbox{%
+For all \Vsym{s},
+$\op{Nullable}{\Vsym{s}}
+\iff
+\op{Nulling}{\Vsym{s}}$
+\becuz{}
+\eqref{eq:telluric-non-nullable-10},
+\tref{t:nullable-iff-nulling}.
+}
+\end{align}
+Equations
+\eqref{eq:telluric-non-nullable-10}
+and
+\eqref{eq:telluric-non-nullable-12}
+show the theorem.
+\end{proof}
+
+\begin{theorem}
+\ttitle{Telluric string if and only if nullable}
+\label{t:telluric-string-iff-nullable}
+A string is telluric if and only if
+it is both non-nullable and non-nulling.
+\end{theorem}
+\begin{proof}
+Assume for a reduction that \Vstr{tell}
+is a telluric string.
+Then
+\begin{equation}
+\label{eq:telluric-string-iff-nullable-5}
+\myparbox{%
+\Vstr{tell} contains a telluric symbol,
+call it \Vsym{tell}
+\becuz{}
+\dref[telluric string]{def:telluric}.
+}
+\end{equation}
+Assume for a reductio,
+that \Vstr{tell} is nullable,
+so that, without loss of generality,
+\begin{subequations}
+\renewcommand{\theequation}{RAD-\arabic{equation}}
+\setlength{\mathparwidth}{\dimexpr\mathparwidth-2em}
+\begin{align}
+\label{eq:telluric-string-iff-nullable-10}
+\myparbox{%
+$\Vstr{tell} = \Vstr{pre} \Vsym{tell} \Vstr{post}
+\derives \epsilon$.
+} \\
+\label{eq:telluric-string-iff-nullable-12}
+\myparbox{%
+$\Vsym{tell} \derives \epsilon$
+\becuz{}
+\eqref{eq:telluric-string-iff-nullable-10}.
+} \\
+\label{eq:telluric-string-iff-nullable-14}
+\myparbox{%
+\Vsym{tell} is nullable
+\becuz{}
+\eqref{eq:telluric-string-iff-nullable-12}.
+} \\
+\label{eq:telluric-string-iff-nullable-16}
+\myparbox{%
+\Vsym{tell} is not nullable
+\becuz{}
+\eqref{eq:telluric-string-iff-nullable-5},
+\tref{t:telluric-iff-not-nullable}.
+}
+\end{align}
+\end{subequations}
+
+Equations
+\eqref{eq:telluric-string-iff-nullable-14}
+and \eqref{eq:telluric-string-iff-nullable-16}
+show the reductio.
+From the reductio,
+we conclude that
+\begin{align}
+\label{eq:telluric-string-iff-nullable-18}
+& \myparbox{%
+\Vstr{tell} is not nullable.
+}
+\end{align}
+
+TODO: finish
 \end{proof}
 
 \begin{theorem}
